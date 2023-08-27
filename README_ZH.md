@@ -1,4 +1,4 @@
-# Next-Gen Dialogue 使用手册
+# Next Gen Dialogue 使用手册
 
 <img src="Images/Splash.png" >
 
@@ -25,6 +25,8 @@
 
 
 ## 特点
+
+<Img src = "Images/BakeDialogue.png">
 
 次世代对话插件(以下简称NGD)是一款结合大语言模型设计的Unity对话插件，其将传统对话设计方式与大语言模型生成对话相结合，具有以下特点：
 1. 可视化的对话编辑器
@@ -102,7 +104,7 @@ NextGenDialogueTree和NextGenDialogueTreeSO用于存储对话数据，为了便�
 
 在运行时完全使用AIGC的对话内容不易控制，但您可以使用AI Dialogue Baker在设计对话树时提前烘焙AI生成的对话内容，从而在不影响您的设计框架的同时提高工作流效率。
 
-<img src="Images/BakeDialogue.png" >
+<img src="Images/BakeDialogue.gif" >
 
 1. 基础对话树设计与《[创建对话树](#创建对话树)》的流程一致 
 2. Prompt添加与《[AI生成对话](#AI生成对话)》的流程一致 
