@@ -1,0 +1,19 @@
+{
+    "name": "Kurisu.NGDT.Editor",
+    "rootNamespace": "Kurisu.NGDT.Editor",
+    "references": [
+        "Kurisu.NGDT",
+        "Kurisu.NGDS"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

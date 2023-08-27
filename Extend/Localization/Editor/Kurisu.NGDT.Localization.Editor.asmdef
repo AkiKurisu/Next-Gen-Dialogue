@@ -1,0 +1,21 @@
+{
+    "name": "Kurisu.NGDT.Localization.Editor",
+    "rootNamespace": "Kurisu.NGDT.Localization.Editor",
+    "references": [
+        "GUID:3dad40524f69b4faab0f11e825b1b08e",
+        "GUID:eec0964c48f6f4e40bc3ec2257ccf8c5"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [
+        "USE_LOCALIZATION"
+    ],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

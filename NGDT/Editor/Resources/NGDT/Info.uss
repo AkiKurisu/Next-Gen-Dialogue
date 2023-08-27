@@ -1,0 +1,9 @@
+InfoView {
+    font-size: 20px;
+    width:500px;
+    
+}
+Label
+{
+    white-space: normal 
+}

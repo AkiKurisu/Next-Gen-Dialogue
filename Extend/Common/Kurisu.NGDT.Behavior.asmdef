@@ -1,0 +1,17 @@
+{
+    "name": "Kurisu.NGDT.Behavior",
+    "rootNamespace": "Kurisu.NGDT.Behavior",
+    "references": [
+        "GUID:4a9214fa9d60c4c92bfc3c635010f27f",
+        "GUID:a3641cccf50efcd4cafc57a3120fb40e"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

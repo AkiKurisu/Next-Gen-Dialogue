@@ -1,0 +1,18 @@
+{
+    "name": "Kurisu.NGDT.VITS.Editor",
+    "rootNamespace": "Kurisu.NGDT.VITS.Editor",
+    "references": [
+        "GUID:3dad40524f69b4faab0f11e825b1b08e",
+        "GUID:d4e06fed7d037ed44a2bfe0b308a97a0",
+        "GUID:a3641cccf50efcd4cafc57a3120fb40e"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
