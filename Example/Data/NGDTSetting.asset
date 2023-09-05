@@ -19,5 +19,5 @@ MonoBehaviour:
     inspectorStyleSheet: {fileID: 0}
     nodeStyleSheet: {fileID: 0}
   aiTurboSetting: {fileID: 11400000, guid: ea0d25759dad29a45abef2a600646367, type: 2}
-  autoSave: 0
+  autoSave: 1
   lastPath: G:\Unity\project\KurisuWork\Assets\Next-Gen-Dialogue

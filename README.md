@@ -29,7 +29,7 @@
 
 <Img src = "Images/BakeDialogue.png">
 
-Next-Gen Dialogue plugin (hereinafter referred to as NGD) is a Unity dialogue plugin combined with large language model design. It combines the traditional dialogue design method with the large language model. It has the following characteristics:
+Next-Gen Dialogue plugin (hereinafter referred to as NGD) is a Unity dialogue plugin combined with large language model design. It combines the traditional dialogue design method with the large language model. It has the following features:
 1. Visual conversation editor
 2. Modular dialogue function
 3. Support AIGC to generate dialogue when running
@@ -50,9 +50,9 @@ If you are using this plugin for the first time, it is recommended to play the f
 
 `` 3.Local LLM Generate dialogue.unity `` this scene contains a sample of dialogue with the use of local large language models at runtime;
 
-`` 4. Editor Bake dialogue.Unity``this scene contains the sample of baking conversation conversation in the use of AI dialogue Baker in Editor;
+`` 4. Editor Bake Dialogue.unity``this scene contains the sample of baking conversation conversation in the use of AI dialogue Baker in Editor;
 
-```5.Build dialogue by code``` this scene contains the use of Code to generate dialogue.
+```5.Build Dialogue by Code.unity``` this scene contains the use of Code to generate dialogue.
 
 ### Create a Dialogue Tree
 
@@ -176,7 +176,7 @@ The following are experimental modules, you need to install the corresponding Pa
 | ------------------------ | ------------------------------------------------------------------------ |
 | Localized Content Module | Provide content for Option or Piece after getting text from localization |
 
-#### VITS Speech Synthesis Extension
+#### VITS Speech Extension
 
 For VITS local deployment, please refer to this repository: [VITS Simple API](https://github.com/Artrajz/vits-simple-api)
 

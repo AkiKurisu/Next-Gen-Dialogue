@@ -151,11 +151,40 @@ public class Invertor : Decorator
 * Create C# Script, uses struct type (which is preferred) and extends `IDialogueModule`, this struct is displayed as a runtime module that will be resolved by Resolvers during dialogue tree running
 * (Optional) Extend `IApplyable` and override `Apply(DialogueNode parentNode)` to let this module to modify parent's base property such as container's content when container builds
 
+```C#
+public readonly struct VITSModule : IDialogueModule
+{
+    private readonly int characterID;
+    public int CharacterID => characterID;
+    public VITSModule(int characterID)
+    {
+        this.characterID = characterID;
+    }
+}
+```
+
 ### Create Custom Module Behavior (For DialogueTree)
 
 Custom Module Behavior roles as a bridge to add your own modules to dialogueTree's container
 * Create C# Script and extends `CustomModule`
 * Override `IDialogueModule GetModule` and return your customized module.
+
+```C#
+[AkiInfo("Module : Localized Content Module is used to modify dialogue content such as piece and option using Unity.Localization.")]
+[ModuleOf(typeof(Piece))]
+[ModuleOf(typeof(Option))]
+public class LocalizedContentModule : CustomModule
+{
+    [SerializeField]
+    private SharedString tableEntry;
+    [SerializeField]
+    private SharedString stringEntry;
+    protected sealed override IDialogueModule GetModule()
+    {
+        return new NGDS.ContentModule(new LocalizedString(tableEntry.Value, stringEntry.Value).GetLocalizedString());
+    }
+}
+```
 
 ## Create Resolvers
 

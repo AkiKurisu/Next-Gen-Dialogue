@@ -51,7 +51,7 @@
 
 ``4.Editor Bake Dialogue.unity`` 场景包含了在Editor中使用AI Dialogue Baker烘焙对话内容的样例；
 
-``5.Build Dialogue by code`` 场景包含了使用Code生成对话的样例。
+``5.Build Dialogue by Code.unity`` 场景包含了使用Code生成对话的样例。
 
 ### 创建对话树
 

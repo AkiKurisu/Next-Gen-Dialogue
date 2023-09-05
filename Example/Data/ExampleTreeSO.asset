@@ -13,154 +13,157 @@ MonoBehaviour:
   m_Name: ExampleTreeSO
   m_EditorClassIdentifier: 
   root:
-    rid: 3383487652457349148
-  externalDialogueTree: {fileID: 0}
+    rid: 3405912206665580559
   blockData: []
   Description: Example Dialogue using DialogueTreeSO
   sharedVariables:
-  - rid: 3383487652457349149
-  - rid: 3383487652457349150
-  - rid: 3383487652457349151
+  - rid: 3405912206665580560
+  - rid: 3405912206665580561
+  - rid: 3405912206665580562
   references:
     version: 2
     RefIds:
-    - rid: 3383487652457349148
+    - rid: 3405912206665580559
       type: {class: Root, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
       data:
         graphPosition:
           serializedVersion: 2
           x: 400
           y: 300
-          width: 80
-          height: 77
+          width: 116.66669
+          height: 78.66669
         description: 
         guid: fd41981f-0240-4adf-aa49-6bf2d2069b0b
         child:
-          rid: 3383487652457349152
-    - rid: 3383487652457349149
+          rid: 3405912206665580563
+        children:
+        - rid: 3405912206665580564
+        - rid: 3405912206665580565
+        - rid: 3405912206665580566
+    - rid: 3405912206665580560
       type: {class: PieceID, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
       data:
         isShared: 1
         mName: Dialog1
         value: d6fb661c-b9aa-4169-9bfe-5de7bd557691
-    - rid: 3383487652457349150
+    - rid: 3405912206665580561
       type: {class: PieceID, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
       data:
         isShared: 1
         mName: Dialog2
         value: adc2b035-7d0c-48eb-a81f-5deceddb13ad
-    - rid: 3383487652457349151
+    - rid: 3405912206665580562
       type: {class: PieceID, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
       data:
         isShared: 1
         mName: Dialog3
         value: 
-    - rid: 3383487652457349152
+    - rid: 3405912206665580563
       type: {class: Dialogue, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
       data:
         graphPosition:
           serializedVersion: 2
-          x: 597
-          y: 191
+          x: 567.3333
+          y: 172.66666
           width: 150
-          height: 360
+          height: 284
         description: 
         guid: 1253cb15-ce0c-46a4-9c98-fc14b3265295
         children:
-        - rid: 3383487652457349153
-        - rid: 3383487652457349154
-        - rid: 3383487652457349155
-    - rid: 3383487652457349153
+        - rid: 3405912206665580564
+        referencePieces:
+        - 
+    - rid: 3405912206665580564
       type: {class: Piece, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
       data:
         graphPosition:
           serializedVersion: 2
           x: 806
-          y: 257
-          width: 374
-          height: 368
+          y: 256.6667
+          width: 376.66663
+          height: 363.33334
         description: 
         guid: 87ad95d9-81fc-4d39-a073-b318ec0c0ae9
         children:
-        - rid: 3383487652457349156
-        - rid: 3383487652457349157
+        - rid: 3405912206665580567
+        - rid: 3405912206665580568
         pieceID:
           isShared: 1
           mName: Dialog1
           value: 
-    - rid: 3383487652457349154
+    - rid: 3405912206665580565
       type: {class: Piece, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
       data:
         graphPosition:
           serializedVersion: 2
           x: 806
-          y: 657
-          width: 374
-          height: 408
+          y: 656.6666
+          width: 376.66663
+          height: 378.6667
         description: 
         guid: 4361244c-a6bc-4383-9d28-f70f4006a0ac
         children:
-        - rid: 3383487652457349158
-        - rid: 3383487652457349159
+        - rid: 3405912206665580569
+        - rid: 3405912206665580570
         pieceID:
           isShared: 1
           mName: Dialog2
           value: 
-    - rid: 3383487652457349155
+    - rid: 3405912206665580566
       type: {class: Piece, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
       data:
         graphPosition:
           serializedVersion: 2
           x: 806
-          y: 1109
-          width: 374
-          height: 291
+          y: 1108.6667
+          width: 376.66663
+          height: 284.66663
         description: 
         guid: 49263f2d-6365-42c9-ac1d-8ff3c25efee5
         children:
-        - rid: 3383487652457349160
+        - rid: 3405912206665580571
         pieceID:
           isShared: 1
           mName: Dialog3
           value: 
-    - rid: 3383487652457349156
+    - rid: 3405912206665580567
       type: {class: ContentModule, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
       data:
         graphPosition:
           serializedVersion: 2
           x: 0
-          y: 107
-          width: 350
-          height: 134
+          y: 110
+          width: 352.66663
+          height: 108
         description: 
         guid: a0145877-2528-4c17-b689-3aa5d6dacb98
         content:
           isShared: 0
           mName: 
           value: This is an example using DialogueTreeSO to create a dialogue
-    - rid: 3383487652457349157
+    - rid: 3405912206665580568
       type: {class: Option, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
       data:
         graphPosition:
           serializedVersion: 2
-          x: 1257
+          x: 1257.3334
           y: 544
-          width: 210
-          height: 363
+          width: 222
+          height: 334.66663
         description: 
         guid: bc03ffd9-1c42-44e9-90fa-9c205f42ab7a
         children:
-        - rid: 3383487652457349161
-        - rid: 3383487652457349162
-    - rid: 3383487652457349158
+        - rid: 3405912206665580572
+        - rid: 3405912206665580573
+    - rid: 3405912206665580569
       type: {class: ContentModule, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
       data:
         graphPosition:
           serializedVersion: 2
           x: 0
-          y: 107
-          width: 350
-          height: 134
+          y: 110
+          width: 352.66663
+          height: 108
         description: 
         guid: 909aa1b4-f907-4724-8380-af535e90939d
         content:
@@ -168,60 +171,60 @@ MonoBehaviour:
           mName: 
           value: You can click "Edit DialogueTree" of DialogueTreeSO to see how it
             does
-    - rid: 3383487652457349159
+    - rid: 3405912206665580570
       type: {class: NextPieceModule, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
       data:
         graphPosition:
           serializedVersion: 2
           x: 0
-          y: 241
-          width: 350
-          height: 117
+          y: 218
+          width: 352.66663
+          height: 94
         description: 
         guid: 4148f78d-7c86-4f38-ae74-73b334869b44
         nextID:
           isShared: 1
           mName: Dialog3
           value: 
-    - rid: 3383487652457349160
+    - rid: 3405912206665580571
       type: {class: ContentModule, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
       data:
         graphPosition:
           serializedVersion: 2
           x: 0
-          y: 107
-          width: 350
-          height: 134
+          y: 110
+          width: 352.66663
+          height: 108
         description: 
         guid: f2635b7a-26a0-4fdf-a1ae-bad5a70c1efa
         content:
           isShared: 0
           mName: 
           value: You can also open the Editor in playmode for debuging.
-    - rid: 3383487652457349161
+    - rid: 3405912206665580572
       type: {class: ContentModule, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
       data:
         graphPosition:
           serializedVersion: 2
           x: 0
-          y: 79
-          width: 186
-          height: 117
+          y: 80.66669
+          width: 198
+          height: 93.33331
         description: 
         guid: 7aa74c7d-6484-46ec-acef-e7c6b1aad867
         content:
           isShared: 0
           mName: 
           value: Continue
-    - rid: 3383487652457349162
+    - rid: 3405912206665580573
       type: {class: TargetIDModule, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
       data:
         graphPosition:
           serializedVersion: 2
           x: 0
-          y: 196
-          width: 186
-          height: 117
+          y: 174
+          width: 198
+          height: 94
         description: 
         guid: 0cf3f8d3-2e36-4826-abb6-5dd1cc9cfe29
         targetID:
