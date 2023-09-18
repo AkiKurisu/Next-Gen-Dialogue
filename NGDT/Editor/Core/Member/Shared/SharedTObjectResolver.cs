@@ -14,7 +14,7 @@ namespace Kurisu.NGDT.Editor
         }
         protected override void SetTree(IDialogueTreeView ownerTreeView)
         {
-            editorField.InitField(ownerTreeView);
+            editorField.Init(ownerTreeView);
         }
         private SharedTObjectField<T> editorField;
         protected override SharedTObjectField<T> CreateEditorField(FieldInfo fieldInfo)
@@ -24,10 +24,10 @@ namespace Kurisu.NGDT.Editor
         }
         public static bool IsAcceptable(Type infoType, FieldInfo _)
         {
-            return FieldResolverFactory.IsSharedTObject(infoType) && infoType.GenericTypeArguments.Length == 1 && infoType.GenericTypeArguments[0] == typeof(T);
+            return infoType.IsSharedTObject() && infoType.GenericTypeArguments.Length == 1 && infoType.GenericTypeArguments[0] == typeof(T);
         }
     }
-    public class SharedTObjectField<T> : BaseField<SharedTObject<T>>, IInitField where T : UnityEngine.Object
+    public class SharedTObjectField<T> : BaseField<SharedTObject<T>>, IInitable where T : UnityEngine.Object
     {
         private readonly bool forceShared;
         private readonly VisualElement foldout;
@@ -51,7 +51,7 @@ namespace Kurisu.NGDT.Editor
             }
             foldout.Add(toggle);
         }
-        public void InitField(IDialogueTreeView treeView)
+        public void Init(IDialogueTreeView treeView)
         {
             this.treeView = treeView;
             treeView.OnPropertyNameChange += (variable) =>

@@ -13,7 +13,7 @@ namespace Kurisu.NGDT.Editor
         }
         protected override void SetTree(IDialogueTreeView ownerTreeView)
         {
-            editorField.InitField(ownerTreeView);
+            editorField.Init(ownerTreeView);
         }
         private SharedIntField editorField;
         protected override SharedIntField CreateEditorField(FieldInfo fieldInfo)

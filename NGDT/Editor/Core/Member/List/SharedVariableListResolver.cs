@@ -15,20 +15,20 @@ namespace Kurisu.NGDT.Editor
         SharedVariableListField<T> editorField;
         protected override void SetTree(IDialogueTreeView ownerTreeView)
         {
-            editorField.InitField(ownerTreeView);
+            editorField.Init(ownerTreeView);
         }
         protected override SharedVariableListField<T> CreateEditorField(FieldInfo fieldInfo)
         {
             editorField = new SharedVariableListField<T>(fieldInfo.Name, null, () => childResolver.CreateField(), () => new T());
             return editorField;
         }
-        public static bool IsAcceptable(Type infoType, FieldInfo info) =>
-        FieldResolverFactory.IsList(infoType) &&
+        public static bool IsAcceptable(Type infoType, FieldInfo _) =>
+        infoType.IsList() &&
         infoType.GenericTypeArguments.Length > 0 &&
         infoType.GenericTypeArguments[0].IsSubclassOf(typeof(SharedVariable));
 
     }
-    public class SharedVariableListField<T> : ListField<T>, IInitField where T : SharedVariable
+    public class SharedVariableListField<T> : ListField<T>, IInitable where T : SharedVariable
     {
         private IDialogueTreeView treeView;
         private Action<IDialogueTreeView> OnTreeViewInitEvent;
@@ -36,27 +36,27 @@ namespace Kurisu.NGDT.Editor
         {
 
         }
-        public void InitField(IDialogueTreeView treeView)
+        public void Init(IDialogueTreeView treeView)
         {
             this.treeView = treeView;
             OnTreeViewInitEvent?.Invoke(treeView);
         }
         protected override ListView CreateListView()
         {
-            Action<VisualElement, int> bindItem = (e, i) =>
+            void BindItem(VisualElement e, int i)
             {
                 (e as BaseField<T>).value = value[i];
-                (e as BaseField<T>).RegisterValueChangedCallback((x) => value[i] = (T)x.newValue);
-            };
-            Func<VisualElement> makeItem = () =>
+                (e as BaseField<T>).RegisterValueChangedCallback((x) => value[i] = x.newValue);
+            }
+            VisualElement MakeItem()
             {
                 var field = elementCreator.Invoke();
                 (field as BaseField<T>).label = string.Empty;
-                if (treeView != null) (field as IInitField).InitField(treeView);
-                OnTreeViewInitEvent += (view) => { (field as IInitField).InitField(view); };
+                if (treeView != null) (field as IInitable).Init(treeView);
+                OnTreeViewInitEvent += (view) => { (field as IInitable).Init(view); };
                 return field;
-            };
-            var view = new ListView(value, 60, makeItem, bindItem);
+            }
+            var view = new ListView(value, 60, MakeItem, BindItem);
             return view;
         }
 

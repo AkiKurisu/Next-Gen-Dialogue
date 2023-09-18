@@ -78,5 +78,13 @@ namespace Kurisu.NGDT.Editor
                 entries.AddEntry(type, level + 1, icon);
             }
         }
+        public static bool IsSharedTObject(this Type type)
+        {
+            return type.IsGenericType && type.GetGenericTypeDefinition() == typeof(SharedTObject<>);
+        }
+        public static bool IsList(this Type type)
+        {
+            return type.IsGenericType && type.GetGenericTypeDefinition() == typeof(List<>);
+        }
     }
 }

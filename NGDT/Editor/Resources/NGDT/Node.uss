@@ -96,7 +96,7 @@ Foldout:hover
 
 #settings-button > #icon {
     -unity-background-scale-mode: scale-to-fit;
-    background-image: resource("Icons/SettingsIcons");
+    background-image: resource("NGDT/SettingIcon");
     flex-grow: 1;
 }
 

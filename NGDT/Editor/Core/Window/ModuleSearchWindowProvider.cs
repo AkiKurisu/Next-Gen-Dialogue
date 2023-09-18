@@ -10,7 +10,7 @@ namespace Kurisu.NGDT.Editor
         private ContainerNode node;
         private Type ContainerType;
         private Texture2D _indentationIcon;
-        private readonly NodeResolver nodeResolver = new();
+        private readonly NodeResolverFactory nodeResolver = NodeResolverFactory.Instance;
         private string[] showGroups;
         private string[] notShowGroups;
         private IDialogueTreeView treeView;
@@ -58,7 +58,7 @@ namespace Kurisu.NGDT.Editor
         bool ISearchWindowProvider.OnSelectEntry(SearchTreeEntry searchTreeEntry, SearchWindowContext context)
         {
             var type = searchTreeEntry.userData as Type;
-            var moduleNode = nodeResolver.CreateNodeInstance(type, treeView) as ModuleNode;
+            var moduleNode = nodeResolver.Create(type, treeView) as ModuleNode;
             node.AddElement(moduleNode);
             moduleNode.OnSelectAction = treeView.OnSelectAction;
             return true;

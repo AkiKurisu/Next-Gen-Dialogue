@@ -24,7 +24,7 @@ namespace Kurisu.NGDT.Editor
         public event Action<SharedVariable> OnPropertyNameChange;
         public bool CanSaveToSO => behaviorTree is NextGenDialogueTree;
         internal string TreeEditorName => "NGDT";
-        private readonly NodeResolver nodeResolver = new();
+        private readonly NodeResolverFactory nodeResolver = NodeResolverFactory.Instance;
         public Action<IDialogueNode> OnSelectAction { get; internal set; }
         private readonly EditorWindow _window;
         public bool IsRestoring { get; private set; }
@@ -84,7 +84,7 @@ namespace Kurisu.NGDT.Editor
         }
         public IDialogueNode DuplicateNode(IDialogueNode node)
         {
-            var newNode = nodeResolver.CreateNodeInstance(node.GetBehavior(), this);
+            var newNode = nodeResolver.Create(node.GetBehavior(), this);
             var nodeElement = newNode as Node;
             Rect newRect = (node as Node).GetPosition();
             newRect.position += new Vector2(50, 50);

@@ -5,11 +5,11 @@ using System.Reflection;
 using UnityEngine.UIElements;
 namespace Kurisu.NGDT.Editor
 {
-    internal interface IInitField
+    internal interface IInitable
     {
-        void InitField(IDialogueTreeView treeView);
+        void Init(IDialogueTreeView treeView);
     }
-    public abstract class SharedVariableField<T, K> : BaseField<T>, IInitField where T : SharedVariable<K>, new()
+    public abstract class SharedVariableField<T, K> : BaseField<T>, IInitable where T : SharedVariable<K>, new()
     {
         private readonly bool forceShared;
         private readonly VisualElement sharedVariableContainer;
@@ -35,7 +35,7 @@ namespace Kurisu.NGDT.Editor
             }
             sharedVariableContainer.Add(toggle);
         }
-        public void InitField(IDialogueTreeView treeView)
+        public void Init(IDialogueTreeView treeView)
         {
             this.treeView = treeView;
             treeView.OnPropertyNameChange += (variable) =>

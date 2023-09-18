@@ -324,7 +324,7 @@ namespace Kurisu.NGDT.Editor
         public ModuleNode AddModuleNode<T>(T module) where T : Module
         {
             var type = typeof(T);
-            var moduleNode = new NodeResolver().CreateNodeInstance(type, mapTreeView) as ModuleNode;
+            var moduleNode = NodeResolverFactory.Instance.Create(type, mapTreeView) as ModuleNode;
             moduleNode.Restore(module);
             AddElement(moduleNode);
             moduleNode.OnSelectAction = OnSelectAction;

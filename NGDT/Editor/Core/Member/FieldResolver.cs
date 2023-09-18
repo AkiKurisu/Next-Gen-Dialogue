@@ -5,11 +5,13 @@ using UnityEngine;
 using System.Collections.Generic;
 namespace Kurisu.NGDT.Editor
 {
-    internal sealed class Ordered : Attribute
+    /// <summary>
+    /// Give priority for resolver (node or field)
+    /// </summary>
+    public sealed class Ordered : Attribute
     {
         public int Order = 100;
     }
-
     public interface IFieldResolver
     {
         /// <summary>
@@ -46,7 +48,6 @@ namespace Kurisu.NGDT.Editor
             this.fieldInfo = fieldInfo;
             SetEditorField();
         }
-
         private void SetEditorField()
         {
             editorField = CreateEditorField(fieldInfo);

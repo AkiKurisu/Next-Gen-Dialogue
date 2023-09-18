@@ -10,7 +10,7 @@ namespace Kurisu.NGDT.Editor
         protected readonly Func<object> valueCreator;
         public ListField(string label, VisualElement visualInput, Func<VisualElement> elementCreator, Func<object> valueCreator) : base(label, visualInput)
         {
-            if (value == null) value = new List<T>();
+            value ??= new List<T>();
             this.elementCreator = elementCreator;
             this.valueCreator = valueCreator;
             listView = CreateListView();
@@ -26,20 +26,20 @@ namespace Kurisu.NGDT.Editor
         }
         protected virtual ListView CreateListView()
         {
-            Action<VisualElement, int> bindItem = (e, i) =>
+            void BindItem(VisualElement e, int i)
             {
                 (e as BaseField<T>).value = value[i];
                 (e as BaseField<T>).RegisterValueChangedCallback((x) => value[i] = x.newValue);
 
-            };
-            Func<VisualElement> makeItem = () =>
+            }
+            VisualElement MakeItem()
             {
                 var field = elementCreator.Invoke();
                 if (field is BaseField<T>) (field as BaseField<T>).label = string.Empty;
                 return field;
-            };
+            }
             const int itemHeight = 20;
-            var view = new ListView(value, itemHeight, makeItem, bindItem);
+            var view = new ListView(value, itemHeight, MakeItem, BindItem);
             return view;
         }
         public sealed override List<T> value

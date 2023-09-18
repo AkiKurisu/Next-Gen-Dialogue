@@ -68,7 +68,7 @@ namespace Kurisu.NGDT.Editor
                 else
                     return (IFieldResolver)Activator.CreateInstance(resolverType, new object[] { fieldInfo });
             }
-            if (!IsList(fieldType))
+            if (!fieldType.IsList())
                 return new ObjectResolver(fieldInfo);
             //Special case : List<Object>
             IFieldResolver childResolver = GetChildResolver(parameterType, fieldInfo);
@@ -76,14 +76,6 @@ namespace Kurisu.NGDT.Editor
                 return (IFieldResolver)Activator.CreateInstance(typeof(ObjectListResolver<>).MakeGenericType(parameterType), new object[] { fieldInfo });
             else
                 return (IFieldResolver)Activator.CreateInstance(typeof(ListResolver<>).MakeGenericType(parameterType), new object[] { fieldInfo, childResolver });
-        }
-        public static bool IsSharedTObject(Type type)
-        {
-            return type.IsGenericType && type.GetGenericTypeDefinition() == typeof(SharedTObject<>);
-        }
-        public static bool IsList(Type type)
-        {
-            return type.IsGenericType && type.GetGenericTypeDefinition() == typeof(List<>);
         }
         private static bool IsAcceptable(Type type, Type fieldType, FieldInfo fieldInfo)
         {

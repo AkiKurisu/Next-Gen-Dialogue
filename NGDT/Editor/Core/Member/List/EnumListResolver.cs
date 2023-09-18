@@ -15,8 +15,8 @@ namespace Kurisu.NGDT.Editor
         {
             return new EnumListField<T>(fieldInfo.Name, null, () => childResolver.CreateField(), () => default(T));
         }
-        public static bool IsAcceptable(Type infoType, FieldInfo info) =>
-        FieldResolverFactory.IsList(infoType) && infoType.GenericTypeArguments.Length > 0 && infoType.GenericTypeArguments[0].IsEnum;
+        public static bool IsAcceptable(Type infoType, FieldInfo _) =>
+        infoType.IsList() && infoType.GenericTypeArguments.Length > 0 && infoType.GenericTypeArguments[0].IsEnum;
 
     }
     public class EnumListField<T> : ListField<T> where T : Enum
@@ -27,19 +27,19 @@ namespace Kurisu.NGDT.Editor
         }
         protected override ListView CreateListView()
         {
-            Action<VisualElement, int> bindItem = (e, i) =>
+            void BindItem(VisualElement e, int i)
             {
                 (e as EnumField).value = value[i];
                 (e as EnumField).RegisterValueChangedCallback((x) => value[i] = (T)x.newValue);
-            };
-            Func<VisualElement> makeItem = () =>
+            }
+            VisualElement MakeItem()
             {
                 var field = elementCreator.Invoke();
                 (field as EnumField).label = string.Empty;
                 return field;
-            };
+            }
             const int itemHeight = 20;
-            var view = new ListView(value, itemHeight, makeItem, bindItem);
+            var view = new ListView(value, itemHeight, MakeItem, BindItem);
             return view;
         }
 

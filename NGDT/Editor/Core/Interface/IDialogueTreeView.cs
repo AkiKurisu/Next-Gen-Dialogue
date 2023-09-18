@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEditor.Experimental.GraphView;
 namespace Kurisu.NGDT.Editor
@@ -8,10 +9,10 @@ namespace Kurisu.NGDT.Editor
         void SelectGroup(IDialogueNode node);
         void UnSelectGroup();
         IDialogueNode DuplicateNode(IDialogueNode node);
-        event System.Action<SharedVariable> OnPropertyNameChange;
+        event Action<SharedVariable> OnPropertyNameChange;
         IList<SharedVariable> ExposedProperties { get; }
         bool IsRestoring { get; }
-        System.Action<IDialogueNode> OnSelectAction { get; }
+        Action<IDialogueNode> OnSelectAction { get; }
         void AddExposedProperty(SharedVariable variable);
         void BakeDialogue();
     }

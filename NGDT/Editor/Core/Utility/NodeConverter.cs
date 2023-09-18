@@ -48,7 +48,7 @@ namespace Kurisu.NGDT.Editor
                 Adapter = adapter;
             }
         }
-        private readonly NodeResolver nodeResolver = new();
+        private readonly NodeResolverFactory nodeResolver = NodeResolverFactory.Instance;
         private readonly List<IDialogueNode> tempNodes = new();
         public (RootNode, IEnumerable<IDialogueNode>) ConvertToNode(IDialogueTree tree, IDialogueTreeView treeView, Vector2 initPos)
         {
@@ -71,7 +71,7 @@ namespace Kurisu.NGDT.Editor
                     edgePair.Adapter?.Connect(treeView, alreadyCreateNodes[edgePair.NodeBehavior]);
                     continue;
                 }
-                IDialogueNode node = nodeResolver.CreateNodeInstance(edgePair.NodeBehavior.GetType(), treeView);
+                IDialogueNode node = nodeResolver.Create(edgePair.NodeBehavior.GetType(), treeView);
                 node.Restore(edgePair.NodeBehavior);
                 treeView.GraphView.AddElement(node as Node);
                 tempNodes.Add(node);

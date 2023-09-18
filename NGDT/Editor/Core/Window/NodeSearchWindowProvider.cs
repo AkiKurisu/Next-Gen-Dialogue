@@ -11,7 +11,7 @@ namespace Kurisu.NGDT.Editor
     {
         private DialogueTreeView graphView;
         private EditorWindow graphEditor;
-        private readonly NodeResolver nodeResolver = new();
+        private readonly NodeResolverFactory nodeResolver = NodeResolverFactory.Instance;
         private Texture2D _indentationIcon;
         private string[] showGroups;
         private string[] notShowGroups;
@@ -70,7 +70,7 @@ namespace Kurisu.NGDT.Editor
                 graphView.CreateBlock(newRect);
                 return true;
             }
-            var node = nodeResolver.CreateNodeInstance(type, graphView);
+            var node = nodeResolver.Create(type, graphView);
             var graphNode = node as Node;
             graphNode.SetPosition(newRect);
             graphView.AddElement(graphNode);
