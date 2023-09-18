@@ -25,6 +25,7 @@ namespace Kurisu.NGDT.Editor
 
         public CompositeNode()
         {
+            AddToClassList("CompositeNode");
             AddChild();
         }
         public void AddChild()

@@ -6,6 +6,10 @@ namespace Kurisu.NGDT.Editor
 {
     public class ActionNode : DialogueTreeNode
     {
+        public ActionNode()
+        {
+            AddToClassList("ActionNode");
+        }
         public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
         {
             evt.menu.MenuItems().Add(new NGDTDropdownMenuAction("Change Behavior", (a) =>

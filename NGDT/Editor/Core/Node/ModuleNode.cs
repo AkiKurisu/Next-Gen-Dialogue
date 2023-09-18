@@ -5,6 +5,10 @@ namespace Kurisu.NGDT.Editor
 {
     public class ModuleNode : DialogueTreeNode
     {
+        public ModuleNode() : base()
+        {
+            AddToClassList("ModuleNode");
+        }
         protected sealed override void AddDescription() { }
         protected override void AddParent()
         {
@@ -14,7 +18,7 @@ namespace Kurisu.NGDT.Editor
         protected override void OnCommit(Stack<IDialogueNode> stack) { }
 
         protected override void OnClearStyle() { }
-        public sealed override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
+        public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
         {
             base.BuildContextualMenu(evt);
             var remainTargets = evt.menu.MenuItems().FindAll(e =>

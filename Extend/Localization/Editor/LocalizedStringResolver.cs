@@ -18,13 +18,13 @@ namespace Kurisu.NGDT.Localization.Editor
             editorField = new LocalizedStringField(fieldInfo.Name, null);
             return editorField;
         }
-        public static bool IsAcceptable(Type infoType, FieldInfo info) => infoType == typeof(LocalizedString);
+        public static bool IsAcceptable(Type infoType, FieldInfo _) => infoType == typeof(LocalizedString);
 
     }
     public class LocalizedStringField : BaseField<LocalizedString>
     {
         LocalizedStringInstance m_Instance;
-        private LocalizedStringInstance Instance => m_Instance ?? GetInstance();
+        private LocalizedStringInstance Instance => m_Instance != null ? m_Instance : GetInstance();
         SerializedObject m_SerializedObject;
         SerializedProperty m_SerializedProperty;
         public LocalizedStringField(string label, VisualElement visualInput) : base(label, visualInput)

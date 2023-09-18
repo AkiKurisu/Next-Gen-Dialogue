@@ -68,7 +68,7 @@ namespace Kurisu.NGDT.Editor
             {
                 AppendDialogue(containerNodes[i], builder);
             }
-            string bakeCharacterName = GetSharedStringValue(aiBakeModule, "characterName");
+            string bakeCharacterName = aiBakeModule.GetSharedStringValue(treeView, "characterName");
             if (!string.IsNullOrEmpty(builder.Prompt))
             {
                 stringBuilder.Append(builder.Prompt);
@@ -89,7 +89,7 @@ namespace Kurisu.NGDT.Editor
         {
             var type = (LLMType)aiBakeModule.GetFieldResolver("llmType").Value;
             var setting = NextGenDialogueSetting.GetOrCreateSettings();
-            SharedString bakeCharacterName = GetSharedString(aiBakeModule, "characterName");
+            SharedString bakeCharacterName = aiBakeModule.GetSharedVariable<SharedString>("characterName");
             var otherCharacters = characterCached.Where(x => x != bakeCharacterName.Value);
             var response = await builder.Generate(bakeCharacterName.Value);
             if (response.Status)
@@ -102,16 +102,16 @@ namespace Kurisu.NGDT.Editor
         {
             if (containerNode.TryGetModuleNode<PromptModule>(out ModuleNode promptModule))
             {
-                var prompt = GetSharedStringValue(promptModule, "prompt");
+                var prompt = promptModule.GetSharedStringValue(treeView, "prompt");
                 builder.SetPrompt(prompt);
                 return true;
             }
             else if (containerNode.TryGetModuleNode<CharacterPresetModule>(out ModuleNode presetModule))
             {
-                var user_Name = GetSharedStringValue(presetModule, "user_Name");
-                var char_name = GetSharedStringValue(presetModule, "char_name");
-                var char_persona = GetSharedStringValue(presetModule, "char_persona");
-                var world_scenario = GetSharedStringValue(presetModule, "world_scenario");
+                var user_Name = presetModule.GetSharedStringValue(treeView, "user_Name");
+                var char_name = presetModule.GetSharedStringValue(treeView, "char_name");
+                var char_persona = presetModule.GetSharedStringValue(treeView, "char_persona");
+                var world_scenario = presetModule.GetSharedStringValue(treeView, "world_scenario");
                 builder.SetPrompt(CharacterPresetHelper.GeneratePrompt(user_Name, char_name, char_persona, world_scenario));
                 return true;
             }
@@ -121,29 +121,12 @@ namespace Kurisu.NGDT.Editor
         {
             if (containerNode is DialogueContainer && TrySetPrompt(containerNode, builder)) return;
             if (!containerNode.TryGetModuleNode<CharacterModule>(out ModuleNode characterModule)) return;
-            string characterName = GetSharedStringValue(characterModule, "characterName");
+            string characterName = characterModule.GetSharedStringValue(treeView, "characterName");
             if (!characterCached.Contains(characterName))
                 characterCached.Add(characterName);
             if (!containerNode.TryGetModuleNode<ContentModule>(out ModuleNode contentModule)) return;
-            string content = GetSharedStringValue(contentModule, "content");
+            string content = contentModule.GetSharedStringValue(treeView, "content");
             builder.Append(characterName, content);
-        }
-        private string GetSharedStringValue(DialogueTreeNode dialogueTreeNode, string fieldName)
-        {
-            var sharedString = GetSharedString(dialogueTreeNode, fieldName);
-            return sharedString != null ? treeView.GetSharedVariableValue(sharedString) : string.Empty;
-        }
-        private SharedString GetSharedString(DialogueTreeNode dialogueTreeNode, string fieldName)
-        {
-            try
-            {
-                return (SharedString)dialogueTreeNode.GetFieldResolver(fieldName).Value;
-            }
-            catch (Exception e)
-            {
-                Debug.Log(e);
-                return null;
-            }
         }
     }
 }

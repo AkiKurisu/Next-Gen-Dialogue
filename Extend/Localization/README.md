@@ -1,7 +1,14 @@
 # Localization Extension Explanation 本地化拓展包说明
 
-## Chinese:
+## Setup 安装
 让Next Gen Dialogue支持Unity.Localization本地化功能,使用前需要在PackageManager中导入``Unity.Localization``。
 
-## English:
 Let Next Gen Dialogue support Unity.Localization, you need to import ``Unity.Localization`` in PackageManager before use.
+
+## Feature 特点
+1. ``LocalizedContentModule``可以在Runtime使用Localization获取本地化字符串
+   
+   ``LocalizedContentModule`` can use Localization to obtain localized strings at Runtime
+2. 支持在NGDT编辑器中进行创建、预览和编辑本地化字符串，选中``LocalizedContentModule``后按右键即可显示一个编辑区域
+
+    Support creating, previewing and editing localized strings in the NGDT editor. Select ``LocalizedContentModule`` and right-click to display an editing area.

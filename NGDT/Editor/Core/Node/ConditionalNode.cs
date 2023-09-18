@@ -26,6 +26,7 @@ namespace Kurisu.NGDT.Editor
 
         public ConditionalNode()
         {
+            AddToClassList("ConditionalNode");
             childPort = CreateChildPort();
             outputContainer.Add(childPort);
         }

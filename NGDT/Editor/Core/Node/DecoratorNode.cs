@@ -26,6 +26,7 @@ namespace Kurisu.NGDT.Editor
 
         public DecoratorNode()
         {
+            AddToClassList("DecoratorNode");
             childPort = CreateChildPort();
             outputContainer.Add(childPort);
         }
