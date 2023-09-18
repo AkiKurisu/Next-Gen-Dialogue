@@ -3,12 +3,12 @@ using UnityEngine;
 using UnityEngine.Localization.Tables;
 using UnityEngine.UIElements;
 using UnityEditor;
-namespace Kurisu.Localization.Editor
+namespace Kurisu.NGDT.Localization.Editor
 {
     public class LocalizedStringEditorField : VisualElement
     {
         private static Color AkiBlue = new(140 / 255f, 160 / 255f, 250 / 255f);
-        public LocalizedStringEditorField(string tableEntry, string keyEntry)
+        public LocalizedStringEditorField(string tableEntry, string keyEntry, bool autoAddNewEntry = false)
         {
             var toggleGroup = new ToggleGroup();
             var buttonGroup = new VisualElement();
@@ -21,8 +21,9 @@ namespace Kurisu.Localization.Editor
             for (int i = 0; i < tables.Count; i++)
             {
                 var table = tables[i].asset as StringTable;
-                //This will automatically generate entry id for new content
-                var id = table.SharedData.GetId(keyEntry, true);
+                //If autoAddNewEntry is ture, it will automatically generate entry id for new content
+                var id = table.SharedData.GetId(keyEntry, autoAddNewEntry);
+                if (id == SharedTableData.EmptyId) continue;
                 var editorField = new TextField
                 {
                     multiline = true

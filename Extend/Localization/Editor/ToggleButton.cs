@@ -1,6 +1,6 @@
 using UnityEngine;
 using UnityEngine.UIElements;
-namespace Kurisu.Localization.Editor
+namespace Kurisu.NGDT.Localization.Editor
 {
     /// <summary>
     /// Toggle Button that can use as Toggle with button appearance

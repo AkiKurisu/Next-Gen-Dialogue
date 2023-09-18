@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine.UIElements;
-namespace Kurisu.Localization.Editor
+namespace Kurisu.NGDT.Localization.Editor
 {
     /// <summary>
     /// Toggle Group that can hide and show elements by toggle index

@@ -42,6 +42,7 @@ namespace Kurisu.NGDT.Editor
     {
         private readonly FieldInfo fieldInfo;
         private T editorField;
+        public T EditorField => editorField;
         public object Value => editorField.value;
         protected FieldResolver(FieldInfo fieldInfo)
         {

@@ -9,6 +9,6 @@ Let Next Gen Dialogue support Unity.Localization, you need to import ``Unity.Loc
 1. ``LocalizedContentModule``可以在Runtime使用Localization获取本地化字符串
    
    ``LocalizedContentModule`` can use Localization to obtain localized strings at Runtime
-2. 支持在NGDT编辑器中进行创建、预览和编辑本地化字符串，选中``LocalizedContentModule``后按右键即可显示一个编辑区域
+2. 支持在NGDT编辑器中进行创建、预览和编辑本地化字符串
 
-    Support creating, previewing and editing localized strings in the NGDT editor. Select ``LocalizedContentModule`` and right-click to display an editing area.
+    Support creating, previewing and editing localized strings in the NGDT editor.
