@@ -400,6 +400,7 @@ namespace Kurisu.NGDT.Editor
         public async void BakeDialogue()
         {
             var containers = selection.OfType<ContainerNode>().ToList();
+            if (containers.Count == 0) return;
             var bakeContainer = containers.Last();
             containers.Remove(bakeContainer);
             if (containers.Any(x => x.TryGetModuleNode<AIBakeModule>(out ModuleNode _)))

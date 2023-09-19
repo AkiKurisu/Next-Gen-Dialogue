@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 809a7b7e6c953f94faf1a2f005403465, type: 3}
   m_Name: AI Turbo Setting
   m_EditorClassIdentifier: 
-  <OpenAIKey>k__BackingField: 
+  <ChatGPT_URL_Override>k__BackingField: https://api.chatanywhere.com.cn/v1/chat/completions
+  <OpenAIKey>k__BackingField: sk-5VsMfLawB5LWIbT4Ju2DD9fDCvQACpwAJ6m0rMDQPLavP7rQ
   <LLM_Address>k__BackingField: 127.0.0.1
   <LLM_Port>k__BackingField: 8000
   <Enable_GoogleTranslation>k__BackingField: 1

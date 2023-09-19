@@ -11,7 +11,8 @@ namespace Kurisu.NGDS.AI
             public bool Status { get; internal set; }
             public string Response { get; internal set; }
         }
-        private const string chatAPI = "https://api.openai-proxy.com/v1/chat/completions";
+        private const string DefaultAPI = "https://api.openai-proxy.com/v1/chat/completions";
+        private string ChatAPI { get; set; }
         private const string m_gptModel = "gpt-3.5-turbo";
         private readonly List<SendData> m_DataList = new();
         private readonly SendData promptData;
@@ -19,11 +20,15 @@ namespace Kurisu.NGDS.AI
         private bool promptIsProcessed;
         private readonly ChatGenerator chatGenerator = new();
         public GoogleTranslateModule? PreTranslateModule { get; set; }
-        public GPTTurbo(string openAIKey)
+        public GPTTurbo(string url, string openAIKey)
         {
             promptData = new SendData("system", string.Empty);
             m_DataList.Add(promptData);
             this.openAIKey = openAIKey;
+            if (string.IsNullOrEmpty(url))
+                ChatAPI = DefaultAPI;
+            else
+                ChatAPI = url;
         }
         public void SetPrompt(string prompt)
         {
@@ -43,7 +48,7 @@ namespace Kurisu.NGDS.AI
             }
             var lastSend = new SendData("user", generatedPrompt);
             m_DataList.Add(lastSend);
-            using UnityWebRequest request = new(chatAPI, "POST");
+            using UnityWebRequest request = new(ChatAPI, "POST");
             PostData _postData = new()
             {
                 model = m_gptModel,

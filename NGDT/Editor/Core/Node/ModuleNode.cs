@@ -47,7 +47,10 @@ namespace Kurisu.NGDT.Editor
     }
     public class EditorModuleNode : ModuleNode
     {
-
+        public EditorModuleNode() : base()
+        {
+            AddToClassList(nameof(EditorModuleNode));
+        }
     }
     public class BehaviorModuleNode : ModuleNode
     {
@@ -56,6 +59,7 @@ namespace Kurisu.NGDT.Editor
         private IDialogueNode cache;
         public BehaviorModuleNode() : base()
         {
+            AddToClassList(nameof(BehaviorModuleNode));
             childPort = CreateChildPort();
             outputContainer.Add(childPort);
         }

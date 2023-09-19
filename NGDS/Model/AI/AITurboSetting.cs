@@ -6,6 +6,8 @@ namespace Kurisu.NGDS.AI
         {
                 [field: Header("LLM Setting")]
                 [field: SerializeField]
+                public string ChatGPT_URL_Override { get; private set; }
+                [field: SerializeField]
                 public string OpenAIKey { get; private set; }
                 [field: SerializeField]
                 public string LLM_Address { get; private set; } = "127.0.0.1";

@@ -1,18 +1,20 @@
 using Kurisu.NGDT.Editor;
 using System;
+using UnityEditor.Localization;
+using UnityEngine.Localization.Tables;
 using UnityEngine.UIElements;
 namespace Kurisu.NGDT.Localization.Editor
 {
     [Ordered]
-    public class LocalizedContentResolver : INodeResolver
+    public class LocalizedContentModuleResolver : INodeResolver
     {
         public IDialogueNode CreateNodeInstance(Type type)
         {
-            return new LocalizedContentNode();
+            return new LocalizedContentModuleNode();
         }
         public static bool IsAcceptable(Type behaviorType) => behaviorType == typeof(LocalizedContentModule);
     }
-    public class LocalizedContentNode : ModuleNode
+    public class LocalizedContentModuleNode : ModuleNode
     {
         private LocalizedStringEditorField editorField;
         protected override void OnRestore()
@@ -35,6 +37,23 @@ namespace Kurisu.NGDT.Localization.Editor
             if (string.IsNullOrEmpty(stringEntry) || string.IsNullOrEmpty(tableEntry)) return;
             editorField = new LocalizedStringEditorField(tableEntry, stringEntry);
             mainContainer.Add(editorField);
+        }
+        public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
+        {
+            base.BuildContextualMenu(evt);
+            evt.menu.MenuItems().Add(new NGDTDropdownMenuAction("Create Entry", (a) =>
+            {
+                var tableEntry = this.GetSharedStringValue(mapTreeView, "tableEntry");
+                var stringEntry = this.GetSharedStringValue(mapTreeView, "stringEntry");
+                var collection = LocalizationEditorSettings.GetStringTableCollection(tableEntry);
+                if (collection == null) return;
+                var tables = collection.Tables;
+                for (int i = 0; i < tables.Count; i++)
+                {
+                    var table = tables[i].asset as StringTable;
+                    table.SharedData.GetId(stringEntry, true);
+                }
+            }));
         }
     }
 }

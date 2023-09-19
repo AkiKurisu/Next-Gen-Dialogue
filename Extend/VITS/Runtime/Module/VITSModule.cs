@@ -9,10 +9,15 @@ namespace Kurisu.NGDT.VITS
     public class VITSModule : CustomModule
     {
         [SerializeField]
-        private int characterID;
+        private SharedInt characterID;
+        public override void Awake()
+        {
+            base.Awake();
+            InitVariable(characterID);
+        }
         protected sealed override IDialogueModule GetModule()
         {
-            return new NGDS.VITS.VITSModule(characterID);
+            return new NGDS.VITS.VITSModule(characterID.Value);
         }
     }
 }

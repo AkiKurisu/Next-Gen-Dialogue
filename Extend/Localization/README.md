@@ -5,7 +5,7 @@
 
 Let Next Gen Dialogue support Unity.Localization, you need to import ``Unity.Localization`` in PackageManager before use.
 
-## Feature 特点
+## Features 特点
 1. ``LocalizedContentModule``可以在Runtime使用Localization获取本地化字符串
    
    ``LocalizedContentModule`` can use Localization to obtain localized strings at Runtime
