@@ -21,7 +21,7 @@ namespace Kurisu.NGDT.Localization.Editor
         {
             UpdateEditor();
         }
-        protected override void OnBehaviorSet(Type newType)
+        protected override void OnBehaviorSet()
         {
             var tableEntryField = (GetFieldResolver("tableEntry") as FieldResolver<SharedStringField, SharedString>).EditorField;
             var stringEntryField = (GetFieldResolver("stringEntry") as FieldResolver<SharedStringField, SharedString>).EditorField;

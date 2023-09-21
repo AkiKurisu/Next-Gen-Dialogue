@@ -368,17 +368,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   root:
-    rid: 3405912499849789564
+    rid: 3405912567445717094
   sharedVariables:
-  - rid: 3405912499849789565
-  - rid: 3405912499849789566
-  - rid: 3405912499849789567
+  - rid: 3405912567445717095
+  - rid: 3405912567445717096
+  - rid: 3405912567445717097
   externalDialogueTree: {fileID: 0}
   blockData: []
   references:
     version: 2
     RefIds:
-    - rid: 3405912499849789564
+    - rid: 3405912567445717094
       type: {class: Root, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
       data:
         graphPosition:
@@ -390,30 +390,30 @@ MonoBehaviour:
         description: 
         guid: 17b30093-3fb4-4a02-8b26-64c8cb6854ea
         child:
-          rid: 3405912499849789568
+          rid: 3405912567445717098
         children:
-        - rid: 3405912499849789569
-        - rid: 3405912499849789570
-        - rid: 3405912499849789571
-    - rid: 3405912499849789565
+        - rid: 3405912567445717099
+        - rid: 3405912567445717100
+        - rid: 3405912567445717101
+    - rid: 3405912567445717095
       type: {class: PieceID, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
       data:
         isShared: 1
         mName: Dialog1
         value: 
-    - rid: 3405912499849789566
+    - rid: 3405912567445717096
       type: {class: PieceID, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
       data:
         isShared: 1
         mName: Dialog2
         value: 
-    - rid: 3405912499849789567
+    - rid: 3405912567445717097
       type: {class: PieceID, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
       data:
         isShared: 1
         mName: Dialog3
         value: 
-    - rid: 3405912499849789568
+    - rid: 3405912567445717098
       type: {class: Dialogue, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
       data:
         graphPosition:
@@ -425,46 +425,10 @@ MonoBehaviour:
         description: 
         guid: 1253cb15-ce0c-46a4-9c98-fc14b3265295
         children:
-        - rid: 3405912499849789571
+        - rid: 3405912567445717099
         referencePieces:
         - 
-    - rid: 3405912499849789569
-      type: {class: Piece, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
-      data:
-        graphPosition:
-          serializedVersion: 2
-          x: 821.3333
-          y: 1030.6667
-          width: 376.6667
-          height: 466.66663
-        description: 
-        guid: 4a4555a7-4fbb-4722-863d-8f8b9eca9f5b
-        children:
-        - rid: 3405912499849789572
-        - rid: 3405912499849789573
-        pieceID:
-          isShared: 1
-          mName: Dialog3
-          value: 
-    - rid: 3405912499849789570
-      type: {class: Piece, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
-      data:
-        graphPosition:
-          serializedVersion: 2
-          x: 821.3333
-          y: 536.6666
-          width: 294.00006
-          height: 452.6667
-        description: 
-        guid: 4361244c-a6bc-4383-9d28-f70f4006a0ac
-        children:
-        - rid: 3405912499849789574
-        - rid: 3405912499849789575
-        pieceID:
-          isShared: 1
-          mName: Dialog2
-          value: 
-    - rid: 3405912499849789571
+    - rid: 3405912567445717099
       type: {class: Piece, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
       data:
         graphPosition:
@@ -476,81 +440,48 @@ MonoBehaviour:
         description: 
         guid: 87ad95d9-81fc-4d39-a073-b318ec0c0ae9
         children:
-        - rid: 3405912499849789576
-        - rid: 3405912499849789577
+        - rid: 3405912567445717102
+        - rid: 3405912567445717103
         pieceID:
           isShared: 1
           mName: Dialog1
           value: 
-    - rid: 3405912499849789572
-      type: {class: LocalizedContentModule, ns: Kurisu.NGDT.Localization, asm: Kurisu.NGDT.Localization}
+    - rid: 3405912567445717100
+      type: {class: Piece, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
       data:
         graphPosition:
           serializedVersion: 2
-          x: 0
-          y: 110
-          width: 352.6667
-          height: 182
+          x: 821.3333
+          y: 536.6666
+          width: 294.00006
+          height: 452.6667
         description: 
-        guid: a6ca2885-95e0-4a99-b0b9-0457743ac7e1
-        tableEntry:
-          isShared: 0
-          mName: 
-          value: Dialogue
-        stringEntry:
-          isShared: 0
-          mName: 
-          value: Dialogue-Piece-0002
-    - rid: 3405912499849789573
-      type: {class: ContentModule, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
+        guid: 4361244c-a6bc-4383-9d28-f70f4006a0ac
+        children:
+        - rid: 3405912567445717104
+        - rid: 3405912567445717105
+        pieceID:
+          isShared: 1
+          mName: Dialog2
+          value: 
+    - rid: 3405912567445717101
+      type: {class: Piece, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
       data:
         graphPosition:
           serializedVersion: 2
-          x: 0
-          y: 292
-          width: 352.6667
-          height: 108
+          x: 821.3333
+          y: 1030.6667
+          width: 284.6667
+          height: 358.66663
         description: 
-        guid: f3291d97-854e-4c16-8337-0adc33837efe
-        content:
-          isShared: 0
-          mName: 
-          value: You can also Open Editor in runtime for debug.
-    - rid: 3405912499849789574
-      type: {class: LocalizedContentModule, ns: Kurisu.NGDT.Localization, asm: Kurisu.NGDT.Localization}
-      data:
-        graphPosition:
-          serializedVersion: 2
-          x: 0
-          y: 110
-          width: 270.00006
-          height: 182
-        description: 
-        guid: 46601c49-38d1-4e46-be4b-c0a20fe8635f
-        tableEntry:
-          isShared: 0
-          mName: 
-          value: Dialogue
-        stringEntry:
-          isShared: 0
-          mName: 
-          value: Dialogue-Piece-0001
-    - rid: 3405912499849789575
-      type: {class: NextPieceModule, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
-      data:
-        graphPosition:
-          serializedVersion: 2
-          x: 0
-          y: 292
-          width: 270.00006
-          height: 94
-        description: 
-        guid: 821b4369-7eeb-46ca-863e-a606d8d72f41
-        nextID:
+        guid: 4a4555a7-4fbb-4722-863d-8f8b9eca9f5b
+        children:
+        - rid: 3405912567445717106
+        pieceID:
           isShared: 1
           mName: Dialog3
           value: 
-    - rid: 3405912499849789576
+    - rid: 3405912567445717102
       type: {class: LocalizedContentModule, ns: Kurisu.NGDT.Localization, asm: Kurisu.NGDT.Localization}
       data:
         graphPosition:
@@ -569,7 +500,7 @@ MonoBehaviour:
           isShared: 0
           mName: 
           value: Dialogue-Piece-0000
-    - rid: 3405912499849789577
+    - rid: 3405912567445717103
       type: {class: Option, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
       data:
         graphPosition:
@@ -577,13 +508,66 @@ MonoBehaviour:
           x: 1378
           y: 274
           width: 284.66663
-          height: 373.33334
+          height: 423.33334
         description: 
         guid: bc03ffd9-1c42-44e9-90fa-9c205f42ab7a
         children:
-        - rid: 3405912499849789578
-        - rid: 3405912499849789579
-    - rid: 3405912499849789578
+        - rid: 3405912567445717107
+        - rid: 3405912567445717108
+    - rid: 3405912567445717104
+      type: {class: LocalizedContentModule, ns: Kurisu.NGDT.Localization, asm: Kurisu.NGDT.Localization}
+      data:
+        graphPosition:
+          serializedVersion: 2
+          x: 0
+          y: 110
+          width: 270.00006
+          height: 182
+        description: 
+        guid: 46601c49-38d1-4e46-be4b-c0a20fe8635f
+        tableEntry:
+          isShared: 0
+          mName: 
+          value: Dialogue
+        stringEntry:
+          isShared: 0
+          mName: 
+          value: Dialogue-Piece-0001
+    - rid: 3405912567445717105
+      type: {class: NextPieceModule, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
+      data:
+        graphPosition:
+          serializedVersion: 2
+          x: 0
+          y: 292
+          width: 270.00006
+          height: 94
+        description: 
+        guid: 821b4369-7eeb-46ca-863e-a606d8d72f41
+        nextID:
+          isShared: 1
+          mName: Dialog3
+          value: 
+    - rid: 3405912567445717106
+      type: {class: LocalizedContentModule, ns: Kurisu.NGDT.Localization, asm: Kurisu.NGDT.Localization}
+      data:
+        graphPosition:
+          serializedVersion: 2
+          x: 0
+          y: 110
+          width: 260.6667
+          height: 182
+        description: 
+        guid: a6ca2885-95e0-4a99-b0b9-0457743ac7e1
+        tableEntry:
+          isShared: 0
+          mName: 
+          value: Dialogue
+        stringEntry:
+          isShared: 0
+          mName: 
+          value: Dialogue-Piece-0002
+    - rid: 3405912567445717107
       type: {class: LocalizedContentModule, ns: Kurisu.NGDT.Localization, asm: Kurisu.NGDT.Localization}
       data:
         graphPosition:
@@ -591,7 +575,7 @@ MonoBehaviour:
           x: 0
           y: 80.66666
           width: 260.66663
-          height: 132
+          height: 182
         description: 
         guid: 2309ed47-d2e3-471f-a98f-73b667e4fb7f
         tableEntry:
@@ -602,13 +586,13 @@ MonoBehaviour:
           isShared: 0
           mName: 
           value: Dialogue-Option-0000
-    - rid: 3405912499849789579
+    - rid: 3405912567445717108
       type: {class: TargetIDModule, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
       data:
         graphPosition:
           serializedVersion: 2
           x: 0
-          y: 212.66666
+          y: 262.66666
           width: 260.66663
           height: 94
         description: 

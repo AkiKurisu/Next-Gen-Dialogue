@@ -65,7 +65,12 @@ namespace Kurisu.NGDS.VITS
                     if (option.Modules[i] is IInjectable injectable)
                         await injectable.Inject(objectContainer);
                 }
-                if (option.TryGetModule(out VITSModule vitsModule))
+                if (option.TryGetModule(out VITSAudioClipModule audioClipModule))
+                {
+                    audioCacheMap[option] = audioClipModule.AudioClip;
+                    continue;
+                }
+                if (option.TryGetModule(out VITSGenerateModule vitsModule))
                 {
                     var response = await vitsTurbo.SendVITSRequestAsync(option.Content, vitsModule.CharacterID);
                     if (response.Status)

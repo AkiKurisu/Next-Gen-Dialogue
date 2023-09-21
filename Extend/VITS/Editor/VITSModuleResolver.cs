@@ -1,6 +1,7 @@
 using Kurisu.NGDS.VITS;
 using Kurisu.NGDT.Editor;
 using System;
+using UnityEngine;
 using UnityEngine.UIElements;
 namespace Kurisu.NGDT.VITS.Editor
 {
@@ -15,6 +16,7 @@ namespace Kurisu.NGDT.VITS.Editor
     }
     public class VITSModuleNode : ModuleNode
     {
+        private SharedTObjectField<AudioClip> audioClipField;
         private AudioPreviewField audioPreviewField;
         private bool isBaking;
         public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
@@ -28,6 +30,18 @@ namespace Kurisu.NGDT.VITS.Editor
                 if (isBaking) return DropdownMenuAction.Status.Disabled;
                 else return DropdownMenuAction.Status.Normal;
             }));
+        }
+        protected override void OnBehaviorSet()
+        {
+            audioClipField = (GetFieldResolver("audioClip") as SharedTObjectResolver<AudioClip>).EditorField;
+        }
+        protected override void OnRestore()
+        {
+            if (audioClipField.value.Value != null)
+            {
+                audioPreviewField = new AudioPreviewField(audioClipField.value.Value);
+                mainContainer.Add(audioPreviewField);
+            }
         }
         private async void BakeAudio()
         {
@@ -44,10 +58,16 @@ namespace Kurisu.NGDT.VITS.Editor
             if (response.Status)
             {
                 audioPreviewField?.RemoveFromHierarchy();
-                audioPreviewField = new AudioPreviewField(response.Result);
+                audioPreviewField = new AudioPreviewField(response.Result, false, OnDownloadAudioClip);
                 mainContainer.Add(audioPreviewField);
             }
             isBaking = false;
+        }
+        private void OnDownloadAudioClip(AudioClip audioClip)
+        {
+            if (audioClipField == null) return;
+            audioClipField.value.Value = audioClip;
+            audioClipField.Repaint();
         }
     }
 

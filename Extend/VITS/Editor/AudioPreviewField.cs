@@ -1,3 +1,4 @@
+using System;
 using Kurisu.NGDS.VITS;
 using UnityEditor;
 using UnityEngine;
@@ -8,13 +9,18 @@ namespace Kurisu.NGDT.VITS.Editor
     {
         private readonly AudioClip audioClip;
         private readonly Button downloadButton;
-        public AudioPreviewField(AudioClip audioClip)
+        private readonly Action<AudioClip> OnDownload;
+        public AudioPreviewField(AudioClip audioClip, bool isReadOnly = true, Action<AudioClip> OnDownload = null)
         {
+            this.OnDownload = OnDownload;
             this.audioClip = audioClip;
             var label = new Label(audioClip.name);
             Add(label);
-            downloadButton = new Button(Download) { text = "Download" };
-            Add(downloadButton);
+            if (!isReadOnly)
+            {
+                downloadButton = new Button(Download) { text = "Download" };
+                Add(downloadButton);
+            }
             var previewButton = new Button(Preview) { text = "Preview" };
             Add(previewButton);
         }
@@ -32,6 +38,9 @@ namespace Kurisu.NGDT.VITS.Editor
             WavUtil.Save(outPutPath, audioClip);
             Debug.Log($"Audio saved succeed! Audio path:{outPutPath}");
             downloadButton.RemoveFromHierarchy();
+            AssetDatabase.Refresh();
+            var newClip = AssetDatabase.LoadAssetAtPath<AudioClip>(outPutPath.Replace(Application.dataPath, "Assets/"));
+            OnDownload?.Invoke(newClip);
         }
     }
 }

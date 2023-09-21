@@ -268,9 +268,9 @@ namespace Kurisu.NGDT.Editor
             var label = nodeBehavior.GetCustomAttribute(typeof(AkiLabelAttribute), false) as AkiLabelAttribute;
             title = label?.Title ?? nodeBehavior.Name;
             if (!haveSetting) settingButton.visible = false;
-            OnBehaviorSet(nodeBehavior);
+            OnBehaviorSet();
         }
-        protected virtual void OnBehaviorSet(Type newType) { }
+        protected virtual void OnBehaviorSet() { }
 
         private static IEnumerable<FieldInfo> GetAllFields(Type t)
         {

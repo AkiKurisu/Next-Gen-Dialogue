@@ -36,7 +36,14 @@ namespace Kurisu.NGDS.VITS
             {
                 promptBuilder.Append(characterModule.CharacterName, DialoguePiece.Content);
             }
-            if (DialoguePiece.TryGetModule(out VITSModule vitsModule))
+            if (DialoguePiece.TryGetModule(out VITSAudioClipModule audioClipModule))
+            {
+                while (audioSource.isPlaying) await Task.Yield();
+                audioSource.clip = audioClipModule.AudioClip;
+                audioSource.Play();
+                return;
+            }
+            if (DialoguePiece.TryGetModule(out VITSGenerateModule vitsModule))
             {
                 var response = await vitsTurbo.SendVITSRequestAsync(DialoguePiece.Content, vitsModule.CharacterID);
                 if (response.Status)

@@ -49,12 +49,10 @@ namespace Kurisu.NGDS.VITS
             {
                 filepath += ".wav";
             }
-            using (var fileStream = new FileStream(filepath, FileMode.Create))
-            using (var writer = new BinaryWriter(fileStream))
-            {
-                var wav = GetWav(clip, out var length, trim);
-                writer.Write(wav, 0, (int)length);
-            }
+            using var fileStream = new FileStream(filepath, FileMode.Create);
+            using var writer = new BinaryWriter(fileStream);
+            var wav = GetWav(clip, out var length, trim);
+            writer.Write(wav, 0, (int)length);
         }
 
         public static byte[] GetWav(AudioClip clip, out uint length, bool trim = false)

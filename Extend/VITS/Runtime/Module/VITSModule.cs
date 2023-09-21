@@ -1,4 +1,5 @@
 using Kurisu.NGDS;
+using Kurisu.NGDS.VITS;
 using UnityEngine;
 namespace Kurisu.NGDT.VITS
 {
@@ -10,14 +11,18 @@ namespace Kurisu.NGDT.VITS
     {
         [SerializeField]
         private SharedInt characterID;
+        [SerializeField]
+        private SharedTObject<AudioClip> audioClip;
         public override void Awake()
         {
             base.Awake();
             InitVariable(characterID);
+            InitVariable(audioClip);
         }
         protected sealed override IDialogueModule GetModule()
         {
-            return new NGDS.VITS.VITSModule(characterID.Value);
+            if (audioClip.Value != null) return new VITSAudioClipModule(audioClip.Value);
+            else return new VITSGenerateModule(characterID.Value);
         }
     }
 }

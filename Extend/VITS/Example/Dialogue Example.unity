@@ -401,7 +401,14 @@ MonoBehaviour:
           height: 72
         description: 
         guid: 271891ae-b6a6-4a8b-a385-f756a7f159dd
-        characterID: 0
+        characterID:
+          isShared: 0
+          mName: 
+          value: 0
+        audioClip:
+          isShared: 0
+          mName: 
+          value: {fileID: 0}
     - rid: 7345489163301946075
       type: {class: AIGenerateModule, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
       data:
@@ -445,7 +452,14 @@ MonoBehaviour:
           height: 75.33334
         description: 
         guid: 5cab772d-4c46-4a74-ac34-a47730bfcdfd
-        characterID: 0
+        characterID:
+          isShared: 0
+          mName: 
+          value: 0
+        audioClip:
+          isShared: 0
+          mName: 
+          value: {fileID: 0}
     - rid: 7345489163301946078
       type: {class: CharacterModule, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
       data:
@@ -520,7 +534,14 @@ MonoBehaviour:
           height: 75.33334
         description: 
         guid: 76ffe776-2808-4ae5-9b7c-42ff0ddf9b01
-        characterID: 0
+        characterID:
+          isShared: 0
+          mName: 
+          value: 0
+        audioClip:
+          isShared: 0
+          mName: 
+          value: {fileID: 0}
     - rid: 7345489163301946083
       type: {class: CharacterModule, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
       data:
@@ -607,7 +628,14 @@ MonoBehaviour:
           height: 75.333374
         description: 
         guid: fee1056b-db54-41e6-81b0-2f14d233e4cb
-        characterID: 2
+        characterID:
+          isShared: 0
+          mName: 
+          value: 0
+        audioClip:
+          isShared: 0
+          mName: 
+          value: {fileID: 0}
     - rid: 7345489163301946089
       type: {class: ContentModule, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
       data:
@@ -664,7 +692,14 @@ MonoBehaviour:
           height: 75.333374
         description: 
         guid: d3a4990b-f00a-4184-96f8-60d143e1e426
-        characterID: 2
+        characterID:
+          isShared: 0
+          mName: 
+          value: 0
+        audioClip:
+          isShared: 0
+          mName: 
+          value: {fileID: 0}
 --- !u!4 &83684200
 Transform:
   m_ObjectHideFlags: 0
@@ -1157,7 +1192,14 @@ MonoBehaviour:
           height: 75.33325
         description: 
         guid: 271891ae-b6a6-4a8b-a385-f756a7f159dd
-        characterID: 0
+        characterID:
+          isShared: 0
+          mName: 
+          value: 0
+        audioClip:
+          isShared: 0
+          mName: 
+          value: {fileID: 0}
     - rid: 7345489163301945648
       type: {class: ContentModule, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
       data:
@@ -1199,7 +1241,14 @@ MonoBehaviour:
           height: 75.33334
         description: 
         guid: 5cab772d-4c46-4a74-ac34-a47730bfcdfd
-        characterID: 0
+        characterID:
+          isShared: 0
+          mName: 
+          value: 0
+        audioClip:
+          isShared: 0
+          mName: 
+          value: {fileID: 0}
     - rid: 7345489163301945651
       type: {class: ContentModule, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
       data:
@@ -1226,7 +1275,14 @@ MonoBehaviour:
           height: 75.33334
         description: 
         guid: 76ffe776-2808-4ae5-9b7c-42ff0ddf9b01
-        characterID: 0
+        characterID:
+          isShared: 0
+          mName: 
+          value: 0
+        audioClip:
+          isShared: 0
+          mName: 
+          value: {fileID: 0}
     - rid: 7345489163301945653
       type: {class: Option, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
       data:
@@ -1283,7 +1339,14 @@ MonoBehaviour:
           height: 75.33331
         description: 
         guid: cd096d66-e677-4b7b-a643-0594cb93bce6
-        characterID: 2
+        characterID:
+          isShared: 0
+          mName: 
+          value: 0
+        audioClip:
+          isShared: 0
+          mName: 
+          value: {fileID: 0}
 --- !u!4 &1152425388
 Transform:
   m_ObjectHideFlags: 0
@@ -1333,34 +1396,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!83 &1410735394
-AudioClip:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: VITS-2023-08-15-10-40-04.wav
-  m_LoadType: 0
-  m_Channels: 0
-  m_Frequency: 0
-  m_BitsPerSample: 0
-  m_Length: 0
-  m_IsTrackerFormat: 0
-  m_Ambisonic: 0
-  m_SubsoundIndex: 0
-  m_PreloadAudioData: 1
-  m_LoadInBackground: 0
-  m_Legacy3D: 0
-  m_Resource:
-    m_Source: 
-    m_Offset: 0
-    m_Size: 0
-  m_CompressionFormat: 0
-  m_EditorResource:
-    m_Source: 
-    m_Offset: 0
-    m_Size: 0
-  m_EditorCompressionFormat: 0
 --- !u!1 &1671672652
 GameObject:
   m_ObjectHideFlags: 0
@@ -1544,7 +1579,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 1410735394}
+  m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
