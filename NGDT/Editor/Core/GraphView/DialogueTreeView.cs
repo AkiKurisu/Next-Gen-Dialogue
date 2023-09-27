@@ -30,7 +30,7 @@ namespace Kurisu.NGDT.Editor
         public bool IsRestoring { get; private set; }
         private readonly NodeConverter converter = new();
         private readonly DragDropManipulator dragDropManipulator;
-        private readonly AIDialogueBaker baker;
+        private readonly AIDialogueBaker baker = new();
         public DialogueTreeView(IDialogueTree bt, EditorWindow editor)
         {
             _window = editor;
@@ -61,7 +61,6 @@ namespace Kurisu.NGDT.Editor
             serializeGraphElements += CopyOperation;
             canPasteSerializedData += (data) => true;
             unserializeAndPaste += OnPaste;
-            baker = new AIDialogueBaker(this);
         }
         private string CopyOperation(IEnumerable<GraphElement> elements)
         {
@@ -254,7 +253,7 @@ namespace Kurisu.NGDT.Editor
             RootNode rootNode;
             foreach (var variable in otherTree.SharedVariables)
             {
-                AddExposedProperty(variable.Clone() as SharedVariable);//Clone新的共享变量
+                AddExposedProperty(variable.Clone() as SharedVariable);
             }
             (rootNode, nodes) = converter.ConvertToNode(otherTree, this, localMousePosition);
             foreach (var node in nodes) node.OnSelectAction = OnSelectAction;
@@ -295,7 +294,7 @@ namespace Kurisu.NGDT.Editor
         {
             foreach (var variable in tree.SharedVariables)
             {
-                AddExposedProperty(variable.Clone() as SharedVariable);//Clone新的共享变量
+                AddExposedProperty(variable.Clone() as SharedVariable);
             }
         }
         private void RestoreBlocks(IDialogueTree tree, IEnumerable<IDialogueNode> nodes)

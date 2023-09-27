@@ -36,12 +36,12 @@ namespace Kurisu.NGDT.Editor
         protected sealed override bool OnValidate(Stack<IDialogueNode> stack)
         {
             //Validate All Pieces and Dialogues
-            mapTreeView.CollectNodes<PieceContainer>()
+            MapTreeView.CollectNodes<PieceContainer>()
             .ForEach(x =>
             {
                 stack.Push(x);
             });
-            var allDialogues = mapTreeView.CollectNodes<DialogueContainer>();
+            var allDialogues = MapTreeView.CollectNodes<DialogueContainer>();
             allDialogues.ForEach(x => stack.Push(x));
             return true;
         }
@@ -50,7 +50,7 @@ namespace Kurisu.NGDT.Editor
             var newRoot = new Root();
             DialogueContainer child = null;
             //Commit Dialogue Piece First, no matter Piece is linked to Dialogue, they will be committed
-            mapTreeView.CollectNodes<PieceContainer>()
+            MapTreeView.CollectNodes<PieceContainer>()
             .ForEach(x =>
             {
                 newRoot.AddChild(x.ReplaceBehavior());
@@ -62,7 +62,7 @@ namespace Kurisu.NGDT.Editor
                 newRoot.Child = child.ReplaceBehavior();
                 stack.Push(child);
             }
-            var allDialogues = mapTreeView.CollectNodes<DialogueContainer>();
+            var allDialogues = MapTreeView.CollectNodes<DialogueContainer>();
             if (child != null)
                 allDialogues.Remove(child);
             allDialogues.ForEach(
@@ -84,7 +84,7 @@ namespace Kurisu.NGDT.Editor
         {
             cache?.ClearStyle();
             //Clear all dialogue piece
-            mapTreeView.CollectNodes<PieceContainer>().ForEach(x => x.ClearStyle());
+            MapTreeView.CollectNodes<PieceContainer>().ForEach(x => x.ClearStyle());
             if (Child.connected)
             {
                 //Clear child dialogue

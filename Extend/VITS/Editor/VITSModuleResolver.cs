@@ -45,9 +45,9 @@ namespace Kurisu.NGDT.VITS.Editor
         }
         private async void BakeAudio()
         {
-            var characterID = this.GetSharedIntValue(mapTreeView, "characterID");
+            var characterID = this.GetSharedIntValue("characterID");
             if (!GetFirstAncestorOfType<ContainerNode>().TryGetModuleNode<ContentModule>(out ModuleNode contentModule)) return;
-            string content = contentModule.GetSharedStringValue(mapTreeView, "content");
+            string content = contentModule.GetSharedStringValue("content");
             var turboSetting = NextGenDialogueSetting.GetOrCreateSettings().AITurboSetting;
             var vitsTurbo = new VITSTurbo(turboSetting)
             {

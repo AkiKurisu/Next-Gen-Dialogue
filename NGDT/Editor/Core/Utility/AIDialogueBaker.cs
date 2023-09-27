@@ -6,18 +6,12 @@ using Kurisu.NGDS;
 using System;
 using Kurisu.NGDS.AI;
 using System.Text;
-
 namespace Kurisu.NGDT.Editor
 {
     public class AIDialogueBaker
     {
         private AIPromptBuilder builder;
         private readonly HashSet<string> characterCached = new();
-        private readonly IDialogueTreeView treeView;
-        public AIDialogueBaker(IDialogueTreeView treeView)
-        {
-            this.treeView = treeView;
-        }
         /// <summary>
         /// Bake Dialogue Content in target container based on user's node selection
         /// </summary>
@@ -55,7 +49,7 @@ namespace Kurisu.NGDT.Editor
         /// <param name="containerNodes"></param>
         /// <param name="bakeContainerNode"></param>
         /// <returns></returns> <summary>
-        internal string TestBake(IList<ContainerNode> containerNodes, ContainerNode bakeContainerNode)
+        public string TestBake(IList<ContainerNode> containerNodes, ContainerNode bakeContainerNode)
         {
             StringBuilder stringBuilder = new();
             bakeContainerNode.TryGetModuleNode<AIBakeModule>(out ModuleNode aiBakeModule);
@@ -68,7 +62,7 @@ namespace Kurisu.NGDT.Editor
             {
                 AppendDialogue(containerNodes[i], builder);
             }
-            string bakeCharacterName = aiBakeModule.GetSharedStringValue(treeView, "characterName");
+            string bakeCharacterName = aiBakeModule.GetSharedStringValue("characterName");
             if (!string.IsNullOrEmpty(builder.Prompt))
             {
                 stringBuilder.Append(builder.Prompt);
@@ -94,6 +88,10 @@ namespace Kurisu.NGDT.Editor
             var response = await builder.Generate(bakeCharacterName.Value);
             if (response.Status)
             {
+                //Remove Original Module Node since container can only contain one module for each type
+                containerNode.RemoveModule<CharacterModule>();
+                containerNode.RemoveModule<ContentModule>();
+                //Create Output Module Node
                 containerNode.AddModuleNode(new CharacterModule(bakeCharacterName.Clone() as SharedString));
                 containerNode.AddModuleNode(new ContentModule(response.Response));
             }
@@ -102,16 +100,16 @@ namespace Kurisu.NGDT.Editor
         {
             if (containerNode.TryGetModuleNode<PromptModule>(out ModuleNode promptModule))
             {
-                var prompt = promptModule.GetSharedStringValue(treeView, "prompt");
+                var prompt = promptModule.GetSharedStringValue("prompt");
                 builder.SetPrompt(prompt);
                 return true;
             }
             else if (containerNode.TryGetModuleNode<CharacterPresetModule>(out ModuleNode presetModule))
             {
-                var user_Name = presetModule.GetSharedStringValue(treeView, "user_Name");
-                var char_name = presetModule.GetSharedStringValue(treeView, "char_name");
-                var char_persona = presetModule.GetSharedStringValue(treeView, "char_persona");
-                var world_scenario = presetModule.GetSharedStringValue(treeView, "world_scenario");
+                var user_Name = presetModule.GetSharedStringValue("user_Name");
+                var char_name = presetModule.GetSharedStringValue("char_name");
+                var char_persona = presetModule.GetSharedStringValue("char_persona");
+                var world_scenario = presetModule.GetSharedStringValue("world_scenario");
                 builder.SetPrompt(CharacterPresetHelper.GeneratePrompt(user_Name, char_name, char_persona, world_scenario));
                 return true;
             }
@@ -121,11 +119,11 @@ namespace Kurisu.NGDT.Editor
         {
             if (containerNode is DialogueContainer && TrySetPrompt(containerNode, builder)) return;
             if (!containerNode.TryGetModuleNode<CharacterModule>(out ModuleNode characterModule)) return;
-            string characterName = characterModule.GetSharedStringValue(treeView, "characterName");
+            string characterName = characterModule.GetSharedStringValue("characterName");
             if (!characterCached.Contains(characterName))
                 characterCached.Add(characterName);
             if (!containerNode.TryGetModuleNode<ContentModule>(out ModuleNode contentModule)) return;
-            string content = contentModule.GetSharedStringValue(treeView, "content");
+            string content = contentModule.GetSharedStringValue("content");
             builder.Append(characterName, content);
         }
     }

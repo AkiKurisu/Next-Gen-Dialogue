@@ -4,26 +4,34 @@ namespace Kurisu.NGDT.Editor
 {
     public static class DialogueNodeExtension
     {
-        public static string GetSharedStringValue(this IDialogueNode dialogueTreeNode, IDialogueTreeView treeView, string fieldName)
+        public static string GetSharedStringValue(this IDialogueNode dialogueTreeNode, string fieldName)
         {
-            return dialogueTreeNode.GetSharedVariableValue<string>(treeView, fieldName) ?? string.Empty;
+            return dialogueTreeNode.GetSharedVariableValue<string>(fieldName) ?? string.Empty;
         }
-        public static int GetSharedIntValue(this IDialogueNode dialogueTreeNode, IDialogueTreeView treeView, string fieldName)
+        public static int GetSharedIntValue(this IDialogueNode dialogueTreeNode, string fieldName)
         {
-            return dialogueTreeNode.GetSharedVariableValue<int>(treeView, fieldName);
+            return dialogueTreeNode.GetSharedVariableValue<int>(fieldName);
         }
-        public static float GetSharedFloatValue(this IDialogueNode dialogueTreeNode, IDialogueTreeView treeView, string fieldName)
+        public static float GetSharedFloatValue(this IDialogueNode dialogueTreeNode, string fieldName)
         {
-            return dialogueTreeNode.GetSharedVariableValue<float>(treeView, fieldName);
+            return dialogueTreeNode.GetSharedVariableValue<float>(fieldName);
         }
-        public static Vector3 GetSharedVector3Value(this IDialogueNode dialogueTreeNode, IDialogueTreeView treeView, string fieldName)
+        public static Vector3 GetSharedVector3Value(this IDialogueNode dialogueTreeNode, string fieldName)
         {
-            return dialogueTreeNode.GetSharedVariableValue<Vector3>(treeView, fieldName);
+            return dialogueTreeNode.GetSharedVariableValue<Vector3>(fieldName);
         }
-        public static T GetSharedVariableValue<T>(this IDialogueNode dialogueTreeNode, IDialogueTreeView treeView, string fieldName)
+        public static bool GetSharedBoolValue(this IDialogueNode dialogueTreeNode, string fieldName)
+        {
+            return dialogueTreeNode.GetSharedVariableValue<bool>(fieldName);
+        }
+        public static UnityEngine.Object GetSharedObjectValue(this IDialogueNode dialogueTreeNode, string fieldName)
+        {
+            return dialogueTreeNode.GetSharedVariableValue<UnityEngine.Object>(fieldName);
+        }
+        public static T GetSharedVariableValue<T>(this IDialogueNode dialogueTreeNode, string fieldName)
         {
             var sharedVariable = dialogueTreeNode.GetSharedVariable<SharedVariable<T>>(fieldName);
-            return sharedVariable != null ? treeView.GetSharedVariableValue(sharedVariable) : default;
+            return sharedVariable != null ? dialogueTreeNode.MapTreeView.GetSharedVariableValue(sharedVariable) : default;
         }
         public static T GetSharedVariable<T>(this IDialogueNode dialogueTreeNode, string fieldName) where T : SharedVariable
         {

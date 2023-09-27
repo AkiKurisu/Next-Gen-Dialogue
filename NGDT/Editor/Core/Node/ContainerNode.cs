@@ -50,7 +50,7 @@ namespace Kurisu.NGDT.Editor
         private readonly List<IFieldResolver> resolvers = new();
         private readonly List<FieldInfo> fieldInfos = new();
         public Action<IDialogueNode> OnSelectAction { get; set; }
-        protected IDialogueTreeView mapTreeView;
+        public IDialogueTreeView MapTreeView { get; private set; }
         //Setting
         private VisualElement settings;
         private NodeSettingsView settingsContainer;
@@ -159,7 +159,7 @@ namespace Kurisu.NGDT.Editor
                 x =>
                 {
                     //Copy its child module
-                    var newNode = mapTreeView.DuplicateNode(x) as ModuleNode;
+                    var newNode = MapTreeView.DuplicateNode(x) as ModuleNode;
                     moduleCopyMapCache[x.GetHashCode()] = newNode;
                     AddElement(newNode);
                 }
@@ -223,7 +223,7 @@ namespace Kurisu.NGDT.Editor
         }
         public void SetBehavior(Type nodeBehavior, IDialogueTreeView ownerTreeView = null)
         {
-            if (ownerTreeView != null) mapTreeView = ownerTreeView;
+            if (ownerTreeView != null) MapTreeView = ownerTreeView;
             if (dirtyNodeBehaviorType != null)
             {
                 dirtyNodeBehaviorType = null;
@@ -246,12 +246,12 @@ namespace Kurisu.NGDT.Editor
                     fieldResolver.Restore(defaultValue);
                     if (p.GetCustomAttribute<SettingAttribute>() != null)
                     {
-                        settingsContainer.Add(fieldResolver.GetEditorField(mapTreeView));
+                        settingsContainer.Add(fieldResolver.GetEditorField(MapTreeView));
                         haveSetting = true;
                     }
                     else
                     {
-                        fieldContainer.Add(fieldResolver.GetEditorField(mapTreeView));
+                        fieldContainer.Add(fieldResolver.GetEditorField(MapTreeView));
                     }
                     resolvers.Add(fieldResolver);
                     fieldInfos.Add(p);
@@ -303,9 +303,16 @@ namespace Kurisu.NGDT.Editor
             evt.menu.MenuItems().Add(new NGDTDropdownMenuAction("Add Module", (a) =>
             {
                 var provider = ScriptableObject.CreateInstance<ModuleSearchWindowProvider>();
-                provider.Init(this, mapTreeView, NextGenDialogueSetting.GetMask(), GetModuleTypes());
+                provider.Init(this, MapTreeView, NextGenDialogueSetting.GetMask(), GetModuleTypes());
                 SearchWindow.Open(new SearchWindowContext(a.eventInfo.localMousePosition), provider);
             }));
+        }
+        public void RemoveModule<T>() where T : Module
+        {
+            if (TryGetModuleNode<T>(out ModuleNode node))
+            {
+                RemoveElement(node);
+            }
         }
         private IEnumerable<Type> GetModuleTypes()
         {
@@ -324,7 +331,7 @@ namespace Kurisu.NGDT.Editor
         public ModuleNode AddModuleNode<T>(T module) where T : Module
         {
             var type = typeof(T);
-            var moduleNode = NodeResolverFactory.Instance.Create(type, mapTreeView) as ModuleNode;
+            var moduleNode = NodeResolverFactory.Instance.Create(type, MapTreeView) as ModuleNode;
             moduleNode.Restore(module);
             AddElement(moduleNode);
             moduleNode.OnSelectAction = OnSelectAction;
@@ -334,15 +341,15 @@ namespace Kurisu.NGDT.Editor
         {
             evt.menu.MenuItems().Add(new NGDTDropdownMenuAction("Duplicate", (a) =>
             {
-                mapTreeView.DuplicateNode(this);
+                MapTreeView.DuplicateNode(this);
             }));
             evt.menu.MenuItems().Add(new NGDTDropdownMenuAction("Select Group", (a) =>
             {
-                mapTreeView.SelectGroup(this);
+                MapTreeView.SelectGroup(this);
             }));
             evt.menu.MenuItems().Add(new NGDTDropdownMenuAction("UnSelect Group", (a) =>
             {
-                mapTreeView.UnSelectGroup();
+                MapTreeView.UnSelectGroup();
             }));
         }
     }
@@ -362,7 +369,7 @@ namespace Kurisu.NGDT.Editor
             base.OnSeparatorContextualMenuEvent(evt, separatorIndex);
             evt.menu.MenuItems().Add(new NGDTDropdownMenuAction("Add Piece", (a) =>
             {
-                var bridge = new PieceBridge(mapTreeView, typeof(PiecePort), PortColor, string.Empty);
+                var bridge = new PieceBridge(MapTreeView, typeof(PiecePort), PortColor, string.Empty);
                 AddElement(bridge);
             }));
         }
@@ -398,12 +405,12 @@ namespace Kurisu.NGDT.Editor
         {
             evt.menu.MenuItems().Add(new NGDTDropdownMenuAction("Collect All Pieces", (a) =>
             {
-                var pieces = mapTreeView.CollectNodes<PieceContainer>();
+                var pieces = MapTreeView.CollectNodes<PieceContainer>();
                 var currentPieces = this.Query<PieceBridge>().ToList();
                 var addPieces = pieces.Where(x => !currentPieces.Any(p => !string.IsNullOrEmpty(p.PieceID) && p.PieceID == x.GetPieceID()));
                 foreach (var piece in addPieces)
                 {
-                    AddElement(new PieceBridge(mapTreeView, typeof(PiecePort), PortColor, piece.GetPieceID()));
+                    AddElement(new PieceBridge(MapTreeView, typeof(PiecePort), PortColor, piece.GetPieceID()));
                 }
             }));
             base.BuildContextualMenu(evt);
@@ -439,7 +446,7 @@ namespace Kurisu.NGDT.Editor
             if (TryGetModuleNode<AIBakeModule>(out _))
                 evt.menu.MenuItems().Add(new NGDTDropdownMenuAction("Bake Dialogue", (a) =>
                {
-                   mapTreeView.BakeDialogue();
+                   MapTreeView.BakeDialogue();
                }));
             base.BuildContextualMenu(evt);
         }
@@ -474,7 +481,7 @@ namespace Kurisu.NGDT.Editor
             if (TryGetModuleNode<AIBakeModule>(out _))
                 evt.menu.MenuItems().Add(new NGDTDropdownMenuAction("Bake Dialogue", (a) =>
                {
-                   mapTreeView.BakeDialogue();
+                   MapTreeView.BakeDialogue();
                }));
             base.BuildContextualMenu(evt);
         }

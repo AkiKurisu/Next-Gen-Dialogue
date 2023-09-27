@@ -52,7 +52,6 @@ namespace Kurisu.NGDT.Localization.Editor
             }
             toggleGroup.Toggle(0);
             EditorUtility.SetDirty(collection);
-            AssetDatabase.SaveAssets();
         }
         private static Button GetButton(string label, System.Action clickEvent, Color color)
         {

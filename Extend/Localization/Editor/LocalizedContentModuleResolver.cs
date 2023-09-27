@@ -30,8 +30,8 @@ namespace Kurisu.NGDT.Localization.Editor
         }
         private void UpdateEditor()
         {
-            var tableEntry = this.GetSharedStringValue(mapTreeView, "tableEntry");
-            var stringEntry = this.GetSharedStringValue(mapTreeView, "stringEntry");
+            var tableEntry = this.GetSharedStringValue("tableEntry");
+            var stringEntry = this.GetSharedStringValue("stringEntry");
             if (editorField != null) mainContainer.Remove(editorField);
             editorField = null;
             if (string.IsNullOrEmpty(stringEntry) || string.IsNullOrEmpty(tableEntry)) return;
@@ -43,8 +43,8 @@ namespace Kurisu.NGDT.Localization.Editor
             base.BuildContextualMenu(evt);
             evt.menu.MenuItems().Add(new NGDTDropdownMenuAction("Create Entry", (a) =>
             {
-                var tableEntry = this.GetSharedStringValue(mapTreeView, "tableEntry");
-                var stringEntry = this.GetSharedStringValue(mapTreeView, "stringEntry");
+                var tableEntry = this.GetSharedStringValue("tableEntry");
+                var stringEntry = this.GetSharedStringValue("stringEntry");
                 var collection = LocalizationEditorSettings.GetStringTableCollection(tableEntry);
                 if (collection == null) return;
                 var tables = collection.Tables;

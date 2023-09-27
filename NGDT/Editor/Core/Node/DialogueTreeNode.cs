@@ -11,6 +11,7 @@ namespace Kurisu.NGDT.Editor
     {
         string GUID { get; }
         Port Parent { get; }
+        IDialogueTreeView MapTreeView { get; }
         Action<IDialogueNode> OnSelectAction { get; set; }
         void Restore(NodeBehavior behavior);
         void Commit(Stack<IDialogueNode> stack);
@@ -34,7 +35,7 @@ namespace Kurisu.NGDT.Editor
         private readonly List<IFieldResolver> resolvers = new();
         protected readonly List<FieldInfo> fieldInfos = new();
         public Action<IDialogueNode> OnSelectAction { get; set; }
-        protected IDialogueTreeView mapTreeView;
+        public IDialogueTreeView MapTreeView { get; private set; }
         //Setting
         private VisualElement settings;
         protected NodeSettingsView settingsContainer;
@@ -229,7 +230,7 @@ namespace Kurisu.NGDT.Editor
         {
             if (ownerTreeView != null)
             {
-                mapTreeView = ownerTreeView;
+                MapTreeView = ownerTreeView;
             }
             //Clean up
             if (dirtyNodeBehaviorType != null)
@@ -255,12 +256,12 @@ namespace Kurisu.NGDT.Editor
                     fieldResolver.Restore(defaultValue);
                     if (p.GetCustomAttribute<SettingAttribute>() != null)
                     {
-                        settingsContainer.Add(fieldResolver.GetEditorField(mapTreeView));
+                        settingsContainer.Add(fieldResolver.GetEditorField(MapTreeView));
                         haveSetting = true;
                     }
                     else
                     {
-                        fieldContainer.Add(fieldResolver.GetEditorField(mapTreeView));
+                        fieldContainer.Add(fieldResolver.GetEditorField(MapTreeView));
                     }
                     resolvers.Add(fieldResolver);
                     fieldInfos.Add(p);
@@ -310,15 +311,15 @@ namespace Kurisu.NGDT.Editor
         {
             evt.menu.MenuItems().Add(new NGDTDropdownMenuAction("Duplicate", (a) =>
             {
-                mapTreeView.DuplicateNode(this);
+                MapTreeView.DuplicateNode(this);
             }));
             evt.menu.MenuItems().Add(new NGDTDropdownMenuAction("Select Group", (a) =>
             {
-                mapTreeView.SelectGroup(this);
+                MapTreeView.SelectGroup(this);
             }));
             evt.menu.MenuItems().Add(new NGDTDropdownMenuAction("UnSelect Group", (a) =>
             {
-                mapTreeView.UnSelectGroup();
+                MapTreeView.UnSelectGroup();
             }));
         }
 

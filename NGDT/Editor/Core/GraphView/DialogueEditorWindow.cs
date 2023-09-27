@@ -24,7 +24,7 @@ namespace Kurisu.NGDT.Editor
         private const string TreeName = "Dialogue Tree";
         private const string InfoText = "Welcome to Next-Gen-Dialogue Node Editor!";
         private static NextGenDialogueSetting setting;
-        private AIDialogueBaker testBaker;
+        private readonly AIDialogueBaker testBaker = new();
         private string bakeGenerateText;
         private Vector2 scrollPosition;
         private IMGUIContainer previewContainer;
@@ -76,7 +76,6 @@ namespace Kurisu.NGDT.Editor
         {
             window.rootVisualElement.Clear();
             window.graphView = window.CreateView(behaviorTree);
-            window.testBaker = new AIDialogueBaker(window.graphView);
             window.infoView = new InfoView(InfoText);
             window.infoView.styleSheets.Add(Resources.Load<StyleSheet>("NGDT/Info"));
             window.graphView.Add(window.infoView);
@@ -246,7 +245,7 @@ namespace Kurisu.NGDT.Editor
                                 Setting.LastPath = path;
                                 EditorUtility.SetDirty(setting);
                                 AssetDatabase.SaveAssets();
-                                ShowNotification(new GUIContent("Data Dropped Succeed !"));
+                                ShowNotification(new GUIContent("Data dropped succeed !"));
                                 graphView.CopyFromOtherTree(data, new Vector3(400, 300));
                             }
                         }
@@ -277,7 +276,7 @@ namespace Kurisu.NGDT.Editor
                                 AssetDatabase.SaveAssets();
                                 var data = File.ReadAllText(path);
                                 if (graphView.CopyFromJsonFile(data, new Vector3(400, 300)))
-                                    ShowNotification(new GUIContent("Json file Read Succeed !"));
+                                    ShowNotification(new GUIContent("Json file read Succeed !"));
                                 else
                                     ShowNotification(new GUIContent("Json file is in wrong format !"));
                             }
