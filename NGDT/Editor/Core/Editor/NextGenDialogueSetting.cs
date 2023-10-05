@@ -8,9 +8,9 @@ namespace Kurisu.NGDT.Editor
     [Serializable]
     internal class GraphEditorSetting
     {
-        [Tooltip("Display type, filter AkiGroup according to this list, nodes without category will always be displayed")]
+        [AkiGroupSelector, Tooltip("Display type, filter AkiGroup according to this list, nodes without category will always be displayed")]
         public string[] ShowGroups;
-        [Tooltip("The type that is not displayed, filter the AkiGroup according to this list, and the nodes without categories will always be displayed")]
+        [AkiGroupSelector, Tooltip("The type that is not displayed, filter the AkiGroup according to this list, and the nodes without categories will always be displayed")]
         public string[] NotShowGroups;
         [Tooltip("You can customize the style of the Graph view")]
         public StyleSheet graphStyleSheet;

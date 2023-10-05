@@ -1,4 +1,4 @@
-using System.Threading.Tasks;
+using System.Collections;
 namespace Kurisu.NGDS
 {
     public interface IDialogueModule
@@ -11,7 +11,7 @@ namespace Kurisu.NGDS
     }
     public interface IInjectable
     {
-        Task Inject(IObjectResolver resolver);
+        IEnumerator Inject(IObjectResolver resolver);
     }
 
     public interface IObjectResolver

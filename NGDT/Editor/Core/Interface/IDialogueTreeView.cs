@@ -11,9 +11,8 @@ namespace Kurisu.NGDT.Editor
         IDialogueNode DuplicateNode(IDialogueNode node);
         event Action<SharedVariable> OnPropertyNameChange;
         IList<SharedVariable> ExposedProperties { get; }
-        bool IsRestoring { get; }
         Action<IDialogueNode> OnSelectAction { get; }
-        void AddExposedProperty(SharedVariable variable);
+        void AddExposedProperty(SharedVariable variable, bool canDuplicate);
         void BakeDialogue();
     }
 }

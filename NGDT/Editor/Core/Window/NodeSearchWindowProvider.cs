@@ -71,6 +71,10 @@ namespace Kurisu.NGDT.Editor
                 return true;
             }
             var node = nodeResolver.Create(type, graphView);
+            if (node is PieceContainer pieceContainer)
+            {
+                pieceContainer.GenerateNewPieceID();
+            }
             var graphNode = node as Node;
             graphNode.SetPosition(newRect);
             graphView.AddElement(graphNode);

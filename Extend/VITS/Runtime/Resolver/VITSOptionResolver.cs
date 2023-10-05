@@ -1,6 +1,6 @@
 #if USE_VITS
+using System.Collections;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using Kurisu.NGDS.AI;
 using UnityEngine;
 namespace Kurisu.NGDS.VITS
@@ -27,15 +27,15 @@ namespace Kurisu.NGDS.VITS
             DialogueOptions = options;
             this.system = system;
         }
-        public async Task OnOptionClick(DialogueOption option)
+        public IEnumerator ClickOption(DialogueOption option)
         {
             if (audioCacheMap.TryGetValue(option, out AudioClip clip))
             {
                 audioSource.clip = clip;
                 audioSource.Play();
-                await Task.Yield();
+                yield return null;
                 while (audioSource.isPlaying)
-                    await Task.Yield();
+                    yield return null;
             }
             if (string.IsNullOrEmpty(option.TargetID))
             {
@@ -54,7 +54,7 @@ namespace Kurisu.NGDS.VITS
             callBackHandler.Handle(option);
         }
 
-        public async Task OnOptionEnter()
+        public IEnumerator EnterOption()
         {
             audioCacheMap.Clear();
             foreach (var option in DialogueOptions)
@@ -63,7 +63,7 @@ namespace Kurisu.NGDS.VITS
                 for (int i = 0; i < option.Modules.Count; i++)
                 {
                     if (option.Modules[i] is IInjectable injectable)
-                        await injectable.Inject(objectContainer);
+                        yield return injectable.Inject(objectContainer);
                 }
                 if (option.TryGetModule(out VITSAudioClipModule audioClipModule))
                 {
@@ -72,7 +72,9 @@ namespace Kurisu.NGDS.VITS
                 }
                 if (option.TryGetModule(out VITSGenerateModule vitsModule))
                 {
-                    var response = await vitsTurbo.SendVITSRequestAsync(option.Content, vitsModule.CharacterID);
+                    var task = vitsTurbo.SendVITSRequestAsync(option.Content, vitsModule.CharacterID);
+                    yield return new WaitUntil(() => task.IsCompleted);
+                    var response = task.Result;
                     if (response.Status)
                     {
                         audioCacheMap[option] = response.Result;

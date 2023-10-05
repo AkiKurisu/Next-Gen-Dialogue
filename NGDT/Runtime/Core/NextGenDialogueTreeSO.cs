@@ -8,7 +8,7 @@ namespace Kurisu.NGDT
     {
         [SerializeReference, HideInInspector]
         protected Root root = new();
-        Object IDialogueTree._Object => this;
+        Object IDialogueTree.Object => this;
         public Root Root
         {
             get => root;

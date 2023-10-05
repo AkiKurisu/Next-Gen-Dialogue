@@ -27,8 +27,8 @@ namespace Kurisu.NGDT.VITS.Example
         }
         private void DialogueOverHandler()
         {
-            StopCoroutine("WaitOver");
-            StartCoroutine("WaitOver");
+            StopCoroutine(nameof(WaitOver));
+            StartCoroutine(nameof(WaitOver));
         }
         private IEnumerator WaitOver()
         {
@@ -43,8 +43,9 @@ namespace Kurisu.NGDT.VITS.Example
         }
         private void PlayDialoguePiece(IPieceResolver resolver)
         {
-            StopCoroutine("WaitOver");
-            StartCoroutine(PlayText(resolver.DialoguePiece.Content, resolver.OnPieceExit));
+            StopCoroutine(nameof(WaitOver));
+            CleanUp();
+            StartCoroutine(PlayText(resolver.DialoguePiece.Content, resolver.ExitPiece));
         }
         private readonly StringBuilder stringBuilder = new();
         private IEnumerator PlayText(string text, System.Action callBack)
@@ -67,12 +68,13 @@ namespace Kurisu.NGDT.VITS.Example
             {
                 VITSOptionUI optionSlot = GetOption();
                 optionSlots.Add(optionSlot);
-                optionSlot.UpdateOption(option, async (opt) =>
-                {
-                    await resolver.OnOptionClick(opt);
-                    CleanUp();
-                });
+                optionSlot.UpdateOption(option, (opt) => StartCoroutine(ClickOptionCoroutine(resolver, opt)));
             }
+        }
+        private IEnumerator ClickOptionCoroutine(IOptionResolver resolver, DialogueOption opt)
+        {
+            yield return resolver.ClickOption(opt);
+            CleanUp();
         }
         private void CleanUp()
         {

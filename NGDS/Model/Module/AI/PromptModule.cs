@@ -1,4 +1,4 @@
-using System.Threading.Tasks;
+using System.Collections;
 using Kurisu.NGDS.AI;
 namespace Kurisu.NGDS
 {
@@ -10,10 +10,10 @@ namespace Kurisu.NGDS
         {
             this.prompt = prompt;
         }
-        public Task Inject(IObjectResolver resolver)
+        public IEnumerator Inject(IObjectResolver resolver)
         {
             resolver.Resolve<AIPromptBuilder>().SetPrompt(Prompt);
-            return Task.CompletedTask;
+            yield return null;
         }
     }
 }

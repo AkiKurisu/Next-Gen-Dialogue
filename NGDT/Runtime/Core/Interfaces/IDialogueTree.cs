@@ -5,7 +5,7 @@ namespace Kurisu.NGDT
 {
     public interface IDialogueTree
     {
-        Object _Object { get; }
+        Object Object { get; }
         Root Root
         {
             get;

@@ -1,10 +1,10 @@
-using System.Threading.Tasks;
+using System.Collections;
 namespace Kurisu.NGDS
 {
     public interface IPieceResolver
     {
-        Task OnPieceEnter();
-        void OnPieceExit();
+        IEnumerator EnterPiece();
+        void ExitPiece();
         DialoguePiece DialoguePiece { get; }
         void Inject(DialoguePiece piece, IDialogueSystem system);
     }

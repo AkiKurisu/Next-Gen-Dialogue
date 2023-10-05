@@ -22,6 +22,7 @@ namespace Kurisu.NGDT.Editor
         NodeBehavior ReplaceBehavior();
         void ClearStyle();
         IFieldResolver GetFieldResolver(string fieldName);
+        Rect GetWorldPosition();
     }
     public abstract class DialogueTreeNode : Node, IDialogueNode
     {
@@ -322,6 +323,9 @@ namespace Kurisu.NGDT.Editor
                 MapTreeView.UnSelectGroup();
             }));
         }
-
+        public virtual Rect GetWorldPosition()
+        {
+            return GetPosition();
+        }
     }
 }

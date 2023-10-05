@@ -20,11 +20,13 @@ namespace Kurisu.NGDS.AI
         private bool promptIsProcessed;
         private readonly ChatGenerator chatGenerator = new();
         public GoogleTranslateModule? PreTranslateModule { get; set; }
-        public GPTTurbo(string url, string openAIKey)
+        private bool chatMode;
+        public GPTTurbo(string url, string openAIKey, bool chatMode)
         {
             promptData = new SendData("system", string.Empty);
             m_DataList.Add(promptData);
             this.openAIKey = openAIKey;
+            this.chatMode = chatMode;
             if (string.IsNullOrEmpty(url))
                 ChatAPI = DefaultAPI;
             else
@@ -36,25 +38,13 @@ namespace Kurisu.NGDS.AI
         }
         public async Task<ILLMData> ProcessLLM(ILLMInput input)
         {
-            string generatedPrompt = chatGenerator.Generate(input);
-            if (PreTranslateModule.HasValue)
-            {
-                generatedPrompt = await PreTranslateModule.Value.Process(generatedPrompt);
-                if (!promptIsProcessed)
-                {
-                    promptIsProcessed = true;
-                    promptData.content = await PreTranslateModule.Value.Process(promptData.content); ;
-                }
-            }
-            var lastSend = new SendData("user", generatedPrompt);
-            m_DataList.Add(lastSend);
+            await AppendContent(input);
             using UnityWebRequest request = new(ChatAPI, "POST");
             PostData _postData = new()
             {
                 model = m_gptModel,
                 messages = m_DataList
             };
-
             string _jsonText = JsonUtility.ToJson(_postData);
             byte[] data = System.Text.Encoding.UTF8.GetBytes(_jsonText);
             request.uploadHandler = new UploadHandlerRaw(data);
@@ -73,9 +63,7 @@ namespace Kurisu.NGDS.AI
                 string _backMsg = string.Empty;
                 if (messageBack != null && messageBack.choices.Count > 0)
                 {
-
                     _backMsg = messageBack.choices[0].message.content;
-                    m_DataList.Add(new SendData("assistant", _backMsg));
                 }
                 return new GPTResponse()
                 {
@@ -84,12 +72,34 @@ namespace Kurisu.NGDS.AI
                 };
             }
             NGDSLogger.LogError($"ChatGPT ResponseCode : {request.responseCode}\nResponse : {request.downloadHandler.text}");
-            m_DataList.Remove(lastSend);
             return new GPTResponse()
             {
                 Response = string.Empty,
                 Status = false
             };
+        }
+        private async Task AppendContent(ILLMInput input)
+        {
+            m_DataList.Clear();
+            m_DataList.Add(promptData);
+            if (chatMode)
+            {
+                await chatGenerator.Generate(input, m_DataList, PreTranslateModule);
+            }
+            else
+            {
+                string generatedPrompt = chatGenerator.Generate(input);
+                if (PreTranslateModule.HasValue)
+                {
+                    generatedPrompt = await PreTranslateModule.Value.Process(generatedPrompt);
+                }
+                m_DataList.Add(new SendData("user", generatedPrompt));
+            }
+            if (PreTranslateModule.HasValue && !promptIsProcessed)
+            {
+                promptIsProcessed = true;
+                promptData.content = await PreTranslateModule.Value.Process(promptData.content); ;
+            }
         }
     }
 }

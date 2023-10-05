@@ -8,8 +8,6 @@ namespace Kurisu.NGDT.Editor
     public class CompositeNode : DialogueTreeNode
     {
         public readonly List<Port> ChildPorts = new();
-
-        private readonly List<IDialogueNode> cache = new();
         public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
         {
             evt.menu.MenuItems().Add(new NGDTDropdownMenuAction("Change Behavior", (a) =>
@@ -63,22 +61,22 @@ namespace Kurisu.NGDT.Editor
 
         protected override void OnCommit(Stack<IDialogueNode> stack)
         {
-            cache.Clear();
             foreach (var port in ChildPorts)
             {
                 if (port.connections.Count() == 0) continue;
                 var child = PortHelper.FindChildNode(port);
                 (NodeBehavior as Composite).AddChild(child.ReplaceBehavior());
                 stack.Push(child);
-                cache.Add(child);
             }
         }
 
         protected override void OnClearStyle()
         {
-            foreach (var node in cache)
+            foreach (var port in ChildPorts)
             {
-                node.ClearStyle();
+                if (port.connections.Count() == 0) continue;
+                var child = PortHelper.FindChildNode(port);
+                child.ClearStyle();
             }
         }
     }

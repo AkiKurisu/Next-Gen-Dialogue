@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEditor.Experimental.GraphView;
+using UnityEngine;
 using UnityEngine.UIElements;
 namespace Kurisu.NGDT.Editor
 {
@@ -43,6 +44,18 @@ namespace Kurisu.NGDT.Editor
                 settingsContainer.style.top = settingsButtonLayout.yMax - (isAttached ? 70f : 20f);
                 settingsContainer.style.left = settingsButtonLayout.xMin - layout.width + (isAttached ? 10f : 20f);
             }
+        }
+        public sealed override Rect GetWorldPosition()
+        {
+            ContainerNode parent;
+            var rect = GetPosition();
+            if ((parent = GetFirstAncestorOfType<ContainerNode>()) != null)
+            {
+                var parentRect = parent.GetPosition();
+                rect.x += parentRect.x;
+                rect.y += parentRect.y;
+            }
+            return rect;
         }
     }
     public class EditorModuleNode : ModuleNode

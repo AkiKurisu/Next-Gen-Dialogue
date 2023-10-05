@@ -10,7 +10,9 @@ namespace Kurisu.NGDS
         public DialoguePiece GetPiece(string ID)
         {
             if (dialoguePieceMap.ContainsKey(ID))
+            {
                 return dialoguePieceMap[ID];
+            }
             return null;
         }
         private Dialogue Reset()
@@ -19,6 +21,10 @@ namespace Kurisu.NGDS
             dialoguePieceMap.Clear();
             ClearModules();
             return this;
+        }
+        public void SetPiece(string pieceID, DialoguePiece piece)
+        {
+            dialoguePieceMap[pieceID] = piece;
         }
         public void AddPiece(DialoguePiece piece)
         {

@@ -1,5 +1,5 @@
 #if USE_VITS
-using System.Threading.Tasks;
+using System.Collections;
 using Kurisu.NGDS.AI;
 using UnityEngine;
 namespace Kurisu.NGDS.VITS
@@ -25,12 +25,12 @@ namespace Kurisu.NGDS.VITS
             this.system = system;
             objectContainer.Register<IContent>(piece);
         }
-        public async Task OnPieceEnter()
+        public IEnumerator EnterPiece()
         {
             for (int i = 0; i < DialoguePiece.Modules.Count; i++)
             {
                 if (DialoguePiece.Modules[i] is IInjectable injectable)
-                    await injectable.Inject(objectContainer);
+                    yield return injectable.Inject(objectContainer);
             }
             if (DialoguePiece.TryGetModule(out CharacterModule characterModule))
             {
@@ -38,17 +38,19 @@ namespace Kurisu.NGDS.VITS
             }
             if (DialoguePiece.TryGetModule(out VITSAudioClipModule audioClipModule))
             {
-                while (audioSource.isPlaying) await Task.Yield();
+                while (audioSource.isPlaying) yield return null;
                 audioSource.clip = audioClipModule.AudioClip;
                 audioSource.Play();
-                return;
+                yield break;
             }
             if (DialoguePiece.TryGetModule(out VITSGenerateModule vitsModule))
             {
-                var response = await vitsTurbo.SendVITSRequestAsync(DialoguePiece.Content, vitsModule.CharacterID);
+                var task = vitsTurbo.SendVITSRequestAsync(DialoguePiece.Content, vitsModule.CharacterID);
+                yield return new WaitUntil(() => task.IsCompleted);
+                var response = task.Result;
                 if (response.Status)
                 {
-                    while (audioSource.isPlaying) await Task.Yield();
+                    while (audioSource.isPlaying) yield return null;
                     audioSource.clip = response.Result;
                     audioSource.Play();
                 }
@@ -58,7 +60,7 @@ namespace Kurisu.NGDS.VITS
                 }
             }
         }
-        public void OnPieceExit()
+        public void ExitPiece()
         {
             if (DialoguePiece.Options.Count == 0)
             {

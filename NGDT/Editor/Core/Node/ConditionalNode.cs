@@ -11,8 +11,6 @@ namespace Kurisu.NGDT.Editor
 
         public Port Child => childPort;
 
-        private IDialogueNode cache;
-
         public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
         {
             evt.menu.MenuItems().Add(new NGDTDropdownMenuAction("Change Behavior", (a) =>
@@ -46,18 +44,18 @@ namespace Kurisu.NGDT.Editor
             if (!childPort.connected)
             {
                 (NodeBehavior as Conditional).Child = null;
-                cache = null;
                 return;
             }
-            var child = childPort.connections.First().input.node as IDialogueNode;
+            var child = PortHelper.FindChildNode(childPort);
             (NodeBehavior as Conditional).Child = child.ReplaceBehavior();
             stack.Push(child);
-            cache = child;
         }
 
         protected override void OnClearStyle()
         {
-            cache?.ClearStyle();
+            if (!childPort.connected) return;
+            var child = PortHelper.FindChildNode(childPort);
+            child.ClearStyle();
         }
     }
 }

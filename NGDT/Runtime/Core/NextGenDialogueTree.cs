@@ -10,7 +10,7 @@ namespace Kurisu.NGDT
         #region  Tree Part
         [HideInInspector, SerializeReference]
         private Root root = new();
-        Object IDialogueTree._Object => gameObject;
+        Object IDialogueTree.Object => gameObject;
         [HideInInspector]
         [SerializeReference]
         private List<SharedVariable> sharedVariables = new();

@@ -21,7 +21,7 @@ namespace Kurisu.NGDT.Editor
             editorField = new PieceIDField(fieldInfo.Name, null, isReferenced);
             return editorField;
         }
-        public static bool IsAcceptable(Type infoType, FieldInfo info) => infoType == typeof(PieceID);
+        public static bool IsAcceptable(Type infoType, FieldInfo _) => infoType == typeof(PieceID);
 
     }
     public class PieceIDField : BaseField<PieceID>
@@ -46,12 +46,6 @@ namespace Kurisu.NGDT.Editor
                 UpdateID(variable);
             };
             BindProperty();
-            if (bindExposedProperty == null && !treeView.IsRestoring && !isReferenced)
-            {
-                bindExposedProperty = new PieceID();
-                treeView.AddExposedProperty(bindExposedProperty);
-                value.Name = bindExposedProperty.Name;
-            }
             UpdateValueField();
         }
         private void UpdateID(SharedVariable variable)

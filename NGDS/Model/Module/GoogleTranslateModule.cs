@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Threading.Tasks;
 using System;
+using System.Collections;
 namespace Kurisu.NGDS
 {
     public readonly struct GoogleTranslateModule : IDialogueModule, IInjectable
@@ -31,12 +32,13 @@ namespace Kurisu.NGDS
                 Debug.LogError(ex.Message);
                 return input;
             }
-
         }
-        public async Task Inject(IObjectResolver resolver)
+        public IEnumerator Inject(IObjectResolver resolver)
         {
             var content = resolver.Resolve<IContent>();
-            content.Content = await Process(content.Content);
+            var task = Process(content.Content);
+            yield return new WaitUntil(() => task.IsCompleted);
+            content.Content = task.Result;
         }
     }
 }

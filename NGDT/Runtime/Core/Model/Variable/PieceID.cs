@@ -1,6 +1,7 @@
+using System;
 namespace Kurisu.NGDT
 {
-    [System.Serializable]
+    [Serializable]
     public class PieceID : SharedVariable<string>, IBindableVariable<PieceID>
     {
         public PieceID()

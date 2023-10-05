@@ -7,7 +7,8 @@ namespace Kurisu.NGDT.VITS.Editor
 {
     public static class AudioUtil
     {
-        static Dictionary<string, MethodInfo> methods = new Dictionary<string, MethodInfo>();
+        public static readonly string PrefKey = Application.productName + "_NGD_AudioSavePath";
+        static readonly Dictionary<string, MethodInfo> methods = new();
 
         static MethodInfo GetMethod(string methodName, Type[] argTypes)
         {

@@ -23,11 +23,13 @@ namespace Kurisu.NGDS.AI
         private bool promptIsProcessed;
         private readonly ChatGenerator chatGenerator = new();
         public GoogleTranslateModule? PreTranslateModule { get; set; }
-        public GLMTurbo_OpenAI(string address = "127.0.0.1", string port = "8000")
+        private bool chatMode;
+        public GLMTurbo_OpenAI(string address, string port, bool chatMode)
         {
             _baseUri = $"http://{address}:{port}/v1/chat/completions";
             promptData = new SendData("system", string.Empty);
             m_DataList.Add(promptData);
+            this.chatMode = chatMode;
         }
         public void SetPrompt(string prompt)
         {
@@ -36,18 +38,7 @@ namespace Kurisu.NGDS.AI
         }
         public async Task<ILLMData> ProcessLLM(ILLMInput input)
         {
-            string generatedPrompt = chatGenerator.Generate(input);
-            if (PreTranslateModule.HasValue)
-            {
-                generatedPrompt = await PreTranslateModule.Value.Process(generatedPrompt);
-                if (!promptIsProcessed)
-                {
-                    promptIsProcessed = true;
-                    promptData.content = await PreTranslateModule.Value.Process(promptData.content); ;
-                }
-            }
-            var lastSend = new SendData("user", generatedPrompt);
-            m_DataList.Add(lastSend);
+            await AppendContent(input);
             using UnityWebRequest request = new(_baseUri, "POST");
             PostData _postData = new()
             {
@@ -74,7 +65,6 @@ namespace Kurisu.NGDS.AI
                 {
 
                     _backMsg = messageBack.choices[0].message.content;
-                    m_DataList.Add(new SendData("assistant", _backMsg));
                 }
                 return new GLMResponse()
                 {
@@ -82,12 +72,34 @@ namespace Kurisu.NGDS.AI
                     Status = true
                 };
             }
-            m_DataList.Remove(lastSend);
             return new GLMResponse()
             {
                 Response = string.Empty,
                 Status = false
             };
+        }
+        private async Task AppendContent(ILLMInput input)
+        {
+            m_DataList.Clear();
+            m_DataList.Add(promptData);
+            if (chatMode)
+            {
+                await chatGenerator.Generate(input, m_DataList, PreTranslateModule);
+            }
+            else
+            {
+                string generatedPrompt = chatGenerator.Generate(input);
+                if (PreTranslateModule.HasValue)
+                {
+                    generatedPrompt = await PreTranslateModule.Value.Process(generatedPrompt);
+                }
+                m_DataList.Add(new SendData("user", generatedPrompt));
+            }
+            if (PreTranslateModule.HasValue && !promptIsProcessed)
+            {
+                promptIsProcessed = true;
+                promptData.content = await PreTranslateModule.Value.Process(promptData.content); ;
+            }
         }
     }
 }

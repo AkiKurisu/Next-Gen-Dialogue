@@ -1,5 +1,6 @@
-using System.Threading.Tasks;
+using System.Collections;
 using Kurisu.NGDS.AI;
+using UnityEngine;
 namespace Kurisu.NGDS
 {
     public readonly struct AIGenerateModule : IDialogueModule, IInjectable
@@ -11,10 +12,12 @@ namespace Kurisu.NGDS
             this.characterName = characterName;
         }
 
-        public async Task Inject(IObjectResolver resolver)
+        public IEnumerator Inject(IObjectResolver resolver)
         {
             var promptBuilder = resolver.Resolve<AIPromptBuilder>();
-            var response = await promptBuilder.Generate(CharacterName);
+            var task = promptBuilder.Generate(CharacterName);
+            yield return new WaitUntil(() => task.IsCompleted);
+            var response = task.Result;
             if (response.Status) resolver.Resolve<IContent>().Content = response.Response;
             promptBuilder.Append(CharacterName, response.Response);
         }

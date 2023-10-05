@@ -12,6 +12,7 @@ namespace Kurisu.NGDT
 #endif
         private NGDS.Dialogue dialogueCache;
         private readonly Dictionary<string, Piece> pieceMap = new();
+        private readonly HashSet<string> visitedPieceID = new();
         public Status Update(IEnumerable<Piece> allPieces)
         {
             dialogueCache = NGDS.Dialogue.CreateDialogue();
@@ -19,6 +20,7 @@ namespace Kurisu.NGDT
             {
                 var dialoguePiece = piece.GetPiece();
                 pieceMap[dialoguePiece.PieceID] = piece;
+                //Assert PieceID should be unique
                 dialogueCache.AddPiece(dialoguePiece);
             }
             return Update();
@@ -49,7 +51,12 @@ namespace Kurisu.NGDT
 #if UNITY_EDITOR
             Tree.Root.UpdateEditor?.Invoke();
 #endif
+            if (visitedPieceID.Contains(ID))
+            {
+                dialogueCache.SetPiece(ID, pieceMap[ID].GetPiece());
+            }
             var newPiece = dialogueCache.GetPiece(ID);
+            visitedPieceID.Add(newPiece.PieceID);
             pieceMap[ID].Update();
             return newPiece;
         }
@@ -62,6 +69,7 @@ namespace Kurisu.NGDT
             {
                 if (Children[i] is not Piece piece) continue;
                 var dialoguePiece = piece.GetPiece();
+                visitedPieceID.Add(dialoguePiece.PieceID);
                 var status = pieceMap[dialoguePiece.PieceID].Update();
                 if (status == Status.Success) return dialoguePiece;
             }

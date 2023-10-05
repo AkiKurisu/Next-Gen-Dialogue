@@ -352,6 +352,10 @@ namespace Kurisu.NGDT.Editor
                 MapTreeView.UnSelectGroup();
             }));
         }
+        public Rect GetWorldPosition()
+        {
+            return GetPosition();
+        }
     }
     public class DialogueContainer : ContainerNode, IContainChild
     {
@@ -466,6 +470,12 @@ namespace Kurisu.NGDT.Editor
                 return !TryGetModuleNode(behaviorType, out _);
             }
             return element is OptionBridge or ParentBridge;
+        }
+        public void GenerateNewPieceID()
+        {
+            var variable = new PieceID() { Name = "New Piece" };
+            MapTreeView.AddExposedProperty(variable, false);
+            mainContainer.Q<PieceIDField>().value = new PieceID() { Name = variable.Name };
         }
     }
     public class OptionContainer : ContainerNode

@@ -7,7 +7,7 @@ namespace Kurisu.NGDT
         {
             if (string.IsNullOrEmpty(variableName))
             {
-                Debug.LogError($"Shared variable name cannot be empty", dialogueTree._Object);
+                Debug.LogError($"Shared variable name cannot be empty", dialogueTree.Object);
                 return null;
             }
             foreach (var variable in dialogueTree.SharedVariables)
@@ -17,7 +17,7 @@ namespace Kurisu.NGDT
                     return variable;
                 }
             }
-            Debug.LogError($"Can't find shared variable : {variableName}", dialogueTree._Object);
+            Debug.LogError($"Can't find shared variable : {variableName}", dialogueTree.Object);
             return null;
         }
     }

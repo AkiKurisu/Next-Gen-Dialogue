@@ -27,7 +27,6 @@ namespace Kurisu.NGDT.Editor
         private readonly NodeResolverFactory nodeResolver = NodeResolverFactory.Instance;
         public Action<IDialogueNode> OnSelectAction { get; internal set; }
         private readonly EditorWindow _window;
-        public bool IsRestoring { get; private set; }
         private readonly NodeConverter converter = new();
         private readonly DragDropManipulator dragDropManipulator;
         private readonly AIDialogueBaker baker = new();
@@ -84,8 +83,12 @@ namespace Kurisu.NGDT.Editor
         public IDialogueNode DuplicateNode(IDialogueNode node)
         {
             var newNode = nodeResolver.Create(node.GetBehavior(), this);
+            if (newNode is PieceContainer pieceContainer)
+            {
+                pieceContainer.GenerateNewPieceID();
+            }
             var nodeElement = newNode as Node;
-            Rect newRect = (node as Node).GetPosition();
+            Rect newRect = node.GetWorldPosition();
             newRect.position += new Vector2(50, 50);
             nodeElement.SetPosition(newRect);
             newNode.OnSelectAction = OnSelectAction;
@@ -125,7 +128,7 @@ namespace Kurisu.NGDT.Editor
             evt.menu.MenuItems().Clear();
             remainTargets.ForEach(evt.menu.MenuItems().Add);
         }
-        public void AddExposedProperty(SharedVariable variable)
+        public void AddExposedProperty(SharedVariable variable, bool canDuplicate)
         {
             var localPropertyValue = variable.GetValue();
             if (string.IsNullOrEmpty(variable.Name)) variable.Name = variable.GetType().Name;
@@ -133,8 +136,8 @@ namespace Kurisu.NGDT.Editor
             int index = 1;
             while (ExposedProperties.Any(x => x.Name == localPropertyName))
             {
-                localPropertyName = $"{variable.Name}{index}";
-                index++;
+                if (!canDuplicate) return;
+                localPropertyName = $"{variable.Name}{index++}";
             }
             variable.Name = localPropertyName;
             ExposedProperties.Add(variable);
@@ -231,7 +234,7 @@ namespace Kurisu.NGDT.Editor
             }
             if (data is TextAsset asset)
             {
-                if (CopyFromJsonFile(asset.text, mousePosition))
+                if (CopyFromJson(asset.text, mousePosition))
                     _window.ShowNotification(new GUIContent("Text Asset Dropped Succeed !"));
                 else
                     _window.ShowNotification(new GUIContent("Invalid Drag Text Asset !"));
@@ -248,31 +251,23 @@ namespace Kurisu.NGDT.Editor
         internal void CopyFromOtherTree(IDialogueTree otherTree, Vector2 mousePosition)
         {
             var localMousePosition = contentViewContainer.WorldToLocal(mousePosition) - new Vector2(400, 300);
-            IsRestoring = true;
             IEnumerable<IDialogueNode> nodes;
             RootNode rootNode;
             foreach (var variable in otherTree.SharedVariables)
             {
-                AddExposedProperty(variable.Clone() as SharedVariable);
+                AddExposedProperty(variable.Clone() as SharedVariable, true);
             }
             (rootNode, nodes) = converter.ConvertToNode(otherTree, this, localMousePosition);
             foreach (var node in nodes) node.OnSelectAction = OnSelectAction;
             var edge = rootNode.Child.connections.First();
             RemoveElement(edge);
             RemoveElement(rootNode);
-            foreach (var nodeBlockData in otherTree.BlockData)
-            {
-                CreateBlock(new Rect(nodeBlockData.Position, new Vector2(100, 100)), nodeBlockData)
-                .AddElements(nodes.Where(x => nodeBlockData.ChildNodes.Contains(x.GUID)).Cast<Node>());
-            }
-            IsRestoring = false;
+            RestoreBlocks(otherTree, nodes);
         }
         internal void Restore()
         {
-            IsRestoring = true;
             IDialogueTree tree = behaviorTree.ExternalBehaviorTree ?? behaviorTree;
             OnRestore(tree);
-            IsRestoring = false;
         }
         private void OnRestore(IDialogueTree tree)
         {
@@ -294,7 +289,7 @@ namespace Kurisu.NGDT.Editor
         {
             foreach (var variable in tree.SharedVariables)
             {
-                AddExposedProperty(variable.Clone() as SharedVariable);
+                AddExposedProperty(variable.Clone() as SharedVariable, false);
             }
         }
         private void RestoreBlocks(IDialogueTree tree, IEnumerable<IDialogueNode> nodes)
@@ -330,11 +325,11 @@ namespace Kurisu.NGDT.Editor
             if (Validate())
             {
                 Commit(behaviorTree);
-                if (autoSave) Debug.Log($"<color=#3aff48>{TreeEditorName}</color>[{behaviorTree._Object.name}] auto save succeed ! {DateTime.Now}");
+                if (autoSave) Debug.Log($"<color=#3aff48>{TreeEditorName}</color>[{behaviorTree.Object.name}] auto save succeed ! {DateTime.Now}");
                 AssetDatabase.SaveAssets();
                 return true;
             }
-            if (autoSave) Debug.Log($"<color=#ff2f2f>{TreeEditorName}</color>[{behaviorTree._Object.name}] auto save failed ! {DateTime.Now}");
+            if (autoSave) Debug.Log($"<color=#ff2f2f>{TreeEditorName}</color>[{behaviorTree.Object.name}] auto save failed ! {DateTime.Now}");
             return false;
         }
 
@@ -376,13 +371,13 @@ namespace Kurisu.NGDT.Editor
                 block.Commit(behaviorTree.BlockData);
             }
             // notify to unity editor that the tree is changed.
-            EditorUtility.SetDirty(behaviorTree._Object);
+            EditorUtility.SetDirty(behaviorTree.Object);
         }
         internal string SerializeTreeToJson()
         {
             return SerializationUtility.SerializeTree(behaviorTree, false, true);
         }
-        internal bool CopyFromJsonFile(string serializedData, Vector3 mousePosition)
+        internal bool CopyFromJson(string serializedData, Vector3 mousePosition)
         {
             var temp = ScriptableObject.CreateInstance<NextGenDialogueTreeSO>();
             try

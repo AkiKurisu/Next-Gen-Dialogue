@@ -1,4 +1,4 @@
-using System.Threading.Tasks;
+using System.Collections;
 namespace Kurisu.NGDS
 {
     public class BuiltInDialogueResolver : IDialogueResolver
@@ -10,14 +10,14 @@ namespace Kurisu.NGDS
             Dialogue = dialogue;
         }
 
-        public async Task OnDialogueEnter()
+        public IEnumerator EnterDialogue()
         {
             for (int i = 0; i < Dialogue.Modules.Count; i++)
             {
                 if (Dialogue.Modules[i] is IInjectable injectable)
-                    await injectable.Inject(ObjectContainer);
+                    yield return injectable.Inject(ObjectContainer);
             }
         }
-        public void OnDialogueExit() { }
+        public void ExitDialogue() { }
     }
 }

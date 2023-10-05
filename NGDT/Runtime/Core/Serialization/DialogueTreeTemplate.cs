@@ -13,7 +13,7 @@ namespace Kurisu.NGDT
         public string TemplateName { get; }
         public DialogueTreeTemplate(IDialogueTree behaviorTree)
         {
-            TemplateName = behaviorTree._Object.name;
+            TemplateName = behaviorTree.Object.name;
             variables = new List<SharedVariable>();
             foreach (var variable in behaviorTree.SharedVariables)
             {

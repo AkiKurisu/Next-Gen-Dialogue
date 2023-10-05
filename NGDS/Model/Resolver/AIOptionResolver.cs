@@ -1,4 +1,4 @@
-using System.Threading.Tasks;
+using System.Collections;
 namespace Kurisu.NGDS.AI
 {
     public class AIOptionResolver : BuiltInOptionResolver
@@ -9,13 +9,13 @@ namespace Kurisu.NGDS.AI
             this.promptBuilder = promptBuilder;
             ObjectContainer.Register(promptBuilder);
         }
-        protected override Task OnOptionResolve(DialogueOption option)
+        protected override IEnumerator OnOptionResolve(DialogueOption option)
         {
             if (option.TryGetModule(out CharacterModule characterModule))
             {
                 promptBuilder.Append(characterModule.CharacterName, option.Content);
             }
-            return Task.CompletedTask;
+            yield return null;
         }
     }
 }

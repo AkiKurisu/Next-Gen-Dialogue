@@ -1,10 +1,10 @@
-using System.Threading.Tasks;
+using System.Collections;
 namespace Kurisu.NGDS
 {
     public interface IDialogueResolver
     {
-        Task OnDialogueEnter();
-        void OnDialogueExit();
+        IEnumerator EnterDialogue();
+        void ExitDialogue();
         Dialogue Dialogue { get; }
         void Inject(Dialogue dialogue, IDialogueSystem system);
     }

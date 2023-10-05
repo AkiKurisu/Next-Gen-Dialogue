@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 namespace Kurisu.NGDS
@@ -26,7 +27,7 @@ namespace Kurisu.NGDS
             DialogueOptions = options;
             this.system = system;
         }
-        public Task OnOptionClick(DialogueOption option)
+        public IEnumerator ClickOption(DialogueOption option)
         {
             if (string.IsNullOrEmpty(option.TargetID))
             {
@@ -39,9 +40,9 @@ namespace Kurisu.NGDS
             }
             //Handle CallBack Module
             callBackHandler.Handle(option);
-            return Task.CompletedTask;
+            yield return null;
         }
-        public async Task OnOptionEnter()
+        public IEnumerator EnterOption()
         {
             foreach (var option in DialogueOptions)
             {
@@ -49,14 +50,14 @@ namespace Kurisu.NGDS
                 for (int i = 0; i < option.Modules.Count; i++)
                 {
                     if (option.Modules[i] is IInjectable injectable)
-                        await injectable.Inject(ObjectContainer);
-                    await OnOptionResolve(option);
+                        yield return injectable.Inject(ObjectContainer);
+                    yield return OnOptionResolve(option);
                 }
             }
         }
-        protected virtual Task OnOptionResolve(DialogueOption option)
+        protected virtual IEnumerator OnOptionResolve(DialogueOption option)
         {
-            return Task.CompletedTask;
+            yield return null;
         }
     }
 }

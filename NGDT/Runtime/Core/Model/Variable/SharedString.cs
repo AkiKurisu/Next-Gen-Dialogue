@@ -1,6 +1,7 @@
+using System;
 namespace Kurisu.NGDT
 {
-    [System.Serializable]
+    [Serializable]
     public class SharedString : SharedVariable<string>, IBindableVariable<SharedString>
     {
         public SharedString(string value)

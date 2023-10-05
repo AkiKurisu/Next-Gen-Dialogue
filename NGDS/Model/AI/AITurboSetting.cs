@@ -4,9 +4,16 @@ namespace Kurisu.NGDS.AI
         [CreateAssetMenu(fileName = "AITurboSetting", menuName = "Next Gen Dialogue/AITurboSetting")]
         public class AITurboSetting : ScriptableObject
         {
+                private enum GPT_APIMode
+                {
+                        Chat, Completions
+                }
                 [field: Header("LLM Setting")]
                 [field: SerializeField]
                 public string ChatGPT_URL_Override { get; private set; }
+                [SerializeField, Tooltip("Whether use GPT Chat Mode or Completions Mode, Chat Mode is better when only has two role")]
+                private GPT_APIMode gpt_APIMode;
+                public bool ChatMode => gpt_APIMode == GPT_APIMode.Chat;
                 [field: SerializeField]
                 public string OpenAIKey { get; private set; }
                 [field: SerializeField]
@@ -21,8 +28,6 @@ namespace Kurisu.NGDS.AI
 #if USE_VITS
                 [field: SerializeField, Tooltip("VITS input language code")]
                 public string VITS_Language { get; private set; } = "ja";
-#endif
-#if USE_VITS
                 [field: Header("VITS Setting (Experimental)")]
                 [field: SerializeField]
                 public string VITS_Address { get; private set; } = "127.0.0.1";

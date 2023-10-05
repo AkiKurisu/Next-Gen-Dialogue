@@ -1,4 +1,4 @@
-using System.Threading.Tasks;
+using System.Collections;
 namespace Kurisu.NGDS
 {
     public class BuiltInPieceResolver : IPieceResolver
@@ -12,20 +12,20 @@ namespace Kurisu.NGDS
             this.system = system;
             ObjectContainer.Register<IContent>(piece);
         }
-        public async Task OnPieceEnter()
+        public IEnumerator EnterPiece()
         {
             for (int i = 0; i < DialoguePiece.Modules.Count; i++)
             {
                 if (DialoguePiece.Modules[i] is IInjectable injectable)
-                    await injectable.Inject(ObjectContainer);
+                    yield return injectable.Inject(ObjectContainer);
             }
-            await OnPieceResolve(DialoguePiece);
+            yield return OnPieceResolve(DialoguePiece);
         }
-        protected virtual Task OnPieceResolve(DialoguePiece piece)
+        protected virtual IEnumerator OnPieceResolve(DialoguePiece piece)
         {
-            return Task.CompletedTask;
+            yield return null;
         }
-        public void OnPieceExit()
+        public void ExitPiece()
         {
             if (DialoguePiece.Options.Count == 0)
             {

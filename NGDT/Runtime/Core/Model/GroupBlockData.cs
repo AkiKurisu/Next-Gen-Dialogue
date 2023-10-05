@@ -1,8 +1,9 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 namespace Kurisu.NGDT
 {
-    [System.Serializable]
+    [Serializable]
     public class GroupBlockData
     {
         public List<string> ChildNodes = new();

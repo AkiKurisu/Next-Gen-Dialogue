@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 namespace Kurisu.NGDS
@@ -51,35 +52,49 @@ namespace Kurisu.NGDS
                 return resolverHandler;
             }
         }
-        public async void StartDialogue(IProvideDialogue dialogueProvider)
+        public void StartDialogue(IProvideDialogue dialogueProvider)
         {
             dialogue = dialogueProvider;
             var dialogueData = dialogueProvider.GetDialogue();
             ResolverHandler.Handle(dialogueData);
             ResolverHandler.DialogueResolver.Inject(dialogueData, this);
-            await ResolverHandler.DialogueResolver.OnDialogueEnter();
+            StartCoroutine(DialogueEnterCoroutine());
+        }
+        private IEnumerator DialogueEnterCoroutine()
+        {
+            yield return ResolverHandler.DialogueResolver.EnterDialogue();
             OnDialogueStart?.Invoke(ResolverHandler.DialogueResolver);
             PlayDialoguePiece(dialogue.GetFirst());
         }
-        private async void PlayDialoguePiece(DialoguePiece piece)
+        private void PlayDialoguePiece(DialoguePiece piece)
         {
             ResolverHandler.PieceResolver.Inject(piece, this);
-            await ResolverHandler.PieceResolver.OnPieceEnter();
+            StartCoroutine(PieceEnterCoroutine());
+        }
+        private IEnumerator PieceEnterCoroutine()
+        {
+            yield return ResolverHandler.PieceResolver.EnterPiece();
             OnPiecePlay?.Invoke(ResolverHandler.PieceResolver);
         }
         public void PlayDialoguePiece(string targetID)
         {
             PlayDialoguePiece(dialogue.GetNext(targetID));
         }
-        public async void CreateOption(IReadOnlyList<DialogueOption> options)
+        public void CreateOption(IReadOnlyList<DialogueOption> options)
         {
             ResolverHandler.OptionResolver.Inject(options, this);
-            await ResolverHandler.OptionResolver.OnOptionEnter();
+            StartCoroutine(OptionEnterCoroutine());
+        }
+
+        private IEnumerator OptionEnterCoroutine()
+        {
+            yield return ResolverHandler.OptionResolver.EnterOption();
             OnOptionCreate?.Invoke(ResolverHandler.OptionResolver);
         }
+
         public void EndDialogue()
         {
-            ResolverHandler.DialogueResolver.OnDialogueExit();
+            ResolverHandler.DialogueResolver.ExitDialogue();
             OnDialogueOver?.Invoke();
         }
     }

@@ -60,15 +60,15 @@ namespace Kurisu.NGDT.Editor
         private static T Create<T>(IDialogueTree bt) where T : DialogueEditorWindow
         {
 
-            var key = bt._Object.GetHashCode();
+            var key = bt.Object.GetHashCode();
             if (cache.ContainsKey(key))
             {
                 return (T)cache[key];
             }
             var window = CreateInstance<T>();
             StructGraphView(window, bt);
-            window.titleContent = new GUIContent($"{window.graphView.TreeEditorName} ({bt._Object.name})");
-            window.Key = bt._Object;
+            window.titleContent = new GUIContent($"{window.graphView.TreeEditorName} ({bt.Object.name})");
+            window.Key = bt.Object;
             cache[key] = window;
             return window;
         }
@@ -94,12 +94,12 @@ namespace Kurisu.NGDT.Editor
             blackboard.addItemRequested = _blackboard =>
             {
                 var menu = new GenericMenu();
-                menu.AddItem(new GUIContent("Int"), false, () => _graphView.AddExposedProperty(new SharedInt()));
-                menu.AddItem(new GUIContent("Float"), false, () => _graphView.AddExposedProperty(new SharedFloat()));
-                menu.AddItem(new GUIContent("Bool"), false, () => _graphView.AddExposedProperty(new SharedBool()));
-                menu.AddItem(new GUIContent("Vector3"), false, () => _graphView.AddExposedProperty(new SharedVector3()));
-                menu.AddItem(new GUIContent("String"), false, () => _graphView.AddExposedProperty(new SharedString()));
-                menu.AddItem(new GUIContent("Object"), false, () => _graphView.AddExposedProperty(new SharedObject()));
+                menu.AddItem(new GUIContent("Int"), false, () => _graphView.AddExposedProperty(new SharedInt(), true));
+                menu.AddItem(new GUIContent("Float"), false, () => _graphView.AddExposedProperty(new SharedFloat(), true));
+                menu.AddItem(new GUIContent("Bool"), false, () => _graphView.AddExposedProperty(new SharedBool(), true));
+                menu.AddItem(new GUIContent("Vector3"), false, () => _graphView.AddExposedProperty(new SharedVector3(), true));
+                menu.AddItem(new GUIContent("String"), false, () => _graphView.AddExposedProperty(new SharedString(), true));
+                menu.AddItem(new GUIContent("Object"), false, () => _graphView.AddExposedProperty(new SharedObject(), true));
                 menu.ShowAsContext();
             };
 
@@ -253,7 +253,7 @@ namespace Kurisu.NGDT.Editor
                         if (GUILayout.Button("Save To Json", EditorStyles.toolbarButton))
                         {
                             var serializedData = graphView.SerializeTreeToJson();
-                            string path = EditorUtility.SaveFilePanel("Select json file save path", Setting.LastPath, graphView.BehaviorTree._Object.name, "json");
+                            string path = EditorUtility.SaveFilePanel("Select json file save path", Setting.LastPath, graphView.BehaviorTree.Object.name, "json");
                             if (!string.IsNullOrEmpty(path))
                             {
                                 FileInfo info = new(path);
@@ -275,7 +275,7 @@ namespace Kurisu.NGDT.Editor
                                 EditorUtility.SetDirty(setting);
                                 AssetDatabase.SaveAssets();
                                 var data = File.ReadAllText(path);
-                                if (graphView.CopyFromJsonFile(data, new Vector3(400, 300)))
+                                if (graphView.CopyFromJson(data, new Vector3(400, 300)))
                                     ShowNotification(new GUIContent("Json file read Succeed !"));
                                 else
                                     ShowNotification(new GUIContent("Json file is in wrong format !"));
