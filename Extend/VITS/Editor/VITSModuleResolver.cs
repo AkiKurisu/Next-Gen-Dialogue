@@ -1,3 +1,4 @@
+#if USE_VITS
 using Kurisu.NGDS.VITS;
 using Kurisu.NGDT.Editor;
 using System;
@@ -72,3 +73,4 @@ namespace Kurisu.NGDT.VITS.Editor
     }
 
 }
+#endif

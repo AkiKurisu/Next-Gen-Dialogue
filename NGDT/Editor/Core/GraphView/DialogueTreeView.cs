@@ -4,26 +4,22 @@ using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
 using System.Linq;
-using System.Reflection;
 using System;
 using System.Threading.Tasks;
-using UnityEditor.UIElements;
 namespace Kurisu.NGDT.Editor
 {
     public class DialogueTreeView : GraphView, IDialogueTreeView
     {
-        public GraphView GraphView => this;
-        public Blackboard _blackboard;
+        public GraphView View => this;
+        public IBlackBoard BlackBoard { get; internal set; }
         private readonly IDialogueTree behaviorTree;
         public IDialogueTree BehaviorTree => behaviorTree;
         private RootNode root;
-        internal readonly List<SharedVariable> exposedProperties = new();
-        public IList<SharedVariable> ExposedProperties => exposedProperties;
-        private readonly FieldResolverFactory fieldResolverFactory = FieldResolverFactory.Instance;
+        private readonly List<SharedVariable> exposedProperties = new();
+        public List<SharedVariable> ExposedProperties => exposedProperties;
         private readonly NodeSearchWindowProvider provider;
         public event Action<SharedVariable> OnPropertyNameChange;
         public bool CanSaveToSO => behaviorTree is NextGenDialogueTree;
-        internal string TreeEditorName => "NGDT";
         private readonly NodeResolverFactory nodeResolver = NodeResolverFactory.Instance;
         public Action<IDialogueNode> OnSelectAction { get; internal set; }
         private readonly EditorWindow _window;
@@ -128,93 +124,6 @@ namespace Kurisu.NGDT.Editor
             evt.menu.MenuItems().Clear();
             remainTargets.ForEach(evt.menu.MenuItems().Add);
         }
-        public void AddExposedProperty(SharedVariable variable, bool canDuplicate)
-        {
-            var localPropertyValue = variable.GetValue();
-            if (string.IsNullOrEmpty(variable.Name)) variable.Name = variable.GetType().Name;
-            var localPropertyName = variable.Name;
-            int index = 1;
-            while (ExposedProperties.Any(x => x.Name == localPropertyName))
-            {
-                if (!canDuplicate) return;
-                localPropertyName = $"{variable.Name}{index++}";
-            }
-            variable.Name = localPropertyName;
-            ExposedProperties.Add(variable);
-            var container = new VisualElement();
-            var field = new BlackboardField { text = localPropertyName, typeText = variable.GetType().Name };
-            field.capabilities &= ~Capabilities.Deletable;
-            field.capabilities &= ~Capabilities.Movable;
-            container.Add(field);
-            FieldInfo info = variable.GetType().GetField("value", BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Public);
-            var fieldResolver = fieldResolverFactory.Create(info);
-            var valueField = fieldResolver.GetEditorField(exposedProperties, variable);
-            var placeHolder = new VisualElement();
-            placeHolder.Add(valueField);
-            if (variable is SharedObject sharedObject)
-            {
-                placeHolder.Add(GetConstraintField(sharedObject, (ObjectField)valueField));
-            }
-            var sa = new BlackboardRow(field, placeHolder);
-            sa.AddManipulator(new ContextualMenuManipulator((evt) => BuildBlackboardMenu(evt, container)));
-            container.Add(sa);
-            _blackboard.Add(container);
-        }
-        private VisualElement GetConstraintField(SharedObject sharedObject, ObjectField objectField)
-        {
-            const string NonConstraint = "No Constraint";
-            var placeHolder = new VisualElement();
-            string constraintTypeName;
-            try
-            {
-                objectField.objectType = Type.GetType(sharedObject.ConstraintTypeAQM, true);
-                constraintTypeName = "Constraint Type : " + objectField.objectType.Name;
-            }
-            catch
-            {
-                objectField.objectType = typeof(UnityEngine.Object);
-                constraintTypeName = NonConstraint;
-            }
-            var typeField = new Label(constraintTypeName);
-            placeHolder.Add(typeField);
-            var button = new Button()
-            {
-                text = "Change Constraint Type"
-            };
-            button.clicked += () =>
-             {
-                 var provider = ScriptableObject.CreateInstance<ObjectTypeSearchWindow>();
-                 provider.Initialize((type) =>
-                 {
-                     if (type == null)
-                     {
-                         typeField.text = sharedObject.ConstraintTypeAQM = NonConstraint;
-                         objectField.objectType = typeof(UnityEngine.Object);
-                     }
-                     else
-                     {
-                         objectField.objectType = type;
-                         sharedObject.ConstraintTypeAQM = type.AssemblyQualifiedName;
-                         typeField.text = "Constraint Type : " + type.Name;
-                     }
-                 });
-                 SearchWindow.Open(new SearchWindowContext(GUIUtility.GUIToScreenPoint(Event.current.mousePosition)), provider);
-             };
-
-            placeHolder.Add(button);
-            return placeHolder;
-        }
-        private void BuildBlackboardMenu(ContextualMenuPopulateEvent evt, VisualElement element)
-        {
-            evt.menu.MenuItems().Clear();
-            evt.menu.MenuItems().Add(new NGDTDropdownMenuAction("Delate Variable", (a) =>
-            {
-                int index = _blackboard.contentContainer.IndexOf(element);
-                ExposedProperties.RemoveAt(index - 1);
-                _blackboard.Remove(element);
-                return;
-            }));
-        }
         public sealed override List<Port> GetCompatiblePorts(Port startAnchor, NodeAdapter nodeAdapter)
         {
             return PortHelper.GetCompatiblePorts(this, startAnchor);
@@ -255,7 +164,7 @@ namespace Kurisu.NGDT.Editor
             RootNode rootNode;
             foreach (var variable in otherTree.SharedVariables)
             {
-                AddExposedProperty(variable.Clone() as SharedVariable, true);
+                BlackBoard.AddExposedProperty(variable.Clone() as SharedVariable, true);
             }
             (rootNode, nodes) = converter.ConvertToNode(otherTree, this, localMousePosition);
             foreach (var node in nodes) node.OnSelectAction = OnSelectAction;
@@ -289,7 +198,7 @@ namespace Kurisu.NGDT.Editor
         {
             foreach (var variable in tree.SharedVariables)
             {
-                AddExposedProperty(variable.Clone() as SharedVariable, false);
+                BlackBoard.AddExposedProperty(variable.Clone() as SharedVariable, false);
             }
         }
         private void RestoreBlocks(IDialogueTree tree, IEnumerable<IDialogueNode> nodes)
@@ -325,11 +234,11 @@ namespace Kurisu.NGDT.Editor
             if (Validate())
             {
                 Commit(behaviorTree);
-                if (autoSave) Debug.Log($"<color=#3aff48>{TreeEditorName}</color>[{behaviorTree.Object.name}] auto save succeed ! {DateTime.Now}");
+                if (autoSave) Debug.Log($"<color=#3aff48>NGDT</color>[{behaviorTree.Object.name}] auto save succeed ! {DateTime.Now}");
                 AssetDatabase.SaveAssets();
                 return true;
             }
-            if (autoSave) Debug.Log($"<color=#ff2f2f>{TreeEditorName}</color>[{behaviorTree.Object.name}] auto save failed ! {DateTime.Now}");
+            if (autoSave) Debug.Log($"<color=#ff2f2f>NGDT</color>[{behaviorTree.Object.name}] auto save failed ! {DateTime.Now}");
             return false;
         }
 

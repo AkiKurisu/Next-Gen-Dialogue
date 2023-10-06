@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
-using UnityEditor.Experimental.GraphView;
 using System.Linq;
 using System.IO;
 namespace Kurisu.NGDT.Editor
@@ -67,7 +66,7 @@ namespace Kurisu.NGDT.Editor
             }
             var window = CreateInstance<T>();
             StructGraphView(window, bt);
-            window.titleContent = new GUIContent($"{window.graphView.TreeEditorName} ({bt.Object.name})");
+            window.titleContent = new GUIContent($"NGDT ({bt.Object.name})");
             window.Key = bt.Object;
             cache[key] = window;
             return window;
@@ -89,58 +88,23 @@ namespace Kurisu.NGDT.Editor
 
         private static void GenerateBlackBoard(DialogueTreeView _graphView)
         {
-            var blackboard = new Blackboard(_graphView);
-            blackboard.Add(new BlackboardSection { title = "Shared Variables" });
-            blackboard.addItemRequested = _blackboard =>
-            {
-                var menu = new GenericMenu();
-                menu.AddItem(new GUIContent("Int"), false, () => _graphView.AddExposedProperty(new SharedInt(), true));
-                menu.AddItem(new GUIContent("Float"), false, () => _graphView.AddExposedProperty(new SharedFloat(), true));
-                menu.AddItem(new GUIContent("Bool"), false, () => _graphView.AddExposedProperty(new SharedBool(), true));
-                menu.AddItem(new GUIContent("Vector3"), false, () => _graphView.AddExposedProperty(new SharedVector3(), true));
-                menu.AddItem(new GUIContent("String"), false, () => _graphView.AddExposedProperty(new SharedString(), true));
-                menu.AddItem(new GUIContent("Object"), false, () => _graphView.AddExposedProperty(new SharedObject(), true));
-                menu.ShowAsContext();
-            };
-
-            blackboard.editTextRequested = (_blackboard, element, newValue) =>
-            {
-                var oldPropertyName = ((BlackboardField)element).text;
-                var index = _graphView.exposedProperties.FindIndex(x => x.Name == oldPropertyName);
-                if (string.IsNullOrEmpty(newValue))
-                {
-                    blackboard.contentContainer.RemoveAt(index + 1);
-                    _graphView.ExposedProperties.RemoveAt(index);
-                    return;
-                }
-                if (_graphView.ExposedProperties.Any(x => x.Name == newValue))
-                {
-                    EditorUtility.DisplayDialog("Error", "A variable with the same name already exists !",
-                        "OK");
-                    return;
-                }
-
-                var targetIndex = _graphView.exposedProperties.FindIndex(x => x.Name == oldPropertyName);
-                _graphView.ExposedProperties[targetIndex].Name = newValue;
-                _graphView.NotifyEditSharedVariable(_graphView.ExposedProperties[targetIndex]);
-                ((BlackboardField)element).text = newValue;
-            };
+            var blackboard = new AdvancedBlackBoard(_graphView);
             blackboard.SetPosition(new Rect(10, 100, 300, 400));
             _graphView.Add(blackboard);
-            _graphView._blackboard = blackboard;
+            _graphView.BlackBoard = blackboard;
         }
         private void SaveDataToSO(string path)
         {
             var treeSO = CreateInstance(SOType);
             if (!graphView.Save())
             {
-                Debug.LogWarning($"<color=#ff2f2f>{graphView.TreeEditorName}</color> : Save failed, ScriptableObject wasn't created !\n{System.DateTime.Now}");
+                Debug.LogWarning($"<color=#ff2f2f>NGDT</color> : Save failed, ScriptableObject wasn't created !\n{System.DateTime.Now}");
                 return;
             }
             graphView.Commit((IDialogueTree)treeSO);
             AssetDatabase.CreateAsset(treeSO, $"Assets/{path}/{Key.name}.asset");
             AssetDatabase.SaveAssets();
-            Debug.Log($"<color=#3aff48>{graphView.TreeEditorName}</color> : Save succeed, ScriptableObject created path : {path}/{Key.name}.asset\n{System.DateTime.Now}");
+            Debug.Log($"<color=#3aff48>NGDT</color> : Save succeed, ScriptableObject created path : {path}/{Key.name}.asset\n{System.DateTime.Now}");
         }
 
         private void OnDestroy()
@@ -260,7 +224,7 @@ namespace Kurisu.NGDT.Editor
                                 Setting.LastPath = info.Directory.FullName;
                                 EditorUtility.SetDirty(setting);
                                 File.WriteAllText(path, serializedData);
-                                Debug.Log($"<color=#3aff48>{GraphView.TreeEditorName}</color>:Save json file succeed !");
+                                Debug.Log($"<color=#3aff48>NGDT</color>:Save json file succeed !");
                                 AssetDatabase.SaveAssets();
                                 AssetDatabase.Refresh();
                             }

@@ -5,14 +5,14 @@ namespace Kurisu.NGDT.Editor
 {
     public interface IDialogueTreeView
     {
-        GraphView GraphView { get; }
+        GraphView View { get; }
         void SelectGroup(IDialogueNode node);
         void UnSelectGroup();
         IDialogueNode DuplicateNode(IDialogueNode node);
         event Action<SharedVariable> OnPropertyNameChange;
-        IList<SharedVariable> ExposedProperties { get; }
+        List<SharedVariable> ExposedProperties { get; }
+        IBlackBoard BlackBoard { get; }
         Action<IDialogueNode> OnSelectAction { get; }
-        void AddExposedProperty(SharedVariable variable, bool canDuplicate);
         void BakeDialogue();
     }
 }

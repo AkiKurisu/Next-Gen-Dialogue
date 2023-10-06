@@ -19,7 +19,7 @@ namespace Kurisu.NGDT.Editor
             public void Connect(IDialogueTreeView treeView, IDialogueNode nodeToConnect)
             {
                 var edge = PortHelper.ConnectPorts(port, nodeToConnect.Parent);
-                treeView.GraphView.Add(edge);
+                treeView.View.Add(edge);
             }
         }
         private readonly struct ContainerAdapter : IParentAdapter
@@ -73,7 +73,7 @@ namespace Kurisu.NGDT.Editor
                 }
                 IDialogueNode node = nodeResolver.Create(edgePair.NodeBehavior.GetType(), treeView);
                 node.Restore(edgePair.NodeBehavior);
-                treeView.GraphView.AddElement(node as Node);
+                treeView.View.AddElement(node as Node);
                 tempNodes.Add(node);
                 var rect = edgePair.NodeBehavior.graphPosition;
                 rect.position += initPos;

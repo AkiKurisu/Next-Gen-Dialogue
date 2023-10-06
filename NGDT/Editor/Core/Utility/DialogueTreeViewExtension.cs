@@ -24,11 +24,11 @@ namespace Kurisu.NGDT.Editor
         }
         public static PieceContainer FindPiece(this IDialogueTreeView treeView, string pieceID)
         {
-            return treeView.GraphView.nodes.OfType<PieceContainer>().FirstOrDefault(x => x.GetPieceID() == pieceID);
+            return treeView.View.nodes.OfType<PieceContainer>().FirstOrDefault(x => x.GetPieceID() == pieceID);
         }
         public static List<T> CollectNodes<T>(this IDialogueTreeView treeView) where T : Node
         {
-            return treeView.GraphView.nodes.OfType<T>().ToList();
+            return treeView.View.nodes.OfType<T>().ToList();
         }
     }
 }

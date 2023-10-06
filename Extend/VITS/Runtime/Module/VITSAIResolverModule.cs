@@ -3,7 +3,7 @@ using Kurisu.NGDS;
 using Kurisu.NGDS.AI;
 using Kurisu.NGDS.VITS;
 using UnityEngine;
-namespace Kurisu.NGDT
+namespace Kurisu.NGDT.VITS
 {
     [AkiInfo("Module : Specify VITS-AI dialogue resolver for this dialogue tree.")]
     [AkiGroup("AIGC")]

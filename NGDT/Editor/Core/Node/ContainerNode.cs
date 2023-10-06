@@ -389,7 +389,7 @@ namespace Kurisu.NGDT.Editor
             var bridge = new PieceBridge(treeView, typeof(PiecePort), PortColor, string.Empty);
             AddElement(bridge);
             var edge = PortHelper.ConnectPorts(bridge.Child, node.Parent);
-            treeView.GraphView.Add(edge);
+            treeView.View.Add(edge);
         }
         protected sealed override void OnCommit(Stack<IDialogueNode> stack)
         {
@@ -459,7 +459,7 @@ namespace Kurisu.NGDT.Editor
             var bridge = new OptionBridge("Option", typeof(OptionPort), PortColor);
             AddElement(bridge);
             var edge = PortHelper.ConnectPorts(bridge.Child, node.Parent);
-            treeView.GraphView.Add(edge);
+            treeView.View.Add(edge);
         }
         protected sealed override bool AcceptsElement(GraphElement element, ref int proposedIndex, int maxIndex)
         {
@@ -474,7 +474,7 @@ namespace Kurisu.NGDT.Editor
         public void GenerateNewPieceID()
         {
             var variable = new PieceID() { Name = "New Piece" };
-            MapTreeView.AddExposedProperty(variable, false);
+            MapTreeView.BlackBoard.AddExposedProperty(variable, false);
             mainContainer.Q<PieceIDField>().value = new PieceID() { Name = variable.Name };
         }
     }
