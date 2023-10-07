@@ -1,4 +1,8 @@
 # API
+  - [Container Node](#container-node)
+    - [Dialogue](#dialogue)
+    - [Piece](#piece)
+    - [Option](#option)
   - [Built In Composite Node](#built-in-composite-node)
     - [Sequence](#sequence)
     - [Selector](#selector)
@@ -12,12 +16,26 @@
     - [Create Decorator](#create-decorator)
   - [Create New Modules](#create-new-modules)
     - [Create Custom Module Data (For Dialogue System)](#create-custom-module-data-for-dialogue-system)
-    - [Create Custom Module Behavior (For DialogueTree)](#create-custom-module-behavior-for-dialoguetree)
+    - [Create Custom Module Behavior (For Dialogue Tree)](#create-custom-module-behavior-for-dialogue-tree)
   - [Create Resolvers](#create-resolvers)
   - [Attributes](#attributes)
   - [SharedVariable](#sharedvariable)
 
 
+## Container Node
+
+### Dialogue
+* Contains dialogue basic module such as define specific resolver
+* Contains a ``Piece`` sequence to select next if previous one fails 
+
+### Piece
+* Contains dialogue piece
+* If has ``Conditional Module`` and return ``Status.Fail``, piece will be discard and parent ```Dialogue```  will try to find next piece if in its children sequence
+* Contains a ``Option`` sequence to select next if previous one fails 
+  
+### Option
+* Contains dialogue option
+* If has ``Conditional Module`` and return ``Status.Fail``, piece will be discard and parent ```Piece```  will try to find next option if in its children sequence
 
 
 ## Built In Composite Node
@@ -163,7 +181,7 @@ public readonly struct VITSModule : IDialogueModule
 }
 ```
 
-### Create Custom Module Behavior (For DialogueTree)
+### Create Custom Module Behavior (For Dialogue Tree)
 
 Custom Module Behavior roles as a bridge to add your own modules to dialogueTree's container
 * Create C# Script and extends `CustomModule`
@@ -207,7 +225,7 @@ public class NavmeshStopAgent : Action
 1. ``AkiLabel`` attribute is added for replacing label of node's title or field especially for Chinese.
    
 ```C#
-[AkiLabel("Navmesh:SetDestination")]
+[AkiLabel("Navmesh : SetDestination")]
 public class NavmeshSetDestination : Action
 {
     [SerializeField, Tooltip("If not filled in, it will be obtained from the bound gameObject")]

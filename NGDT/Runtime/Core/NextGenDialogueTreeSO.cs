@@ -27,7 +27,7 @@ namespace Kurisu.NGDT
         public IDialogueTree ExternalBehaviorTree => null;
         [SerializeField, HideInInspector]
         private List<GroupBlockData> blockData = new();
-        public List<GroupBlockData> BlockData { get => blockData; set => blockData = value; }
+        public List<GroupBlockData> BlockData => blockData;
         [Multiline, SerializeField]
         private string Description;
 #endif
@@ -56,6 +56,9 @@ namespace Kurisu.NGDT
             if (template == null) return;
             root = template.Root;
             sharedVariables = new List<SharedVariable>(template.Variables);
+#if UNITY_EDITOR
+            blockData = new List<GroupBlockData>(template.BlockData);
+#endif
         }
         private void GenerateID()
         {

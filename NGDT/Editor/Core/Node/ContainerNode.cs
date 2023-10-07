@@ -345,11 +345,11 @@ namespace Kurisu.NGDT.Editor
             }));
             evt.menu.MenuItems().Add(new NGDTDropdownMenuAction("Select Group", (a) =>
             {
-                MapTreeView.SelectGroup(this);
+                MapTreeView.GroupBlockController.SelectGroup(this);
             }));
             evt.menu.MenuItems().Add(new NGDTDropdownMenuAction("UnSelect Group", (a) =>
             {
-                MapTreeView.UnSelectGroup();
+                MapTreeView.GroupBlockController.UnSelectGroup();
             }));
         }
         public Rect GetWorldPosition()
@@ -448,10 +448,16 @@ namespace Kurisu.NGDT.Editor
         public sealed override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
         {
             if (TryGetModuleNode<AIBakeModule>(out _))
+            {
                 evt.menu.MenuItems().Add(new NGDTDropdownMenuAction("Bake Dialogue", (a) =>
                {
                    MapTreeView.BakeDialogue();
                }));
+            }
+            evt.menu.MenuItems().Add(new NGDTDropdownMenuAction("Edit PieceID", (a) =>
+            {
+                MapTreeView.BlackBoard.EditProperty(GetPieceID());
+            }));
             base.BuildContextualMenu(evt);
         }
         public void AddChildElement(IDialogueNode node, IDialogueTreeView treeView)

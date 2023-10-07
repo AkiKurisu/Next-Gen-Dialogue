@@ -15,6 +15,7 @@ namespace Kurisu.NGDT.Editor
         private readonly ScrollView scrollView;
         public VisualElement RawContainer => scrollView;
         private readonly List<SharedVariable> exposedProperties;
+        public event Action<SharedVariable> OnPropertyNameChange;
         public AdvancedBlackBoard(DialogueTreeView treeView) : base(treeView)
         {
             var header = this.Q("header");
@@ -56,7 +57,7 @@ namespace Kurisu.NGDT.Editor
                 }
                 var targetIndex = _graphView.ExposedProperties.FindIndex(x => x.Name == oldPropertyName);
                 _graphView.ExposedProperties[targetIndex].Name = newValue;
-                _graphView.NotifyEditSharedVariable(_graphView.ExposedProperties[targetIndex]);
+                OnPropertyNameChange?.Invoke(_graphView.ExposedProperties[targetIndex]);
                 ((BlackboardField)element).text = newValue;
             };
 
@@ -64,6 +65,14 @@ namespace Kurisu.NGDT.Editor
         private void OnGeometryChanged(GeometryChangedEvent evt)
         {
             contentContainer.style.height = layout.height - 50;
+        }
+        public void EditProperty(string variableName)
+        {
+            var index = exposedProperties.FindIndex(x => x.Name == variableName);
+            if (index < 0) return;
+            var field = scrollView.Query<BlackboardField>().AtIndex(index);
+            scrollView.ScrollTo(field);
+            field.OpenTextEditor();
         }
         public void AddExposedProperty(SharedVariable variable, bool canDuplicate)
         {
@@ -91,22 +100,34 @@ namespace Kurisu.NGDT.Editor
             {
                 placeHolder.Add(GetConstraintField(sharedObject, (ObjectField)valueField));
             }
+            if (variable is PieceID)
+            {
+                field.RegisterCallback<ClickEvent>((evt) => FindRelatedPiece(variable));
+            }
             var sa = new BlackboardRow(field, placeHolder);
-            sa.AddManipulator(new ContextualMenuManipulator((evt) => BuildBlackboardMenu(evt, sa)));
+            sa.AddManipulator(new ContextualMenuManipulator((evt) => BuildBlackboardMenu(evt, sa, variable)));
             RawContainer.Add(sa);
         }
-        private void BuildBlackboardMenu(ContextualMenuPopulateEvent evt, VisualElement element)
+
+        private void FindRelatedPiece(SharedVariable variable)
+        {
+            var piece = graphView.nodes.OfType<PieceContainer>().FirstOrDefault(x => x.GetPieceID() == variable.Name);
+            if (piece != null)
+            {
+                graphView.AddToSelection(piece);
+            }
+        }
+
+        private void BuildBlackboardMenu(ContextualMenuPopulateEvent evt, VisualElement element, SharedVariable variable)
         {
             evt.menu.MenuItems().Clear();
             evt.menu.MenuItems().Add(new NGDTDropdownMenuAction("Delate Variable", (a) =>
             {
-                int index = RawContainer.IndexOf(element);
-                exposedProperties.RemoveAt(index - 1);
+                exposedProperties.Remove(variable);
                 RawContainer.Remove(element);
-                return;
             }));
         }
-        private VisualElement GetConstraintField(SharedObject sharedObject, ObjectField objectField)
+        private static VisualElement GetConstraintField(SharedObject sharedObject, ObjectField objectField)
         {
             const string NonConstraint = "No Constraint";
             var placeHolder = new VisualElement();

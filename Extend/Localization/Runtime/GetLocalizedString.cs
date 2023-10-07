@@ -3,7 +3,7 @@ using UnityEngine.Localization;
 namespace Kurisu.NGDT.Localization
 {
     [AkiInfo("Action : Get LocalizedString")]
-    [AkiLabel("String:GetLocalizedString")]
+    [AkiLabel("String : GetLocalizedString")]
     [AkiGroup("String")]
     public class GetLocalizedString : Action
     {

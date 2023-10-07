@@ -2,7 +2,7 @@ using UnityEngine;
 namespace Kurisu.NGDT.Behavior
 {
     [AkiInfo("Action : Operate bool value")]
-    [AkiLabel("Math:BoolOperator")]
+    [AkiLabel("Math : BoolOperator")]
     [AkiGroup("Math")]
     public class BoolOperator : Action
     {

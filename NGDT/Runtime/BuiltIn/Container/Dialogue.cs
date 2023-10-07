@@ -53,7 +53,8 @@ namespace Kurisu.NGDT
 #endif
             if (visitedPieceID.Contains(ID))
             {
-                dialogueCache.SetPiece(ID, pieceMap[ID].GetPiece());
+                dialogueCache.GetPiece(ID).NodePushPool();
+                dialogueCache[ID] = pieceMap[ID].GetPiece();
             }
             var newPiece = dialogueCache.GetPiece(ID);
             visitedPieceID.Add(newPiece.PieceID);

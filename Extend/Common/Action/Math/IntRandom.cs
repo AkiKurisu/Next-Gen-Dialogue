@@ -2,7 +2,7 @@ using UnityEngine;
 namespace Kurisu.NGDT.Behavior
 {
     [AkiInfo("Action : Int type set random value")]
-    [AkiLabel("Math:IntRandom")]
+    [AkiLabel("Math : IntRandom")]
     [AkiGroup("Math")]
     public class IntRandom : Action
     {

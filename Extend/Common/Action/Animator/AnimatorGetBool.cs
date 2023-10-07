@@ -2,7 +2,7 @@ using UnityEngine;
 namespace Kurisu.NGDT.Behavior
 {
     [AkiInfo("Action : Get the Bool element of the Animator")]
-    [AkiLabel("Animator:GetBool")]
+    [AkiLabel("Animator : GetBool")]
     [AkiGroup("Animator")]
     public class AnimatorGetBool : AnimatorAction
     {

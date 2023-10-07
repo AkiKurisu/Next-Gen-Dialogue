@@ -2,7 +2,7 @@ using UnityEngine;
 namespace Kurisu.NGDT.Behavior
 {
     [AkiInfo("Action : Replace value of string")]
-    [AkiLabel("String:Replace")]
+    [AkiLabel("String : Replace")]
     [AkiGroup("String")]
     public class ReplaceString : Action
     {

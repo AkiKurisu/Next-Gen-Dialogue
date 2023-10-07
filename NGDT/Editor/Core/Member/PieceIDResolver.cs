@@ -40,7 +40,7 @@ namespace Kurisu.NGDT.Editor
         internal void InitField(IDialogueTreeView treeView)
         {
             this.treeView = treeView;
-            treeView.OnPropertyNameChange += (variable) =>
+            treeView.BlackBoard.OnPropertyNameChange += (variable) =>
             {
                 if (variable != bindExposedProperty) return;
                 UpdateID(variable);

@@ -3,7 +3,7 @@ using UnityEngine.AI;
 namespace Kurisu.NGDT.Behavior
 {
     [AkiInfo("Action : Set the destination of NavmeshAgent")]
-    [AkiLabel("Navmesh:SetDestination")]
+    [AkiLabel("Navmesh : SetDestination")]
     [AkiGroup("Navmesh")]
     public class NavmeshSetDestination : Action
     {

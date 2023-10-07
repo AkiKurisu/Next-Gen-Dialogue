@@ -2,7 +2,7 @@ using UnityEngine;
 namespace Kurisu.NGDT.Behavior
 {
     [AkiInfo("Action : Set Shared AudioClip Value")]
-    [AkiLabel("Audio:SetAudioClip")]
+    [AkiLabel("Audio : SetAudioClip")]
     [AkiGroup("Audio")]
     public class SetAudioClip : Action
     {

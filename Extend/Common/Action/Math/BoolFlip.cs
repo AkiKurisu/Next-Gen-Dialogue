@@ -2,7 +2,7 @@ using UnityEngine;
 namespace Kurisu.NGDT.Behavior
 {
     [AkiInfo("Action : Flip bool value")]
-    [AkiLabel("Math:BoolFlip")]
+    [AkiLabel("Math : BoolFlip")]
     [AkiGroup("Math")]
     public class BoolFlip : Action
     {

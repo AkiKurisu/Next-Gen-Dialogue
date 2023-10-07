@@ -316,11 +316,11 @@ namespace Kurisu.NGDT.Editor
             }));
             evt.menu.MenuItems().Add(new NGDTDropdownMenuAction("Select Group", (a) =>
             {
-                MapTreeView.SelectGroup(this);
+                MapTreeView.GroupBlockController.SelectGroup(this);
             }));
             evt.menu.MenuItems().Add(new NGDTDropdownMenuAction("UnSelect Group", (a) =>
             {
-                MapTreeView.UnSelectGroup();
+                MapTreeView.GroupBlockController.UnSelectGroup();
             }));
         }
         public virtual Rect GetWorldPosition()

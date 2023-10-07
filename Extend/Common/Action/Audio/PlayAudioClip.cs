@@ -2,7 +2,7 @@ using UnityEngine;
 namespace Kurisu.NGDT.Behavior
 {
     [AkiInfo("Action : Play audioClip on target audioSource")]
-    [AkiLabel("Audio:PlayAudioClip")]
+    [AkiLabel("Audio : PlayAudioClip")]
     [AkiGroup("Audio")]
     public class PlayAudioClip : Action
     {

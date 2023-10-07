@@ -38,7 +38,7 @@ namespace Kurisu.NGDT.Editor
         public void Init(IDialogueTreeView treeView)
         {
             this.treeView = treeView;
-            treeView.OnPropertyNameChange += (variable) =>
+            treeView.BlackBoard.OnPropertyNameChange += (variable) =>
             {
                 if (variable != bindExposedProperty) return;
                 nameDropdown.value = variable.Name;

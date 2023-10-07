@@ -2,7 +2,7 @@ using UnityEngine;
 namespace Kurisu.NGDT.Behavior
 {
     [AkiInfo("Action : Convert int type to float type")]
-    [AkiLabel("Math:Int2Float")]
+    [AkiLabel("Math : Int2Float")]
     [AkiGroup("Math")]
     public class Int2Float : Action
     {

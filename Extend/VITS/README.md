@@ -14,6 +14,9 @@ To deploy VITS locally, please Clone this repository: [VITS Simple API](https://
 1. Runtime时``VITSResolver``会根据当前对话内容生成语音
     
     During runtime, ``VITSResolver`` will generate speech based on the current conversation content.
-2. Editor中在拥有```ContentModule```的Piece或Option中添加``VITSModule``右键烘焙语音并进行预览和下载
+2. Editor中在拥有```ContentModule```的Piece或Option中添加``VITSModule``右键烘焙语音并进行预览和下载（需要下载才能保存，否则退出编辑器后丢失）
     
-    In the Editor, add ``VITSModule`` to the Piece or Option that has ``ContentModule``, right-click to bake the voice and preview and download it.
+    In the Editor, add ``VITSModule`` to the Piece or Option that has ``ContentModule``, right-click to bake the voice and preview and download it.(You need to download it to save it, otherwise it will be lost after exiting the editor)
+3. 如果``VITSModule``中存在引用的AudioClip，则Runtime不再实时生成而是使用该语音
+   
+   If there is a referenced AudioClip in ``VITSModule``, the Runtime no longer generates it in real time but uses the speech

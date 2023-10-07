@@ -2,7 +2,7 @@ using UnityEngine;
 namespace Kurisu.NGDT.Behavior
 {
     [AkiInfo("Action : Set string value")]
-    [AkiLabel("String:Set")]
+    [AkiLabel("String : Set")]
     [AkiGroup("String")]
     public class SetString : Action
     {

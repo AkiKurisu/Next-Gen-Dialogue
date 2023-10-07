@@ -148,6 +148,8 @@ NextGenDialogueTree和NextGenDialogueTreeSO用于存储对话数据，为了便�
 | TargetID Module         | 为Option增加跳转的目标对话片段                                                                                                                                                                       |
 | PreUpdate Module        | 为Container增加预更新行为，它会在跳转到该Container时进行更新                                                                                                                                         |
 | CallBack Module         | 为Option增加回调行为，它们将在选择后进行更新                                                                                                                                                         |
+| ScriptableEvent Module  | 为Option增加``ScriptableEvent``事件，它们将在选择后进行更新,``ScriptableEvent ``可用于跨场景事件订阅                                                                                                 |
+| UnityEvent Module       | 为Option增加``UnityEvent``事件，它们将在选择后进行更新,``UnityEvent``可用于传统单场景内事件订阅                                                                                                      |
 | Condition Module        | 为Option或Piece增加判断行为，它会在跳转到该Container时进行更新，如果返回值为``Status.Failure``则该Container被丢弃。如果是对话的首个Piece，则系统会按照Dialogue中Piece的放置顺序尝试跳转至下一个Piece |
 | NextPiece Module        | 为Piece增加结束后的下一个对话片段，如果没有选项，则会在播放完Piece内容后跳转至指定对话片段                                                                                                           |
 | Google Translate Module | 使用谷歌翻译对当前Option或Piece的内容进行翻译                                                                                                                                                        |

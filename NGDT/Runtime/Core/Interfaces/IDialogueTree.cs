@@ -30,7 +30,7 @@ namespace Kurisu.NGDT
         /// Get block data from behavior tree graph, using only in editor
         /// </summary>
         /// <value></value>  
-        List<GroupBlockData> BlockData { get; set; }
+        List<GroupBlockData> BlockData { get; }
 #endif
         IDialogueBuilder Builder { get; }
         IDialogueSystem System { get; set; }

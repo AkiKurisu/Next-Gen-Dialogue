@@ -2,7 +2,7 @@ using UnityEngine;
 namespace Kurisu.NGDT.Behavior
 {
     [AkiInfo("Action : Operate int value")]
-    [AkiLabel("Math:IntOperator")]
+    [AkiLabel("Math : IntOperator")]
     [AkiGroup("Math")]
     public class IntOperator : Action
     {

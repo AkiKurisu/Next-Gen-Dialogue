@@ -4,7 +4,7 @@ using UnityEngine;
 namespace Kurisu.NGDT.Behavior
 {
     [AkiInfo("Action : Build value of string")]
-    [AkiLabel("String:Build")]
+    [AkiLabel("String : Build")]
     [AkiGroup("String")]
     public class BuildString : Action
     {

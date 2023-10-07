@@ -2,7 +2,7 @@ using UnityEngine;
 namespace Kurisu.NGDT.Behavior
 {
     [AkiInfo("Action : Play another dialogue tree")]
-    [AkiLabel("Dialogue:PlayDialogueTree")]
+    [AkiLabel("Dialogue : Play DialogueTree")]
     [AkiGroup("Dialogue")]
     public class PlayDialogueTree : Action
     {

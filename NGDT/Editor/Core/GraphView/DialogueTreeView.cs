@@ -15,20 +15,18 @@ namespace Kurisu.NGDT.Editor
         private readonly IDialogueTree behaviorTree;
         public IDialogueTree BehaviorTree => behaviorTree;
         private RootNode root;
-        private readonly List<SharedVariable> exposedProperties = new();
-        public List<SharedVariable> ExposedProperties => exposedProperties;
+        public List<SharedVariable> ExposedProperties { get; } = new();
         private readonly NodeSearchWindowProvider provider;
-        public event Action<SharedVariable> OnPropertyNameChange;
-        public bool CanSaveToSO => behaviorTree is NextGenDialogueTree;
         private readonly NodeResolverFactory nodeResolver = NodeResolverFactory.Instance;
         public Action<IDialogueNode> OnSelectAction { get; internal set; }
-        private readonly EditorWindow _window;
+        public EditorWindow EditorWindow { get; internal set; }
         private readonly NodeConverter converter = new();
         private readonly DragDropManipulator dragDropManipulator;
         private readonly AIDialogueBaker baker = new();
+        public IControlGroupBlock GroupBlockController { get; }
         public DialogueTreeView(IDialogueTree bt, EditorWindow editor)
         {
-            _window = editor;
+            EditorWindow = editor;
             behaviorTree = bt;
             style.flexGrow = 1;
             style.flexShrink = 1;
@@ -48,23 +46,14 @@ namespace Kurisu.NGDT.Editor
             dragDropManipulator.OnDragOverEvent += CopyFromObject;
             this.AddManipulator(dragDropManipulator);
             provider = ScriptableObject.CreateInstance<NodeSearchWindowProvider>();
-            provider.Initialize(this, editor, NextGenDialogueSetting.GetMask());
+            provider.Initialize(this, NextGenDialogueSetting.GetMask());
             nodeCreationRequest += context =>
             {
                 SearchWindow.Open(new SearchWindowContext(context.screenMousePosition), provider);
             };
-            serializeGraphElements += CopyOperation;
+            GroupBlockController = new GroupBlockController(this);
             canPasteSerializedData += (data) => true;
             unserializeAndPaste += OnPaste;
-        }
-        private string CopyOperation(IEnumerable<GraphElement> elements)
-        {
-            ClearSelection();
-            foreach (GraphElement n in elements)
-            {
-                AddToSelection(n);
-            }
-            return "Copy Nodes";
         }
         private void OnPaste(string a, string b)
         {
@@ -92,22 +81,6 @@ namespace Kurisu.NGDT.Editor
             newNode.CopyFrom(node);
             return newNode;
         }
-        public GroupBlock CreateBlock(Rect rect, GroupBlockData blockData = null)
-        {
-            blockData ??= new GroupBlockData();
-            var group = new GroupBlock
-            {
-                autoUpdateGeometry = true,
-                title = blockData.Title
-            };
-            AddElement(group);
-            group.SetPosition(rect);
-            return group;
-        }
-        internal void NotifyEditSharedVariable(SharedVariable variable)
-        {
-            OnPropertyNameChange?.Invoke(variable);
-        }
         public sealed override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
         {
             base.BuildContextualMenu(evt);
@@ -134,27 +107,27 @@ namespace Kurisu.NGDT.Editor
             {
                 if ((data as GameObject).TryGetComponent(out IDialogueTree tree))
                 {
-                    _window.ShowNotification(new GUIContent("GameObject Dropped Succeed !"));
+                    EditorWindow.ShowNotification(new GUIContent("GameObject Dropped Succeed !"));
                     CopyFromOtherTree(tree, mousePosition);
                     return;
                 }
-                _window.ShowNotification(new GUIContent("Invalid Drag GameObject !"));
+                EditorWindow.ShowNotification(new GUIContent("Invalid Drag GameObject !"));
                 return;
             }
             if (data is TextAsset asset)
             {
                 if (CopyFromJson(asset.text, mousePosition))
-                    _window.ShowNotification(new GUIContent("Text Asset Dropped Succeed !"));
+                    EditorWindow.ShowNotification(new GUIContent("Text Asset Dropped Succeed !"));
                 else
-                    _window.ShowNotification(new GUIContent("Invalid Drag Text Asset !"));
+                    EditorWindow.ShowNotification(new GUIContent("Invalid Drag Text Asset !"));
                 return;
             }
             if (data is not IDialogueTree)
             {
-                _window.ShowNotification(new GUIContent("Invalid Drag Data !"));
+                EditorWindow.ShowNotification(new GUIContent("Invalid Drag Data !"));
                 return;
             }
-            _window.ShowNotification(new GUIContent("Data Dropped Succeed !"));
+            EditorWindow.ShowNotification(new GUIContent("Data Dropped Succeed !"));
             CopyFromOtherTree(data as IDialogueTree, mousePosition);
         }
         internal void CopyFromOtherTree(IDialogueTree otherTree, Vector2 mousePosition)
@@ -205,40 +178,20 @@ namespace Kurisu.NGDT.Editor
         {
             foreach (var nodeBlockData in tree.BlockData)
             {
-                CreateBlock(new Rect(nodeBlockData.Position, new Vector2(100, 100)), nodeBlockData)
+                GroupBlockController.CreateBlock(new Rect(nodeBlockData.Position, new Vector2(100, 100)), nodeBlockData)
                 .AddElements(nodes.Where(x => nodeBlockData.ChildNodes.Contains(x.GUID)).Cast<Node>());
             }
         }
-        void IDialogueTreeView.SelectGroup(IDialogueNode node)
-        {
-            var block = CreateBlock(new Rect((node as Node).transform.position, new Vector2(100, 100)));
-            foreach (var select in selection)
-            {
-                if (select is RootNode || select is not Node graphNode) continue;
-                block.AddElement(graphNode);
-            }
-        }
-        void IDialogueTreeView.UnSelectGroup()
-        {
-            foreach (var select in selection)
-            {
-                if (select is not Node graphNode) continue;
-                var block = graphElements.OfType<GroupBlock>().FirstOrDefault(x => x.ContainsElement(graphNode));
-                block?.RemoveElement(graphNode);
-            }
-        }
 
-        internal bool Save(bool autoSave = false)
+        internal bool Save()
         {
             if (Application.isPlaying) return false;
             if (Validate())
             {
                 Commit(behaviorTree);
-                if (autoSave) Debug.Log($"<color=#3aff48>NGDT</color>[{behaviorTree.Object.name}] auto save succeed ! {DateTime.Now}");
                 AssetDatabase.SaveAssets();
                 return true;
             }
-            if (autoSave) Debug.Log($"<color=#ff2f2f>NGDT</color>[{behaviorTree.Object.name}] auto save failed ! {DateTime.Now}");
             return false;
         }
 
@@ -308,7 +261,7 @@ namespace Kurisu.NGDT.Editor
             containers.Remove(bakeContainer);
             if (containers.Any(x => x.TryGetModuleNode<AIBakeModule>(out ModuleNode _)))
             {
-                _window.ShowNotification(new GUIContent($"AIBakeModule should only be added to the last select node !"));
+                EditorWindow.ShowNotification(new GUIContent($"AIBakeModule should only be added to the last select node !"));
                 return;
             }
             float startVal = (float)EditorApplication.timeSinceStartup;
@@ -320,7 +273,7 @@ namespace Kurisu.NGDT.Editor
                 EditorUtility.DisplayProgressBar("Wait to bake dialogue", "Waiting for the few seconds", slider);
                 if (slider > 1)
                 {
-                    _window.ShowNotification(new GUIContent($"Dialogue baking is out of time, please check your internet !"));
+                    EditorWindow.ShowNotification(new GUIContent($"Dialogue baking is out of time, please check your internet !"));
                     break;
                 }
                 await Task.Yield();

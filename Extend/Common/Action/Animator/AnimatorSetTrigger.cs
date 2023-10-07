@@ -2,7 +2,7 @@ using UnityEngine;
 namespace Kurisu.NGDT.Behavior
 {
     [AkiInfo("Action : Set trigger parameter of the Animator")]
-    [AkiLabel("Animator:SetTrigger")]
+    [AkiLabel("Animator : SetTrigger")]
     [AkiGroup("Animator")]
     public class AnimatorSetTrigger : AnimatorAction
     {

@@ -7,6 +7,14 @@ namespace Kurisu.NGDS
         private readonly List<DialoguePiece> dialoguePieces = new();
         private readonly Dictionary<string, DialoguePiece> dialoguePieceMap = new();
         public IReadOnlyList<DialoguePiece> Pieces => dialoguePieces;
+        public DialoguePiece this[string pieceName]
+        {
+            get => dialoguePieceMap[pieceName];
+            set
+            {
+                dialoguePieceMap[pieceName] = value;
+            }
+        }
         public DialoguePiece GetPiece(string ID)
         {
             if (dialoguePieceMap.ContainsKey(ID))
@@ -21,10 +29,6 @@ namespace Kurisu.NGDS
             dialoguePieceMap.Clear();
             ClearModules();
             return this;
-        }
-        public void SetPiece(string pieceID, DialoguePiece piece)
-        {
-            dialoguePieceMap[pieceID] = piece;
         }
         public void AddPiece(DialoguePiece piece)
         {

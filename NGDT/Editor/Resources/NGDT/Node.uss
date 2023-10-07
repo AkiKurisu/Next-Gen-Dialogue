@@ -58,6 +58,15 @@ PieceContainer  .PieceIDField .unity-base-field__label
     font-size: 20px;
     -unity-text-align : middle-center;
 }
+#PieceContainer:selected>#borderItem
+{
+    border-color:rgba(0, 255, 139, 0.91);
+    border-left-width:5px;
+    border-top-width:5px;
+    border-right-width:5px;
+    border-bottom-width:5px;
+}
+
 #OptionContainer{
     background-color: rgba(57, 98, 147, 0.91);
 }

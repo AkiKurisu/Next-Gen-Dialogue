@@ -7,12 +7,12 @@ namespace Kurisu.NGDT.Editor
 {
     public class CopyPasteGraph
     {
-        private readonly DialogueTreeView sourceView;
+        private readonly IDialogueTreeView sourceView;
         private readonly List<ISelectable> copyElements;
         private readonly Dictionary<Port, Port> portCopyDict;
         private readonly Dictionary<IDialogueNode, IDialogueNode> nodeCopyDict;
         private readonly List<ISelectable> selection;
-        public CopyPasteGraph(DialogueTreeView sourceView, List<ISelectable> selection)
+        public CopyPasteGraph(IDialogueTreeView sourceView, List<ISelectable> selection)
         {
             this.sourceView = sourceView;
             this.selection = selection;
@@ -105,7 +105,7 @@ namespace Kurisu.NGDT.Editor
                 var edge = select as Edge;
                 if (!portCopyDict.ContainsKey(edge.input) || !portCopyDict.ContainsKey(edge.output)) continue;
                 var newEdge = PortHelper.ConnectPorts(portCopyDict[edge.output], portCopyDict[edge.input]);
-                sourceView.AddElement(newEdge);
+                sourceView.View.AddElement(newEdge);
                 copyElements.Add(newEdge);
             }
         }
@@ -118,7 +118,7 @@ namespace Kurisu.NGDT.Editor
                 var nodes = selectBlock.containedElements.Cast<IDialogueNode>();
                 Rect newRect = selectBlock.GetPosition();
                 newRect.position += new Vector2(50, 50);
-                var block = sourceView.CreateBlock(newRect);
+                var block = sourceView.GroupBlockController.CreateBlock(newRect);
                 block.title = selectBlock.title;
                 block.AddElements(nodes.Where(x => nodeCopyDict.ContainsKey(x)).Select(x => nodeCopyDict[x]).Cast<Node>());
             }

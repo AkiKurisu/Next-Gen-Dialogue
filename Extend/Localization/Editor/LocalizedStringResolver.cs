@@ -63,7 +63,7 @@ namespace Kurisu.NGDT.Localization.Editor
                 }
                 else
                 {
-                    Instance.localizedString = new LocalizedString(value.TableReference, value.TableEntryReference);
+                    Instance.localizedString = ReflectionHelper.DeepCopy(value);
                 }
                 base.value = Instance.localizedString;
             }

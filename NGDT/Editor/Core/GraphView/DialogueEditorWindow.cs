@@ -9,17 +9,12 @@ namespace Kurisu.NGDT.Editor
 {
     public class DialogueEditorWindow : EditorWindow
     {
-        // GraphView window per GameObject
+        // GraphView window per UObject
         private static readonly Dictionary<int, DialogueEditorWindow> cache = new();
         private DialogueTreeView graphView;
         public DialogueTreeView GraphView => graphView;
         private UnityEngine.Object Key { get; set; }
         private InfoView infoView;
-        /// <summary>
-        /// Identify current dialogue tree can be saved to ScriptableObject
-        /// </summary>
-        /// <returns></returns>
-        private Type SOType => typeof(NextGenDialogueTreeSO);
         private const string TreeName = "Dialogue Tree";
         private const string InfoText = "Welcome to Next-Gen-Dialogue Node Editor!";
         private static NextGenDialogueSetting setting;
@@ -95,13 +90,13 @@ namespace Kurisu.NGDT.Editor
         }
         private void SaveDataToSO(string path)
         {
-            var treeSO = CreateInstance(SOType);
+            var treeSO = CreateInstance<NextGenDialogueTreeSO>();
             if (!graphView.Save())
             {
                 Debug.LogWarning($"<color=#ff2f2f>NGDT</color> : Save failed, ScriptableObject wasn't created !\n{System.DateTime.Now}");
                 return;
             }
-            graphView.Commit((IDialogueTree)treeSO);
+            graphView.Commit(treeSO);
             AssetDatabase.CreateAsset(treeSO, $"Assets/{path}/{Key.name}.asset");
             AssetDatabase.SaveAssets();
             Debug.Log($"<color=#3aff48>NGDT</color> : Save succeed, ScriptableObject created path : {path}/{Key.name}.asset\n{System.DateTime.Now}");
@@ -113,11 +108,27 @@ namespace Kurisu.NGDT.Editor
             if (Key != null && cache.ContainsKey(code))
             {
                 if (Setting.AutoSave)
-                    cache[code].graphView.Save(true);
+                {
+                    if (!cache[code].graphView.Save())
+                    {
+                        var newWindow = cache[code] = Instantiate(this);
+                        newWindow.rootVisualElement.Clear();
+                        newWindow.rootVisualElement.Add(cache[code].CreateToolBar(graphView));
+                        newWindow.graphView = graphView;
+                        newWindow.rootVisualElement.Add(graphView);
+                        newWindow.rootVisualElement.Add(newWindow.CreateBakePreview());
+                        graphView.OnSelectAction = newWindow.OnNodeSelectionChange;
+                        graphView.EditorWindow = newWindow;
+                        newWindow.Key = Key;
+                        newWindow.Show();
+                        newWindow.ShowNotification(new GUIContent("Auto save failed !"));
+                        return;
+                    }
+                    Debug.Log($"<color=#3aff48>NGDT</color>[{graphView.BehaviorTree.Object.name}] saved succeed ! {DateTime.Now}");
+                }
                 cache.Remove(code);
             }
         }
-
         private void OnPlayModeStateChanged(PlayModeStateChange playModeStateChange)
         {
             switch (playModeStateChange)
@@ -187,19 +198,18 @@ namespace Kurisu.NGDT.Editor
                             EditorUtility.SetDirty(setting);
                             AssetDatabase.SaveAssets();
                         }
-                        if (graphView.CanSaveToSO)
-                        {
-                            if (GUILayout.Button("Save To SO", EditorStyles.toolbarButton))
-                            {
-                                string path = EditorUtility.OpenFolderPanel("Select ScriptableObject save path", Setting.LastPath, "");
-                                if (!string.IsNullOrEmpty(path))
-                                {
-                                    Setting.LastPath = path;
-                                    SaveDataToSO(path.Replace(Application.dataPath, string.Empty));
-                                }
 
+                        if (GUILayout.Button("Save To SO", EditorStyles.toolbarButton))
+                        {
+                            string path = EditorUtility.OpenFolderPanel("Select ScriptableObject save path", Setting.LastPath, "");
+                            if (!string.IsNullOrEmpty(path))
+                            {
+                                Setting.LastPath = path;
+                                SaveDataToSO(path.Replace(Application.dataPath, string.Empty));
                             }
+
                         }
+
                         if (GUILayout.Button("Copy From SO", EditorStyles.toolbarButton))
                         {
                             string path = EditorUtility.OpenFilePanel("Select ScriptableObject to copy", Setting.LastPath, "asset");

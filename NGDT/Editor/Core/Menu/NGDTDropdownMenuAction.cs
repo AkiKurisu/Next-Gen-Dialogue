@@ -1,6 +1,5 @@
 using System;
 using UnityEngine.UIElements;
-
 namespace Kurisu.NGDT.Editor
 {
     public class NGDTDropdownMenuAction : DropdownMenuAction
@@ -17,7 +16,7 @@ namespace Kurisu.NGDT.Editor
         public NGDTDropdownMenuAction(
             string actionName,
             Action<DropdownMenuAction> actionCallback
-        ) : this(actionName, actionCallback, (e) => DropdownMenuAction.Status.Normal, null)
+        ) : this(actionName, actionCallback, (e) => Status.Normal, null)
         {
         }
     }
