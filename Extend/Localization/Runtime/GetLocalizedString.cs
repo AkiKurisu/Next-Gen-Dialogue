@@ -7,7 +7,7 @@ namespace Kurisu.NGDT.Localization
     [AkiGroup("String")]
     public class GetLocalizedString : Action
     {
-        [SerializeField]
+        [SerializeField, WrapObject]
         private LocalizedString localizedString;
         [SerializeField, ForceShared]
         private SharedString storeResult;

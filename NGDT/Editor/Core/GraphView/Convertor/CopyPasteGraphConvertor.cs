@@ -5,14 +5,14 @@ using UnityEngine;
 using UnityEngine.UIElements;
 namespace Kurisu.NGDT.Editor
 {
-    public class CopyPasteGraph
+    public class CopyPasteGraphConvertor
     {
         private readonly IDialogueTreeView sourceView;
         private readonly List<ISelectable> copyElements;
         private readonly Dictionary<Port, Port> portCopyDict;
         private readonly Dictionary<IDialogueNode, IDialogueNode> nodeCopyDict;
         private readonly List<ISelectable> selection;
-        public CopyPasteGraph(IDialogueTreeView sourceView, List<ISelectable> selection)
+        public CopyPasteGraphConvertor(IDialogueTreeView sourceView, List<ISelectable> selection)
         {
             this.sourceView = sourceView;
             this.selection = selection;

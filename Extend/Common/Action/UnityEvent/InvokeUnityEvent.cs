@@ -7,7 +7,7 @@ namespace Kurisu.NGDT.Behavior
     [AkiGroup("UnityEvent")]
     public class InvokeUnityEvent : Action
     {
-        [SerializeField]
+        [SerializeField, WrapObject]
         private UnityEvent unityEvent;
         protected override Status OnUpdate()
         {

@@ -20,7 +20,7 @@ namespace Kurisu.NGDT.Editor
         private readonly NodeResolverFactory nodeResolver = NodeResolverFactory.Instance;
         public Action<IDialogueNode> OnSelectAction { get; internal set; }
         public EditorWindow EditorWindow { get; internal set; }
-        private readonly NodeConverter converter = new();
+        private readonly NodeConvertor converter = new();
         private readonly DragDropManipulator dragDropManipulator;
         private readonly AIDialogueBaker baker = new();
         public IControlGroupBlock GroupBlockController { get; }
@@ -57,7 +57,7 @@ namespace Kurisu.NGDT.Editor
         }
         private void OnPaste(string a, string b)
         {
-            List<ISelectable> copyElements = new CopyPasteGraph(this, selection).GetCopyElements();
+            List<ISelectable> copyElements = new CopyPasteGraphConvertor(this, selection).GetCopyElements();
             ClearSelection();
             //Select them again
             copyElements.ForEach(node =>
@@ -195,7 +195,7 @@ namespace Kurisu.NGDT.Editor
             return false;
         }
 
-        private bool Validate()
+        internal bool Validate()
         {
             //validate nodes by DFS.
             var stack = new Stack<IDialogueNode>();

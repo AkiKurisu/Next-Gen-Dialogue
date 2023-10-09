@@ -169,6 +169,7 @@ namespace Kurisu.NGDT.Editor
             NodeBehavior = Activator.CreateInstance(copyNode.GetBehavior()) as NodeBehavior;
             NodeBehavior.NotifyEditor = MarkAsExecuted;
             GUID = Guid.NewGuid().ToString();
+            OnRestore();
         }
 
         protected virtual void OnRestore()

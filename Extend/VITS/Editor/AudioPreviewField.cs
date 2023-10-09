@@ -38,7 +38,7 @@ namespace Kurisu.NGDT.VITS.Editor
             EditorPrefs.SetString(AudioUtil.PrefKey, path);
             string outPutPath = $"{path}/{audioClip.name}";
             WavUtil.Save(outPutPath, audioClip);
-            Debug.Log($"Audio saved succeed! Audio path:{outPutPath}");
+            Debug.Log($"Audio saved succeed ! Audio path:{outPutPath}");
             downloadButton.RemoveFromHierarchy();
             AssetDatabase.Refresh();
             var newClip = AssetDatabase.LoadAssetAtPath<AudioClip>(outPutPath.Replace(Application.dataPath, "Assets/"));

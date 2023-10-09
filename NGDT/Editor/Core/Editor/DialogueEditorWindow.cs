@@ -5,9 +5,10 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using System.Linq;
 using System.IO;
+using UnityEditor.Callbacks;
 namespace Kurisu.NGDT.Editor
 {
-    public class DialogueEditorWindow : EditorWindow
+    public class DialogueEditorWindow : EditorWindow, IHasCustomMenu
     {
         // GraphView window per UObject
         private static readonly Dictionary<int, DialogueEditorWindow> cache = new();
@@ -29,6 +30,23 @@ namespace Kurisu.NGDT.Editor
                 if (setting == null) setting = NextGenDialogueSetting.GetOrCreateSettings();
                 return setting;
             }
+        }
+        [OnOpenAsset]
+        private static bool OnOpenAsset(int instanceId, int _)
+        {
+            if (cache.ContainsKey(instanceId))
+            {
+                cache[instanceId].Show();
+                cache[instanceId].Focus();
+                return true;
+            }
+            var asset = EditorUtility.InstanceIDToObject(instanceId);
+            if (asset.GetType() == typeof(NextGenDialogueTreeSO))
+            {
+                Show((IDialogueTree)asset);
+                return true;
+            }
+            return false;
         }
         [MenuItem("Tools/Next Gen Dialogue/Next Gen Dialogue Editor")]
         private static void ShowEditorWindow()
@@ -91,7 +109,7 @@ namespace Kurisu.NGDT.Editor
         private void SaveDataToSO(string path)
         {
             var treeSO = CreateInstance<NextGenDialogueTreeSO>();
-            if (!graphView.Save())
+            if (!graphView.Validate())
             {
                 Debug.LogWarning($"<color=#ff2f2f>NGDT</color> : Save failed, ScriptableObject wasn't created !\n{System.DateTime.Now}");
                 return;
@@ -104,30 +122,42 @@ namespace Kurisu.NGDT.Editor
 
         private void OnDestroy()
         {
-            int code = Key.GetHashCode();
-            if (Key != null && cache.ContainsKey(code))
+            int code;
+            if (Key != null && cache.ContainsKey(code = Key.GetHashCode()))
             {
-                if (Setting.AutoSave)
+                if (Setting.AutoSave && !Application.isPlaying)
                 {
                     if (!cache[code].graphView.Save())
                     {
-                        var newWindow = cache[code] = Instantiate(this);
-                        newWindow.rootVisualElement.Clear();
-                        newWindow.rootVisualElement.Add(cache[code].CreateToolBar(graphView));
-                        newWindow.graphView = graphView;
-                        newWindow.rootVisualElement.Add(graphView);
-                        newWindow.rootVisualElement.Add(newWindow.CreateBakePreview());
-                        graphView.OnSelectAction = newWindow.OnNodeSelectionChange;
-                        graphView.EditorWindow = newWindow;
-                        newWindow.Key = Key;
-                        newWindow.Show();
-                        newWindow.ShowNotification(new GUIContent("Auto save failed !"));
+                        var msg = "Auto save failed, do you want to discard change ?";
+                        if (EditorUtility.DisplayDialog("Warning", msg, "Cancel", "Discard"))
+                        {
+                            var newWindow = cache[code] = Clone();
+                            newWindow.Show();
+                        }
+                        else
+                        {
+                            cache.Remove(code);
+                        }
                         return;
                     }
                     Debug.Log($"<color=#3aff48>NGDT</color>[{graphView.BehaviorTree.Object.name}] saved succeed ! {DateTime.Now}");
                 }
                 cache.Remove(code);
             }
+        }
+        private DialogueEditorWindow Clone()
+        {
+            var newWindow = Instantiate(this);
+            newWindow.rootVisualElement.Clear();
+            newWindow.rootVisualElement.Add(newWindow.CreateToolBar(graphView));
+            newWindow.graphView = graphView;
+            newWindow.rootVisualElement.Add(graphView);
+            newWindow.rootVisualElement.Add(newWindow.CreateBakePreview());
+            graphView.OnSelectAction = newWindow.OnNodeSelectionChange;
+            graphView.EditorWindow = newWindow;
+            newWindow.Key = Key;
+            return newWindow;
         }
         private void OnPlayModeStateChanged(PlayModeStateChange playModeStateChange)
         {
@@ -168,6 +198,10 @@ namespace Kurisu.NGDT.Editor
                 Repaint();
             }
         }
+        void IHasCustomMenu.AddItemsToMenu(GenericMenu menu)
+        {
+            menu.AddItem(new GUIContent("Reload"), false, Reload);
+        }
         private VisualElement CreateToolBar(DialogueTreeView graphView)
         {
             return new IMGUIContainer(
@@ -175,90 +209,93 @@ namespace Kurisu.NGDT.Editor
                 {
                     GUILayout.BeginHorizontal(EditorStyles.toolbar);
 
-                    if (!Application.isPlaying)
+                    GUI.enabled = !Application.isPlaying;
+                    if (GUILayout.Button($"Save {TreeName}", EditorStyles.toolbarButton))
                     {
-                        if (GUILayout.Button($"Save {TreeName}", EditorStyles.toolbarButton))
+                        var guiContent = new GUIContent();
+                        if (graphView.Save())
                         {
-                            var guiContent = new GUIContent();
-                            if (graphView.Save())
-                            {
-                                guiContent.text = $"Update {TreeName} Succeed !";
-                                ShowNotification(guiContent);
-                            }
-                            else
-                            {
-                                guiContent.text = $"Invalid {TreeName}, please check the node connection for errors !";
-                                ShowNotification(guiContent);
-                            }
+                            guiContent.text = $"Update {TreeName} Succeed !";
+                            ShowNotification(guiContent);
                         }
-                        bool newValue = GUILayout.Toggle(Setting.AutoSave, "Auto Save", EditorStyles.toolbarButton);
-                        if (newValue != Setting.AutoSave)
+                        else
                         {
-                            Setting.AutoSave = newValue;
+                            guiContent.text = $"Invalid {TreeName}, please check the node connection for errors !";
+                            ShowNotification(guiContent);
+                        }
+                    }
+                    GUI.enabled = true;
+                    bool newValue = GUILayout.Toggle(Setting.AutoSave, "Auto Save", EditorStyles.toolbarButton);
+                    if (newValue != Setting.AutoSave)
+                    {
+                        Setting.AutoSave = newValue;
+                        EditorUtility.SetDirty(setting);
+                        AssetDatabase.SaveAssets();
+                    }
+
+                    if (GUILayout.Button("Save To SO", EditorStyles.toolbarButton))
+                    {
+                        string path = EditorUtility.OpenFolderPanel("Select ScriptableObject save path", Setting.LastPath, "");
+                        if (!string.IsNullOrEmpty(path))
+                        {
+                            Setting.LastPath = path;
+                            SaveDataToSO(path.Replace(Application.dataPath, string.Empty));
+                        }
+
+                    }
+                    GUI.enabled = !Application.isPlaying;
+                    if (GUILayout.Button("Copy From SO", EditorStyles.toolbarButton))
+                    {
+                        string path = EditorUtility.OpenFilePanel("Select ScriptableObject to copy", Setting.LastPath, "asset");
+                        var data = LoadDataFromFile(path.Replace(Application.dataPath, string.Empty));
+                        if (data != null)
+                        {
+                            Setting.LastPath = path;
                             EditorUtility.SetDirty(setting);
                             AssetDatabase.SaveAssets();
+                            ShowNotification(new GUIContent("Data dropped succeed !"));
+                            graphView.CopyFromOtherTree(data, new Vector3(400, 300));
                         }
-
-                        if (GUILayout.Button("Save To SO", EditorStyles.toolbarButton))
-                        {
-                            string path = EditorUtility.OpenFolderPanel("Select ScriptableObject save path", Setting.LastPath, "");
-                            if (!string.IsNullOrEmpty(path))
-                            {
-                                Setting.LastPath = path;
-                                SaveDataToSO(path.Replace(Application.dataPath, string.Empty));
-                            }
-
-                        }
-
-                        if (GUILayout.Button("Copy From SO", EditorStyles.toolbarButton))
-                        {
-                            string path = EditorUtility.OpenFilePanel("Select ScriptableObject to copy", Setting.LastPath, "asset");
-                            var data = LoadDataFromFile(path.Replace(Application.dataPath, string.Empty));
-                            if (data != null)
-                            {
-                                Setting.LastPath = path;
-                                EditorUtility.SetDirty(setting);
-                                AssetDatabase.SaveAssets();
-                                ShowNotification(new GUIContent("Data dropped succeed !"));
-                                graphView.CopyFromOtherTree(data, new Vector3(400, 300));
-                            }
-                        }
-                        GUILayout.FlexibleSpace();
-                        if (GUILayout.Button("Save To Json", EditorStyles.toolbarButton))
-                        {
-                            var serializedData = graphView.SerializeTreeToJson();
-                            string path = EditorUtility.SaveFilePanel("Select json file save path", Setting.LastPath, graphView.BehaviorTree.Object.name, "json");
-                            if (!string.IsNullOrEmpty(path))
-                            {
-                                FileInfo info = new(path);
-                                Setting.LastPath = info.Directory.FullName;
-                                EditorUtility.SetDirty(setting);
-                                File.WriteAllText(path, serializedData);
-                                Debug.Log($"<color=#3aff48>NGDT</color>:Save json file succeed !");
-                                AssetDatabase.SaveAssets();
-                                AssetDatabase.Refresh();
-                            }
-                        }
-                        if (GUILayout.Button("Copy From Json", EditorStyles.toolbarButton))
-                        {
-                            string path = EditorUtility.OpenFilePanel("Select json file to copy", Setting.LastPath, "json");
-                            if (!string.IsNullOrEmpty(path))
-                            {
-                                FileInfo info = new(path);
-                                Setting.LastPath = info.Directory.FullName;
-                                EditorUtility.SetDirty(setting);
-                                AssetDatabase.SaveAssets();
-                                var data = File.ReadAllText(path);
-                                if (graphView.CopyFromJson(data, new Vector3(400, 300)))
-                                    ShowNotification(new GUIContent("Json file read Succeed !"));
-                                else
-                                    ShowNotification(new GUIContent("Json file is in wrong format !"));
-                            }
-                            GUIUtility.ExitGUI();
-                        }
-                        GUILayout.EndHorizontal();
                     }
+                    GUI.enabled = true;
+                    GUILayout.FlexibleSpace();
+                    if (GUILayout.Button("Save To Json", EditorStyles.toolbarButton))
+                    {
+                        var serializedData = graphView.SerializeTreeToJson();
+                        string path = EditorUtility.SaveFilePanel("Select json file save path", Setting.LastPath, graphView.BehaviorTree.Object.name, "json");
+                        if (!string.IsNullOrEmpty(path))
+                        {
+                            FileInfo info = new(path);
+                            Setting.LastPath = info.Directory.FullName;
+                            EditorUtility.SetDirty(setting);
+                            File.WriteAllText(path, serializedData);
+                            Debug.Log($"<color=#3aff48>NGDT</color>:Save json file succeed !");
+                            AssetDatabase.SaveAssets();
+                            AssetDatabase.Refresh();
+                        }
+                    }
+                    GUI.enabled = !Application.isPlaying;
+                    if (GUILayout.Button("Copy From Json", EditorStyles.toolbarButton))
+                    {
+                        string path = EditorUtility.OpenFilePanel("Select json file to copy", Setting.LastPath, "json");
+                        if (!string.IsNullOrEmpty(path))
+                        {
+                            FileInfo info = new(path);
+                            Setting.LastPath = info.Directory.FullName;
+                            EditorUtility.SetDirty(setting);
+                            AssetDatabase.SaveAssets();
+                            var data = File.ReadAllText(path);
+                            if (graphView.CopyFromJson(data, new Vector3(400, 300)))
+                                ShowNotification(new GUIContent("Json file read Succeed !"));
+                            else
+                                ShowNotification(new GUIContent("Json file is in wrong format !"));
+                        }
+                        GUIUtility.ExitGUI();
+                    }
+                    GUI.enabled = true;
+                    GUILayout.EndHorizontal();
                 }
+
             );
         }
         private VisualElement CreateBakePreview()

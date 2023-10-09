@@ -3,7 +3,7 @@ using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 namespace Kurisu.NGDT.Editor
 {
-    public class NodeConverter
+    public class NodeConvertor
     {
         private interface IParentAdapter
         {
