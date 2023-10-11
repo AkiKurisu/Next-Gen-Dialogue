@@ -6,11 +6,16 @@ namespace Kurisu.NGDT.Editor
 {
     public static class LocalizationSymbolSetter
     {
-        const string DEFINE = "USE_LOCALIZATION";
+        private const string DEFINE = "USE_LOCALIZATION";
 
         [InitializeOnLoadMethod]
         private static void Init()
         {
+            EditorApplication.update += SymbolSet;
+        }
+        private static void SymbolSet()
+        {
+            EditorApplication.update -= SymbolSet;
             if (AppDomain.CurrentDomain.GetAssemblies().Any(x => x.GetName().Name == "Unity.Localization"))
             {
                 EditorUtils.AddScriptingSymbol(DEFINE);
