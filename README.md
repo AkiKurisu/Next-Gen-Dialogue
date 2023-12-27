@@ -2,26 +2,32 @@
 
 <img src="Images/Splash.png" >
 
-***Read this document in other languages: [中文文档](./README_ZH.md)***
+***Read this document in Chinese: [中文文档](./README_ZH.md)***
+
 ## Content
 
-- [Features](#features)
-- [Supported version](#supported-version)
-- [Quick Start](#quick-start)
-  - [Create a Dialogue Tree](#create-a-dialogue-tree)
-  - [AI Generate Dialogue](#ai-generate-dialogue)
-  - [AI Bake Dialogue](#ai-bake-dialogue)
-- [Node](#node)
-- [Modules](#modules)
-  - [General Modules](#general-modules)
-  - [AIGC Modules](#aigc-modules)
-  - [Experimental Modules](#experimental-modules)
-    - [Localization Extension](#localization-extension)
-    - [VITS Speech Synthesis Extension](#vits-speech-synthesis-extension)
-- [Resolver](#resolver)
-  - [How to Switch Resolver](#how-to-switch-resolver)
-- [Create Dialogue by Code](#create-dialogue-by-code)
-
+  - [Features](#features)
+  - [RoadMap](#roadmap)
+  - [Supported version](#supported-version)
+  - [Install](#install)
+  - [Quick Start](#quick-start)
+    - [Create a Dialogue Tree](#create-a-dialogue-tree)
+    - [AI Generate Dialogue](#ai-generate-dialogue)
+    - [AI Bake Dialogue](#ai-bake-dialogue)
+  - [Nodes](#nodes)
+  - [Modules](#modules)
+    - [General Modules](#general-modules)
+    - [AIGC Modules](#aigc-modules)
+    - [Experimental Modules](#experimental-modules)
+      - [Localization Extension](#localization-extension)
+      - [VITS Speech Extension](#vits-speech-extension)
+      - [Transformer Extension](#transformer-extension)
+  - [Experimental Function Introduction](#experimental-function-introduction)
+    - [One-click Translation](#one-click-translation)
+    - [Bake Voice](#bake-voice)
+  - [Resolvers](#resolvers)
+    - [How to Switch Resolver](#how-to-switch-resolver)
+  - [Create Dialogue by Code](#create-dialogue-by-code)
 
 
 
@@ -29,16 +35,36 @@
 
 <Img src = "Images/BakeDialogue.png">
 
-Next-Gen Dialogue plugin (hereinafter referred to as NGD) is a Unity dialogue plugin combined with large language model design. It combines the traditional dialogue design method with the large language model. It has the following features:
-1. Visual conversation editor
+Next Gen Dialogue plugin (hereinafter referred to as NGD) is a Unity dialogue plugin combined with large language model design, won the Unity AI Plugin Excellence Award from Unity China. It combines the traditional dialogue design method with AI technique (eg. Large Language Model(`LLM`), Conditional Variational Autoencoder with Adversarial Learning for End-to-End Text-to-Speech(``VITS``)), also it has some experiential features powered by `Unity Sentis`. Currently this package is an experimental attempt and hopes you enjoy it. 
+
+It has the following features:
+1. Visual dialogue editor
 2. Modular dialogue function
 3. Support AIGC to generate dialogue when running
 4. Support AIGC baking dialogue in Editor
 5. Debug during runtime
    
+Demo project: https://github.com/AkiKurisu/Next-Gen-Dialogue-Example-Project
+
+<Img src = "Images/DemoExample2.png">
+
+<Img src = "Images/DemoExample1.png">
+
+## RoadMap
+
+1. Use Unity Sentis to inference VITS, LLM model instead of using Python API which needs network and server.
+
 ## Supported version
 
 * Unity 2021.3 or Later
+
+## Install
+
+Using git URL to download package by Unity PackageManager ```https://github.com/AkiKurisu/Next-Gen-Dialogue.git```
+
+The experimental features of Next Gen Dialogue are placed in the Modules folder and will not be enabled without installing the corresponding dependencies. You can view the dependencies in the `README.md` document under its folder.
+
+To use core functions, you need to install `Newtonsoft Json` in PackageManager.
 
 ## Quick Start
 
@@ -54,6 +80,8 @@ If you are using this plugin for the first time, it is recommended to play the f
 
 ```5.Build Dialogue by Code.unity``` this scene contains the use of Code to generate dialogue.
 
+``6.Bake Novel.unity`` An example of using ChatGPT to infinitely generate dialogue trees.
+
 ### Create a Dialogue Tree
 
 NextGenDialogueTree and NextGenDialogueTreeSO are used to store dialogue data. In order to facilitate understanding, it is collectively referred to as dialogue tree.
@@ -66,7 +94,7 @@ The following process is to create a dialogue tree that contains only a single d
 5. Create the Container/Piece node and create our first dialogue fragment
 6. Right -click Piece node ``Add Module`` add ``Content Module``, you can fill in the contents of the conversation in ``Content``
 7. Create a Container/Option node and create a dialogue option corresponding to the PIECE node
-8. Right -click Piece node ``Add Option``, connect Piece with Option
+8. Right-click Piece node ``Add Option``, connect Piece with Option
 9. <b style = "color:#ee819e"> Very important: </b> At least one Piece node needs to be added to the Dialogue as the first piece of the dialogue.You can right -click dialogue's ``Add Piece `` to connect with the connection or quoting its PieceID. You can also right -click dialogue's ``Collect All Pieces`` to add all the piece in Graph to the dialogue and adjust the priority of the Piece
     * For priority, please refer to [《General Module-Condition Module》](#general-modules)
 
@@ -75,7 +103,7 @@ The following process is to create a dialogue tree that contains only a single d
 10. Click on the upper left of the editor's `` Save`` to save dialogue
 11. Click Play to enter PlayMode
 12. Click on NextGenDialogueTree ``Play dialogue`` to play conversation
-13. Click `` Open DialogueTree (Runtime) `` to enter the debug mode
+13. Click `` Debug DialogueTree `` to enter the debug mode
     
 <IMG SRC = "Images/RuntimeDebug.png">
 
@@ -105,7 +133,7 @@ The following process is to create a dialogue tree that can generate dialogue co
 
 It is not easy to control the dialogue content of AIGC at runtime, but you can use AI dialogue Baker to bake the dialogue content generated by AI in advance when designing the dialogue tree, so as to improve the workflow efficiency without affecting your design framework.
 
-<img src="Images/BakeDialogue.gif">
+<img src="Images/BakeDialogue.png">
 
 1. The basic dialogue tree design is consistent with the process of [《Create a Dialogue Tree》](#create-a-dialogue-tree)
 2. The addition of Prompt is consistent with the process of [《AI Generated Dialogue》](#ai-generate-dialogue)
@@ -113,10 +141,19 @@ It is not easy to control the dialogue content of AIGC at runtime, but you can u
 4. Select the type of LLM you are baking with
 5. <b>Select in turn</b> the nodes that AI dialogue Baker needs to recognize, the order of recognition is based on the order selected by the mouse, and finally select the nodes that need to be baked
 6. If the selection is successful, you can see the preview input content at the bottom of the editor
-7. Right-click the node that needs to be baked, click ```Bake dialogue``` and wait for the AI response
+7. Click the ````Bake Dialogue`` button on the ````AI Bake Module```` and wait for the AI response
 8. After the language model responds, a ```Content Module``` will be automatically added to the node to store the baked dialogue content
+9. You can continuously generate conversations based on your needs
 
-## Node
+### AI generated novel
+
+Different from talking directly to AI in baking dialogue, novel mode allows AI to play the role of copywriter and planner to write dialogue, so it can control options and fragments more precisely. Please refer to the example: ``6.Bake Novel.unity``
+
+<img src="Images/BakeNovel.png" >
+
+## Nodes
+
+NGD use node based visual editor framework, most of the features are presented through nodes.
 
 The construction dialogue are divided into the following parts in NGD:
   
@@ -137,7 +174,7 @@ In addition, in order to add interest to the dialogue such as adding events and 
 
 ## Modules
 
-In addition to the above nodes, a more flexible concept is used in NGD, that is, Module. You can use Module to change the output form of the dialogue, such as Google translation, localization, add callbacks, or be executed as a markup by UI components. series of actions.
+In addition to the above nodes, a more flexible concept is used in NGD, that is, Module. You can use Module to change the output form of the dialogue, such as Google translation, localization, add callbacks, or be executed as a markup. 
 
 ### General Modules
 
@@ -188,14 +225,61 @@ If you want to use the VITS module, please use it with VITSAIReResolver. For the
 | ----------- | ------------------------------------------------------------------------------------- |
 | VITS Module | Use VITS speech synthesis model to generate language for Piece or Option in real time |
 
-## Resolver
+#### Transformer Extension
+
+Based on great work from [HuggingFace](https://thomassimonini.substack.com/p/create-an-ai-robot-npc-using-hugging?r=dq5fg&utm_campaign=post&utm_medium=web) and [Unity Sentis](https://discussions.unity.com/t/about-sentis-beta/260899).
+
+You can use bert transformer model in runtime to search dialogue piece instead of connecting manually.
+
+| Name                             | Description                                                                   |
+| -------------------------------- | ----------------------------------------------------------------------------- |
+| Sentence Similarity Entry Module | Entry point to collect sentence data                                          |
+| Inference Similar ID Module      | Used to inference option's target dialogue piece id using Sentence Similarity |
+
+## Experimental Function Introduction
+
+### One-click Translation
+
+Add Editor/EditorTranslateModule in the Dialogue node, set the source language (`sourceLanguageCode`) and target language (`targetLanguageCode`) of the translation, right-click and select `Translate All Contents` to perform all Piece and Option with `ContentModule` translate.
+
+<img src="Images/FastTranslation.png" >
+
+For nodes other than `ContentModule`, if the `TranslateEntryAttribute` is added to the field, you can right-click a single node to translate it.
+
+```c#
+namespace Kurisu.NGDT.Behavior
+{
+    public class SetString : Action
+    {
+      //Notify field can be translated
+      //* Only work for SharedString and string
+      [SerializeField, Multiline, TranslateEntry]
+      private SharedString value;
+    }
+}
+```
+<img src="Images/SingleTranslate.png" >
+
+### Bake Voice
+
+Before use, you need to install the corresponding dependencies of `Modules/VITS` and open the local VITS server (refer to `Modules/VITS/README.md`). Add `AIGC/VITSModule` to the node where speech needs to be generated, right-click and select ``Bake Audio ``
+
+<img src="Images/BakeAudio.png" >
+
+If you are satisfied with the generated audio, click `Download` to save it locally to complete the baking, otherwise the audio file will not be retained after exiting the editor.
+
+It is no longer necessary to start the VITS server at runtime after baking is complete.
+
+* If the AudioClip field is empty, the run generation mode is enabled by default. If there is no connection, the conversation may not proceed. If you only need to use the baking function, please keep the AudioClip field not empty at all times.
+
+## Resolvers
 Resolver is used to detect the Module in the Container at runtime and execute a series of preset logic such as injecting dependencies and executing behaviors, the difference between NGD's built-in Resolver is as follows:
 
-| Name                                  | Description                                                                                  |
-| ------------------------------------- | -------------------------------------------------------------------------------------------- |
-| BuiltIn Resolver                      | The most basic resolver, supporting all built-in common modules                              |
-| AI Resolver                           | Added AIGC module on the basis of BuiltIn Resolver                                           |
-| VITS AI Resolver ```(Experimental)``` | On the basis of AI Resolver, additionally detect VITS modules to generate voice in real time |
+| Name                                  | Description                                                                                                         |
+| ------------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
+| BuiltIn Resolver                      | The most basic resolver, supporting all built-in common modules                                                     |
+| AI Resolver                           | Added AIGC module on the basis of BuiltIn Resolver                                                                  |
+| VITS AI Resolver ```(Experimental)``` | On the basis of AI Resolver, additionally detect VITS modules to generate voice in real time, no need for bake mode |
 
 ### How to Switch Resolver
 
@@ -208,7 +292,7 @@ Resolver is used to detect the Module in the Container at runtime and execute a 
 
 ## Create Dialogue by Code
 
-NGD is divided into two parts, DialogueSystem and DialogueTree. The former defines the data structure of the dialogue, which is interpreted by Resolver after receiving the data. The latter provides a visual editing solution and inherits the interface from the former. So you can also use scripts to write dialogues, examples are as follows:
+NGD is divided into two parts, DialogueSystem (NGDS) and DialogueTree (NGDT). The former defines the data structure of the dialogue, which is interpreted by Resolver after receiving the data. The latter provides a visual editing solution and inherits the interface from the former. So you can also use scripts to write dialogues, examples are as follows:
 
 ```C#
 using UnityEngine;

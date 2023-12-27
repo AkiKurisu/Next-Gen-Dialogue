@@ -3,7 +3,7 @@ using Kurisu.NGDS;
 using UnityEngine;
 namespace Kurisu.NGDT
 {
-    public delegate void ResolveDialogueDelegate(IProvideDialogue dialogue);
+    public delegate void ResolveDialogueDelegate(IDialogueProxy dialogue);
     [DisallowMultipleComponent]
     public class NextGenDialogueTree : MonoBehaviour, IDialogueTree
     {
@@ -23,10 +23,9 @@ namespace Kurisu.NGDT
         /// <value></value>
         public NextGenDialogueTreeSO ExternalData { get => externalDialogueTree; set => externalDialogueTree = value; }
 #if UNITY_EDITOR
-        public IDialogueTree ExternalBehaviorTree => externalDialogueTree;
         [SerializeField, HideInInspector]
         private List<GroupBlockData> blockData = new();
-        public List<GroupBlockData> BlockData { get => blockData; set => blockData = value; }
+        public List<GroupBlockData> BlockData => blockData;
 #endif
         public Root Root
         {
@@ -53,6 +52,19 @@ namespace Kurisu.NGDT
             {
                 if (variable is PieceID pieceID) pieceID.Value = global::System.Guid.NewGuid().ToString();
             }
+            this.MapGlobal();
+#if NGDT_REFLECTION
+            if (externalDialogueTree)
+            {
+                //Prevent remap for external tree
+                if (!externalDialogueTree.IsInitialized)
+                    externalDialogueTree.Initialize();
+            }
+            else
+            {
+                SharedVariableMapper.Traverse(this);
+            }
+#endif
             root.Run(gameObject, this);
             root.Awake();
         }
@@ -75,14 +87,14 @@ namespace Kurisu.NGDT
             root.Abort();
             root.Update();
         }
-        private void ResolveDialogue(IProvideDialogue dialogue)
+        private void ResolveDialogue(IDialogueProxy dialogue)
         {
             System ??= IOCContainer.Resolve<IDialogueSystem>();
             if (System != null)
                 System.StartDialogue(dialogue);
             else
             {
-                Debug.Log("No dialogue system registered !");
+                Debug.Log("No dialogue system registered!");
             }
         }
     }

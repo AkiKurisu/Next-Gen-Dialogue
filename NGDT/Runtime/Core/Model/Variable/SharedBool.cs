@@ -2,7 +2,7 @@ using System;
 namespace Kurisu.NGDT
 {
     [Serializable]
-    public class SharedBool : SharedVariable<bool>, IBindableVariable<SharedBool>
+    public class SharedBool : SharedVariable<bool>
     {
         public SharedBool(bool value)
         {
@@ -12,14 +12,9 @@ namespace Kurisu.NGDT
         {
 
         }
-        public override object Clone()
+        public override SharedVariable Clone()
         {
-            return new SharedBool() { Value = value, Name = Name, IsShared = IsShared };
-        }
-
-        public void Bind(SharedBool other)
-        {
-            base.Bind(other);
+            return new SharedBool() { Value = value, Name = Name, IsShared = IsShared, IsGlobal = IsGlobal };
         }
     }
 }

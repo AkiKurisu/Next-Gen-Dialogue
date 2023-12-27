@@ -21,6 +21,6 @@ namespace Kurisu.NGDT.Editor
             }
             return field;
         }
-        public static bool IsAcceptable(Type infoType, FieldInfo info) => infoType == typeof(string);
+        public static bool IsAcceptable(Type infoType, FieldInfo _) => infoType == typeof(string);
     }
 }

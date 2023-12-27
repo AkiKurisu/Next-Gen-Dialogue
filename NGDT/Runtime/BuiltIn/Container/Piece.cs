@@ -1,4 +1,3 @@
-using Kurisu.NGDS;
 using UnityEngine;
 namespace Kurisu.NGDT
 {
@@ -7,7 +6,7 @@ namespace Kurisu.NGDT
     {
         [SerializeField, CopyDisable, AkiLabel("Piece ID"), Tooltip("You don't need to fill in this shared variable because its value will be automatically generated at runtime")]
         private PieceID pieceID;
-        private DialoguePiece pieceCache;
+        private NGDS.Piece pieceCache;
         protected override void OnAwake()
         {
             InitVariable(pieceID);
@@ -29,10 +28,22 @@ namespace Kurisu.NGDT
             Builder.EndWriteNode();
             return Status.Success;
         }
-        public DialoguePiece GetPiece()
+        /// <summary>
+        /// Emit a new dialogue piece
+        /// </summary>
+        /// <returns></returns>
+        public NGDS.Piece EmitPiece()
         {
-            pieceCache = DialoguePiece.CreatePiece();
+            pieceCache = NGDS.Piece.CreatePiece();
             pieceCache.PieceID = pieceID.Value;
+            return pieceCache;
+        }
+        /// <summary>
+        /// Cast current piece model
+        /// </summary>
+        /// <returns></returns>
+        public NGDS.Piece CastPiece()
+        {
             return pieceCache;
         }
         public override void Abort()

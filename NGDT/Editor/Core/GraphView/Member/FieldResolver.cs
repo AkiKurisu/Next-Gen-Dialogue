@@ -12,6 +12,7 @@ namespace Kurisu.NGDT.Editor
     {
         public int Order = 100;
     }
+    public delegate void ValueChangeDelegate(object value);
     public interface IFieldResolver
     {
         /// <summary>
@@ -35,7 +36,12 @@ namespace Kurisu.NGDT.Editor
         void Restore(object behavior);
         void Commit(object behavior);
         void Copy(IFieldResolver resolver);
-        object Value { get; }
+        object Value { get; set; }
+        /// <summary>
+        /// Register an object value change call back without knowing it's type
+        /// </summary>
+        /// <param name="fieldChangeCallBack"></param>
+        void RegisterValueChangeCallback(ValueChangeDelegate fieldChangeCallBack);
     }
 
     public abstract class FieldResolver<T, K> : IFieldResolver where T : BaseField<K>
@@ -43,7 +49,7 @@ namespace Kurisu.NGDT.Editor
         private readonly FieldInfo fieldInfo;
         private T editorField;
         public T EditorField => editorField;
-        public object Value => editorField.value;
+        public object Value { get => editorField.value; set => editorField.SetValueWithoutNotify((K)value); }
         protected FieldResolver(FieldInfo fieldInfo)
         {
             this.fieldInfo = fieldInfo;
@@ -90,6 +96,10 @@ namespace Kurisu.NGDT.Editor
         public void Commit(object behavior)
         {
             fieldInfo.SetValue(behavior, editorField.value);
+        }
+        public void RegisterValueChangeCallback(ValueChangeDelegate fieldChangeCallBack)
+        {
+            editorField.RegisterValueChangedCallback(evt => fieldChangeCallBack?.Invoke(evt.newValue));
         }
     }
 }

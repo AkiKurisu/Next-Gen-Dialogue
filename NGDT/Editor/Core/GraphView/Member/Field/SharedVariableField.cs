@@ -38,17 +38,17 @@ namespace Kurisu.NGDT.Editor
         public void Init(IDialogueTreeView treeView)
         {
             this.treeView = treeView;
-            treeView.BlackBoard.OnPropertyNameChange += (variable) =>
+            treeView.BlackBoard.View.RegisterCallback<VariableChangeEvent>(evt =>
             {
-                if (variable != bindExposedProperty) return;
-                nameDropdown.value = variable.Name;
-                value.Name = variable.Name;
-            };
+                if (evt.ChangeType != VariableChangeType.NameChange) return;
+                if (evt.Variable != bindExposedProperty) return;
+                nameDropdown.value = value.Name = evt.Variable.Name;
+            });
             OnToggle(toggle.value);
         }
         private static List<string> GetList(IDialogueTreeView treeView)
         {
-            return treeView.ExposedProperties
+            return treeView.SharedVariables
             .Where(x => x.GetType() == typeof(T))
             .Select(v => v.Name)
             .ToList();
@@ -56,7 +56,7 @@ namespace Kurisu.NGDT.Editor
         private void BindProperty()
         {
             if (treeView == null) return;
-            bindExposedProperty = treeView.ExposedProperties.Where(x => x.GetType() == typeof(T) && x.Name.Equals(value.Name)).FirstOrDefault();
+            bindExposedProperty = treeView.SharedVariables.Where(x => x.GetType() == typeof(T) && x.Name.Equals(value.Name)).FirstOrDefault();
         }
         private void OnToggle(bool IsShared)
         {
@@ -111,7 +111,7 @@ namespace Kurisu.NGDT.Editor
                 Repaint();
             }
         }
-        protected BaseField<K> ValueField { get; set; }
+        public BaseField<K> ValueField { get; protected set; }
         public void Repaint()
         {
             toggle.value = value.IsShared;

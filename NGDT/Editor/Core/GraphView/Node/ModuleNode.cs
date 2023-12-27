@@ -34,6 +34,7 @@ namespace Kurisu.NGDT.Editor
             //Remove needless default actions .
             evt.menu.MenuItems().Clear();
             remainTargets.ForEach(evt.menu.MenuItems().Add);
+            MapTreeView.ContextualMenuController.BuildContextualMenu(ContextualMenuType.Node, evt, GetBehavior());
         }
         protected override void OnGeometryChanged(GeometryChangedEvent evt)
         {
@@ -65,10 +66,13 @@ namespace Kurisu.NGDT.Editor
             AddToClassList(nameof(EditorModuleNode));
         }
     }
-    public class BehaviorModuleNode : ModuleNode
+    public class BehaviorModuleNode : ModuleNode, ILayoutTreeNode
     {
         private readonly Port childPort;
         public Port Child => childPort;
+
+        VisualElement ILayoutTreeNode.View => this;
+
         private IDialogueNode cache;
         public BehaviorModuleNode() : base()
         {
@@ -107,6 +111,13 @@ namespace Kurisu.NGDT.Editor
             {
                 PortHelper.FindChildNode(childPort).ClearStyle();
             }
+        }
+
+        public IReadOnlyList<ILayoutTreeNode> GetLayoutTreeChildren()
+        {
+            var list = new List<ILayoutTreeNode>();
+            if (childPort.connected) list.Add((ILayoutTreeNode)PortHelper.FindChildNode(childPort));
+            return list;
         }
     }
 }

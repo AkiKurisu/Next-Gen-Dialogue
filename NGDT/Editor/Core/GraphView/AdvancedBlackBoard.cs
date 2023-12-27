@@ -11,53 +11,62 @@ namespace Kurisu.NGDT.Editor
 {
     public class AdvancedBlackBoard : Blackboard, IBlackBoard
     {
+        public Blackboard View => this;
         private readonly FieldResolverFactory fieldResolverFactory = FieldResolverFactory.Instance;
         private readonly ScrollView scrollView;
         public VisualElement RawContainer => scrollView;
-        private readonly List<SharedVariable> exposedProperties;
-        public event Action<SharedVariable> OnPropertyNameChange;
-        public AdvancedBlackBoard(DialogueTreeView treeView) : base(treeView)
+        private readonly List<SharedVariable> sharedVariables;
+        private readonly HashSet<ObserveProxyVariable> observeProxies = new();
+        public AdvancedBlackBoard(IVariableSource variableSource, GraphView graphView) : base(graphView)
         {
             var header = this.Q("header");
             header.style.height = new StyleLength(50);
             Add(scrollView = new());
             scrollView.Add(new BlackboardSection { title = "Shared Variables" });
             RegisterCallback<GeometryChangedEvent>(OnGeometryChanged);
-            exposedProperties = treeView.ExposedProperties;
-            InitRequestDelegate(treeView);
+            RegisterCallback<DetachFromPanelEvent>(OnDispose);
+            sharedVariables = variableSource.SharedVariables;
+            if (!Application.isPlaying) InitRequestDelegate();
         }
-        private void InitRequestDelegate(DialogueTreeView _graphView)
+        private void OnDispose(DetachFromPanelEvent _)
+        {
+            foreach (var proxy in observeProxies)
+            {
+                proxy.Dispose();
+            }
+        }
+        private void InitRequestDelegate()
         {
             addItemRequested = _blackboard =>
                 {
                     var menu = new GenericMenu();
-                    menu.AddItem(new GUIContent("Int"), false, () => AddExposedProperty(new SharedInt(), true));
-                    menu.AddItem(new GUIContent("Float"), false, () => AddExposedProperty(new SharedFloat(), true));
-                    menu.AddItem(new GUIContent("Bool"), false, () => AddExposedProperty(new SharedBool(), true));
-                    menu.AddItem(new GUIContent("Vector3"), false, () => AddExposedProperty(new SharedVector3(), true));
-                    menu.AddItem(new GUIContent("String"), false, () => AddExposedProperty(new SharedString(), true));
-                    menu.AddItem(new GUIContent("Object"), false, () => AddExposedProperty(new SharedObject(), true));
+                    menu.AddItem(new GUIContent("Int"), false, () => AddSharedVariableWithNotify(new SharedInt()));
+                    menu.AddItem(new GUIContent("Float"), false, () => AddSharedVariableWithNotify(new SharedFloat()));
+                    menu.AddItem(new GUIContent("Bool"), false, () => AddSharedVariableWithNotify(new SharedBool()));
+                    menu.AddItem(new GUIContent("Vector3"), false, () => AddSharedVariableWithNotify(new SharedVector3()));
+                    menu.AddItem(new GUIContent("String"), false, () => AddSharedVariableWithNotify(new SharedString()));
+                    menu.AddItem(new GUIContent("Object"), false, () => AddSharedVariableWithNotify(new SharedObject()));
                     menu.ShowAsContext();
                 };
             editTextRequested = (_blackboard, element, newValue) =>
             {
                 var oldPropertyName = ((BlackboardField)element).text;
-                var index = _graphView.ExposedProperties.FindIndex(x => x.Name == oldPropertyName);
+                var index = sharedVariables.FindIndex(x => x.Name == oldPropertyName);
                 if (string.IsNullOrEmpty(newValue))
                 {
                     RawContainer.RemoveAt(index + 1);
-                    _graphView.ExposedProperties.RemoveAt(index);
+                    sharedVariables.RemoveAt(index);
                     return;
                 }
-                if (_graphView.ExposedProperties.Any(x => x.Name == newValue))
+                if (sharedVariables.Any(x => x.Name == newValue))
                 {
                     EditorUtility.DisplayDialog("Error", "A variable with the same name already exists !",
                         "OK");
                     return;
                 }
-                var targetIndex = _graphView.ExposedProperties.FindIndex(x => x.Name == oldPropertyName);
-                _graphView.ExposedProperties[targetIndex].Name = newValue;
-                OnPropertyNameChange?.Invoke(_graphView.ExposedProperties[targetIndex]);
+                var targetIndex = sharedVariables.FindIndex(x => x.Name == oldPropertyName);
+                sharedVariables[targetIndex].Name = newValue;
+                NotifyVariableChanged(sharedVariables[targetIndex], VariableChangeType.NameChange);
                 ((BlackboardField)element).text = newValue;
             };
 
@@ -68,32 +77,60 @@ namespace Kurisu.NGDT.Editor
         }
         public void EditProperty(string variableName)
         {
-            var index = exposedProperties.FindIndex(x => x.Name == variableName);
+            var index = sharedVariables.FindIndex(x => x.Name == variableName);
             if (index < 0) return;
             var field = scrollView.Query<BlackboardField>().AtIndex(index);
             scrollView.ScrollTo(field);
             field.OpenTextEditor();
         }
-        public void AddExposedProperty(SharedVariable variable, bool canDuplicate)
+        private void AddSharedVariableWithNotify(SharedVariable variable)
+        {
+            AddSharedVariable(variable);
+            NotifyVariableChanged(variable, VariableChangeType.Create);
+        }
+        public void AddSharedVariable(SharedVariable variable)
         {
             var localPropertyValue = variable.GetValue();
             if (string.IsNullOrEmpty(variable.Name)) variable.Name = variable.GetType().Name;
             var localPropertyName = variable.Name;
             int index = 1;
-            while (exposedProperties.Any(x => x.Name == localPropertyName))
+            while (sharedVariables.Any(x => x.Name == localPropertyName))
             {
-                if (!canDuplicate) return;
                 localPropertyName = $"{variable.Name}{index++}";
             }
             variable.Name = localPropertyName;
-            exposedProperties.Add(variable);
+            sharedVariables.Add(variable);
             var container = new VisualElement();
             var field = new BlackboardField { text = localPropertyName, typeText = variable.GetType().Name };
             field.capabilities &= ~Capabilities.Deletable;
             field.capabilities &= ~Capabilities.Movable;
+            if (Application.isPlaying)
+            {
+                field.capabilities &= ~Capabilities.Renamable;
+            }
             FieldInfo info = variable.GetType().GetField("value", BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Public);
             var fieldResolver = fieldResolverFactory.Create(info);
-            var valueField = fieldResolver.GetEditorField(exposedProperties, variable);
+            var valueField = fieldResolver.GetEditorField(null);
+            fieldResolver.Restore(variable);
+            fieldResolver.RegisterValueChangeCallback((obj) =>
+            {
+                var index = sharedVariables.FindIndex(x => x.Name == variable.Name);
+                sharedVariables[index].SetValue(obj);
+                NotifyVariableChanged(variable, VariableChangeType.ValueChange);
+            });
+            if (Application.isPlaying)
+            {
+                var observe = variable.Observe();
+                observe.Register(x => fieldResolver.Value = x);
+                observeProxies.Add(observe);
+                fieldResolver.Value = variable.GetValue();
+                //Disable since you should only edit global variable in source
+                if (variable.IsGlobal)
+                {
+                    valueField.SetEnabled(false);
+                    valueField.tooltip = "Global variable can only edited in source at runtime";
+                }
+            }
             var placeHolder = new VisualElement();
             placeHolder.Add(valueField);
             if (variable is SharedObject sharedObject)
@@ -108,7 +145,12 @@ namespace Kurisu.NGDT.Editor
             sa.AddManipulator(new ContextualMenuManipulator((evt) => BuildBlackboardMenu(evt, sa, variable)));
             RawContainer.Add(sa);
         }
-
+        private void NotifyVariableChanged(SharedVariable sharedVariable, VariableChangeType changeType)
+        {
+            using VariableChangeEvent changeEvent = VariableChangeEvent.GetPooled(sharedVariable, changeType);
+            changeEvent.target = this;
+            SendEvent(changeEvent);
+        }
         private void FindRelatedPiece(SharedVariable variable)
         {
             var piece = graphView.nodes.OfType<PieceContainer>().FirstOrDefault(x => x.GetPieceID() == variable.Name);
@@ -121,11 +163,16 @@ namespace Kurisu.NGDT.Editor
         private void BuildBlackboardMenu(ContextualMenuPopulateEvent evt, VisualElement element, SharedVariable variable)
         {
             evt.menu.MenuItems().Clear();
-            evt.menu.MenuItems().Add(new NGDTDropdownMenuAction("Delate Variable", (a) =>
+            evt.menu.MenuItems().Add(new NGDTDropdownMenuAction("Delate", (a) =>
             {
-                exposedProperties.Remove(variable);
+                sharedVariables.Remove(variable);
                 RawContainer.Remove(element);
+                NotifyVariableChanged(variable, VariableChangeType.Delate);
             }));
+            evt.menu.MenuItems().Add(new NGDTDropdownMenuAction("Duplicate", (a) =>
+           {
+               AddSharedVariableWithNotify(variable.Clone());
+           }));
         }
         private static VisualElement GetConstraintField(SharedObject sharedObject, ObjectField objectField)
         {

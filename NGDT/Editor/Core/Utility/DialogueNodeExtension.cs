@@ -1,9 +1,12 @@
-using System;
 using UnityEngine;
 namespace Kurisu.NGDT.Editor
 {
     public static class DialogueNodeExtension
     {
+        public static T GetFieldValue<T>(this IDialogueNode dialogueTreeNode, string fieldName)
+        {
+            return (T)dialogueTreeNode.GetFieldResolver(fieldName).Value;
+        }
         public static string GetSharedStringValue(this IDialogueNode dialogueTreeNode, string fieldName)
         {
             return dialogueTreeNode.GetSharedVariableValue<string>(fieldName) ?? string.Empty;
@@ -24,9 +27,9 @@ namespace Kurisu.NGDT.Editor
         {
             return dialogueTreeNode.GetSharedVariableValue<bool>(fieldName);
         }
-        public static UnityEngine.Object GetSharedObjectValue(this IDialogueNode dialogueTreeNode, string fieldName)
+        public static Object GetSharedObjectValue(this IDialogueNode dialogueTreeNode, string fieldName)
         {
-            return dialogueTreeNode.GetSharedVariableValue<UnityEngine.Object>(fieldName);
+            return dialogueTreeNode.GetSharedVariableValue<Object>(fieldName);
         }
         public static T GetSharedVariableValue<T>(this IDialogueNode dialogueTreeNode, string fieldName)
         {
@@ -37,11 +40,11 @@ namespace Kurisu.NGDT.Editor
         {
             try
             {
-                return (T)dialogueTreeNode.GetFieldResolver(fieldName).Value;
+                return dialogueTreeNode.GetFieldResolver(fieldName).Value as T;
             }
-            catch (Exception e)
+            catch
             {
-                Debug.Log(e);
+                Debug.Log($"Can not cast variable from {fieldName} for {typeof(T)} in {dialogueTreeNode}");
                 return null;
             }
         }

@@ -7,7 +7,7 @@ namespace Kurisu.NGDT
     /// Entry point of the dialogue tree
     /// </summary>
     [AkiInfo("Root : The root of dialogue tree, you can not delate it.")]
-    public class Root : NodeBehavior
+    public class Root : NodeBehavior, IIterable
     {
         [SerializeReference]
         private NodeBehavior child;
@@ -35,6 +35,7 @@ namespace Kurisu.NGDT
             child?.Run(GameObject, Tree);
             for (int i = 0; i < children.Count; i++)
             {
+                //Skip inactive dialogue
                 if (children[i] is not Dialogue)
                     children[i].Run(GameObject, Tree);
             }
@@ -45,6 +46,7 @@ namespace Kurisu.NGDT
             child?.Awake();
             for (int i = 0; i < children.Count; i++)
             {
+                //Skip inactive dialogue
                 if (children[i] is not Dialogue)
                     children[i].Awake();
             }
@@ -55,6 +57,7 @@ namespace Kurisu.NGDT
             child?.Start();
             for (int i = 0; i < children.Count; i++)
             {
+                //Skip inactive dialogue
                 if (children[i] is not Dialogue)
                     children[i].Start();
             }
@@ -66,17 +69,38 @@ namespace Kurisu.NGDT
 #endif
             //Only update Child Dialogue
             if (child == null) return Status.Failure;
-            return (child as Dialogue).Update(Children.OfType<Piece>());
+            return GetActiveDialogue().Update(Children.OfType<Piece>());
         }
 
         internal void Abort()
         {
-            ((Container)child).Abort();
+            GetActiveDialogue().Abort();
             for (int i = 0; i < children.Count; i++)
             {
+                //Skip inactive dialogue
                 if (children[i] is Container container and not Dialogue)
                     container.Abort();
             }
+        }
+        /// <summary>
+        /// Get active dialogue
+        /// </summary>
+        /// <returns></returns>
+        public Dialogue GetActiveDialogue()
+        {
+            return child as Dialogue;
+        }
+
+        public NodeBehavior GetChildAt(int index)
+        {
+            if (index == 0) return child;
+            return children[index - 1];
+        }
+
+        public int GetChildCount()
+        {
+            if (child == null) return 0;
+            return children.Count + 1;
         }
     }
 }

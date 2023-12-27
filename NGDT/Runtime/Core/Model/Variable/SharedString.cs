@@ -2,7 +2,7 @@ using System;
 namespace Kurisu.NGDT
 {
     [Serializable]
-    public class SharedString : SharedVariable<string>, IBindableVariable<SharedString>
+    public class SharedString : SharedVariable<string>
     {
         public SharedString(string value)
         {
@@ -12,14 +12,9 @@ namespace Kurisu.NGDT
         {
 
         }
-        public override object Clone()
+        public override SharedVariable Clone()
         {
-            return new SharedString() { Value = value, Name = Name, IsShared = IsShared };
-        }
-
-        public void Bind(SharedString other)
-        {
-            base.Bind(other);
+            return new SharedString() { Value = value, Name = Name, IsShared = IsShared, IsGlobal = IsGlobal };
         }
     }
 }

@@ -1,7 +1,7 @@
 using UnityEngine;
 namespace Kurisu.NGDT
 {
-    public class Decorator : NodeBehavior
+    public class Decorator : NodeBehavior, IIterable
     {
 
         [SerializeReference]
@@ -48,6 +48,15 @@ namespace Kurisu.NGDT
         protected virtual Status OnDecorate(Status childStatus)
         {
             return childStatus;
+        }
+        public NodeBehavior GetChildAt(int index)
+        {
+            return child;
+        }
+
+        public int GetChildCount()
+        {
+            return child == null ? 0 : 1;
         }
     }
 }

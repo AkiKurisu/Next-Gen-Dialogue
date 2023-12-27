@@ -9,8 +9,8 @@ namespace Kurisu.NGDT
             this.resolveDialogueCallBack = resolveDialogueCallBack;
         }
         private readonly ResolveDialogueDelegate resolveDialogueCallBack;
-        private readonly Stack<DialogueNode> nodesBuffer = new();
-        public void StartWriteNode(DialogueNode node)
+        private readonly Stack<Node> nodesBuffer = new();
+        public void StartWriteNode(Node node)
         {
             nodesBuffer.Push(node);
         }
@@ -18,14 +18,14 @@ namespace Kurisu.NGDT
         {
             nodesBuffer.Pop().NodePushPool();
         }
-        public DialogueNode GetNode()
+        public Node GetNode()
         {
             return nodesBuffer.Peek();
         }
         public void EndWriteNode()
         {
             var node = nodesBuffer.Pop();
-            if (nodesBuffer.TryPeek(out DialogueNode parentNode) && node is IDialogueModule module)
+            if (nodesBuffer.TryPeek(out Node parentNode) && node is IDialogueModule module)
                 parentNode.AddModule(module);
         }
         internal void ClearBuffer()
@@ -33,7 +33,7 @@ namespace Kurisu.NGDT
             nodesBuffer.Clear();
         }
 
-        public void ProvideDialogue(IProvideDialogue dialogue)
+        public void EndBuildDialogue(IDialogueProxy dialogue)
         {
             resolveDialogueCallBack(dialogue);
         }

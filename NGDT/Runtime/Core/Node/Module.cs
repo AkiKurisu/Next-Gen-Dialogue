@@ -9,7 +9,7 @@ namespace Kurisu.NGDT
         protected override void OnRun() { }
     }
     [Serializable]
-    public abstract class BehaviorModule : Module
+    public abstract class BehaviorModule : Module, IIterable
     {
         [SerializeReference]
         private NodeBehavior child;
@@ -34,6 +34,15 @@ namespace Kurisu.NGDT
         public override void Start()
         {
             child?.Start();
+        }
+        public NodeBehavior GetChildAt(int index)
+        {
+            return child;
+        }
+
+        public int GetChildCount()
+        {
+            return child == null ? 0 : 1;
         }
     }
     [Serializable]

@@ -1,6 +1,9 @@
 using UnityEngine;
 using System.Collections.Generic;
 using Kurisu.NGDS;
+#if NGDT_REFLECTION&&UNITY_EDITOR
+using UnityEditor;
+#endif
 namespace Kurisu.NGDT
 {
     [CreateAssetMenu(fileName = "NextGenDialogueTreeSO", menuName = "Next Gen Dialogue/NextGenDialogueTreeSO")]
@@ -12,19 +15,9 @@ namespace Kurisu.NGDT
         public Root Root
         {
             get => root;
-#if UNITY_EDITOR
-            set => root = value;
-#endif
         }
-        public List<SharedVariable> SharedVariables
-        {
-            get => sharedVariables;
+        public List<SharedVariable> SharedVariables => sharedVariables;
 #if UNITY_EDITOR
-            set => sharedVariables = value;
-#endif
-        }
-#if UNITY_EDITOR
-        public IDialogueTree ExternalBehaviorTree => null;
         [SerializeField, HideInInspector]
         private List<GroupBlockData> blockData = new();
         public List<GroupBlockData> BlockData => blockData;
@@ -37,12 +30,30 @@ namespace Kurisu.NGDT
         public IDialogueBuilder Builder { get; private set; }
         public IDialogueSystem System { get; set; }
         /// <summary>
+        /// Whether dialogueTreeSO is initialized
+        /// </summary>
+        /// <value></value>
+#if NGDT_REFLECTION
+        public bool IsInitialized { get; private set; }
+#else
+        public bool IsInitialized => true;
+#endif
+        /// <summary>
         /// Bind GameObject and Init behaviorTree through Awake and Start method
         /// <param name="gameObject">bind gameObject</param>
         /// <param name="dialogueBuilder">runtime builder</param>
         /// </summary>
         public void Init(GameObject gameObject, IDialogueBuilder dialogueBuilder)
         {
+#if NGDT_REFLECTION
+#if !UNITY_EDITOR
+            if (!IsInitialized)
+#endif
+            {
+                Initialize();
+            }
+#endif
+            this.MapGlobal();
             Builder = dialogueBuilder;
             GenerateID();
             root.Abort();
@@ -59,6 +70,7 @@ namespace Kurisu.NGDT
 #if UNITY_EDITOR
             blockData = new List<GroupBlockData>(template.BlockData);
 #endif
+            Initialize();
         }
         private void GenerateID()
         {
@@ -66,6 +78,46 @@ namespace Kurisu.NGDT
             {
                 if (variable is PieceID pieceID) pieceID.Value = global::System.Guid.NewGuid().ToString();
             }
+        }
+#if NGDT_REFLECTION
+        /// <summary>
+        /// This will be called when the object is loaded for the first time when entering PlayMode
+        /// Currently we only need to map variables once per scriptableObject
+        /// </summary>
+        private void Awake()
+        {
+            if (!IsInitialized)
+            {
+                Initialize();
+            }
+        }
+#if UNITY_EDITOR
+        private void OnEnable()
+        {
+            EditorApplication.playModeStateChanged += OnPlayStateChange;
+        }
+
+        private void OnDisable()
+        {
+            EditorApplication.playModeStateChanged -= OnPlayStateChange;
+        }
+
+        private void OnPlayStateChange(PlayModeStateChange state)
+        {
+            if (state == PlayModeStateChange.EnteredEditMode || state == PlayModeStateChange.ExitingPlayMode)
+                IsInitialized = false;
+        }
+#endif
+#endif
+        /// <summary>
+        /// Traverse behaviors and bind shared variables
+        /// </summary>
+        public void Initialize()
+        {
+#if NGDT_REFLECTION
+            IsInitialized = true;
+            SharedVariableMapper.Traverse(this);
+#endif
         }
     }
 }

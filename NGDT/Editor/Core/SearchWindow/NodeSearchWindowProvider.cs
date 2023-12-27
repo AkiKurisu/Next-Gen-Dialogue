@@ -72,10 +72,7 @@ namespace Kurisu.NGDT.Editor
             {
                 pieceContainer.GenerateNewPieceID();
             }
-            var graphNode = node as Node;
-            graphNode.SetPosition(newRect);
-            graphView.AddElement(graphNode);
-            node.OnSelectAction = graphView.OnSelectAction;
+            graphView.AddNode(node, newRect);
             return true;
         }
     }

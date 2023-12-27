@@ -3,7 +3,7 @@ using UnityEngine;
 namespace Kurisu.NGDT
 {
     [Serializable]
-    public class SharedVector3 : SharedVariable<Vector3>, IBindableVariable<SharedVector3>
+    public class SharedVector3 : SharedVariable<Vector3>
     {
         public SharedVector3(Vector3 value)
         {
@@ -13,14 +13,9 @@ namespace Kurisu.NGDT
         {
 
         }
-        public override object Clone()
+        public override SharedVariable Clone()
         {
-            return new SharedVector3() { Value = value, Name = Name, IsShared = IsShared };
-        }
-
-        public void Bind(SharedVector3 other)
-        {
-            base.Bind(other);
+            return new SharedVector3() { Value = value, Name = Name, IsShared = IsShared, IsGlobal = IsGlobal };
         }
     }
 }

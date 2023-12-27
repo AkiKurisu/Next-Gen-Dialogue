@@ -78,7 +78,7 @@ namespace Kurisu.NGDT.Editor
 
         public void PostCommit(IDialogueTree tree)
         {
-            tree.Root = NodeBehavior as Root;
+            DialogueTreeEditorUtility.SetRoot(tree, NodeBehavior as Root);
         }
         protected sealed override void OnClearStyle()
         {

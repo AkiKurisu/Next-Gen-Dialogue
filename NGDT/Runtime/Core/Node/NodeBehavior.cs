@@ -51,31 +51,12 @@ namespace Kurisu.NGDT
         }
 
         protected abstract Status OnUpdate();
-        protected void InitVariable<T>(T variable) where T : SharedVariable, IBindableVariable<T>
+        protected void InitVariable(SharedVariable sharedVariable)
         {
-            if (variable == null) return;
-            if (!variable.IsShared) return;
-            //Special case of binding SharedTObject<T> to SharedObject
-            if (variable is IBindableVariable<SharedObject> objectGetter)
-            {
-                foreach (var sharedVariable in Tree.SharedVariables)
-                {
-                    if (sharedVariable is SharedObject sharedObject && sharedObject.Name == variable.Name)
-                    {
-                        objectGetter.Bind(sharedObject);
-                        return;
-                    }
-                }
-            }
-            foreach (var sharedVariable in Tree.SharedVariables)
-            {
-                if (sharedVariable is IBindableVariable<T> bindable && sharedVariable.Name == variable.Name)
-                {
-                    variable.Bind((T)bindable);
-                    return;
-                }
-            }
-            Debug.LogWarning($"{variable.Name} is not a valid shared variable !");
+            //Skip init variable if use reflection runtime
+#if !NGDT_REFLECTION
+            sharedVariable.MapToInternal(Tree);
+#endif
         }
     }
 }

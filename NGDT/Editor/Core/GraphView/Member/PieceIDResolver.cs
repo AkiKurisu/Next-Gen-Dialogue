@@ -40,11 +40,12 @@ namespace Kurisu.NGDT.Editor
         internal void InitField(IDialogueTreeView treeView)
         {
             this.treeView = treeView;
-            treeView.BlackBoard.OnPropertyNameChange += (variable) =>
+            treeView.BlackBoard.View.RegisterCallback<VariableChangeEvent>(evt =>
             {
-                if (variable != bindExposedProperty) return;
-                UpdateID(variable);
-            };
+                if (evt.ChangeType != VariableChangeType.NameChange) return;
+                if (evt.Variable != bindExposedProperty) return;
+                UpdateID(evt.Variable);
+            });
             BindProperty();
             UpdateValueField();
         }
@@ -59,14 +60,14 @@ namespace Kurisu.NGDT.Editor
         }
         private static List<string> GetList(IDialogueTreeView treeView)
         {
-            return treeView.ExposedProperties
+            return treeView.SharedVariables
             .Where(x => x.GetType() == typeof(PieceID))
             .Select(v => v.Name)
             .ToList();
         }
         private void BindProperty()
         {
-            bindExposedProperty = treeView.ExposedProperties.Where(x => x.GetType() == typeof(PieceID) && x.Name.Equals(value.Name)).FirstOrDefault();
+            bindExposedProperty = treeView.SharedVariables.Where(x => x.GetType() == typeof(PieceID) && x.Name.Equals(value.Name)).FirstOrDefault();
         }
         private void UpdateValueField()
         {

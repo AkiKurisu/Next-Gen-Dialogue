@@ -4,8 +4,10 @@ using UnityEngine.UIElements;
 using UnityEngine;
 namespace Kurisu.NGDT.Editor
 {
-    public class ActionNode : DialogueTreeNode
+    public class ActionNode : DialogueTreeNode, ILayoutTreeNode
     {
+        VisualElement ILayoutTreeNode.View => this;
+
         public ActionNode()
         {
             AddToClassList("ActionNode");
@@ -29,6 +31,10 @@ namespace Kurisu.NGDT.Editor
 
         protected override void OnClearStyle()
         {
+        }
+        public IReadOnlyList<ILayoutTreeNode> GetLayoutTreeChildren()
+        {
+            return new List<ILayoutTreeNode>();
         }
     }
 }

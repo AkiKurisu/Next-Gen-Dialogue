@@ -5,29 +5,29 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using System.Linq;
 using System;
-using System.Threading.Tasks;
+using Newtonsoft.Json;
 namespace Kurisu.NGDT.Editor
 {
     public class DialogueTreeView : GraphView, IDialogueTreeView
     {
         public GraphView View => this;
         public IBlackBoard BlackBoard { get; internal set; }
-        private readonly IDialogueTree behaviorTree;
-        public IDialogueTree BehaviorTree => behaviorTree;
+        private readonly IDialogueTree dialogueTree;
+        public IDialogueTree DialogueTree => dialogueTree;
         private RootNode root;
-        public List<SharedVariable> ExposedProperties { get; } = new();
+        public List<SharedVariable> SharedVariables { get; } = new();
         private readonly NodeSearchWindowProvider provider;
         private readonly NodeResolverFactory nodeResolver = NodeResolverFactory.Instance;
         public Action<IDialogueNode> OnSelectAction { get; internal set; }
         public EditorWindow EditorWindow { get; internal set; }
         private readonly NodeConvertor converter = new();
         private readonly DragDropManipulator dragDropManipulator;
-        private readonly AIDialogueBaker baker = new();
         public IControlGroupBlock GroupBlockController { get; }
+        public ContextualMenuController ContextualMenuController { get; }
         public DialogueTreeView(IDialogueTree bt, EditorWindow editor)
         {
             EditorWindow = editor;
-            behaviorTree = bt;
+            dialogueTree = bt;
             style.flexGrow = 1;
             style.flexShrink = 1;
             styleSheets.Add(NextGenDialogueSetting.GetGraphStyle());
@@ -51,6 +51,7 @@ namespace Kurisu.NGDT.Editor
             {
                 SearchWindow.Open(new SearchWindowContext(context.screenMousePosition), provider);
             };
+            ContextualMenuController = new();
             GroupBlockController = new GroupBlockController(this);
             canPasteSerializedData += (data) => true;
             unserializeAndPaste += OnPaste;
@@ -81,6 +82,12 @@ namespace Kurisu.NGDT.Editor
             newNode.CopyFrom(node);
             return newNode;
         }
+        public void AddNode(IDialogueNode node, Rect worldRect)
+        {
+            node.View.SetPosition(worldRect);
+            AddElement(node.View);
+            node.OnSelectAction = OnSelectAction;
+        }
         public sealed override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
         {
             base.BuildContextualMenu(evt);
@@ -96,6 +103,7 @@ namespace Kurisu.NGDT.Editor
             //Remove needless default actions .
             evt.menu.MenuItems().Clear();
             remainTargets.ForEach(evt.menu.MenuItems().Add);
+            ContextualMenuController.BuildContextualMenu(ContextualMenuType.Graph, evt, null);
         }
         public sealed override List<Port> GetCompatiblePorts(Port startAnchor, NodeAdapter nodeAdapter)
         {
@@ -130,14 +138,14 @@ namespace Kurisu.NGDT.Editor
             EditorWindow.ShowNotification(new GUIContent("Data Dropped Succeed !"));
             CopyFromOtherTree(data as IDialogueTree, mousePosition);
         }
-        internal void CopyFromOtherTree(IDialogueTree otherTree, Vector2 mousePosition)
+        public void CopyFromOtherTree(IDialogueTree otherTree, Vector2 mousePosition)
         {
             var localMousePosition = contentViewContainer.WorldToLocal(mousePosition) - new Vector2(400, 300);
             IEnumerable<IDialogueNode> nodes;
             RootNode rootNode;
             foreach (var variable in otherTree.SharedVariables)
             {
-                BlackBoard.AddExposedProperty(variable.Clone() as SharedVariable, true);
+                BlackBoard.AddSharedVariable(variable.Clone());
             }
             (rootNode, nodes) = converter.ConvertToNode(otherTree, this, localMousePosition);
             foreach (var node in nodes) node.OnSelectAction = OnSelectAction;
@@ -146,10 +154,16 @@ namespace Kurisu.NGDT.Editor
             RemoveElement(rootNode);
             RestoreBlocks(otherTree, nodes);
         }
-        internal void Restore()
+        public void Restore()
         {
-            IDialogueTree tree = behaviorTree.ExternalBehaviorTree ?? behaviorTree;
-            OnRestore(tree);
+            if (DialogueTreeEditorUtility.TryGetExternalTree(DialogueTree, out IDialogueTree tree))
+            {
+                OnRestore(tree);
+            }
+            else
+            {
+                OnRestore(DialogueTree);
+            }
         }
         private void OnRestore(IDialogueTree tree)
         {
@@ -171,7 +185,15 @@ namespace Kurisu.NGDT.Editor
         {
             foreach (var variable in tree.SharedVariables)
             {
-                BlackBoard.AddExposedProperty(variable.Clone() as SharedVariable, false);
+                //In play mode, use original variable to observe value change
+                if (Application.isPlaying)
+                {
+                    BlackBoard.AddSharedVariable(variable);
+                }
+                else
+                {
+                    BlackBoard.AddSharedVariable(variable.Clone());
+                }
             }
         }
         private void RestoreBlocks(IDialogueTree tree, IEnumerable<IDialogueNode> nodes)
@@ -183,19 +205,19 @@ namespace Kurisu.NGDT.Editor
             }
         }
 
-        internal bool Save()
+        public bool Save()
         {
             if (Application.isPlaying) return false;
             if (Validate())
             {
-                Commit(behaviorTree);
+                Commit(dialogueTree);
                 AssetDatabase.SaveAssets();
                 return true;
             }
             return false;
         }
 
-        internal bool Validate()
+        public bool Validate()
         {
             //validate nodes by DFS.
             var stack = new Stack<IDialogueNode>();
@@ -210,7 +232,7 @@ namespace Kurisu.NGDT.Editor
             }
             return true;
         }
-        internal void Commit(IDialogueTree behaviorTree)
+        public void Commit(IDialogueTree behaviorTree)
         {
             var stack = new Stack<IDialogueNode>();
             stack.Push(root);
@@ -222,7 +244,7 @@ namespace Kurisu.NGDT.Editor
             }
             root.PostCommit(behaviorTree);
             behaviorTree.SharedVariables.Clear();
-            foreach (var sharedVariable in ExposedProperties)
+            foreach (var sharedVariable in SharedVariables)
             {
                 behaviorTree.SharedVariables.Add(sharedVariable);
             }
@@ -235,11 +257,11 @@ namespace Kurisu.NGDT.Editor
             // notify to unity editor that the tree is changed.
             EditorUtility.SetDirty(behaviorTree.Object);
         }
-        internal string SerializeTreeToJson()
+        public string SerializeTreeToJson()
         {
-            return SerializationUtility.SerializeTree(behaviorTree, false, true);
+            return SerializationUtility.SerializeTree(dialogueTree, false, true);
         }
-        internal bool CopyFromJson(string serializedData, Vector3 mousePosition)
+        public bool CopyFromJson(string serializedData, Vector3 mousePosition)
         {
             var temp = ScriptableObject.CreateInstance<NextGenDialogueTreeSO>();
             try
@@ -252,33 +274,6 @@ namespace Kurisu.NGDT.Editor
             {
                 return false;
             }
-        }
-        public async void BakeDialogue()
-        {
-            var containers = selection.OfType<ContainerNode>().ToList();
-            if (containers.Count == 0) return;
-            var bakeContainer = containers.Last();
-            containers.Remove(bakeContainer);
-            if (containers.Any(x => x.TryGetModuleNode<AIBakeModule>(out ModuleNode _)))
-            {
-                EditorWindow.ShowNotification(new GUIContent($"AIBakeModule should only be added to the last select node !"));
-                return;
-            }
-            float startVal = (float)EditorApplication.timeSinceStartup;
-            const float maxValue = 60.0f;
-            var task = baker.Bake(containers, bakeContainer);
-            while (!task.IsCompleted)
-            {
-                float slider = (float)(EditorApplication.timeSinceStartup - startVal) / maxValue;
-                EditorUtility.DisplayProgressBar("Wait to bake dialogue", "Waiting for the few seconds", slider);
-                if (slider > 1)
-                {
-                    EditorWindow.ShowNotification(new GUIContent($"Dialogue baking is out of time, please check your internet !"));
-                    break;
-                }
-                await Task.Yield();
-            }
-            EditorUtility.ClearProgressBar();
         }
     }
 }

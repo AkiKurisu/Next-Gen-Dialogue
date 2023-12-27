@@ -5,11 +5,13 @@ using UnityEngine.UIElements;
 using UnityEngine;
 namespace Kurisu.NGDT.Editor
 {
-    public class ConditionalNode : DialogueTreeNode
+    public class ConditionalNode : DialogueTreeNode, ILayoutTreeNode
     {
         private readonly Port childPort;
 
         public Port Child => childPort;
+
+        VisualElement ILayoutTreeNode.View => this;
 
         public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
         {
@@ -56,6 +58,12 @@ namespace Kurisu.NGDT.Editor
             if (!childPort.connected) return;
             var child = PortHelper.FindChildNode(childPort);
             child.ClearStyle();
+        }
+        public IReadOnlyList<ILayoutTreeNode> GetLayoutTreeChildren()
+        {
+            var list = new List<ILayoutTreeNode>();
+            if (childPort.connected) list.Add((ILayoutTreeNode)PortHelper.FindChildNode(childPort));
+            return list;
         }
     }
 }

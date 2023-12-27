@@ -8,7 +8,7 @@ namespace Kurisu.NGDT
     [ModuleOf(typeof(Option))]
     public class UnityEventModule : CustomModule
     {
-        [SerializeField]
+        [SerializeField, WrapField]
         private UnityEvent unityEvent;
         protected override IDialogueModule GetModule()
         {

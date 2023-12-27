@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 namespace Kurisu.NGDT
 {
-    public abstract class Container : NodeBehavior
+    public abstract class Container : NodeBehavior, IIterable
     {
         [SerializeReference]
         private List<NodeBehavior> children = new();
@@ -52,5 +52,14 @@ namespace Kurisu.NGDT
             children.Add(child);
         }
 #endif
+        public NodeBehavior GetChildAt(int index)
+        {
+            return children[index];
+        }
+
+        public int GetChildCount()
+        {
+            return children.Count;
+        }
     }
 }

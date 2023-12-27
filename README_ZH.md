@@ -1,43 +1,72 @@
-# Next Gen Dialogue 使用手册
+# Next Gen Dialogue 用户手册
 
 <img src="Images/Splash.png" >
 
-***Read this document in other languages: [English Document](./README.md)***
+***Read this document in English: [English Document](./README.md)***
 
 ## 目录
 
-- [特点](#特点)
-- [支持的版本](#支持的版本)
-- [快速开始](#快速开始)
-  - [创建对话树](#创建对话树)
-  - [AI生成对话](#ai生成对话)
-  - [AI烘焙对话](#ai烘焙对话)
-- [结点](#结点)
-- [模组](#模组)
-  - [通用模组](#通用模组)
-  - [AIGC模组](#aigc模组)
-  - [实验性模组](#实验性模组)
-    - [Localization 本地化拓展](#localization-本地化拓展)
-    - [VITS 语音合成拓展](#vits-语音合成拓展)
-- [解析器](#解析器)
-  - [如何切换解析器](#如何切换解析器)
-- [使用脚本编写对话](#使用脚本编写对话)
+  - [特点](#特点)
+  - [路线图](#路线图)
+  - [支持的版本](#支持的版本)
+  - [安装](#安装)
+  - [快速开始](#快速开始)
+    - [创建对话树](#创建对话树)
+    - [AI生成对话](#ai生成对话)
+    - [AI烘焙对话](#ai烘焙对话)
+  - [结点](#结点)
+  - [模组](#模组)
+    - [通用模组](#通用模组)
+    - [AIGC模组](#aigc模组)
+    - [实验性模组](#实验性模组)
+      - [Localization 本地化拓展](#localization-本地化拓展)
+      - [VITS 语音合成拓展](#vits-语音合成拓展)
+      - [Transformer 注意力机制扩展](#transformer-注意力机制扩展)
+  - [编辑器功能介绍](#编辑器功能介绍)
+    - [一键翻译](#一键翻译)
+    - [烘焙语音](#烘焙语音)
+  - [解析器](#解析器)
+    - [如何切换解析器](#如何切换解析器)
+  - [使用脚本编写对话](#使用脚本编写对话)
+
+
 
 
 ## 特点
 
 <Img src = "Images/BakeDialogue.png">
 
-次世代对话插件(以下简称NGD)是一款结合大语言模型设计的Unity对话插件，其将传统对话设计方式与大语言模型生成对话相结合，具有以下特点：
+Next Gen Dialogue插件（以下简称NGD）是一款结合大语言模型设计的Unity对话插件，荣获Unity中国颁发的Unity AI插件优秀奖。 它将传统的对话设计方法与人工智能技术（例如大语言模型（`LLM`）、条件变分自动编码器和端到端文本到语音的对抗性学习（`VITS`））相结合，还具有一些使用`Unity Sentis`实现的实验性功能。 目前这个包是一个实验性的尝试，希望你喜欢。
+
+具有以下特点：
 1. 可视化的对话编辑器
 2. 模块化的对话功能
 3. 支持AIGC运行时生成对话
 4. 支持AIGC在Editor中烘焙对话
 5. 运行时Debug
-   
+
+演示项目：https://github.com/AkiKurisu/Next-Gen-Dialogue-Example-Project
+
+<Img src = "Images/DemoExample2.png">
+
+<Img src = "Images/DemoExample1.png">
+
+## 路线图
+
+1. 使用Unity Sentis推理VITS、LLM模型，而不是使用需要网络和服务器的Python API。 
+
 ## 支持的版本
 
 * Unity 2021.3 or later
+
+
+## 安装
+
+在Unity PackageManager中使用Git URL下载 ```https://github.com/AkiKurisu/Next-Gen-Dialogue.git```
+
+Next Gen Dialogue的实验特性放入了Modules文件夹中，再没有安装相应依赖的情况下不会被启用，你可以在其文件夹下的`README.md`文档中查看依赖项。
+
+使用核心功能需在PackageManager中安装`Newtonsoft Json`。
 
 ## 快速开始
 
@@ -52,6 +81,8 @@
 ``4.Editor Bake Dialogue.unity`` 场景包含了在Editor中使用AI Dialogue Baker烘焙对话内容的样例；
 
 ``5.Build Dialogue by Code.unity`` 场景包含了使用Code生成对话的样例。
+
+``6.Bake Novel.unity`` 使用ChatGPT无限生成对话树的样例。
 
 ### 创建对话树
 
@@ -74,7 +105,7 @@ NextGenDialogueTree和NextGenDialogueTreeSO用于存储对话数据，为了便�
 1.  点击编辑器左上方的```Save```保存对话
 2.  点击Play进入PlayMode
 3.  点击NextGenDialogueTree的```Play Dialogue```播放对话
-4.  点击``Open DialogueTree(Runtime)``进入Debug模式
+4.  点击``Debug DialogueTree``进入Debug模式
     
 <img src="Images/RuntimeDebug.png">
 
@@ -104,7 +135,7 @@ NextGenDialogueTree和NextGenDialogueTreeSO用于存储对话数据，为了便�
 
 在运行时完全使用AIGC的对话内容不易控制，但您可以使用AI Dialogue Baker在设计对话树时提前烘焙AI生成的对话内容，从而在不影响您的设计框架的同时提高工作流效率。
 
-<img src="Images/BakeDialogue.gif" >
+<img src="Images/BakeDialogue.png" >
 
 1. 基础对话树设计与《[创建对话树](#创建对话树)》的流程一致 
 2. Prompt添加与《[AI生成对话](#AI生成对话)》的流程一致 
@@ -112,10 +143,19 @@ NextGenDialogueTree和NextGenDialogueTreeSO用于存储对话数据，为了便�
 4. 选择您烘焙时使用的LLM类型
 5. <b>依次选择</b>AI Dialogue Baker需要识别的结点，识别的顺序以鼠标选中的顺序为准，最后选中需要烘焙的结点
 6. 如果选择成功，你可以在编辑器的底部看到预览的输入内容
-7. 右键需要烘焙的结点，点击```Bake Dialogue```等待AI响应
+7. 点击```AI Bake Module```上的```Bake Dialogue```按钮等待AI响应
 8. 语言模型响应后，将自动在该结点中添加```Content Module```存放烘焙出的对话内容
+9. 你可以根据需求连续生成对话
+
+### AI生成小说
+
+和烘焙对话中直接和AI对话不同，小说模式让AI扮演文案策划编写对话，因此可以对选项和片段的控制更加精确，请参考示例：``6.Bake Novel.unity`` 
+
+<img src="Images/BakeNovel.png" >
 
 ## 结点
+
+NGD使用基于节点的可视化编辑器框架，大部分功能都是通过节点呈现的。
 
 构建对话在NGD中它们被分为以下几部分：
   
@@ -136,7 +176,7 @@ NextGenDialogueTree和NextGenDialogueTreeSO用于存储对话数据，为了便�
 
 ## 模组
 
-除了上述结点，在NGD中还使用了一个更灵活的概念即模组Module，你可以使用Module改变对话的输出形式例如Google翻译、本地化，增加回调或是作为一个标记由UI组件查询后执行一系列动作。
+除了上述结点，在NGD中还使用了一个更灵活的概念即模组Module，你可以使用Module改变对话的输出形式例如Google翻译、本地化，增加回调或是作为一个标记。
 
 ### 通用模组
 
@@ -186,6 +226,53 @@ VITS本地部署请参考该仓库：[VITS Simple API](https://github.com/Artraj
 | 名称        | 描述                                            |
 | ----------- | ----------------------------------------------- |
 | VITS Module | 使用VITS语音合成模型为Piece或Option实时生成语言 |
+
+#### Transformer 注意力机制扩展
+
+基于 [HuggingFace](https://thomassimonini.substack.com/p/create-an-ai-robot-npc-using-hugging?r=dq5fg&utm_campaign=post&utm_medium=web) 和[Unity Sentis](https://discussions.unity.com/t/about-sentis-beta/260899)。
+
+您可以在运行时使用 Bert-Transformer模型来搜索对话片段，而不用手动连接。
+
+| 名称 | 描述 |
+| -------------------------------- | ---------------------------| 
+| Sentence Similarity Entry Module| 收集句子数据的入口点 |
+| Inference Similar ID Module| 用于使用句子相似度来推断选项的目标对话片段 ID |
+
+## 编辑器功能介绍
+
+### 一键翻译
+
+在Dialogue结点中添加Editor/EditorTranslateModule，设置翻译的来源语言（`sourceLanguageCode`）和目标语言（`targetLanguageCode`）, 右键选择`Translate All Contents`对所有带有``ContentModule``的Piece和Option进行翻译。
+
+<img src="Images/FastTranslation.png" >
+
+对于非`ContentModule`的结点，如字段添加了`TranslateEntryAttribute`可以右键单个结点进行翻译
+
+```c#
+namespace Kurisu.NGDT.Behavior
+{
+    public class SetString : Action
+    {
+      //Notify field can be translated
+      //* Only work for SharedString and string
+      [SerializeField, Multiline, TranslateEntry]
+      private SharedString value;
+    }
+}
+```
+<img src="Images/SingleTranslate.png" >
+
+### 烘焙语音
+
+使用前需要安装`Modules/VITS`相应依赖并开启本地VITS服务器（参照`Modules/VITS/README.md`），在需要生成语音的结点中添加`AIGC/VITSModule`，右键选择``Bake Audio``
+
+<img src="Images/BakeAudio.png" >
+
+如你对生成的音频较为满意，点击`Download`保存到本地从而完成烘焙，否则退出编辑器后不会保留音频文件。
+
+烘焙完成后不再需要运行时启动VITS服务器。
+
+* 如果AudioClip字段为空，则默认开启运行生成模式，如没有连接可能导致对话无法进行，如只需要使用烘焙功能请将AudioClip字段始终保持不为空。
 
 ## 解析器
 解析器Resolver用以在运行时检测Container中的Module并执行一系列预设的逻辑例如注入依赖、执行行为

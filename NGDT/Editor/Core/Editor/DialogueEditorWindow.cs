@@ -17,9 +17,8 @@ namespace Kurisu.NGDT.Editor
         private UnityEngine.Object Key { get; set; }
         private InfoView infoView;
         private const string TreeName = "Dialogue Tree";
-        private const string InfoText = "Welcome to Next-Gen-Dialogue Node Editor!";
+        private const string InfoText = "Welcome to Next-Gen Dialogue Tree Editor!";
         private static NextGenDialogueSetting setting;
-        private readonly AIDialogueBaker testBaker = new();
         private string bakeGenerateText;
         private Vector2 scrollPosition;
         private IMGUIContainer previewContainer;
@@ -31,6 +30,7 @@ namespace Kurisu.NGDT.Editor
                 return setting;
             }
         }
+#pragma warning disable IDE0051
         [OnOpenAsset]
         private static bool OnOpenAsset(int instanceId, int _)
         {
@@ -48,6 +48,7 @@ namespace Kurisu.NGDT.Editor
             }
             return false;
         }
+#pragma warning restore IDE0051
         [MenuItem("Tools/Next Gen Dialogue/Next Gen Dialogue Editor")]
         private static void ShowEditorWindow()
         {
@@ -91,7 +92,7 @@ namespace Kurisu.NGDT.Editor
             window.infoView = new InfoView(InfoText);
             window.infoView.styleSheets.Add(Resources.Load<StyleSheet>("NGDT/Info"));
             window.graphView.Add(window.infoView);
-            window.graphView.OnSelectAction = window.OnNodeSelectionChange;//绑定委托
+            window.graphView.OnSelectAction = window.OnNodeSelectionChange;
             GenerateBlackBoard(window.graphView);
             window.graphView.Restore();
             window.rootVisualElement.Add(window.CreateToolBar(window.graphView));
@@ -101,7 +102,7 @@ namespace Kurisu.NGDT.Editor
 
         private static void GenerateBlackBoard(DialogueTreeView _graphView)
         {
-            var blackboard = new AdvancedBlackBoard(_graphView);
+            var blackboard = new AdvancedBlackBoard(_graphView, _graphView);
             blackboard.SetPosition(new Rect(10, 100, 300, 400));
             _graphView.Add(blackboard);
             _graphView.BlackBoard = blackboard;
@@ -111,13 +112,13 @@ namespace Kurisu.NGDT.Editor
             var treeSO = CreateInstance<NextGenDialogueTreeSO>();
             if (!graphView.Validate())
             {
-                Debug.LogWarning($"<color=#ff2f2f>NGDT</color> : Save failed, ScriptableObject wasn't created !\n{System.DateTime.Now}");
+                Debug.LogWarning($"<color=#ff2f2f>NGDT</color> : Save failed, ScriptableObject wasn't created !\n{DateTime.Now}");
                 return;
             }
             graphView.Commit(treeSO);
             AssetDatabase.CreateAsset(treeSO, $"Assets/{path}/{Key.name}.asset");
             AssetDatabase.SaveAssets();
-            Debug.Log($"<color=#3aff48>NGDT</color> : Save succeed, ScriptableObject created path : {path}/{Key.name}.asset\n{System.DateTime.Now}");
+            Debug.Log($"<color=#3aff48>NGDT</color> : Save succeed, ScriptableObject created path : {path}/{Key.name}.asset\n{DateTime.Now}");
         }
 
         private void OnDestroy()
@@ -141,7 +142,7 @@ namespace Kurisu.NGDT.Editor
                         }
                         return;
                     }
-                    Debug.Log($"<color=#3aff48>NGDT</color>[{graphView.BehaviorTree.Object.name}] saved succeed ! {DateTime.Now}");
+                    Debug.Log($"<color=#3aff48>NGDT</color>[{graphView.DialogueTree.Object.name}] saved succeed ! {DateTime.Now}");
                 }
                 cache.Remove(code);
             }
@@ -262,7 +263,7 @@ namespace Kurisu.NGDT.Editor
                     if (GUILayout.Button("Save To Json", EditorStyles.toolbarButton))
                     {
                         var serializedData = graphView.SerializeTreeToJson();
-                        string path = EditorUtility.SaveFilePanel("Select json file save path", Setting.LastPath, graphView.BehaviorTree.Object.name, "json");
+                        string path = EditorUtility.SaveFilePanel("Select json file save path", Setting.LastPath, graphView.DialogueTree.Object.name, "json");
                         if (!string.IsNullOrEmpty(path))
                         {
                             FileInfo info = new(path);
@@ -320,13 +321,20 @@ namespace Kurisu.NGDT.Editor
         {
             var containers = graphView.selection.OfType<ContainerNode>().ToList();
             generateText = null;
-            if (containers.Count == 0) return false;
+            if (containers.Count < 2) return false;
             var bakeContainer = containers.Last();
-            if (!bakeContainer.TryGetModuleNode<AIBakeModule>(out ModuleNode _)) return false;
-            containers.Remove(bakeContainer);
-            if (containers.Any(x => x.TryGetModuleNode<AIBakeModule>(out ModuleNode _))) return false;
-            generateText = testBaker.TestBake(containers, bakeContainer);
-            return true;
+            if (bakeContainer.TryGetModuleNode<AIBakeModule>(out ModuleNode _))
+            {
+                containers.Remove(bakeContainer);
+                generateText = new DialogueBaker().TestBake(containers, bakeContainer);
+                return true;
+            }
+            if (bakeContainer.TryGetModuleNode<NovelBakeModule>(out ModuleNode novelBakeModule))
+            {
+                generateText = new NovelBaker().TestBake(containers, novelBakeModule, bakeContainer);
+                return true;
+            }
+            return false;
         }
         private IDialogueTree LoadDataFromFile(string path)
         {
@@ -337,7 +345,7 @@ namespace Kurisu.NGDT.Editor
             }
             catch
             {
-                ShowNotification(new GUIContent($"Invalid Path:Assets/{path}, asset type must be inherited from NextGenDialogueTreeSO !"));
+                ShowNotification(new GUIContent($"Invalid Path: Assets/{path}, asset type must be inherited from NextGenDialogueTreeSO !"));
                 return null;
             }
         }

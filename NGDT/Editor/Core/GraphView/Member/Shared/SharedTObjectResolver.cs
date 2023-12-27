@@ -54,17 +54,17 @@ namespace Kurisu.NGDT.Editor
         public void Init(IDialogueTreeView treeView)
         {
             this.treeView = treeView;
-            treeView.BlackBoard.OnPropertyNameChange += (variable) =>
+            treeView.BlackBoard.View.RegisterCallback<VariableChangeEvent>(evt =>
             {
-                if (variable != bindExposedProperty) return;
-                nameDropdown.value = variable.Name;
-                value.Name = variable.Name;
-            };
+                if (evt.ChangeType != VariableChangeType.NameChange) return;
+                if (evt.Variable != bindExposedProperty) return;
+                nameDropdown.value = value.Name = evt.Variable.Name;
+            });
             OnToggle(toggle.value);
         }
         private static List<string> GetList(IDialogueTreeView treeView)
         {
-            return treeView.ExposedProperties
+            return treeView.SharedVariables
             .Where(x => x is SharedObject sharedObject && sharedObject.ConstraintTypeAQM == typeof(T).AssemblyQualifiedName)
             .Select(v => v.Name)
             .ToList();
@@ -72,7 +72,7 @@ namespace Kurisu.NGDT.Editor
         private void BindProperty()
         {
             if (treeView == null) return;
-            bindExposedProperty = treeView.ExposedProperties
+            bindExposedProperty = treeView.SharedVariables
             .Where(x => x is SharedObject sharedObject && sharedObject.ConstraintTypeAQM == typeof(T).AssemblyQualifiedName && x.Name.Equals(value.Name))
             .FirstOrDefault();
         }
@@ -93,7 +93,10 @@ namespace Kurisu.NGDT.Editor
         }
         private void AddNameDropDown()
         {
-            nameDropdown = new DropdownField($"Shared {typeof(T).Name}", GetList(treeView), value.Name ?? string.Empty);
+            var list = GetList(treeView);
+            value.Name = value.Name ?? string.Empty;
+            int index = list.IndexOf(value.Name);
+            nameDropdown = new DropdownField($"Shared {typeof(T).Name}", list, index);
             nameDropdown.RegisterCallback<MouseEnterEvent>((evt) => { nameDropdown.choices = GetList(treeView); });
             nameDropdown.RegisterValueChangedCallback(evt => { value.Name = evt.newValue; BindProperty(); NotifyValueChange(); });
             foldout.Insert(0, nameDropdown);

@@ -5,8 +5,6 @@ using UnityEditor;
 using UnityEngine;
 namespace Kurisu.NGDT.Editor
 {
-    [AttributeUsage(AttributeTargets.Field, AllowMultiple = false)]
-    internal class AkiGroupSelectorAttribute : PropertyAttribute { }
     [CustomPropertyDrawer(typeof(AkiGroupSelectorAttribute))]
     internal class AkiGroupSelectorEditorDrawer : PropertyDrawer
     {

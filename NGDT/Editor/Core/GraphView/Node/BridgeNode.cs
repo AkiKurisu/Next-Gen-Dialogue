@@ -9,14 +9,14 @@ namespace Kurisu.NGDT.Editor
     internal class ParentBridge : Node
     {
         public Port Parent { get; }
-        public ParentBridge(Type portType) : base()
+        public ParentBridge(Type portType, Port.Capacity capacity) : base()
         {
             AddToClassList("BridgeNode");
             capabilities &= ~Capabilities.Copiable;
             capabilities &= ~Capabilities.Deletable;
             capabilities &= ~Capabilities.Movable;
             title = "Parent";
-            Parent = Port.Create<Edge>(Orientation.Horizontal, Direction.Input, Port.Capacity.Single, portType);
+            Parent = Port.Create<Edge>(Orientation.Horizontal, Direction.Input, capacity, portType);
             Parent.portName = string.Empty;
             inputContainer.Add(Parent);
             RegisterCallback<MouseUpEvent>(OnMouseUp);
@@ -176,6 +176,10 @@ namespace Kurisu.NGDT.Editor
             {
                 stack.Push(PortHelper.FindChildNode(Child));
             }
+        }
+        public OptionContainer GetOption()
+        {
+            return PortHelper.FindChildNode(Child) as OptionContainer;
         }
     }
 }

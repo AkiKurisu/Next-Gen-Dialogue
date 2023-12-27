@@ -9,6 +9,10 @@ namespace Kurisu.NGDT
     {
         [SerializeField]
         private SharedTObject<ScriptableEvent> scriptableEvent;
+        public override void Awake()
+        {
+            InitVariable(scriptableEvent);
+        }
         protected override IDialogueModule GetModule()
         {
             return new NGDS.CallBackModule(scriptableEvent.Value.Invoke);

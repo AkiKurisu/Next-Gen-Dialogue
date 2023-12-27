@@ -1,0 +1,21 @@
+{
+    "name": "Kurisu.NGDT.Localization",
+    "rootNamespace": "Kurisu.NGDT.Localization",
+    "references": [
+        "GUID:4a9214fa9d60c4c92bfc3c635010f27f",
+        "GUID:eec0964c48f6f4e40bc3ec2257ccf8c5",
+        "GUID:84651a3751eca9349aac36a66bba901b",
+        "GUID:a3641cccf50efcd4cafc57a3120fb40e"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [
+        "NGD_USE_LOCALIZATION"
+    ],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

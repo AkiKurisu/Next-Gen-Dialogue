@@ -7,8 +7,17 @@ namespace Kurisu.NGDT
     [ModuleOf(typeof(Piece))]
     public class NextPieceModule : CustomModule
     {
+#if UNITY_EDITOR
+        [SerializeField]
+        private bool useReference;
+#endif
         [SerializeField, AkiLabel("Next ID"), Tooltip("The next dialogue piece's PieceID"), ReferencePieceID]
         private PieceID nextID;
+        public PieceID NextID
+        {
+            get => nextID;
+            set => nextID = value;
+        }
         public override void Awake()
         {
             InitVariable(nextID);

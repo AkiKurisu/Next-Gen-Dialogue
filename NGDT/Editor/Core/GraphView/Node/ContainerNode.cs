@@ -31,12 +31,14 @@ namespace Kurisu.NGDT.Editor
             this.Q<VisualElement>(classes: "stack-node-placeholder")
                 .Children()
                 .First().style.color = new Color(1, 1, 1, 0.6f);
-            var bridge = new ParentBridge(ParentPortType);
+            var bridge = new ParentBridge(ParentPortType, PortCapacity);
             Parent = bridge.Parent;
             Parent.portColor = PortColor;
             AddElement(bridge);
             InitializeSettings();
         }
+        public Node View => this;
+        public virtual Port.Capacity PortCapacity => Port.Capacity.Single;
         public abstract Color PortColor { get; }
         private readonly TextField description;
         public abstract Type ParentPortType { get; }
@@ -351,18 +353,19 @@ namespace Kurisu.NGDT.Editor
             {
                 MapTreeView.GroupBlockController.UnSelectGroup();
             }));
+            MapTreeView.ContextualMenuController.BuildContextualMenu(ContextualMenuType.Node, evt, GetBehavior());
         }
         public Rect GetWorldPosition()
         {
             return GetPosition();
         }
     }
-    public class DialogueContainer : ContainerNode, IContainChild
+    public class DialogueContainer : ContainerNode, IContainChild, ILayoutTreeNode
     {
         public sealed override Type ParentPortType => typeof(DialoguePort);
-
         public override Color PortColor => new(97 / 255f, 95 / 255f, 212 / 255f, 0.91f);
 
+        VisualElement ILayoutTreeNode.View => this;
         public DialogueContainer() : base()
         {
             name = "DialogueContainer";
@@ -417,10 +420,24 @@ namespace Kurisu.NGDT.Editor
                     AddElement(new PieceBridge(MapTreeView, typeof(PiecePort), PortColor, piece.GetPieceID()));
                 }
             }));
+            evt.menu.MenuItems().Add(new NGDTDropdownMenuAction("Auto Layout", (a) =>
+            {
+                NodeAutoLayoutHelper.Layout(new DialogueTreeLayoutConvertor(MapTreeView.View, this));
+            }));
             base.BuildContextualMenu(evt);
         }
+        public IReadOnlyList<ILayoutTreeNode> GetLayoutTreeChildren()
+        {
+            var list = new List<ILayoutTreeNode>();
+            var nodes = contentContainer
+                 .Query<BehaviorModuleNode>()
+                 .ToList();
+            nodes.Reverse();
+            nodes.ForEach(x => list.AddRange(x.GetLayoutTreeChildren()));
+            return list;
+        }
     }
-    public class PieceContainer : ContainerNode, IContainChild
+    public class PieceContainer : ContainerNode, IContainChild, ILayoutTreeNode
     {
         public string GetPieceID()
         {
@@ -430,8 +447,12 @@ namespace Kurisu.NGDT.Editor
         {
             return (Piece)NodeBehavior;
         }
+        public sealed override Port.Capacity PortCapacity => Port.Capacity.Multi;
         public sealed override Type ParentPortType => typeof(PiecePort);
         public override Color PortColor => new(60 / 255f, 140 / 255f, 171 / 255f, 0.91f);
+
+        VisualElement ILayoutTreeNode.View => this;
+
         public PieceContainer() : base()
         {
             name = "PieceContainer";
@@ -447,16 +468,13 @@ namespace Kurisu.NGDT.Editor
         }
         public sealed override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
         {
-            if (TryGetModuleNode<AIBakeModule>(out _))
-            {
-                evt.menu.MenuItems().Add(new NGDTDropdownMenuAction("Bake Dialogue", (a) =>
-               {
-                   MapTreeView.BakeDialogue();
-               }));
-            }
             evt.menu.MenuItems().Add(new NGDTDropdownMenuAction("Edit PieceID", (a) =>
             {
                 MapTreeView.BlackBoard.EditProperty(GetPieceID());
+            }));
+            evt.menu.MenuItems().Add(new NGDTDropdownMenuAction("Auto Layout", (a) =>
+            {
+                NodeAutoLayoutHelper.Layout(new DialogueTreeLayoutConvertor(MapTreeView.View, this));
             }));
             base.BuildContextualMenu(evt);
         }
@@ -480,25 +498,49 @@ namespace Kurisu.NGDT.Editor
         public void GenerateNewPieceID()
         {
             var variable = new PieceID() { Name = "New Piece" };
-            MapTreeView.BlackBoard.AddExposedProperty(variable, false);
+            MapTreeView.BlackBoard.AddSharedVariable(variable);
             mainContainer.Q<PieceIDField>().value = new PieceID() { Name = variable.Name };
         }
+        public IReadOnlyList<ILayoutTreeNode> GetLayoutTreeChildren()
+        {
+            var list = new List<ILayoutTreeNode>();
+            var nodes = contentContainer
+                 .Query<Node>()
+                 .ToList();
+            nodes.Reverse();
+            foreach (var node in nodes)
+            {
+                if (node is OptionBridge optionBridge)
+                {
+                    var option = optionBridge.GetOption();
+                    if (option != null)
+                        list.Add(option);
+                }
+                else if (node is BehaviorModuleNode behaviorModule)
+                {
+                    list.AddRange(behaviorModule.GetLayoutTreeChildren());
+                }
+            }
+            return list;
+        }
     }
-    public class OptionContainer : ContainerNode
+    public class OptionContainer : ContainerNode, ILayoutTreeNode
     {
         public sealed override Type ParentPortType => typeof(OptionPort);
         public override Color PortColor => new(57 / 255f, 98 / 255f, 147 / 255f, 0.91f);
+
+        VisualElement ILayoutTreeNode.View => this;
+
         public OptionContainer() : base()
         {
             name = "OptionContainer";
         }
         public sealed override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
         {
-            if (TryGetModuleNode<AIBakeModule>(out _))
-                evt.menu.MenuItems().Add(new NGDTDropdownMenuAction("Bake Dialogue", (a) =>
-               {
-                   MapTreeView.BakeDialogue();
-               }));
+            evt.menu.MenuItems().Add(new NGDTDropdownMenuAction("Auto Layout", (a) =>
+            {
+                NodeAutoLayoutHelper.Layout(new DialogueTreeLayoutConvertor(MapTreeView.View, this));
+            }));
             base.BuildContextualMenu(evt);
         }
         protected sealed override bool AcceptsElement(GraphElement element, ref int proposedIndex, int maxIndex)
@@ -510,6 +552,29 @@ namespace Kurisu.NGDT.Editor
                 return !TryGetModuleNode(behaviorType, out _);
             }
             return element is ParentBridge;
+        }
+
+        public IReadOnlyList<ILayoutTreeNode> GetLayoutTreeChildren()
+        {
+            var list = new List<ILayoutTreeNode>();
+            var modules = contentContainer
+                 .Query<ModuleNode>()
+                 .ToList();
+            modules.Reverse();
+            foreach (var module in modules)
+            {
+                if (module is TargetIDNode targetID)
+                {
+                    var piece = targetID.GetPiece();
+                    if (piece != null)
+                        list.Add(piece);
+                }
+                else if (module is BehaviorModuleNode behaviorModule)
+                {
+                    list.AddRange(behaviorModule.GetLayoutTreeChildren());
+                }
+            }
+            return list;
         }
     }
 }

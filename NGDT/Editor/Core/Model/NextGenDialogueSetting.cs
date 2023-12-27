@@ -9,9 +9,9 @@ namespace Kurisu.NGDT.Editor
     internal class GraphEditorSetting
     {
         [AkiGroupSelector, Tooltip("Display type, filter AkiGroup according to this list, nodes without category will always be displayed")]
-        public string[] ShowGroups;
+        public string[] ShowGroups = new string[0];
         [AkiGroupSelector, Tooltip("The type that is not displayed, filter the AkiGroup according to this list, and the nodes without categories will always be displayed")]
-        public string[] NotShowGroups;
+        public string[] NotShowGroups = new string[0];
         [Tooltip("You can customize the style of the Graph view")]
         public StyleSheet graphStyleSheet;
         [Tooltip("You can customize the style of the Inspector inspector")]
@@ -119,37 +119,66 @@ namespace Kurisu.NGDT.Editor
     internal class NGDTSettingsProvider : SettingsProvider
     {
         private SerializedObject m_Settings;
-
+        private bool useReflection;
         private class Styles
         {
             public static GUIContent GraphEditorSettingStyle = new("Graph Editor Setting");
             public static GUIContent AITurboSettingStyle = new("AI Turbo Setting");
+            public static GUIContent EnableReflectionStyle = new("Enable Runtime Reflection",
+                     "Set this on to map shared variables on awake automatically." +
+                     " However, reflection may decrease your loading speed" +
+                     " since shared variables will be mapped when dialogue tree is first loaded"
+                     );
         }
+        private const string ReflectionSymbol = "NGDT_REFLECTION";
         public NGDTSettingsProvider(string path, SettingsScope scope = SettingsScope.User) : base(path, scope) { }
         public override void OnActivate(string searchContext, VisualElement rootElement)
         {
             m_Settings = NextGenDialogueSetting.GetSerializedSettings();
+            useReflection = ScriptingSymbolHelper.ContainsScriptingSymbol(ReflectionSymbol);
         }
-        private UnityEditor.Editor turboSettingEditor;
-        private bool showEditor;
         public override void OnGUI(string searchContext)
         {
+            GUILayout.BeginVertical("Editor Settings", GUI.skin.box);
+            GUILayout.Space(EditorGUIUtility.singleLineHeight);
             EditorGUILayout.PropertyField(m_Settings.FindProperty("graphEditorSetting"), Styles.GraphEditorSettingStyle);
+            GUILayout.EndVertical();
+            GUILayout.BeginVertical("Runtime Settings", GUI.skin.box);
             var turboSetting = m_Settings.FindProperty("aiTurboSetting");
+            GUILayout.Space(EditorGUIUtility.singleLineHeight);
+            var newValue = EditorGUILayout.ToggleLeft(Styles.EnableReflectionStyle, useReflection);
+            if (newValue != useReflection)
+            {
+                useReflection = newValue;
+                if (useReflection)
+                {
+                    ScriptingSymbolHelper.AddScriptingSymbol(ReflectionSymbol);
+                }
+                else
+                {
+                    ScriptingSymbolHelper.RemoveScriptingSymbol(ReflectionSymbol);
+                }
+            }
             EditorGUILayout.PropertyField(turboSetting, Styles.AITurboSettingStyle);
             if (turboSetting.objectReferenceValue != null)
             {
-                if (turboSettingEditor == null)
+                var obj = new SerializedObject(turboSetting.objectReferenceValue);
+                EditorGUI.BeginChangeCheck();
+                obj.UpdateIfRequiredOrScript();
+                SerializedProperty iterator = obj.GetIterator();
+                bool enterChildren = true;
+                while (iterator.NextVisible(enterChildren))
                 {
-                    turboSettingEditor = UnityEditor.Editor.CreateEditor(turboSetting.objectReferenceValue);
+                    using (new EditorGUI.DisabledScope("m_Script" == iterator.propertyPath))
+                    {
+                        if (!enterChildren) EditorGUILayout.PropertyField(iterator, true);
+                    }
+                    enterChildren = false;
                 }
-                showEditor = EditorGUILayout.Foldout(showEditor, GUIContent.none);
-                if (showEditor)
-                {
-                    EditorGUI.indentLevel++;
-                    turboSettingEditor.OnInspectorGUI();
-                }
+                obj.ApplyModifiedProperties();
+                EditorGUI.EndChangeCheck();
             }
+            GUILayout.EndVertical();
             m_Settings.ApplyModifiedPropertiesWithoutUndo();
         }
         [SettingsProvider]

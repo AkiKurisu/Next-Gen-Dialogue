@@ -16,9 +16,9 @@ namespace Kurisu.NGDT
         }
 
         private readonly string mTitle;
-        public AkiLabelAttribute(string tite)
+        public AkiLabelAttribute(string title)
         {
-            this.mTitle = tite;
+            mTitle = title;
         }
     }
 

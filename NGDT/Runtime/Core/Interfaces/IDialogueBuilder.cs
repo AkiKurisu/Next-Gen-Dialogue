@@ -7,14 +7,24 @@ namespace Kurisu.NGDT
         /// Push new node into write buffer
         /// </summary>
         /// <param name="node"></param>
-        void StartWriteNode(DialogueNode node);
-        DialogueNode GetNode();
+        void StartWriteNode(Node node);
+        /// <summary>
+        /// Get current writing node
+        /// </summary>
+        /// <returns></returns>
+        Node GetNode();
         /// <summary>
         /// Dispose current writing node
         /// </summary>
         void DisposeWriteNode();
-
-        void ProvideDialogue(IProvideDialogue dialogue);
+        /// <summary>
+        /// End build dialogue nodes
+        /// </summary>
+        /// <param name="dialogue">Inject dialogue proxy</param>
+        void EndBuildDialogue(IDialogueProxy dialogue);
+        /// <summary>
+        /// End writing node
+        /// </summary>
         void EndWriteNode();
     }
 }

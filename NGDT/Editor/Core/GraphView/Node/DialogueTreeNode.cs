@@ -9,6 +9,7 @@ namespace Kurisu.NGDT.Editor
 {
     public interface IDialogueNode
     {
+        Node View { get; }
         string GUID { get; }
         Port Parent { get; }
         IDialogueTreeView MapTreeView { get; }
@@ -42,6 +43,7 @@ namespace Kurisu.NGDT.Editor
         protected NodeSettingsView settingsContainer;
         protected Button settingButton;
         private bool settingsExpanded = false;
+        public Node View => this;
         public override void OnSelected()
         {
             base.OnSelected();
@@ -323,6 +325,7 @@ namespace Kurisu.NGDT.Editor
             {
                 MapTreeView.GroupBlockController.UnSelectGroup();
             }));
+            MapTreeView.ContextualMenuController.BuildContextualMenu(ContextualMenuType.Node, evt, GetBehavior());
         }
         public virtual Rect GetWorldPosition()
         {

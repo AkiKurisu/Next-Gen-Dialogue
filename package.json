@@ -1,0 +1,43 @@
+{
+  "name": "com.kurisu.next-gen-dialogue",
+  "displayName": "Next Gen Dialogue",
+  "version": "1.0.0",
+  "unity": "2021.3",
+  "description": "Node based Dialogue Editor.\nSupports baking dialogue content and audio powered by AI.",
+  "keywords": [
+    "Graph",
+    "GraphView",
+    "Dialogue",
+    "AI"
+  ],
+  "category": "Visual Scripting",
+  "dependencies": {
+    "com.unity.nuget.newtonsoft-json": "3.2.1"
+  },
+  "author": {
+    "name": "AkiKurisu",
+    "url": "https://github.com/AkiKurisu"
+  },
+  "samples": [
+    {
+      "displayName": "Dialogue Example",
+      "description": "Basic usage of Dialogue System and AIGC",
+      "path": "Samples~/Example"
+    },
+    {
+      "displayName": "VITS Example",
+      "description": "Sample of using VITS to generate audio clip for your dialogue",
+      "path": "Samples~/VITS"
+    },
+    {
+      "displayName": "Localization Example",
+      "description": "Sample of supporting localization for your dialogue",
+      "path": "Samples~/Localization"
+    },
+    {
+      "displayName": "Transformer Example",
+      "description": "Sample of using Transformer model to inference option in runtime powered by Unity.Sentis",
+      "path": "Samples~/Transformer"
+    }
+  ]
+}

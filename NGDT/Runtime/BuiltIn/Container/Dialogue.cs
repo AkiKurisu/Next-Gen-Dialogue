@@ -4,9 +4,10 @@ using UnityEngine;
 namespace Kurisu.NGDT
 {
     [AkiInfo("Dialogue is the main container of dialogue pieces")]
-    public class Dialogue : Container, IProvideDialogue
+    public class Dialogue : Container, IDialogueProxy
     {
 #if UNITY_EDITOR
+        //Just to know which is referenced in graph, should have better solution
         [HideInEditorWindow, SerializeField]
         internal List<string> referencePieces;
 #endif
@@ -18,7 +19,7 @@ namespace Kurisu.NGDT
             dialogueCache = NGDS.Dialogue.CreateDialogue();
             foreach (var piece in allPieces)
             {
-                var dialoguePiece = piece.GetPiece();
+                var dialoguePiece = piece.EmitPiece();
                 pieceMap[dialoguePiece.PieceID] = piece;
                 //Assert PieceID should be unique
                 dialogueCache.AddPiece(dialoguePiece);
@@ -34,7 +35,7 @@ namespace Kurisu.NGDT
                     child.Update();
             }
             Builder.EndWriteNode();
-            Builder.ProvideDialogue(this);
+            Builder.EndBuildDialogue(this);
             return Status.Success;
         }
         public override void Abort()
@@ -46,7 +47,7 @@ namespace Kurisu.NGDT
             }
             pieceMap.Clear();
         }
-        DialoguePiece IProvideDialogue.GetNext(string ID)
+        NGDS.Piece IDialogueProxy.GetNext(string ID)
         {
 #if UNITY_EDITOR
             Tree.Root.UpdateEditor?.Invoke();
@@ -54,14 +55,14 @@ namespace Kurisu.NGDT
             if (visitedPieceID.Contains(ID))
             {
                 dialogueCache.GetPiece(ID).NodePushPool();
-                dialogueCache[ID] = pieceMap[ID].GetPiece();
+                dialogueCache[ID] = pieceMap[ID].EmitPiece();
             }
             var newPiece = dialogueCache.GetPiece(ID);
             visitedPieceID.Add(newPiece.PieceID);
             pieceMap[ID].Update();
             return newPiece;
         }
-        DialoguePiece IProvideDialogue.GetFirst()
+        NGDS.Piece IDialogueProxy.GetFirst()
         {
 #if UNITY_EDITOR
             Tree.Root.UpdateEditor?.Invoke();
@@ -69,7 +70,7 @@ namespace Kurisu.NGDT
             for (int i = 0; i < Children.Count; i++)
             {
                 if (Children[i] is not Piece piece) continue;
-                var dialoguePiece = piece.GetPiece();
+                var dialoguePiece = piece.EmitPiece();
                 visitedPieceID.Add(dialoguePiece.PieceID);
                 var status = pieceMap[dialoguePiece.PieceID].Update();
                 if (status == Status.Success) return dialoguePiece;
@@ -88,11 +89,22 @@ namespace Kurisu.NGDT
             return referencePieces[index];
         }
 #endif
-        public NGDS.Dialogue GetDialogue()
+        /// <summary>
+        /// Get current dialogue model
+        /// </summary>
+        /// <returns></returns>
+        public NGDS.Dialogue CastDialogue()
         {
             return dialogueCache;
         }
-
+        /// <summary>
+        /// Get runtime piece map for fast lookup
+        /// </summary>
+        /// <returns></returns>
+        public IReadOnlyDictionary<string, Piece> ToReadOnlyPieceMap()
+        {
+            return pieceMap;
+        }
     }
 }
 

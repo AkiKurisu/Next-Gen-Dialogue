@@ -5,7 +5,7 @@ namespace Kurisu.NGDT.Editor
 {
     public static class VITSSymbolSetter
     {
-        private const string DEFINE = "USE_VITS";
+        private const string DEFINE = "NGD_USE_VITS";
         [InitializeOnLoadMethod]
         private static void Init()
         {
@@ -16,11 +16,11 @@ namespace Kurisu.NGDT.Editor
             EditorApplication.update -= SymbolSet;
             if (AppDomain.CurrentDomain.GetAssemblies().Any(x => x.GetName().Name == "Kurisu.NGDT.VITS"))
             {
-                EditorUtils.AddScriptingSymbol(DEFINE);
+                ScriptingSymbolHelper.AddScriptingSymbol(DEFINE);
             }
             else
             {
-                EditorUtils.RemoveScriptingSymbol(DEFINE);
+                ScriptingSymbolHelper.RemoveScriptingSymbol(DEFINE);
             }
         }
     }

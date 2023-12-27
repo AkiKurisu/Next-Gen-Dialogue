@@ -1,4 +1,3 @@
-using Kurisu.NGDS;
 namespace Kurisu.NGDT
 {
     [AkiInfo("Option is the container of user option")]
@@ -6,7 +5,7 @@ namespace Kurisu.NGDT
     {
         protected override Status OnUpdate()
         {
-            Builder.StartWriteNode(DialogueOption.CreateOption());
+            Builder.StartWriteNode(NGDS.Option.CreateOption());
             for (var i = 0; i < Children.Count; i++)
             {
                 var target = Children[i];

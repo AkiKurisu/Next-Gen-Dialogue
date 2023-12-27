@@ -1,7 +1,7 @@
 using UnityEngine;
 namespace Kurisu.NGDT
 {
-    public abstract class Conditional : NodeBehavior
+    public abstract class Conditional : NodeBehavior, IIterable
     {
 
         [SerializeReference]
@@ -55,6 +55,15 @@ namespace Kurisu.NGDT
         }
 
         protected abstract Status IsUpdatable();
+        public NodeBehavior GetChildAt(int index)
+        {
+            return child;
+        }
+
+        public int GetChildCount()
+        {
+            return child == null ? 0 : 1;
+        }
     }
 
 }
