@@ -141,7 +141,7 @@ It is not easy to control the dialogue content of AIGC at runtime, but you can u
 4. Select the type of LLM you are baking with
 5. <b>Select in turn</b> the nodes that AI dialogue Baker needs to recognize, the order of recognition is based on the order selected by the mouse, and finally select the nodes that need to be baked
 6. If the selection is successful, you can see the preview input content at the bottom of the editor
-7. Click the ````Bake Dialogue`` button on the ````AI Bake Module```` and wait for the AI response
+7. Click the ``Bake Dialogue`` button on the ````AI Bake Module```` and wait for the AI response
 8. After the language model responds, a ```Content Module``` will be automatically added to the node to store the baked dialogue content
 9. You can continuously generate conversations based on your needs
 
