@@ -6,6 +6,7 @@ using UnityEngine.UIElements;
 using System.Linq;
 using System;
 using Newtonsoft.Json;
+using UnityEditor.SceneManagement;
 namespace Kurisu.NGDT.Editor
 {
     public class DialogueTreeView : GraphView, IDialogueTreeView
@@ -232,7 +233,7 @@ namespace Kurisu.NGDT.Editor
             }
             return true;
         }
-        public void Commit(IDialogueTree behaviorTree)
+        public void Commit(IDialogueTree tree)
         {
             var stack = new Stack<IDialogueNode>();
             stack.Push(root);
@@ -242,20 +243,25 @@ namespace Kurisu.NGDT.Editor
                 var node = stack.Pop();
                 node.Commit(stack);
             }
-            root.PostCommit(behaviorTree);
-            behaviorTree.SharedVariables.Clear();
+            root.PostCommit(tree);
+            tree.SharedVariables.Clear();
             foreach (var sharedVariable in SharedVariables)
             {
-                behaviorTree.SharedVariables.Add(sharedVariable);
+                tree.SharedVariables.Add(sharedVariable);
             }
             List<GroupBlock> NodeBlocks = graphElements.OfType<GroupBlock>().ToList();
-            behaviorTree.BlockData.Clear();
+            tree.BlockData.Clear();
             foreach (var block in NodeBlocks)
             {
-                block.Commit(behaviorTree.BlockData);
+                block.Commit(tree.BlockData);
+            }
+            //Should set tree dirty flag if it is in a prefab
+            if (tree is NextGenDialogueTree nextGenDialogueTree)
+            {
+                EditorUtility.SetDirty(nextGenDialogueTree);
             }
             // notify to unity editor that the tree is changed.
-            EditorUtility.SetDirty(behaviorTree.Object);
+            EditorUtility.SetDirty(tree.Object);
         }
         public string SerializeTreeToJson()
         {
