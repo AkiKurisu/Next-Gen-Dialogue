@@ -1,6 +1,6 @@
 # Next Gen Dialogue 用户手册
 
-<img src="Images/Splash.png" >
+<img src="Doc/Images/Splash.png" >
 
 ***Read this document in English: [English Document](./README.md)***
 
@@ -34,7 +34,7 @@
 
 ## 特点
 
-<Img src = "Images/BakeDialogue.png">
+<Img src = "Doc/Images/BakeDialogue.png">
 
 Next Gen Dialogue插件（以下简称NGD）是一款结合大语言模型设计的Unity对话插件，荣获Unity中国颁发的Unity AI插件优秀奖。 它将传统的对话设计方法与人工智能技术（例如大语言模型（`LLM`）、条件变分自动编码器和端到端文本到语音的对抗性学习（`VITS`））相结合，还具有一些使用`Unity Sentis`实现的实验性功能。 目前这个包是一个实验性的尝试，希望你喜欢。
 
@@ -47,9 +47,9 @@ Next Gen Dialogue插件（以下简称NGD）是一款结合大语言模型设计
 
 演示项目：https://github.com/AkiKurisu/Next-Gen-Dialogue-Example-Project
 
-<Img src = "Images/DemoExample2.png">
+<Img src = "Doc/Images/DemoExample2.png">
 
-<Img src = "Images/DemoExample1.png">
+<Img src = "Doc/Images/DemoExample1.png">
 
 ## 路线图
 
@@ -100,14 +100,14 @@ NextGenDialogueTree和NextGenDialogueTreeSO用于存储对话数据，为了便�
 9. <b style="color:#EE819E">非常重要:</b> 至少需要将一个Piece结点加入Dialogue中作为对话的首个片段。你可以右键Dialogue的``Add Piece``通过连线或引用其PieceID进行关联，也可以右键Dialogue的``Collect All Pieces``将Graph中所有的Piece加入Dialogue中，并且通过排序来调整Piece的优先级
     * 优先级请参考[通用模组-Condition Module](#通用模组)
 
-    <img src="Images/CreateDialogue.png">
+    <img src="Doc/Images/CreateDialogue.png">
   
 1.  点击编辑器左上方的```Save```保存对话
 2.  点击Play进入PlayMode
 3.  点击NextGenDialogueTree的```Play Dialogue```播放对话
 4.  点击``Debug DialogueTree``进入Debug模式
     
-<img src="Images/RuntimeDebug.png">
+<img src="Doc/Images/RuntimeDebug.png">
 
 - <span style="color:#F8D09D">Tips : </span>当前正在播放的对话片段将以绿色进行显示
 
@@ -135,7 +135,7 @@ NextGenDialogueTree和NextGenDialogueTreeSO用于存储对话数据，为了便�
 
 在运行时完全使用AIGC的对话内容不易控制，但您可以使用AI Dialogue Baker在设计对话树时提前烘焙AI生成的对话内容，从而在不影响您的设计框架的同时提高工作流效率。
 
-<img src="Images/BakeDialogue.png" >
+<img src="Doc/Images/BakeDialogue.png" >
 
 1. 基础对话树设计与《[创建对话树](#创建对话树)》的流程一致 
 2. Prompt添加与《[AI生成对话](#AI生成对话)》的流程一致 
@@ -151,7 +151,7 @@ NextGenDialogueTree和NextGenDialogueTreeSO用于存储对话数据，为了便�
 
 和烘焙对话中直接和AI对话不同，小说模式让AI扮演文案策划编写对话，因此可以对选项和片段的控制更加精确，请参考示例：``6.Bake Novel.unity`` 
 
-<img src="Images/BakeNovel.png" >
+<img src="Doc/Images/BakeNovel.png" >
 
 ## 结点
 
@@ -244,7 +244,7 @@ VITS本地部署请参考该仓库：[VITS Simple API](https://github.com/Artraj
 
 在Dialogue结点中添加Editor/EditorTranslateModule，设置翻译的来源语言（`sourceLanguageCode`）和目标语言（`targetLanguageCode`）, 右键选择`Translate All Contents`对所有带有``ContentModule``的Piece和Option进行翻译。
 
-<img src="Images/FastTranslation.png" >
+<img src="Doc/Images/FastTranslation.png" >
 
 对于非`ContentModule`的结点，如字段添加了`TranslateEntryAttribute`可以右键单个结点进行翻译
 
@@ -260,13 +260,13 @@ namespace Kurisu.NGDT.Behavior
     }
 }
 ```
-<img src="Images/SingleTranslate.png" >
+<img src="Doc/Images/SingleTranslate.png" >
 
 ### 烘焙语音
 
 使用前需要安装`Modules/VITS`相应依赖并开启本地VITS服务器（参照`Modules/VITS/README.md`），在需要生成语音的结点中添加`AIGC/VITSModule`，右键选择``Bake Audio``
 
-<img src="Images/BakeAudio.png" >
+<img src="Doc/Images/BakeAudio.png" >
 
 如你对生成的音频较为满意，点击`Download`保存到本地从而完成烘焙，否则退出编辑器后不会保留音频文件。
 
