@@ -60,6 +60,10 @@ namespace Kurisu.NGDT.Editor
             AssetDatabase.SaveAssets();
             Show(treeSO);
         }
+        public static bool ContainsEditorWindow(int instanceId)
+        {
+            return cache.ContainsKey(instanceId);
+        }
         public static void Show(IDialogueTree bt)
         {
             var window = Create<DialogueEditorWindow>(bt);

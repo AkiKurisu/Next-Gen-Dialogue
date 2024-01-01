@@ -59,7 +59,7 @@ namespace Kurisu.NGDT.Editor
             this.title = title;
             AddChild();
         }
-        protected void AddChild()
+        private void AddChild()
         {
             Child = Port.Create<Edge>(Orientation.Horizontal, Direction.Output, Port.Capacity.Single, portType);
             Child.portName = string.Empty;
@@ -96,14 +96,15 @@ namespace Kurisu.NGDT.Editor
                 node.ClearStyle();
             }
         }
+        public abstract ChildBridge Clone();
     }
     internal class PieceBridge : ChildBridge
     {
         private readonly PieceIDField pieceIDField;
         private bool useReference;
         private readonly IDialogueTreeView treeView;
-        public PieceBridge(IDialogueTreeView treeView, Type portType, Color portColor, string pieceIDName)
-        : base("Piece", portType, portColor)
+        public PieceBridge(IDialogueTreeView treeView, Color portColor, string pieceIDName)
+        : base("Piece", typeof(PiecePort), portColor)
         {
             this.treeView = treeView;
             var toggle = new Toggle("Use Reference");
@@ -148,6 +149,12 @@ namespace Kurisu.NGDT.Editor
                 (container as Dialogue).AddPiece(node.GetPiece(), string.Empty);
             }
         }
+
+        public override ChildBridge Clone()
+        {
+            return new PieceBridge(treeView, Child.portColor, useReference ? pieceIDField.value.Name : string.Empty);
+        }
+
         public string PieceID
         {
             get
@@ -167,7 +174,7 @@ namespace Kurisu.NGDT.Editor
     }
     internal class OptionBridge : ChildBridge
     {
-        public OptionBridge(string title, Type portType, Color portColor) : base(title, portType, portColor)
+        public OptionBridge(string title, Color portColor) : base(title, typeof(OptionPort), portColor)
         {
         }
         protected override void OnValidate(Stack<IDialogueNode> stack)
@@ -180,6 +187,10 @@ namespace Kurisu.NGDT.Editor
         public OptionContainer GetOption()
         {
             return PortHelper.FindChildNode(Child) as OptionContainer;
+        }
+        public override ChildBridge Clone()
+        {
+            return new OptionBridge(title, Child.portColor);
         }
     }
 }

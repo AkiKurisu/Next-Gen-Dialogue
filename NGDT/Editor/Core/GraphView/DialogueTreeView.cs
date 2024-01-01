@@ -5,8 +5,6 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using System.Linq;
 using System;
-using Newtonsoft.Json;
-using UnityEditor.SceneManagement;
 namespace Kurisu.NGDT.Editor
 {
     public class DialogueTreeView : GraphView, IDialogueTreeView
@@ -55,17 +53,28 @@ namespace Kurisu.NGDT.Editor
             ContextualMenuController = new();
             GroupBlockController = new GroupBlockController(this);
             canPasteSerializedData += (data) => true;
+            serializeGraphElements += OnSerialize;
             unserializeAndPaste += OnPaste;
         }
+
+        private string OnSerialize(IEnumerable<GraphElement> elements)
+        {
+            CopyPaste.Copy(DialogueTree.Object.GetHashCode(), elements);
+            return string.Empty;
+        }
+
         private void OnPaste(string a, string b)
         {
-            List<ISelectable> copyElements = new CopyPasteGraphConvertor(this, selection).GetCopyElements();
+            Paste(new Vector2(50, 50));
+        }
+        private void Paste(Vector2 positionOffSet)
+        {
             ClearSelection();
-            //Select them again
-            copyElements.ForEach(node =>
+            //Add paste elements to selection
+            foreach (var element in new CopyPasteGraphConvertor(this, CopyPaste.Paste(), positionOffSet).GetCopyElements())
             {
-                node.Select(this, true);
-            });
+                element.Select(this, true);
+            }
         }
         public IDialogueNode DuplicateNode(IDialogueNode node)
         {
@@ -104,6 +113,10 @@ namespace Kurisu.NGDT.Editor
             //Remove needless default actions .
             evt.menu.MenuItems().Clear();
             remainTargets.ForEach(evt.menu.MenuItems().Add);
+            evt.menu.MenuItems().Add(new NGDTDropdownMenuAction("Paste", (evt) =>
+            {
+                Paste(contentViewContainer.WorldToLocal(evt.eventInfo.mousePosition) - CopyPaste.CenterPosition);
+            }, x => CopyPaste.CanPaste ? DropdownMenuAction.Status.Normal : DropdownMenuAction.Status.Disabled));
             ContextualMenuController.BuildContextualMenu(ContextualMenuType.Graph, evt, null);
         }
         public sealed override List<Port> GetCompatiblePorts(Port startAnchor, NodeAdapter nodeAdapter)

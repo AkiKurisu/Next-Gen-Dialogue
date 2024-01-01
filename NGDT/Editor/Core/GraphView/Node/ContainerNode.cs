@@ -154,15 +154,24 @@ namespace Kurisu.NGDT.Editor
             {
                 resolvers[i].Copy(node.resolvers[i]);
             }
-            moduleCopyMapCache.Clear();
+            copyMap.Clear();
             node.contentContainer.Query<ModuleNode>()
             .ToList()
             .ForEach(
                 x =>
                 {
-                    //Copy its child module
-                    var newNode = MapTreeView.DuplicateNode(x) as ModuleNode;
-                    moduleCopyMapCache[x.GetHashCode()] = newNode;
+                    //Copy child module
+                    var newNode = copyMap[x.GetHashCode()] = MapTreeView.DuplicateNode(x) as ModuleNode;
+                    AddElement(newNode);
+                }
+            );
+            node.contentContainer.Query<ChildBridge>()
+            .ToList()
+            .ForEach(
+                x =>
+                {
+                    //Copy child bridge
+                    var newNode = copyMap[x.GetHashCode()] = x.Clone();
                     AddElement(newNode);
                 }
             );
@@ -171,10 +180,10 @@ namespace Kurisu.NGDT.Editor
             NodeBehavior.NotifyEditor = MarkAsExecuted;
             GUID = Guid.NewGuid().ToString();
         }
-        private readonly Dictionary<int, ModuleNode> moduleCopyMapCache = new();
-        internal IReadOnlyDictionary<int, ModuleNode> GetModuleCopyMap()
+        private readonly Dictionary<int, Node> copyMap = new();
+        internal IReadOnlyDictionary<int, Node> GetCopyMap()
         {
-            return moduleCopyMapCache;
+            return copyMap;
         }
         public NodeBehavior ReplaceBehavior()
         {
@@ -376,7 +385,7 @@ namespace Kurisu.NGDT.Editor
             base.OnSeparatorContextualMenuEvent(evt, separatorIndex);
             evt.menu.MenuItems().Add(new NGDTDropdownMenuAction("Add Piece", (a) =>
             {
-                var bridge = new PieceBridge(MapTreeView, typeof(PiecePort), PortColor, string.Empty);
+                var bridge = new PieceBridge(MapTreeView, PortColor, string.Empty);
                 AddElement(bridge);
             }));
         }
@@ -386,10 +395,10 @@ namespace Kurisu.NGDT.Editor
             var count = this.Query<PieceBridge>().ToList().Count;
             if (!string.IsNullOrEmpty(pieceID) && ((Dialogue)NodeBehavior).ResolvePieceID(count) == pieceID)
             {
-                AddElement(new PieceBridge(treeView, typeof(PiecePort), PortColor, pieceID));
+                AddElement(new PieceBridge(treeView, PortColor, pieceID));
                 return;
             }
-            var bridge = new PieceBridge(treeView, typeof(PiecePort), PortColor, string.Empty);
+            var bridge = new PieceBridge(treeView, PortColor, string.Empty);
             AddElement(bridge);
             var edge = PortHelper.ConnectPorts(bridge.Child, node.Parent);
             treeView.View.Add(edge);
@@ -417,7 +426,7 @@ namespace Kurisu.NGDT.Editor
                 var addPieces = pieces.Where(x => !currentPieces.Any(p => !string.IsNullOrEmpty(p.PieceID) && p.PieceID == x.GetPieceID()));
                 foreach (var piece in addPieces)
                 {
-                    AddElement(new PieceBridge(MapTreeView, typeof(PiecePort), PortColor, piece.GetPieceID()));
+                    AddElement(new PieceBridge(MapTreeView, PortColor, piece.GetPieceID()));
                 }
             }));
             evt.menu.MenuItems().Add(new NGDTDropdownMenuAction("Auto Layout", (a) =>
@@ -462,7 +471,7 @@ namespace Kurisu.NGDT.Editor
             base.OnSeparatorContextualMenuEvent(evt, separatorIndex);
             evt.menu.MenuItems().Add(new NGDTDropdownMenuAction("Add Option", (a) =>
             {
-                var bridge = new OptionBridge("Option", typeof(OptionPort), PortColor);
+                var bridge = new OptionBridge("Option", PortColor);
                 AddElement(bridge);
             }));
         }
@@ -480,7 +489,7 @@ namespace Kurisu.NGDT.Editor
         }
         public void AddChildElement(IDialogueNode node, IDialogueTreeView treeView)
         {
-            var bridge = new OptionBridge("Option", typeof(OptionPort), PortColor);
+            var bridge = new OptionBridge("Option", PortColor);
             AddElement(bridge);
             var edge = PortHelper.ConnectPorts(bridge.Child, node.Parent);
             treeView.View.Add(edge);
