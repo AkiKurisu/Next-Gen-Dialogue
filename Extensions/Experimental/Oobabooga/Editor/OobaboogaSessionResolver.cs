@@ -51,6 +51,7 @@ namespace Kurisu.NGDT.Experimental.Oobabooga.Editor
                     //Add first piece
                     var position = MapTreeView.View.contentViewContainer.WorldToLocal(mousePosition) - new Vector2(400, 300);
                     var firstPiece = MapTreeView.CreateNode(new Piece(), position) as PieceContainer;
+                    firstPiece.GenerateNewPieceID();
                     firstPiece.AddModuleNode(new CharacterModule(new SharedString(session.name2)));
                     firstPiece.AddModuleNode(new ContentModule(internalData[0][1]));
                     ContainerNode last = firstPiece;
