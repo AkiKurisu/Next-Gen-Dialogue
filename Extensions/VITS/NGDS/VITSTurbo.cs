@@ -16,17 +16,19 @@ namespace Kurisu.NGDS.VITS
     }
     public class VITSTurbo
     {
-        private const string CallAPIBase = "http://{0}:{1}/voice/vits?text={2}&id={3}";
+        private const string CallAPIBase = "http://{0}:{1}/voice/{2}?text={3}&id={4}";
         private readonly AITurboSetting setting;
         private readonly StringBuilder stringBuilder = new();
         public AudioClip AudioClipCache { get; private set; }
         private readonly string address;
         private readonly string port;
         public GoogleTranslateModule? PreTranslateModule { get; set; }
+        private readonly string api;
         public VITSTurbo(AITurboSetting setting)
         {
             this.setting = setting;
             address = setting.VITS_Address;
+            api = setting.VITS_API;
             port = setting.VITS_Port;
         }
         private void CacheAudioClip(AudioClip audioClip)
@@ -37,7 +39,7 @@ namespace Kurisu.NGDS.VITS
         private string GetURL(string message, int characterID)
         {
             stringBuilder.Clear();
-            stringBuilder.Append(string.Format(CallAPIBase, address, port, message, characterID));
+            stringBuilder.Append(string.Format(CallAPIBase, address, port, api, message, characterID));
             if (!string.IsNullOrEmpty(setting.VITS_Lang))
             {
                 stringBuilder.Append($"&lang={setting.VITS_Lang}");

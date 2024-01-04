@@ -8,6 +8,10 @@ namespace Kurisu.NGDS.AI
                 {
                         Chat, Completions
                 }
+                private enum VITSType
+                {
+                        VITS, BertVITS2
+                }
                 [field: Header("LLM Setting")]
                 [field: SerializeField]
                 public string ChatGPT_URL_Override { get; private set; }
@@ -31,6 +35,16 @@ namespace Kurisu.NGDS.AI
                 [field: Header("VITS Setting (Experimental)")]
                 [field: SerializeField]
                 public string VITS_Address { get; private set; } = "127.0.0.1";
+                [SerializeField, Tooltip("Set vits model type")]
+                private VITSType vitsType;
+                public string VITS_API
+                {
+                        get
+                        {
+                                if (vitsType == VITSType.VITS) return "vits";
+                                else return "bert-vits2";
+                        }
+                }
                 [field: SerializeField]
                 public string VITS_Port { get; private set; } = "23456";
                 [field: SerializeField, Tooltip("Specify the language, leave empty to use auto mode.")]
