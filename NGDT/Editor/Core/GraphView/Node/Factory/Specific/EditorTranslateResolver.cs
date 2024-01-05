@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Threading;
 using System.Threading.Tasks;
 using Kurisu.NGDS;
 using UnityEngine;
@@ -61,20 +62,21 @@ namespace Kurisu.NGDT.Editor
                     .ToArray();
                 //TODO: Tasks should be in batches when dialogue graph become big
                 var tasks = new List<Task>();
+                var ct = new CancellationTokenSource();
                 foreach (var node in containerNodes)
                 {
                     if (node.TryGetModuleNode<ContentModule>(out ModuleNode moduleNode))
                     {
-                        tasks.Add(TranslateContentsAsync(node, moduleNode));
+                        tasks.Add(TranslateContentsAsync(node, moduleNode, ct.Token));
                     }
                 }
                 await Task.WhenAll(tasks);
                 MapTreeView.EditorWindow.ShowNotification(new GUIContent("Translation Complete !"));
                 IsPending = false;
-                async Task TranslateContentsAsync(ContainerNode containerNode, ModuleNode moduleNode)
+                async Task TranslateContentsAsync(ContainerNode containerNode, ModuleNode moduleNode, CancellationToken ct)
                 {
                     string input = moduleNode.GetSharedStringValue("content");
-                    var response = await GoogleTranslateHelper.TranslateTextAsync(sourceLanguageCode, targetLanguageCode, input);
+                    var response = await GoogleTranslateHelper.TranslateTextAsync(sourceLanguageCode, targetLanguageCode, input, ct);
                     if (response.Status)
                     {
                         (moduleNode.GetFieldResolver("content") as SharedStringResolver).EditorField.ValueField.value = response.TranslateText;
@@ -93,14 +95,15 @@ namespace Kurisu.NGDT.Editor
                     .ToArray();
                 int fieldCount = fieldsToTranslate.Length;
                 var tasks = new List<Task>();
+                var ct = new CancellationTokenSource();
                 for (int i = 0; i < fieldCount; ++i)
                 {
-                    tasks.Add(TranslateContentsAsync(fieldsToTranslate[i]));
+                    tasks.Add(TranslateContentsAsync(fieldsToTranslate[i], ct.Token));
                 }
                 await Task.WhenAll(tasks);
                 MapTreeView.EditorWindow.ShowNotification(new GUIContent("Translation Complete !"));
                 IsPending = false;
-                async Task TranslateContentsAsync(FieldInfo fieldInfo)
+                async Task TranslateContentsAsync(FieldInfo fieldInfo, CancellationToken ct)
                 {
                     string input = null;
                     if (fieldInfo.FieldType == typeof(string))
@@ -112,7 +115,7 @@ namespace Kurisu.NGDT.Editor
                         Debug.LogWarning($"Field type of {fieldInfo.FieldType} can not be translated yet, translation was skipped");
                         return;
                     }
-                    var response = await GoogleTranslateHelper.TranslateTextAsync(sourceLanguageCode, targetLanguageCode, input);
+                    var response = await GoogleTranslateHelper.TranslateTextAsync(sourceLanguageCode, targetLanguageCode, input, ct);
                     if (response.Status)
                     {
                         if (fieldInfo.FieldType == typeof(string))

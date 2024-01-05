@@ -68,7 +68,7 @@ namespace Kurisu.NGDS.AI
             string message = chatGenerator.Generate(input);
             if (PreTranslateModule.HasValue)
             {
-                message = await PreTranslateModule.Value.Process(message);
+                message = await PreTranslateModule.Value.Process(message, ct);
             }
             return await SendMessageToKoboldAsync(message, ct);
         }

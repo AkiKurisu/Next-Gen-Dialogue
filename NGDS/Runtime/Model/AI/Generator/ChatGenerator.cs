@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 namespace Kurisu.NGDS.AI
 {
@@ -19,14 +20,14 @@ namespace Kurisu.NGDS.AI
             stringBuilder.Append('\n');
             return stringBuilder.ToString();
         }
-        public async Task Generate(ILLMInput llmInput, List<SendData> sendDataList, GoogleTranslateModule? preTranslateModule)
+        public async Task Generate(ILLMInput llmInput, List<SendData> sendDataList, GoogleTranslateModule? preTranslateModule, CancellationToken ct)
         {
             while (llmInput.History.TryDequeue(out DialogueParam param))
             {
                 string content = param.Content;
                 if (preTranslateModule.HasValue)
                 {
-                    content = await preTranslateModule.Value.Process(content);
+                    content = await preTranslateModule.Value.Process(content, ct);
                 }
                 var sendData = new SendData(param.Character == llmInput.Character ? "assistant" : "user", content);
                 sendDataList.Add(sendData);

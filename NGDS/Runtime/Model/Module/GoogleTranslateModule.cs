@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Threading.Tasks;
 using System;
 using System.Collections;
+using System.Threading;
 namespace Kurisu.NGDS
 {
     public readonly struct GoogleTranslateModule : IDialogueModule, IProcessable
@@ -18,12 +19,12 @@ namespace Kurisu.NGDS
             SourceLanguageCode = null;
             TargetLanguageCode = targetLanguageCode;
         }
-        public async Task<string> Process(string input)
+        public async Task<string> Process(string input, CancellationToken ct)
         {
             if (SourceLanguageCode == TargetLanguageCode) return input;
             try
             {
-                var response = await GoogleTranslateHelper.TranslateTextAsync(SourceLanguageCode, TargetLanguageCode, input);
+                var response = await GoogleTranslateHelper.TranslateTextAsync(SourceLanguageCode, TargetLanguageCode, input, ct);
                 if (response.Status) return response.TranslateText;
                 else return input;
             }
@@ -36,7 +37,7 @@ namespace Kurisu.NGDS
         public IEnumerator Process(IObjectResolver resolver)
         {
             var content = resolver.Resolve<IContent>();
-            var task = Process(content.Content);
+            var task = Process(content.Content, new());
             yield return new WaitUntil(() => task.IsCompleted);
             content.Content = task.Result;
         }

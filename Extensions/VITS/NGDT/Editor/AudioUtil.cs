@@ -12,8 +12,7 @@ namespace Kurisu.NGDT.VITS.Editor
 
         static MethodInfo GetMethod(string methodName, Type[] argTypes)
         {
-            MethodInfo method;
-            if (methods.TryGetValue(methodName, out method)) return method;
+            if (methods.TryGetValue(methodName, out MethodInfo method)) return method;
 
             var asm = typeof(AudioImporter).Assembly;
             var audioUtil = asm.GetType("UnityEditor.AudioUtil");

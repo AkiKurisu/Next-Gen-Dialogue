@@ -40,7 +40,7 @@ namespace Kurisu.NGDS.AI
         }
         public async Task<ILLMData> ProcessLLM(ILLMInput input, CancellationToken ct)
         {
-            await AppendContent(input);
+            await AppendContent(input, ct);
             PostData _postData = new()
             {
                 model = m_gptModel,
@@ -83,27 +83,27 @@ namespace Kurisu.NGDS.AI
                 Status = false
             };
         }
-        private async Task AppendContent(ILLMInput input)
+        private async Task AppendContent(ILLMInput input, CancellationToken ct)
         {
             m_DataList.Clear();
             m_DataList.Add(promptData);
             if (chatMode)
             {
-                await chatGenerator.Generate(input, m_DataList, PreTranslateModule);
+                await chatGenerator.Generate(input, m_DataList, PreTranslateModule, ct);
             }
             else
             {
                 string generatedPrompt = chatGenerator.Generate(input);
                 if (PreTranslateModule.HasValue)
                 {
-                    generatedPrompt = await PreTranslateModule.Value.Process(generatedPrompt);
+                    generatedPrompt = await PreTranslateModule.Value.Process(generatedPrompt, ct);
                 }
                 m_DataList.Add(new SendData("user", generatedPrompt));
             }
             if (PreTranslateModule.HasValue && !promptIsProcessed)
             {
                 promptIsProcessed = true;
-                promptData.content = await PreTranslateModule.Value.Process(promptData.content); ;
+                promptData.content = await PreTranslateModule.Value.Process(promptData.content, ct); ;
             }
         }
     }

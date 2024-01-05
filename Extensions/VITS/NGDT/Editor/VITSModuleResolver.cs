@@ -17,7 +17,7 @@ namespace Kurisu.NGDT.VITS.Editor
             return new VITSModuleNode();
         }
         public static bool IsAcceptable(Type behaviorType) => behaviorType == typeof(VITSModule);
-        private class VITSModuleNode : ModuleNode
+        internal class VITSModuleNode : ModuleNode
         {
             private SharedTObjectField<AudioClip> audioClipField;
             private AudioPreviewField audioPreviewField;
@@ -26,9 +26,9 @@ namespace Kurisu.NGDT.VITS.Editor
             public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
             {
                 base.BuildContextualMenu(evt);
-                evt.menu.MenuItems().Add(new NGDTDropdownMenuAction("Bake Audio", (a) =>
+                evt.menu.MenuItems().Add(new NGDTDropdownMenuAction("Bake Audio", async (a) =>
                 {
-                    BakeAudio();
+                    await BakeAudio();
                 }, (e) =>
                 {
                     if (isBaking) return DropdownMenuAction.Status.Disabled;
@@ -47,10 +47,10 @@ namespace Kurisu.NGDT.VITS.Editor
                     mainContainer.Add(audioPreviewField);
                 }
             }
-            private async void BakeAudio()
+            public async Task<bool> BakeAudio()
             {
                 var characterID = this.GetSharedIntValue("characterID");
-                if (!GetFirstAncestorOfType<ContainerNode>().TryGetModuleNode<ContentModule>(out ModuleNode contentModule)) return;
+                if (!GetFirstAncestorOfType<ContainerNode>().TryGetModuleNode<ContentModule>(out ModuleNode contentModule)) return false;
                 string content = contentModule.GetSharedStringValue("content");
                 var turboSetting = NextGenDialogueSetting.GetOrCreateSettings().AITurboSetting;
                 var vitsTurbo = new VITSTurbo(turboSetting)
@@ -90,6 +90,7 @@ namespace Kurisu.NGDT.VITS.Editor
                 }
                 EditorUtility.ClearProgressBar();
                 isBaking = false;
+                return !cancel && task.Result.Status;
             }
             private void OnDownloadAudioClip(AudioClip audioClip)
             {

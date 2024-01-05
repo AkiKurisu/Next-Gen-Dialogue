@@ -26,6 +26,7 @@ namespace Kurisu.NGDT.Editor
             var ct = new CancellationTokenSource();
             int step = 0;
             var task = Generate(containers, bakeContainer, ct.Token, 0, depth);
+            bool fail = false;
             while (!task.IsCompleted)
             {
                 float slider = (float)(EditorApplication.timeSinceStartup - startVal) / maxWaitSeconds;
@@ -33,22 +34,24 @@ namespace Kurisu.NGDT.Editor
                 if (slider > 1)
                 {
                     treeView.EditorWindow.ShowNotification(new GUIContent($"Novel baking is out of time, please check your internet!"));
-                    ct.Cancel();
+                    fail = true;
                     break;
                 }
                 await Task.Yield();
             }
+            if (!task.Result || fail) ct.Cancel();
             EditorUtility.ClearProgressBar();
             await Task.Delay(2);
             //Auto layout
             NodeAutoLayoutHelper.Layout(new DialogueTreeLayoutConvertor(treeView.View, bakeContainer as ILayoutTreeNode));
 
             //Start from Piece
-            async Task Generate(IReadOnlyList<ContainerNode> containers, ContainerNode bakeContainer, CancellationToken ct, int currentDepth, int maxDepth)
+            async Task<bool> Generate(IReadOnlyList<ContainerNode> containers, ContainerNode bakeContainer, CancellationToken ct, int currentDepth, int maxDepth)
             {
                 step++;
-                if (currentDepth >= maxDepth) return;
+                if (currentDepth >= maxDepth) return true;
                 string result = await baker.Bake(containers, novelModule, ct);
+                if (string.IsNullOrEmpty(result)) return false;
                 Debug.Log(result);
                 Dictionary<string, string> options;
                 try
@@ -77,8 +80,9 @@ namespace Kurisu.NGDT.Editor
                     {
                         node
                     };
-                    await Generate(containers, node, ct, currentDepth + 1, maxDepth);
+                    if (!await Generate(containers, node, ct, currentDepth + 1, maxDepth)) return false;
                 }
+                return true;
             }
         }
     }

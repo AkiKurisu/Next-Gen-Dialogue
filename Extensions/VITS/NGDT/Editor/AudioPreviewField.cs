@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using Kurisu.NGDS.VITS;
 using UnityEditor;
 using UnityEngine;
@@ -33,12 +34,13 @@ namespace Kurisu.NGDT.VITS.Editor
         private void Download()
         {
             string folderPath = EditorPrefs.GetString(AudioUtil.PrefKey, Application.dataPath);
+            if (!Directory.Exists(folderPath)) folderPath = Application.dataPath;
             string path = EditorUtility.OpenFolderPanel("Select save path", folderPath, "");
             if (string.IsNullOrEmpty(path)) return;
             EditorPrefs.SetString(AudioUtil.PrefKey, path);
             string outPutPath = $"{path}/{audioClip.name}";
             WavUtil.Save(outPutPath, audioClip);
-            Debug.Log($"Audio saved succeed ! Audio path:{outPutPath}");
+            Debug.Log($"Audio saved succeed! Audio path:{outPutPath}");
             downloadButton.RemoveFromHierarchy();
             AssetDatabase.Refresh();
             var newClip = AssetDatabase.LoadAssetAtPath<AudioClip>(outPutPath.Replace(Application.dataPath, "Assets/"));

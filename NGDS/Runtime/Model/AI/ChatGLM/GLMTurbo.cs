@@ -46,7 +46,7 @@ namespace Kurisu.NGDS.AI
             }
             if (PreTranslateModule.HasValue)
             {
-                genParams.Prompt = await PreTranslateModule.Value.Process(genParams.Prompt);
+                genParams.Prompt = await PreTranslateModule.Value.Process(genParams.Prompt, ct);
             }
             return await ProcessLLM(JsonConvert.SerializeObject(genParams), ct);
         }

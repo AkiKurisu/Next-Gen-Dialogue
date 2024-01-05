@@ -54,7 +54,7 @@ namespace Kurisu.NGDS.VITS
         {
             if (PreTranslateModule.HasValue)
             {
-                message = await PreTranslateModule.Value.Process(message);
+                message = await PreTranslateModule.Value.Process(message, ct);
             }
             using UnityWebRequest www = UnityWebRequestMultimedia.GetAudioClip(GetURL(message, characterID), AudioType.WAV);
             www.SendWebRequest();
@@ -65,7 +65,7 @@ namespace Kurisu.NGDS.VITS
             }
             if (www.result == UnityWebRequest.Result.ConnectionError)
             {
-                Debug.Log(www.error);
+                Debug.Log("[VITS Turbo]: " + www.error);
                 return new VITSResponse()
                 {
                     Status = false
