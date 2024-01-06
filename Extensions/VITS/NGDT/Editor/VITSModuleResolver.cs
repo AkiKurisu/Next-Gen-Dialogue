@@ -61,7 +61,6 @@ namespace Kurisu.NGDT.VITS.Editor
                 const float maxValue = 60.0f;
                 var ct = MapTreeView.GetCancellationTokenSource();
                 var task = vitsTurbo.SendVITSRequestAsync(content, characterID, ct.Token);
-                bool cancel = false;
                 while (!task.IsCompleted)
                 {
                     float slider = (float)(EditorApplication.timeSinceStartup - startVal) / maxValue;
@@ -70,27 +69,23 @@ namespace Kurisu.NGDT.VITS.Editor
                     {
                         MapTreeView.EditorWindow.ShowNotification(new GUIContent($"Audio baking is out of time, please check your internet!"));
                         ct.Cancel();
-                        cancel = true;
                         break;
                     }
                     await Task.Yield();
                 }
-                if (!cancel)
+                if (!task.IsCanceled && task.Result.Status)
                 {
-                    if (task.Result.Status)
-                    {
-                        audioPreviewField?.RemoveFromHierarchy();
-                        audioPreviewField = new AudioPreviewField(task.Result.Result, false, OnDownloadAudioClip);
-                        mainContainer.Add(audioPreviewField);
-                    }
-                    else
-                    {
-                        MapTreeView.EditorWindow.ShowNotification(new GUIContent($"Audio baked failed!"));
-                    }
+                    audioPreviewField?.RemoveFromHierarchy();
+                    audioPreviewField = new AudioPreviewField(task.Result.Result, false, OnDownloadAudioClip);
+                    mainContainer.Add(audioPreviewField);
+                }
+                else
+                {
+                    MapTreeView.EditorWindow.ShowNotification(new GUIContent($"Audio baked failed!"));
                 }
                 EditorUtility.ClearProgressBar();
                 isBaking = false;
-                return !cancel && task.Result.Status;
+                return !task.IsCanceled && task.Result.Status;
             }
             private void OnDownloadAudioClip(AudioClip audioClip)
             {

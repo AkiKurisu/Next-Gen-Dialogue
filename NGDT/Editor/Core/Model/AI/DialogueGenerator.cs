@@ -30,7 +30,6 @@ namespace Kurisu.NGDT.Editor
             float startVal = (float)EditorApplication.timeSinceStartup;
             var ct = treeView.GetCancellationTokenSource();
             var task = baker.Bake(containers, bakeContainer, ct.Token);
-            bool outOfTime = false;
             while (!task.IsCompleted)
             {
                 float slider = (float)(EditorApplication.timeSinceStartup - startVal) / maxWaitSeconds;
@@ -38,13 +37,12 @@ namespace Kurisu.NGDT.Editor
                 if (slider > 1)
                 {
                     treeView.EditorWindow.ShowNotification(new GUIContent($"Dialogue baking is out of time, please check your internet!"));
-                    outOfTime = true;
+                    ct.Cancel();
                     break;
                 }
                 await Task.Yield();
             }
-            if (!task.Result || outOfTime) ct.Cancel();
-            if (!task.Result)
+            if (!task.IsCanceled && !task.Result)
             {
                 treeView.EditorWindow.ShowNotification(new GUIContent($"Dialogue baking failed"));
             }
@@ -64,7 +62,6 @@ namespace Kurisu.NGDT.Editor
             var ct = treeView.GetCancellationTokenSource();
             int step = 0;
             var task = Generate(containers, bakeContainer, ct.Token, 0, depth);
-            bool outOfTime = false;
             while (!task.IsCompleted)
             {
                 float slider = (float)(EditorApplication.timeSinceStartup - startVal) / maxWaitSeconds;
@@ -72,13 +69,12 @@ namespace Kurisu.NGDT.Editor
                 if (slider > 1)
                 {
                     treeView.EditorWindow.ShowNotification(new GUIContent($"Dialogue baking is out of time, please check your internet!"));
-                    outOfTime = true;
+                    ct.Cancel();
                     break;
                 }
                 await Task.Yield();
             }
-            if (!task.Result || outOfTime) ct.Cancel();
-            if (!task.Result)
+            if (!task.IsCanceled && !task.Result)
             {
                 treeView.EditorWindow.ShowNotification(new GUIContent($"Dialogue baking failed"));
             }
