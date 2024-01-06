@@ -50,9 +50,13 @@ Demo project: https://github.com/AkiKurisu/Next-Gen-Dialogue-Example-Project
 
 <Img src = "Doc/Images/DemoExample1.png">
 
+Demo video: https://www.bilibili.com/video/BV1hg4y1U7FG
+
+<Img src = "Doc/Images/BilibiliDemo.png">
+
 ## RoadMap
 
-1. Use Unity Sentis to inference VITS, LLM model instead of using Python API which needs network and server.
+1. Use Unity Sentis to inference VITS, LLM model instead of using Python API which needs network and server (There are currently technical limitations).
 
 ## Supported version
 

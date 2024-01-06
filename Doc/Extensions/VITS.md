@@ -19,4 +19,16 @@ To deploy VITS locally, please Clone this repository: [VITS Simple API](https://
     In the Editor, add ``VITSModule`` to the Piece or Option that has ``ContentModule``, right-click to bake the voice and preview and download it.(You need to download it to save it, otherwise it will be lost after exiting the editor)
 3. 如果``VITSModule``中存在引用的AudioClip，则Runtime不再实时生成而是使用该语音
    
-   If there is a referenced AudioClip in ``VITSModule``, the Runtime no longer generates it in real time but uses the speech
+   If there is a referenced AudioClip in ``VITSModule``, the Runtime no longer generates it in real time but uses the speech.
+
+## Bake In Editor 编辑器中烘焙语音
+
+1. 为需要添加语音的Container手动添加`AIGC/VITSModule`或在Dialogue结点下添加`Editor/AIGC/VITSEditorModule`后一键为所有Piece或Option添加
+
+    Manually add `AIGC/VITSModule` to the Container that needs to add voice or add `Editor/AIGC/VITSEditorModule` under the Dialogue node and add it to all Piece or Option with one click
+2. 根据推理的模型ID填写`characterID`
+
+    Fill in `characterID` according to the inferred model ID
+3. 右键`AIGC/VITSModule`生成语音或点击`Editor/AIGC/VITSEditorModule`的批量生成（实际为依次生成）
+
+    Right-click `AIGC/VITSModule` to generate speech or click `Editor/AIGC/VITSEditorModule` to batch generate (actually generated sequentially)

@@ -45,15 +45,19 @@ Next Gen Dialogue插件（以下简称NGD）是一款结合大语言模型设计
 4. 支持AIGC在Editor中烘焙对话
 5. 运行时Debug
 
-演示项目：https://github.com/AkiKurisu/Next-Gen-Dialogue-Example-Project
+演示项目: https://github.com/AkiKurisu/Next-Gen-Dialogue-Example-Project
 
 <Img src = "Doc/Images/DemoExample2.png">
 
 <Img src = "Doc/Images/DemoExample1.png">
 
+演示视频: https://www.bilibili.com/video/BV1hg4y1U7FG
+
+<Img src = "Doc/Images/BilibiliDemo.png">
+
 ## 路线图
 
-1. 使用Unity Sentis推理VITS、LLM模型，而不是使用需要网络和服务器的Python API。 
+1. 使用Unity Sentis推理VITS、LLM模型，而不是使用需要网络和服务器的Python API (目前存在技术限制)。 
 
 ## 支持的版本
 
