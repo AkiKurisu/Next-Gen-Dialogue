@@ -23,6 +23,7 @@ namespace Kurisu.NGDT.Editor
             {
                 mainContainer.Add(autoGenerate = new Button(AutoGenerateFromSelection) { text = "Auto Generate Novel" });
                 mainContainer.Add(loadLast = new Button(LoadLastBakeSelections) { text = "Load Last Bake Selections" });
+                loadLast.SetEnabled(false);
             }
             private void LoadLastBakeSelections()
             {
@@ -52,10 +53,7 @@ namespace Kurisu.NGDT.Editor
             protected override void OnRestore()
             {
                 lastSelection = (NodeBehavior as NovelBakeModule).lastSelection;
-                if (string.IsNullOrEmpty(lastSelection))
-                {
-                    loadLast.SetEnabled(false);
-                }
+                loadLast.SetEnabled(!string.IsNullOrEmpty(lastSelection));
             }
             protected override void OnCommit(Stack<IDialogueNode> stack)
             {

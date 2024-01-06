@@ -15,11 +15,18 @@ namespace Kurisu.NGDT.VITS.Editor
         private class VITSEditorModuleNode : EditorModuleNode
         {
             private readonly Button generateAll;
+            private Toggle skipContainedAudioClip;
+            private Toggle skipSharedAudioClip;
             public VITSEditorModuleNode()
             {
                 mainContainer.Add(new Button(AttachAllPieces) { text = "Attach VITS Module to All Pieces" });
                 mainContainer.Add(new Button(AttachAllOptions) { text = "Attach VITS Module to All Options" });
                 mainContainer.Add(generateAll = new Button(GenerateAll) { text = "Generate All", tooltip = "Generate all VITS Modules with no audio baked" });
+            }
+            protected override void OnBehaviorSet()
+            {
+                skipContainedAudioClip = (GetFieldResolver("skipContainedAudioClip") as BoolResolver).EditorField;
+                skipSharedAudioClip = (GetFieldResolver("skipSharedAudioClip") as BoolResolver).EditorField;
             }
             private void AttachAllPieces()
             {
@@ -37,6 +44,8 @@ namespace Kurisu.NGDT.VITS.Editor
                     if (container.TryGetModuleNode<VITSModule>(out var node))
                     {
                         var vitsModule = node as VITSModuleResolver.VITSModuleNode;
+                        if (skipContainedAudioClip.value && vitsModule.ContainsAudioClip()) continue;
+                        if (skipSharedAudioClip.value && vitsModule.IsSharedMode()) continue;
                         if (!await vitsModule.BakeAudio()) break;
                     }
                 }

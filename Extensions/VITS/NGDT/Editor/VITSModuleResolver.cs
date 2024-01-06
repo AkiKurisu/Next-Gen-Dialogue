@@ -33,6 +33,28 @@ namespace Kurisu.NGDT.VITS.Editor
                     if (isBaking) return DropdownMenuAction.Status.Disabled;
                     else return DropdownMenuAction.Status.Normal;
                 }));
+                evt.menu.MenuItems().Add(new NGDTDropdownMenuAction("Clean Audio", (a) =>
+                {
+                    audioClipField.value.Value = null;
+                    audioClipField.Repaint();
+                }, (e) =>
+                {
+                    if (ContainsAudioClip()) return DropdownMenuAction.Status.Normal;
+                    else return DropdownMenuAction.Status.Disabled;
+                }));
+                evt.menu.MenuItems().Add(new NGDTDropdownMenuAction("Delate Audio", (a) =>
+               {
+                   if (EditorUtility.DisplayDialog("Warning", $"Delate audioClip {audioClipField.value.Value.name}? This operation cannot be undone.", "Delate", "Cancel"))
+                   {
+                       AssetDatabase.DeleteAsset(AssetDatabase.GetAssetPath(audioClipField.value.Value));
+                       audioClipField.value.Value = null;
+                       audioClipField.Repaint();
+                   }
+               }, (e) =>
+               {
+                   if (ContainsAudioClip()) return DropdownMenuAction.Status.Normal;
+                   else return DropdownMenuAction.Status.Disabled;
+               }));
             }
             protected override void OnBehaviorSet()
             {
@@ -92,6 +114,16 @@ namespace Kurisu.NGDT.VITS.Editor
                 if (audioClipField == null) return;
                 audioClipField.value.Value = audioClip;
                 audioClipField.Repaint();
+            }
+            public bool ContainsAudioClip()
+            {
+                if (audioClipField == null) return false;
+                return audioClipField.value.Value != null;
+            }
+            public bool IsSharedMode()
+            {
+                if (audioClipField == null) return false;
+                return audioClipField.value.IsShared;
             }
         }
     }

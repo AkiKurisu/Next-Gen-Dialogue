@@ -25,6 +25,7 @@ namespace Kurisu.NGDT.Editor
                 mainContainer.Add(bakeDialogue = new Button(GenerateCurrentSelection) { text = "Bake Dialogue" });
                 mainContainer.Add(autoGenerate = new Button(AutoGenerateFromSelection) { text = "Auto Generate Dialogue" });
                 mainContainer.Add(loadLast = new Button(LoadLastBakeSelections) { text = "Load Last Bake Selections" });
+                loadLast.SetEnabled(false);
             }
             private void LoadLastBakeSelections()
             {
@@ -65,10 +66,7 @@ namespace Kurisu.NGDT.Editor
             protected override void OnRestore()
             {
                 lastSelection = (NodeBehavior as AIBakeModule).lastSelection;
-                if (string.IsNullOrEmpty(lastSelection))
-                {
-                    loadLast.SetEnabled(false);
-                }
+                loadLast.SetEnabled(!string.IsNullOrEmpty(lastSelection));
             }
             protected override void OnCommit(Stack<IDialogueNode> stack)
             {
