@@ -13,6 +13,10 @@ namespace Kurisu.NGDT
         {
             this.characterName = characterName;
         }
+        public CharacterModule(string characterName)
+        {
+            this.characterName = new(characterName);
+        }
         [SerializeField, Tooltip("You should let AI know this content's speaker")]
         private SharedString characterName;
         public override void Awake()

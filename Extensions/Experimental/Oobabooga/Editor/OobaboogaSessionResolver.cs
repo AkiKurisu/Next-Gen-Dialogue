@@ -72,6 +72,9 @@ namespace Kurisu.NGDT.Experimental.Oobabooga.Editor
                         node.AddModuleNode(new ContentModule(internalData[i][1]));
                         last = node;
                     }
+                    //Add context copied from session
+                    GetFirstAncestorOfType<DialogueContainer>()?
+                        .AddModuleNode(new PromptModule(session.context));
                     await Task.Delay(2);
                     //Auto layout
                     NodeAutoLayoutHelper.Layout(new DialogueTreeLayoutConvertor(MapTreeView.View, firstPiece));
@@ -90,6 +93,7 @@ namespace Kurisu.NGDT.Experimental.Oobabooga.Editor
                 public string name1;
                 public string name2;
                 public HistoryData history;
+                public string context;
             }
             private class HistoryData
             {

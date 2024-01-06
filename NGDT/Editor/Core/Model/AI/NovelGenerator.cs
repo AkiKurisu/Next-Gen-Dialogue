@@ -23,10 +23,10 @@ namespace Kurisu.NGDT.Editor
             bakeContainer.TryGetModuleNode<NovelBakeModule>(out ModuleNode novelModule);
             int depth = (int)novelModule.GetFieldResolver("generateDepth").Value;
             float startVal = (float)EditorApplication.timeSinceStartup;
-            var ct = new CancellationTokenSource();
+            var ct = treeView.GetCancellationTokenSource();
             int step = 0;
             var task = Generate(containers, bakeContainer, ct.Token, 0, depth);
-            bool fail = false;
+            bool outOfTime = false;
             while (!task.IsCompleted)
             {
                 float slider = (float)(EditorApplication.timeSinceStartup - startVal) / maxWaitSeconds;
@@ -34,12 +34,16 @@ namespace Kurisu.NGDT.Editor
                 if (slider > 1)
                 {
                     treeView.EditorWindow.ShowNotification(new GUIContent($"Novel baking is out of time, please check your internet!"));
-                    fail = true;
+                    outOfTime = true;
                     break;
                 }
                 await Task.Yield();
             }
-            if (!task.Result || fail) ct.Cancel();
+            if (!task.Result || outOfTime) ct.Cancel();
+            if (!task.Result)
+            {
+                treeView.EditorWindow.ShowNotification(new GUIContent($"Novel baking failed"));
+            }
             EditorUtility.ClearProgressBar();
             await Task.Delay(2);
             //Auto layout

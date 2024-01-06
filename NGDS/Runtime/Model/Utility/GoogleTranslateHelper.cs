@@ -68,7 +68,7 @@ namespace Kurisu.NGDS
             }
             catch
             {
-                Debug.LogError("[Google Translate]: Translation Failed!");
+                Debug.LogError("[Google Translate] Translation Failed!");
                 return new GoogleTranslateResponse()
                 {
                     Status = false,

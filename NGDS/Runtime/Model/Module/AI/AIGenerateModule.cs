@@ -8,6 +8,7 @@ namespace Kurisu.NGDS
     {
         private readonly CancellationTokenSource ct;
         private readonly string characterName;
+        private const float MaxWaitTime = 30f;
         public string CharacterName => characterName;
         public AIGenerateModule(string characterName)
         {
@@ -24,7 +25,7 @@ namespace Kurisu.NGDS
             {
                 yield return null;
                 waitTime += Time.deltaTime;
-                if (waitTime >= 30f)
+                if (waitTime >= MaxWaitTime)
                 {
                     ct.Cancel();
                     break;

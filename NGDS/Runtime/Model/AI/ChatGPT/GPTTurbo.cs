@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -15,7 +14,7 @@ namespace Kurisu.NGDS.AI
         }
         private const string DefaultAPI = "https://api.openai-proxy.com/v1/chat/completions";
         private string ChatAPI { get; set; }
-        private const string m_gptModel = "gpt-3.5-turbo";
+        private readonly string m_gptModel;
         private readonly List<SendData> m_DataList = new();
         private readonly SendData promptData;
         private readonly string openAIKey;
@@ -23,12 +22,13 @@ namespace Kurisu.NGDS.AI
         private readonly ChatGenerator chatGenerator = new();
         public GoogleTranslateModule? PreTranslateModule { get; set; }
         private readonly bool chatMode;
-        public GPTTurbo(string url, string openAIKey, bool chatMode)
+        public GPTTurbo(string url, string m_gptModel, string openAIKey, bool chatMode)
         {
             promptData = new SendData("system", string.Empty);
             m_DataList.Add(promptData);
             this.openAIKey = openAIKey;
             this.chatMode = chatMode;
+            this.m_gptModel = m_gptModel;
             if (string.IsNullOrEmpty(url))
                 ChatAPI = DefaultAPI;
             else
@@ -77,7 +77,7 @@ namespace Kurisu.NGDS.AI
                     Status = true
                 };
             }
-            NGDSLogger.LogError($"ChatGPT ResponseCode : {request.responseCode}\nResponse : {request.downloadHandler.text}");
+            NGDSLogger.LogError($"ChatGPT ResponseCode: {request.responseCode}\nResponse: {request.downloadHandler.text}");
             return new GPTResponse()
             {
                 Response = string.Empty,

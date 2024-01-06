@@ -8,9 +8,9 @@ namespace Kurisu.NGDT
     {
 #if UNITY_EDITOR
         [SerializeField, LanguageCode]
-        private string sourceLanguageCode;
+        private string sourceLanguageCode = "en";
         [SerializeField, LanguageCode]
-        private string targetLanguageCode;
+        private string targetLanguageCode = "zh";
 #endif
     }
 }

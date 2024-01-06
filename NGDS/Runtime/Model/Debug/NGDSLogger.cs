@@ -3,7 +3,7 @@ namespace Kurisu.NGDS
 {
     public static class NGDSLogger
     {
-        private const string LoggerHeader = "[NGDS] : ";
+        private const string LoggerHeader = "[NGDS] ";
         public static void LogWarning(string message)
         {
             Debug.LogWarning(LoggerHeader + message);

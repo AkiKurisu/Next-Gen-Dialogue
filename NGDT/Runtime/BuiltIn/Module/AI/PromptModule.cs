@@ -7,8 +7,17 @@ namespace Kurisu.NGDT
     [ModuleOf(typeof(Dialogue))]
     public class PromptModule : CustomModule
     {
-        [SerializeField, Multiline]
+        [SerializeField, Multiline, TranslateEntry]
         private SharedString prompt;
+        public PromptModule() { }
+        public PromptModule(SharedString prompt)
+        {
+            this.prompt = prompt;
+        }
+        public PromptModule(string prompt)
+        {
+            this.prompt = new(prompt);
+        }
         public override void Awake()
         {
             InitVariable(prompt);

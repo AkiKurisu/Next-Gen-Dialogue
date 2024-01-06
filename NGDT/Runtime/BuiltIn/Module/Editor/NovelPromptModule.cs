@@ -6,11 +6,20 @@ namespace Kurisu.NGDT
     [ModuleOf(typeof(Dialogue))]
     public class NovelPromptModule : EditorModule
     {
-        [SerializeField, Multiline]
+#pragma warning disable IDE0052
+        [SerializeField, Multiline, TranslateEntry]
         private SharedString pieceSystemPrompt;
-        [SerializeField, Multiline]
+        [SerializeField, Multiline, TranslateEntry]
         private SharedString optionSystemPrompt;
-        [SerializeField, Multiline]
+        [SerializeField, Multiline, TranslateEntry]
         private SharedString storySummary;
+        public NovelPromptModule() { }
+        public NovelPromptModule(string pieceSystemPrompt, string optionSystemPrompt, string storySummary)
+        {
+            this.pieceSystemPrompt = new(pieceSystemPrompt);
+            this.optionSystemPrompt = new(optionSystemPrompt);
+            this.storySummary = new(storySummary);
+        }
+#pragma warning restore IDE0052
     }
 }

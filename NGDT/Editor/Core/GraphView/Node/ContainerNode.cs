@@ -339,7 +339,7 @@ namespace Kurisu.NGDT.Editor
             moduleNode = contentContainer.Query<ModuleNode>().ToList().FirstOrDefault(x => x.GetBehavior() == type);
             return moduleNode != null;
         }
-        public ModuleNode AddModuleNode<T>(T module) where T : Module
+        public ModuleNode AddModuleNode<T>(T module) where T : Module, new()
         {
             var type = typeof(T);
             var moduleNode = NodeResolverFactory.Instance.Create(type, MapTreeView) as ModuleNode;

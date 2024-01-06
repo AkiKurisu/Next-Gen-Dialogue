@@ -37,8 +37,7 @@ namespace Kurisu.NGDT.Editor
             //Generate dialogue from driver finally
             try
             {
-                await GenerateDialogue(bakeContainerNode, aiBakeModule, ct);
-                return true;
+                return await GenerateDialogue(bakeContainerNode, aiBakeModule, ct);
             }
             catch (OperationCanceledException)
             {
@@ -57,7 +56,7 @@ namespace Kurisu.NGDT.Editor
             var setting = NextGenDialogueSetting.GetOrCreateSettings().AITurboSetting;
             return LLMFactory.CreateNonModule(type, setting);
         }
-        private async Task GenerateDialogue(ContainerNode containerNode, ModuleNode aiBakeModule, CancellationToken ct)
+        private async Task<bool> GenerateDialogue(ContainerNode containerNode, ModuleNode aiBakeModule, CancellationToken ct)
         {
             SharedString bakeCharacterName = aiBakeModule.GetSharedVariable<SharedString>("characterName");
             var response = await builder.Generate(bakeCharacterName.Value, ct);
@@ -69,6 +68,11 @@ namespace Kurisu.NGDT.Editor
                 //Create Output Module Node
                 containerNode.AddModuleNode(new CharacterModule(bakeCharacterName.Clone() as SharedString));
                 containerNode.AddModuleNode(new ContentModule(response.Response));
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
         private bool TrySetPrompt(ContainerNode containerNode, out string prompt)

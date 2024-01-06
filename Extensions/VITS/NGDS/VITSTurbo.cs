@@ -28,7 +28,7 @@ namespace Kurisu.NGDS.VITS
         {
             this.setting = setting;
             address = setting.VITS_Address;
-            api = setting.VITS_API;
+            api = setting.VITS_Model;
             port = setting.VITS_Port;
         }
         private void CacheAudioClip(AudioClip audioClip)

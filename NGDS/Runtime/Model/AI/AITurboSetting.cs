@@ -8,7 +8,14 @@ namespace Kurisu.NGDS.AI
                 {
                         Chat, Completions
                 }
-                private enum VITSType
+                private enum GPT_ModelType
+                {
+                        [InspectorName("GPT-3.5-Turbo")]
+                        GPT3_5,
+                        [InspectorName("GPT-4")]
+                        GPT4
+                }
+                private enum VITS_ModelType
                 {
                         VITS, BertVITS2
                 }
@@ -17,6 +24,16 @@ namespace Kurisu.NGDS.AI
                 public string ChatGPT_URL_Override { get; private set; }
                 [SerializeField, Tooltip("Whether use GPT Chat Mode or Completions Mode, Chat Mode is better when only has two role")]
                 private GPT_APIMode gpt_APIMode;
+                [SerializeField, Tooltip("Set ChatGPT model type")]
+                private GPT_ModelType gptType;
+                public string GPT_Model
+                {
+                        get
+                        {
+                                if (gptType == GPT_ModelType.GPT3_5) return "gpt-3.5-turbo";
+                                else return "gpt-4";
+                        }
+                }
                 public bool ChatMode => gpt_APIMode == GPT_APIMode.Chat;
                 [field: SerializeField]
                 public string OpenAIKey { get; private set; }
@@ -36,12 +53,12 @@ namespace Kurisu.NGDS.AI
                 [field: SerializeField]
                 public string VITS_Address { get; private set; } = "127.0.0.1";
                 [SerializeField, Tooltip("Set vits model type")]
-                private VITSType vitsType;
-                public string VITS_API
+                private VITS_ModelType vitsType;
+                public string VITS_Model
                 {
                         get
                         {
-                                if (vitsType == VITSType.VITS) return "vits";
+                                if (vitsType == VITS_ModelType.VITS) return "vits";
                                 else return "bert-vits2";
                         }
                 }

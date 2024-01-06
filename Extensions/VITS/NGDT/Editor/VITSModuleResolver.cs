@@ -21,7 +21,6 @@ namespace Kurisu.NGDT.VITS.Editor
         {
             private SharedTObjectField<AudioClip> audioClipField;
             private AudioPreviewField audioPreviewField;
-            private readonly CancellationTokenSource ct = new();
             private bool isBaking;
             public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
             {
@@ -60,6 +59,7 @@ namespace Kurisu.NGDT.VITS.Editor
                 isBaking = true;
                 float startVal = (float)EditorApplication.timeSinceStartup;
                 const float maxValue = 60.0f;
+                var ct = MapTreeView.GetCancellationTokenSource();
                 var task = vitsTurbo.SendVITSRequestAsync(content, characterID, ct.Token);
                 bool cancel = false;
                 while (!task.IsCompleted)

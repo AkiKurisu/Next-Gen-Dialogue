@@ -12,8 +12,7 @@ namespace Kurisu.NGDS.AI
             stringBuilder.Clear();
             while (llmInput.History.TryDequeue(out DialogueParam param))
             {
-                stringBuilder.Append(param.ToString());
-                stringBuilder.Append('\n');
+                stringBuilder.AppendLine(param.ToString());
             }
             stringBuilder.Append(llmInput.Character);
             stringBuilder.Append(':');

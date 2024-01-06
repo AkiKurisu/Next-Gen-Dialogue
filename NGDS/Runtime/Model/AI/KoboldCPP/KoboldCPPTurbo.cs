@@ -1,31 +1,9 @@
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 namespace Kurisu.NGDS.AI
 {
-    public class CharacterPresetHelper
-    {
-        public static string GeneratePrompt(string user_Name = "You", string char_name = "Bot", string char_persona = null, string world_scenario = null)
-        {
-            StringBuilder stringBuilder = new();
-            stringBuilder.Clear();
-            //This Prompt is the same as KoboldAI generated, useful for generating chat text
-            stringBuilder.Append($"[The following is an interesting chat message log between {user_Name} and {char_name}.");
-            //This Prompt is added by me and may be modified in future, you can have a test and change it to your version.
-            //Note: 
-            //Those Prompts are designed to generate a chat text. 
-            //If you want other forms like story mode, prompt should be changed. 
-            if (!string.IsNullOrEmpty(char_persona))
-                stringBuilder.Append($"\n{char_name}'s persona : {char_persona}");
-            if (!string.IsNullOrEmpty(world_scenario))
-                stringBuilder.Append($"\nWorld's scenario : {world_scenario}");
-            //<START> means chat beginning
-            stringBuilder.Append("]\n<START>\n");
-            return stringBuilder.ToString();
-        }
-    }
     public class KoboldCPPTurbo : ILLMDriver
     {
         private struct KoboldResponse : ILLMData

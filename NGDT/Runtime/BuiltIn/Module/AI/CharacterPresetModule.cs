@@ -8,13 +8,13 @@ namespace Kurisu.NGDT
     [ModuleOf(typeof(Dialogue))]
     public class CharacterPresetModule : CustomModule
     {
-        [SerializeField]
+        [SerializeField, TranslateEntry]
         private SharedString user_Name = new("You");
-        [SerializeField]
+        [SerializeField, TranslateEntry]
         private SharedString char_name = new("Bot");
-        [SerializeField, Multiline]
+        [SerializeField, Multiline, TranslateEntry]
         private SharedString char_persona;
-        [SerializeField, Multiline]
+        [SerializeField, Multiline, TranslateEntry]
         private SharedString world_scenario;
         public override void Awake()
         {
@@ -31,6 +31,14 @@ namespace Kurisu.NGDT
                 char_persona.Value,
                 world_scenario.Value
              ));
+        }
+        public CharacterPresetModule() { }
+        public CharacterPresetModule(string user_Name, string char_name, string char_persona, string world_scenario)
+        {
+            this.user_Name = new(user_Name);
+            this.char_name = new(char_name);
+            this.char_persona = new(char_persona);
+            this.world_scenario = new(world_scenario);
         }
     }
 }

@@ -15,7 +15,7 @@ namespace Kurisu.NGDS.AI
         {
             ILLMDriver driver = llmType switch
             {
-                LLMType.ChatGPT => new GPTTurbo(setting.ChatGPT_URL_Override, setting.OpenAIKey, setting.ChatMode),
+                LLMType.ChatGPT => new GPTTurbo(setting.ChatGPT_URL_Override, setting.GPT_Model, setting.OpenAIKey, setting.ChatMode),
                 LLMType.KoboldCPP => new KoboldCPPTurbo(setting.LLM_Address, setting.LLM_Port),
                 LLMType.Oobabooga => new OobaboogaTurbo(setting.LLM_Address, setting.LLM_Port),
                 LLMType.ChatGLM => new GLMTurbo(setting.LLM_Address, setting.LLM_Port),
