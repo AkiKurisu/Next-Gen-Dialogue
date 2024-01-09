@@ -59,7 +59,7 @@ namespace Kurisu.NGDT.Editor
 
         private string OnSerialize(IEnumerable<GraphElement> elements)
         {
-            CopyPaste.Copy(DialogueTree.Object.GetHashCode(), elements);
+            CopyPaste.Copy(EditorWindow.GetInstanceID(), elements);
             return string.Empty;
         }
 

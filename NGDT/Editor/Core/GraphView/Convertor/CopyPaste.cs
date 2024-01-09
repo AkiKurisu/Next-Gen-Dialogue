@@ -7,6 +7,11 @@ namespace Kurisu.NGDT.Editor
     public class CopyPaste
     {
         private static Graph graph;
+        /// <summary>
+        /// Copy elements to global without serialization
+        /// </summary>
+        /// <param name="instanceID">EditorWindow InstanceID</param>
+        /// <param name="elements"></param>
         public static void Copy(int instanceID, IEnumerable<GraphElement> elements)
         {
             graph = new Graph()
@@ -36,9 +41,16 @@ namespace Kurisu.NGDT.Editor
                 int count = 0;
                 foreach (var node in graph.nodes)
                 {
-                    if (node is ModuleNode or ChildBridge or ParentBridge) continue;
+                    if (node is ChildBridge or ParentBridge) continue;
                     count++;
-                    average += node.GetPosition().position;
+                    if (node is ModuleNode moduleNode)
+                    {
+                        average += moduleNode.GetWorldPosition().position;
+                    }
+                    else
+                    {
+                        average += node.GetPosition().position;
+                    }
                 }
                 return average / count;
             }
