@@ -60,8 +60,7 @@ namespace Kurisu.NGDT.Editor
                     .OfType<ContainerNode>()
                     .Where(x => x is not DialogueContainer)
                     .ToArray();
-                //TODO: Tasks should be in batches when dialogue graph become big
-                var tasks = new List<Task>();
+                var tasks = new List<Task>(10);
                 var ct = new CancellationTokenSource();
                 foreach (var node in containerNodes)
                 {
@@ -69,8 +68,14 @@ namespace Kurisu.NGDT.Editor
                     {
                         tasks.Add(TranslateContentsAsync(node, moduleNode, ct.Token));
                     }
+                    if (tasks.Count == 10)
+                    {
+                        await Task.WhenAll(tasks);
+                        tasks.Clear();
+                    }
                 }
-                await Task.WhenAll(tasks);
+                if (tasks.Count != 0)
+                    await Task.WhenAll(tasks);
                 MapTreeView.EditorWindow.ShowNotification(new GUIContent("Translation Complete !"));
                 IsPending = false;
                 async Task TranslateContentsAsync(ContainerNode containerNode, ModuleNode moduleNode, CancellationToken ct)
@@ -94,13 +99,19 @@ namespace Kurisu.NGDT.Editor
                     .Where(x => x.GetCustomAttribute(typeof(TranslateEntryAttribute)) != null)
                     .ToArray();
                 int fieldCount = fieldsToTranslate.Length;
-                var tasks = new List<Task>();
+                var tasks = new List<Task>(10);
                 var ct = new CancellationTokenSource();
                 for (int i = 0; i < fieldCount; ++i)
                 {
                     tasks.Add(TranslateContentsAsync(fieldsToTranslate[i], ct.Token));
+                    if (tasks.Count == 10)
+                    {
+                        await Task.WhenAll(tasks);
+                        tasks.Clear();
+                    }
                 }
-                await Task.WhenAll(tasks);
+                if (tasks.Count != 0)
+                    await Task.WhenAll(tasks);
                 MapTreeView.EditorWindow.ShowNotification(new GUIContent("Translation Complete !"));
                 IsPending = false;
                 async Task TranslateContentsAsync(FieldInfo fieldInfo, CancellationToken ct)

@@ -67,6 +67,20 @@ namespace Kurisu.NGDT.Editor
                 graphView.GroupBlockController.CreateBlock(newRect);
                 return true;
             }
+            if (type.IsSubclassOf(typeof(Container)))
+            {
+                var containerNode = graphView.CollectNodes<ContainerNode>()
+                                                .Where(x => x.GetBehavior() == type)
+                                                .FirstOrDefault(x => x.TryGetModuleNode<TemplateModule>(out _));
+                if (containerNode != null)
+                {
+                    //Use template instead
+                    var instance = graphView.DuplicateNode(containerNode) as ContainerNode;
+                    instance.SetPosition(newRect);
+                    instance.RemoveModule<TemplateModule>();
+                    return true;
+                }
+            }
             var node = nodeResolver.Create(type, graphView);
             if (node is PieceContainer pieceContainer)
             {
