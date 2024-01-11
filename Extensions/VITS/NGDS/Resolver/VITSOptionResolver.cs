@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
+using System.Threading.Tasks;
 using Kurisu.NGDS.AI;
 using UnityEngine;
 namespace Kurisu.NGDS.VITS
@@ -75,7 +76,15 @@ namespace Kurisu.NGDS.VITS
                 }
                 if (option.TryGetModule(out VITSGenerateModule vitsModule))
                 {
-                    var task = vitsTurbo.SendVITSRequestAsync(option.Content, vitsModule.CharacterID, ct.Token);
+                    Task<VITSResponse> task;
+                    if (vitsModule.NoTranslation)
+                    {
+                        task = vitsTurbo.SendVITSRequestAsync(option.Content, vitsModule.CharacterID, ct.Token);
+                    }
+                    else
+                    {
+                        task = vitsTurbo.SendVITSRequestAsyncWithTranslation(option.Content, vitsModule.CharacterID, ct.Token);
+                    }
                     float waitTime = 0;
                     while (!task.IsCompleted)
                     {

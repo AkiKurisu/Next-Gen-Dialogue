@@ -3,20 +3,20 @@ namespace Kurisu.NGDS.VITS
 {
     public readonly struct VITSGenerateModule : IDialogueModule
     {
-        private readonly int characterID;
-        public int CharacterID => characterID;
-        public VITSGenerateModule(int characterID)
+        public readonly int CharacterID { get; }
+        public readonly bool NoTranslation { get; }
+        public VITSGenerateModule(int characterID, bool noTranslation)
         {
-            this.characterID = characterID;
+            CharacterID = characterID;
+            NoTranslation = noTranslation;
         }
     }
     public readonly struct VITSAudioClipModule : IDialogueModule
     {
-        private readonly AudioClip audioClip;
-        public AudioClip AudioClip => audioClip;
+        public AudioClip AudioClip { get; }
         public VITSAudioClipModule(AudioClip audioClip)
         {
-            this.audioClip = audioClip;
+            AudioClip = audioClip;
         }
     }
 }

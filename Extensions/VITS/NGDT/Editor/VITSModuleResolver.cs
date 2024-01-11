@@ -82,7 +82,15 @@ namespace Kurisu.NGDT.VITS.Editor
                 float startVal = (float)EditorApplication.timeSinceStartup;
                 const float maxValue = 60.0f;
                 var ct = MapTreeView.GetCancellationTokenSource();
-                var task = vitsTurbo.SendVITSRequestAsync(content, characterID, ct.Token);
+                Task<VITSResponse> task;
+                if (this.GetFieldValue<bool>("noTranslation"))
+                {
+                    task = vitsTurbo.SendVITSRequestAsync(content, characterID, ct.Token);
+                }
+                else
+                {
+                    task = vitsTurbo.SendVITSRequestAsyncWithTranslation(content, characterID, ct.Token);
+                }
                 while (!task.IsCompleted)
                 {
                     float slider = (float)(EditorApplication.timeSinceStartup - startVal) / maxValue;

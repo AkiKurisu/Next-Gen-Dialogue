@@ -1,6 +1,7 @@
 #if NGD_USE_VITS
 using System.Collections;
 using System.Threading;
+using System.Threading.Tasks;
 using Kurisu.NGDS.AI;
 using UnityEngine;
 namespace Kurisu.NGDS.VITS
@@ -48,7 +49,15 @@ namespace Kurisu.NGDS.VITS
             }
             if (DialoguePiece.TryGetModule(out VITSGenerateModule vitsModule))
             {
-                var task = vitsTurbo.SendVITSRequestAsync(DialoguePiece.Content, vitsModule.CharacterID, ct.Token);
+                Task<VITSResponse> task;
+                if (vitsModule.NoTranslation)
+                {
+                    task = vitsTurbo.SendVITSRequestAsync(DialoguePiece.Content, vitsModule.CharacterID, ct.Token);
+                }
+                else
+                {
+                    task = vitsTurbo.SendVITSRequestAsyncWithTranslation(DialoguePiece.Content, vitsModule.CharacterID, ct.Token);
+                }
                 float waitTime = 0;
                 while (!task.IsCompleted)
                 {

@@ -52,10 +52,6 @@ namespace Kurisu.NGDS.VITS
         }
         public async Task<VITSResponse> SendVITSRequestAsync(string message, int characterID, CancellationToken ct)
         {
-            if (PreTranslateModule.HasValue)
-            {
-                message = await PreTranslateModule.Value.Process(message, ct);
-            }
             using UnityWebRequest www = UnityWebRequestMultimedia.GetAudioClip(GetURL(message, characterID), AudioType.WAV);
             www.SendWebRequest();
             while (!www.isDone)
@@ -91,6 +87,14 @@ namespace Kurisu.NGDS.VITS
                     Status = validate
                 };
             }
+        }
+        public async Task<VITSResponse> SendVITSRequestAsyncWithTranslation(string message, int characterID, CancellationToken ct)
+        {
+            if (PreTranslateModule.HasValue)
+            {
+                message = await PreTranslateModule.Value.Process(message, ct);
+            }
+            return await SendVITSRequestAsync(message, characterID, ct);
         }
     }
 }
