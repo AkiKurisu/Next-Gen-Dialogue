@@ -65,7 +65,8 @@ namespace Kurisu.NGDT.Editor
 
         private void OnPaste(string a, string b)
         {
-            Paste(new Vector2(50, 50));
+            if (CopyPaste.CanPaste)
+                Paste(new Vector2(50, 50));
         }
         private void Paste(Vector2 positionOffSet)
         {
