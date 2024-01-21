@@ -26,18 +26,13 @@ namespace Kurisu.NGDS
             dialogue.TryGetModule(out resolverModule);
         }
     }
+    /// <summary>
+    /// Basic dialogue system implementation
+    /// </summary>
     public class DialogueSystem : MonoBehaviour, IDialogueSystem
     {
-
         private IDialogueProxy dialogue;
-        private void Awake()
-        {
-            IOCContainer.Register<IDialogueSystem>(this);
-        }
-        private void OnDestroy()
-        {
-            IOCContainer.UnRegister<IDialogueSystem>(this);
-        }
+        public bool IsPlaying => dialogue != null;
         public event Action<IDialogueResolver> OnDialogueStart;
         public event Action<IPieceResolver> OnPiecePlay;
         public event Action<IOptionResolver> OnOptionCreate;
@@ -52,13 +47,22 @@ namespace Kurisu.NGDS
                 return resolverHandler;
             }
         }
+        private Coroutine runningCoroutine;
+        private void Awake()
+        {
+            IOCContainer.Register<IDialogueSystem>(this);
+        }
+        private void OnDestroy()
+        {
+            IOCContainer.UnRegister<IDialogueSystem>(this);
+        }
         public void StartDialogue(IDialogueProxy dialogueProvider)
         {
             dialogue = dialogueProvider;
             var dialogueData = dialogueProvider.CastDialogue();
             ResolverHandler.Handle(dialogueData);
             ResolverHandler.DialogueResolver.Inject(dialogueData, this);
-            StartCoroutine(DialogueEnterCoroutine());
+            runningCoroutine = StartCoroutine(DialogueEnterCoroutine());
         }
         private IEnumerator DialogueEnterCoroutine()
         {
@@ -69,7 +73,7 @@ namespace Kurisu.NGDS
         private void PlayDialoguePiece(Piece piece)
         {
             ResolverHandler.PieceResolver.Inject(piece, this);
-            StartCoroutine(PieceEnterCoroutine());
+            runningCoroutine = StartCoroutine(PieceEnterCoroutine());
         }
         private IEnumerator PieceEnterCoroutine()
         {
@@ -83,7 +87,7 @@ namespace Kurisu.NGDS
         public void CreateOption(IReadOnlyList<Option> options)
         {
             ResolverHandler.OptionResolver.Inject(options, this);
-            StartCoroutine(OptionEnterCoroutine());
+            runningCoroutine = StartCoroutine(OptionEnterCoroutine());
         }
 
         private IEnumerator OptionEnterCoroutine()
@@ -92,10 +96,16 @@ namespace Kurisu.NGDS
             OnOptionCreate?.Invoke(ResolverHandler.OptionResolver);
         }
 
-        public void EndDialogue()
+        public void EndDialogue(bool forceEnd)
         {
+            if (forceEnd && runningCoroutine != null)
+            {
+                StopCoroutine(runningCoroutine);
+            }
             ResolverHandler.DialogueResolver.ExitDialogue();
             OnDialogueOver?.Invoke();
+            dialogue = null;
+            runningCoroutine = null;
         }
     }
 }
