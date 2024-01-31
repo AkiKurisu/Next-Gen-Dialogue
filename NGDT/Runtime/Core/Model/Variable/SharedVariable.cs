@@ -166,6 +166,12 @@ namespace Kurisu.NGDT
             Setter += wrapper.Invoke;
             return proxy;
         }
+        public sealed override SharedVariable Clone()
+        {
+            var variable = CloneT();
+            variable.CopyProperty(this);
+            return variable;
+        }
         protected virtual SharedVariable<T> CloneT()
         {
             return ReflectionHelper.DeepCopy(this);
