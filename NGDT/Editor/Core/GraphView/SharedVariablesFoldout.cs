@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using UnityEditor;
 using UnityEditor.UIElements;
@@ -17,7 +18,7 @@ namespace Kurisu.NGDT.Editor
             RegisterCallback<DetachFromPanelEvent>(Release);
             observeProxies = new HashSet<ObserveProxyVariable>();
             var factory = FieldResolverFactory.Instance;
-            foreach (var variable in source.SharedVariables)
+            foreach (var variable in source.SharedVariables.Where(x => x.IsExposed))
             {
                 if (variable is PieceID) continue;
                 var grid = new Foldout

@@ -200,6 +200,7 @@ MonoBehaviour:
       data:
         isShared: 1
         isGlobal: 0
+        isExposed: 0
         mName: Dialog1
         value: d6fb661c-b9aa-4169-9bfe-5de7bd557691
     - rid: 8821145904345514577
@@ -207,6 +208,7 @@ MonoBehaviour:
       data:
         isShared: 1
         isGlobal: 0
+        isExposed: 0
         mName: Dialog2
         value: adc2b035-7d0c-48eb-a81f-5deceddb13ad
     - rid: 8821145904345514578
@@ -214,6 +216,7 @@ MonoBehaviour:
       data:
         isShared: 1
         isGlobal: 0
+        isExposed: 0
         mName: Dialog3
         value: 
     - rid: 8821145904345514579
@@ -247,6 +250,7 @@ MonoBehaviour:
         pieceID:
           isShared: 1
           isGlobal: 0
+          isExposed: 0
           mName: Dialog3
           value: 
     - rid: 8821145904345514581
@@ -266,6 +270,7 @@ MonoBehaviour:
         pieceID:
           isShared: 1
           isGlobal: 0
+          isExposed: 0
           mName: Dialog2
           value: 
     - rid: 8821145904345514582
@@ -285,6 +290,7 @@ MonoBehaviour:
         pieceID:
           isShared: 1
           isGlobal: 0
+          isExposed: 0
           mName: Dialog1
           value: 
     - rid: 8821145904345514583
@@ -301,6 +307,7 @@ MonoBehaviour:
         content:
           isShared: 0
           isGlobal: 0
+          isExposed: 0
           mName: 
           value: You can also open the Editor in playmode for debuging.
     - rid: 8821145904345514584
@@ -317,6 +324,7 @@ MonoBehaviour:
         content:
           isShared: 0
           isGlobal: 0
+          isExposed: 0
           mName: 
           value: You can click "Edit DialogueTree" of DialogueTreeSO to see how it
             does
@@ -335,6 +343,7 @@ MonoBehaviour:
         nextID:
           isShared: 1
           isGlobal: 0
+          isExposed: 0
           mName: Dialog3
           value: 
     - rid: 8821145904345514586
@@ -351,6 +360,7 @@ MonoBehaviour:
         content:
           isShared: 0
           isGlobal: 0
+          isExposed: 0
           mName: 
           value: This is an example using DialogueTreeSO to create a dialogue
     - rid: 8821145904345514587
@@ -381,6 +391,7 @@ MonoBehaviour:
         content:
           isShared: 0
           isGlobal: 0
+          isExposed: 0
           mName: 
           value: Continue
     - rid: 8821145904345514589
@@ -398,6 +409,7 @@ MonoBehaviour:
         targetID:
           isShared: 1
           isGlobal: 0
+          isExposed: 0
           mName: Dialog2
           value: 
 --- !u!1 &323583407
@@ -545,16 +557,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   root:
-    rid: 8821145904345514605
+    rid: 6866891727488679940
   sharedVariables:
-  - rid: 8821145904345514606
-  - rid: 8821145904345514607
+  - rid: 6866891727488679941
+  - rid: 6866891727488679942
   externalDialogueTree: {fileID: 0}
   blockData: []
   references:
     version: 2
     RefIds:
-    - rid: 8821145904345514605
+    - rid: 6866891727488679940
       type: {class: Root, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
       data:
         graphPosition:
@@ -566,26 +578,28 @@ MonoBehaviour:
         description: 
         guid: 17b30093-3fb4-4a02-8b26-64c8cb6854ea
         child:
-          rid: 8821145904345514608
+          rid: 6866891727488679943
         children:
-        - rid: 8821145904345514609
-    - rid: 8821145904345514606
+        - rid: 6866891727488679944
+    - rid: 6866891727488679941
       type: {class: PieceID, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
       data:
         isShared: 1
         isGlobal: 0
+        isExposed: 0
         mName: Dialog1
         value: 
-    - rid: 8821145904345514607
+    - rid: 6866891727488679942
       type: {class: SharedObject, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
       data:
         isShared: 0
         isGlobal: 0
+        isExposed: 1
         mName: ExposedEvent
         value: {fileID: 11400000, guid: def61b77632a04040b4ec607528ecdbd, type: 2}
         constraintTypeAQM: Kurisu.NGDS.ScriptableEvent, Kurisu.NGDS, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
-    - rid: 8821145904345514608
+    - rid: 6866891727488679943
       type: {class: Dialogue, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
       data:
         graphPosition:
@@ -597,10 +611,10 @@ MonoBehaviour:
         description: 
         guid: 1253cb15-ce0c-46a4-9c98-fc14b3265295
         children:
-        - rid: 8821145904345514609
+        - rid: 6866891727488679944
         referencePieces:
         - 
-    - rid: 8821145904345514609
+    - rid: 6866891727488679944
       type: {class: Piece, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
       data:
         graphPosition:
@@ -612,15 +626,16 @@ MonoBehaviour:
         description: 
         guid: 87ad95d9-81fc-4d39-a073-b318ec0c0ae9
         children:
-        - rid: 8821145904345514610
-        - rid: 8821145904345514611
-        - rid: 8821145904345514612
+        - rid: 6866891727488679945
+        - rid: 6866891727488679946
+        - rid: 6866891727488679947
         pieceID:
           isShared: 1
           isGlobal: 0
+          isExposed: 0
           mName: Dialog1
           value: 
-    - rid: 8821145904345514610
+    - rid: 6866891727488679945
       type: {class: ContentModule, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
       data:
         graphPosition:
@@ -634,9 +649,10 @@ MonoBehaviour:
         content:
           isShared: 0
           isGlobal: 0
+          isExposed: 0
           mName: 
           value: This is an example to invoke a callback when you select an option
-    - rid: 8821145904345514611
+    - rid: 6866891727488679946
       type: {class: Option, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
       data:
         graphPosition:
@@ -648,9 +664,9 @@ MonoBehaviour:
         description: 
         guid: bc03ffd9-1c42-44e9-90fa-9c205f42ab7a
         children:
-        - rid: 8821145904345514613
-        - rid: 8821145904345514614
-    - rid: 8821145904345514612
+        - rid: 6866891727488679948
+        - rid: 6866891727488679949
+    - rid: 6866891727488679947
       type: {class: Option, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
       data:
         graphPosition:
@@ -662,10 +678,10 @@ MonoBehaviour:
         description: 
         guid: 2809e32e-223f-4087-9c62-4d71233c43b6
         children:
-        - rid: 8821145904345514615
-        - rid: 8821145904345514616
-        - rid: 8821145904345514617
-    - rid: 8821145904345514613
+        - rid: 6866891727488679950
+        - rid: 6866891727488679951
+        - rid: 6866891727488679952
+    - rid: 6866891727488679948
       type: {class: ContentModule, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
       data:
         graphPosition:
@@ -679,9 +695,10 @@ MonoBehaviour:
         content:
           isShared: 0
           isGlobal: 0
+          isExposed: 0
           mName: 
           value: Click Me
-    - rid: 8821145904345514614
+    - rid: 6866891727488679949
       type: {class: CallBackModule, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
       data:
         graphPosition:
@@ -693,8 +710,8 @@ MonoBehaviour:
         description: 
         guid: d17f5c64-32e2-481e-8001-2c59c38ef252
         child:
-          rid: 8821145904345514618
-    - rid: 8821145904345514615
+          rid: 6866891727488679953
+    - rid: 6866891727488679950
       type: {class: ContentModule, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
       data:
         graphPosition:
@@ -708,9 +725,10 @@ MonoBehaviour:
         content:
           isShared: 0
           isGlobal: 0
+          isExposed: 0
           mName: 
           value: Or Click Me
-    - rid: 8821145904345514616
+    - rid: 6866891727488679951
       type: {class: CallBackModule, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
       data:
         graphPosition:
@@ -722,8 +740,8 @@ MonoBehaviour:
         description: 
         guid: de70246b-6d74-424f-846a-47b2e16f3ede
         child:
-          rid: 8821145904345514619
-    - rid: 8821145904345514617
+          rid: 6866891727488679954
+    - rid: 6866891727488679952
       type: {class: ScriptableEventModule, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
       data:
         graphPosition:
@@ -737,9 +755,10 @@ MonoBehaviour:
         scriptableEvent:
           isShared: 1
           isGlobal: 0
+          isExposed: 0
           mName: ExposedEvent
           value: {fileID: 0}
-    - rid: 8821145904345514618
+    - rid: 6866891727488679953
       type: {class: DebugLog, ns: Kurisu.NGDT.Behavior, asm: Kurisu.NGDT.Behavior}
       data:
         graphPosition:
@@ -753,9 +772,10 @@ MonoBehaviour:
         logText:
           isShared: 0
           isGlobal: 0
+          isExposed: 0
           mName: 
           value: "You click me\uFF01"
-    - rid: 8821145904345514619
+    - rid: 6866891727488679954
       type: {class: DebugLog, ns: Kurisu.NGDT.Behavior, asm: Kurisu.NGDT.Behavior}
       data:
         graphPosition:
@@ -769,6 +789,7 @@ MonoBehaviour:
         logText:
           isShared: 0
           isGlobal: 0
+          isExposed: 0
           mName: 
           value: Magic?
 --- !u!4 &634813462
@@ -957,6 +978,7 @@ MonoBehaviour:
       data:
         isShared: 1
         isGlobal: 0
+        isExposed: 0
         mName: Dialog1
         value: 
     - rid: 8821145904345514592
@@ -964,6 +986,7 @@ MonoBehaviour:
       data:
         isShared: 1
         isGlobal: 0
+        isExposed: 0
         mName: Dialog2
         value: 
     - rid: 8821145904345514593
@@ -971,6 +994,7 @@ MonoBehaviour:
       data:
         isShared: 1
         isGlobal: 0
+        isExposed: 0
         mName: Dialog3
         value: 
     - rid: 8821145904345514594
@@ -1004,6 +1028,7 @@ MonoBehaviour:
         pieceID:
           isShared: 1
           isGlobal: 0
+          isExposed: 0
           mName: Dialog3
           value: 
     - rid: 8821145904345514596
@@ -1023,6 +1048,7 @@ MonoBehaviour:
         pieceID:
           isShared: 1
           isGlobal: 0
+          isExposed: 0
           mName: Dialog2
           value: 
     - rid: 8821145904345514597
@@ -1042,6 +1068,7 @@ MonoBehaviour:
         pieceID:
           isShared: 1
           isGlobal: 0
+          isExposed: 0
           mName: Dialog1
           value: 
     - rid: 8821145904345514598
@@ -1058,6 +1085,7 @@ MonoBehaviour:
         content:
           isShared: 0
           isGlobal: 0
+          isExposed: 0
           mName: 
           value: You can also Open Editor in runtime for debug.
     - rid: 8821145904345514599
@@ -1074,6 +1102,7 @@ MonoBehaviour:
         content:
           isShared: 0
           isGlobal: 0
+          isExposed: 0
           mName: 
           value: You can click "Edit DialogueTree" to see how it does
     - rid: 8821145904345514600
@@ -1091,6 +1120,7 @@ MonoBehaviour:
         nextID:
           isShared: 1
           isGlobal: 0
+          isExposed: 0
           mName: Dialog3
           value: 
     - rid: 8821145904345514601
@@ -1107,6 +1137,7 @@ MonoBehaviour:
         content:
           isShared: 0
           isGlobal: 0
+          isExposed: 0
           mName: 
           value: This is an example using DialogueTree to create a dialogue
     - rid: 8821145904345514602
@@ -1137,6 +1168,7 @@ MonoBehaviour:
         content:
           isShared: 0
           isGlobal: 0
+          isExposed: 0
           mName: 
           value: Continue
     - rid: 8821145904345514604
@@ -1154,6 +1186,7 @@ MonoBehaviour:
         targetID:
           isShared: 1
           isGlobal: 0
+          isExposed: 0
           mName: Dialog2
           value: 
 --- !u!1 &963194225

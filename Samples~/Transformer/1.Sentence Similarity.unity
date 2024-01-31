@@ -237,6 +237,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tokenizer: {fileID: 4900000, guid: b0f392854e776f744aed0d103af2f39d, type: 3}
   modelAsset: {fileID: 5022602860645237092, guid: 96f5be00e5604c247819bf3c89edfe71, type: 3}
+  backendType: 512
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -361,26 +362,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   root:
-    rid: 8821145986260009001
+    rid: 6866891727488679957
   sharedVariables:
-  - rid: 8821145986260009002
-  - rid: 8821145986260009003
-  - rid: 8821145986260009004
-  - rid: 8821145986260009005
-  - rid: 8821145986260009006
+  - rid: 6866891727488679958
+  - rid: 6866891727488679959
+  - rid: 6866891727488679960
+  - rid: 6866891727488679961
+  - rid: 6866891727488679962
   externalDialogueTree: {fileID: 0}
   blockData:
   - ChildNodes:
-    - 4361244c-a6bc-4383-9d28-f70f4006a0ac
-    - 4a4555a7-4fbb-4722-863d-8f8b9eca9f5b
     - bc03ffd9-1c42-44e9-90fa-9c205f42ab7a
     - bd2d0346-d4df-41ac-9166-89bfbbc6d599
+    - 4a4555a7-4fbb-4722-863d-8f8b9eca9f5b
+    - 4361244c-a6bc-4383-9d28-f70f4006a0ac
     Position: {x: 1570, y: -4}
     Title: No Need to connect line
   references:
     version: 2
     RefIds:
-    - rid: 8821145986260009001
+    - rid: 6866891727488679957
       type: {class: Root, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
       data:
         graphPosition:
@@ -392,51 +393,56 @@ MonoBehaviour:
         description: 
         guid: 17b30093-3fb4-4a02-8b26-64c8cb6854ea
         child:
-          rid: 8821145986260009007
+          rid: 6866891727488679963
         children:
-        - rid: 8821145986260009008
-        - rid: 8821145986260009009
-        - rid: 8821145986260009010
-    - rid: 8821145986260009002
+        - rid: 6866891727488679964
+        - rid: 6866891727488679965
+        - rid: 6866891727488679966
+    - rid: 6866891727488679958
       type: {class: PieceID, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
       data:
         isShared: 1
         isGlobal: 0
+        isExposed: 0
         mName: Dialog1
         value: 
-    - rid: 8821145986260009003
+    - rid: 6866891727488679959
       type: {class: PieceID, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
       data:
         isShared: 1
         isGlobal: 0
+        isExposed: 0
         mName: Dialog2
         value: 
-    - rid: 8821145986260009004
+    - rid: 6866891727488679960
       type: {class: PieceID, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
       data:
         isShared: 1
         isGlobal: 0
+        isExposed: 0
         mName: Dialog3
         value: 
-    - rid: 8821145986260009005
+    - rid: 6866891727488679961
       type: {class: SharedObject, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
       data:
         isShared: 0
         isGlobal: 0
+        isExposed: 0
         mName: SSDataSet
         value: {fileID: 0}
         constraintTypeAQM: Kurisu.NGDT.Transformer.SS.SentenceSimilarityDataSet,
           Kurisu.NGDT.Transformer.SS, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    - rid: 8821145986260009006
+    - rid: 6866891727488679962
       type: {class: SharedObject, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
       data:
         isShared: 0
         isGlobal: 0
+        isExposed: 1
         mName: SSEngine
         value: {fileID: 578549868}
         constraintTypeAQM: Kurisu.NGDS.Transformer.SS.SentenceSimilarityEngine, Kurisu.NGDS.Transformer.SS,
           Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    - rid: 8821145986260009007
+    - rid: 6866891727488679963
       type: {class: Dialogue, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
       data:
         graphPosition:
@@ -448,48 +454,12 @@ MonoBehaviour:
         description: 
         guid: 1253cb15-ce0c-46a4-9c98-fc14b3265295
         children:
-        - rid: 8821145986260009011
-        - rid: 8821145986260009012
-        - rid: 8821145986260009010
+        - rid: 6866891727488679967
+        - rid: 6866891727488679968
+        - rid: 6866891727488679964
         referencePieces:
         - Dialog1
-    - rid: 8821145986260009008
-      type: {class: Piece, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
-      data:
-        graphPosition:
-          serializedVersion: 2
-          x: 2070
-          y: 55
-          width: 374
-          height: 280
-        description: 
-        guid: 4361244c-a6bc-4383-9d28-f70f4006a0ac
-        children:
-        - rid: 8821145986260009013
-        pieceID:
-          isShared: 1
-          isGlobal: 0
-          mName: Dialog2
-          value: 
-    - rid: 8821145986260009009
-      type: {class: Piece, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
-      data:
-        graphPosition:
-          serializedVersion: 2
-          x: 2070
-          y: 530
-          width: 374
-          height: 280
-        description: 
-        guid: 4a4555a7-4fbb-4722-863d-8f8b9eca9f5b
-        children:
-        - rid: 8821145986260009014
-        pieceID:
-          isShared: 1
-          isGlobal: 0
-          mName: Dialog3
-          value: 
-    - rid: 8821145986260009010
+    - rid: 6866891727488679964
       type: {class: Piece, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
       data:
         graphPosition:
@@ -501,15 +471,54 @@ MonoBehaviour:
         description: 
         guid: 87ad95d9-81fc-4d39-a073-b318ec0c0ae9
         children:
-        - rid: 8821145986260009015
-        - rid: 8821145986260009016
-        - rid: 8821145986260009017
+        - rid: 6866891727488679969
+        - rid: 6866891727488679970
+        - rid: 6866891727488679971
         pieceID:
           isShared: 1
           isGlobal: 0
+          isExposed: 0
           mName: Dialog1
           value: 
-    - rid: 8821145986260009011
+    - rid: 6866891727488679965
+      type: {class: Piece, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
+      data:
+        graphPosition:
+          serializedVersion: 2
+          x: 2070
+          y: 530
+          width: 374
+          height: 280
+        description: 
+        guid: 4a4555a7-4fbb-4722-863d-8f8b9eca9f5b
+        children:
+        - rid: 6866891727488679972
+        pieceID:
+          isShared: 1
+          isGlobal: 0
+          isExposed: 0
+          mName: Dialog3
+          value: 
+    - rid: 6866891727488679966
+      type: {class: Piece, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
+      data:
+        graphPosition:
+          serializedVersion: 2
+          x: 2070
+          y: 55
+          width: 374
+          height: 280
+        description: 
+        guid: 4361244c-a6bc-4383-9d28-f70f4006a0ac
+        children:
+        - rid: 6866891727488679973
+        pieceID:
+          isShared: 1
+          isGlobal: 0
+          isExposed: 0
+          mName: Dialog2
+          value: 
+    - rid: 6866891727488679967
       type: {class: SentenceSimilarityEntryModule, ns: Kurisu.NGDT.Transformer.SS, asm: Kurisu.NGDT.Transformer.SS}
       data:
         graphPosition:
@@ -523,19 +532,22 @@ MonoBehaviour:
         ssEngine:
           isShared: 1
           isGlobal: 0
+          isExposed: 0
           mName: SSEngine
           value: {fileID: 0}
         ssDataSet:
           isShared: 1
           isGlobal: 0
+          isExposed: 0
           mName: SSDataSet
           value: {fileID: 0}
         minScore:
           isShared: 0
           isGlobal: 0
+          isExposed: 0
           mName: 
           value: 0.2
-    - rid: 8821145986260009012
+    - rid: 6866891727488679968
       type: {class: EditorTranslateModule, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
       data:
         graphPosition:
@@ -548,39 +560,7 @@ MonoBehaviour:
         guid: 842c5d00-2a25-4aff-b2d6-c56ab8774279
         sourceLanguageCode: zh
         targetLanguageCode: en
-    - rid: 8821145986260009013
-      type: {class: ContentModule, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
-      data:
-        graphPosition:
-          serializedVersion: 2
-          x: 0
-          y: 108
-          width: 350
-          height: 106
-        description: 
-        guid: 909aa1b4-f907-4724-8380-af535e90939d
-        content:
-          isShared: 0
-          isGlobal: 0
-          mName: 
-          value: You can click on the edit dialog tree to make changes
-    - rid: 8821145986260009014
-      type: {class: ContentModule, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
-      data:
-        graphPosition:
-          serializedVersion: 2
-          x: 0
-          y: 108
-          width: 350
-          height: 106
-        description: 
-        guid: f3291d97-854e-4c16-8337-0adc33837efe
-        content:
-          isShared: 0
-          isGlobal: 0
-          mName: 
-          value: You can open the dialog tree for debugging at runtime
-    - rid: 8821145986260009015
+    - rid: 6866891727488679969
       type: {class: ContentModule, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
       data:
         graphPosition:
@@ -594,11 +574,12 @@ MonoBehaviour:
         content:
           isShared: 0
           isGlobal: 0
+          isExposed: 0
           mName: 
           value: This is an example of using Transformer. The option no longer needs
             to set the target in advance, but selects a closer one from the conversation
             fragment.
-    - rid: 8821145986260009016
+    - rid: 6866891727488679970
       type: {class: Option, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
       data:
         graphPosition:
@@ -610,9 +591,9 @@ MonoBehaviour:
         description: 
         guid: bc03ffd9-1c42-44e9-90fa-9c205f42ab7a
         children:
-        - rid: 8821145986260009018
-        - rid: 8821145986260009019
-    - rid: 8821145986260009017
+        - rid: 6866891727488679974
+        - rid: 6866891727488679975
+    - rid: 6866891727488679971
       type: {class: Option, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
       data:
         graphPosition:
@@ -624,9 +605,43 @@ MonoBehaviour:
         description: 
         guid: bd2d0346-d4df-41ac-9166-89bfbbc6d599
         children:
-        - rid: 8821145986260009020
-        - rid: 8821145986260009021
-    - rid: 8821145986260009018
+        - rid: 6866891727488679976
+        - rid: 6866891727488679977
+    - rid: 6866891727488679972
+      type: {class: ContentModule, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
+      data:
+        graphPosition:
+          serializedVersion: 2
+          x: 0
+          y: 108
+          width: 350
+          height: 106
+        description: 
+        guid: f3291d97-854e-4c16-8337-0adc33837efe
+        content:
+          isShared: 0
+          isGlobal: 0
+          isExposed: 0
+          mName: 
+          value: You can open the dialog tree for debugging at runtime
+    - rid: 6866891727488679973
+      type: {class: ContentModule, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
+      data:
+        graphPosition:
+          serializedVersion: 2
+          x: 0
+          y: 108
+          width: 350
+          height: 106
+        description: 
+        guid: 909aa1b4-f907-4724-8380-af535e90939d
+        content:
+          isShared: 0
+          isGlobal: 0
+          isExposed: 0
+          mName: 
+          value: You can click on the edit dialog tree to make changes
+    - rid: 6866891727488679974
       type: {class: ContentModule, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
       data:
         graphPosition:
@@ -640,9 +655,10 @@ MonoBehaviour:
         content:
           isShared: 0
           isGlobal: 0
+          isExposed: 0
           mName: 
           value: How to modify the dialogue tree
-    - rid: 8821145986260009019
+    - rid: 6866891727488679975
       type: {class: InferenceSimilarIDModule, ns: Kurisu.NGDT.Transformer.SS, asm: Kurisu.NGDT.Transformer.SS}
       data:
         graphPosition:
@@ -656,9 +672,10 @@ MonoBehaviour:
         ssDataSet:
           isShared: 1
           isGlobal: 0
+          isExposed: 0
           mName: SSDataSet
           value: {fileID: 0}
-    - rid: 8821145986260009020
+    - rid: 6866891727488679976
       type: {class: ContentModule, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
       data:
         graphPosition:
@@ -672,9 +689,10 @@ MonoBehaviour:
         content:
           isShared: 0
           isGlobal: 0
+          isExposed: 0
           mName: 
           value: How to debug
-    - rid: 8821145986260009021
+    - rid: 6866891727488679977
       type: {class: InferenceSimilarIDModule, ns: Kurisu.NGDT.Transformer.SS, asm: Kurisu.NGDT.Transformer.SS}
       data:
         graphPosition:
@@ -688,6 +706,7 @@ MonoBehaviour:
         ssDataSet:
           isShared: 1
           isGlobal: 0
+          isExposed: 0
           mName: SSDataSet
           value: {fileID: 0}
 --- !u!4 &805848790
@@ -750,26 +769,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   root:
-    rid: 8821145986260008981
+    rid: 6866891727488679978
   sharedVariables:
-  - rid: 8821145986260008982
-  - rid: 8821145986260008983
-  - rid: 8821145986260008984
-  - rid: 8821145986260008985
-  - rid: 8821145986260008986
+  - rid: 6866891727488679979
+  - rid: 6866891727488679980
+  - rid: 6866891727488679981
+  - rid: 6866891727488679982
+  - rid: 6866891727488679983
   externalDialogueTree: {fileID: 0}
   blockData:
   - ChildNodes:
-    - 4a4555a7-4fbb-4722-863d-8f8b9eca9f5b
     - 4361244c-a6bc-4383-9d28-f70f4006a0ac
+    - 4a4555a7-4fbb-4722-863d-8f8b9eca9f5b
     - bc03ffd9-1c42-44e9-90fa-9c205f42ab7a
     - bd2d0346-d4df-41ac-9166-89bfbbc6d599
-    Position: {x: 1570, y: -5.999977}
+    Position: {x: 1570, y: -6}
     Title: "\u65E0\u9700\u8FDE\u7EBF"
   references:
     version: 2
     RefIds:
-    - rid: 8821145986260008981
+    - rid: 6866891727488679978
       type: {class: Root, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
       data:
         graphPosition:
@@ -781,51 +800,56 @@ MonoBehaviour:
         description: 
         guid: 17b30093-3fb4-4a02-8b26-64c8cb6854ea
         child:
-          rid: 8821145986260008987
+          rid: 6866891727488679984
         children:
-        - rid: 8821145986260008988
-        - rid: 8821145986260008989
-        - rid: 8821145986260008990
-    - rid: 8821145986260008982
+        - rid: 6866891727488679985
+        - rid: 6866891727488679986
+        - rid: 6866891727488679987
+    - rid: 6866891727488679979
       type: {class: PieceID, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
       data:
         isShared: 1
         isGlobal: 0
+        isExposed: 0
         mName: Dialog1
         value: 
-    - rid: 8821145986260008983
+    - rid: 6866891727488679980
       type: {class: PieceID, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
       data:
         isShared: 1
         isGlobal: 0
+        isExposed: 0
         mName: Dialog2
         value: 
-    - rid: 8821145986260008984
+    - rid: 6866891727488679981
       type: {class: PieceID, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
       data:
         isShared: 1
         isGlobal: 0
+        isExposed: 0
         mName: Dialog3
         value: 
-    - rid: 8821145986260008985
+    - rid: 6866891727488679982
       type: {class: SharedObject, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
       data:
         isShared: 0
         isGlobal: 0
+        isExposed: 0
         mName: SSDataSet
         value: {fileID: 0}
         constraintTypeAQM: Kurisu.NGDT.Transformer.SS.SentenceSimilarityDataSet,
           Kurisu.NGDT.Transformer.SS, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    - rid: 8821145986260008986
+    - rid: 6866891727488679983
       type: {class: SharedObject, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
       data:
         isShared: 0
         isGlobal: 0
+        isExposed: 1
         mName: SSEngine
         value: {fileID: 578549868}
         constraintTypeAQM: Kurisu.NGDS.Transformer.SS.SentenceSimilarityEngine, Kurisu.NGDS.Transformer.SS,
           Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    - rid: 8821145986260008987
+    - rid: 6866891727488679984
       type: {class: Dialogue, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
       data:
         graphPosition:
@@ -837,49 +861,11 @@ MonoBehaviour:
         description: 
         guid: 1253cb15-ce0c-46a4-9c98-fc14b3265295
         children:
-        - rid: 8821145986260008991
-        - rid: 8821145986260008988
+        - rid: 6866891727488679988
+        - rid: 6866891727488679987
         referencePieces:
         - Dialog1
-    - rid: 8821145986260008988
-      type: {class: Piece, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
-      data:
-        graphPosition:
-          serializedVersion: 2
-          x: 1023
-          y: 55
-          width: 374
-          height: 449
-        description: 
-        guid: 87ad95d9-81fc-4d39-a073-b318ec0c0ae9
-        children:
-        - rid: 8821145986260008992
-        - rid: 8821145986260008993
-        - rid: 8821145986260008994
-        pieceID:
-          isShared: 1
-          isGlobal: 0
-          mName: Dialog1
-          value: 
-    - rid: 8821145986260008989
-      type: {class: Piece, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
-      data:
-        graphPosition:
-          serializedVersion: 2
-          x: 2070
-          y: 530
-          width: 328
-          height: 265
-        description: 
-        guid: 4a4555a7-4fbb-4722-863d-8f8b9eca9f5b
-        children:
-        - rid: 8821145986260008995
-        pieceID:
-          isShared: 1
-          isGlobal: 0
-          mName: Dialog3
-          value: 
-    - rid: 8821145986260008990
+    - rid: 6866891727488679985
       type: {class: Piece, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
       data:
         graphPosition:
@@ -891,13 +877,54 @@ MonoBehaviour:
         description: 
         guid: 4361244c-a6bc-4383-9d28-f70f4006a0ac
         children:
-        - rid: 8821145986260008996
+        - rid: 6866891727488679989
         pieceID:
           isShared: 1
           isGlobal: 0
+          isExposed: 0
           mName: Dialog2
           value: 
-    - rid: 8821145986260008991
+    - rid: 6866891727488679986
+      type: {class: Piece, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
+      data:
+        graphPosition:
+          serializedVersion: 2
+          x: 2070
+          y: 530
+          width: 328
+          height: 265
+        description: 
+        guid: 4a4555a7-4fbb-4722-863d-8f8b9eca9f5b
+        children:
+        - rid: 6866891727488679990
+        pieceID:
+          isShared: 1
+          isGlobal: 0
+          isExposed: 0
+          mName: Dialog3
+          value: 
+    - rid: 6866891727488679987
+      type: {class: Piece, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
+      data:
+        graphPosition:
+          serializedVersion: 2
+          x: 1023
+          y: 55
+          width: 374
+          height: 449
+        description: 
+        guid: 87ad95d9-81fc-4d39-a073-b318ec0c0ae9
+        children:
+        - rid: 6866891727488679991
+        - rid: 6866891727488679992
+        - rid: 6866891727488679993
+        pieceID:
+          isShared: 1
+          isGlobal: 0
+          isExposed: 0
+          mName: Dialog1
+          value: 
+    - rid: 6866891727488679988
       type: {class: SentenceSimilarityEntryModule, ns: Kurisu.NGDT.Transformer.SS, asm: Kurisu.NGDT.Transformer.SS}
       data:
         graphPosition:
@@ -911,79 +938,22 @@ MonoBehaviour:
         ssEngine:
           isShared: 1
           isGlobal: 0
+          isExposed: 0
           mName: SSEngine
           value: {fileID: 0}
         ssDataSet:
           isShared: 1
           isGlobal: 0
+          isExposed: 0
           mName: SSDataSet
           value: {fileID: 0}
         minScore:
           isShared: 0
           isGlobal: 0
+          isExposed: 0
           mName: 
           value: 0.2
-    - rid: 8821145986260008992
-      type: {class: ContentModule, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
-      data:
-        graphPosition:
-          serializedVersion: 2
-          x: 0
-          y: 108
-          width: 350
-          height: 121
-        description: 
-        guid: a0145877-2528-4c17-b689-3aa5d6dacb98
-        content:
-          isShared: 0
-          isGlobal: 0
-          mName: 
-          value: "\u8FD9\u662F\u4F7F\u7528Transformer\u7684\u793A\u4F8B,\u9009\u9879\u4E0D\u518D\u9700\u8981\u63D0\u524D\u8BBE\u7F6E\u76EE\u6807\uFF0C\u800C\u662F\u4ECE\u5BF9\u8BDD\u7247\u6BB5\u4E2D\u9009\u53D6\u8F83\u4E3A\u63A5\u8FD1\u7684"
-    - rid: 8821145986260008993
-      type: {class: Option, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
-      data:
-        graphPosition:
-          serializedVersion: 2
-          x: 1595
-          y: 55
-          width: 304
-          height: 327
-        description: 
-        guid: bc03ffd9-1c42-44e9-90fa-9c205f42ab7a
-        children:
-        - rid: 8821145986260008997
-        - rid: 8821145986260008998
-    - rid: 8821145986260008994
-      type: {class: Option, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
-      data:
-        graphPosition:
-          serializedVersion: 2
-          x: 1595
-          y: 504
-          width: 304
-          height: 327
-        description: 
-        guid: bd2d0346-d4df-41ac-9166-89bfbbc6d599
-        children:
-        - rid: 8821145986260008999
-        - rid: 8821145986260009000
-    - rid: 8821145986260008995
-      type: {class: ContentModule, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
-      data:
-        graphPosition:
-          serializedVersion: 2
-          x: 0
-          y: 108
-          width: 304
-          height: 91
-        description: 
-        guid: f3291d97-854e-4c16-8337-0adc33837efe
-        content:
-          isShared: 0
-          isGlobal: 0
-          mName: 
-          value: "\u4F60\u53EF\u4EE5\u5728\u8FD0\u884C\u65F6\u6253\u5F00\u5BF9\u8BDD\u6811\u8FDB\u884C\u8C03\u8BD5"
-    - rid: 8821145986260008996
+    - rid: 6866891727488679989
       type: {class: ContentModule, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
       data:
         graphPosition:
@@ -997,9 +967,72 @@ MonoBehaviour:
         content:
           isShared: 0
           isGlobal: 0
+          isExposed: 0
           mName: 
           value: "\u4F60\u53EF\u4EE5\u70B9\u51FB\u7F16\u8F91\u5BF9\u8BDD\u6811\u8FDB\u884C\u4FEE\u6539"
-    - rid: 8821145986260008997
+    - rid: 6866891727488679990
+      type: {class: ContentModule, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
+      data:
+        graphPosition:
+          serializedVersion: 2
+          x: 0
+          y: 108
+          width: 304
+          height: 91
+        description: 
+        guid: f3291d97-854e-4c16-8337-0adc33837efe
+        content:
+          isShared: 0
+          isGlobal: 0
+          isExposed: 0
+          mName: 
+          value: "\u4F60\u53EF\u4EE5\u5728\u8FD0\u884C\u65F6\u6253\u5F00\u5BF9\u8BDD\u6811\u8FDB\u884C\u8C03\u8BD5"
+    - rid: 6866891727488679991
+      type: {class: ContentModule, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
+      data:
+        graphPosition:
+          serializedVersion: 2
+          x: 0
+          y: 108
+          width: 350
+          height: 121
+        description: 
+        guid: a0145877-2528-4c17-b689-3aa5d6dacb98
+        content:
+          isShared: 0
+          isGlobal: 0
+          isExposed: 0
+          mName: 
+          value: "\u8FD9\u662F\u4F7F\u7528Transformer\u7684\u793A\u4F8B,\u9009\u9879\u4E0D\u518D\u9700\u8981\u63D0\u524D\u8BBE\u7F6E\u76EE\u6807\uFF0C\u800C\u662F\u4ECE\u5BF9\u8BDD\u7247\u6BB5\u4E2D\u9009\u53D6\u8F83\u4E3A\u63A5\u8FD1\u7684"
+    - rid: 6866891727488679992
+      type: {class: Option, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
+      data:
+        graphPosition:
+          serializedVersion: 2
+          x: 1595
+          y: 55
+          width: 304
+          height: 327
+        description: 
+        guid: bc03ffd9-1c42-44e9-90fa-9c205f42ab7a
+        children:
+        - rid: 6866891727488679994
+        - rid: 6866891727488679995
+    - rid: 6866891727488679993
+      type: {class: Option, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
+      data:
+        graphPosition:
+          serializedVersion: 2
+          x: 1595
+          y: 504
+          width: 304
+          height: 327
+        description: 
+        guid: bd2d0346-d4df-41ac-9166-89bfbbc6d599
+        children:
+        - rid: 6866891727488679996
+        - rid: 6866891727488679997
+    - rid: 6866891727488679994
       type: {class: ContentModule, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
       data:
         graphPosition:
@@ -1013,9 +1046,10 @@ MonoBehaviour:
         content:
           isShared: 0
           isGlobal: 0
+          isExposed: 0
           mName: 
           value: "\u600E\u4E48\u4FEE\u6539\u5BF9\u8BDD\u6811"
-    - rid: 8821145986260008998
+    - rid: 6866891727488679995
       type: {class: InferenceSimilarIDModule, ns: Kurisu.NGDT.Transformer.SS, asm: Kurisu.NGDT.Transformer.SS}
       data:
         graphPosition:
@@ -1029,9 +1063,10 @@ MonoBehaviour:
         ssDataSet:
           isShared: 1
           isGlobal: 0
+          isExposed: 0
           mName: SSDataSet
           value: {fileID: 0}
-    - rid: 8821145986260008999
+    - rid: 6866891727488679996
       type: {class: ContentModule, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
       data:
         graphPosition:
@@ -1045,9 +1080,10 @@ MonoBehaviour:
         content:
           isShared: 0
           isGlobal: 0
+          isExposed: 0
           mName: 
           value: "\u600E\u4E48\u8C03\u8BD5"
-    - rid: 8821145986260009000
+    - rid: 6866891727488679997
       type: {class: InferenceSimilarIDModule, ns: Kurisu.NGDT.Transformer.SS, asm: Kurisu.NGDT.Transformer.SS}
       data:
         graphPosition:
@@ -1061,6 +1097,7 @@ MonoBehaviour:
         ssDataSet:
           isShared: 1
           isGlobal: 0
+          isExposed: 0
           mName: SSDataSet
           value: {fileID: 0}
 --- !u!1 &963194225

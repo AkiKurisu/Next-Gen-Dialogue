@@ -12,6 +12,7 @@ namespace Kurisu.NGDT.Editor
     public class AdvancedBlackBoard : Blackboard, IBlackBoard
     {
         public Blackboard View => this;
+        public bool AlwaysExposed { get; set; }
         private readonly FieldResolverFactory fieldResolverFactory = FieldResolverFactory.Instance;
         private readonly ScrollView scrollView;
         public VisualElement RawContainer => scrollView;
@@ -99,6 +100,7 @@ namespace Kurisu.NGDT.Editor
                 localPropertyName = $"{variable.Name}{index++}";
             }
             variable.Name = localPropertyName;
+            if (AlwaysExposed) variable.IsExposed = true;
             sharedVariables.Add(variable);
             var container = new VisualElement();
             var field = new BlackboardField { text = localPropertyName, typeText = variable.GetType().Name };
@@ -132,16 +134,44 @@ namespace Kurisu.NGDT.Editor
                 }
             }
             var placeHolder = new VisualElement();
-            placeHolder.Add(valueField);
-            if (variable is SharedObject sharedObject)
+            if (!AlwaysExposed && variable is not PieceID)
             {
-                placeHolder.Add(GetConstraintField(sharedObject, (ObjectField)valueField));
+                var toggle = new Toggle("Exposed")
+                {
+                    value = variable.IsExposed
+                };
+                if (Application.isPlaying)
+                {
+                    toggle.SetEnabled(false);
+                }
+                else
+                {
+                    toggle.RegisterValueChangedCallback(x =>
+                    {
+                        var index = sharedVariables.FindIndex(x => x.Name == variable.Name);
+                        sharedVariables[index].IsExposed = x.newValue;
+                        NotifyVariableChanged(variable, VariableChangeType.ValueChange);
+                    });
+                }
+                placeHolder.Add(toggle);
             }
             if (variable is PieceID)
             {
                 field.RegisterCallback<ClickEvent>((evt) => FindRelatedPiece(variable));
             }
+            else
+            {
+                placeHolder.Add(valueField);
+            }
+            if (variable is SharedObject sharedObject)
+            {
+                placeHolder.Add(GetConstraintField(sharedObject, (ObjectField)valueField));
+            }
             var sa = new BlackboardRow(field, placeHolder);
+            if (variable is PieceID)
+            {
+                sa.Q<Button>("expandButton").RemoveFromHierarchy();
+            }
             sa.AddManipulator(new ContextualMenuManipulator((evt) => BuildBlackboardMenu(evt, sa, variable)));
             RawContainer.Add(sa);
         }

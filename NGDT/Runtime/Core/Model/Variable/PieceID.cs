@@ -7,10 +7,11 @@ namespace Kurisu.NGDT
         public PieceID()
         {
             IsShared = true;
+            IsExposed = false;
         }
-        public override SharedVariable Clone()
+        protected override SharedVariable<string> CloneT()
         {
-            return new PieceID() { Value = value, Name = Name, IsShared = IsShared, IsGlobal = IsGlobal };
+            return new PieceID() { Value = value };
         }
     }
 }

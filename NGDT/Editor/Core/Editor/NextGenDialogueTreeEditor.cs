@@ -23,7 +23,7 @@ namespace Kurisu.NGDT.Editor
             myInspector.styleSheets.Add(NextGenDialogueSetting.GetInspectorStyle());
             var field = new PropertyField(serializedObject.FindProperty("externalDialogueTree"), "External Dialogue Tree");
             myInspector.Add(field);
-            if (tree.SharedVariables.Count(x => x is not PieceID) != 0)
+            if (tree.SharedVariables.Count(x => x.IsExposed) != 0)
             {
                 myInspector.Add(new SharedVariablesFoldout(tree, target, this));
             }
@@ -70,7 +70,7 @@ namespace Kurisu.NGDT.Editor
             };
             description.BindProperty(serializedObject.FindProperty("Description"));
             myInspector.Add(description);
-            if (tree.SharedVariables.Count(x => x is not PieceID) != 0)
+            if (tree.SharedVariables.Count(x => x.IsExposed) != 0)
             {
                 myInspector.Add(new SharedVariablesFoldout(tree, target, this));
             }
