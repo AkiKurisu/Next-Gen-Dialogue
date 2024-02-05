@@ -7,7 +7,7 @@ using UnityEngine;
 using UnityEngine.UIElements;
 namespace Kurisu.NGDT.Editor
 {
-    public abstract class ContainerNode : StackNode, IDialogueNode
+    public abstract class ContainerNode : StackNode, IDialogueNode, ILayoutTreeNode
     {
         public ContainerNode() : base()
         {
@@ -53,6 +53,7 @@ namespace Kurisu.NGDT.Editor
         private readonly List<FieldInfo> fieldInfos = new();
         public Action<IDialogueNode> OnSelectAction { get; set; }
         public IDialogueTreeView MapTreeView { get; private set; }
+        VisualElement ILayoutTreeNode.View => this;
         //Setting
         private VisualElement settings;
         private NodeSettingsView settingsContainer;
@@ -368,6 +369,22 @@ namespace Kurisu.NGDT.Editor
         {
             return GetPosition();
         }
+        public IReadOnlyList<ILayoutTreeNode> GetLayoutTreeChildren()
+        {
+            var list = new List<ILayoutTreeNode>();
+            var nodes = contentContainer
+                 .Query<Node>()
+                 .ToList();
+            nodes.Reverse();
+            foreach (var node in nodes)
+            {
+                if (node is ILayoutTreeNode layoutTreeNode)
+                {
+                    list.AddRange(layoutTreeNode.GetLayoutTreeChildren());
+                }
+            }
+            return list;
+        }
     }
     public class DialogueContainer : ContainerNode, IContainChild, ILayoutTreeNode
     {
@@ -435,18 +452,8 @@ namespace Kurisu.NGDT.Editor
             }));
             base.BuildContextualMenu(evt);
         }
-        public IReadOnlyList<ILayoutTreeNode> GetLayoutTreeChildren()
-        {
-            var list = new List<ILayoutTreeNode>();
-            var nodes = contentContainer
-                 .Query<BehaviorModuleNode>()
-                 .ToList();
-            nodes.Reverse();
-            nodes.ForEach(x => list.AddRange(x.GetLayoutTreeChildren()));
-            return list;
-        }
     }
-    public class PieceContainer : ContainerNode, IContainChild, ILayoutTreeNode
+    public class PieceContainer : ContainerNode, IContainChild
     {
         public string GetPieceID()
         {
@@ -459,9 +466,6 @@ namespace Kurisu.NGDT.Editor
         public sealed override Port.Capacity PortCapacity => Port.Capacity.Multi;
         public sealed override Type ParentPortType => typeof(PiecePort);
         public override Color PortColor => new(60 / 255f, 140 / 255f, 171 / 255f, 0.91f);
-
-        VisualElement ILayoutTreeNode.View => this;
-
         public PieceContainer() : base()
         {
             name = "PieceContainer";
@@ -510,36 +514,11 @@ namespace Kurisu.NGDT.Editor
             MapTreeView.BlackBoard.AddSharedVariable(variable);
             mainContainer.Q<PieceIDField>().value = new PieceID() { Name = variable.Name };
         }
-        public IReadOnlyList<ILayoutTreeNode> GetLayoutTreeChildren()
-        {
-            var list = new List<ILayoutTreeNode>();
-            var nodes = contentContainer
-                 .Query<Node>()
-                 .ToList();
-            nodes.Reverse();
-            foreach (var node in nodes)
-            {
-                if (node is OptionBridge optionBridge)
-                {
-                    var option = optionBridge.GetOption();
-                    if (option != null)
-                        list.Add(option);
-                }
-                else if (node is BehaviorModuleNode behaviorModule)
-                {
-                    list.AddRange(behaviorModule.GetLayoutTreeChildren());
-                }
-            }
-            return list;
-        }
     }
-    public class OptionContainer : ContainerNode, ILayoutTreeNode
+    public class OptionContainer : ContainerNode
     {
         public sealed override Type ParentPortType => typeof(OptionPort);
         public override Color PortColor => new(57 / 255f, 98 / 255f, 147 / 255f, 0.91f);
-
-        VisualElement ILayoutTreeNode.View => this;
-
         public OptionContainer() : base()
         {
             name = "OptionContainer";
@@ -561,29 +540,6 @@ namespace Kurisu.NGDT.Editor
                 return !TryGetModuleNode(behaviorType, out _);
             }
             return element is ParentBridge;
-        }
-
-        public IReadOnlyList<ILayoutTreeNode> GetLayoutTreeChildren()
-        {
-            var list = new List<ILayoutTreeNode>();
-            var modules = contentContainer
-                 .Query<ModuleNode>()
-                 .ToList();
-            modules.Reverse();
-            foreach (var module in modules)
-            {
-                if (module is TargetIDNode targetID)
-                {
-                    var piece = targetID.GetPiece();
-                    if (piece != null)
-                        list.Add(piece);
-                }
-                else if (module is BehaviorModuleNode behaviorModule)
-                {
-                    list.AddRange(behaviorModule.GetLayoutTreeChildren());
-                }
-            }
-            return list;
         }
     }
 }

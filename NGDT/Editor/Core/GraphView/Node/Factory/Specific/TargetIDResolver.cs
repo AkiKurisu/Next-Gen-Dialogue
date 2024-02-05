@@ -17,12 +17,13 @@ namespace Kurisu.NGDT.Editor
         public static bool IsAcceptable(Type behaviorType) => behaviorType == typeof(TargetIDModule);
 
     }
-    internal class TargetIDNode : ModuleNode
+    internal class TargetIDNode : ModuleNode, ILayoutTreeNode
     {
         private readonly Port childPort;
         private static Color PortColor = new(97 / 255f, 95 / 255f, 212 / 255f, 0.91f);
         private PieceIDField targetIDField;
         private Toggle useReferenceField;
+        VisualElement ILayoutTreeNode.View => this;
         public TargetIDNode() : base()
         {
             AddToClassList(nameof(ModuleNode));
@@ -31,13 +32,15 @@ namespace Kurisu.NGDT.Editor
             childPort.portColor = PortColor;
             outputContainer.Add(childPort);
         }
-        public PieceContainer GetPiece()
+        public bool TryGetPiece(out PieceContainer pieceContainer)
         {
-            if (!childPort.connected)
+            if (useReferenceField.value || !childPort.connected)
             {
-                return null;
+                pieceContainer = null;
+                return false;
             }
-            return PortHelper.FindChildNode(childPort) as PieceContainer;
+            pieceContainer = PortHelper.FindChildNode(childPort) as PieceContainer;
+            return pieceContainer != null;
         }
         protected sealed override void OnBehaviorSet()
         {
@@ -85,6 +88,14 @@ namespace Kurisu.NGDT.Editor
                 var node = PortHelper.FindChildNode(childPort) as PieceContainer;
                 targetIDField.value.Name = node.GetPieceID();
             }
+        }
+
+        public IReadOnlyList<ILayoutTreeNode> GetLayoutTreeChildren()
+        {
+            var list = new List<ILayoutTreeNode>();
+            if (TryGetPiece(out var pieceContainer))
+                list.Add(pieceContainer);
+            return list;
         }
     }
 

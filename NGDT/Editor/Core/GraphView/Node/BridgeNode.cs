@@ -98,11 +98,28 @@ namespace Kurisu.NGDT.Editor
         }
         public abstract ChildBridge Clone();
     }
-    internal class PieceBridge : ChildBridge
+    internal class PieceBridge : ChildBridge, ILayoutTreeNode
     {
         private readonly PieceIDField pieceIDField;
         private bool useReference;
         private readonly IDialogueTreeView treeView;
+        public string PieceID
+        {
+            get
+            {
+                if (useReference)
+                {
+                    return pieceIDField.value.Name;
+                }
+                else if (Child.connected)
+                {
+                    var node = PortHelper.FindChildNode(Child) as PieceContainer;
+                    return node.GetPieceID();
+                }
+                return string.Empty;
+            }
+        }
+        public VisualElement View => this;
         public PieceBridge(IDialogueTreeView treeView, Color portColor, string pieceIDName)
         : base("Piece", typeof(PiecePort), portColor)
         {
@@ -155,25 +172,28 @@ namespace Kurisu.NGDT.Editor
             return new PieceBridge(treeView, Child.portColor, useReference ? pieceIDField.value.Name : string.Empty);
         }
 
-        public string PieceID
+        public bool TryGetPiece(out PieceContainer pieceContainer)
         {
-            get
+            if (useReference || !Child.connected)
             {
-                if (useReference)
-                {
-                    return pieceIDField.value.Name;
-                }
-                else if (Child.connected)
-                {
-                    var node = PortHelper.FindChildNode(Child) as PieceContainer;
-                    return node.GetPieceID();
-                }
-                return string.Empty;
+                pieceContainer = null;
+                return false;
             }
+            pieceContainer = PortHelper.FindChildNode(Child) as PieceContainer;
+            return pieceContainer != null;
+        }
+        public IReadOnlyList<ILayoutTreeNode> GetLayoutTreeChildren()
+        {
+            var list = new List<ILayoutTreeNode>();
+            if (TryGetPiece(out var piece))
+                list.Add(piece);
+            return list;
         }
     }
-    internal class OptionBridge : ChildBridge
+    internal class OptionBridge : ChildBridge, ILayoutTreeNode
     {
+        public VisualElement View => this;
+
         public OptionBridge(string title, Color portColor) : base(title, typeof(OptionPort), portColor)
         {
         }
@@ -184,13 +204,22 @@ namespace Kurisu.NGDT.Editor
                 stack.Push(PortHelper.FindChildNode(Child));
             }
         }
-        public OptionContainer GetOption()
+        public bool TryGetOption(out OptionContainer optionContainer)
         {
-            return PortHelper.FindChildNode(Child) as OptionContainer;
+            optionContainer = PortHelper.FindChildNode(Child) as OptionContainer;
+            return optionContainer != null;
         }
         public override ChildBridge Clone()
         {
             return new OptionBridge(title, Child.portColor);
+        }
+
+        public IReadOnlyList<ILayoutTreeNode> GetLayoutTreeChildren()
+        {
+            var list = new List<ILayoutTreeNode>();
+            if (TryGetOption(out var option))
+                list.Add(option);
+            return list;
         }
     }
 }
