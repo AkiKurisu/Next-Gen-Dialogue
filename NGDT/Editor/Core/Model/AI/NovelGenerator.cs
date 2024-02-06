@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Kurisu.NGDS;
 using Newtonsoft.Json;
 using UnityEditor;
 using UnityEngine;
@@ -13,7 +14,6 @@ namespace Kurisu.NGDT.Editor
     /// </summary>
     public static class NovelGenerateExtension
     {
-        private static readonly NovelBaker baker = new();
         private const float maxWaitSeconds = 60.0f;
         public static async Task AutoGenerateNovel(this IDialogueTreeView treeView)
         {
@@ -21,6 +21,7 @@ namespace Kurisu.NGDT.Editor
             if (containers.Count == 0) return;
             var bakeContainer = containers.Last();
             bakeContainer.TryGetModuleNode<NovelBakeModule>(out ModuleNode novelModule);
+            NovelBaker baker = new((LLMType)novelModule.GetFieldResolver("llmType").Value);
             int depth = (int)novelModule.GetFieldResolver("generateDepth").Value;
             float startVal = (float)EditorApplication.timeSinceStartup;
             var ct = treeView.GetCancellationTokenSource();
@@ -45,7 +46,7 @@ namespace Kurisu.NGDT.Editor
             EditorUtility.ClearProgressBar();
             await Task.Delay(2);
             //Auto layout
-            NodeAutoLayoutHelper.Layout(new DialogueTreeLayoutConvertor(treeView.View, bakeContainer as ILayoutTreeNode));
+            NodeAutoLayoutHelper.Layout(new DialogueTreeLayoutConvertor(treeView.View, bakeContainer));
 
             //Start from Piece
             async Task<bool> Generate(IReadOnlyList<ContainerNode> containers, ContainerNode bakeContainer, CancellationToken ct, int currentDepth, int maxDepth)

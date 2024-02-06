@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Kurisu.NGDS;
 using Kurisu.NGDS.AI;
 using Newtonsoft.Json;
+using NUnit.Framework;
 using UnityEngine;
 namespace Kurisu.NGDT.Editor
 {
@@ -51,7 +52,11 @@ namespace Kurisu.NGDT.Editor
         private Template currentTemplate;
         public NovelBaker()
         {
-            agent = new GPTAgent(LLMFactory.CreateNonModule(LLMType.ChatGPT, NextGenDialogueSetting.GetOrCreateSettings().AITurboSetting));
+        }
+        public NovelBaker(LLMType llmType)
+        {
+            Assert.IsTrue(llmType is LLMType.ChatGLM_OpenAI or LLMType.ChatGPT);
+            agent = new GPTAgent(LLMFactory.CreateNonModule(llmType, NextGenDialogueSetting.GetOrCreateSettings().AITurboSetting));
         }
         /// <summary>
         /// Bake Novel Content in target container based on user's node selection
@@ -121,10 +126,7 @@ namespace Kurisu.NGDT.Editor
         }
         private async Task<string> GenerateDialogue(string characterName, CancellationToken ct)
         {
-            if (characterCached.Contains(characterName))
-            {
-                characterCached.Remove(characterName);
-            }
+            characterCached.Remove(characterName);
             stringBuilder.Append($"{characterCached.RandomElement()}:");
             var result = await agent.Inference(stringBuilder.ToString(), ct);
             return result.Replace("```json", string.Empty).Replace("```", string.Empty);

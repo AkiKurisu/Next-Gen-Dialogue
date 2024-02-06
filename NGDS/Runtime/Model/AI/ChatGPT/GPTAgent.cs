@@ -5,12 +5,17 @@ using UnityEngine;
 namespace Kurisu.NGDS.AI
 {
     /// <summary>
-    /// Pure ChatGPT agent for any task
+    /// Pure GPT agent for any task followed openAI api format, working with ChatGLM2,ChatGLM3 and ChatGPT
     /// </summary>
     public class GPTAgent
     {
         private readonly List<SendData> m_DataList = new();
-        private const string m_gptModel = "gpt-3.5-turbo";
+        public const string DefaultModel = "gpt-3.5-turbo";
+        /// <summary>
+        /// The model agent used
+        /// </summary>
+        /// <value></value>
+        public string Model { get; set; } = null;
         public string SystemPrompt { get; set; } = string.Empty;
         private readonly ILLMDriver driver;
         public GPTAgent(ILLMDriver driver)
@@ -24,7 +29,7 @@ namespace Kurisu.NGDS.AI
             m_DataList.Add(new SendData("user", inputPrompt));
             PostData _postData = new()
             {
-                model = m_gptModel,
+                model = Model ?? DefaultModel,
                 messages = m_DataList
             };
             string input = JsonUtility.ToJson(_postData);
