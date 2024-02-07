@@ -22,6 +22,12 @@ namespace Kurisu.NGDS.AI
         {
             this.driver = driver;
         }
+        /// <summary>
+        /// Call GPT without history
+        /// </summary>
+        /// <param name="inputPrompt"></param>
+        /// <param name="ct"></param>
+        /// <returns></returns>
         public async Task<string> Inference(string inputPrompt, CancellationToken ct)
         {
             m_DataList.Clear();
@@ -37,7 +43,62 @@ namespace Kurisu.NGDS.AI
             Debug.Log(input);
 #endif
             var response = await driver.ProcessLLM(input, ct);
+            if (response.Status)
+            {
+                m_DataList.Add(new SendData("assistant", response.Response));
+            }
             return response.Response;
+        }
+        /// <summary>
+        /// Call GPT with history
+        /// </summary>
+        /// <param name="inputPrompt"></param>
+        /// <param name="ct"></param>
+        /// <returns></returns>
+        public async Task<string> Continue(string inputPrompt, CancellationToken ct)
+        {
+            if (m_DataList.Count == 0) m_DataList.Add(new SendData("system", SystemPrompt));
+            m_DataList.Add(new SendData("user", inputPrompt));
+            PostData _postData = new()
+            {
+                model = Model ?? DefaultModel,
+                messages = m_DataList
+            };
+            string input = JsonUtility.ToJson(_postData);
+#if UNITY_EDITOR
+            Debug.Log(input);
+#endif
+            var response = await driver.ProcessLLM(input, ct);
+            if (response.Status)
+            {
+                m_DataList.Add(new SendData("assistant", response.Response));
+            }
+            return response.Response;
+        }
+        /// <summary>
+        /// Clear history context
+        /// </summary>
+        public void ClearHistory()
+        {
+            m_DataList.Clear();
+        }
+        /// <summary>
+        /// Append history context
+        /// </summary>
+        /// <param name="histories"></param>
+        public void Append(IEnumerable<(string userData, string assistantData)> histories)
+        {
+            foreach (var (userData, assistantData) in histories)
+            {
+                Append(userData, assistantData);
+            }
+        }
+        public void Append(string userData, string assistantData)
+        {
+            if (!string.IsNullOrEmpty(userData))
+                m_DataList.Add(new SendData("user", userData));
+            if (!string.IsNullOrEmpty(userData))
+                m_DataList.Add(new SendData("assistant", assistantData));
         }
     }
 }
