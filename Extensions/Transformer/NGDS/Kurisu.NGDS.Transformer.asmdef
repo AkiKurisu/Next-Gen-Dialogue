@@ -1,6 +1,6 @@
 {
-    "name": "Kurisu.NGDS.Transformer.SS",
-    "rootNamespace": "Kurisu.NGDS.Transformer.SS",
+    "name": "Kurisu.NGDS.Transformer",
+    "rootNamespace": "Kurisu.NGDS.Transformer",
     "references": [
         "GUID:c98377141161c7746a178fb5cb1af075",
         "GUID:e498adf2b0e1d8b47871ffa1278544a0",

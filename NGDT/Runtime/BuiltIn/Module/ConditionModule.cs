@@ -1,6 +1,6 @@
 namespace Kurisu.NGDT
 {
-    [AkiInfo("Module : Condition Module is used to add condition for dialogue piece or option,"
+    [AkiInfo("Module: Condition Module is used to add condition for dialogue piece or option,"
     + "if condition fail, parent piece or option will not be added.")]
     [ModuleOf(typeof(Option))]
     [ModuleOf(typeof(Piece))]

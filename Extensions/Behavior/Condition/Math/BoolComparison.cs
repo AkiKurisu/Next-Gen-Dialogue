@@ -1,27 +1,18 @@
-using UnityEngine;
 namespace Kurisu.NGDT.Behavior
 {
-    [AkiInfo("Condition : Compare Bool values, if the conditions are met, return Status.Success, otherwise return Status.Failure")]
-    [AkiLabel("Math : BoolComparison")]
+    [AkiInfo("Condition: Compare Bool values, if the conditions are met, return Status.Success, otherwise return Status.Failure")]
+    [AkiLabel("Math: BoolComparison")]
     [AkiGroup("Math")]
     public class BoolComparison : Conditional
     {
-        private enum Operation
+        public enum Operation
         {
             EqualTo,
             NotEqualTo,
         }
-        [SerializeField]
-        private SharedBool bool1;
-        [SerializeField]
-        private SharedBool bool2;
-        [SerializeField]
-        private Operation operation;
-        protected override void OnStart()
-        {
-            InitVariable(bool1);
-            InitVariable(bool2);
-        }
+        public SharedBool bool1;
+        public SharedBool bool2;
+        public Operation operation;
         protected override Status IsUpdatable()
         {
             return operation switch

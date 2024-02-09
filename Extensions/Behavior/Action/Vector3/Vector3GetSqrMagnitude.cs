@@ -7,15 +7,10 @@ namespace Kurisu.NGDT.Behavior
     [AkiGroup("Vector3")]
     public class Vector3GetSqrMagnitude : Action
     {
-        [SerializeField, Tooltip("Value to be calculated")]
+        [Tooltip("Value to be calculated")]
         public SharedVector3 vector3;
-        [SerializeField, ForceShared]
-        private SharedFloat result;
-        public override void Awake()
-        {
-            InitVariable(vector3);
-            InitVariable(result);
-        }
+        [ForceShared]
+        public SharedFloat result;
         protected override Status OnUpdate()
         {
             result.Value = vector3.Value.sqrMagnitude;

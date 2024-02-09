@@ -2,7 +2,7 @@ using Kurisu.NGDS;
 using UnityEngine;
 namespace Kurisu.NGDT
 {
-    [AkiInfo("Editor Module : Use Novel baker in Editor, should be added to last select node that needs to generate novel" +
+    [AkiInfo("Editor Module: Use Novel baker in Editor, should be added to last select node that needs to generate novel" +
     ", currently can only use ChatGPT as LLM backend.")]
     [AkiGroup("Editor/AIGC")]
     [ModuleOf(typeof(Piece))]

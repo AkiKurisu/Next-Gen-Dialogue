@@ -1,0 +1,18 @@
+{
+    "name": "Kurisu.NGDT.Transformer.SA",
+    "rootNamespace": "Kurisu.NGDT.Transformer.SA",
+    "references": [
+        "GUID:4a9214fa9d60c4c92bfc3c635010f27f",
+        "GUID:a3641cccf50efcd4cafc57a3120fb40e",
+        "GUID:e8437be54f9284140b88a0f167fad164"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

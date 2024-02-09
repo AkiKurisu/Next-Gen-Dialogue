@@ -1,8 +1,8 @@
 using UnityEngine;
 namespace Kurisu.NGDT.Behavior
 {
-    [AkiInfo("Action : Operate bool value")]
-    [AkiLabel("Math : BoolOperator")]
+    [AkiInfo("Action: Operate bool value")]
+    [AkiLabel("Math: BoolOperator")]
     [AkiGroup("Math")]
     public class BoolOperator : Action
     {
@@ -19,12 +19,6 @@ namespace Kurisu.NGDT.Behavior
         private SharedBool storeResult;
         [SerializeField]
         private Operation operation;
-        public override void Awake()
-        {
-            InitVariable(bool1);
-            InitVariable(bool2);
-            InitVariable(storeResult);
-        }
         protected override Status OnUpdate()
         {
             switch (operation)

@@ -1,8 +1,9 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 namespace Kurisu.NGDT.Behavior
 {
-    [AkiInfo("Action : Int type set random value")]
-    [AkiLabel("Math : IntRandom")]
+    [AkiInfo("Action: Int type set random value")]
+    [AkiLabel("Math: IntRandom")]
     [AkiGroup("Math")]
     public class IntRandom : Action
     {
@@ -12,19 +13,15 @@ namespace Kurisu.NGDT.Behavior
             Relatively
         }
         [SerializeField]
-        private Vector2Int range = new Vector2Int(-5, 5);
+        private Vector2Int range = new(-5, 5);
         [SerializeField]
         private Operation operation;
-        [SerializeField, ForceShared]
-        private SharedInt randomInt;
-        public override void Awake()
-        {
-            InitVariable(randomInt);
-        }
+        [SerializeField, ForceShared, FormerlySerializedAs("randomInt")]
+        private SharedInt storeResult;
         protected override Status OnUpdate()
         {
             int random = UnityEngine.Random.Range(range.x, range.y);
-            randomInt.Value = (operation == Operation.Absolutely ? 0 : randomInt.Value) + random;
+            storeResult.Value = (operation == Operation.Absolutely ? 0 : storeResult.Value) + random;
             return Status.Success;
         }
     }

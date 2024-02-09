@@ -119,7 +119,6 @@ namespace Kurisu.NGDT.Editor
     internal class NGDTSettingsProvider : SettingsProvider
     {
         private SerializedObject m_Settings;
-        private bool useReflection;
         private class Styles
         {
             public static GUIContent GraphEditorSettingStyle = new("Graph Editor Setting");
@@ -130,12 +129,10 @@ namespace Kurisu.NGDT.Editor
                      " since shared variables will be mapped when dialogue tree is first loaded"
                      );
         }
-        private const string ReflectionSymbol = "NGDT_REFLECTION";
         public NGDTSettingsProvider(string path, SettingsScope scope = SettingsScope.User) : base(path, scope) { }
         public override void OnActivate(string searchContext, VisualElement rootElement)
         {
             m_Settings = NextGenDialogueSetting.GetSerializedSettings();
-            useReflection = ScriptingSymbolHelper.ContainsScriptingSymbol(ReflectionSymbol);
         }
         public override void OnGUI(string searchContext)
         {
@@ -146,19 +143,6 @@ namespace Kurisu.NGDT.Editor
             GUILayout.BeginVertical("Runtime Settings", GUI.skin.box);
             var turboSetting = m_Settings.FindProperty("aiTurboSetting");
             GUILayout.Space(EditorGUIUtility.singleLineHeight);
-            var newValue = EditorGUILayout.ToggleLeft(Styles.EnableReflectionStyle, useReflection);
-            if (newValue != useReflection)
-            {
-                useReflection = newValue;
-                if (useReflection)
-                {
-                    ScriptingSymbolHelper.AddScriptingSymbol(ReflectionSymbol);
-                }
-                else
-                {
-                    ScriptingSymbolHelper.RemoveScriptingSymbol(ReflectionSymbol);
-                }
-            }
             EditorGUILayout.PropertyField(turboSetting, Styles.AITurboSettingStyle);
             if (turboSetting.objectReferenceValue != null)
             {

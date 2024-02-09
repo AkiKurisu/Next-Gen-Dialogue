@@ -53,10 +53,7 @@ namespace Kurisu.NGDT
         protected abstract Status OnUpdate();
         protected void InitVariable(SharedVariable sharedVariable)
         {
-            //Skip init variable if use reflection runtime
-#if !NGDT_REFLECTION
             sharedVariable.MapToInternal(Tree);
-#endif
         }
     }
 }

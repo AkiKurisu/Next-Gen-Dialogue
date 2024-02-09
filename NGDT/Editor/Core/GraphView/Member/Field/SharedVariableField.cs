@@ -109,17 +109,22 @@ namespace Kurisu.NGDT.Editor
                 else base.value = new T();
                 if (forceShared) base.value.IsShared = true;
                 Repaint();
+                NotifyValueChange();
             }
         }
         public BaseField<K> ValueField { get; protected set; }
+        public void SetValue(K newValue)
+        {
+            value.Value = newValue;
+            if (ValueField != null) ValueField.value = value.Value;
+        }
         public void Repaint()
         {
             toggle.value = value.IsShared;
             if (ValueField != null) ValueField.value = value.Value;
             BindProperty();
             OnToggle(value.IsShared);
-            NotifyValueChange();
-            OnValueUpdate();
+            OnRepaint();
         }
         protected void NotifyValueChange()
         {
@@ -127,7 +132,7 @@ namespace Kurisu.NGDT.Editor
             changeEvent.target = this;
             SendEvent(changeEvent);
         }
-        protected virtual void OnValueUpdate() { }
+        protected virtual void OnRepaint() { }
     }
 
 }

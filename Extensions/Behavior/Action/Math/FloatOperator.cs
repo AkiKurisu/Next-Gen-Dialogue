@@ -1,8 +1,8 @@
 using UnityEngine;
 namespace Kurisu.NGDT.Behavior
 {
-    [AkiInfo("Action : Operate float value")]
-    [AkiLabel("Math : FloatOperator")]
+    [AkiInfo("Action: Operate float value")]
+    [AkiLabel("Math: FloatOperator")]
     [AkiGroup("Math")]
     public class FloatOperator : Action
     {
@@ -24,12 +24,6 @@ namespace Kurisu.NGDT.Behavior
         private SharedFloat storeResult;
         [SerializeField]
         private Operation operation;
-        public override void Awake()
-        {
-            InitVariable(float1);
-            InitVariable(float2);
-            InitVariable(storeResult);
-        }
         protected override Status OnUpdate()
         {
             switch (operation)

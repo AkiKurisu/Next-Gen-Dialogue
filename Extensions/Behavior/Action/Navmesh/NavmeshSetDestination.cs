@@ -2,8 +2,8 @@ using UnityEngine;
 using UnityEngine.AI;
 namespace Kurisu.NGDT.Behavior
 {
-    [AkiInfo("Action : Set the destination of NavmeshAgent")]
-    [AkiLabel("Navmesh : SetDestination")]
+    [AkiInfo("Action: Set the destination of NavmeshAgent")]
+    [AkiLabel("Navmesh: SetDestination")]
     [AkiGroup("Navmesh")]
     public class NavmeshSetDestination : Action
     {
@@ -21,9 +21,7 @@ namespace Kurisu.NGDT.Behavior
         }
         public override void Awake()
         {
-            InitVariable(agent);
             if (agent.Value == null) agent.Value = GameObject.GetComponent<NavMeshAgent>();
-            InitVariable(destination);
         }
 
     }

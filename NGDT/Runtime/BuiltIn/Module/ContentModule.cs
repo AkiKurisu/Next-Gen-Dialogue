@@ -2,7 +2,7 @@ using Kurisu.NGDS;
 using UnityEngine;
 namespace Kurisu.NGDT
 {
-    [AkiInfo("Module : Content Module is used to modify dialogue content such as piece and option.")]
+    [AkiInfo("Module: Content Module is used to modify dialogue content such as piece and option.")]
     [ModuleOf(typeof(Piece))]
     [ModuleOf(typeof(Option))]
     public class ContentModule : CustomModule, IExposedContent
@@ -12,12 +12,8 @@ namespace Kurisu.NGDT
         {
             content = new SharedString(contentValue);
         }
-        [SerializeField, Multiline, TranslateEntry]
-        private SharedString content;
-        public override void Awake()
-        {
-            InitVariable(content);
-        }
+        [Multiline, TranslateEntry]
+        public SharedString content;
         protected sealed override IDialogueModule GetModule()
         {
             return new NGDS.ContentModule(content.Value);

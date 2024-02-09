@@ -1,8 +1,8 @@
 using UnityEngine;
 namespace Kurisu.NGDT.Behavior
 {
-    [AkiInfo("Action : Operate int value")]
-    [AkiLabel("Math : IntOperator")]
+    [AkiInfo("Action: Operate int value")]
+    [AkiLabel("Math: IntOperator")]
     [AkiGroup("Math")]
     public class IntOperator : Action
     {
@@ -24,12 +24,6 @@ namespace Kurisu.NGDT.Behavior
         private SharedInt storeResult;
         [SerializeField]
         private Operation operation;
-        public override void Awake()
-        {
-            InitVariable(int1);
-            InitVariable(int2);
-            InitVariable(storeResult);
-        }
         protected override Status OnUpdate()
         {
             switch (operation)

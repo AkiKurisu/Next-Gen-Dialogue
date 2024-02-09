@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using Kurisu.NGDS.Transformer.SS;
+using Kurisu.NGDS.Transformer;
 using UnityEngine;
 namespace Kurisu.NGDT.Transformer.SS
 {
@@ -8,18 +8,11 @@ namespace Kurisu.NGDT.Transformer.SS
     [AkiGroup("AIGC/Transformer")]
     public class SentenceSimilarityEntryModule : Module
     {
-        [SerializeField, Tooltip("Sentence similarity inference engine")]
-        private SharedTObject<SentenceSimilarityEngine> ssEngine;
-        [SerializeField, ForceShared]
-        private SharedTObject<SentenceSimilarityDataSet> ssDataSet;
-        [SerializeField]
-        private SharedFloat minScore;
-        public override void Awake()
-        {
-            InitVariable(ssDataSet);
-            InitVariable(ssEngine);
-            InitVariable(minScore);
-        }
+        [Tooltip("Sentence similarity inference engine")]
+        public SharedTObject<SentenceSimilarityEngine> ssEngine;
+        [ForceShared]
+        public SharedTObject<SentenceSimilarityDataSet> ssDataSet;
+        public SharedFloat minScore;
         protected sealed override Status OnUpdate()
         {
             var entry = ScriptableObject.CreateInstance<SentenceSimilarityDataSet>();

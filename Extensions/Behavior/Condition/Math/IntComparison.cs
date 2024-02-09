@@ -1,8 +1,7 @@
-using UnityEngine;
 namespace Kurisu.NGDT.Behavior
 {
-    [AkiInfo("Condition : Compare Int values, if the conditions are met, return Status.Success, otherwise return Status.Failure")]
-    [AkiLabel("Math : IntComparison")]
+    [AkiInfo("Condition: Compare Int values, if the conditions are met, return Status.Success, otherwise return Status.Failure")]
+    [AkiLabel("Math: IntComparison")]
     [AkiGroup("Math")]
     public class IntComparison : Conditional
     {
@@ -15,17 +14,9 @@ namespace Kurisu.NGDT.Behavior
             GreaterThanOrEqualTo,
             GreaterThan
         }
-        [SerializeField]
-        private SharedInt int1;
-        [SerializeField]
-        private SharedInt int2;
-        [SerializeField]
-        private Operation operation;
-        protected override void OnStart()
-        {
-            InitVariable(int1);
-            InitVariable(int2);
-        }
+        public SharedInt int1;
+        public SharedInt int2;
+        public Operation operation;
         protected override Status IsUpdatable()
         {
             return operation switch

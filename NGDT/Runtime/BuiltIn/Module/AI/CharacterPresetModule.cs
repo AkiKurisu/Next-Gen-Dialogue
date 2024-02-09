@@ -3,26 +3,19 @@ using Kurisu.NGDS.AI;
 using UnityEngine;
 namespace Kurisu.NGDT
 {
-    [AkiInfo("Module : Character Preset Module is used to set up AI prompt, used for chat dialogue.")]
+    [AkiInfo("Module: Character Preset Module is used to set up AI prompt, used for chat dialogue.")]
     [AkiGroup("AIGC")]
     [ModuleOf(typeof(Dialogue))]
     public class CharacterPresetModule : CustomModule
     {
-        [SerializeField, TranslateEntry]
-        private SharedString user_Name = new("You");
-        [SerializeField, TranslateEntry]
-        private SharedString char_name = new("Bot");
-        [SerializeField, Multiline, TranslateEntry]
-        private SharedString char_persona;
-        [SerializeField, Multiline, TranslateEntry]
-        private SharedString world_scenario;
-        public override void Awake()
-        {
-            InitVariable(user_Name);
-            InitVariable(char_name);
-            InitVariable(char_persona);
-            InitVariable(world_scenario);
-        }
+        [TranslateEntry]
+        public SharedString user_Name = new("You");
+        [TranslateEntry]
+        public SharedString char_name = new("Bot");
+        [Multiline, TranslateEntry]
+        public SharedString char_persona;
+        [Multiline, TranslateEntry]
+        public SharedString world_scenario;
         protected sealed override IDialogueModule GetModule()
         {
             return new NGDS.PromptModule(CharacterPresetHelper.GeneratePrompt(

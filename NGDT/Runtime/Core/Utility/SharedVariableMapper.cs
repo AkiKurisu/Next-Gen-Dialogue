@@ -1,4 +1,3 @@
-#if NGDT_REFLECTION
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,4 +32,3 @@ namespace Kurisu.NGDT
         }
     }
 }
-#endif

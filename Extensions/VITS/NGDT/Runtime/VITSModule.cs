@@ -9,17 +9,10 @@ namespace Kurisu.NGDT.VITS
     [ModuleOf(typeof(Option))]
     public class VITSModule : CustomModule
     {
-        [SerializeField]
-        private SharedInt characterID;
-        [SerializeField]
-        private SharedTObject<AudioClip> audioClip;
-        [SerializeField, Setting, Tooltip("Set to disable translation for this module")]
-        private bool noTranslation;
-        public override void Awake()
-        {
-            InitVariable(characterID);
-            InitVariable(audioClip);
-        }
+        public SharedInt characterID;
+        public SharedTObject<AudioClip> audioClip;
+        [Setting, Tooltip("Set to disable translation for this module")]
+        public bool noTranslation;
         protected sealed override IDialogueModule GetModule()
         {
             if (audioClip.Value != null) return new VITSAudioClipModule(audioClip.Value);

@@ -7,12 +7,8 @@ namespace Kurisu.NGDT.Transformer.SS
     [AkiGroup("AIGC/Transformer")]
     public class InferenceSimilarIDModule : Module
     {
-        [SerializeField, Tooltip("Sentence similarity inference dataSet"), ForceShared]
-        private SharedTObject<SentenceSimilarityDataSet> ssDataSet;
-        public override void Awake()
-        {
-            InitVariable(ssDataSet);
-        }
+        [Tooltip("Sentence similarity inference dataSet"), ForceShared]
+        public SharedTObject<SentenceSimilarityDataSet> ssDataSet;
         protected sealed override Status OnUpdate()
         {
             var parentNode = Tree.Builder.GetNode() as NGDS.Option;

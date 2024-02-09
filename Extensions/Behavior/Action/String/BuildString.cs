@@ -1,22 +1,19 @@
 using System.Collections.Generic;
 using System.Text;
-using UnityEngine;
 namespace Kurisu.NGDT.Behavior
 {
-    [AkiInfo("Action : Build value of string")]
-    [AkiLabel("String : Build")]
+    [AkiInfo("Action: Build value of string")]
+    [AkiLabel("String: Build")]
     [AkiGroup("String")]
     public class BuildString : Action
     {
-        [SerializeField]
-        private List<SharedString> values;
-        [SerializeField, ForceShared]
-        private SharedString storeResult;
+        public List<SharedString> values;
+        [ForceShared]
+        public SharedString storeResult;
         private readonly StringBuilder stringBuilder = new();
         public override void Awake()
         {
             foreach (var value in values) InitVariable(value);
-            InitVariable(storeResult);
         }
         protected override Status OnUpdate()
         {

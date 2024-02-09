@@ -7,10 +7,6 @@ namespace Kurisu.NGDT
         [SerializeField, CopyDisable, AkiLabel("Piece ID"), Tooltip("You don't need to fill in this shared variable because its value will be automatically generated at runtime")]
         private PieceID pieceID;
         private NGDS.Piece pieceCache;
-        protected override void OnAwake()
-        {
-            InitVariable(pieceID);
-        }
         protected override Status OnUpdate()
         {
             Builder.StartWriteNode(pieceCache);

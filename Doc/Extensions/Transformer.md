@@ -21,9 +21,10 @@ Add attention mechanism (Transformer model)-based AI functions to the dialogue t
 
 2. Install dependency library `pip install -r requirements.txt`
 
-3. Use Convert.py to convert bert model on HuggingFace to onnx format
+3. Use onnxruntime to convert HuggingFace model to onnx format
 
 ```python
+# Example
 from optimum.onnxruntime import ORTModel
 if __name__ == "__main__": 
     model = ORTModel.from_pretrained("shibing624/text2vec-base-multilingual",from_transformers=True,export=True)

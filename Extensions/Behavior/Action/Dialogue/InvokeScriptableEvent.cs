@@ -1,18 +1,12 @@
-using UnityEngine;
 using Kurisu.NGDS;
 namespace Kurisu.NGDT.Behavior
 {
-    [AkiInfo("Action : Invoke a scriptableEvent")]
-    [AkiLabel("Dialogue : Invoke ScriptableEvent")]
+    [AkiInfo("Action: Invoke a scriptableEvent")]
+    [AkiLabel("Dialogue: Invoke ScriptableEvent")]
     [AkiGroup("Dialogue")]
     public class InvokeScriptableEvent : Action
     {
-        [SerializeField]
-        private SharedTObject<ScriptableEvent> scriptableEvent;
-        public override void Awake()
-        {
-            InitVariable(scriptableEvent);
-        }
+        public SharedTObject<ScriptableEvent> scriptableEvent;
         protected override Status OnUpdate()
         {
             scriptableEvent.Value?.Invoke();

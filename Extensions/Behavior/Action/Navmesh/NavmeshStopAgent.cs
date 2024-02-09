@@ -21,9 +21,7 @@ namespace Kurisu.NGDT.Behavior
         }
         public override void Awake()
         {
-            InitVariable(agent);
             if (agent.Value == null) agent.Value = GameObject.GetComponent<NavMeshAgent>();
-            InitVariable(isStopped);
         }
 
     }

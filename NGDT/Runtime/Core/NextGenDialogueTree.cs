@@ -53,7 +53,6 @@ namespace Kurisu.NGDT
                 if (variable is PieceID pieceID) pieceID.Value = global::System.Guid.NewGuid().ToString();
             }
             this.MapGlobal();
-#if NGDT_REFLECTION
             if (externalDialogueTree)
             {
                 //Prevent remap for external tree
@@ -64,7 +63,6 @@ namespace Kurisu.NGDT
             {
                 SharedVariableMapper.Traverse(this);
             }
-#endif
             root.Run(gameObject, this);
             root.Awake();
         }

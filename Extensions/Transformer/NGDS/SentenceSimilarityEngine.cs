@@ -5,7 +5,7 @@ using UnityEngine;
 using Unity.Sentis;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
-namespace Kurisu.NGDS.Transformer.SS
+namespace Kurisu.NGDS.Transformer
 {
     //Code from https://thomassimonini.substack.com/p/create-an-ai-robot-npc-using-hugging?r=dq5fg&utm_campaign=post&utm_medium=web
     public class SentenceSimilarityEngine : MonoBehaviour
@@ -58,7 +58,7 @@ namespace Kurisu.NGDS.Transformer.SS
         public TensorFloat Encode(List<string> input, IWorker worker, Ops ops)
         {
             // Step 1: Tokenize the sentences
-            Dictionary<string, Tensor> inputSentencesTokensTensor = SentenceSimilarityUtils.TokenizeInput(tokenizerJsonData, input);
+            Dictionary<string, Tensor> inputSentencesTokensTensor = TransformerUtils.TokenizeInput(tokenizerJsonData, input);
 
             // Step 2: Compute embedding and get the output
             worker.Execute(inputSentencesTokensTensor);
@@ -66,10 +66,10 @@ namespace Kurisu.NGDS.Transformer.SS
             // Step 3: Get the output from the neural network
             TensorFloat outputTensor = worker.PeekOutput("last_hidden_state") as TensorFloat;
             // Step 4: Perform pooling
-            TensorFloat MeanPooledTensor = SentenceSimilarityUtils.MeanPooling(inputSentencesTokensTensor["attention_mask"], outputTensor, ops);
+            TensorFloat MeanPooledTensor = TransformerUtils.MeanPooling(inputSentencesTokensTensor["attention_mask"], outputTensor, ops);
 
             // Step 5: Normalize the results
-            TensorFloat NormedTensor = SentenceSimilarityUtils.L2Norm(MeanPooledTensor, ops);
+            TensorFloat NormedTensor = TransformerUtils.L2Norm(MeanPooledTensor, ops);
 
             return NormedTensor;
         }

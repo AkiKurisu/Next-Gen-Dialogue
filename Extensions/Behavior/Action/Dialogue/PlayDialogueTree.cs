@@ -1,20 +1,14 @@
-using UnityEngine;
 namespace Kurisu.NGDT.Behavior
 {
-    [AkiInfo("Action : Play another dialogue tree")]
-    [AkiLabel("Dialogue : Play DialogueTree")]
+    [AkiInfo("Action: Play another dialogue tree")]
+    [AkiLabel("Dialogue: Play DialogueTree")]
     [AkiGroup("Dialogue")]
     public class PlayDialogueTree : Action
     {
-        [SerializeField]
-        private SharedTObject<NextGenDialogueTree> dialogueTree;
-        public override void Awake()
-        {
-            InitVariable(dialogueTree);
-        }
+        public SharedTObject<NextGenDialogueTree> dialogueTree;
         protected override Status OnUpdate()
         {
-            dialogueTree.Value?.PlayDialogue();
+            if (dialogueTree.Value != null) dialogueTree.Value.PlayDialogue();
             return Status.Success;
         }
     }

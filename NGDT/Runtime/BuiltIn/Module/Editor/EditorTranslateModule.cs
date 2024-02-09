@@ -1,7 +1,7 @@
 using UnityEngine;
 namespace Kurisu.NGDT
 {
-    [AkiInfo("Editor Module : Use Google Translate to translate all valid contents.")]
+    [AkiInfo("Editor Module: Use Google Translate to translate all valid contents.")]
     [AkiGroup("Editor")]
     [ModuleOf(typeof(Dialogue))]
     public class EditorTranslateModule : EditorModule

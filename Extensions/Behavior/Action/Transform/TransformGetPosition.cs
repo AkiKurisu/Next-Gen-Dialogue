@@ -6,15 +6,10 @@ namespace Kurisu.NGDT.Behavior
     [AkiGroup("Transform")]
     public class TransformGetPosition : Action
     {
-        [SerializeField, Tooltip("Target Transform, if not filled in, it will be its own Transform")]
-        private SharedTObject<Transform> target;
-        [SerializeField, ForceShared]
-        private SharedVector3 storeResult;
-        public override void Awake()
-        {
-            InitVariable(storeResult);
-            InitVariable(target);
-        }
+        [Tooltip("Target Transform, if not filled in, it will be its own Transform")]
+        public SharedTObject<Transform> target;
+        [ForceShared]
+        public SharedVector3 storeResult;
         protected override Status OnUpdate()
         {
             if (target.Value != null) storeResult.Value = target.Value.position;

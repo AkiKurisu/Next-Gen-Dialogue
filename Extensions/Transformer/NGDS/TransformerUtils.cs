@@ -8,10 +8,10 @@ using HuggingFace.SharpTransformers.Normalizers;
 using HuggingFace.SharpTransformers.PreTokenizers;
 using HuggingFace.SharpTransformers.Tokenizers;
 using HuggingFace.SharpTransformers.PostProcessors;
-namespace Kurisu.NGDS.Transformer.SS
+namespace Kurisu.NGDS.Transformer
 {
     //Modified from https://thomassimonini.substack.com/p/create-an-ai-robot-npc-using-hugging?r=dq5fg&utm_campaign=post&utm_medium=web
-    public static class SentenceSimilarityUtils
+    public static class TransformerUtils
     {
 
         /// <summary>

@@ -1,4 +1,4 @@
-using Kurisu.NGDS.Transformer.SS;
+using Kurisu.NGDS.Transformer;
 using UnityEngine;
 namespace Kurisu.NGDT.Transformer.SS
 {

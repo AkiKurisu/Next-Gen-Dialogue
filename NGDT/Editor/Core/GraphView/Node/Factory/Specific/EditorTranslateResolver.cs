@@ -84,7 +84,7 @@ namespace Kurisu.NGDT.Editor
                     var response = await GoogleTranslateHelper.TranslateTextAsync(sourceLanguageCode, targetLanguageCode, input, ct);
                     if (response.Status)
                     {
-                        (moduleNode.GetFieldResolver("content") as SharedStringResolver).EditorField.ValueField.value = response.TranslateText;
+                        (moduleNode.GetFieldResolver("content") as SharedStringResolver).EditorField.SetValue(response.TranslateText);
                     }
                 }
             }
@@ -135,7 +135,7 @@ namespace Kurisu.NGDT.Editor
                         }
                         else
                         {
-                            (node.GetFieldResolver(fieldInfo.Name) as SharedStringResolver).EditorField.ValueField.value = response.TranslateText;
+                            (node.GetFieldResolver(fieldInfo.Name) as SharedStringResolver).EditorField.SetValue(response.TranslateText);
                         }
                     }
                 }

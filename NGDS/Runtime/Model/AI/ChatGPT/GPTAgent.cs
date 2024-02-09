@@ -9,6 +9,7 @@ namespace Kurisu.NGDS.AI
     /// </summary>
     public class GPTAgent
     {
+        private readonly SemaphoreSlim semaphore = new(1, 1);
         private readonly List<SendData> m_DataList = new();
         public const string DefaultModel = "gpt-3.5-turbo";
         /// <summary>
@@ -30,24 +31,32 @@ namespace Kurisu.NGDS.AI
         /// <returns></returns>
         public async Task<string> Inference(string inputPrompt, CancellationToken ct)
         {
-            m_DataList.Clear();
-            m_DataList.Add(new SendData("system", SystemPrompt));
-            m_DataList.Add(new SendData("user", inputPrompt));
-            PostData _postData = new()
+            await semaphore.WaitAsync();
+            try
             {
-                model = Model ?? DefaultModel,
-                messages = m_DataList
-            };
-            string input = JsonUtility.ToJson(_postData);
+                m_DataList.Clear();
+                m_DataList.Add(new SendData("system", SystemPrompt));
+                m_DataList.Add(new SendData("user", inputPrompt));
+                PostData _postData = new()
+                {
+                    model = Model ?? DefaultModel,
+                    messages = m_DataList
+                };
+                string input = JsonUtility.ToJson(_postData);
 #if UNITY_EDITOR
-            Debug.Log(input);
+                Debug.Log(input);
 #endif
-            var response = await driver.ProcessLLM(input, ct);
-            if (response.Status)
-            {
-                m_DataList.Add(new SendData("assistant", response.Response));
+                var response = await driver.ProcessLLM(input, ct);
+                if (response.Status)
+                {
+                    m_DataList.Add(new SendData("assistant", response.Response));
+                }
+                return response.Response;
             }
-            return response.Response;
+            finally
+            {
+                semaphore.Release();
+            }
         }
         /// <summary>
         /// Call GPT with history
@@ -57,23 +66,31 @@ namespace Kurisu.NGDS.AI
         /// <returns></returns>
         public async Task<string> Continue(string inputPrompt, CancellationToken ct)
         {
-            if (m_DataList.Count == 0) m_DataList.Add(new SendData("system", SystemPrompt));
-            m_DataList.Add(new SendData("user", inputPrompt));
-            PostData _postData = new()
+            await semaphore.WaitAsync();
+            try
             {
-                model = Model ?? DefaultModel,
-                messages = m_DataList
-            };
-            string input = JsonUtility.ToJson(_postData);
+                if (m_DataList.Count == 0) m_DataList.Add(new SendData("system", SystemPrompt));
+                m_DataList.Add(new SendData("user", inputPrompt));
+                PostData _postData = new()
+                {
+                    model = Model ?? DefaultModel,
+                    messages = m_DataList
+                };
+                string input = JsonUtility.ToJson(_postData);
 #if UNITY_EDITOR
-            Debug.Log(input);
+                Debug.Log(input);
 #endif
-            var response = await driver.ProcessLLM(input, ct);
-            if (response.Status)
-            {
-                m_DataList.Add(new SendData("assistant", response.Response));
+                var response = await driver.ProcessLLM(input, ct);
+                if (response.Status)
+                {
+                    m_DataList.Add(new SendData("assistant", response.Response));
+                }
+                return response.Response;
             }
-            return response.Response;
+            finally
+            {
+                semaphore.Release();
+            }
         }
         /// <summary>
         /// Clear history context

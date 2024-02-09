@@ -10,23 +10,15 @@ namespace Kurisu.NGDT.VITS
     [ModuleOf(typeof(Dialogue))]
     public class VITSAIResolverModule : CustomModule
     {
-        [SerializeField]
-        private LLMType llmType;
-        [SerializeField]
-        private SharedTObject<AITurboSetting> setting;
-        [SerializeField]
-        private SharedTObject<AudioSource> audioSource;
-        [Setting, SerializeField]
-        private bool overrideDialogueResolver = true;
-        [Setting, SerializeField]
-        private bool overridePieceResolver = true;
-        [Setting, SerializeField]
-        private bool overrideOptionResolver = true;
-        public override void Awake()
-        {
-            InitVariable(setting);
-            InitVariable(audioSource);
-        }
+        public LLMType llmType;
+        public SharedTObject<AITurboSetting> setting;
+        public SharedTObject<AudioSource> audioSource;
+        [Setting]
+        public bool overrideDialogueResolver = true;
+        [Setting]
+        public bool overridePieceResolver = true;
+        [Setting]
+        public bool overrideOptionResolver = true;
         protected override IDialogueModule GetModule()
         {
             var turboSetting = setting.Value;

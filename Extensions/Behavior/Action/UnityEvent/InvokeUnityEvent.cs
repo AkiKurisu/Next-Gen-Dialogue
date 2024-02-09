@@ -1,4 +1,3 @@
-using UnityEngine;
 using UnityEngine.Events;
 namespace Kurisu.NGDT.Behavior
 {
@@ -7,8 +6,8 @@ namespace Kurisu.NGDT.Behavior
     [AkiGroup("UnityEvent")]
     public class InvokeUnityEvent : Action
     {
-        [SerializeField, WrapField]
-        private UnityEvent unityEvent;
+        [WrapField]
+        public UnityEvent unityEvent;
         protected override Status OnUpdate()
         {
             unityEvent?.Invoke();
