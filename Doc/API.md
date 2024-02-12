@@ -301,29 +301,8 @@ Shared variables are used to transfer variables during the construction and runn
 
 ### How to use
 
-1. Before using of shared variables needs to be initialized in `Awake()` if disabled `Runtime Reflection` to bind the variables in the parent behavior tree.
-```C#
-public class GetGameObjectPosition : Action
-{
-    [SerializeField]
-    private SharedTObject<GameObject> target;
-    [SerializeField]
-    private SharedVector3 result;
-    public override void Awake()
-    {
-        InitVariable(target);
-        InitVariable(result);
-    }
-    protected override Status OnUpdate()
-    {
-        if (target.Value != null) result.Value = target.Value.transform.position;
-        return Status.Success;
-    }
-}
-```
-
-2. In addition to value types, you can use ``SharedObject`` to share any object that inherits from ``UnityEngine.Object``. If you want to limit the type you can use ``SharedTObject<T>`` so that in the drop-down bar in the editor you will only be able to reference SharedObjects with the same type
-3. In the blackboard, you can create a ``SharedObject`` and restrict its type to improve type safety and make the field only drag and drop objects of the corresponding type.
+1. In addition to value types, you can use ``SharedObject`` to share any object that inherits from ``UnityEngine.Object``. If you want to limit the type you can use ``SharedTObject<T>`` so that in the drop-down bar in the editor you will only be able to reference SharedObjects with the same type
+2. In the blackboard, you can create a ``SharedObject`` and restrict its type to improve type safety and make the field only drag and drop objects of the corresponding type.
 
 <img src="Images/SharedObject.png" width="480"/>
 
@@ -333,8 +312,8 @@ public class GetGameObjectPosition : Action
    
    | Name     | Description                                 |
    | -------- | ------------------------------------------- |
-   | IsGlobal | Whether varible binding to global variables |
-   | IsShared | Whether varible is shared in behavior tree  |
+   | IsGlobal | Whether variable binding to global variables |
+   | IsShared | Whether variable is shared in behavior tree  |
    | Name     | Variable's name, important for binding      |
 
 2. Method Reference

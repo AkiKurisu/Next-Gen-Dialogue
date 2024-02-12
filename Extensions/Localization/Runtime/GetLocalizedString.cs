@@ -2,21 +2,20 @@ using UnityEngine;
 using UnityEngine.Localization;
 namespace Kurisu.NGDT.Localization
 {
-    [AkiInfo("Action : Get LocalizedString")]
-    [AkiLabel("String : GetLocalizedString")]
+    [AkiInfo("Action: Get LocalizedString")]
+    [AkiLabel("String: GetLocalizedString")]
     [AkiGroup("String")]
     public class GetLocalizedString : Action
     {
-        [SerializeField, WrapField]
-        private LocalizedString localizedString;
-        [SerializeField, ForceShared]
-        private SharedString storeResult;
-        [SerializeField, Setting, Tooltip("Toggle this to async get localizedString on start, so you can't changed result dynamically.")]
-        private bool asyncGetOnStart;
+        [WrapField]
+        public LocalizedString localizedString;
+        [ForceShared]
+        public SharedString storeResult;
+        [Setting, Tooltip("Toggle this to async get localizedString on start, so you can't changed result dynamically.")]
+        public bool asyncGetOnStart;
         private string cache;
         public override void Awake()
         {
-            InitVariable(storeResult);
             if (asyncGetOnStart) LoadLocalizedStringAsync();
         }
         private async void LoadLocalizedStringAsync()
