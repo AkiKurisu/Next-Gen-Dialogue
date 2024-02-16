@@ -9,6 +9,8 @@ namespace Kurisu.NGDS.AI
     /// </summary>
     public class GPTAgent
     {
+        public float Temperature { get; set; } = 0.5f;
+        public float Top_p { get; set; } = 0.5f;
         private readonly SemaphoreSlim semaphore = new(1, 1);
         private readonly List<SendData> m_DataList = new();
         public const string DefaultModel = "gpt-3.5-turbo";
@@ -40,7 +42,9 @@ namespace Kurisu.NGDS.AI
                 PostData _postData = new()
                 {
                     model = Model ?? DefaultModel,
-                    messages = m_DataList
+                    messages = m_DataList,
+                    temperature = Temperature,
+                    top_p = Top_p
                 };
                 string input = JsonUtility.ToJson(_postData);
 #if UNITY_EDITOR
@@ -74,7 +78,9 @@ namespace Kurisu.NGDS.AI
                 PostData _postData = new()
                 {
                     model = Model ?? DefaultModel,
-                    messages = m_DataList
+                    messages = m_DataList,
+                    temperature = Temperature,
+                    top_p = Top_p
                 };
                 string input = JsonUtility.ToJson(_postData);
 #if UNITY_EDITOR

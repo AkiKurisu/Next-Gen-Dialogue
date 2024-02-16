@@ -6,6 +6,8 @@ namespace Kurisu.NGDS.AI
     public class PostData
     {
         public string model;
+        public float temperature = 0.5f;
+        public float top_p = 0.5f;
         public List<SendData> messages;
     }
 
