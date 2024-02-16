@@ -29,6 +29,22 @@ namespace Kurisu.NGDS
         /// </summary>
         /// <param name="forceEnd">Whether should force complete if has dialogue playing</param>
         void EndDialogue(bool forceEnd = false);
+        /// <summary>
+        /// Get current playing dialogue
+        /// </summary>
+        /// <returns></returns>
+        Dialogue GetCurrentDialogue();
+        /// <summary>
+        /// Get current using dialogue proxy
+        /// </summary>
+        /// <returns></returns>
+        IDialogueProxy GetCurrentProxy();
+        /// <summary>
+        /// Get current using dialogue proxy
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        T GetCurrentProxy<T>() where T : IDialogueProxy;
         event Action<IDialogueResolver> OnDialogueStart;
         event Action<IPieceResolver> OnPiecePlay;
         event Action<IOptionResolver> OnOptionCreate;

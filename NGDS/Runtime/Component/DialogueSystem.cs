@@ -31,8 +31,8 @@ namespace Kurisu.NGDS
     /// </summary>
     public class DialogueSystem : MonoBehaviour, IDialogueSystem
     {
-        private IDialogueProxy dialogue;
-        public bool IsPlaying => dialogue != null;
+        private IDialogueProxy dialogueProxy;
+        public bool IsPlaying => dialogueProxy != null;
         public event Action<IDialogueResolver> OnDialogueStart;
         public event Action<IPieceResolver> OnPiecePlay;
         public event Action<IOptionResolver> OnOptionCreate;
@@ -56,9 +56,21 @@ namespace Kurisu.NGDS
         {
             IOCContainer.UnRegister<IDialogueSystem>(this);
         }
+        public IDialogueProxy GetCurrentProxy()
+        {
+            return dialogueProxy;
+        }
+        public T GetCurrentProxy<T>() where T : IDialogueProxy
+        {
+            return (T)dialogueProxy;
+        }
+        public Dialogue GetCurrentDialogue()
+        {
+            return dialogueProxy?.CastDialogue();
+        }
         public void StartDialogue(IDialogueProxy dialogueProvider)
         {
-            dialogue = dialogueProvider;
+            dialogueProxy = dialogueProvider;
             var dialogueData = dialogueProvider.CastDialogue();
             ResolverHandler.Handle(dialogueData);
             ResolverHandler.DialogueResolver.Inject(dialogueData, this);
@@ -68,7 +80,7 @@ namespace Kurisu.NGDS
         {
             yield return ResolverHandler.DialogueResolver.EnterDialogue();
             OnDialogueStart?.Invoke(ResolverHandler.DialogueResolver);
-            PlayDialoguePiece(dialogue.GetFirst());
+            PlayDialoguePiece(dialogueProxy.GetFirst());
         }
         private void PlayDialoguePiece(Piece piece)
         {
@@ -82,7 +94,7 @@ namespace Kurisu.NGDS
         }
         public void PlayDialoguePiece(string targetID)
         {
-            PlayDialoguePiece(dialogue.GetNext(targetID));
+            PlayDialoguePiece(dialogueProxy.GetNext(targetID));
         }
         public void CreateOption(IReadOnlyList<Option> options)
         {
@@ -104,7 +116,7 @@ namespace Kurisu.NGDS
             }
             ResolverHandler.DialogueResolver.ExitDialogue();
             OnDialogueOver?.Invoke();
-            dialogue = null;
+            dialogueProxy = null;
             runningCoroutine = null;
         }
     }

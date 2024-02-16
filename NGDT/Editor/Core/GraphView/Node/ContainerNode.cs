@@ -489,6 +489,24 @@ namespace Kurisu.NGDT.Editor
             {
                 NodeAutoLayoutHelper.Layout(new DialogueTreeLayoutConvertor(MapTreeView.View, this));
             }));
+            if (Application.isPlaying)
+            {
+                evt.menu.MenuItems().Add(new NGDTDropdownMenuAction("Jump to this Piece", (a) =>
+                {
+                    NGDS.IOCContainer.Resolve<NGDS.IDialogueSystem>()
+                                     .PlayDialoguePiece(GetPiece().CastPiece().PieceID);
+                },
+                (e) =>
+                {
+                    var ds = NGDS.IOCContainer.Resolve<NGDS.IDialogueSystem>();
+                    if (ds == null) return DropdownMenuAction.Status.Hidden;
+                    if (!ds.IsPlaying) return DropdownMenuAction.Status.Disabled;
+                    //Whether is the container of this piece
+                    var piece = GetPiece().CastPiece();
+                    if (ds.GetCurrentDialogue()?.GetPiece(piece.PieceID) != piece) return DropdownMenuAction.Status.Disabled;
+                    return DropdownMenuAction.Status.Normal;
+                }));
+            }
             base.BuildContextualMenu(evt);
         }
         public void AddChildElement(IDialogueNode node, IDialogueTreeView treeView)
