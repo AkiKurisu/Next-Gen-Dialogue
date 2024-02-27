@@ -3,6 +3,7 @@ using UnityEditor.Experimental.GraphView;
 using UnityEngine.UIElements;
 namespace Kurisu.NGDT.Editor
 {
+    [CustomNodeEditor(typeof(Root))]
     public sealed class RootNode : DialogueTreeNode
     {
         public readonly Port Child;

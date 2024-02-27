@@ -1,19 +1,10 @@
 using Kurisu.NGDT.Editor;
-using System;
 using UnityEditor.Localization;
 using UnityEngine.Localization.Tables;
 using UnityEngine.UIElements;
 namespace Kurisu.NGDT.Localization.Editor
 {
-    [Ordered]
-    public class LocalizedContentModuleResolver : INodeResolver
-    {
-        public IDialogueNode CreateNodeInstance(Type type)
-        {
-            return new LocalizedContentModuleNode();
-        }
-        public static bool IsAcceptable(Type behaviorType) => behaviorType == typeof(LocalizedContentModule);
-    }
+    [CustomNodeEditor(typeof(LocalizedContentModule))]
     public class LocalizedContentModuleNode : ModuleNode
     {
         private LocalizedStringEditorField editorField;

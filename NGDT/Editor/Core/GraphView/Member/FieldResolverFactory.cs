@@ -26,8 +26,8 @@ namespace Kurisu.NGDT.Editor
             .ToList();
             _ResolverTypes.Sort((a, b) =>
             {
-                var aOrdered = a.GetCustomAttribute<Ordered>(false);
-                var bOrdered = b.GetCustomAttribute<Ordered>(false);
+                var aOrdered = a.GetCustomAttribute<OrderedAttribute>(false);
+                var bOrdered = b.GetCustomAttribute<OrderedAttribute>(false);
                 if (aOrdered == null && bOrdered == null) return 0;
                 if (aOrdered != null && bOrdered != null) return aOrdered.Order - bOrdered.Order;
                 if (aOrdered != null) return -1;

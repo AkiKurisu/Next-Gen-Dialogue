@@ -27,8 +27,12 @@ namespace Kurisu.NGDT.Editor
             .ToList();
             _ResolverTypes.Sort((a, b) =>
             {
-                var aOrdered = a.GetCustomAttribute<Ordered>(false);
-                var bOrdered = b.GetCustomAttribute<Ordered>(false);
+                var aCustom = a.GetCustomAttribute<CustomNodeEditorAttribute>(false);
+                var bCustom = b.GetCustomAttribute<CustomNodeEditorAttribute>(false);
+                var aOrdered = a.GetCustomAttribute<OrderedAttribute>(false);
+                var bOrdered = b.GetCustomAttribute<OrderedAttribute>(false);
+                if (aCustom == null && bCustom != null) return 1;
+                if (aCustom != null && bCustom == null) return -1;
                 if (aOrdered == null && bOrdered == null) return 0;
                 if (aOrdered != null && bOrdered != null) return aOrdered.Order - bOrdered.Order;
                 if (aOrdered != null) return -1;
@@ -38,6 +42,7 @@ namespace Kurisu.NGDT.Editor
         private static bool IsValidType(Type type)
         {
             if (type.IsAbstract) return false;
+            if (type.GetCustomAttribute<CustomNodeEditorAttribute>() != null) return true;
             if (type.GetMethod("IsAcceptable") == null) return false;
             if (!type.GetInterfaces().Any(t => t == typeof(INodeResolver))) return false;
             return true;
@@ -46,10 +51,21 @@ namespace Kurisu.NGDT.Editor
         {
             IDialogueNode node = null;
             bool find = false;
-            foreach (var _type in _ResolverTypes)
+            foreach (var _resolverType in _ResolverTypes)
             {
-                if (!IsAcceptable(_type, behaviorType)) continue;
-                node = (Activator.CreateInstance(_type) as INodeResolver).CreateNodeInstance(behaviorType);
+                var attribute = _resolverType.GetCustomAttribute<CustomNodeEditorAttribute>();
+                if (attribute != null)
+                {
+                    if (TryAcceptNodeEditor(attribute, behaviorType))
+                    {
+                        node = (IDialogueNode)Activator.CreateInstance(_resolverType);
+                        find = true;
+                        break;
+                    }
+                    continue;
+                }
+                if (!IsAcceptable(_resolverType, behaviorType)) continue;
+                node = (Activator.CreateInstance(_resolverType) as INodeResolver).CreateNodeInstance(behaviorType);
                 find = true;
                 break;
             }
@@ -58,6 +74,12 @@ namespace Kurisu.NGDT.Editor
             if (styleSheetCache == null) styleSheetCache = NextGenDialogueSetting.GetNodeStyle();
             (node as Node).styleSheets.Add(styleSheetCache);
             return node;
+        }
+        private bool TryAcceptNodeEditor(CustomNodeEditorAttribute attribute, Type behaviorType)
+        {
+            if (attribute.InspectedType == behaviorType) return true;
+            if (attribute.EditorForChildClasses && behaviorType.IsSubclassOf(attribute.InspectedType)) return true;
+            return false;
         }
         private static bool IsAcceptable(Type type, Type behaviorType)
         {

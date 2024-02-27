@@ -356,6 +356,15 @@ public class TargetIDResolver : INodeResolver
 }
 ```
 
+Or use `CustomNodeEditorAttribute` to simplify the operation.
+
+```C#
+[CustomNodeEditor(typeof(TargetIDModule))]
+public class TargetIDNode : ModuleNode, ILayoutTreeNode
+{
+}
+```
+
 ### How to customize field
 
 Since Next Gen Dialogue use GraphView as frontend which is powered by UIElement, it can not support all fields.

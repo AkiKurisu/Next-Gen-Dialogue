@@ -1,17 +1,9 @@
-using System;
 using System.Reflection;
 using UnityEngine.UIElements;
 using UnityEngine;
 using System.Collections.Generic;
 namespace Kurisu.NGDT.Editor
 {
-    /// <summary>
-    /// Give priority for resolver (node or field)
-    /// </summary>
-    public sealed class Ordered : Attribute
-    {
-        public int Order = 100;
-    }
     public delegate void ValueChangeDelegate(object value);
     public interface IFieldResolver
     {
