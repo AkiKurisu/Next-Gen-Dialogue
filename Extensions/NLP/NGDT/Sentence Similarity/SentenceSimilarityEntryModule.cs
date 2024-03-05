@@ -1,11 +1,11 @@
 using System.Collections.Generic;
-using Kurisu.NGDS.Transformer;
+using Kurisu.NGDS.NLP;
 using UnityEngine;
-namespace Kurisu.NGDT.Transformer.SS
+namespace Kurisu.NGDT.NLP.SS
 {
     [AkiInfo("Module : Sentence Similarity Entry Module is the entry point to collect sentence data.")]
     [ModuleOf(typeof(Dialogue))]
-    [AkiGroup("AIGC/Transformer")]
+    [AkiGroup("NLP")]
     public class SentenceSimilarityEntryModule : Module
     {
         [Tooltip("Sentence similarity inference engine")]

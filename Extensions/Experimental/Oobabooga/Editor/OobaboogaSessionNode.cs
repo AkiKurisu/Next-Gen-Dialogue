@@ -67,7 +67,7 @@ namespace Kurisu.NGDT.Experimental.Oobabooga.Editor
                 }
                 //Add context copied from session
                 GetFirstAncestorOfType<DialogueContainer>()?
-                    .AddModuleNode(new PromptModule(session.context));
+                    .AddModuleNode(new SystemPromptModule(session.context));
                 await Task.Delay(2);
                 //Auto layout
                 NodeAutoLayoutHelper.Layout(new DialogueTreeLayoutConvertor(MapTreeView.View, firstPiece));

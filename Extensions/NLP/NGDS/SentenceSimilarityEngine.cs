@@ -1,79 +1,40 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Unity.Sentis;
-using Newtonsoft.Json.Linq;
-using Newtonsoft.Json;
-namespace Kurisu.NGDS.Transformer
+namespace Kurisu.NGDS.NLP
 {
     //Code from https://thomassimonini.substack.com/p/create-an-ai-robot-npc-using-hugging?r=dq5fg&utm_campaign=post&utm_medium=web
     public class SentenceSimilarityEngine : MonoBehaviour
     {
-        public TextAsset tokenizer;
+        public TextAsset tokenizerAsset;
         public ModelAsset modelAsset;
         public BackendType backendType = BackendType.CPU;
-        public Model runtimeModel;
-        public IWorker worker;
-        public ITensorAllocator allocator;
-        public Ops ops;
-        private JObject tokenizerJsonData;
-
+        private ITensorAllocator allocator;
+        private Ops ops;
+        private TextEncoder textEncoder;
         /// <summary>
         /// Load the model on awake
         /// </summary>
         private void Awake()
         {
-            // Load the ONNX model
-            runtimeModel = ModelLoader.Load(modelAsset);
-
-            // Load tokenizer
-            tokenizerJsonData = JsonConvert.DeserializeObject<JObject>(tokenizer.text);
-
-            // Create an engine and set the backend as GPU //GPUCompute
-            worker = WorkerFactory.CreateWorker(backendType, runtimeModel);
+            textEncoder = new TextEncoder(ModelLoader.Load(modelAsset), new BertTokenizer(tokenizerAsset.text), backendType);
 
             // Create an allocator.
             allocator = new TensorCachingAllocator();
 
             // Create an operator
-            ops = WorkerFactory.CreateOps(BackendType.GPUCompute, allocator);
+            ops = WorkerFactory.CreateOps(backendType, allocator);
         }
 
 
         private void OnDisable()
         {
             // Tell the GPU we're finished with the memory the engine used
-            worker.Dispose();
+            textEncoder.Dispose();
+            allocator.Dispose();
+            ops.Dispose();
         }
-
-
-        /// <summary>
-        /// Encode the input
-        /// </summary>
-        /// <param name="input"></param>
-        /// <param name="worker"></param>
-        /// <param name="ops"></param>
-        /// <returns></returns>
-        public TensorFloat Encode(List<string> input, IWorker worker, Ops ops)
-        {
-            // Step 1: Tokenize the sentences
-            Dictionary<string, Tensor> inputSentencesTokensTensor = TransformerUtils.TokenizeInput(tokenizerJsonData, input);
-
-            // Step 2: Compute embedding and get the output
-            worker.Execute(inputSentencesTokensTensor);
-
-            // Step 3: Get the output from the neural network
-            TensorFloat outputTensor = worker.PeekOutput("last_hidden_state") as TensorFloat;
-            // Step 4: Perform pooling
-            TensorFloat MeanPooledTensor = TransformerUtils.MeanPooling(inputSentencesTokensTensor["attention_mask"], outputTensor, ops);
-
-            // Step 5: Normalize the results
-            TensorFloat NormedTensor = TransformerUtils.L2Norm(MeanPooledTensor, ops);
-
-            return NormedTensor;
-        }
-
 
         /// <summary>
         /// We calculate the similarity scores between the input sequence (what the user typed) and the comparison
@@ -90,8 +51,6 @@ namespace Kurisu.NGDS.Transformer
             return SentenceSimilarityScores_;
         }
 
-
-
         /// <summary>
         /// Get the most similar action and its index given the player input
         /// </summary>
@@ -100,14 +59,9 @@ namespace Kurisu.NGDS.Transformer
         /// <returns></returns>
         public Tuple<int, float> RankSimilarityScores(string inputSentence, string[] comparisonSentences)
         {
-            // Step 1: Transform string and string[] to lists
-            List<string> InputSentences = new()
-            {
-                inputSentence
-            };
-            // Step 2: Encode the input sentences and comparison sentences
-            TensorFloat NormEmbedSentences = Encode(InputSentences, worker, ops);
-            TensorFloat NormEmbedComparisonSentences = Encode(comparisonSentences.ToList(), worker, ops);
+            // Encode the input sentences and comparison sentences
+            TensorFloat NormEmbedSentences = textEncoder.Encode(ops, inputSentence);
+            TensorFloat NormEmbedComparisonSentences = textEncoder.Encode(ops, comparisonSentences.ToList());
 
             // Calculate the similarity score of the player input with each action
             TensorFloat scores = SentenceSimilarityScores(NormEmbedSentences, NormEmbedComparisonSentences);

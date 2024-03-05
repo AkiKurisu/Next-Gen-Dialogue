@@ -1,6 +1,6 @@
-using Kurisu.NGDS.Transformer;
+using Kurisu.NGDS.NLP;
 using UnityEngine;
-namespace Kurisu.NGDT.Transformer.SS
+namespace Kurisu.NGDT.NLP.SS
 {
     /// <summary>
     /// Runtime inference data wrapper

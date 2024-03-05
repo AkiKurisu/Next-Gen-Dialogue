@@ -1,9 +1,9 @@
-# Transformer Extension Explanation Transformer拓展包说明
+# NLP Extension Explanation 自然语言处理拓展包说明
 
 ## Features 特点
-基于`Unity.Sentis`和`HuggingFace.SharpTransformers`为对话树增加基于注意力机制（Transformer模型）的AI功能，例如`文本匹配`和`情感识别`
+基于`Unity.Sentis`和`HuggingFace.SharpTransformers`为对话树增加NLP的AI功能，例如`文本匹配`、`情感识别`和`文本向量嵌入`等。
 
-Add attention mechanism (Transformer model)-based AI functions to the dialogue tree based on `Unity.Sentis` and `HuggingFace.SharpTransformers`, such as `Sentence Similarity` and `Sentiment Analysis`
+Add natural language processing functions to the dialogue tree based on `Unity.Sentis` and `HuggingFace.SharpTransformers`, such as `Sentence Similarity`, `Sentiment Analysis` and `Text2Vec`, etc.
 
 ## Dependency 依赖库
 

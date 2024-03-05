@@ -1,12 +1,12 @@
 using UnityEngine;
-using Kurisu.NGDS.Transformer;
+using Kurisu.NGDS.NLP;
 using Kurisu.NGDS;
-namespace Kurisu.NGDT.Transformer.SA
+namespace Kurisu.NGDT.NLP.SA
 {
     [AkiInfo("Module: Inference Emotion Module is used to inference emotion labelId based on container's content at runtime.")]
     [ModuleOf(typeof(Piece))]
     [ModuleOf(typeof(Option))]
-    [AkiGroup("AIGC/Transformer")]
+    [AkiGroup("NLP")]
     public class InferenceEmotionModule : Module
     {
         [Tooltip("Sentiment analysis inference engine")]

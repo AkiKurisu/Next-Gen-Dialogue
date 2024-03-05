@@ -1,10 +1,10 @@
 using UnityEngine;
-namespace Kurisu.NGDT.Transformer.SS
+namespace Kurisu.NGDT.NLP.SS
 {
     [AkiInfo("Module : Inference Similar ID Module is used to inference option's target dialogue piece id using Sentence Similarity " +
     "powered by transformer model inference at runtime.")]
     [ModuleOf(typeof(Option))]
-    [AkiGroup("AIGC/Transformer")]
+    [AkiGroup("NLP")]
     public class InferenceSimilarIDModule : Module
     {
         [Tooltip("Sentence similarity inference dataSet"), ForceShared]

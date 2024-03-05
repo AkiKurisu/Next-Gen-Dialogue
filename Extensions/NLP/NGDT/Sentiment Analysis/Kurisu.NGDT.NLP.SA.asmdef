@@ -1,10 +1,10 @@
 {
-    "name": "Kurisu.NGDS.Transformer",
-    "rootNamespace": "Kurisu.NGDS.Transformer",
+    "name": "Kurisu.NGDT.NLP.SA",
+    "rootNamespace": "Kurisu.NGDT.NLP.SA",
     "references": [
-        "GUID:c98377141161c7746a178fb5cb1af075",
-        "GUID:e498adf2b0e1d8b47871ffa1278544a0",
-        "GUID:a3641cccf50efcd4cafc57a3120fb40e"
+        "GUID:4a9214fa9d60c4c92bfc3c635010f27f",
+        "GUID:a3641cccf50efcd4cafc57a3120fb40e",
+        "GUID:e8437be54f9284140b88a0f167fad164"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
