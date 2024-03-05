@@ -67,7 +67,7 @@ namespace Kurisu.NGDT.VITS.Editor
             var turboSetting = NextGenDialogueSetting.GetOrCreateSettings().AITurboSetting;
             var vitsTurbo = new VITSTurbo(turboSetting)
             {
-                PreTranslateModule = turboSetting.Enable_GoogleTranslation ? new(turboSetting.LLM_Language, turboSetting.VITS_Language) : null
+                Translator = turboSetting.Enable_GoogleTranslation ? new NGDS.GoogleTranslateModule(turboSetting.LLM_Language, turboSetting.VITS_Language) : null
             };
             isBaking = true;
             float startVal = (float)EditorApplication.timeSinceStartup;

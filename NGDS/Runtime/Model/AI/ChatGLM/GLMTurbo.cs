@@ -12,7 +12,7 @@ namespace Kurisu.NGDS.AI
     /// </summary>
     internal class GLMTurbo : ILLMDriver
     {
-        private struct GLMResponse : ILLMData
+        private struct GLMResponse : ILLMOutput
         {
             public bool Status { get; internal set; }
 
@@ -21,20 +21,19 @@ namespace Kurisu.NGDS.AI
         private readonly string _baseUri;
         private string _basePrompt;
         private readonly GLMGenParams genParams;
-        private readonly ChatGenerator chatGenerator = new();
-        public GoogleTranslateModule? PreTranslateModule { get; set; }
+        private readonly ChatFormatter formatter = new();
         public GLMTurbo(string address = "127.0.0.1", string port = "8000")
         {
             _baseUri = $"http://{address}:{port}/";
             genParams = new();
         }
-        public void SetPrompt(string newPrompt)
+        public void SetSystemPrompt(string newPrompt)
         {
             _basePrompt = newPrompt;
         }
-        public async Task<ILLMData> ProcessLLM(ILLMInput input, CancellationToken ct)
+        public async Task<ILLMOutput> ProcessLLM(ILLMInput input, CancellationToken ct)
         {
-            string generatedPrompt = chatGenerator.Generate(input);
+            string generatedPrompt = formatter.Format(input);
             if (!string.IsNullOrEmpty(_basePrompt))
             {
                 genParams.Prompt = $"{_basePrompt}\n{generatedPrompt}";
@@ -44,13 +43,9 @@ namespace Kurisu.NGDS.AI
             {
                 genParams.Prompt = generatedPrompt;
             }
-            if (PreTranslateModule.HasValue)
-            {
-                genParams.Prompt = await PreTranslateModule.Value.Process(genParams.Prompt, ct);
-            }
             return await ProcessLLM(JsonConvert.SerializeObject(genParams), ct);
         }
-        public async Task<ILLMData> ProcessLLM(string input, CancellationToken ct)
+        public async Task<ILLMOutput> ProcessLLM(string input, CancellationToken ct)
         {
             UnityWebRequest request = new(_baseUri, "POST")
             {

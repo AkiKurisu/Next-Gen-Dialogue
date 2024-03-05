@@ -20,9 +20,9 @@
   },
   "samples": [
     {
-      "displayName": "Dialogue Example",
+      "displayName": "Basic Example",
       "description": "Basic usage of Dialogue System and AIGC",
-      "path": "Samples~/Example"
+      "path": "Samples~/Basic"
     },
     {
       "displayName": "VITS Example",
@@ -35,9 +35,9 @@
       "path": "Samples~/Localization"
     },
     {
-      "displayName": "Transformer Example",
-      "description": "Sample of using Transformer model to inference option in runtime powered by Unity.Sentis",
-      "path": "Samples~/Transformer"
+      "displayName": "NLP Example",
+      "description": "Sample of using natural language processing in runtime powered by Unity.Sentis",
+      "path": "Samples~/NLP"
     }
   ]
 }

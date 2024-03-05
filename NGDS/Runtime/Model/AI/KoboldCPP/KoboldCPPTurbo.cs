@@ -6,7 +6,7 @@ namespace Kurisu.NGDS.AI
 {
     public class KoboldCPPTurbo : ILLMDriver
     {
-        private struct KoboldResponse : ILLMData
+        private struct KoboldResponse : ILLMOutput
         {
             public bool Status { get; internal set; }
 
@@ -14,8 +14,8 @@ namespace Kurisu.NGDS.AI
         }
         private readonly KoboldClient client;
         private readonly KoboldGenParams genParams;
-        private readonly ChatGenerator chatGenerator = new();
-        public GoogleTranslateModule? PreTranslateModule { get; set; }
+        private readonly ChatFormatter formatter = new();
+        public ITranslator Translator { get; set; }
 
         private static readonly string[] replaceKeyWords = new string[]
         {
@@ -36,21 +36,18 @@ namespace Kurisu.NGDS.AI
                 genParams.StopSequence.Add($"\n{char_name} ");
             }
         }
-        public void SetPrompt(string prompt)
+        public void SetSystemPrompt(string prompt)
         {
             client.SetPrompt(prompt);
         }
-        public async Task<ILLMData> ProcessLLM(ILLMInput input, CancellationToken ct)
+        public async Task<ILLMOutput> ProcessLLM(ILLMInput input, CancellationToken ct)
         {
-            SetStopCharacter(input.OtherCharacters);
-            string message = chatGenerator.Generate(input);
-            if (PreTranslateModule.HasValue)
-            {
-                message = await PreTranslateModule.Value.Process(message, ct);
-            }
+            SetStopCharacter(input.InputCharacters);
+            string message = formatter.Format(input);
+            if (Translator != null) message = await Translator.Process(message, ct);
             return await SendMessageToKoboldAsync(message, ct);
         }
-        public async Task<ILLMData> ProcessLLM(string input, CancellationToken ct)
+        public async Task<ILLMOutput> ProcessLLM(string input, CancellationToken ct)
         {
             return await SendMessageToKoboldAsync(input, ct);
         }

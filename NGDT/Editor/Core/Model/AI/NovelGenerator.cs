@@ -21,7 +21,7 @@ namespace Kurisu.NGDT.Editor
             if (containers.Count == 0) return;
             var bakeContainer = containers.Last();
             bakeContainer.TryGetModuleNode<NovelBakeModule>(out ModuleNode novelModule);
-            NovelBaker baker = new((LLMType)novelModule.GetFieldResolver("llmType").Value);
+            NovelBaker baker = new(LLMType.ChatGPT);
             int depth = (int)novelModule.GetFieldResolver("generateDepth").Value;
             float startVal = (float)EditorApplication.timeSinceStartup;
             var ct = treeView.GetCancellationTokenSource();

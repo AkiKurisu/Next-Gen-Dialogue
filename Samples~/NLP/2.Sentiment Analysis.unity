@@ -235,7 +235,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e283e369ce8d2534e9494fb2cc444ec4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tokenizer: {fileID: 4900000, guid: 209e4aee788f7f945bd52439cae4aa70, type: 3}
+  tokenizerAsset: {fileID: 0}
   modelAsset: {fileID: 5022602860645237092, guid: 12ac641920c41db43b44055f7140fdd7, type: 3}
   backendType: 256
 --- !u!1 &705507993
@@ -343,7 +343,7 @@ GameObject:
   - component: {fileID: 805848790}
   - component: {fileID: 805848789}
   m_Layer: 0
-  m_Name: DialogueTree (English)
+  m_Name: DialogueTree
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -362,23 +362,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   root:
-    rid: 5002853982915526886
+    rid: 7882353895841988628
   sharedVariables:
-  - rid: 5002853982915526887
-  - rid: 5002853982915526888
-  - rid: 5002853982915526889
-  - rid: 5002853982915526890
-  - rid: 5002853982915526891
-  - rid: 5002853982915526892
-  - rid: 5002853982915526893
-  - rid: 5002853982915526894
-  - rid: 5002853982915526895
+  - rid: 7882353895841988629
+  - rid: 7882353895841988630
+  - rid: 7882353895841988631
+  - rid: 7882353895841988632
+  - rid: 7882353895841988633
+  - rid: 7882353895841988634
+  - rid: 7882353895841988635
+  - rid: 7882353895841988636
+  - rid: 7882353895841988637
   externalDialogueTree: {fileID: 0}
   blockData: []
   references:
     version: 2
     RefIds:
-    - rid: 5002853982915526886
+    - rid: 7882353895841988628
       type: {class: Root, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
       data:
         graphPosition:
@@ -390,12 +390,12 @@ MonoBehaviour:
         description: 
         guid: 17b30093-3fb4-4a02-8b26-64c8cb6854ea
         child:
-          rid: 5002853982915526896
+          rid: 7882353895841988638
         children:
-        - rid: 5002853982915526897
-        - rid: 5002853982915526898
-        - rid: 5002853982915526899
-    - rid: 5002853982915526887
+        - rid: 7882353895841988639
+        - rid: 7882353895841988640
+        - rid: 7882353895841988641
+    - rid: 7882353895841988629
       type: {class: PieceID, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
       data:
         isShared: 1
@@ -403,7 +403,7 @@ MonoBehaviour:
         isExposed: 0
         mName: Dialog1
         value: 
-    - rid: 5002853982915526888
+    - rid: 7882353895841988630
       type: {class: PieceID, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
       data:
         isShared: 1
@@ -411,7 +411,7 @@ MonoBehaviour:
         isExposed: 0
         mName: Dialog2
         value: 
-    - rid: 5002853982915526889
+    - rid: 7882353895841988631
       type: {class: SharedObject, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
       data:
         isShared: 0
@@ -419,9 +419,9 @@ MonoBehaviour:
         isExposed: 1
         mName: SAEngine
         value: {fileID: 578549868}
-        constraintTypeAQM: Kurisu.NGDS.Transformer.SentimentAnalysisEngine, Kurisu.NGDS.Transformer,
+        constraintTypeAQM: Kurisu.NGDS.NLP.SentimentAnalysisEngine, Kurisu.NGDS.NLP,
           Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    - rid: 5002853982915526890
+    - rid: 7882353895841988632
       type: {class: SharedString, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
       data:
         isShared: 0
@@ -429,7 +429,7 @@ MonoBehaviour:
         isExposed: 0
         mName: DynamicContent
         value: 
-    - rid: 5002853982915526891
+    - rid: 7882353895841988633
       type: {class: SharedInt, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
       data:
         isShared: 0
@@ -437,7 +437,7 @@ MonoBehaviour:
         isExposed: 0
         mName: id1
         value: 0
-    - rid: 5002853982915526892
+    - rid: 7882353895841988634
       type: {class: SharedInt, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
       data:
         isShared: 0
@@ -445,7 +445,7 @@ MonoBehaviour:
         isExposed: 0
         mName: id2
         value: 0
-    - rid: 5002853982915526893
+    - rid: 7882353895841988635
       type: {class: SharedInt, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
       data:
         isShared: 0
@@ -453,7 +453,7 @@ MonoBehaviour:
         isExposed: 0
         mName: id3
         value: 0
-    - rid: 5002853982915526894
+    - rid: 7882353895841988636
       type: {class: SharedInt, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
       data:
         isShared: 0
@@ -461,7 +461,7 @@ MonoBehaviour:
         isExposed: 0
         mName: Label
         value: 0
-    - rid: 5002853982915526895
+    - rid: 7882353895841988637
       type: {class: PieceID, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
       data:
         isShared: 1
@@ -469,7 +469,7 @@ MonoBehaviour:
         isExposed: 0
         mName: Dialog3
         value: 
-    - rid: 5002853982915526896
+    - rid: 7882353895841988638
       type: {class: Dialogue, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
       data:
         graphPosition:
@@ -481,52 +481,10 @@ MonoBehaviour:
         description: 
         guid: 1253cb15-ce0c-46a4-9c98-fc14b3265295
         children:
-        - rid: 5002853982915526897
+        - rid: 7882353895841988641
         referencePieces:
         - 
-    - rid: 5002853982915526897
-      type: {class: Piece, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
-      data:
-        graphPosition:
-          serializedVersion: 2
-          x: 866
-          y: 103
-          width: 374
-          height: 541
-        description: 
-        guid: 87ad95d9-81fc-4d39-a073-b318ec0c0ae9
-        children:
-        - rid: 5002853982915526900
-        - rid: 5002853982915526901
-        - rid: 5002853982915526902
-        - rid: 5002853982915526903
-        pieceID:
-          isShared: 1
-          isGlobal: 0
-          isExposed: 0
-          mName: Dialog1
-          value: 
-    - rid: 5002853982915526898
-      type: {class: Piece, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
-      data:
-        graphPosition:
-          serializedVersion: 2
-          x: 2517
-          y: 214
-          width: 310
-          height: 342
-        description: 
-        guid: 62e504f3-6c97-46d3-a0b1-ced50a1ce556
-        children:
-        - rid: 5002853982915526904
-        - rid: 5002853982915526905
-        pieceID:
-          isShared: 1
-          isGlobal: 0
-          isExposed: 0
-          mName: Dialog3
-          value: 
-    - rid: 5002853982915526899
+    - rid: 7882353895841988639
       type: {class: Piece, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
       data:
         graphPosition:
@@ -538,111 +496,57 @@ MonoBehaviour:
         description: 
         guid: 4361244c-a6bc-4383-9d28-f70f4006a0ac
         children:
-        - rid: 5002853982915526906
-        - rid: 5002853982915526907
+        - rid: 7882353895841988642
+        - rid: 7882353895841988643
         pieceID:
           isShared: 1
           isGlobal: 0
           isExposed: 0
           mName: Dialog2
           value: 
-    - rid: 5002853982915526900
-      type: {class: ContentModule, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
+    - rid: 7882353895841988640
+      type: {class: Piece, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
       data:
         graphPosition:
           serializedVersion: 2
-          x: 0
-          y: 108
-          width: 350
-          height: 136
+          x: 2517
+          y: 214
+          width: 310
+          height: 342
         description: 
-        guid: a0145877-2528-4c17-b689-3aa5d6dacb98
-        content:
-          isShared: 0
-          isGlobal: 0
-          isExposed: 0
-          mName: 
-          value: Here is an example of using text sentiment analysis, where you can
-            get different content by identifying emotion label for dialogue option
-    - rid: 5002853982915526901
-      type: {class: Option, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
-      data:
-        graphPosition:
-          serializedVersion: 2
-          x: 1302
-          y: -630
-          width: 377
-          height: 613
-        description: 
-        guid: bc03ffd9-1c42-44e9-90fa-9c205f42ab7a
+        guid: 62e504f3-6c97-46d3-a0b1-ced50a1ce556
         children:
-        - rid: 5002853982915526908
-        - rid: 5002853982915526909
-        - rid: 5002853982915526910
-        - rid: 5002853982915526911
-    - rid: 5002853982915526902
-      type: {class: Option, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
-      data:
-        graphPosition:
-          serializedVersion: 2
-          x: 1302
-          y: 79
-          width: 377
-          height: 613
-        description: 
-        guid: bd2d0346-d4df-41ac-9166-89bfbbc6d599
-        children:
-        - rid: 5002853982915526912
-        - rid: 5002853982915526913
-        - rid: 5002853982915526914
-        - rid: 5002853982915526915
-    - rid: 5002853982915526903
-      type: {class: Option, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
-      data:
-        graphPosition:
-          serializedVersion: 2
-          x: 1302
-          y: 788
-          width: 377
-          height: 613
-        description: 
-        guid: 8802fd6a-5be1-40d0-9514-384ba35f1738
-        children:
-        - rid: 5002853982915526916
-        - rid: 5002853982915526917
-        - rid: 5002853982915526918
-        - rid: 5002853982915526919
-    - rid: 5002853982915526904
-      type: {class: PreUpdateModule, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
-      data:
-        graphPosition:
-          serializedVersion: 2
-          x: 0
-          y: 108
-          width: 286
-          height: 77
-        description: 
-        guid: d8264d72-0ae3-4ca1-995e-f0f675e2263b
-        child:
-          rid: 5002853982915526920
-    - rid: 5002853982915526905
-      type: {class: ContentModule, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
-      data:
-        graphPosition:
-          serializedVersion: 2
-          x: 0
-          y: 185
-          width: 286
-          height: 91
-        description: 
-        guid: d634df77-1b37-4ee0-94ea-0505486a9fff
-        content:
+        - rid: 7882353895841988644
+        - rid: 7882353895841988645
+        pieceID:
           isShared: 1
           isGlobal: 0
           isExposed: 0
-          mName: DynamicContent
+          mName: Dialog3
           value: 
-    - rid: 5002853982915526906
+    - rid: 7882353895841988641
+      type: {class: Piece, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
+      data:
+        graphPosition:
+          serializedVersion: 2
+          x: 866
+          y: 103
+          width: 374
+          height: 541
+        description: 
+        guid: 87ad95d9-81fc-4d39-a073-b318ec0c0ae9
+        children:
+        - rid: 7882353895841988646
+        - rid: 7882353895841988647
+        - rid: 7882353895841988648
+        - rid: 7882353895841988649
+        pieceID:
+          isShared: 1
+          isGlobal: 0
+          isExposed: 0
+          mName: Dialog1
+          value: 
+    - rid: 7882353895841988642
       type: {class: ContentModule, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
       data:
         graphPosition:
@@ -659,7 +563,7 @@ MonoBehaviour:
           isExposed: 0
           mName: DynamicContent
           value: Let me guess about your emotion...
-    - rid: 5002853982915526907
+    - rid: 7882353895841988643
       type: {class: NextPieceModule, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
       data:
         graphPosition:
@@ -677,7 +581,118 @@ MonoBehaviour:
           isExposed: 0
           mName: Dialog3
           value: 
-    - rid: 5002853982915526908
+    - rid: 7882353895841988644
+      type: {class: PreUpdateModule, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
+      data:
+        graphPosition:
+          serializedVersion: 2
+          x: 0
+          y: 108
+          width: 286
+          height: 77
+        description: 
+        guid: d8264d72-0ae3-4ca1-995e-f0f675e2263b
+        child:
+          rid: 7882353895841988650
+    - rid: 7882353895841988645
+      type: {class: ContentModule, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
+      data:
+        graphPosition:
+          serializedVersion: 2
+          x: 0
+          y: 185
+          width: 286
+          height: 91
+        description: 
+        guid: d634df77-1b37-4ee0-94ea-0505486a9fff
+        content:
+          isShared: 1
+          isGlobal: 0
+          isExposed: 0
+          mName: DynamicContent
+          value: 
+    - rid: 7882353895841988646
+      type: {class: ContentModule, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
+      data:
+        graphPosition:
+          serializedVersion: 2
+          x: 0
+          y: 108
+          width: 350
+          height: 136
+        description: 
+        guid: a0145877-2528-4c17-b689-3aa5d6dacb98
+        content:
+          isShared: 0
+          isGlobal: 0
+          isExposed: 0
+          mName: 
+          value: Here is an example of using text sentiment analysis, where you can
+            get different content by identifying emotion label for dialogue option
+    - rid: 7882353895841988647
+      type: {class: Option, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
+      data:
+        graphPosition:
+          serializedVersion: 2
+          x: 1302
+          y: -630
+          width: 377
+          height: 613
+        description: 
+        guid: bc03ffd9-1c42-44e9-90fa-9c205f42ab7a
+        children:
+        - rid: 7882353895841988651
+        - rid: 7882353895841988652
+        - rid: 7882353895841988653
+        - rid: 7882353895841988654
+    - rid: 7882353895841988648
+      type: {class: Option, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
+      data:
+        graphPosition:
+          serializedVersion: 2
+          x: 1302
+          y: 79
+          width: 377
+          height: 613
+        description: 
+        guid: bd2d0346-d4df-41ac-9166-89bfbbc6d599
+        children:
+        - rid: 7882353895841988655
+        - rid: 7882353895841988656
+        - rid: 7882353895841988657
+        - rid: 7882353895841988658
+    - rid: 7882353895841988649
+      type: {class: Option, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
+      data:
+        graphPosition:
+          serializedVersion: 2
+          x: 1302
+          y: 788
+          width: 377
+          height: 613
+        description: 
+        guid: 8802fd6a-5be1-40d0-9514-384ba35f1738
+        children:
+        - rid: 7882353895841988659
+        - rid: 7882353895841988660
+        - rid: 7882353895841988661
+        - rid: 7882353895841988662
+    - rid: 7882353895841988650
+      type: {class: Selector, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
+      data:
+        graphPosition:
+          serializedVersion: 2
+          x: 2877
+          y: 313
+          width: 141
+          height: 145
+        description: 
+        guid: b7fc4a92-eb93-4813-a67a-4994189d252f
+        children:
+        - rid: 7882353895841988663
+        - rid: 7882353895841988664
+        - rid: 7882353895841988665
+    - rid: 7882353895841988651
       type: {class: ContentModule, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
       data:
         graphPosition:
@@ -694,17 +709,35 @@ MonoBehaviour:
           isExposed: 0
           mName: 
           value: I'm angry at his behavior
-    - rid: 5002853982915526909
-      type: {class: InferenceEmotionModule, ns: Kurisu.NGDT.Transformer.SA, asm: Kurisu.NGDT.Transformer.SA}
+    - rid: 7882353895841988652
+      type: {class: TargetIDModule, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
       data:
         graphPosition:
           serializedVersion: 2
           x: 0
           y: 170
           width: 353
+          height: 133
+        description: 
+        guid: ed62f018-ef86-4fc2-869a-2e08f7a863b4
+        useReference: 0
+        targetID:
+          isShared: 1
+          isGlobal: 0
+          isExposed: 0
+          mName: Dialog2
+          value: 
+    - rid: 7882353895841988653
+      type: {class: InferenceEmotionModule, ns: Kurisu.NGDT.NLP.SA, asm: Kurisu.NGDT.NLP.SA}
+      data:
+        graphPosition:
+          serializedVersion: 2
+          x: 0
+          y: 303
+          width: 353
           height: 167
         description: 
-        guid: ddcfa2d2-625b-4835-ac16-ee2884e517de
+        guid: fda7a116-d4ae-4167-a9e4-b002c77e7366
         saEngine:
           isShared: 1
           isGlobal: 0
@@ -723,25 +756,7 @@ MonoBehaviour:
           isExposed: 0
           mName: 
           value: 0
-    - rid: 5002853982915526910
-      type: {class: TargetIDModule, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
-      data:
-        graphPosition:
-          serializedVersion: 2
-          x: 0
-          y: 337
-          width: 353
-          height: 133
-        description: 
-        guid: ed62f018-ef86-4fc2-869a-2e08f7a863b4
-        useReference: 0
-        targetID:
-          isShared: 1
-          isGlobal: 0
-          isExposed: 0
-          mName: Dialog2
-          value: 
-    - rid: 5002853982915526911
+    - rid: 7882353895841988654
       type: {class: CallBackModule, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
       data:
         graphPosition:
@@ -753,8 +768,8 @@ MonoBehaviour:
         description: 
         guid: 1542464b-a598-4eb8-94c0-bb95619d5ef0
         child:
-          rid: 5002853982915526921
-    - rid: 5002853982915526912
+          rid: 7882353895841988666
+    - rid: 7882353895841988655
       type: {class: ContentModule, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
       data:
         graphPosition:
@@ -771,17 +786,35 @@ MonoBehaviour:
           isExposed: 0
           mName: 
           value: It's glad to meet you
-    - rid: 5002853982915526913
-      type: {class: InferenceEmotionModule, ns: Kurisu.NGDT.Transformer.SA, asm: Kurisu.NGDT.Transformer.SA}
+    - rid: 7882353895841988656
+      type: {class: TargetIDModule, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
       data:
         graphPosition:
           serializedVersion: 2
           x: 0
           y: 170
           width: 353
+          height: 133
+        description: 
+        guid: 20053356-0db9-41f7-9f6f-e64f06893359
+        useReference: 0
+        targetID:
+          isShared: 1
+          isGlobal: 0
+          isExposed: 0
+          mName: Dialog2
+          value: 
+    - rid: 7882353895841988657
+      type: {class: InferenceEmotionModule, ns: Kurisu.NGDT.NLP.SA, asm: Kurisu.NGDT.NLP.SA}
+      data:
+        graphPosition:
+          serializedVersion: 2
+          x: 0
+          y: 303
+          width: 353
           height: 167
         description: 
-        guid: 817a71fa-8e1c-4517-a9b0-b5cc8e933260
+        guid: 8923e3ee-3ee2-4159-bbfa-7136c4d30659
         saEngine:
           isShared: 1
           isGlobal: 0
@@ -800,25 +833,7 @@ MonoBehaviour:
           isExposed: 0
           mName: 
           value: 0
-    - rid: 5002853982915526914
-      type: {class: TargetIDModule, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
-      data:
-        graphPosition:
-          serializedVersion: 2
-          x: 0
-          y: 337
-          width: 353
-          height: 133
-        description: 
-        guid: 20053356-0db9-41f7-9f6f-e64f06893359
-        useReference: 0
-        targetID:
-          isShared: 1
-          isGlobal: 0
-          isExposed: 0
-          mName: Dialog2
-          value: 
-    - rid: 5002853982915526915
+    - rid: 7882353895841988658
       type: {class: CallBackModule, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
       data:
         graphPosition:
@@ -830,8 +845,8 @@ MonoBehaviour:
         description: 
         guid: 1df8b67c-3907-4ec1-af02-dcabfd9b7c18
         child:
-          rid: 5002853982915526922
-    - rid: 5002853982915526916
+          rid: 7882353895841988667
+    - rid: 7882353895841988659
       type: {class: ContentModule, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
       data:
         graphPosition:
@@ -848,17 +863,35 @@ MonoBehaviour:
           isExposed: 0
           mName: 
           value: I feel sorry to hear that
-    - rid: 5002853982915526917
-      type: {class: InferenceEmotionModule, ns: Kurisu.NGDT.Transformer.SA, asm: Kurisu.NGDT.Transformer.SA}
+    - rid: 7882353895841988660
+      type: {class: TargetIDModule, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
       data:
         graphPosition:
           serializedVersion: 2
           x: 0
           y: 170
           width: 353
+          height: 133
+        description: 
+        guid: 2d882ef8-dfee-4fc9-b932-b1640802d7dc
+        useReference: 0
+        targetID:
+          isShared: 1
+          isGlobal: 0
+          isExposed: 0
+          mName: Dialog2
+          value: 
+    - rid: 7882353895841988661
+      type: {class: InferenceEmotionModule, ns: Kurisu.NGDT.NLP.SA, asm: Kurisu.NGDT.NLP.SA}
+      data:
+        graphPosition:
+          serializedVersion: 2
+          x: 0
+          y: 303
+          width: 353
           height: 167
         description: 
-        guid: 637b5807-31ca-4871-9fcb-a62fa2c2acae
+        guid: fda5aec3-89a4-4943-bbc1-d5abd7c8b5da
         saEngine:
           isShared: 1
           isGlobal: 0
@@ -877,25 +910,7 @@ MonoBehaviour:
           isExposed: 0
           mName: 
           value: 0
-    - rid: 5002853982915526918
-      type: {class: TargetIDModule, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
-      data:
-        graphPosition:
-          serializedVersion: 2
-          x: 0
-          y: 337
-          width: 353
-          height: 133
-        description: 
-        guid: 2d882ef8-dfee-4fc9-b932-b1640802d7dc
-        useReference: 0
-        targetID:
-          isShared: 1
-          isGlobal: 0
-          isExposed: 0
-          mName: Dialog2
-          value: 
-    - rid: 5002853982915526919
+    - rid: 7882353895841988662
       type: {class: CallBackModule, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
       data:
         graphPosition:
@@ -907,92 +922,8 @@ MonoBehaviour:
         description: 
         guid: debd2d64-0c69-4391-b1f0-fb132c431e1c
         child:
-          rid: 5002853982915526923
-    - rid: 5002853982915526920
-      type: {class: Selector, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
-      data:
-        graphPosition:
-          serializedVersion: 2
-          x: 2877
-          y: 313
-          width: 141
-          height: 145
-        description: 
-        guid: b7fc4a92-eb93-4813-a67a-4994189d252f
-        children:
-        - rid: 5002853982915526924
-        - rid: 5002853982915526925
-        - rid: 5002853982915526926
-    - rid: 5002853982915526921
-      type: {class: SetInt, ns: Kurisu.NGDT.Behavior, asm: Kurisu.NGDT.Behavior}
-      data:
-        graphPosition:
-          serializedVersion: 2
-          x: 1729
-          y: -214
-          width: 217
-          height: 173
-        description: 
-        guid: e747ad20-b3c6-4f90-acfb-587a82b8e6fd
-        intValue:
-          isShared: 1
-          isGlobal: 0
-          isExposed: 0
-          mName: id1
-          value: 0
-        storeResult:
-          isShared: 1
-          isGlobal: 0
-          isExposed: 0
-          mName: Label
-          value: 0
-    - rid: 5002853982915526922
-      type: {class: SetInt, ns: Kurisu.NGDT.Behavior, asm: Kurisu.NGDT.Behavior}
-      data:
-        graphPosition:
-          serializedVersion: 2
-          x: 1729
-          y: 495
-          width: 217
-          height: 173
-        description: 
-        guid: aa52fd60-1c9a-4e70-b313-20e013c70a76
-        intValue:
-          isShared: 1
-          isGlobal: 0
-          isExposed: 0
-          mName: id2
-          value: 0
-        storeResult:
-          isShared: 1
-          isGlobal: 0
-          isExposed: 0
-          mName: Label
-          value: 0
-    - rid: 5002853982915526923
-      type: {class: SetInt, ns: Kurisu.NGDT.Behavior, asm: Kurisu.NGDT.Behavior}
-      data:
-        graphPosition:
-          serializedVersion: 2
-          x: 1729
-          y: 1204
-          width: 217
-          height: 173
-        description: 
-        guid: c2371183-88af-431f-b289-8f4bd5782e22
-        intValue:
-          isShared: 1
-          isGlobal: 0
-          isExposed: 0
-          mName: id3
-          value: 0
-        storeResult:
-          isShared: 1
-          isGlobal: 0
-          isExposed: 0
-          mName: Label
-          value: 0
-    - rid: 5002853982915526924
+          rid: 7882353895841988668
+    - rid: 7882353895841988663
       type: {class: IntComparison, ns: Kurisu.NGDT.Behavior, asm: Kurisu.NGDT.Behavior}
       data:
         graphPosition:
@@ -1004,7 +935,7 @@ MonoBehaviour:
         description: "Is Joy\uFF1F"
         guid: b280fbde-5a4e-4a85-a84e-0f50e369ff15
         child:
-          rid: 5002853982915526927
+          rid: 7882353895841988669
         int1:
           isShared: 1
           isGlobal: 0
@@ -1018,7 +949,7 @@ MonoBehaviour:
           mName: 
           value: 1
         operation: 2
-    - rid: 5002853982915526925
+    - rid: 7882353895841988664
       type: {class: IntComparison, ns: Kurisu.NGDT.Behavior, asm: Kurisu.NGDT.Behavior}
       data:
         graphPosition:
@@ -1030,7 +961,7 @@ MonoBehaviour:
         description: Is Sad?
         guid: 89427cbe-0141-4027-9359-429820b044e6
         child:
-          rid: 5002853982915526928
+          rid: 7882353895841988670
         int1:
           isShared: 1
           isGlobal: 0
@@ -1044,7 +975,7 @@ MonoBehaviour:
           mName: 
           value: 0
         operation: 2
-    - rid: 5002853982915526926
+    - rid: 7882353895841988665
       type: {class: SetString, ns: Kurisu.NGDT.Behavior, asm: Kurisu.NGDT.Behavior}
       data:
         graphPosition:
@@ -1067,7 +998,76 @@ MonoBehaviour:
           isExposed: 0
           mName: DynamicContent
           value: 
-    - rid: 5002853982915526927
+    - rid: 7882353895841988666
+      type: {class: SetInt, ns: Kurisu.NGDT.Behavior, asm: Kurisu.NGDT.Behavior}
+      data:
+        graphPosition:
+          serializedVersion: 2
+          x: 1729
+          y: -214
+          width: 217
+          height: 173
+        description: 
+        guid: e747ad20-b3c6-4f90-acfb-587a82b8e6fd
+        intValue:
+          isShared: 1
+          isGlobal: 0
+          isExposed: 0
+          mName: id1
+          value: 0
+        storeResult:
+          isShared: 1
+          isGlobal: 0
+          isExposed: 0
+          mName: Label
+          value: 0
+    - rid: 7882353895841988667
+      type: {class: SetInt, ns: Kurisu.NGDT.Behavior, asm: Kurisu.NGDT.Behavior}
+      data:
+        graphPosition:
+          serializedVersion: 2
+          x: 1729
+          y: 495
+          width: 217
+          height: 173
+        description: 
+        guid: aa52fd60-1c9a-4e70-b313-20e013c70a76
+        intValue:
+          isShared: 1
+          isGlobal: 0
+          isExposed: 0
+          mName: id2
+          value: 0
+        storeResult:
+          isShared: 1
+          isGlobal: 0
+          isExposed: 0
+          mName: Label
+          value: 0
+    - rid: 7882353895841988668
+      type: {class: SetInt, ns: Kurisu.NGDT.Behavior, asm: Kurisu.NGDT.Behavior}
+      data:
+        graphPosition:
+          serializedVersion: 2
+          x: 1729
+          y: 1204
+          width: 217
+          height: 173
+        description: 
+        guid: c2371183-88af-431f-b289-8f4bd5782e22
+        intValue:
+          isShared: 1
+          isGlobal: 0
+          isExposed: 0
+          mName: id3
+          value: 0
+        storeResult:
+          isShared: 1
+          isGlobal: 0
+          isExposed: 0
+          mName: Label
+          value: 0
+    - rid: 7882353895841988669
       type: {class: SetString, ns: Kurisu.NGDT.Behavior, asm: Kurisu.NGDT.Behavior}
       data:
         graphPosition:
@@ -1090,7 +1090,7 @@ MonoBehaviour:
           isExposed: 0
           mName: DynamicContent
           value: 
-    - rid: 5002853982915526928
+    - rid: 7882353895841988670
       type: {class: SetString, ns: Kurisu.NGDT.Behavior, asm: Kurisu.NGDT.Behavior}
       data:
         graphPosition:

@@ -11,7 +11,7 @@ namespace Kurisu.NGDT
         public SharedTObject<TextAsset> prompt;
         protected sealed override IDialogueModule GetModule()
         {
-            return new NGDS.PromptModule(prompt.Value.text);
+            return new NGDS.SystemPromptModule(prompt.Value.text);
         }
     }
 }

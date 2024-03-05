@@ -54,7 +54,7 @@ namespace Kurisu.NGDT.Editor
         {
             var type = (LLMType)aiBakeModule.GetFieldResolver("llmType").Value;
             var setting = NextGenDialogueSetting.GetOrCreateSettings().AITurboSetting;
-            return LLMFactory.CreateNonModule(type, setting);
+            return LLMFactory.Create(type, setting);
         }
         private async Task<bool> GenerateDialogue(ContainerNode containerNode, ModuleNode aiBakeModule, CancellationToken ct)
         {
@@ -78,7 +78,7 @@ namespace Kurisu.NGDT.Editor
         private bool TrySetPrompt(ContainerNode containerNode, out string prompt)
         {
             prompt = null;
-            if (containerNode.TryGetModuleNode<PromptModule>(out ModuleNode promptModule))
+            if (containerNode.TryGetModuleNode<SystemPromptModule>(out ModuleNode promptModule))
             {
                 prompt = promptModule.GetSharedStringValue("prompt");
                 return true;
@@ -109,7 +109,7 @@ namespace Kurisu.NGDT.Editor
         {
             if (containerNode is DialogueContainer && TrySetPrompt(containerNode, out string prompt))
             {
-                builder.SetPrompt(prompt);
+                builder.SetSystemPrompt(prompt);
                 return;
             }
             if (!containerNode.TryGetModuleNode<CharacterModule>(out ModuleNode characterModule)) return;

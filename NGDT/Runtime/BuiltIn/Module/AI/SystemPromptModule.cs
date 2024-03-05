@@ -2,25 +2,25 @@ using Kurisu.NGDS;
 using UnityEngine;
 namespace Kurisu.NGDT
 {
-    [AkiInfo("Module: Prompt Module is used to set up AI dialogue always included prompt.")]
+    [AkiInfo("Module: Prompt Module is used to set up AI dialogue system prompt.")]
     [AkiGroup("AIGC")]
     [ModuleOf(typeof(Dialogue))]
-    public class PromptModule : CustomModule
+    public class SystemPromptModule : CustomModule
     {
         [Multiline, TranslateEntry]
         public SharedString prompt;
-        public PromptModule() { }
-        public PromptModule(SharedString prompt)
+        public SystemPromptModule() { }
+        public SystemPromptModule(SharedString prompt)
         {
             this.prompt = prompt;
         }
-        public PromptModule(string prompt)
+        public SystemPromptModule(string prompt)
         {
             this.prompt = new(prompt);
         }
         protected sealed override IDialogueModule GetModule()
         {
-            return new NGDS.PromptModule(prompt.Value);
+            return new NGDS.SystemPromptModule(prompt.Value);
         }
     }
 }

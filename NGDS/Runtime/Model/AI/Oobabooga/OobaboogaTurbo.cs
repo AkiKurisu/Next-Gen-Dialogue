@@ -6,7 +6,7 @@ namespace Kurisu.NGDS.AI
 {
     public class OobaboogaTurbo : ILLMDriver
     {
-        private struct OobaboogaResponse : ILLMData
+        private struct OobaboogaResponse : ILLMOutput
         {
             public bool Status { get; internal set; }
 
@@ -14,9 +14,8 @@ namespace Kurisu.NGDS.AI
         }
         private readonly OobaboogaClient client;
         private readonly OobaboogaParams genParams;
-        private readonly ChatGenerator chatGenerator = new();
-        public GoogleTranslateModule? PreTranslateModule { get; set; }
-
+        private readonly ChatFormatter formatter = new();
+        public ITranslator Translator { get; set; }
         private static readonly string[] replaceKeyWords = new string[]
         {
             "<START>","END_OF_DIALOGUE","END_OF_ACTIVE_ANSWER"
@@ -36,21 +35,18 @@ namespace Kurisu.NGDS.AI
                 genParams.StopStrings.Add($"\n{char_name} ");
             }
         }
-        public void SetPrompt(string prompt)
+        public void SetSystemPrompt(string prompt)
         {
             client.SetPrompt(prompt);
         }
-        public async Task<ILLMData> ProcessLLM(ILLMInput input, CancellationToken ct)
+        public async Task<ILLMOutput> ProcessLLM(ILLMInput input, CancellationToken ct)
         {
-            SetStopCharacter(input.OtherCharacters);
-            string message = chatGenerator.Generate(input);
-            if (PreTranslateModule.HasValue)
-            {
-                message = await PreTranslateModule.Value.Process(message, ct);
-            }
+            SetStopCharacter(input.InputCharacters);
+            string message = formatter.Format(input);
+            if (Translator != null) message = await Translator.Process(message, ct);
             return await SendMessageToOobaboogaAsync(message, ct);
         }
-        public async Task<ILLMData> ProcessLLM(string input, CancellationToken ct)
+        public async Task<ILLMOutput> ProcessLLM(string input, CancellationToken ct)
         {
             return await SendMessageToOobaboogaAsync(input, ct);
         }
