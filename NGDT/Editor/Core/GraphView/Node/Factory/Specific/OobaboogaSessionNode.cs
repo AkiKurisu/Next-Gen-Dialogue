@@ -1,12 +1,11 @@
 using System;
 using System.IO;
 using System.Threading.Tasks;
-using Kurisu.NGDT.Editor;
 using Newtonsoft.Json;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
-namespace Kurisu.NGDT.Experimental.Oobabooga.Editor
+namespace Kurisu.NGDT.Editor
 {
     [CustomNodeEditor(typeof(OobaboogaSessionModule))]
     public class OobaboogaSessionNode : EditorModuleNode
@@ -80,18 +79,6 @@ namespace Kurisu.NGDT.Experimental.Oobabooga.Editor
             {
                 IsPending = false;
             }
-        }
-        private class OobaboogaSession
-        {
-            public string name1;
-            public string name2;
-            public HistoryData history;
-            public string context;
-        }
-        private class HistoryData
-        {
-            [JsonProperty("internal")]
-            public string[][] internalData;
         }
         private class SessionContextualMenuBuilder : ContextualMenuBuilder
         {

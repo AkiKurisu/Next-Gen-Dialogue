@@ -17,7 +17,7 @@ namespace Kurisu.NGDS.AI
         private readonly ChatFormatter formatter = new();
         public ITranslator Translator { get; set; }
 
-        private static readonly string[] replaceKeyWords = new string[]
+        public static string[] replaceKeyWords = new string[]
         {
             "<START>","END_OF_DIALOGUE","END_OF_ACTIVE_ANSWER"
         };

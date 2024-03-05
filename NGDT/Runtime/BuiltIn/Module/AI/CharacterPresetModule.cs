@@ -18,7 +18,7 @@ namespace Kurisu.NGDT
         public SharedString world_scenario;
         protected sealed override IDialogueModule GetModule()
         {
-            return new NGDS.SystemPromptModule(CharacterPresetHelper.GeneratePrompt(
+            return new NGDS.SystemPromptModule(ChatPromptHelper.ConstructPrompt(
                 user_Name.Value,
                 char_name.Value,
                 char_persona.Value,

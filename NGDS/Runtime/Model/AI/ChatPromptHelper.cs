@@ -1,9 +1,12 @@
 using System.Text;
 namespace Kurisu.NGDS.AI
 {
-    public class CharacterPresetHelper
+    public class ChatPromptHelper
     {
-        public static string GeneratePrompt(
+        /// <summary>
+        /// Construct a chat style prompt with non-instruct
+        /// </summary>
+        public static string ConstructPrompt(
             string user_Name = "You",
             string char_name = "Bot",
             string char_persona = null,

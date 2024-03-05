@@ -100,7 +100,7 @@ namespace Kurisu.NGDT.Editor
                 var char_name = presetModule.GetSharedStringValue("char_name");
                 var char_persona = presetModule.GetSharedStringValue("char_persona");
                 var world_scenario = presetModule.GetSharedStringValue("world_scenario");
-                prompt = CharacterPresetHelper.GeneratePrompt(user_Name, char_name, char_persona, world_scenario);
+                prompt = ChatPromptHelper.ConstructPrompt(user_Name, char_name, char_persona, world_scenario);
                 return true;
             }
             return false;
