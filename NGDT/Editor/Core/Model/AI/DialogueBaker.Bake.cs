@@ -54,7 +54,7 @@ namespace Kurisu.NGDT.Editor
         {
             var type = (LLMType)aiBakeModule.GetFieldResolver("llmType").Value;
             var setting = NextGenDialogueSetting.GetOrCreateSettings().AITurboSetting;
-            return LLMFactory.CreateNonModule(type, setting);
+            return LLMFactory.Create(type, setting);
         }
         private async Task<bool> GenerateDialogue(ContainerNode containerNode, ModuleNode aiBakeModule, CancellationToken ct)
         {
@@ -78,7 +78,7 @@ namespace Kurisu.NGDT.Editor
         private bool TrySetPrompt(ContainerNode containerNode, out string prompt)
         {
             prompt = null;
-            if (containerNode.TryGetModuleNode<PromptModule>(out ModuleNode promptModule))
+            if (containerNode.TryGetModuleNode<SystemPromptModule>(out ModuleNode promptModule))
             {
                 prompt = promptModule.GetSharedStringValue("prompt");
                 return true;
@@ -100,7 +100,7 @@ namespace Kurisu.NGDT.Editor
                 var char_name = presetModule.GetSharedStringValue("char_name");
                 var char_persona = presetModule.GetSharedStringValue("char_persona");
                 var world_scenario = presetModule.GetSharedStringValue("world_scenario");
-                prompt = CharacterPresetHelper.GeneratePrompt(user_Name, char_name, char_persona, world_scenario);
+                prompt = ChatPromptHelper.ConstructPrompt(user_Name, char_name, char_persona, world_scenario);
                 return true;
             }
             return false;
@@ -109,7 +109,7 @@ namespace Kurisu.NGDT.Editor
         {
             if (containerNode is DialogueContainer && TrySetPrompt(containerNode, out string prompt))
             {
-                builder.SetPrompt(prompt);
+                builder.SetSystemPrompt(prompt);
                 return;
             }
             if (!containerNode.TryGetModuleNode<CharacterModule>(out ModuleNode characterModule)) return;

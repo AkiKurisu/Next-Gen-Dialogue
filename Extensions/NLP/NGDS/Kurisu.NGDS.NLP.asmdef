@@ -1,0 +1,20 @@
+{
+    "name": "Kurisu.NGDS.NLP",
+    "rootNamespace": "Kurisu.NGDS.NLP",
+    "references": [
+        "GUID:c98377141161c7746a178fb5cb1af075",
+        "GUID:e498adf2b0e1d8b47871ffa1278544a0",
+        "GUID:a3641cccf50efcd4cafc57a3120fb40e"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [
+        "NGD_USE_TRANSFORMER"
+    ],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

@@ -4,26 +4,57 @@ using System.Threading.Tasks;
 using Kurisu.NGDS.AI;
 namespace Kurisu.NGDS
 {
-    public interface ILLMData
+    public interface ILLMOutput
     {
         bool Status { get; }
         string Response { get; }
     }
     public interface ILLMInput
     {
-        string Character { get; }
-        IEnumerable<string> OtherCharacters { get; }
-        Queue<DialogueParam> History { get; }
+        /// <summary>
+        /// The character of LLM output
+        /// </summary>
+        /// <value></value>
+        string OutputCharacter { get; }
+        /// <summary>
+        /// The characters of LLM input
+        /// </summary>
+        /// <value></value>
+        IEnumerable<string> InputCharacters { get; }
+        /// <summary>
+        /// LLM history
+        /// </summary>
+        /// <value></value>
+        IEnumerable<DialogueParam> History { get; }
+    }
+    public interface ITranslator
+    {
+        Task<string> Process(string input, CancellationToken ct);
     }
     public interface ILLMDriver
     {
-        GoogleTranslateModule? PreTranslateModule { get; set; }
-        Task<ILLMData> ProcessLLM(ILLMInput input, CancellationToken ct);
-        Task<ILLMData> ProcessLLM(string input, CancellationToken ct);
-        void SetPrompt(string prompt);
+        /// <summary>
+        /// Generate llm data from unstructured llm input
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="ct"></param>
+        /// <returns></returns>
+        Task<ILLMOutput> ProcessLLM(ILLMInput input, CancellationToken ct);
+        /// <summary>
+        /// Generate llm data from structured input
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="ct"></param>
+        /// <returns></returns>
+        Task<ILLMOutput> ProcessLLM(string input, CancellationToken ct);
+        /// <summary>
+        /// Set llm system prompt
+        /// </summary>
+        /// <param name="prompt"></param>
+        void SetSystemPrompt(string prompt);
     }
     public enum LLMType
     {
-        ChatGPT, KoboldCPP, Oobabooga, ChatGLM, ChatGLM_OpenAI
+        ChatGPT, KoboldCPP, Oobabooga, ChatGLM
     }
 }

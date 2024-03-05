@@ -7,55 +7,55 @@ namespace Kurisu.NGDS.AI
 {
     internal class GPTTurbo : ILLMDriver
     {
-        private struct GPTResponse : ILLMData
+        private struct GPTResponse : ILLMOutput
         {
             public bool Status { get; internal set; }
             public string Response { get; internal set; }
         }
         private const string DefaultAPI = "https://api.openai-proxy.com/v1/chat/completions";
         private string ChatAPI { get; set; }
-        private readonly string m_gptModel;
+        public string GptModel { get; set; }
         private readonly List<SendData> m_DataList = new();
         private readonly SendData promptData;
-        private readonly string openAIKey;
+        public string ApiKey { get; set; }
         private bool promptIsProcessed;
-        private readonly ChatGenerator chatGenerator = new();
-        public GoogleTranslateModule? PreTranslateModule { get; set; }
-        private readonly bool chatMode;
-        public GPTTurbo(string url, string m_gptModel, string openAIKey, bool chatMode)
+        private readonly ChatFormatter formatter = new();
+        public ITranslator Translator { get; set; }
+        public bool ChatMode { get; set; }
+        public GPTTurbo(string url, string model, string apiKey, bool chatMode)
         {
             promptData = new SendData("system", string.Empty);
             m_DataList.Add(promptData);
-            this.openAIKey = openAIKey;
-            this.chatMode = chatMode;
-            this.m_gptModel = m_gptModel;
+            ApiKey = apiKey;
+            ChatMode = chatMode;
+            GptModel = model;
             if (string.IsNullOrEmpty(url))
                 ChatAPI = DefaultAPI;
             else
                 ChatAPI = url;
         }
-        public void SetPrompt(string prompt)
+        public void SetSystemPrompt(string prompt)
         {
             promptData.content = prompt;
         }
-        public async Task<ILLMData> ProcessLLM(ILLMInput input, CancellationToken ct)
+        public async Task<ILLMOutput> ProcessLLM(ILLMInput input, CancellationToken ct)
         {
             await AppendContent(input, ct);
             PostData _postData = new()
             {
-                model = m_gptModel,
+                model = GptModel,
                 messages = m_DataList
             };
             return await ProcessLLM(JsonUtility.ToJson(_postData), ct);
         }
-        public async Task<ILLMData> ProcessLLM(string input, CancellationToken ct)
+        public async Task<ILLMOutput> ProcessLLM(string input, CancellationToken ct)
         {
             using UnityWebRequest request = new(ChatAPI, "POST");
             byte[] data = System.Text.Encoding.UTF8.GetBytes(input);
             request.uploadHandler = new UploadHandlerRaw(data);
             request.downloadHandler = new DownloadHandlerBuffer();
             request.SetRequestHeader("Content-Type", "application/json");
-            request.SetRequestHeader("Authorization", string.Format("Bearer {0}", openAIKey));
+            request.SetRequestHeader("Authorization", string.Format("Bearer {0}", ApiKey));
             request.SendWebRequest();
             while (!request.isDone)
             {
@@ -88,23 +88,19 @@ namespace Kurisu.NGDS.AI
         {
             m_DataList.Clear();
             m_DataList.Add(promptData);
-            if (chatMode)
+            if (ChatMode)
             {
-                await chatGenerator.Generate(input, m_DataList, PreTranslateModule, ct);
+                formatter.Format(input, m_DataList);
             }
             else
             {
-                string generatedPrompt = chatGenerator.Generate(input);
-                if (PreTranslateModule.HasValue)
-                {
-                    generatedPrompt = await PreTranslateModule.Value.Process(generatedPrompt, ct);
-                }
+                string generatedPrompt = formatter.Format(input);
                 m_DataList.Add(new SendData("user", generatedPrompt));
             }
-            if (PreTranslateModule.HasValue && !promptIsProcessed)
+            if (Translator != null && !promptIsProcessed)
             {
                 promptIsProcessed = true;
-                promptData.content = await PreTranslateModule.Value.Process(promptData.content, ct); ;
+                promptData.content = await Translator.Process(promptData.content, ct); ;
             }
         }
     }

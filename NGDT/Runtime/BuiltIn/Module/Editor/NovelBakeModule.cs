@@ -19,8 +19,8 @@ namespace Kurisu.NGDT
         private TextAsset overridePiecePrompt;
         [SerializeField, Tooltip("Override option prompt")]
         private TextAsset overrideOptionPrompt;
-        [SerializeField, Tooltip("The type of LLM model used to bake dialogue")]
-        private LLMType llmType;
+        // [SerializeField, Tooltip("The type of LLM model used to bake dialogue")]
+        // private LLMType llmType = LLMType.ChatGPT;
         [HideInEditorWindow]
         public string lastSelection;
         public NovelBakeModule() { }
@@ -28,7 +28,7 @@ namespace Kurisu.NGDT
         {
             this.generateDepth = generateDepth;
             this.optionCount = optionCount;
-            this.llmType = llmType;
+            // this.llmType = llmType;
         }
 #pragma warning restore IDE0052
 #endif

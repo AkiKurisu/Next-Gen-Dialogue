@@ -5,7 +5,7 @@ using System.Collections;
 using System.Threading;
 namespace Kurisu.NGDS
 {
-    public readonly struct GoogleTranslateModule : IDialogueModule, IProcessable
+    public readonly struct GoogleTranslateModule : IDialogueModule, IProcessable, ITranslator
     {
         public string SourceLanguageCode { get; }
         public string TargetLanguageCode { get; }

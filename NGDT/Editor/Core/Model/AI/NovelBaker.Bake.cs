@@ -55,8 +55,8 @@ namespace Kurisu.NGDT.Editor
         }
         public NovelBaker(LLMType llmType)
         {
-            Assert.IsTrue(llmType is LLMType.ChatGLM_OpenAI or LLMType.ChatGPT);
-            agent = new GPTAgent(LLMFactory.CreateNonModule(llmType, NextGenDialogueSetting.GetOrCreateSettings().AITurboSetting));
+            Assert.IsTrue(llmType == LLMType.ChatGPT);
+            agent = new GPTAgent(LLMFactory.Create(llmType, NextGenDialogueSetting.GetOrCreateSettings().AITurboSetting));
         }
         /// <summary>
         /// Bake Novel Content in target container based on user's node selection

@@ -1,31 +1,33 @@
 using System;
 using System.Collections.Generic;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
+using UnityEngine.Networking;
 namespace Kurisu.NGDS.AI
 {
     public class OobaboogaTurbo : ILLMDriver
     {
-        private struct OobaboogaResponse : ILLMData
+        private struct OobaboogaResponse : ILLMOutput
         {
             public bool Status { get; internal set; }
 
             public string Response { get; internal set; }
         }
-        private readonly OobaboogaClient client;
-        private readonly OobaboogaParams genParams;
-        private readonly ChatGenerator chatGenerator = new();
-        public GoogleTranslateModule? PreTranslateModule { get; set; }
-
-        private static readonly string[] replaceKeyWords = new string[]
+        private string prompt;
+        private readonly StringBuilder stringBuilder = new();
+        private readonly ChatFormatter formatter = new();
+        public ITranslator Translator { get; set; }
+        private readonly OobaboogaGenerateParams genParams = new();
+        private readonly string _baseUri;
+        public static string[] replaceKeyWords = new string[]
         {
-            "<START>","END_OF_DIALOGUE","END_OF_ACTIVE_ANSWER"
+            "<START>"
         };
         public OobaboogaTurbo(string address = "127.0.0.1", string port = "5000")
         {
-            client = new OobaboogaClient($"http://{address}:{port}",
-                        genParams = new()
-                    );
+            _baseUri = $"http://{address}:{port}";
         }
         private void SetStopCharacter(IEnumerable<string> stopCharacters)
         {
@@ -36,35 +38,57 @@ namespace Kurisu.NGDS.AI
                 genParams.StopStrings.Add($"\n{char_name} ");
             }
         }
-        public void SetPrompt(string prompt)
+        public void SetSystemPrompt(string prompt)
         {
-            client.SetPrompt(prompt);
+            this.prompt = prompt;
         }
-        public async Task<ILLMData> ProcessLLM(ILLMInput input, CancellationToken ct)
+        public async Task<ILLMOutput> ProcessLLM(ILLMInput input, CancellationToken ct)
         {
-            SetStopCharacter(input.OtherCharacters);
-            string message = chatGenerator.Generate(input);
-            if (PreTranslateModule.HasValue)
-            {
-                message = await PreTranslateModule.Value.Process(message, ct);
-            }
+            SetStopCharacter(input.InputCharacters);
+            string message = formatter.Format(input);
+            if (Translator != null) message = await Translator.Process(message, ct);
             return await SendMessageToOobaboogaAsync(message, ct);
         }
-        public async Task<ILLMData> ProcessLLM(string input, CancellationToken ct)
+        public async Task<ILLMOutput> ProcessLLM(string input, CancellationToken ct)
         {
             return await SendMessageToOobaboogaAsync(input, ct);
         }
         private async Task<OobaboogaResponse> SendMessageToOobaboogaAsync(string message, CancellationToken ct)
         {
             string response = string.Empty;
+            stringBuilder.Clear();
+            stringBuilder.Append(prompt);
+            stringBuilder.Append(message);
+            genParams.Prompt = stringBuilder.ToString();
             try
             {
-                var result = await client.Generate(message, ct);
-                response = result.Results[0].Text;
+                //TODO: Add chat mode
+                using UnityWebRequest request = new($"{_baseUri}/api/v1/generate", "POST");
+                byte[] data = Encoding.UTF8.GetBytes(genParams.ToJson());
+                request.uploadHandler = new UploadHandlerRaw(data);
+                request.downloadHandler = new DownloadHandlerBuffer();
+                request.SetRequestHeader("Content-Type", "application/json");
+                request.SendWebRequest();
+                while (!request.isDone)
+                {
+                    ct.ThrowIfCancellationRequested();
+                    await Task.Yield();
+                }
+                if (request.responseCode == 200)
+                {
+                    var result = JsonConvert.DeserializeObject<ModelOutput>(request.downloadHandler.text.Trim());
+                    response = result.Results[0].Text;
+                    return new OobaboogaResponse()
+                    {
+                        Status = true,
+                        Response = FormatResponse(response)
+                    };
+                }
+                NGDSLogger.LogError($"Oobabooga ResponseCode: {request.responseCode}\nResponse: {request.downloadHandler.text}");
                 return new OobaboogaResponse()
                 {
-                    Status = true,
-                    Response = FormatResponse(response)
+                    Response = string.Empty,
+                    Status = false
                 };
             }
             catch (Exception e)

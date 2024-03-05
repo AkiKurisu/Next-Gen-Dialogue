@@ -22,7 +22,7 @@ namespace Kurisu.NGDS.VITS
         public AudioClip AudioClipCache { get; private set; }
         private readonly string address;
         private readonly string port;
-        public GoogleTranslateModule? PreTranslateModule { get; set; }
+        public ITranslator Translator { get; set; }
         private readonly string api;
         public VITSTurbo(AITurboSetting setting)
         {
@@ -90,9 +90,9 @@ namespace Kurisu.NGDS.VITS
         }
         public async Task<VITSResponse> SendVITSRequestAsyncWithTranslation(string message, int characterID, CancellationToken ct)
         {
-            if (PreTranslateModule.HasValue)
+            if (Translator != null)
             {
-                message = await PreTranslateModule.Value.Process(message, ct);
+                message = await Translator.Process(message, ct);
             }
             return await SendVITSRequestAsync(message, characterID, ct);
         }
