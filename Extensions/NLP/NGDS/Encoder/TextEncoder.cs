@@ -24,7 +24,7 @@ namespace Kurisu.NGDS.NLP
             inputs.Add(input);
             return Encode(ops, inputs);
         }
-        public TensorFloat Encode(Ops ops, List<string> input)
+        public TensorFloat Encode(Ops ops, IReadOnlyList<string> input)
         {
             Dictionary<string, Tensor> inputSentencesTokensTensor = tokenizer.Tokenize(input);
             worker.Execute(inputSentencesTokensTensor);

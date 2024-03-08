@@ -23,7 +23,7 @@ namespace Kurisu.NGDS.NLP
             inputs.Add(input);
             return Encode(ops, inputs);
         }
-        public TensorFloat Encode(Ops ops, List<string> input)
+        public TensorFloat Encode(Ops ops, IReadOnlyList<string> input)
         {
             Dictionary<string, Tensor> inputSentencesTokensTensor = tokenizer.Tokenize(input);
             worker.Execute(inputSentencesTokensTensor);
@@ -37,6 +37,12 @@ namespace Kurisu.NGDS.NLP
             ids.MakeReadable();
             int id = ids[0];
             return (inputTensor, id);
+        }
+        public (TensorFloat, TensorInt) Classify(Ops ops, IReadOnlyList<string> inputs)
+        {
+            var inputTensor = Encode(ops, inputs);
+            TensorInt ids = ops.ArgMax(inputTensor, 1, true);
+            return (inputTensor, ids);
         }
     }
 }

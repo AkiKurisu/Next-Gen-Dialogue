@@ -42,7 +42,7 @@ namespace Kurisu.NGDS.NLP
         /// - TokenIds
         /// - Attention Mask
         /// - TokenTypeIds </returns>
-        private Tuple<List<List<int>>, List<List<int>>, List<List<int>>> TokenizeInputs(List<string> inputs)
+        private Tuple<List<List<int>>, List<List<int>>, List<List<int>>> TokenizeInputs(IReadOnlyList<string> inputs)
         {
             List<List<int>> sentences = new();
             foreach (string text in inputs)
@@ -72,7 +72,7 @@ namespace Kurisu.NGDS.NLP
         /// </summary>
         /// <param name="sentences"></param>
         /// <returns></returns>
-        public Dictionary<string, Tensor> Tokenize(List<string> sentences)
+        public Dictionary<string, Tensor> Tokenize(IReadOnlyList<string> sentences)
         {
 
             Tuple<List<List<int>>, List<List<int>>, List<List<int>>> FinalTuple = TokenizeInputs(sentences);

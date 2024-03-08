@@ -8,6 +8,6 @@ namespace Kurisu.NGDS.NLP
     public interface IEncoder
     {
         TensorFloat Encode(Ops ops, string input);
-        TensorFloat Encode(Ops ops, List<string> input);
+        TensorFloat Encode(Ops ops, IReadOnlyList<string> input);
     }
 }
