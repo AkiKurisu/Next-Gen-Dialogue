@@ -46,7 +46,6 @@ namespace Kurisu.NGDS.AI
                 public bool Enable_GoogleTranslation { get; set; }
                 [field: SerializeField, Tooltip("LLM output and input language code")]
                 public string LLM_Language { get; set; } = "en";
-#if NGD_USE_VITS
                 [field: SerializeField, Tooltip("VITS input language code")]
                 public string VITS_Language { get; set; } = "ja";
                 [field: Header("VITS Setting (Experimental)")]
@@ -68,6 +67,5 @@ namespace Kurisu.NGDS.AI
                 public string VITS_Lang { get; set; } = string.Empty;
                 [field: SerializeField, Tooltip("Specify the length of output which effects the speed of speaking.")]
                 public string VITS_Length { get; set; } = string.Empty;
-#endif
         }
 }
