@@ -1,4 +1,3 @@
-#if NGD_USE_VITS
 using UnityEngine;
 using Kurisu.NGDS.AI;
 namespace Kurisu.NGDS.VITS
@@ -40,4 +39,3 @@ namespace Kurisu.NGDS.VITS
     }
 
 }
-#endif

@@ -1,9 +1,6 @@
 namespace Kurisu.NGDS
 {
-    /// <summary>
-    /// Interface: dialogue piece proxy
-    /// </summary>
-    public interface IDialogueProxy
+    public interface IDialogueLookup
     {
         /// <summary>
         /// Get the next dialogue piece according to the index
@@ -20,6 +17,6 @@ namespace Kurisu.NGDS
         /// Cast the dialogue
         /// </summary>
         /// <returns></returns>
-        Dialogue CastDialogue();
+        Dialogue ToDialogue();
     }
 }

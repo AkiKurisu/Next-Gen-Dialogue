@@ -1,12 +1,12 @@
 namespace Kurisu.NGDS
 {
     /// <summary>
-    /// Runtime Dialogue Generator using code
+    /// Runtime dialogue builder using code
     /// </summary>
-    public class DialogueGenerator : IDialogueProxy
+    public class DialogueBuilder : IDialogueLookup
     {
         private Dialogue dialogueCache;
-        public DialogueGenerator()
+        public DialogueBuilder()
         {
             dialogueCache = Dialogue.CreateDialogue();
         }
@@ -15,12 +15,12 @@ namespace Kurisu.NGDS
             dialogueCache.NodePushPool();
             dialogueCache = Dialogue.CreateDialogue();
         }
-        Piece IDialogueProxy.GetNext(string ID)
+        Piece IDialogueLookup.GetNext(string ID)
         {
             var newPiece = dialogueCache.GetPiece(ID);
             return newPiece;
         }
-        Piece IDialogueProxy.GetFirst()
+        Piece IDialogueLookup.GetFirst()
         {
             var piece = dialogueCache.Pieces[0];
             return piece;
@@ -29,7 +29,7 @@ namespace Kurisu.NGDS
         {
             dialogueCache.AddPiece(piece);
         }
-        public Dialogue CastDialogue()
+        public Dialogue ToDialogue()
         {
             return dialogueCache;
         }

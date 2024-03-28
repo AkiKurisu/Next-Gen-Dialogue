@@ -1,4 +1,3 @@
-#if NGD_USE_VITS
 using Kurisu.NGDT.Editor;
 using UnityEngine.UIElements;
 namespace Kurisu.NGDT.VITS.Editor
@@ -45,4 +44,3 @@ namespace Kurisu.NGDT.VITS.Editor
         }
     }
 }
-#endif

@@ -1,4 +1,3 @@
-#if NGD_USE_VITS
 using System;
 using System.Text;
 using System.Threading;
@@ -98,4 +97,3 @@ namespace Kurisu.NGDS.VITS
         }
     }
 }
-#endif

@@ -13,8 +13,20 @@
     "precompiledReferences": [],
     "autoReferenced": true,
     "defineConstraints": [
-        "NGD_USE_TRANSFORMER"
+        "SENTIS_INSTALL",
+        "SHARP_TRANSFORMERS_INSTALL"
     ],
-    "versionDefines": [],
+    "versionDefines": [
+        {
+            "name": "com.unity.sentis",
+            "expression": "1.0.0",
+            "define": "SENTIS_INSTALL"
+        },
+        {
+            "name": "com.huggingface.sharp-transformers",
+            "expression": "0.0.1",
+            "define": "SHARP_TRANSFORMERS_INSTALL"
+        }
+    ],
     "noEngineReferences": false
 }

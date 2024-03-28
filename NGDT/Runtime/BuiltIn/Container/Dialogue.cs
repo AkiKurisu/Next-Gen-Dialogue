@@ -4,7 +4,7 @@ using UnityEngine;
 namespace Kurisu.NGDT
 {
     [AkiInfo("Dialogue is the main container of dialogue pieces")]
-    public class Dialogue : Container, IDialogueProxy
+    public class Dialogue : Container, NGDS.IDialogueLookup
     {
 #if UNITY_EDITOR
         //Just to know which is referenced in graph, should have better solution
@@ -47,7 +47,7 @@ namespace Kurisu.NGDT
             }
             pieceMap.Clear();
         }
-        NGDS.Piece IDialogueProxy.GetNext(string ID)
+        NGDS.Piece NGDS.IDialogueLookup.GetNext(string ID)
         {
 #if UNITY_EDITOR
             Tree.Root.UpdateEditor?.Invoke();
@@ -62,7 +62,7 @@ namespace Kurisu.NGDT
             pieceMap[ID].Update();
             return newPiece;
         }
-        NGDS.Piece IDialogueProxy.GetFirst()
+        NGDS.Piece NGDS.IDialogueLookup.GetFirst()
         {
 #if UNITY_EDITOR
             Tree.Root.UpdateEditor?.Invoke();
@@ -93,7 +93,7 @@ namespace Kurisu.NGDT
         /// Get current dialogue model
         /// </summary>
         /// <returns></returns>
-        public NGDS.Dialogue CastDialogue()
+        public NGDS.Dialogue ToDialogue()
         {
             return dialogueCache;
         }

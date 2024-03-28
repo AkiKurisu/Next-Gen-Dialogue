@@ -14,8 +14,14 @@
     "precompiledReferences": [],
     "autoReferenced": true,
     "defineConstraints": [
-        "NGD_USE_LOCALIZATION"
+        "LOCALIZATION_INSTALL"
     ],
-    "versionDefines": [],
+    "versionDefines": [
+        {
+            "name": "com.unity.localization",
+            "expression": "1.4.0",
+            "define": "LOCALIZATION_INSTALL"
+        }
+    ],
     "noEngineReferences": false
 }

@@ -3,7 +3,7 @@ using Kurisu.NGDS;
 using UnityEngine;
 namespace Kurisu.NGDT
 {
-    public delegate void ResolveDialogueDelegate(IDialogueProxy dialogue);
+    public delegate void ResolveDialogueDelegate(NGDS.IDialogueLookup dialogue);
     [DisallowMultipleComponent]
     public class NextGenDialogueTree : MonoBehaviour, IDialogueTree
     {
@@ -85,7 +85,7 @@ namespace Kurisu.NGDT
             root.Abort();
             root.Update();
         }
-        private void ResolveDialogue(IDialogueProxy dialogue)
+        private void ResolveDialogue(NGDS.IDialogueLookup dialogue)
         {
             System ??= IOCContainer.Resolve<IDialogueSystem>();
             if (System != null)

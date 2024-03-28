@@ -33,7 +33,7 @@ namespace Kurisu.NGDT
             nodesBuffer.Clear();
         }
 
-        public void EndBuildDialogue(IDialogueProxy dialogue)
+        public void EndBuildDialogue(NGDS.IDialogueLookup dialogue)
         {
             resolveDialogueCallBack(dialogue);
         }

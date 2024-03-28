@@ -31,7 +31,7 @@ namespace Kurisu.NGDS
     /// </summary>
     public class DialogueSystem : MonoBehaviour, IDialogueSystem
     {
-        private IDialogueProxy dialogueProxy;
+        private IDialogueLookup dialogueProxy;
         public bool IsPlaying => dialogueProxy != null;
         public event Action<IDialogueResolver> OnDialogueStart;
         public event Action<IPieceResolver> OnPiecePlay;
@@ -56,22 +56,22 @@ namespace Kurisu.NGDS
         {
             IOCContainer.UnRegister<IDialogueSystem>(this);
         }
-        public IDialogueProxy GetCurrentProxy()
+        public IDialogueLookup GetCurrentProxy()
         {
             return dialogueProxy;
         }
-        public T GetCurrentProxy<T>() where T : IDialogueProxy
+        public T GetCurrentProxy<T>() where T : IDialogueLookup
         {
             return (T)dialogueProxy;
         }
         public Dialogue GetCurrentDialogue()
         {
-            return dialogueProxy?.CastDialogue();
+            return dialogueProxy?.ToDialogue();
         }
-        public void StartDialogue(IDialogueProxy dialogueProvider)
+        public void StartDialogue(IDialogueLookup dialogueProvider)
         {
             dialogueProxy = dialogueProvider;
-            var dialogueData = dialogueProvider.CastDialogue();
+            var dialogueData = dialogueProvider.ToDialogue();
             ResolverHandler.Handle(dialogueData);
             ResolverHandler.DialogueResolver.Inject(dialogueData, this);
             runningCoroutine = StartCoroutine(DialogueEnterCoroutine());

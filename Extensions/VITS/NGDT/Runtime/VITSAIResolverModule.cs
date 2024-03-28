@@ -1,4 +1,3 @@
-#if NGD_USE_VITS
 using Kurisu.NGDS;
 using Kurisu.NGDS.AI;
 using Kurisu.NGDS.VITS;
@@ -35,4 +34,3 @@ namespace Kurisu.NGDT.VITS
         }
     }
 }
-#endif
