@@ -13,7 +13,7 @@ namespace Kurisu.NGDS
         /// Start resolving dialogue
         /// </summary>
         /// <param name="data">Dialog data</param>
-        void StartDialogue(IDialogueLookup dialogueProvider);
+        void StartDialogue(IDialogueLookup lookup);
         /// <summary>
         /// Play target dialogue piece
         /// </summary>
@@ -38,13 +38,13 @@ namespace Kurisu.NGDS
         /// Get current using dialogue proxy
         /// </summary>
         /// <returns></returns>
-        IDialogueLookup GetCurrentProxy();
+        IDialogueLookup GetCurrentLookup();
         /// <summary>
         /// Get current using dialogue proxy
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        T GetCurrentProxy<T>() where T : IDialogueLookup;
+        T GetCurrentLookup<T>() where T : IDialogueLookup;
         event Action<IDialogueResolver> OnDialogueStart;
         event Action<IPieceResolver> OnPiecePlay;
         event Action<IOptionResolver> OnOptionCreate;

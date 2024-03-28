@@ -20,9 +20,12 @@ namespace Kurisu.NGDS
             pieceResolver = IOCContainer.Resolve<IPieceResolver>() ?? new BuiltInPieceResolver();
             optionResolver = IOCContainer.Resolve<IOptionResolver>() ?? new BuiltInOptionResolver();
         }
-        public void Handle(Dialogue dialogue)
+        /// <summary>
+        /// Collect dialogue specific resolver
+        /// </summary>
+        /// <param name="dialogue"></param>
+        public void Install(Dialogue dialogue)
         {
-            //Collect dialogue specific resolver
             dialogue.TryGetModule(out resolverModule);
         }
     }
@@ -31,8 +34,8 @@ namespace Kurisu.NGDS
     /// </summary>
     public class DialogueSystem : MonoBehaviour, IDialogueSystem
     {
-        private IDialogueLookup dialogueProxy;
-        public bool IsPlaying => dialogueProxy != null;
+        private IDialogueLookup dialogueLookup;
+        public bool IsPlaying => dialogueLookup != null;
         public event Action<IDialogueResolver> OnDialogueStart;
         public event Action<IPieceResolver> OnPiecePlay;
         public event Action<IOptionResolver> OnOptionCreate;
@@ -56,23 +59,23 @@ namespace Kurisu.NGDS
         {
             IOCContainer.UnRegister<IDialogueSystem>(this);
         }
-        public IDialogueLookup GetCurrentProxy()
+        public IDialogueLookup GetCurrentLookup()
         {
-            return dialogueProxy;
+            return dialogueLookup;
         }
-        public T GetCurrentProxy<T>() where T : IDialogueLookup
+        public T GetCurrentLookup<T>() where T : IDialogueLookup
         {
-            return (T)dialogueProxy;
+            return (T)dialogueLookup;
         }
         public Dialogue GetCurrentDialogue()
         {
-            return dialogueProxy?.ToDialogue();
+            return dialogueLookup?.ToDialogue();
         }
         public void StartDialogue(IDialogueLookup dialogueProvider)
         {
-            dialogueProxy = dialogueProvider;
+            dialogueLookup = dialogueProvider;
             var dialogueData = dialogueProvider.ToDialogue();
-            ResolverHandler.Handle(dialogueData);
+            ResolverHandler.Install(dialogueData);
             ResolverHandler.DialogueResolver.Inject(dialogueData, this);
             runningCoroutine = StartCoroutine(DialogueEnterCoroutine());
         }
@@ -80,7 +83,7 @@ namespace Kurisu.NGDS
         {
             yield return ResolverHandler.DialogueResolver.EnterDialogue();
             OnDialogueStart?.Invoke(ResolverHandler.DialogueResolver);
-            PlayDialoguePiece(dialogueProxy.GetFirst());
+            PlayDialoguePiece(dialogueLookup.GetFirst());
         }
         private void PlayDialoguePiece(Piece piece)
         {
@@ -94,7 +97,7 @@ namespace Kurisu.NGDS
         }
         public void PlayDialoguePiece(string targetID)
         {
-            PlayDialoguePiece(dialogueProxy.GetNext(targetID));
+            PlayDialoguePiece(dialogueLookup.GetNext(targetID));
         }
         public void CreateOption(IReadOnlyList<Option> options)
         {
@@ -116,7 +119,7 @@ namespace Kurisu.NGDS
             }
             ResolverHandler.DialogueResolver.ExitDialogue();
             OnDialogueOver?.Invoke();
-            dialogueProxy = null;
+            dialogueLookup = null;
             runningCoroutine = null;
         }
     }
