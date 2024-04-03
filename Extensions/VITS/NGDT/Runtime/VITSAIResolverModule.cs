@@ -23,7 +23,7 @@ namespace Kurisu.NGDT.VITS
             var turboSetting = setting.Value;
             var vitsTurbo = new VITSTurbo(turboSetting)
             {
-                Translator = turboSetting.Enable_GoogleTranslation ? new NGDS.GoogleTranslateModule(turboSetting.LLM_Language, turboSetting.VITS_Language) : null
+                Translator = LLMFactory.CreateTranslator(turboSetting.TranslatorType, turboSetting, turboSetting.LLM_Language, turboSetting.VITS_Language)
             };
             var builder = new AIPromptBuilder(LLMFactory.Create(llmType, turboSetting));
             return new ResolverModule(

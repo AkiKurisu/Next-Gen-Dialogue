@@ -1,4 +1,3 @@
-using Kurisu.NGDS;
 using UnityEngine;
 namespace Kurisu.NGDT
 {
@@ -19,16 +18,13 @@ namespace Kurisu.NGDT
         private TextAsset overridePiecePrompt;
         [SerializeField, Tooltip("Override option prompt")]
         private TextAsset overrideOptionPrompt;
-        // [SerializeField, Tooltip("The type of LLM model used to bake dialogue")]
-        // private LLMType llmType = LLMType.ChatGPT;
         [HideInEditorWindow]
         public string lastSelection;
         public NovelBakeModule() { }
-        public NovelBakeModule(int generateDepth = 3, int optionCount = 2, LLMType llmType = LLMType.ChatGPT)
+        public NovelBakeModule(int generateDepth = 3, int optionCount = 2)
         {
             this.generateDepth = generateDepth;
             this.optionCount = optionCount;
-            // this.llmType = llmType;
         }
 #pragma warning restore IDE0052
 #endif

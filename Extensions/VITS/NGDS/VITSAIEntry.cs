@@ -21,7 +21,7 @@ namespace Kurisu.NGDS.VITS
             vitsTurbo = new VITSTurbo(setting)
             {
                 //Auto detect language, not specify source language
-                Translator = setting.Enable_GoogleTranslation ? new GoogleTranslateModule(setting.VITS_Language) : null
+                Translator = LLMFactory.CreateTranslator(setting.TranslatorType, setting, setting.LLM_Language, setting.VITS_Language)
             };
             var builder = new AIPromptBuilder(LLMFactory.Create(llmType, setting));
             IOCContainer.Register(vitsTurbo);

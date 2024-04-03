@@ -46,7 +46,7 @@ namespace Kurisu.NGDS.AI
         {
             SetStopCharacter(input.InputCharacters);
             string message = formatter.Format(input);
-            if (Translator != null) message = await Translator.Process(message, ct);
+            if (Translator != null) message = await Translator.Translate(message, ct);
             return await SendMessageToOobaboogaAsync(message, ct);
         }
         public async Task<ILLMOutput> ProcessLLM(string input, CancellationToken ct)

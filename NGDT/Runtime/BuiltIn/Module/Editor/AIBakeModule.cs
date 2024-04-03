@@ -1,4 +1,4 @@
-using Kurisu.NGDS;
+using Kurisu.NGDS.AI;
 using UnityEngine;
 namespace Kurisu.NGDT
 {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Kurisu.NGDS;
+using Kurisu.NGDS.AI;
 using Newtonsoft.Json;
 using UnityEditor;
 using UnityEngine;

@@ -7,7 +7,6 @@ using UnityEngine;
 using UnityEngine.Networking;
 namespace Kurisu.NGDS.VITS
 {
-
     public struct VITSResponse
     {
         public AudioClip Result { get; internal set; }
@@ -16,20 +15,23 @@ namespace Kurisu.NGDS.VITS
     public class VITSTurbo
     {
         private const string CallAPIBase = "http://{0}:{1}/voice/{2}?text={3}&id={4}";
-        private readonly AITurboSetting setting;
         private readonly StringBuilder stringBuilder = new();
         public AudioClip AudioClipCache { get; private set; }
-        private readonly string address;
-        private readonly string port;
         public ITranslator Translator { get; set; }
-        private readonly string api;
+        public string Address { get; set; }
+        public string Port { get; set; }
+        public string Api { get; set; }
+        public string Lang { get; set; }
+        public string Length { get; set; }
         public VITSTurbo(AITurboSetting setting)
         {
-            this.setting = setting;
-            address = setting.VITS_Address;
-            api = setting.VITS_Model;
-            port = setting.VITS_Port;
+            Address = setting.VITS_Address;
+            Api = setting.VITS_Model;
+            Port = setting.VITS_Port;
+            Lang = setting.VITS_Lang;
+            Length = setting.VITS_Length;
         }
+        public VITSTurbo() { }
         private void CacheAudioClip(AudioClip audioClip)
         {
             AudioClipCache = audioClip;
@@ -38,14 +40,14 @@ namespace Kurisu.NGDS.VITS
         private string GetURL(string message, int characterID)
         {
             stringBuilder.Clear();
-            stringBuilder.Append(string.Format(CallAPIBase, address, port, api, message, characterID));
-            if (!string.IsNullOrEmpty(setting.VITS_Lang))
+            stringBuilder.Append(string.Format(CallAPIBase, Address, Port, Api, message, characterID));
+            if (!string.IsNullOrEmpty(Lang))
             {
-                stringBuilder.Append($"&lang={setting.VITS_Lang}");
+                stringBuilder.Append($"&lang={Lang}");
             }
-            if (!string.IsNullOrEmpty(setting.VITS_Length))
+            if (!string.IsNullOrEmpty(Length))
             {
-                stringBuilder.Append($"&length={setting.VITS_Length}");
+                stringBuilder.Append($"&length={Length}");
             }
             return stringBuilder.ToString();
         }
@@ -91,7 +93,7 @@ namespace Kurisu.NGDS.VITS
         {
             if (Translator != null)
             {
-                message = await Translator.Process(message, ct);
+                message = await Translator.Translate(message, ct);
             }
             return await SendVITSRequestAsync(message, characterID, ct);
         }

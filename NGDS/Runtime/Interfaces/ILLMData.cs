@@ -29,7 +29,7 @@ namespace Kurisu.NGDS
     }
     public interface ITranslator
     {
-        Task<string> Process(string input, CancellationToken ct);
+        Task<string> Translate(string input, CancellationToken ct);
     }
     public interface ILLMDriver
     {
@@ -52,9 +52,5 @@ namespace Kurisu.NGDS
         /// </summary>
         /// <param name="prompt"></param>
         void SetSystemPrompt(string prompt);
-    }
-    public enum LLMType
-    {
-        ChatGPT, KoboldCPP, Oobabooga, ChatGLM
     }
 }

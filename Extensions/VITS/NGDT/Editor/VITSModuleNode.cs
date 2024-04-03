@@ -1,3 +1,4 @@
+using Kurisu.NGDS.AI;
 using Kurisu.NGDS.VITS;
 using Kurisu.NGDT.Editor;
 using System.Threading.Tasks;
@@ -66,7 +67,7 @@ namespace Kurisu.NGDT.VITS.Editor
             var turboSetting = NextGenDialogueSetting.GetOrCreateSettings().AITurboSetting;
             var vitsTurbo = new VITSTurbo(turboSetting)
             {
-                Translator = turboSetting.Enable_GoogleTranslation ? new NGDS.GoogleTranslateModule(turboSetting.LLM_Language, turboSetting.VITS_Language) : null
+                Translator = LLMFactory.CreateTranslator(turboSetting.TranslatorType, turboSetting, turboSetting.LLM_Language, turboSetting.VITS_Language)
             };
             isBaking = true;
             float startVal = (float)EditorApplication.timeSinceStartup;

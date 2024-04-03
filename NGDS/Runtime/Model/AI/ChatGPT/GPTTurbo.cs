@@ -100,7 +100,7 @@ namespace Kurisu.NGDS.AI
             if (Translator != null && !promptIsProcessed)
             {
                 promptIsProcessed = true;
-                promptData.content = await Translator.Process(promptData.content, ct); ;
+                promptData.content = await Translator.Translate(promptData.content, ct); ;
             }
         }
     }

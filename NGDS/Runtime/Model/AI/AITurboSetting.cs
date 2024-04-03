@@ -1,3 +1,4 @@
+using Kurisu.NGDS.Translator;
 using UnityEngine;
 namespace Kurisu.NGDS.AI
 {
@@ -41,23 +42,21 @@ namespace Kurisu.NGDS.AI
                 public string LLM_Address { get; set; } = "127.0.0.1";
                 [field: SerializeField]
                 public string LLM_Port { get; set; } = "5001";
-                [field: Header("Translation Setting")]
-                [field: SerializeField, Tooltip("Enable this to use auto google translation before LLM input")]
-                public bool Enable_GoogleTranslation { get; set; }
+                [field: SerializeField, Tooltip("Set translator to use before LLM input"), Header("Translation Setting")]
+                public TranslatorType TranslatorType { get; set; }
                 [field: SerializeField, Tooltip("LLM output and input language code")]
                 public string LLM_Language { get; set; } = "en";
                 [field: SerializeField, Tooltip("VITS input language code")]
                 public string VITS_Language { get; set; } = "ja";
-                [field: Header("VITS Setting (Experimental)")]
-                [field: SerializeField]
+                [field: SerializeField, Header("VITS Setting (Experimental)")]
                 public string VITS_Address { get; set; } = "127.0.0.1";
-                [Tooltip("Set vits model type")]
-                public VITS_ModelType vitsType;
+                [field: SerializeField, Tooltip("Set vits model type")]
+                public VITS_ModelType VITSType { get; set; }
                 public string VITS_Model
                 {
                         get
                         {
-                                if (vitsType == VITS_ModelType.VITS) return "vits";
+                                if (VITSType == VITS_ModelType.VITS) return "vits";
                                 else return "bert-vits2";
                         }
                 }
