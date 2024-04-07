@@ -3,19 +3,18 @@ using System.Threading;
 using System.Threading.Tasks;
 namespace Kurisu.NGDS.AI
 {
-    public class DialogueParam
+    public class DialogueParam : IMessage
     {
         public string character;
         public string content;
+        public string Character => character;
+
+        public string Content => content;
         public DialogueParam() { }
         public DialogueParam(string character, string content)
         {
             this.character = character;
             this.content = content;
-        }
-        public override string ToString()
-        {
-            return $"{character}: {content}";
         }
     }
     public class AIPromptBuilder : ILLMInput
@@ -25,7 +24,7 @@ namespace Kurisu.NGDS.AI
         private readonly HashSet<string> characters = new();
         public IEnumerable<string> InputCharacters => characters;
         private readonly Queue<DialogueParam> history = new();
-        public IEnumerable<DialogueParam> History => history;
+        public IEnumerable<IMessage> History => history;
         public string Prompt { get; private set; } = string.Empty;
         public AIPromptBuilder(ILLMDriver driver)
         {

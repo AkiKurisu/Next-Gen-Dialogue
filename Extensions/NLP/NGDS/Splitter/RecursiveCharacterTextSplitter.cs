@@ -7,26 +7,19 @@ namespace Kurisu.NGDS.NLP
     public class RecursiveCharacterTextSplitter : ISplitter
     {
         public char[] punctuations = new char[] { '。', '？', '！', '.', ':', ';', '!', '?', '~' };
-        public List<string> Split(string input)
-        {
-            List<string> sentences = new();
-            SplitRecursive(input, sentences);
-            return sentences;
-        }
-
-        private void SplitRecursive(string input, List<string> sentences)
+        public void Split(string input, IList<string> outputs)
         {
             int endIndex = input.IndexOfAny(punctuations);
             if (endIndex != -1)
             {
                 string sentence = input[..(endIndex + 1)];
-                sentences.Add(sentence.Trim());
+                outputs.Add(sentence.Trim());
                 string remainingText = input[(endIndex + 1)..];
-                SplitRecursive(remainingText, sentences);
+                Split(remainingText, outputs);
             }
             else
             {
-                sentences.Add(input.Trim());
+                outputs.Add(input.Trim());
             }
         }
     }

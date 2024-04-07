@@ -1,13 +1,17 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using Kurisu.NGDS.AI;
 namespace Kurisu.NGDS
 {
     public interface ILLMOutput
     {
         bool Status { get; }
         string Response { get; }
+    }
+    public interface IMessage
+    {
+        public string Character { get; }
+        public string Content { get; }
     }
     public interface ILLMInput
     {
@@ -25,7 +29,7 @@ namespace Kurisu.NGDS
         /// LLM history
         /// </summary>
         /// <value></value>
-        IEnumerable<DialogueParam> History { get; }
+        IEnumerable<IMessage> History { get; }
     }
     public interface ITranslator
     {

@@ -12,10 +12,8 @@ namespace Kurisu.NGDS.NLP
         {
             this.windowSize = windowSize;
         }
-        public List<string> Split(string input)
+        public void Split(string input, IList<string> outputs)
         {
-            List<string> result = new();
-
             int pointer1 = 0;
             int pointer2 = windowSize;
 
@@ -28,14 +26,14 @@ namespace Kurisu.NGDS.NLP
                 if (lastDelimiterIndex != -1)
                 {
                     string segment = input.Substring(pointer1, lastDelimiterIndex - pointer1 + 1).Trim();
-                    result.Add(segment);
+                    outputs.Add(segment);
                     pointer2 = pointer1 = lastDelimiterIndex + 1;
                 }
                 else
                 {
                     // No delimiter found, split the segment at pointer2
                     string segment = input[pointer1..pointer2].Trim();
-                    result.Add(segment);
+                    outputs.Add(segment);
                     pointer1 = pointer2;
                 }
                 pointer2 += windowSize;
@@ -43,9 +41,8 @@ namespace Kurisu.NGDS.NLP
             pointer2 = input.Length;
             if (pointer2 > pointer1)
             {
-                result.Add(input[pointer1..pointer2].Trim());
+                outputs.Add(input[pointer1..pointer2].Trim());
             }
-            return result;
         }
     }
 }

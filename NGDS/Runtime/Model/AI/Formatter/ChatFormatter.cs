@@ -19,7 +19,7 @@ namespace Kurisu.NGDS.AI
             stringBuilder.Clear();
             foreach (var param in llmInput.History)
             {
-                stringBuilder.AppendLine(param.ToString());
+                stringBuilder.AppendLine($"{param.Character}: {param.Content}");
             }
             stringBuilder.Append(llmInput.OutputCharacter);
             stringBuilder.Append(':');
@@ -37,8 +37,8 @@ namespace Kurisu.NGDS.AI
         {
             foreach (var param in llmInput.History)
             {
-                string content = param.content;
-                var sendData = new SendData(param.character == llmInput.OutputCharacter ? "assistant" : "user", content);
+                string content = param.Content;
+                var sendData = new SendData(param.Character == llmInput.OutputCharacter ? "assistant" : "user", content);
                 sendDataList.Add(sendData);
             }
         }

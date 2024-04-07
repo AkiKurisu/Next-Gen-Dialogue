@@ -7,7 +7,8 @@ namespace Kurisu.NGDS.NLP
         /// Split substrings from input
         /// </summary>
         /// <param name="input"></param>
+        /// <param name="outputs"></param>
         /// <returns></returns>
-        List<string> Split(string input);
+        void Split(string input, IList<string> outputs);
     }
 }
