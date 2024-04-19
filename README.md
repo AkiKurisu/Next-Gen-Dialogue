@@ -35,7 +35,7 @@
 
 <Img src = "Doc/Images/BakeDialogue.png">
 
-Next Gen Dialogue plugin (hereinafter referred to as NGD) is a Unity dialogue plugin combined with large language model design, won the Unity AI Plugin Excellence Award from Unity China. It combines the traditional dialogue design method with AI technique (eg. Large Language Model(`LLM`), Conditional Variational Autoencoder with Adversarial Learning for End-to-End Text-to-Speech(``VITS``)), also it has some experiential features powered by `Unity Sentis`. Currently this package is an experimental attempt and hopes you enjoy it. 
+Next Gen Dialogue plugin (hereinafter referred to as NGD) is a Unity dialogue plugin combined with large language model design, won the Unity AI Plugin Excellence Award from Unity China. It combines the traditional dialogue design method with AI technique. Currently this package is an experimental attempt and hopes you enjoy it. 
 
 It has the following features:
 1. Visual dialogue editor

@@ -36,7 +36,7 @@
 
 <Img src = "Doc/Images/BakeDialogue.png">
 
-Next Gen Dialogue插件（以下简称NGD）是一款结合大语言模型设计的Unity对话插件，荣获Unity中国颁发的Unity AI插件优秀奖。 它将传统的对话设计方法与人工智能技术（例如大语言模型（`LLM`）、条件变分自动编码器和端到端文本到语音的对抗性学习（`VITS`））相结合，还具有一些使用`Unity Sentis`实现的实验性功能。 目前这个包是一个实验性的尝试，希望你喜欢。
+Next Gen Dialogue插件（以下简称NGD）是一款结合大语言模型设计的Unity对话插件，荣获Unity中国颁发的Unity AI插件优秀奖。 它将传统的对话设计方法与人工智能技术相结合。 目前这个包是一个实验性的尝试，希望你喜欢。
 
 具有以下特点：
 1. 可视化的对话编辑器

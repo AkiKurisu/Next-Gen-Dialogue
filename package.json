@@ -33,11 +33,6 @@
       "displayName": "Localization Example",
       "description": "Sample of supporting localization for your dialogue",
       "path": "Samples~/Localization"
-    },
-    {
-      "displayName": "NLP Example",
-      "description": "Sample of using natural language processing in runtime powered by Unity.Sentis",
-      "path": "Samples~/NLP"
     }
   ]
 }
