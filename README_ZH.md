@@ -21,7 +21,6 @@
     - [实验性模组](#实验性模组)
       - [Localization 本地化拓展](#localization-本地化拓展)
       - [VITS 语音合成拓展](#vits-语音合成拓展)
-      - [Transformer 注意力机制扩展](#transformer-注意力机制扩展)
   - [编辑器功能介绍](#编辑器功能介绍)
     - [一键翻译](#一键翻译)
     - [烘焙语音](#烘焙语音)
@@ -230,17 +229,6 @@ VITS本地部署请参考该仓库：[VITS Simple API](https://github.com/Artraj
 | 名称        | 描述                                            |
 | ----------- | ----------------------------------------------- |
 | VITS Module | 使用VITS语音合成模型为Piece或Option实时生成语言 |
-
-#### Transformer 注意力机制扩展
-
-基于 [HuggingFace](https://thomassimonini.substack.com/p/create-an-ai-robot-npc-using-hugging?r=dq5fg&utm_campaign=post&utm_medium=web) 和[Unity Sentis](https://discussions.unity.com/t/about-sentis-beta/260899)。
-
-您可以在运行时使用 Bert-Transformer模型来搜索对话片段，而不用手动连接。
-
-| 名称 | 描述 |
-| -------------------------------- | ---------------------------| 
-| Sentence Similarity Entry Module| 收集句子数据的入口点 |
-| Inference Similar ID Module| 用于使用句子相似度来推断选项的目标对话片段 ID |
 
 ## 编辑器功能介绍
 

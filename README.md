@@ -21,7 +21,6 @@
     - [Experimental Modules](#experimental-modules)
       - [Localization Extension](#localization-extension)
       - [VITS Speech Extension](#vits-speech-extension)
-      - [Transformer Extension](#transformer-extension)
   - [Experimental Function Introduction](#experimental-function-introduction)
     - [One-click Translation](#one-click-translation)
     - [Bake Voice](#bake-voice)
@@ -228,17 +227,6 @@ If you want to use the VITS module, please use it with VITSAIReResolver. For the
 | Name        | Description                                                                           |
 | ----------- | ------------------------------------------------------------------------------------- |
 | VITS Module | Use VITS speech synthesis model to generate language for Piece or Option in real time |
-
-#### Transformer Extension
-
-Based on great work from [HuggingFace](https://thomassimonini.substack.com/p/create-an-ai-robot-npc-using-hugging?r=dq5fg&utm_campaign=post&utm_medium=web) and [Unity Sentis](https://discussions.unity.com/t/about-sentis-beta/260899).
-
-You can use bert transformer model in runtime to search dialogue piece instead of connecting manually.
-
-| Name                             | Description                                                                   |
-| -------------------------------- | ----------------------------------------------------------------------------- |
-| Sentence Similarity Entry Module | Entry point to collect sentence data                                          |
-| Inference Similar ID Module      | Used to inference option's target dialogue piece id using Sentence Similarity |
 
 ## Experimental Function Introduction
 
