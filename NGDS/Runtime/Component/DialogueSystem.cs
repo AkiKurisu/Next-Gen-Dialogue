@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 namespace Kurisu.NGDS
 {
-    public class ResolverHandler
+    public class ResolverMgr
     {
         private readonly IDialogueResolver dialogueResolver;
         private readonly IPieceResolver pieceResolver;
@@ -13,7 +13,7 @@ namespace Kurisu.NGDS
         public IDialogueResolver DialogueResolver => resolverModule.DialogueResolver ?? dialogueResolver;
         public IPieceResolver PieceResolver => resolverModule.PieceResolver ?? pieceResolver;
         public IOptionResolver OptionResolver => resolverModule.OptionResolver ?? optionResolver;
-        public ResolverHandler()
+        public ResolverMgr()
         {
             //Collect global resolver
             dialogueResolver = IOCContainer.Resolve<IDialogueResolver>() ?? new BuiltInDialogueResolver();
@@ -40,16 +40,8 @@ namespace Kurisu.NGDS
         public event Action<IPieceResolver> OnPiecePlay;
         public event Action<IOptionResolver> OnOptionCreate;
         public event Action OnDialogueOver;
-        private ResolverHandler resolverHandler;
-        public ResolverHandler ResolverHandler
-        {
-            get
-            {
-                //Lazy initialization
-                resolverHandler ??= new();
-                return resolverHandler;
-            }
-        }
+        private ResolverMgr resolverMgr;
+        public ResolverMgr ResolverMgr => resolverMgr ??= new();
         private Coroutine runningCoroutine;
         private void Awake()
         {
@@ -75,25 +67,25 @@ namespace Kurisu.NGDS
         {
             dialogueLookup = dialogueProvider;
             var dialogueData = dialogueProvider.ToDialogue();
-            ResolverHandler.Install(dialogueData);
-            ResolverHandler.DialogueResolver.Inject(dialogueData, this);
+            ResolverMgr.Install(dialogueData);
+            ResolverMgr.DialogueResolver.Inject(dialogueData, this);
             runningCoroutine = StartCoroutine(DialogueEnterCoroutine());
         }
         private IEnumerator DialogueEnterCoroutine()
         {
-            yield return ResolverHandler.DialogueResolver.EnterDialogue();
-            OnDialogueStart?.Invoke(ResolverHandler.DialogueResolver);
+            yield return ResolverMgr.DialogueResolver.EnterDialogue();
+            OnDialogueStart?.Invoke(ResolverMgr.DialogueResolver);
             PlayDialoguePiece(dialogueLookup.GetFirst());
         }
         private void PlayDialoguePiece(Piece piece)
         {
-            ResolverHandler.PieceResolver.Inject(piece, this);
+            ResolverMgr.PieceResolver.Inject(piece, this);
             runningCoroutine = StartCoroutine(PieceEnterCoroutine());
         }
         private IEnumerator PieceEnterCoroutine()
         {
-            yield return ResolverHandler.PieceResolver.EnterPiece();
-            OnPiecePlay?.Invoke(ResolverHandler.PieceResolver);
+            yield return ResolverMgr.PieceResolver.EnterPiece();
+            OnPiecePlay?.Invoke(ResolverMgr.PieceResolver);
         }
         public void PlayDialoguePiece(string targetID)
         {
@@ -101,14 +93,14 @@ namespace Kurisu.NGDS
         }
         public void CreateOption(IReadOnlyList<Option> options)
         {
-            ResolverHandler.OptionResolver.Inject(options, this);
+            ResolverMgr.OptionResolver.Inject(options, this);
             runningCoroutine = StartCoroutine(OptionEnterCoroutine());
         }
 
         private IEnumerator OptionEnterCoroutine()
         {
-            yield return ResolverHandler.OptionResolver.EnterOption();
-            OnOptionCreate?.Invoke(ResolverHandler.OptionResolver);
+            yield return ResolverMgr.OptionResolver.EnterOption();
+            OnOptionCreate?.Invoke(ResolverMgr.OptionResolver);
         }
 
         public void EndDialogue(bool forceEnd)
@@ -117,7 +109,7 @@ namespace Kurisu.NGDS
             {
                 StopCoroutine(runningCoroutine);
             }
-            ResolverHandler.DialogueResolver.ExitDialogue();
+            ResolverMgr.DialogueResolver.ExitDialogue();
             OnDialogueOver?.Invoke();
             dialogueLookup = null;
             runningCoroutine = null;

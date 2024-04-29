@@ -11,17 +11,14 @@ namespace Kurisu.NGDT
         {
             get
             {
-                return this.mGroup;
+                return mGroup;
             }
         }
 
         private readonly string mGroup;
         public AkiGroupAttribute(string group)
         {
-            this.mGroup = group;
+            mGroup = group;
         }
-
-
     }
-
 }

@@ -5,10 +5,10 @@ namespace Kurisu.NGDS
         public IDialogueResolver DialogueResolver { get; }
         public IPieceResolver PieceResolver { get; }
         public IOptionResolver OptionResolver { get; }
-        public ResolverModule(IDialogueResolver dialogueResolver, IPieceResolver peceResolver, IOptionResolver optionResolver)
+        public ResolverModule(IDialogueResolver dialogueResolver, IPieceResolver pieceResolver, IOptionResolver optionResolver)
         {
             DialogueResolver = dialogueResolver;
-            PieceResolver = peceResolver;
+            PieceResolver = pieceResolver;
             OptionResolver = optionResolver;
         }
     }
