@@ -21,27 +21,19 @@ namespace Kurisu.NGDS
     public interface ILLMRequest
     {
         string Context { get; }
-        /// <summary>
-        /// LLM history
-        /// </summary>
-        /// <value></value>
-        IEnumerable<IMessage> History { get; }
-    }
-    public interface ITranslator
-    {
-        Task<string> Translate(string input, CancellationToken ct);
+        IEnumerable<IMessage> Messages { get; }
     }
     public interface ILargeLanguageModel
     {
         /// <summary>
-        /// Generate llm data from unstructured llm input
+        /// Generate llm data from unstructured llm request
         /// </summary>
-        /// <param name="input"></param>
+        /// <param name="request"></param>
         /// <param name="ct"></param>
         /// <returns></returns>
-        Task<ILLMResponse> GenerateAsync(ILLMRequest input, CancellationToken ct);
+        Task<ILLMResponse> GenerateAsync(ILLMRequest request, CancellationToken ct);
         /// <summary>
-        /// Generate llm data from structured input
+        /// Generate llm data from string input
         /// </summary>
         /// <param name="input"></param>
         /// <param name="ct"></param>

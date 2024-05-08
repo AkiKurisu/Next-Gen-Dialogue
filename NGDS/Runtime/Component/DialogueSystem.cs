@@ -55,10 +55,6 @@ namespace Kurisu.NGDS
         {
             return dialogueLookup;
         }
-        public T GetCurrentLookup<T>() where T : IDialogueLookup
-        {
-            return (T)dialogueLookup;
-        }
         public Dialogue GetCurrentDialogue()
         {
             return dialogueLookup?.ToDialogue();

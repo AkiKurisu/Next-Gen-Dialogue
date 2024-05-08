@@ -8,6 +8,48 @@ namespace Kurisu.NGDS.AI
 {
     public class OpenAIClient : ILargeLanguageModel
     {
+        [Serializable]
+        private class PostData
+        {
+            public string model;
+            public float temperature = 0.5f;
+            public float top_p = 0.5f;
+            public List<SendData> messages;
+        }
+
+        [Serializable]
+        private class SendData
+        {
+            public string role;
+            public string content;
+            public SendData(string _role, string _content)
+            {
+                role = _role;
+                content = _content;
+            }
+
+        }
+        [Serializable]
+        private class MessageBack
+        {
+            public string id;
+            public string created;
+            public string model;
+            public List<MessageBody> choices;
+        }
+        [Serializable]
+        private class MessageBody
+        {
+            public Message message;
+            public string finish_reason;
+            public string index;
+        }
+        [Serializable]
+        private class Message
+        {
+            public string role;
+            public string content;
+        }
         private struct GPTResponse : ILLMResponse
         {
             public string Response { get; internal set; }
@@ -21,8 +63,6 @@ namespace Kurisu.NGDS.AI
         private readonly List<SendData> m_DataList = new();
         private readonly SendData promptData;
         public string ApiKey { get; set; }
-        private bool promptIsProcessed;
-        public ITranslator Translator { get; set; }
         public OpenAIClient(string url, string model, string apiKey)
         {
             promptData = new SendData("system", string.Empty);
@@ -34,13 +74,17 @@ namespace Kurisu.NGDS.AI
             else
                 Api = url;
         }
-        public async Task<ILLMResponse> GenerateAsync(ILLMRequest input, CancellationToken ct)
+        public async Task<ILLMResponse> GenerateAsync(ILLMRequest request, CancellationToken ct)
         {
-            promptData.content = input.Context; ;
-            await AppendContent(input, ct);
+            m_DataList.Clear();
+            promptData.content = request.Context; ;
+            m_DataList.Add(promptData);
+            Format(request, m_DataList);
             PostData _postData = new()
             {
                 model = Model,
+                temperature = Temperature,
+                top_p = Top_p,
                 messages = m_DataList
             };
             return await InternalCall(JsonUtility.ToJson(_postData), ct);
@@ -53,6 +97,8 @@ namespace Kurisu.NGDS.AI
             PostData _postData = new()
             {
                 model = Model,
+                temperature = Temperature,
+                top_p = Top_p,
                 messages = m_DataList
             };
             return await InternalCall(JsonUtility.ToJson(_postData), ct);
@@ -71,7 +117,7 @@ namespace Kurisu.NGDS.AI
                 ct.ThrowIfCancellationRequested();
                 await Task.Yield();
             }
-            if (request.responseCode != 200) throw new Exception(request.error);
+            if (request.responseCode != 200) throw new InvalidOperationException(request.error);
             string _msg = request.downloadHandler.text;
             MessageBack messageBack = JsonUtility.FromJson<MessageBack>(_msg);
             string _backMsg = string.Empty;
@@ -84,20 +130,9 @@ namespace Kurisu.NGDS.AI
                 Response = _backMsg
             };
         }
-        private async Task AppendContent(ILLMRequest request, CancellationToken ct)
-        {
-            m_DataList.Clear();
-            m_DataList.Add(promptData);
-            Format(request, m_DataList);
-            if (Translator != null && !promptIsProcessed)
-            {
-                promptIsProcessed = true;
-                promptData.content = await Translator.Translate(promptData.content, ct); ;
-            }
-        }
         private static void Format(ILLMRequest request, List<SendData> sendDataList)
         {
-            foreach (var param in request.History)
+            foreach (var param in request.Messages)
             {
                 string content = param.Content;
                 var sendData = new SendData(param.Role == MessageRole.Bot ? "assistant" : "user", content);

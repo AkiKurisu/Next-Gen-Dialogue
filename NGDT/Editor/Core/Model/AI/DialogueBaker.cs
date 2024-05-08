@@ -57,8 +57,8 @@ namespace Kurisu.NGDT.Editor
             var bakeContainer = containers.Last();
             containers.Remove(bakeContainer);
             bakeContainer.TryGetModuleNode<AIBakeModule>(out ModuleNode aiBakeModule);
-            int depth = (int)aiBakeModule.GetFieldResolver("generateDepth").Value;
-            int option = (int)aiBakeModule.GetFieldResolver("optionCount").Value;
+            int depth = aiBakeModule.GetFieldValue<int>("generateDepth");
+            int option = aiBakeModule.GetFieldValue<int>("optionCount");
             float startVal = (float)EditorApplication.timeSinceStartup;
             var ct = treeView.GetCancellationTokenSource();
             int step = 0;
@@ -125,7 +125,7 @@ namespace Kurisu.NGDT.Editor
         {
 
             //No need to cache history, instance new is better
-            builder = new AIPromptBuilder(CreateLLM());
+            builder = new AIPromptBuilder();
             //Append user designed dialogue
             for (int i = 0; i < containerNodes.Count; i++)
             {
@@ -134,7 +134,7 @@ namespace Kurisu.NGDT.Editor
             //Generate dialogue from llm finally
             try
             {
-                return await GenerateDialogue(bakeContainerNode, ct);
+                return await GenerateDialogue(bakeContainerNode, builder, ct);
             }
             catch (OperationCanceledException)
             {
@@ -152,11 +152,12 @@ namespace Kurisu.NGDT.Editor
             var setting = NextGenDialogueSetting.GetOrCreateSettings().AITurboSetting;
             return LLMFactory.CreateLLM(setting);
         }
-        private async Task<bool> GenerateDialogue(ContainerNode containerNode, CancellationToken ct)
+        private static async Task<bool> GenerateDialogue(ContainerNode containerNode, AIPromptBuilder builder, CancellationToken ct)
         {
             try
             {
-                var response = (await builder.GenerateAsync(ct)).Response;
+                var llm = CreateLLM();
+                var response = (await llm.GenerateAsync(builder, ct)).Response;
                 //Remove original module node since container can only contain one module for each type
                 containerNode.RemoveModule<ContentModule>();
                 //Create output module node
@@ -203,7 +204,7 @@ namespace Kurisu.NGDT.Editor
         {
             if (containerNode is DialogueContainer && TrySetPrompt(containerNode, out string prompt))
             {
-                builder.SetSystemPrompt(prompt);
+                builder.Context = prompt;
                 return;
             }
             MessageRole role = containerNode is OptionContainer ? MessageRole.User : MessageRole.Bot;

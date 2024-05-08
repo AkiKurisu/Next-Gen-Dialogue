@@ -11,7 +11,6 @@ namespace Kurisu.NGDT.VITS.Editor
         {
             var settingProperty = serializedObject.FindProperty("setting");
             EditorGUI.BeginChangeCheck();
-            EditorGUILayout.PropertyField(serializedObject.FindProperty("llmType"), new GUIContent("LLM Model Type"));
             EditorGUILayout.PropertyField(settingProperty);
             if (settingProperty.objectReferenceValue == null)
             {
@@ -43,18 +42,18 @@ namespace Kurisu.NGDT.VITS.Editor
             GUILayout.EndVertical();
             GUI.enabled = clip != null;
             GUILayout.BeginHorizontal();
-            if (GUILayout.Button("Preview", GUILayout.MinHeight(25)))
+            if (GUILayout.Button("Preview", GUILayout.MinHeight(20)))
             {
                 AudioUtil.PlayClip(clip);
             }
-            if (GUILayout.Button("Stop", GUILayout.MinHeight(25)))
+            if (GUILayout.Button("Stop", GUILayout.MinHeight(20)))
             {
                 AudioUtil.StopClip(clip);
             }
             GUILayout.EndHorizontal();
             var orgColor = GUI.backgroundColor;
             GUI.backgroundColor = new Color(140 / 255f, 160 / 255f, 250 / 255f);
-            if (GUILayout.Button("Save Audio", GUILayout.MinHeight(25)))
+            if (GUILayout.Button("Save Audio", GUILayout.MinHeight(20)))
             {
                 Save(clip);
             }
