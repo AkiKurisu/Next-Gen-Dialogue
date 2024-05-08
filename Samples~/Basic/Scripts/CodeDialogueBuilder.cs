@@ -4,7 +4,7 @@ namespace Kurisu.NGDS.Example
 {
     public class CodeDialogueBuilder : MonoBehaviour
     {
-        private DialogueGenerator generator;
+        private DialogueBuilder builder;
         private IEnumerator Start()
         {
             yield return new WaitForEndOfFrame();
@@ -13,16 +13,16 @@ namespace Kurisu.NGDS.Example
         private void PlayDialogue()
         {
             var dialogueSystem = IOCContainer.Resolve<IDialogueSystem>();
-            generator = new();
+            builder = new();
             //First Piece
-            generator.AddPiece(GetFirstPiece());
+            builder.AddPiece(GetFirstPiece());
             //Second Piece
-            generator.AddPiece(GetSecondPiece());
-            dialogueSystem.StartDialogue(generator);
+            builder.AddPiece(GetSecondPiece());
+            dialogueSystem.StartDialogue(builder);
         }
         private static Piece GetFirstPiece()
         {
-            var piece = Piece.CreatePiece();
+            var piece = Piece.GetPooled();
             piece.Content = "This is the first dialogue piece";
             piece.PieceID = "01";
             piece.AddOption(new Option()
@@ -34,7 +34,7 @@ namespace Kurisu.NGDS.Example
         }
         private static Piece GetSecondPiece()
         {
-            var piece = Piece.CreatePiece();
+            var piece = Piece.GetPooled();
             piece.Content = "This is the second dialogue piece";
             piece.PieceID = "02";
             piece.AddOption(GetFirstOption());
@@ -43,7 +43,7 @@ namespace Kurisu.NGDS.Example
         }
         private static Option GetFirstOption()
         {
-            var callBackOption = Option.CreateOption();
+            var callBackOption = Option.GetPooled();
             //Add CallBack Module
             callBackOption.AddModule(new CallBackModule(() => Debug.Log("Hello World !")));
             callBackOption.Content = "Log";
@@ -51,7 +51,7 @@ namespace Kurisu.NGDS.Example
         }
         private static Option GetSecondOption()
         {
-            var option = Option.CreateOption();
+            var option = Option.GetPooled();
             option.Content = "Back To First";
             option.TargetID = "01";
             return option;

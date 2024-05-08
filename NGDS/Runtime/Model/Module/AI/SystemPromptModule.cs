@@ -1,5 +1,6 @@
 using System.Collections;
 using Kurisu.NGDS.AI;
+using UnityEngine.Assertions;
 namespace Kurisu.NGDS
 {
     public readonly struct SystemPromptModule : IDialogueModule, IProcessable
@@ -12,8 +13,10 @@ namespace Kurisu.NGDS
         }
         public IEnumerator Process(IObjectResolver resolver)
         {
-            resolver.Resolve<AIPromptBuilder>().SetSystemPrompt(Prompt);
-            yield return null;
+            var builder = resolver.Resolve<AIPromptBuilder>();
+            Assert.IsNotNull(builder);
+            builder.Context = Prompt;
+            yield break;
         }
     }
 }

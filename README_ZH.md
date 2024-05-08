@@ -1,6 +1,6 @@
 # Next Gen Dialogue 用户手册
 
-<img src="Doc/Images/Splash.png" >
+<img src="Docs/Images/Splash.png" >
 
 ***Read this document in English: [English Document](./README.md)***
 
@@ -33,30 +33,26 @@
 
 ## 特点
 
-<Img src = "Doc/Images/BakeDialogue.png">
+<Img src = "Docs/Images/BakeDialogue.png">
 
-Next Gen Dialogue插件（以下简称NGD）是一款结合大语言模型设计的Unity对话插件，荣获Unity中国颁发的Unity AI插件优秀奖。 它将传统的对话设计方法与人工智能技术相结合。 目前这个包是一个实验性的尝试，希望你喜欢。
+Next Gen Dialogue插件是一款结合大语言模型设计的Unity对话插件，荣获Unity中国颁发的Unity AI插件优秀奖。 它将传统的对话设计方法与人工智能技术相结合。 目前这个包是一个实验性的尝试，希望你喜欢。
 
 具有以下特点：
 1. 可视化的对话编辑器
 2. 模块化的对话功能
-3. 支持AIGC运行时生成对话
-4. 支持AIGC在Editor中烘焙对话
-5. 运行时Debug
+3. 支持AIGC在Editor中烘焙对话
+4. 运行时Debug
 
 演示项目: https://github.com/AkiKurisu/Next-Gen-Dialogue-Example-Project
 
-<Img src = "Doc/Images/DemoExample2.png">
+<Img src = "Docs/Images/DemoExample2.png">
 
-<Img src = "Doc/Images/DemoExample1.png">
+<Img src = "Docs/Images/DemoExample1.png">
 
 演示视频: https://www.bilibili.com/video/BV1hg4y1U7FG
 
-<Img src = "Doc/Images/BilibiliDemo.png">
+<Img src = "Docs/Images/BilibiliDemo.png">
 
-## 路线图
-
-1. 使用Unity Sentis推理VITS、LLM模型，而不是使用需要网络和服务器的Python API (目前存在技术限制)。 
 
 ## 支持的版本
 
@@ -77,15 +73,11 @@ Next Gen Dialogue的实验特性放入了Modules文件夹中，再没有安装�
 
 ``1.Normal Usage.unity`` 场景包含了使用NextGenDialogueTree和NextGenDialogueTreeSO的样例；
 
-``2.GPT Generate Dialogue.unity`` 场景包含了运行时使用ChatGPT生成对话内容的样例；
+``2.Editor Bake Dialogue.unity`` 场景包含了在Editor中使用AI Dialogue Baker烘焙对话内容的样例；
 
-``3.Local LLM Generate Dialogue.unity`` 场景包含了运行时使用本地大语言模型的生成对话样例；
+``3.Build Dialogue by Code.unity`` 场景包含了使用Code生成对话的样例。
 
-``4.Editor Bake Dialogue.unity`` 场景包含了在Editor中使用AI Dialogue Baker烘焙对话内容的样例；
-
-``5.Build Dialogue by Code.unity`` 场景包含了使用Code生成对话的样例。
-
-``6.Bake Novel.unity`` 使用ChatGPT无限生成对话树的样例。
+``4.Bake Novel.unity`` 使用ChatGPT无限生成对话树的样例。
 
 ### 创建对话树
 
@@ -103,58 +95,37 @@ NextGenDialogueTree和NextGenDialogueTreeSO用于存储对话数据，为了便�
 9. <b style="color:#EE819E">非常重要:</b> 至少需要将一个Piece结点加入Dialogue中作为对话的首个片段。你可以右键Dialogue的``Add Piece``通过连线或引用其PieceID进行关联，也可以右键Dialogue的``Collect All Pieces``将Graph中所有的Piece加入Dialogue中，并且通过排序来调整Piece的优先级
     * 优先级请参考[通用模组-Condition Module](#通用模组)
 
-    <img src="Doc/Images/CreateDialogue.png">
+    <img src="Docs/Images/CreateDialogue.png">
   
 1.  点击编辑器左上方的```Save```保存对话
 2.  点击Play进入PlayMode
 3.  点击NextGenDialogueTree的```Play Dialogue```播放对话
 4.  点击``Debug DialogueTree``进入Debug模式
     
-<img src="Doc/Images/RuntimeDebug.png">
+<img src="Docs/Images/RuntimeDebug.png">
 
 - <span style="color:#F8D09D">Tips : </span>当前正在播放的对话片段将以绿色进行显示
-
-### AI生成对话
-
-传统的对话设计完全依赖于设计者，如果您希望让对话更加个性化，可以尝试使用AIGC的方式，除了ChatGPT之外，您还可以使用本地部署的大语言模型，当然由于模型依赖于Python环境，在Unity中使用模型需要依赖终端进行网络通信
-
-<span style="color:#F8D09D">Tips : </span>目前支持以下热门的终端，你可以根据需求和设备条件选择
-1. [KoboldAI-KoboldCPP](https://github.com/LostRuins/koboldcpp)的Generate模式，KoboldCPP支持使用CPU推理
-2. [Oobabooga-Text-Generation-WebUI](https://github.com/oobabooga/text-generation-webui)的Generate模式，WebUI显存占用率较高，同机器运行Unity将影响性能
-3. [ChatGLM2-6B](https://github.com/THUDM/ChatGLM2-6B)的API(Generate模式)和OpenAI Type API(Chat模式)，ChatGLM是强大、高效的中英大语言模型
-
-以下流程是创建一个运行时可以根据玩家选择生成对话内容的对话树：
-
-1. 基础对话树设计与《[创建对话树](<#创建对话树>)》的流程一致 
-2. AIGC可以通过提供一段提示词（Prompt）来更好的生成用户所需的内容。例如对话的背景设定，设计者的额外需求。你只需要在Dialogue结点中添加```Prompt Module```，将提示词填入```prompt```中即可
-3. 对于需要AI识别但不需要生成的Piece或Option结点，添加```Character Module```并在```characterName```中注明说话的角色名称
-4. 对于需要AI生成的Piece结点添加```AI Generate Module```并在```characterName```中填写对应的角色名称
-5. 在场景中创建空GameObject，挂载``AIEntry``组件
-6. 选择您使用的LLM类型并配置Server的地址和端口
-
-- <span style="color:#F8D09D">注意</span>：运行时生成对话暂不支持生成选项
 
 ### AI烘焙对话
 
 在运行时完全使用AIGC的对话内容不易控制，但您可以使用AI Dialogue Baker在设计对话树时提前烘焙AI生成的对话内容，从而在不影响您的设计框架的同时提高工作流效率。
 
-<img src="Doc/Images/BakeDialogue.png" >
+<img src="Docs/Images/BakeDialogue.png" >
 
 1. 基础对话树设计与《[创建对话树](#创建对话树)》的流程一致 
-2. Prompt添加与《[AI生成对话](#AI生成对话)》的流程一致 
-3. 为需要烘焙的片段或选项添加```AI Bake Module```, 不需要烘焙的结点请移除该模组
-4. 选择您烘焙时使用的LLM类型
-5. <b>依次选择</b>AI Dialogue Baker需要识别的结点，识别的顺序以鼠标选中的顺序为准，最后选中需要烘焙的结点
-6. 如果选择成功，你可以在编辑器的底部看到预览的输入内容
-7. 点击```AI Bake Module```上的```Bake Dialogue```按钮等待AI响应
-8. 语言模型响应后，将自动在该结点中添加```Content Module```存放烘焙出的对话内容
-9. 你可以根据需求连续生成对话
+2. 为需要烘焙的片段或选项添加```AI Bake Module```, 不需要烘焙的结点请移除该模组
+3. 选择您烘焙时使用的LLM类型
+4. <b>依次选择</b>AI Dialogue Baker需要识别的结点，识别的顺序以鼠标选中的顺序为准，最后选中需要烘焙的结点
+5. 如果选择成功，你可以在编辑器的底部看到预览的输入内容
+6. 点击```AI Bake Module```上的```Bake Dialogue```按钮等待AI响应
+7. 语言模型响应后，将自动在该结点中添加```Content Module```存放烘焙出的对话内容
+8. 你可以根据需求连续生成对话
 
 ### AI生成小说
 
 和烘焙对话中直接和AI对话不同，小说模式让AI扮演文案策划编写对话，因此可以对选项和片段的控制更加精确，请参考示例：``6.Bake Novel.unity`` 
 
-<img src="Doc/Images/BakeNovel.png" >
+<img src="Docs/Images/BakeNovel.png" >
 
 ## 结点
 
@@ -203,10 +174,7 @@ NGD使用基于节点的可视化编辑器框架，大部分功能都是通过�
 
 | 名称                             | 描述                                            |
 | -------------------------------- | ----------------------------------------------- |
-| Prompt Module                    | 为之后生成的对话生成提供基础的提示词            |
-| Character Module                 | 标注对话的说话者                                |
-| AI Generate Module               | 让Piece根据之前玩家的选择使用AIGC的方式生成对话 |
-| AI Bake Module ``(Editor Only)`` | 添加此模组用以在``Editor``中烘焙Option或Piece   |
+| Prompt Module                    | 为之后生成的对话生成提供基础的提示词            
 
 ### 实验性模组
 
@@ -236,7 +204,7 @@ VITS本地部署请参考该仓库：[VITS Simple API](https://github.com/Artraj
 
 在Dialogue结点中添加Editor/EditorTranslateModule，设置翻译的来源语言（`sourceLanguageCode`）和目标语言（`targetLanguageCode`）, 右键选择`Translate All Contents`对所有带有``ContentModule``的Piece和Option进行翻译。
 
-<img src="Doc/Images/FastTranslation.png" >
+<img src="Docs/Images/FastTranslation.png" >
 
 对于非`ContentModule`的结点，如字段添加了`TranslateEntryAttribute`可以右键单个结点进行翻译
 
@@ -252,13 +220,13 @@ namespace Kurisu.NGDT.Behavior
     }
 }
 ```
-<img src="Doc/Images/SingleTranslate.png" >
+<img src="Docs/Images/SingleTranslate.png" >
 
 ### 烘焙语音
 
 使用前需要安装`Modules/VITS`相应依赖并开启本地VITS服务器（参照`Modules/VITS/README.md`），在需要生成语音的结点中添加`AIGC/VITSModule`，右键选择``Bake Audio``
 
-<img src="Doc/Images/BakeAudio.png" >
+<img src="Docs/Images/BakeAudio.png" >
 
 如你对生成的音频较为满意，点击`Download`保存到本地从而完成烘焙，否则退出编辑器后不会保留音频文件。
 
@@ -272,18 +240,17 @@ namespace Kurisu.NGDT.Behavior
 
 | 名称                                  | 描述                                          |
 | ------------------------------------- | --------------------------------------------- |
-| BuiltIn Resolver                      | 基础的解析器，支持所有内置的通用模组          |
-| AI Resolver                           | BuiltIn Resolver 基础上增加了AIGC模组         |
-| VITS AI Resolver ```(Experimental)``` | AI Resolver基础上额外检测VITS模组实时生成语音 |
+| BuiltIn Resolver                      | 基础的解析器，支持所有内置的通用模组          
+| VITS AI Resolver| 额外检测VITS模组实时生成语音 |
 
 ### 如何切换解析器
 
 1. 场景内全局解析器
-   你可以在任意GameObject上挂载```AIEntry```脚本来在该场景启用AIResolver
+   你可以在任意GameObject上挂载```VITSSetup```脚本来在该场景启用AIResolver
 
 2. 对话指定解析器
    
-   你可以在对话的Dialogue结点上添加``AIResolverModule``(或```VITSAIResolverModule```)来指定该对话使用的解析器，你还可以点击该模组的右上角Setting按钮，在``Advanced Settings``中选择替换的Resolver
+   你可以在对话的Dialogue结点上添加```VITSResolverModule```来指定该对话使用的解析器，你还可以点击该模组的右上角Setting按钮，在``Advanced Settings``中选择替换的Resolver
 
 ## 使用脚本编写对话
 

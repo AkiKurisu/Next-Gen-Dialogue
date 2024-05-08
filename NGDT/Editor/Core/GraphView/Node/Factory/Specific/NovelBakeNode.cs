@@ -33,7 +33,7 @@ namespace Kurisu.NGDT.Editor
         {
             autoGenerate.SetEnabled(false);
             SaveCurrentSelection();
-            await MapTreeView.AutoGenerateNovel();
+            await NovelBaker.AutoGenerateNovel(MapTreeView);
             autoGenerate.SetEnabled(true);
         }
         private void SaveCurrentSelection()

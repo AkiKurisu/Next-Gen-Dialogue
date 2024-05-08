@@ -334,12 +334,12 @@ namespace Kurisu.NGDT.Editor
             if (bakeContainer.TryGetModuleNode<AIBakeModule>(out ModuleNode _))
             {
                 containers.Remove(bakeContainer);
-                generateText = new DialogueBaker().TestBake(containers, bakeContainer);
+                generateText = new DialogueBaker().Preview(containers, bakeContainer);
                 return true;
             }
             if (bakeContainer.TryGetModuleNode<NovelBakeModule>(out ModuleNode novelBakeModule))
             {
-                generateText = new NovelBaker().TestBake(containers, novelBakeModule, bakeContainer);
+                generateText = new NovelBaker().Preview(containers, novelBakeModule, bakeContainer);
                 return true;
             }
             return false;

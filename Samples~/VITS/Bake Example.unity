@@ -104,7 +104,7 @@ NavMeshSettings:
   serializedVersion: 2
   m_ObjectHideFlags: 0
   m_BuildSettings:
-    serializedVersion: 2
+    serializedVersion: 3
     agentTypeID: 0
     agentRadius: 0.5
     agentHeight: 2
@@ -117,7 +117,7 @@ NavMeshSettings:
     cellSize: 0.16666667
     manualTileSize: 0
     tileSize: 256
-    accuratePlacement: 0
+    buildHeightMesh: 0
     maxJobWorkers: 0
     preserveTilesOutsideBounds: 0
     debug:
@@ -153,26 +153,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   root:
-    rid: 8821145904345514884
+    rid: 5974865124870062212
   sharedVariables:
-  - rid: 8821145904345514885
-  - rid: 8821145904345514886
-  - rid: 8821145904345514887
-  - rid: 8821145904345514888
-  - rid: 8821145904345514889
+  - rid: 5974865124870062213
+  - rid: 5974865124870062214
+  - rid: 5974865124870062215
+  - rid: 5974865124870062216
+  - rid: 5974865124870062217
   externalDialogueTree: {fileID: 0}
   blockData:
   - ChildNodes:
-    - 06bd3c17-3dd1-43a1-a85c-ddf496cac1b4
+    - 4361244c-a6bc-4383-9d28-f70f4006a0ac
     - 87ad95d9-81fc-4d39-a073-b318ec0c0ae9
     - bc03ffd9-1c42-44e9-90fa-9c205f42ab7a
-    - 4361244c-a6bc-4383-9d28-f70f4006a0ac
+    - 06bd3c17-3dd1-43a1-a85c-ddf496cac1b4
     Position: {x: 896, y: 31}
     Title: You can Right Click VITS Module to bake new AudioClip
   references:
     version: 2
     RefIds:
-    - rid: 8821145904345514884
+    - rid: 5974865124870062212
       type: {class: Root, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
       data:
         graphPosition:
@@ -184,104 +184,67 @@ MonoBehaviour:
         description: 
         guid: 17b30093-3fb4-4a02-8b26-64c8cb6854ea
         child:
-          rid: 8821145904345514890
+          rid: 5974865124870062218
         children:
-        - rid: 8821145904345514891
-        - rid: 8821145904345514892
-        - rid: 8821145904345514893
-    - rid: 8821145904345514885
+        - rid: 5974865124870062219
+        - rid: 5974865124870062220
+        - rid: 5974865124870062221
+    - rid: 5974865124870062213
       type: {class: PieceID, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
       data:
         isShared: 1
         isGlobal: 0
+        isExposed: 0
         mName: Dialog1
         value: 
-    - rid: 8821145904345514886
+    - rid: 5974865124870062214
       type: {class: PieceID, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
       data:
         isShared: 1
         isGlobal: 0
+        isExposed: 0
         mName: Dialog2
         value: 
-    - rid: 8821145904345514887
+    - rid: 5974865124870062215
       type: {class: SharedString, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
       data:
         isShared: 0
         isGlobal: 0
+        isExposed: 0
         mName: "\u89D2\u82721"
         value: Kurisu
-    - rid: 8821145904345514888
+    - rid: 5974865124870062216
       type: {class: SharedString, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
       data:
         isShared: 0
         isGlobal: 0
+        isExposed: 0
         mName: "\u89D2\u82722"
         value: You
-    - rid: 8821145904345514889
+    - rid: 5974865124870062217
       type: {class: PieceID, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
       data:
         isShared: 1
         isGlobal: 0
+        isExposed: 0
         mName: Dialog3
         value: 
-    - rid: 8821145904345514890
+    - rid: 5974865124870062218
       type: {class: Dialogue, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
       data:
         graphPosition:
           serializedVersion: 2
           x: 557
           y: 231
-          width: 304
-          height: 369
+          width: 150
+          height: 278
         description: 
         guid: 1253cb15-ce0c-46a4-9c98-fc14b3265295
         children:
-        - rid: 8821145904345514894
-        - rid: 8821145904345514892
+        - rid: 5974865124870062220
         referencePieces:
         - Dialog1
-    - rid: 8821145904345514891
-      type: {class: Piece, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
-      data:
-        graphPosition:
-          serializedVersion: 2
-          x: 921
-          y: 767
-          width: 374
-          height: 539
-        description: 
-        guid: 06bd3c17-3dd1-43a1-a85c-ddf496cac1b4
-        children:
-        - rid: 8821145904345514895
-        - rid: 8821145904345514896
-        - rid: 8821145904345514897
-        pieceID:
-          isShared: 1
-          isGlobal: 0
-          mName: Dialog3
-          value: 
-    - rid: 8821145904345514892
-      type: {class: Piece, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
-      data:
-        graphPosition:
-          serializedVersion: 2
-          x: 942
-          y: 103
-          width: 331
-          height: 601
-        description: 
-        guid: 87ad95d9-81fc-4d39-a073-b318ec0c0ae9
-        children:
-        - rid: 8821145904345514898
-        - rid: 8821145904345514899
-        - rid: 8821145904345514900
-        - rid: 8821145904345514901
-        pieceID:
-          isShared: 1
-          isGlobal: 0
-          mName: Dialog1
-          value: 
-    - rid: 8821145904345514893
+    - rid: 5974865124870062219
       type: {class: Piece, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
       data:
         graphPosition:
@@ -289,180 +252,67 @@ MonoBehaviour:
           x: 1721
           y: 90
           width: 374
-          height: 672
+          height: 579
         description: 
         guid: 4361244c-a6bc-4383-9d28-f70f4006a0ac
         children:
-        - rid: 8821145904345514902
-        - rid: 8821145904345514903
-        - rid: 8821145904345514904
-        - rid: 8821145904345514905
+        - rid: 5974865124870062222
+        - rid: 5974865124870062223
+        - rid: 5974865124870062224
         pieceID:
           isShared: 1
           isGlobal: 0
+          isExposed: 0
           mName: Dialog2
           value: 
-    - rid: 8821145904345514894
-      type: {class: PromptModule, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
+    - rid: 5974865124870062220
+      type: {class: Piece, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
       data:
         graphPosition:
           serializedVersion: 2
-          x: 0
-          y: 79
-          width: 280
-          height: 91
+          x: 942
+          y: 103
+          width: 374
+          height: 508
         description: 
-        guid: 14a6e9d3-15aa-490b-a7c8-d455c9c13709
-        prompt:
-          isShared: 0
-          isGlobal: 0
-          mName: 
-          value: "\u4EE5\u4E0B\u662F\u4E00\u6BB5Kurisu\u548CYou\u7684\u5BF9\u8BDD:"
-    - rid: 8821145904345514895
-      type: {class: CharacterModule, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
-      data:
-        graphPosition:
-          serializedVersion: 2
-          x: 0
-          y: 108
-          width: 350
-          height: 92
-        description: 
-        guid: 7c606a14-96a8-407e-8e7d-94517d017149
-        characterName:
-          isShared: 1
-          isGlobal: 0
-          mName: "\u89D2\u82722"
-          value: 
-    - rid: 8821145904345514896
-      type: {class: ContentModule, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
-      data:
-        graphPosition:
-          serializedVersion: 2
-          x: 0
-          y: 200
-          width: 350
-          height: 106
-        description: 
-        guid: 41eb1de2-19b9-4e81-9440-c59913a72341
-        content:
-          isShared: 0
-          isGlobal: 0
-          mName: 
-          value: "\u54C7\uFF0C\u8FD9\u542C\u8D77\u6765\u771F\u7684\u5F88\u50CF\u771F\u4EBA\u7684\u58F0\u97F3\uFF01VITS\u6280\u672F\u771F\u7684\u5F88\u5389\u5BB3\u554A\u3002"
-    - rid: 8821145904345514897
-      type: {class: VITSModule, ns: Kurisu.NGDT.VITS, asm: Kurisu.NGDT.VITS}
-      data:
-        graphPosition:
-          serializedVersion: 2
-          x: 0
-          y: 306
-          width: 350
-          height: 167
-        description: 
-        guid: 88afc611-a00c-4361-80f0-0695e28b3e0c
-        characterID:
-          isShared: 0
-          isGlobal: 0
-          mName: 
-          value: 0
-        audioClip:
-          isShared: 0
-          isGlobal: 0
-          mName: 
-          value: {fileID: 8300000, guid: df6e804bd78c2c749ba69d285e6e8c58, type: 3}
-    - rid: 8821145904345514898
-      type: {class: ContentModule, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
-      data:
-        graphPosition:
-          serializedVersion: 2
-          x: 0
-          y: 108
-          width: 307
-          height: 91
-        description: 
-        guid: a0145877-2528-4c17-b689-3aa5d6dacb98
-        content:
-          isShared: 0
-          isGlobal: 0
-          mName: 
-          value: "\u8FD9\u662F\u4F7F\u7528VITS\u8FDB\u884C\u8BED\u97F3\u751F\u6210\u7684\u793A\u4F8B\u3002"
-    - rid: 8821145904345514899
-      type: {class: CharacterModule, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
-      data:
-        graphPosition:
-          serializedVersion: 2
-          x: 0
-          y: 199
-          width: 307
-          height: 92
-        description: 
-        guid: 962caac5-fcdf-42a6-88d4-27c3772e1fc8
-        characterName:
-          isShared: 1
-          isGlobal: 0
-          mName: "\u89D2\u82721"
-          value: 
-    - rid: 8821145904345514900
-      type: {class: VITSModule, ns: Kurisu.NGDT.VITS, asm: Kurisu.NGDT.VITS}
-      data:
-        graphPosition:
-          serializedVersion: 2
-          x: 0
-          y: 291
-          width: 307
-          height: 167
-        description: 
-        guid: 76ffe776-2808-4ae5-9b7c-42ff0ddf9b01
-        characterID:
-          isShared: 0
-          isGlobal: 0
-          mName: 
-          value: 0
-        audioClip:
-          isShared: 0
-          isGlobal: 0
-          mName: 
-          value: {fileID: 8300000, guid: 8b3a5e15a56777a4481529b7224d1802, type: 3}
-    - rid: 8821145904345514901
-      type: {class: Option, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
-      data:
-        graphPosition:
-          serializedVersion: 2
-          x: 1343
-          y: 231
-          width: 314
-          height: 628
-        description: 
-        guid: bc03ffd9-1c42-44e9-90fa-9c205f42ab7a
+        guid: 87ad95d9-81fc-4d39-a073-b318ec0c0ae9
         children:
-        - rid: 8821145904345514906
-        - rid: 8821145904345514907
-        - rid: 8821145904345514908
-        - rid: 8821145904345514909
-    - rid: 8821145904345514902
-      type: {class: CharacterModule, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
+        - rid: 5974865124870062225
+        - rid: 5974865124870062226
+        - rid: 5974865124870062227
+        pieceID:
+          isShared: 1
+          isGlobal: 0
+          isExposed: 0
+          mName: Dialog1
+          value: 
+    - rid: 5974865124870062221
+      type: {class: Piece, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
       data:
         graphPosition:
           serializedVersion: 2
-          x: 0
-          y: 108
-          width: 350
-          height: 92
+          x: 921
+          y: 767
+          width: 374
+          height: 446
         description: 
-        guid: c4f3867e-6476-4188-ba7a-c341eb0d98ac
-        characterName:
+        guid: 06bd3c17-3dd1-43a1-a85c-ddf496cac1b4
+        children:
+        - rid: 5974865124870062228
+        - rid: 5974865124870062229
+        pieceID:
           isShared: 1
           isGlobal: 0
-          mName: "\u89D2\u82721"
+          isExposed: 0
+          mName: Dialog3
           value: 
-    - rid: 8821145904345514903
+    - rid: 5974865124870062222
       type: {class: ContentModule, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
       data:
         graphPosition:
           serializedVersion: 2
           x: 0
-          y: 200
+          y: 108
           width: 350
           height: 106
         description: 
@@ -470,36 +320,40 @@ MonoBehaviour:
         content:
           isShared: 0
           isGlobal: 0
+          isExposed: 0
           mName: 
           value: "\u597D\u7684\uFF0C\u8BA9\u6211\u64AD\u653E\u4E00\u4E0B\u8FD9\u4E2A\u793A\u4F8B\u3002\u6CE8\u610F\uFF0C\u8FD9\u662F\u7531\u8BA1\u7B97\u673A\u751F\u6210\u7684\u8BED\u97F3\uFF0C\u800C\u4E0D\u662F\u771F\u4EBA\u7684\u5F55\u97F3\u3002"
-    - rid: 8821145904345514904
+    - rid: 5974865124870062223
       type: {class: VITSModule, ns: Kurisu.NGDT.VITS, asm: Kurisu.NGDT.VITS}
       data:
         graphPosition:
           serializedVersion: 2
           x: 0
-          y: 306
+          y: 214
           width: 350
-          height: 167
+          height: 166
         description: 
         guid: 5cab772d-4c46-4a74-ac34-a47730bfcdfd
         characterID:
           isShared: 0
           isGlobal: 0
+          isExposed: 0
           mName: 
           value: 0
         audioClip:
           isShared: 0
           isGlobal: 0
+          isExposed: 0
           mName: 
           value: {fileID: 8300000, guid: e1991d56a847c5b408fac6dfa089ef17, type: 3}
-    - rid: 8821145904345514905
+        noTranslation: 0
+    - rid: 5974865124870062224
       type: {class: NextPieceModule, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
       data:
         graphPosition:
           serializedVersion: 2
           x: 0
-          y: 473
+          y: 380
           width: 350
           height: 133
         description: 
@@ -508,9 +362,107 @@ MonoBehaviour:
         nextID:
           isShared: 1
           isGlobal: 0
+          isExposed: 0
           mName: Dialog3
           value: 
-    - rid: 8821145904345514906
+    - rid: 5974865124870062225
+      type: {class: ContentModule, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
+      data:
+        graphPosition:
+          serializedVersion: 2
+          x: 0
+          y: 108
+          width: 350
+          height: 91
+        description: 
+        guid: a0145877-2528-4c17-b689-3aa5d6dacb98
+        content:
+          isShared: 0
+          isGlobal: 0
+          isExposed: 0
+          mName: 
+          value: "\u8FD9\u662F\u4F7F\u7528VITS\u8FDB\u884C\u8BED\u97F3\u751F\u6210\u7684\u793A\u4F8B\u3002"
+    - rid: 5974865124870062226
+      type: {class: VITSModule, ns: Kurisu.NGDT.VITS, asm: Kurisu.NGDT.VITS}
+      data:
+        graphPosition:
+          serializedVersion: 2
+          x: 0
+          y: 199
+          width: 350
+          height: 166
+        description: 
+        guid: 76ffe776-2808-4ae5-9b7c-42ff0ddf9b01
+        characterID:
+          isShared: 0
+          isGlobal: 0
+          isExposed: 0
+          mName: 
+          value: 0
+        audioClip:
+          isShared: 0
+          isGlobal: 0
+          isExposed: 0
+          mName: 
+          value: {fileID: 8300000, guid: 8b3a5e15a56777a4481529b7224d1802, type: 3}
+        noTranslation: 0
+    - rid: 5974865124870062227
+      type: {class: Option, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
+      data:
+        graphPosition:
+          serializedVersion: 2
+          x: 1343
+          y: 231
+          width: 314
+          height: 535
+        description: 
+        guid: bc03ffd9-1c42-44e9-90fa-9c205f42ab7a
+        children:
+        - rid: 5974865124870062230
+        - rid: 5974865124870062231
+        - rid: 5974865124870062232
+    - rid: 5974865124870062228
+      type: {class: ContentModule, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
+      data:
+        graphPosition:
+          serializedVersion: 2
+          x: 0
+          y: 108
+          width: 350
+          height: 106
+        description: 
+        guid: 41eb1de2-19b9-4e81-9440-c59913a72341
+        content:
+          isShared: 0
+          isGlobal: 0
+          isExposed: 0
+          mName: 
+          value: "\u54C7\uFF0C\u8FD9\u542C\u8D77\u6765\u771F\u7684\u5F88\u50CF\u771F\u4EBA\u7684\u58F0\u97F3\uFF01VITS\u6280\u672F\u771F\u7684\u5F88\u5389\u5BB3\u554A\u3002"
+    - rid: 5974865124870062229
+      type: {class: VITSModule, ns: Kurisu.NGDT.VITS, asm: Kurisu.NGDT.VITS}
+      data:
+        graphPosition:
+          serializedVersion: 2
+          x: 0
+          y: 214
+          width: 350
+          height: 166
+        description: 
+        guid: 88afc611-a00c-4361-80f0-0695e28b3e0c
+        characterID:
+          isShared: 0
+          isGlobal: 0
+          isExposed: 0
+          mName: 
+          value: 0
+        audioClip:
+          isShared: 0
+          isGlobal: 0
+          isExposed: 0
+          mName: 
+          value: {fileID: 8300000, guid: df6e804bd78c2c749ba69d285e6e8c58, type: 3}
+        noTranslation: 0
+    - rid: 5974865124870062230
       type: {class: TargetIDModule, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
       data:
         graphPosition:
@@ -525,9 +477,10 @@ MonoBehaviour:
         targetID:
           isShared: 1
           isGlobal: 0
+          isExposed: 0
           mName: Dialog2
           value: 
-    - rid: 8821145904345514907
+    - rid: 5974865124870062231
       type: {class: ContentModule, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
       data:
         graphPosition:
@@ -541,45 +494,33 @@ MonoBehaviour:
         content:
           isShared: 0
           isGlobal: 0
+          isExposed: 0
           mName: 
           value: "\u8BF7\u7EE7\u7EED"
-    - rid: 8821145904345514908
-      type: {class: CharacterModule, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
+    - rid: 5974865124870062232
+      type: {class: VITSModule, ns: Kurisu.NGDT.VITS, asm: Kurisu.NGDT.VITS}
       data:
         graphPosition:
           serializedVersion: 2
           x: 0
           y: 303
           width: 290
-          height: 92
-        description: 
-        guid: 38c561b2-7c82-4066-acb8-2e74923ce9d1
-        characterName:
-          isShared: 1
-          isGlobal: 0
-          mName: "\u89D2\u82722"
-          value: 
-    - rid: 8821145904345514909
-      type: {class: VITSModule, ns: Kurisu.NGDT.VITS, asm: Kurisu.NGDT.VITS}
-      data:
-        graphPosition:
-          serializedVersion: 2
-          x: 0
-          y: 395
-          width: 290
-          height: 167
+          height: 166
         description: 
         guid: cd096d66-e677-4b7b-a643-0594cb93bce6
         characterID:
           isShared: 0
           isGlobal: 0
+          isExposed: 0
           mName: 
           value: 0
         audioClip:
           isShared: 0
           isGlobal: 0
+          isExposed: 0
           mName: 
           value: {fileID: 8300000, guid: bf4b047fbaab53a408b29d336102c8b8, type: 3}
+        noTranslation: 0
 --- !u!4 &922367973
 Transform:
   m_ObjectHideFlags: 0
@@ -587,13 +528,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 922367971}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.37676835, y: 1.5045398, z: 0.600879}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1050559535
 GameObject:
@@ -701,7 +642,9 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
+  m_VertexColorAlwaysGammaSpace: 0
   m_AdditionalShaderChannelsFlag: 0
+  m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
@@ -719,7 +662,6 @@ RectTransform:
   m_Children:
   - {fileID: 1805660426}
   m_Father: {fileID: 0}
-  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -749,6 +691,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1095100876}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -758,7 +701,6 @@ Transform:
   - {fileID: 1971198646}
   - {fileID: 1345326598}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1345326597
 GameObject:
@@ -785,13 +727,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1345326597}
+  serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: -3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1095100877}
-  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1345326599
 MonoBehaviour:
@@ -853,13 +795,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1358683253}
+  serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: -2, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1095100877}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!81 &1358683255
 AudioListener:
@@ -883,9 +825,17 @@ Camera:
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
+  m_Iso: 200
+  m_ShutterSpeed: 0.005
+  m_Aperture: 16
+  m_FocusDistance: 10
+  m_FocalLength: 50
+  m_BladeCount: 5
+  m_Curvature: {x: 2, y: 11}
+  m_BarrelClipping: 0.25
+  m_Anamorphism: 0
   m_SensorSize: {x: 36, y: 24}
   m_LensShift: {x: 0, y: 0}
-  m_FocalLength: 50
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
@@ -942,7 +892,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1805660426}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
@@ -1006,7 +955,6 @@ RectTransform:
   - {fileID: 1706446973}
   - {fileID: 1854813664}
   m_Father: {fileID: 1050559541}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -1044,7 +992,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1805660426}
-  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
@@ -1219,8 +1166,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8677128e1d1ff8346a46a49984d510dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  llmType: 4
-  setting: {fileID: 11400000, guid: ea0d25759dad29a45abef2a600646367, type: 2}
+  setting: {fileID: 11400000, guid: 3fa4af6e5c1c1554ea18fb7575dace2b, type: 2}
   audioSource: {fileID: 1958678461}
 --- !u!4 &1958678463
 Transform:
@@ -1229,13 +1175,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1958678460}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 1, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1971198645
 GameObject:
@@ -1261,13 +1207,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1971198645}
+  serializedVersion: 2
   m_LocalRotation: {x: 0.40821788, y: -0.23456968, z: 0.10938163, w: 0.8754261}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1095100877}
-  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
 --- !u!108 &1971198648
 Light:
@@ -1331,3 +1277,11 @@ Light:
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
   m_ShadowAngle: 0
+--- !u!1660057539 &9223372036854775807
+SceneRoots:
+  m_ObjectHideFlags: 0
+  m_Roots:
+  - {fileID: 922367973}
+  - {fileID: 1050559541}
+  - {fileID: 1095100877}
+  - {fileID: 1958678463}

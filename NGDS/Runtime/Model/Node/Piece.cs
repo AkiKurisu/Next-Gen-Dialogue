@@ -1,11 +1,13 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Pool;
 namespace Kurisu.NGDS
 {
     [Serializable]
     public class Piece : Node, IContent, IDialogueModule
     {
+        private static readonly ObjectPool<Piece> pool = new(() => new Piece(), null, (p) => p.Reset());
         private const string DefaultID = "00";
         [field: SerializeField]
         public string PieceID { get; set; } = DefaultID;
@@ -26,13 +28,17 @@ namespace Kurisu.NGDS
             if (options.Contains(option)) return;
             options.Add(option);
         }
-        public static Piece CreatePiece()
+        public static Piece GetPooled()
         {
-            return NodePoolManager.Instance.GetNode<Piece>().Reset();
+            return pool.Get();
         }
         protected override void OnModuleAdd(IDialogueModule module)
         {
             if (module is Option option) AddOption(option);
+        }
+        public override void Dispose()
+        {
+            pool.Release(this);
         }
     }
 }

@@ -16,7 +16,7 @@ namespace Kurisu.NGDT
         }
         public void DisposeWriteNode()
         {
-            nodesBuffer.Pop().NodePushPool();
+            nodesBuffer.Pop().DisposeRecursively();
         }
         public Node GetNode()
         {

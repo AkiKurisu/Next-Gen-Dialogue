@@ -39,12 +39,6 @@ namespace Kurisu.NGDS
         /// </summary>
         /// <returns></returns>
         IDialogueLookup GetCurrentLookup();
-        /// <summary>
-        /// Get current using dialogue proxy
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <returns></returns>
-        T GetCurrentLookup<T>() where T : IDialogueLookup;
         event Action<IDialogueResolver> OnDialogueStart;
         event Action<IPieceResolver> OnPiecePlay;
         event Action<IOptionResolver> OnOptionCreate;

@@ -8,12 +8,12 @@ namespace Kurisu.NGDS
         private Dialogue dialogueCache;
         public DialogueBuilder()
         {
-            dialogueCache = Dialogue.CreateDialogue();
+            dialogueCache = Dialogue.GetPooled();
         }
         public void Clear()
         {
-            dialogueCache.NodePushPool();
-            dialogueCache = Dialogue.CreateDialogue();
+            dialogueCache.DisposeRecursively();
+            dialogueCache = Dialogue.GetPooled();
         }
         Piece IDialogueLookup.GetNext(string ID)
         {

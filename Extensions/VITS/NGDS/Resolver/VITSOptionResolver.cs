@@ -2,23 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using Kurisu.NGDS.AI;
 using UnityEngine;
 namespace Kurisu.NGDS.VITS
 {
     public class VITSOptionResolver : IOptionResolver
     {
-        public VITSOptionResolver(AIPromptBuilder promptBuilder, VITSTurbo vitsTurbo, AudioSource audioSource)
+        public VITSOptionResolver(VITSTurbo vitsTurbo, AudioSource audioSource)
         {
-            this.promptBuilder = promptBuilder;
-            objectContainer.Register(promptBuilder);
             this.vitsTurbo = vitsTurbo;
             this.audioSource = audioSource;
         }
         private readonly VITSTurbo vitsTurbo;
         private readonly AudioSource audioSource;
         private IDialogueSystem system;
-        private readonly AIPromptBuilder promptBuilder;
         public IReadOnlyList<Option> DialogueOptions { get; private set; }
         public float MaxWaitTime { get; set; } = 30f;
         private readonly Dictionary<Option, AudioClip> audioCacheMap = new();
@@ -47,10 +43,6 @@ namespace Kurisu.NGDS.VITS
             }
             else
             {
-                if (option.TryGetModule(out CharacterModule characterModule))
-                {
-                    promptBuilder.Append(characterModule.CharacterName, option.Content);
-                }
                 system.PlayDialoguePiece(option.TargetID);
             }
             //Handle CallBack Module

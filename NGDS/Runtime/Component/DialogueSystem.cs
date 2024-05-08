@@ -16,9 +16,9 @@ namespace Kurisu.NGDS
         public ResolverMgr()
         {
             //Collect global resolver
-            dialogueResolver = IOCContainer.Resolve<IDialogueResolver>() ?? new BuiltInDialogueResolver();
-            pieceResolver = IOCContainer.Resolve<IPieceResolver>() ?? new BuiltInPieceResolver();
-            optionResolver = IOCContainer.Resolve<IOptionResolver>() ?? new BuiltInOptionResolver();
+            dialogueResolver = IOCContainer.Resolve<IDialogueResolver>() ?? new DefaultDialogueResolver();
+            pieceResolver = IOCContainer.Resolve<IPieceResolver>() ?? new DefaultPieceResolver();
+            optionResolver = IOCContainer.Resolve<IOptionResolver>() ?? new DefaultOptionResolver();
         }
         /// <summary>
         /// Collect dialogue specific resolver
@@ -54,10 +54,6 @@ namespace Kurisu.NGDS
         public IDialogueLookup GetCurrentLookup()
         {
             return dialogueLookup;
-        }
-        public T GetCurrentLookup<T>() where T : IDialogueLookup
-        {
-            return (T)dialogueLookup;
         }
         public Dialogue GetCurrentDialogue()
         {

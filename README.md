@@ -1,6 +1,6 @@
 # Next Gen Dialogue User Manual
 
-<img src="Doc/Images/Splash.png" >
+<img src="Docs/Images/Splash.png" >
 
 ***Read this document in Chinese: [中文文档](./README_ZH.md)***
 
@@ -12,7 +12,6 @@
   - [Install](#install)
   - [Quick Start](#quick-start)
     - [Create a Dialogue Tree](#create-a-dialogue-tree)
-    - [AI Generate Dialogue](#ai-generate-dialogue)
     - [AI Bake Dialogue](#ai-bake-dialogue)
   - [Nodes](#nodes)
   - [Modules](#modules)
@@ -32,30 +31,25 @@
 
 ## Features
 
-<Img src = "Doc/Images/BakeDialogue.png">
+<Img src = "Docs/Images/BakeDialogue.png">
 
-Next Gen Dialogue plugin (hereinafter referred to as NGD) is a Unity dialogue plugin combined with large language model design, won the Unity AI Plugin Excellence Award from Unity China. It combines the traditional dialogue design method with AI technique. Currently this package is an experimental attempt and hopes you enjoy it. 
+Next Gen Dialogue plugin is a Unity dialogue plugin combined with large language model design, won the Unity AI Plugin Excellence Award from Unity China. It combines the traditional dialogue design method with AI technique. Currently this package is an experimental attempt and hopes you enjoy it. 
 
 It has the following features:
 1. Visual dialogue editor
 2. Modular dialogue function
-3. Support AIGC to generate dialogue when running
-4. Support AIGC baking dialogue in Editor
-5. Debug during runtime
+3. Support AIGC baking dialogue in Editor
+4. Debug during runtime
    
 Demo project: https://github.com/AkiKurisu/Next-Gen-Dialogue-Example-Project
 
-<Img src = "Doc/Images/DemoExample2.png">
+<Img src = "Docs/Images/DemoExample2.png">
 
-<Img src = "Doc/Images/DemoExample1.png">
+<Img src = "Docs/Images/DemoExample1.png">
 
 Demo video: https://www.bilibili.com/video/BV1hg4y1U7FG
 
-<Img src = "Doc/Images/BilibiliDemo.png">
-
-## RoadMap
-
-1. Use Unity Sentis to inference VITS, LLM model instead of using Python API which needs network and server (There are currently technical limitations).
+<Img src = "Docs/Images/BilibiliDemo.png">
 
 ## Supported version
 
@@ -75,15 +69,11 @@ If you are using this plugin for the first time, it is recommended to play the f
 
 `` 1.Normal Usage.unity `` this scene contains the use of NextGenDialogueTree and NextGenDialogueTreeSO;
 
-`` 2.GPT Generate dialogue.unity`` this scene contains the samples of dialogue content using ChatGPT during runtime;
+`` 2. Editor Bake Dialogue.unity``this scene contains the sample of baking conversation conversation in the use of AI dialogue Baker in Editor;
 
-`` 3.Local LLM Generate dialogue.unity `` this scene contains a sample of dialogue with the use of local large language models at runtime;
+```3.Build Dialogue by Code.unity``` this scene contains the use of Code to generate dialogue.
 
-`` 4. Editor Bake Dialogue.unity``this scene contains the sample of baking conversation conversation in the use of AI dialogue Baker in Editor;
-
-```5.Build Dialogue by Code.unity``` this scene contains the use of Code to generate dialogue.
-
-``6.Bake Novel.unity`` An example of using ChatGPT to infinitely generate dialogue trees.
+```4.Bake Novel.unity``` An example of using ChatGPT to infinitely generate dialogue trees.
 
 ### Create a Dialogue Tree
 
@@ -101,58 +91,37 @@ The following process is to create a dialogue tree that contains only a single d
 9. <b style = "color:#ee819e"> Very important: </b> At least one Piece node needs to be added to the Dialogue as the first piece of the dialogue.You can right -click dialogue's ``Add Piece `` to connect with the connection or quoting its PieceID. You can also right -click dialogue's ``Collect All Pieces`` to add all the piece in Graph to the dialogue and adjust the priority of the Piece
     * For priority, please refer to [《General Module-Condition Module》](#general-modules)
 
-    <Img src = "Doc/Images/CreateDialogue.png">
+    <Img src = "Docs/Images/CreateDialogue.png">
   
 10. Click on the upper left of the editor's `` Save`` to save dialogue
 11. Click Play to enter PlayMode
 12. Click on NextGenDialogueTree ``Play dialogue`` to play conversation
 13. Click `` Debug DialogueTree `` to enter the debug mode
     
-<IMG SRC = "Doc/Images/RuntimeDebug.png">
+<IMG SRC = "Docs/Images/RuntimeDebug.png">
 
 - <span style = "color:#f8d09d"> Tips: </span> The currently played dialogue piece will be displayed in green
 
-### AI Generate Dialogue
-
-The traditional dialogue design is completely dependent on the designer. If you want to make the dialogue more personalized, you can try to use AIGC. In addition to ChatGPT, you can also use a large language model deployed locally. Of course, since the model depends on the Python environment, Using the model in Unity needs to rely on the terminal for network communication
-
-<span style="color:#F8D09D">Tips: </span> Currently supports the following popular terminals, you can choose according to your needs and equipment conditions
-1. The Generate mode of [KoboldAI-KoboldCPP](https://github.com/LostRuins/koboldcpp), KoboldCPP supports CPU reasoning
-2. The Generate mode of [Oobabooga-Text-Generation-WebUI](https://github.com/oobabooga/text-generation-webui), WebUI has a high memory usage rate, and running Unity on the same machine will affect performance
-3. API (Generate mode) and OpenAI Type API (Chat mode) of [ChatGLM2-6B](https://github.com/THUDM/ChatGLM2-6B), ChatGLM is a powerful and efficient Chinese-English language model
-
-The following process is to create a dialogue tree that can generate dialogue content according to the player's choice at runtime:
-
-1. The design of the basic dialogue tree is consistent with the process of [《Create a Dialogue Tree》](#create-a-dialogue-tree)
-2. AIGC can better generate the content required by users by providing a prompt word (Prompt). For example, the background setting of the dialogue and the additional requirements of the designer. You only need to add ```Prompt Module``` in the dialogue node, and fill in the prompt word in ```prompt```
-3. For Piece or Option nodes that require AI recognition but do not need to be generated, add ```Character Module``` and indicate the name of the speaking character in ```characterName```
-4. Add ```AI Generate Module``` to the Piece node that needs to be generated by AI and fill in the corresponding character name in ```characterName```
-5. Create an empty GameObject in the scene and mount the ``AIEntry`` component
-6. Select the type of LLM you are using and configure the address and port of the Server
-
-- <span style="color:#F8D09D">Note</span> : Generate dialogue content does not support generate option at runtime
-
 ### AI Bake Dialogue
 
-It is not easy to control the dialogue content of AIGC at runtime, but you can use AI dialogue Baker to bake the dialogue content generated by AI in advance when designing the dialogue tree, so as to improve the workflow efficiency without affecting your design framework.
+You can use AI dialogue Baker to bake the dialogue content generated by AI in advance when designing the dialogue tree, so as to improve the workflow efficiency without affecting your design framework.
 
-<img src="Doc/Images/BakeDialogue.png">
+<img src="Docs/Images/BakeDialogue.png">
 
 1. The basic dialogue tree design is consistent with the process of [《Create a Dialogue Tree》](#create-a-dialogue-tree)
-2. The addition of Prompt is consistent with the process of [《AI Generated Dialogue》](#ai-generate-dialogue)
-3. Add ```AI Bake Module``` for the fragments or options that need to be baked, and remove the module for nodes that do not need to be baked
-4. Select the type of LLM you are baking with
-5. <b>Select in turn</b> the nodes that AI dialogue Baker needs to recognize, the order of recognition is based on the order selected by the mouse, and finally select the nodes that need to be baked
-6. If the selection is successful, you can see the preview input content at the bottom of the editor
-7. Click the ``Bake Dialogue`` button on the ````AI Bake Module```` and wait for the AI response
-8. After the language model responds, a ```Content Module``` will be automatically added to the node to store the baked dialogue content
-9. You can continuously generate conversations based on your needs
+2. Add ```AI Bake Module``` for the fragments or options that need to be baked, and remove the module for nodes that do not need to be baked
+3. Select the type of LLM you are baking with
+4. <b>Select in turn</b> the nodes that AI dialogue Baker needs to recognize, the order of recognition is based on the order selected by the mouse, and finally select the nodes that need to be baked
+5. If the selection is successful, you can see the preview input content at the bottom of the editor
+6. Click the ``Bake Dialogue`` button on the ````AI Bake Module```` and wait for the AI response
+7. After the language model responds, a ```Content Module``` will be automatically added to the node to store the baked dialogue content
+8. You can continuously generate conversations based on your needs
 
-### AI generated novel
+### AI Generate Novel
 
-Different from talking directly to AI in baking dialogue, novel mode allows AI to play the role of copywriter and planner to write dialogue, so it can control options and fragments more precisely. Please refer to the example: ``6.Bake Novel.unity``
+Different from talking directly to AI in baking dialogue, novel mode allows AI to play the role of copywriter and planner to write dialogue, so it can control options and fragments more precisely. Please refer to the example: ``4.Bake Novel.unity``
 
-<img src="Doc/Images/BakeNovel.png" >
+<img src="Docs/Images/BakeNovel.png" >
 
 ## Nodes
 
@@ -202,9 +171,7 @@ The following are the built-in AIGC modules:
 | Name                             | Description                                                                  |
 | -------------------------------- | ---------------------------------------------------------------------------- |
 | Prompt Module                    | Prompt words that provide the basis for subsequent dialogue generation       |
-| Character Module                 | Annotate the Speaker of a dialogue                                           |
-| AI Generate Module               | Allow Piece to generate dialogue using AIGC based on previous player choices |
-| AI Bake Module ``(Editor Only)`` | Add this module to bake Option or Piece in ``Editor``                        |
+
 
 ### Experimental Modules
 
@@ -228,13 +195,13 @@ If you want to use the VITS module, please use it with VITSAIReResolver. For the
 | ----------- | ------------------------------------------------------------------------------------- |
 | VITS Module | Use VITS speech synthesis model to generate language for Piece or Option in real time |
 
-## Experimental Function Introduction
+## Editor Function Introduction
 
 ### One-click Translation
 
 Add Editor/EditorTranslateModule in the Dialogue node, set the source language (`sourceLanguageCode`) and target language (`targetLanguageCode`) of the translation, right-click and select `Translate All Contents` to perform all Piece and Option with `ContentModule` translate.
 
-<img src="Doc/Images/FastTranslation.png" >
+<img src="Docs/Images/FastTranslation.png" >
 
 For nodes other than `ContentModule`, if the `TranslateEntryAttribute` is added to the field, you can right-click a single node to translate it.
 
@@ -250,13 +217,13 @@ namespace Kurisu.NGDT.Behavior
     }
 }
 ```
-<img src="Doc/Images/SingleTranslate.png" >
+<img src="Docs/Images/SingleTranslate.png" >
 
 ### Bake Voice
 
 Before use, you need to install the corresponding dependencies of `Modules/VITS` and open the local VITS server (refer to `Modules/VITS/README.md`). Add `AIGC/VITSModule` to the node where speech needs to be generated, right-click and select ``Bake Audio ``
 
-<img src="Doc/Images/BakeAudio.png" >
+<img src="Docs/Images/BakeAudio.png" >
 
 If you are satisfied with the generated audio, click `Download` to save it locally to complete the baking, otherwise the audio file will not be retained after exiting the editor.
 
@@ -269,18 +236,17 @@ Resolver is used to detect the Module in the Container at runtime and execute a 
 
 | Name                                  | Description                                                                                                         |
 | ------------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
-| BuiltIn Resolver                      | The most basic resolver, supporting all built-in common modules                                                     |
-| AI Resolver                           | Added AIGC module on the basis of BuiltIn Resolver                                                                  |
-| VITS AI Resolver ```(Experimental)``` | On the basis of AI Resolver, additionally detect VITS modules to generate voice in real time, no need for bake mode |
+| BuiltIn Resolver                      | The most basic resolver, supporting all built-in common modules                                                     
+| VITS Resolver | Additionally detect VITS modules to generate voice in real time|
 
 ### How to Switch Resolver
 
 1. In-scene Global Resolver
-    You can mount the ```AIEntry``` script on any GameObject to enable AIResolver in the scene
+    You can mount the ```VITSSetup``` script on any GameObject to enable AIResolver in the scene
 
 2. Dialogue specified Resolver
    
-    You can add ``AIResolverModule`` (or  ```VITSAIResolverModule```) to the dialogue node to specify the resolver used by the dialogue, and you can also click the Setting button in the upper right corner of the module and select which Resolvers to be replaced in ``Advanced Settings``
+    You can add  ```VITSResolverModule``` to the dialogue node to specify the resolver used by the dialogue, and you can also click the Setting button in the upper right corner of the module and select which Resolvers to be replaced in ``Advanced Settings``
 
 ## Create Dialogue by Code
 

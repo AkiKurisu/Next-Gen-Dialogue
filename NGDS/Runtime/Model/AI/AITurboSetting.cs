@@ -1,14 +1,9 @@
-using Kurisu.NGDS.Translator;
 using UnityEngine;
 namespace Kurisu.NGDS.AI
 {
         [CreateAssetMenu(fileName = "AITurboSetting", menuName = "Next Gen Dialogue/AITurboSetting")]
         public class AITurboSetting : ScriptableObject
         {
-                public enum GPT_APIMode
-                {
-                        Chat, Completions
-                }
                 public enum GPT_ModelType
                 {
                         [InspectorName("GPT-3.5-Turbo")]
@@ -22,9 +17,9 @@ namespace Kurisu.NGDS.AI
                 }
                 [field: Header("LLM Setting")]
                 [field: SerializeField]
+                public LLMType LLM_Type { get; set; }
+                [field: SerializeField]
                 public string ChatGPT_URL_Override { get; set; }
-                [Tooltip("Whether use GPT Chat Mode or Completions Mode, Chat Mode is better when only has two role")]
-                public GPT_APIMode gpt_APIMode;
                 [Tooltip("Set ChatGPT model type")]
                 public GPT_ModelType gptType;
                 public string GPT_Model
@@ -35,7 +30,6 @@ namespace Kurisu.NGDS.AI
                                 else return "gpt-4";
                         }
                 }
-                public bool ChatMode => gpt_APIMode == GPT_APIMode.Chat;
                 [field: SerializeField]
                 public string OpenAIKey { get; set; }
                 [field: SerializeField]

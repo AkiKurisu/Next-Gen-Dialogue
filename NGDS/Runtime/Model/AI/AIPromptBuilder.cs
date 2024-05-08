@@ -1,63 +1,44 @@
 using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
+using System.Text;
 namespace Kurisu.NGDS.AI
 {
-    public class DialogueParam : IMessage
+    public class AIPromptBuilder : ILLMRequest
     {
-        public string character;
-        public string content;
-        public string Character => character;
-
-        public string Content => content;
-        public DialogueParam() { }
-        public DialogueParam(string character, string content)
+        private class DialogueParam : IMessage
         {
-            this.character = character;
-            this.content = content;
+            public string Content { get; set; }
+            public MessageRole Role { get; set; }
+            public DialogueParam(MessageRole role, string content)
+            {
+                Role = role;
+                Content = content;
+            }
         }
-    }
-    public class AIPromptBuilder : ILLMInput
-    {
-        private readonly ILLMDriver driver;
-        public string OutputCharacter { get; private set; }
-        private readonly HashSet<string> characters = new();
-        public IEnumerable<string> InputCharacters => characters;
         private readonly Queue<DialogueParam> history = new();
-        public IEnumerable<IMessage> History => history;
-        public string Prompt { get; private set; } = string.Empty;
-        public AIPromptBuilder(ILLMDriver driver)
+        public IEnumerable<IMessage> Messages => history;
+        public string UserName { get; set; } = "User";
+        public string BotName { get; set; } = "Bot";
+        public string Context { get; set; } = string.Empty;
+        public void Append(MessageRole role, string content)
         {
-            this.driver = driver;
+            history.Enqueue(new DialogueParam(role, content));
         }
-        public IEnumerable<string> GetCharacters() => characters;
-        /// <summary>
-        /// Set input system prompt
-        /// </summary>
-        /// <param name="prompt"></param>
-        public void SetSystemPrompt(string prompt)
+        public void ReverseRole()
         {
-            Prompt = prompt;
-            driver.SetSystemPrompt(prompt);
+            foreach (var message in history)
+            {
+                if (message.Role == MessageRole.User) message.Role = MessageRole.Bot;
+                else if (message.Role == MessageRole.Bot) message.Role = MessageRole.User;
+            }
         }
-        /// <summary>
-        /// Set input system prompt
-        /// </summary>
-        /// <param name="prompt"></param>
-        public void Append(string character, string content)
+        public override string ToString()
         {
-            if (!characters.Contains(character)) characters.Add(character);
-            history.Enqueue(new DialogueParam(character, content));
-        }
-        public async Task<ILLMOutput> Generate(string character, CancellationToken ct)
-        {
-            if (characters.Contains(character)) characters.Remove(character);
-            var response = await driver.ProcessLLM(this, ct);
-#if UNITY_EDITOR
-            if (response.Status)
-                UnityEngine.Debug.Log("[Detect LLM Response] " + response.Response);
-#endif
-            return response;
+            var sb = new StringBuilder();
+            foreach (var message in history)
+            {
+                sb.AppendLine($"{(message.Role == MessageRole.User ? UserName : BotName)}: {message.Content}");
+            }
+            return sb.ToString();
         }
     }
 }

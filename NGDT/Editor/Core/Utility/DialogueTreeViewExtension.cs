@@ -1,7 +1,10 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
+using UnityEngine.UIElements;
 namespace Kurisu.NGDT.Editor
 {
     public static class DialogueTreeViewExtension
@@ -58,6 +61,41 @@ namespace Kurisu.NGDT.Editor
             node.Restore(behavior);
             treeView.AddNode(node, new(0, 0, position.x, position.y));
             return node;
+        }
+        public static ContainerNode CreateNextContainer(this IDialogueTreeView treeView, ContainerNode first)
+        {
+            Type nextNodeType = first is PieceContainer ? typeof(Option) : typeof(Piece);
+            var node = NodeResolverFactory.Instance.Create(nextNodeType, treeView) as ContainerNode;
+            var rect = first.GetPosition();
+            rect.x += rect.width + 300;
+            treeView.AddNode(node, rect);
+            return node;
+        }
+        /// <summary>
+        /// Get cancellation token source attached to tree view for preventing threads from running in the background
+        /// when tree view is already detached
+        /// </summary>
+        /// <param name="treeView"></param>
+        /// <returns></returns>
+        public static CancellationTokenSource GetCancellationTokenSource(this IDialogueTreeView treeView)
+        {
+            var ct = new CancellationTokenSource();
+            treeView.View.RegisterCallback<DetachFromPanelEvent>((evt) => ct.Cancel());
+            return ct;
+        }
+        public static void ConnectContainerNodes(this IDialogueTreeView treeView, ContainerNode first, ContainerNode second)
+        {
+            if (first is PieceContainer pieceContainer)
+            {
+                pieceContainer.AddChildElement(second, treeView);
+            }
+            else
+            {
+                var optionNode = first as OptionContainer;
+                var pieceNode = second as PieceContainer;
+                pieceNode.GenerateNewPieceID();
+                optionNode.AddModuleNode(new TargetIDModule(pieceNode.GetPieceID()));
+            }
         }
     }
 }
