@@ -236,7 +236,7 @@ Resolver is used to detect the Module in the Container at runtime and execute a 
 
 | Name                                  | Description                                                                                                         |
 | ------------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
-| BuiltIn Resolver                      | The most basic resolver, supporting all built-in common modules                                                     
+| Default Resolver                      | The most basic resolver, supporting all built-in common modules                                                     
 | VITS Resolver | Additionally detect VITS modules to generate voice in real time|
 
 ### How to Switch Resolver
@@ -256,7 +256,7 @@ NGD is divided into two parts, DialogueSystem (NGDS) and DialogueTree (NGDT). Th
 using UnityEngine;
 public class CodeDialogueBuilder : MonoBehaviour
 {
-    private DialogueGenerator generator;
+    private DialogueBuilder builder;
     private IEnumerator Start()
     {
         yield return new WaitForEndOfFrame();
@@ -265,9 +265,9 @@ public class CodeDialogueBuilder : MonoBehaviour
     private void PlayDialogue()
     {
         var dialogueSystem = IOCContainer.Resolve<IDialogueSystem>();
-        generator = new();
+        builder = new DialogueBuilder();
         //First Piece
-        var piece = DialoguePiece.CreatePiece();
+        var piece = DialoguePiece.GetPooled();
         piece.Content = "This is the first dialogue piece";
         piece.PieceID = "01";
         piece.AddOption(new DialogueOption()
@@ -277,10 +277,10 @@ public class CodeDialogueBuilder : MonoBehaviour
         });
         generator.AddPiece(piece);
         //Second Piece
-        piece = DialoguePiece.CreatePiece();
+        piece = DialoguePiece.GetPooled();
         piece.Content = "This is the second dialogue piece";
         piece.PieceID = "02";
-        var callBackOption = DialogueOption.CreateOption();
+        var callBackOption = DialogueOption.GetPooled();
         //Add CallBack Module
         callBackOption.AddModule(new CallBackModule(() => Debug.Log("Hello World !")));
         callBackOption.Content = "Log";

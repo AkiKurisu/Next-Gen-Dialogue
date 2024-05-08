@@ -8,7 +8,7 @@ namespace Kurisu.NGDT.Editor
     [CustomEditor(typeof(NextGenDialogueTree))]
     public class NextGenDialogueTreeEditor : UnityEditor.Editor
     {
-        private const string LabelText = "Next-Gen DialogueTree <size=12>V1.0.1</size>";
+        private static readonly string LabelText = $"Next-Gen DialogueTree <size=12>{NextGenDialogueSetting.Version}</size>";
         private const string ButtonText = "Edit DialogueTree";
         private const string DebugText = "Debug DialogueTree";
         private VisualElement myInspector;
@@ -50,7 +50,7 @@ namespace Kurisu.NGDT.Editor
     [CustomEditor(typeof(NextGenDialogueTreeSO))]
     public class NextGenDialogueTreeSOEditor : UnityEditor.Editor
     {
-        private const string LabelText = "Next-Gen DialogueTreeSO <size=12>V1.0.1</size>";
+        private static readonly string LabelText = $"Next-Gen DialogueTreeSO <size=12>{NextGenDialogueSetting.Version}</size>";
         private const string ButtonText = "Edit DialogueTreeSO";
         private const string DebugText = "Debug DialogueTree";
         private VisualElement myInspector;

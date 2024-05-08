@@ -240,8 +240,8 @@ namespace Kurisu.NGDT.Behavior
 
 | 名称                                  | 描述                                          |
 | ------------------------------------- | --------------------------------------------- |
-| BuiltIn Resolver                      | 基础的解析器，支持所有内置的通用模组          
-| VITS AI Resolver| 额外检测VITS模组实时生成语音 |
+| Default Resolver                      | 基础的解析器，支持所有内置的通用模组          
+| VITS Resolver| 额外检测VITS模组实时生成语音 |
 
 ### 如何切换解析器
 
@@ -260,7 +260,7 @@ namespace Kurisu.NGDT.Behavior
 using UnityEngine;
 public class CodeDialogueBuilder : MonoBehaviour
 {
-    private DialogueGenerator generator;
+    private DialogueBuilder builder;
     private IEnumerator Start()
     {
         yield return new WaitForEndOfFrame();
@@ -269,9 +269,9 @@ public class CodeDialogueBuilder : MonoBehaviour
     private void PlayDialogue()
     {
         var dialogueSystem = IOCContainer.Resolve<IDialogueSystem>();
-        generator = new();
+        builder = new DialogueBuilder();
         //First Piece
-        var piece = DialoguePiece.CreatePiece();
+        var piece = DialoguePiece.GetPooled();
         piece.Content = "This is the first dialogue piece";
         piece.PieceID = "01";
         piece.AddOption(new DialogueOption()
@@ -281,10 +281,10 @@ public class CodeDialogueBuilder : MonoBehaviour
         });
         generator.AddPiece(piece);
         //Second Piece
-        piece = DialoguePiece.CreatePiece();
+        piece = DialoguePiece.GetPooled();
         piece.Content = "This is the second dialogue piece";
         piece.PieceID = "02";
-        var callBackOption = DialogueOption.CreateOption();
+        var callBackOption = DialogueOption.GetPooled();
         //Add CallBack Module
         callBackOption.AddModule(new CallBackModule(() => Debug.Log("Hello World !")));
         callBackOption.Content = "Log";
