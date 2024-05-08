@@ -3,28 +3,24 @@ using System.Threading;
 using System.Threading.Tasks;
 namespace Kurisu.NGDS
 {
-    public interface ILLMOutput
+    public interface ILLMResponse
     {
-        bool Status { get; }
         string Response { get; }
+    }
+    public enum MessageRole
+    {
+        System,
+        User,
+        Bot
     }
     public interface IMessage
     {
-        public string Character { get; }
+        public MessageRole Role { get; }
         public string Content { get; }
     }
-    public interface ILLMInput
+    public interface ILLMRequest
     {
-        /// <summary>
-        /// The character of LLM output
-        /// </summary>
-        /// <value></value>
-        string OutputCharacter { get; }
-        /// <summary>
-        /// The characters of LLM input
-        /// </summary>
-        /// <value></value>
-        IEnumerable<string> InputCharacters { get; }
+        string Context { get; }
         /// <summary>
         /// LLM history
         /// </summary>
@@ -35,7 +31,7 @@ namespace Kurisu.NGDS
     {
         Task<string> Translate(string input, CancellationToken ct);
     }
-    public interface ILLMDriver
+    public interface ILargeLanguageModel
     {
         /// <summary>
         /// Generate llm data from unstructured llm input
@@ -43,18 +39,13 @@ namespace Kurisu.NGDS
         /// <param name="input"></param>
         /// <param name="ct"></param>
         /// <returns></returns>
-        Task<ILLMOutput> ProcessLLM(ILLMInput input, CancellationToken ct);
+        Task<ILLMResponse> GenerateAsync(ILLMRequest input, CancellationToken ct);
         /// <summary>
         /// Generate llm data from structured input
         /// </summary>
         /// <param name="input"></param>
         /// <param name="ct"></param>
         /// <returns></returns>
-        Task<ILLMOutput> ProcessLLM(string input, CancellationToken ct);
-        /// <summary>
-        /// Set llm system prompt
-        /// </summary>
-        /// <param name="prompt"></param>
-        void SetSystemPrompt(string prompt);
+        Task<ILLMResponse> GenerateAsync(string input, CancellationToken ct);
     }
 }

@@ -5,59 +5,44 @@ namespace Kurisu.NGDS.AI
 {
     public class DialogueParam : IMessage
     {
-        public string character;
-        public string content;
-        public string Character => character;
-
-        public string Content => content;
+        public string Content { get; private set; }
+        public MessageRole Role { get; private set; }
         public DialogueParam() { }
-        public DialogueParam(string character, string content)
+        public DialogueParam(MessageRole role, string content)
         {
-            this.character = character;
-            this.content = content;
+            Role = role;
+            Content = content;
         }
     }
-    public class AIPromptBuilder : ILLMInput
+    public class AIPromptBuilder : ILLMRequest
     {
-        private readonly ILLMDriver driver;
-        public string OutputCharacter { get; private set; }
-        private readonly HashSet<string> characters = new();
-        public IEnumerable<string> InputCharacters => characters;
+        private readonly ILargeLanguageModel llm;
         private readonly Queue<DialogueParam> history = new();
         public IEnumerable<IMessage> History => history;
-        public string Prompt { get; private set; } = string.Empty;
-        public AIPromptBuilder(ILLMDriver driver)
+        public string Context { get; private set; } = string.Empty;
+        public AIPromptBuilder(ILargeLanguageModel driver)
         {
-            this.driver = driver;
+            llm = driver;
         }
-        public IEnumerable<string> GetCharacters() => characters;
         /// <summary>
         /// Set input system prompt
         /// </summary>
         /// <param name="prompt"></param>
         public void SetSystemPrompt(string prompt)
         {
-            Prompt = prompt;
-            driver.SetSystemPrompt(prompt);
+            Context = prompt;
         }
         /// <summary>
         /// Set input system prompt
         /// </summary>
         /// <param name="prompt"></param>
-        public void Append(string character, string content)
+        public void Append(MessageRole role, string content)
         {
-            if (!characters.Contains(character)) characters.Add(character);
-            history.Enqueue(new DialogueParam(character, content));
+            history.Enqueue(new DialogueParam(role, content));
         }
-        public async Task<ILLMOutput> Generate(string character, CancellationToken ct)
+        public async Task<ILLMResponse> GenerateAsync(CancellationToken ct)
         {
-            if (characters.Contains(character)) characters.Remove(character);
-            var response = await driver.ProcessLLM(this, ct);
-#if UNITY_EDITOR
-            if (response.Status)
-                UnityEngine.Debug.Log("[Detect LLM Response] " + response.Response);
-#endif
-            return response;
+            return await llm.GenerateAsync(this, ct);
         }
     }
 }

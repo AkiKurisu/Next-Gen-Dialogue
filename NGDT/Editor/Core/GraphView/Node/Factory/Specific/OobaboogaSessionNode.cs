@@ -44,7 +44,6 @@ namespace Kurisu.NGDT.Editor
                 var position = MapTreeView.View.contentViewContainer.WorldToLocal(mousePosition) - new Vector2(400, 300);
                 var firstPiece = MapTreeView.CreateNode(new Piece(), position) as PieceContainer;
                 firstPiece.GenerateNewPieceID();
-                firstPiece.AddModuleNode(new CharacterModule(new SharedString(session.name2)));
                 firstPiece.AddModuleNode(new ContentModule(internalData[0][1]));
                 ContainerNode last = firstPiece;
                 for (int i = 1; i < internalData.Length; ++i)
@@ -53,14 +52,12 @@ namespace Kurisu.NGDT.Editor
                     var node = MapTreeView.CreateNextContainer(last);
                     // Link to piece
                     MapTreeView.ConnectContainerNodes(last, node);
-                    node.AddModuleNode(new CharacterModule(new SharedString(session.name1)));
                     node.AddModuleNode(new ContentModule(internalData[i][0]));
                     last = node;
                     // Create next container
                     node = MapTreeView.CreateNextContainer(last);
                     // Link to option
                     MapTreeView.ConnectContainerNodes(last, node);
-                    node.AddModuleNode(new CharacterModule(new SharedString(session.name2)));
                     node.AddModuleNode(new ContentModule(internalData[i][1]));
                     last = node;
                 }

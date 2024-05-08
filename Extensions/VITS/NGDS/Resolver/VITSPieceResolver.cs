@@ -7,14 +7,11 @@ namespace Kurisu.NGDS.VITS
 {
     public class VITSPieceResolver : IPieceResolver
     {
-        public VITSPieceResolver(AIPromptBuilder promptBuilder, VITSTurbo vitsTurbo, AudioSource audioSource)
+        public VITSPieceResolver(VITSTurbo vitsTurbo, AudioSource audioSource)
         {
-            this.promptBuilder = promptBuilder;
             this.vitsTurbo = vitsTurbo;
             this.audioSource = audioSource;
-            objectContainer.Register(promptBuilder);
         }
-        private readonly AIPromptBuilder promptBuilder;
         private readonly VITSTurbo vitsTurbo;
         private readonly AudioSource audioSource;
         private IDialogueSystem system;
@@ -34,10 +31,6 @@ namespace Kurisu.NGDS.VITS
             {
                 if (DialoguePiece.Modules[i] is IProcessable injectable)
                     yield return injectable.Process(objectContainer);
-            }
-            if (DialoguePiece.TryGetModule(out CharacterModule characterModule))
-            {
-                promptBuilder.Append(characterModule.CharacterName, DialoguePiece.Content);
             }
             if (DialoguePiece.TryGetModule(out VITSAudioClipModule audioClipModule))
             {
