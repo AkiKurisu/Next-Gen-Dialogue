@@ -26,7 +26,7 @@ namespace Kurisu.NGDT.VITS
                 Translator = LLMFactory.CreateTranslator(turboSetting.TranslatorType, turboSetting, turboSetting.LLM_Language, turboSetting.VITS_Language)
             };
             return new ResolverModule(
-                    overrideDialogueResolver ? new BuiltInDialogueResolver() : null,
+                    overrideDialogueResolver ? new DefaultDialogueResolver() : null,
                     overridePieceResolver ? new VITSPieceResolver(vitsTurbo, audioSource.Value) : null,
                     overrideOptionResolver ? new VITSOptionResolver(vitsTurbo, audioSource.Value) : null
                 );

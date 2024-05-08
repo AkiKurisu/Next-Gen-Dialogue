@@ -1,7 +1,7 @@
 using System.Collections;
 namespace Kurisu.NGDS
 {
-    public class BuiltInDialogueResolver : IDialogueResolver
+    public class DefaultDialogueResolver : IDialogueResolver
     {
         public Dialogue Dialogue { get; private set; }
         protected ObjectContainer ObjectContainer { get; } = new();

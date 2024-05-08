@@ -23,7 +23,7 @@ namespace Kurisu.NGDS.VITS
             IOCContainer.Register(vitsTurbo);
             IOCContainer.Register(pieceResolver = new VITSPieceResolver(vitsTurbo, audioSource));
             IOCContainer.Register(optionResolver = new VITSOptionResolver(vitsTurbo, audioSource));
-            IOCContainer.Register(dialogueResolver = new BuiltInDialogueResolver());
+            IOCContainer.Register(dialogueResolver = new DefaultDialogueResolver());
         }
         private void OnDestroy()
         {

@@ -13,9 +13,7 @@ namespace Kurisu.NGDT.Editor
     public class DialogueBaker
     {
         private const float maxWaitSeconds = 60.0f;
-        public string UserName { get; set; } = "User";
-        public string BotName { get; set; } = "Bot";
-        private AIPromptBuilder builder;
+        private readonly AIPromptBuilder builder = new();
         /// <summary>
         /// Generate dialogue for selected container node by path from selection
         /// </summary>
@@ -110,10 +108,6 @@ namespace Kurisu.NGDT.Editor
                 return true;
             }
         }
-        public AIPromptBuilder GetLastBuilder()
-        {
-            return builder;
-        }
         /// <summary>
         /// Bake Dialogue Content in target container based on user's node selection
         /// </summary>
@@ -123,13 +117,14 @@ namespace Kurisu.NGDT.Editor
         /// <returns></returns>
         public async Task<bool> Bake(IReadOnlyList<ContainerNode> containerNodes, ContainerNode bakeContainerNode, CancellationToken ct)
         {
-
-            //No need to cache history, instance new is better
-            builder = new AIPromptBuilder();
             //Append user designed dialogue
             for (int i = 0; i < containerNodes.Count; i++)
             {
                 AppendDialogue(containerNodes[i], builder);
+            }
+            if (bakeContainerNode is OptionContainer)
+            {
+                builder.ReverseRole();
             }
             //Generate dialogue from llm finally
             try
@@ -170,7 +165,7 @@ namespace Kurisu.NGDT.Editor
                 return false;
             }
         }
-        private bool TrySetPrompt(ContainerNode containerNode, out string prompt)
+        private static bool TrySetPrompt(ContainerNode containerNode, out string prompt)
         {
             prompt = null;
             if (containerNode.TryGetModuleNode<SystemPromptModule>(out ModuleNode promptModule))
@@ -212,10 +207,6 @@ namespace Kurisu.NGDT.Editor
             string content = contentModule.GetSharedStringValue("content");
             builder.Append(role, content);
         }
-        private string GetName(MessageRole role)
-        {
-            return role == MessageRole.User ? UserName : BotName;
-        }
         /// <summary>
         /// Generate a test bake content for editor test purpose
         /// </summary>
@@ -228,26 +219,15 @@ namespace Kurisu.NGDT.Editor
             //Append user designed dialogue
             for (int i = 0; i < containerNodes.Count; i++)
             {
-                AppendDialogue(containerNodes[i], stringBuilder);
+                AppendDialogue(containerNodes[i], builder);
             }
-            MessageRole role = bakeContainerNode is OptionContainer ? MessageRole.User : MessageRole.Bot;
-            stringBuilder.Append($"{GetName(role)}:");
-            return stringBuilder.ToString();
-        }
-        private void AppendDialogue(ContainerNode containerNode, StringBuilder builder)
-        {
-            if (containerNode is DialogueContainer && TrySetPrompt(containerNode, out string prompt))
+            if (bakeContainerNode is OptionContainer)
             {
-                builder.Insert(0, '\n');
-                builder.Insert(0, prompt);
-                return;
+                builder.ReverseRole();
             }
-            MessageRole role = containerNode is OptionContainer ? MessageRole.User : MessageRole.Bot;
-            if (!containerNode.TryGetModuleNode<ContentModule>(out ModuleNode contentModule)) return;
-            string content = contentModule.GetSharedStringValue("content");
-            builder.Append(GetName(role));
-            builder.Append(':');
-            builder.AppendLine(content);
+            stringBuilder.Append(builder.ToString());
+            stringBuilder.Append($"{builder.BotName}:");
+            return stringBuilder.ToString();
         }
     }
 }

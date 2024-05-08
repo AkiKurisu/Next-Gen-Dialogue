@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 namespace Kurisu.NGDS
 {
-    public class BuiltInOptionResolver : IOptionResolver
+    public class DefaultOptionResolver : IOptionResolver
     {
         private IDialogueSystem system;
         public IReadOnlyList<Option> DialogueOptions { get; private set; }

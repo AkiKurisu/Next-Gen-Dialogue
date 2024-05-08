@@ -1,7 +1,7 @@
 using System.Collections;
 namespace Kurisu.NGDS
 {
-    public class BuiltInPieceResolver : IPieceResolver
+    public class DefaultPieceResolver : IPieceResolver
     {
         private IDialogueSystem system;
         public Piece DialoguePiece { get; private set; }
