@@ -1,9 +1,11 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Pool;
 namespace Kurisu.NGDS
 {
     public class Dialogue : Node
     {
+        private static readonly ObjectPool<Dialogue> pool = new(() => new Dialogue(), null, (d) => d.Reset());
         private readonly List<Piece> dialoguePieces = new();
         private readonly Dictionary<string, Piece> dialoguePieceMap = new();
         public IReadOnlyList<Piece> Pieces => dialoguePieces;
@@ -42,9 +44,13 @@ namespace Kurisu.NGDS
                 dialoguePieceMap.Add(piece.PieceID, piece);
             }
         }
-        public static Dialogue CreateDialogue()
+        public static Dialogue GetPooled()
         {
-            return NodePoolManager.Instance.GetNode<Dialogue>().Reset();
+            return pool.Get();
+        }
+        public override void Dispose()
+        {
+            pool.Release(this);
         }
     }
 }

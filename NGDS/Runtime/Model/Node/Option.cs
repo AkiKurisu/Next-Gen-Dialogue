@@ -1,10 +1,12 @@
 using System;
 using UnityEngine;
+using UnityEngine.Pool;
 namespace Kurisu.NGDS
 {
     [Serializable]
     public class Option : Node, IContent, IDialogueModule
     {
+        private static readonly ObjectPool<Option> pool = new(() => new Option(), null, (o) => o.Reset());
         [field: SerializeField]
         public string Content { get; set; } = string.Empty;
         [field: SerializeField]
@@ -16,9 +18,13 @@ namespace Kurisu.NGDS
             ClearModules();
             return this;
         }
-        public static Option CreateOption()
+        public static Option GetPooled()
         {
-            return NodePoolManager.Instance.GetNode<Option>().Reset();
+            return pool.Get();
+        }
+        public override void Dispose()
+        {
+            pool.Release(this);
         }
     }
 }

@@ -5,7 +5,7 @@ namespace Kurisu.NGDT
     {
         protected override Status OnUpdate()
         {
-            Builder.StartWriteNode(NGDS.Option.CreateOption());
+            Builder.StartWriteNode(NGDS.Option.GetPooled());
             for (var i = 0; i < Children.Count; i++)
             {
                 var target = Children[i];

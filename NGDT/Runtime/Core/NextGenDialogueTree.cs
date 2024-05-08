@@ -85,14 +85,14 @@ namespace Kurisu.NGDT
             root.Abort();
             root.Update();
         }
-        private void ResolveDialogue(NGDS.IDialogueLookup dialogue)
+        private void ResolveDialogue(IDialogueLookup dialogue)
         {
             System ??= IOCContainer.Resolve<IDialogueSystem>();
             if (System != null)
                 System.StartDialogue(dialogue);
             else
             {
-                Debug.Log("No dialogue system registered!");
+                Debug.LogError("No dialogue system registered!");
             }
         }
     }

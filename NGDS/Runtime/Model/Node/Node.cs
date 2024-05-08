@@ -1,8 +1,9 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 namespace Kurisu.NGDS
 {
-    public abstract class Node
+    public abstract class Node : IDisposable
     {
         private readonly List<IDialogueModule> modules = new();
         public IReadOnlyList<IDialogueModule> Modules => modules;
@@ -45,5 +46,7 @@ namespace Kurisu.NGDS
             }
             return modules;
         }
+
+        public abstract void Dispose();
     }
 }

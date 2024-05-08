@@ -16,7 +16,7 @@ namespace Kurisu.NGDT
         private readonly HashSet<string> visitedPieceID = new();
         public Status Update(IEnumerable<Piece> allPieces)
         {
-            dialogueCache = NGDS.Dialogue.CreateDialogue();
+            dialogueCache = NGDS.Dialogue.GetPooled();
             foreach (var piece in allPieces)
             {
                 var dialoguePiece = piece.EmitPiece();
@@ -54,7 +54,7 @@ namespace Kurisu.NGDT
 #endif
             if (visitedPieceID.Contains(ID))
             {
-                dialogueCache.GetPiece(ID).NodePushPool();
+                dialogueCache.GetPiece(ID).DisposeRecursively();
                 dialogueCache[ID] = pieceMap[ID].EmitPiece();
             }
             var newPiece = dialogueCache.GetPiece(ID);
