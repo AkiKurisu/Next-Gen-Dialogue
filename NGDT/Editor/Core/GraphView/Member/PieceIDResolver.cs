@@ -28,7 +28,7 @@ namespace Kurisu.NGDT.Editor
     {
         private IDialogueTreeView treeView;
         private DropdownField nameDropdown;
-        private SharedVariable bindExposedProperty;
+        internal SharedVariable bindVariable;
         private readonly bool isReferenced;
         public PieceIDField(string label, IDialogueTreeView treeView, bool isReferenced) : base(label, null)
         {
@@ -43,7 +43,7 @@ namespace Kurisu.NGDT.Editor
             treeView.BlackBoard.View.RegisterCallback<VariableChangeEvent>(evt =>
             {
                 if (evt.ChangeType != VariableChangeType.NameChange) return;
-                if (evt.Variable != bindExposedProperty) return;
+                if (evt.Variable != bindVariable) return;
                 UpdateID(evt.Variable);
             });
             BindProperty();
@@ -67,7 +67,7 @@ namespace Kurisu.NGDT.Editor
         }
         private void BindProperty()
         {
-            bindExposedProperty = treeView.SharedVariables.Where(x => x.GetType() == typeof(PieceID) && x.Name.Equals(value.Name)).FirstOrDefault();
+            bindVariable = treeView.SharedVariables.Where(x => x.GetType() == typeof(PieceID) && x.Name.Equals(value.Name)).FirstOrDefault();
         }
         private void UpdateValueField()
         {
