@@ -5,12 +5,45 @@ using UnityEditor.UIElements;
 using System.Linq;
 namespace Kurisu.NGDT.Editor
 {
+    internal class DialogueTreeDebugButton : Button
+    {
+        private const string ButtonText = "Edit DialogueTree";
+        private const string DebugText = "Debug DialogueTree";
+        public DialogueTreeDebugButton(IDialogueTree tree) : base(() => DialogueEditorWindow.Show(tree))
+        {
+            style.fontSize = 15;
+            style.unityFontStyleAndWeight = FontStyle.Bold;
+            style.color = Color.white;
+            if (!Application.isPlaying)
+            {
+                style.backgroundColor = new StyleColor(new Color(140 / 255f, 160 / 255f, 250 / 255f));
+                text = ButtonText;
+            }
+            else
+            {
+                text = DebugText;
+                style.backgroundColor = new StyleColor(new Color(253 / 255f, 163 / 255f, 255 / 255f));
+            }
+        }
+    }
+    internal class DialogueTreePlayButton : Button
+    {
+        private const string ButtonText = "Play Dialogue";
+        public DialogueTreePlayButton(NextGenDialogueTree tree) : base(() => tree.PlayDialogue())
+        {
+            style.fontSize = 15;
+            style.unityFontStyleAndWeight = FontStyle.Bold;
+            style.color = Color.white;
+            style.backgroundColor = new StyleColor(new Color(140 / 255f, 160 / 255f, 250 / 255f));
+            text = ButtonText;
+        }
+    }
+
     [CustomEditor(typeof(NextGenDialogueTree))]
     public class NextGenDialogueTreeEditor : UnityEditor.Editor
     {
         private static readonly string LabelText = $"Next-Gen DialogueTree <size=12>{NextGenDialogueSetting.Version}</size>";
-        private const string ButtonText = "Edit DialogueTree";
-        private const string DebugText = "Debug DialogueTree";
+
         private VisualElement myInspector;
         public override VisualElement CreateInspectorGUI()
         {
@@ -27,21 +60,8 @@ namespace Kurisu.NGDT.Editor
             {
                 myInspector.Add(new SharedVariablesFoldout(tree, target, this));
             }
-            var button = DialogueTreeEditorUtility.GetButton(() => DialogueEditorWindow.Show(tree));
-            if (!Application.isPlaying)
-            {
-                button.style.backgroundColor = new StyleColor(new Color(140 / 255f, 160 / 255f, 250 / 255f));
-                button.text = ButtonText;
-            }
-            else
-            {
-                button.text = DebugText;
-                button.style.backgroundColor = new StyleColor(new Color(253 / 255f, 163 / 255f, 255 / 255f));
-            }
-            myInspector.Add(button);
-            var playButton = DialogueTreeEditorUtility.GetButton(() => tree.PlayDialogue());
-            playButton.style.backgroundColor = new StyleColor(new Color(140 / 255f, 160 / 255f, 250 / 255f));
-            playButton.text = "Play Dialogue";
+            myInspector.Add(new DialogueTreeDebugButton(tree));
+            var playButton = new DialogueTreePlayButton(tree);
             playButton.SetEnabled(Application.isPlaying);
             myInspector.Add(playButton);
             return myInspector;
@@ -51,13 +71,11 @@ namespace Kurisu.NGDT.Editor
     public class NextGenDialogueTreeSOEditor : UnityEditor.Editor
     {
         private static readonly string LabelText = $"Next-Gen DialogueTreeSO <size=12>{NextGenDialogueSetting.Version}</size>";
-        private const string ButtonText = "Edit DialogueTreeSO";
-        private const string DebugText = "Debug DialogueTree";
         private VisualElement myInspector;
         public override VisualElement CreateInspectorGUI()
         {
             myInspector = new VisualElement();
-            var tree = target as IDialogueTree;
+            var tree = target as NextGenDialogueTreeSO;
             var label = new Label(LabelText);
             label.style.fontSize = 20;
             label.style.unityTextAlign = TextAnchor.MiddleCenter;
@@ -74,18 +92,7 @@ namespace Kurisu.NGDT.Editor
             {
                 myInspector.Add(new SharedVariablesFoldout(tree, target, this));
             }
-            var button = DialogueTreeEditorUtility.GetButton(() => { DialogueEditorWindow.Show(tree); });
-            if (!Application.isPlaying)
-            {
-                button.style.backgroundColor = new StyleColor(new Color(140 / 255f, 160 / 255f, 250 / 255f));
-                button.text = ButtonText;
-            }
-            else
-            {
-                button.text = DebugText;
-                button.style.backgroundColor = new StyleColor(new Color(253 / 255f, 163 / 255f, 255 / 255f));
-            }
-            myInspector.Add(button);
+            myInspector.Add(new DialogueTreeDebugButton(tree));
             return myInspector;
         }
     }
