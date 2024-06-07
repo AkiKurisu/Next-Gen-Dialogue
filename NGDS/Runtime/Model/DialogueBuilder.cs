@@ -12,7 +12,7 @@ namespace Kurisu.NGDS
         }
         public void Clear()
         {
-            dialogueCache.DisposeRecursively();
+            dialogueCache.Dispose();
             dialogueCache = Dialogue.GetPooled();
         }
         Piece IDialogueLookup.GetNext(string ID)
@@ -27,7 +27,7 @@ namespace Kurisu.NGDS
         }
         public void AddPiece(Piece piece)
         {
-            dialogueCache.AddPiece(piece);
+            dialogueCache.AddModule(piece);
         }
         public Dialogue ToDialogue()
         {

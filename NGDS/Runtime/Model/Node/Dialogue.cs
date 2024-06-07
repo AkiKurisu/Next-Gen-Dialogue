@@ -5,7 +5,7 @@ namespace Kurisu.NGDS
 {
     public class Dialogue : Node
     {
-        private static readonly ObjectPool<Dialogue> pool = new(() => new Dialogue(), null, (d) => d.Reset());
+        private static readonly ObjectPool<Dialogue> pool = new(() => new Dialogue(), (d) => d.IsPooled = true, (d) => d.Reset());
         private readonly List<Piece> dialoguePieces = new();
         private readonly Dictionary<string, Piece> dialoguePieceMap = new();
         public IReadOnlyList<Piece> Pieces => dialoguePieces;
@@ -27,6 +27,7 @@ namespace Kurisu.NGDS
         }
         private Dialogue Reset()
         {
+            IsPooled = false;
             dialoguePieces.Clear();
             dialoguePieceMap.Clear();
             ClearModules();
@@ -44,13 +45,23 @@ namespace Kurisu.NGDS
                 dialoguePieceMap.Add(piece.PieceID, piece);
             }
         }
+        protected override void OnModuleAdd(IDialogueModule module)
+        {
+            if (module is Piece piece)
+            {
+                AddPiece(piece);
+            }
+        }
         public static Dialogue GetPooled()
         {
             return pool.Get();
         }
-        public override void Dispose()
+        protected override void OnDispose()
         {
-            pool.Release(this);
+            if (IsPooled)
+            {
+                pool.Release(this);
+            }
         }
     }
 }

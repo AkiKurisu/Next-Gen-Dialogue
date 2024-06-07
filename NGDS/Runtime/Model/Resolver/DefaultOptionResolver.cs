@@ -6,7 +6,6 @@ namespace Kurisu.NGDS
     {
         private IDialogueSystem system;
         public IReadOnlyList<Option> DialogueOptions { get; private set; }
-        private readonly OptionCallBackHandler callBackHandler = new();
         protected ObjectContainer ObjectContainer { get; } = new();
         public void Inject(IReadOnlyList<Option> options, IDialogueSystem system)
         {
@@ -15,6 +14,7 @@ namespace Kurisu.NGDS
         }
         public IEnumerator ClickOption(Option option)
         {
+            CallBackModule.InvokeCallBack(option);
             if (string.IsNullOrEmpty(option.TargetID))
             {
                 //Exit Dialogue
@@ -24,8 +24,6 @@ namespace Kurisu.NGDS
             {
                 system.PlayDialoguePiece(option.TargetID);
             }
-            //Handle CallBack Module
-            callBackHandler.Handle(option);
             yield return null;
         }
         public IEnumerator EnterOption()

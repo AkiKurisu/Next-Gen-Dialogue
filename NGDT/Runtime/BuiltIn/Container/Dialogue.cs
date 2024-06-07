@@ -22,7 +22,7 @@ namespace Kurisu.NGDT
                 var dialoguePiece = piece.EmitPiece();
                 pieceMap[dialoguePiece.PieceID] = piece;
                 //Assert PieceID should be unique
-                dialogueCache.AddPiece(dialoguePiece);
+                dialogueCache.AddModule(dialoguePiece);
             }
             return Update();
         }
@@ -54,7 +54,7 @@ namespace Kurisu.NGDT
 #endif
             if (visitedPieceID.Contains(ID))
             {
-                dialogueCache.GetPiece(ID).DisposeRecursively();
+                dialogueCache.GetPiece(ID).Dispose();
                 dialogueCache[ID] = pieceMap[ID].EmitPiece();
             }
             var newPiece = dialogueCache.GetPiece(ID);

@@ -20,8 +20,8 @@ namespace Kurisu.NGDT
         /// <summary>
         /// End build dialogue nodes
         /// </summary>
-        /// <param name="dialogue">Inject dialogue proxy</param>
-        void EndBuildDialogue(NGDS.IDialogueLookup dialogue);
+        /// <param name="dialogue">Inject <see cref="IDialogueLookup"/></param>
+        void EndBuildDialogue(IDialogueLookup dialogue);
         /// <summary>
         /// End writing node
         /// </summary>
