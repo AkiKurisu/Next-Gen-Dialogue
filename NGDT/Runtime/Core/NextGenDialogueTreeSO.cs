@@ -22,7 +22,7 @@ namespace Kurisu.NGDT
         private List<GroupBlockData> blockData = new();
         public List<GroupBlockData> BlockData => blockData;
         [Multiline, SerializeField]
-        private string Description;
+        private string description;
 #endif
         [HideInInspector]
         [SerializeReference]

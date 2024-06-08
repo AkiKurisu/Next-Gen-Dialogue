@@ -43,11 +43,9 @@ namespace Kurisu.NGDT.Editor
     public class NextGenDialogueTreeEditor : UnityEditor.Editor
     {
         private static readonly string LabelText = $"Next-Gen DialogueTree <size=12>{NextGenDialogueSetting.Version}</size>";
-
-        private VisualElement myInspector;
         public override VisualElement CreateInspectorGUI()
         {
-            myInspector = new VisualElement();
+            var myInspector = new VisualElement();
             var tree = target as NextGenDialogueTree;
             var label = new Label(LabelText);
             label.style.fontSize = 20;
@@ -71,10 +69,9 @@ namespace Kurisu.NGDT.Editor
     public class NextGenDialogueTreeSOEditor : UnityEditor.Editor
     {
         private static readonly string LabelText = $"Next-Gen DialogueTreeSO <size=12>{NextGenDialogueSetting.Version}</size>";
-        private VisualElement myInspector;
         public override VisualElement CreateInspectorGUI()
         {
-            myInspector = new VisualElement();
+            var myInspector = new VisualElement();
             var tree = target as NextGenDialogueTreeSO;
             var label = new Label(LabelText);
             label.style.fontSize = 20;
@@ -86,7 +83,8 @@ namespace Kurisu.NGDT.Editor
             {
                 multiline = true
             };
-            description.BindProperty(serializedObject.FindProperty("Description"));
+            description.style.minHeight = 60;
+            description.BindProperty(serializedObject.FindProperty("description"));
             myInspector.Add(description);
             if (tree.SharedVariables.Count(x => x.IsExposed) != 0)
             {
