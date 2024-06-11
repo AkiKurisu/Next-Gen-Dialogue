@@ -40,8 +40,11 @@ namespace Kurisu.NGDT.Editor
                 if (evt.Variable != bindVariable) return;
                 UpdateID(evt.Variable);
             });
-            BindProperty();
-            UpdateValueField();
+            if (value != null)
+            {
+                BindProperty();
+                UpdateValueField();
+            }
         }
         private void UpdateID(SharedVariable variable)
         {
@@ -55,9 +58,9 @@ namespace Kurisu.NGDT.Editor
         private static List<string> GetList(IDialogueTreeView treeView)
         {
             return treeView.SharedVariables
-            .Where(x => x.GetType() == typeof(PieceID))
-            .Select(v => v.Name)
-            .ToList();
+                        .Where(x => x.GetType() == typeof(PieceID))
+                        .Select(v => v.Name)
+                        .ToList();
         }
         private void BindProperty()
         {
@@ -87,13 +90,17 @@ namespace Kurisu.NGDT.Editor
         }
         public sealed override PieceID value
         {
-            get => base.value; set
+            get => base.value;
+            set
             {
                 if (value != null)
                 {
                     base.value = value.Clone() as PieceID;
-                    BindProperty();
-                    UpdateValueField();
+                    if (treeView != null)
+                    {
+                        BindProperty();
+                        UpdateValueField();
+                    }
                 }
                 else
                 {
