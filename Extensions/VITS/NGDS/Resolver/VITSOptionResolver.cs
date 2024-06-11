@@ -18,7 +18,6 @@ namespace Kurisu.NGDS.VITS
         public IReadOnlyList<Option> DialogueOptions { get; private set; }
         public float MaxWaitTime { get; set; } = 30f;
         private readonly Dictionary<Option, AudioClip> audioCacheMap = new();
-        private readonly OptionCallBackHandler callBackHandler = new();
         private readonly ObjectContainer objectContainer = new();
         private readonly CancellationTokenSource ct = new();
         public void Inject(IReadOnlyList<Option> options, IDialogueSystem system)
@@ -36,6 +35,8 @@ namespace Kurisu.NGDS.VITS
                 while (audioSource.isPlaying)
                     yield return null;
             }
+            //Handle CallBack Module
+            CallBackModule.InvokeCallBack(option);
             if (string.IsNullOrEmpty(option.TargetID))
             {
                 //Exit Dialogue
@@ -45,8 +46,6 @@ namespace Kurisu.NGDS.VITS
             {
                 system.PlayDialoguePiece(option.TargetID);
             }
-            //Handle CallBack Module
-            callBackHandler.Handle(option);
         }
 
         public IEnumerator EnterOption()

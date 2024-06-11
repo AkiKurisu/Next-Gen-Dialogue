@@ -11,15 +11,9 @@ namespace Kurisu.NGDT.Editor
         public SharedIntResolver(FieldInfo fieldInfo) : base(fieldInfo)
         {
         }
-        protected override void SetTree(IDialogueTreeView ownerTreeView)
-        {
-            editorField.Init(ownerTreeView);
-        }
-        private SharedIntField editorField;
         protected override SharedIntField CreateEditorField(FieldInfo fieldInfo)
         {
-            editorField = new SharedIntField(fieldInfo.Name, null, fieldInfo.FieldType, fieldInfo);
-            return editorField;
+            return new SharedIntField(fieldInfo.Name, null, fieldInfo.FieldType, fieldInfo);
         }
         public static bool IsAcceptable(Type infoType, FieldInfo _) => infoType == typeof(SharedInt);
 

@@ -10,8 +10,7 @@ namespace Kurisu.NGDT.Editor
         }
         protected override EnumField CreateEditorField(FieldInfo fieldInfo)
         {
-            Type type = fieldInfo.FieldType;
-            if (fieldInfo.FieldType.IsGenericType) type = fieldInfo.FieldType.GenericTypeArguments[0];
+            Type type = FieldResolverFactory.GetParameterType(fieldInfo.FieldType) ?? fieldInfo.FieldType;
             var enumValue = Enum.GetValues(type).Cast<Enum>().Select(v => v).ToList();
             return new EnumField(fieldInfo.Name, enumValue, enumValue[0]);
         }

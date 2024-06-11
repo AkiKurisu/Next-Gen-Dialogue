@@ -249,12 +249,8 @@ namespace Kurisu.NGDT.Editor
 
             var defaultValue = Activator.CreateInstance(nodeBehavior) as NodeBehavior;
             bool haveSetting = false;
-            nodeBehavior
-                .GetFields(BindingFlags.Public | BindingFlags.Instance)
-                .Where(field => field.GetCustomAttribute<HideInEditorWindow>() == null)
-                .Concat(GetAllFields(nodeBehavior))
-                .Where(field => field.IsInitOnly == false)
-                .ToList().ForEach((p) =>
+            nodeBehavior.GetEditorWindowFields()
+                .ForEach((p) =>
                 {
                     var fieldResolver = fieldResolverFactory.Create(p);
                     fieldResolver.Restore(defaultValue);
@@ -276,16 +272,6 @@ namespace Kurisu.NGDT.Editor
             OnBehaviorSet();
         }
         protected virtual void OnBehaviorSet() { }
-
-        private static IEnumerable<FieldInfo> GetAllFields(Type t)
-        {
-            if (t == null)
-                return Enumerable.Empty<FieldInfo>();
-
-            return t.GetFields(BindingFlags.NonPublic | BindingFlags.Instance)
-                .Where(field => field.GetCustomAttribute<SerializeField>() != null)
-                .Where(field => field.GetCustomAttribute<HideInEditorWindow>() == null).Concat(GetAllFields(t.BaseType));
-        }
 
         private void MarkAsExecuted(Status status)
         {

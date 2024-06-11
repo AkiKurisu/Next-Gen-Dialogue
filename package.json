@@ -1,9 +1,9 @@
 {
   "name": "com.kurisu.next-gen-dialogue",
   "displayName": "Next Gen Dialogue",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "unity": "2021.3",
-  "description": "Node based Dialogue Editor.\nSupports baking dialogue content and audio powered by AI.",
+  "description": "Node based Dialogue Editor.\nSupports generating dialogue content and voice powered by AI.",
   "keywords": [
     "Graph",
     "GraphView",

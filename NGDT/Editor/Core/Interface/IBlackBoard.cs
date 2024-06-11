@@ -3,8 +3,9 @@ namespace Kurisu.NGDT.Editor
 {
     public interface IBlackBoard
     {
-        void EditProperty(string variableName);
-        void AddSharedVariable(SharedVariable variable);
+        void EditVariable(string variableName);
+        void AddVariable(SharedVariable variable, bool fireEvents);
+        void RemoveVariable(SharedVariable variable, bool fireEvents);
         Blackboard View { get; }
     }
 }

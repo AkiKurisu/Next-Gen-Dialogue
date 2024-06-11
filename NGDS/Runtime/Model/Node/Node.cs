@@ -5,6 +5,7 @@ namespace Kurisu.NGDS
 {
     public abstract class Node : IDisposable
     {
+        protected internal bool IsPooled { get; set; }
         private readonly List<IDialogueModule> modules = new();
         public IReadOnlyList<IDialogueModule> Modules => modules;
         public void AddModule(IDialogueModule module)
@@ -47,6 +48,14 @@ namespace Kurisu.NGDS
             return modules;
         }
 
-        public abstract void Dispose();
+        public void Dispose()
+        {
+            foreach (var childNode in ChildNodes())
+            {
+                childNode.Dispose();
+            }
+            OnDispose();
+        }
+        protected virtual void OnDispose() { }
     }
 }

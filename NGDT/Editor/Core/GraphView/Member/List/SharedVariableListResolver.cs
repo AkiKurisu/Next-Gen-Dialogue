@@ -5,38 +5,31 @@ using UnityEngine.UIElements;
 namespace Kurisu.NGDT.Editor
 {
     [ResolveChild]
-    public class SharedVariableListResolver<T> : FieldResolver<SharedVariableListField<T>, List<T>> where T : SharedVariable, new()
+    public class SharedVariableListResolver<T> : ListResolver<T> where T : SharedVariable, new()
     {
-        private readonly IFieldResolver childResolver;
-        public SharedVariableListResolver(FieldInfo fieldInfo, IFieldResolver resolver) : base(fieldInfo)
+        public SharedVariableListResolver(FieldInfo fieldInfo, IFieldResolver resolver) : base(fieldInfo, resolver)
         {
-            childResolver = resolver;
         }
-        SharedVariableListField<T> editorField;
-        protected override void SetTree(IDialogueTreeView ownerTreeView)
+        protected override ListField<T> CreateEditorField(FieldInfo fieldInfo)
         {
-            editorField.Init(ownerTreeView);
+            return new SharedVariableListField<T>(fieldInfo.Name, () => childResolver.CreateField(), () => new T());
         }
-        protected override SharedVariableListField<T> CreateEditorField(FieldInfo fieldInfo)
+        public static bool IsAcceptable(Type infoType, FieldInfo _)
         {
-            editorField = new SharedVariableListField<T>(fieldInfo.Name, null, () => childResolver.CreateField(), () => new T());
-            return editorField;
+            if (infoType.IsGenericType && infoType.GetGenericTypeDefinition() == typeof(List<>) && infoType.GenericTypeArguments[0].IsSubclassOf(typeof(SharedVariable))) return true;
+            if (infoType.IsArray && infoType.GetElementType().IsSubclassOf(typeof(SharedVariable))) return true;
+            return false;
         }
-        public static bool IsAcceptable(Type infoType, FieldInfo _) =>
-        infoType.IsList() &&
-        infoType.GenericTypeArguments.Length > 0 &&
-        infoType.GenericTypeArguments[0].IsSubclassOf(typeof(SharedVariable));
-
     }
-    public class SharedVariableListField<T> : ListField<T>, IInitable where T : SharedVariable
+    public class SharedVariableListField<T> : ListField<T>, IBindableField where T : SharedVariable
     {
         private IDialogueTreeView treeView;
         private Action<IDialogueTreeView> OnTreeViewInitEvent;
-        public SharedVariableListField(string label, VisualElement visualInput, Func<VisualElement> elementCreator, Func<object> valueCreator) : base(label, visualInput, elementCreator, valueCreator)
+        public SharedVariableListField(string label, Func<VisualElement> elementCreator, Func<object> valueCreator) : base(label, elementCreator, valueCreator)
         {
 
         }
-        public void Init(IDialogueTreeView treeView)
+        public void BindTreeView(IDialogueTreeView treeView)
         {
             this.treeView = treeView;
             OnTreeViewInitEvent?.Invoke(treeView);
@@ -52,11 +45,11 @@ namespace Kurisu.NGDT.Editor
             {
                 var field = elementCreator.Invoke();
                 (field as BaseField<T>).label = string.Empty;
-                if (treeView != null) (field as IInitable).Init(treeView);
-                OnTreeViewInitEvent += (view) => { (field as IInitable).Init(view); };
+                if (treeView != null) (field as IBindableField).BindTreeView(treeView);
+                OnTreeViewInitEvent += (view) => { (field as IBindableField).BindTreeView(view); };
                 return field;
             }
-            var view = new ListView(value, 60, MakeItem, BindItem);
+            var view = new ListView(value, 20, MakeItem, BindItem);
             return view;
         }
 

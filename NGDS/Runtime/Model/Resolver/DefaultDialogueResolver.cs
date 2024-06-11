@@ -18,6 +18,10 @@ namespace Kurisu.NGDS
                     yield return injectable.Process(ObjectContainer);
             }
         }
-        public IEnumerator ExitDialogue() { yield break; }
+        public IEnumerator ExitDialogue()
+        {
+            Dialogue.Dispose();
+            yield break;
+        }
     }
 }

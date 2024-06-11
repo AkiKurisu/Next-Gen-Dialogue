@@ -5,49 +5,46 @@ using System.Reflection;
 using UnityEngine.UIElements;
 namespace Kurisu.NGDT.Editor
 {
+    [Ordered]
     public class PieceIDResolver : FieldResolver<PieceIDField, PieceID>
     {
         public PieceIDResolver(FieldInfo fieldInfo) : base(fieldInfo)
         {
         }
-        protected override void SetTree(IDialogueTreeView ownerTreeView)
-        {
-            editorField.InitField(ownerTreeView);
-        }
-        private PieceIDField editorField;
         protected override PieceIDField CreateEditorField(FieldInfo fieldInfo)
         {
             bool isReferenced = fieldInfo.GetCustomAttribute<ReferencePieceIDAttribute>() != null;
-            editorField = new PieceIDField(fieldInfo.Name, null, isReferenced);
-            return editorField;
+            return new PieceIDField(fieldInfo.Name, isReferenced);
         }
         public static bool IsAcceptable(Type infoType, FieldInfo _) => infoType == typeof(PieceID);
 
     }
-    public class PieceIDField : BaseField<PieceID>
+    public class PieceIDField : BaseField<PieceID>, IBindableField
     {
         private IDialogueTreeView treeView;
         private DropdownField nameDropdown;
-        private SharedVariable bindExposedProperty;
+        internal SharedVariable bindVariable;
         private readonly bool isReferenced;
-        public PieceIDField(string label, IDialogueTreeView treeView, bool isReferenced) : base(label, null)
+        public PieceIDField(string label, bool isReferenced) : base(label, null)
         {
             AddToClassList("SharedVariableField");
-            this.treeView = treeView;
             this.isReferenced = isReferenced;
             if (!isReferenced) AddToClassList("PieceIDField");
         }
-        internal void InitField(IDialogueTreeView treeView)
+        public void BindTreeView(IDialogueTreeView treeView)
         {
             this.treeView = treeView;
             treeView.BlackBoard.View.RegisterCallback<VariableChangeEvent>(evt =>
             {
                 if (evt.ChangeType != VariableChangeType.NameChange) return;
-                if (evt.Variable != bindExposedProperty) return;
+                if (evt.Variable != bindVariable) return;
                 UpdateID(evt.Variable);
             });
-            BindProperty();
-            UpdateValueField();
+            if (value != null)
+            {
+                BindProperty();
+                UpdateValueField();
+            }
         }
         private void UpdateID(SharedVariable variable)
         {
@@ -61,13 +58,13 @@ namespace Kurisu.NGDT.Editor
         private static List<string> GetList(IDialogueTreeView treeView)
         {
             return treeView.SharedVariables
-            .Where(x => x.GetType() == typeof(PieceID))
-            .Select(v => v.Name)
-            .ToList();
+                        .Where(x => x.GetType() == typeof(PieceID))
+                        .Select(v => v.Name)
+                        .ToList();
         }
         private void BindProperty()
         {
-            bindExposedProperty = treeView.SharedVariables.Where(x => x.GetType() == typeof(PieceID) && x.Name.Equals(value.Name)).FirstOrDefault();
+            bindVariable = treeView.SharedVariables.FirstOrDefault(x => x.GetType() == typeof(PieceID) && x.Name.Equals(value.Name));
         }
         private void UpdateValueField()
         {
@@ -93,13 +90,17 @@ namespace Kurisu.NGDT.Editor
         }
         public sealed override PieceID value
         {
-            get => base.value; set
+            get => base.value;
+            set
             {
                 if (value != null)
                 {
                     base.value = value.Clone() as PieceID;
-                    BindProperty();
-                    UpdateValueField();
+                    if (treeView != null)
+                    {
+                        BindProperty();
+                        UpdateValueField();
+                    }
                 }
                 else
                 {

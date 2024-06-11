@@ -160,7 +160,7 @@ namespace Kurisu.NGDT.Editor
             RootNode rootNode;
             foreach (var variable in otherTree.SharedVariables)
             {
-                BlackBoard.AddSharedVariable(variable.Clone());
+                BlackBoard.AddVariable(variable.Clone(), false);
             }
             (rootNode, nodes) = converter.ConvertToNode(otherTree, this, localMousePosition);
             foreach (var node in nodes) node.OnSelectAction = OnSelectAction;
@@ -203,11 +203,11 @@ namespace Kurisu.NGDT.Editor
                 //In play mode, use original variable to observe value change
                 if (Application.isPlaying)
                 {
-                    BlackBoard.AddSharedVariable(variable);
+                    BlackBoard.AddVariable(variable, false);
                 }
                 else
                 {
-                    BlackBoard.AddSharedVariable(variable.Clone());
+                    BlackBoard.AddVariable(variable.Clone(), false);
                 }
             }
         }

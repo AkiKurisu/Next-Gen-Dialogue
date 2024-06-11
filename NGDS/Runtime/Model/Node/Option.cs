@@ -6,13 +6,14 @@ namespace Kurisu.NGDS
     [Serializable]
     public class Option : Node, IContent, IDialogueModule
     {
-        private static readonly ObjectPool<Option> pool = new(() => new Option(), null, (o) => o.Reset());
+        private static readonly ObjectPool<Option> pool = new(() => new Option(), (o) => o.IsPooled = true, (o) => o.Reset());
         [field: SerializeField]
         public string Content { get; set; } = string.Empty;
         [field: SerializeField]
         public string TargetID { get; set; } = string.Empty;
         private Option Reset()
         {
+            IsPooled = false;
             Content = string.Empty;
             TargetID = string.Empty;
             ClearModules();
@@ -22,9 +23,12 @@ namespace Kurisu.NGDS
         {
             return pool.Get();
         }
-        public override void Dispose()
+        protected override void OnDispose()
         {
-            pool.Release(this);
+            if (IsPooled)
+            {
+                pool.Release(this);
+            }
         }
     }
 }

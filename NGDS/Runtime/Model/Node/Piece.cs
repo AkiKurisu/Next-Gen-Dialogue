@@ -7,7 +7,7 @@ namespace Kurisu.NGDS
     [Serializable]
     public class Piece : Node, IContent, IDialogueModule
     {
-        private static readonly ObjectPool<Piece> pool = new(() => new Piece(), null, (p) => p.Reset());
+        private static readonly ObjectPool<Piece> pool = new(() => new Piece(), (p) => p.IsPooled = true, (p) => p.Reset());
         private const string DefaultID = "00";
         [field: SerializeField]
         public string PieceID { get; set; } = DefaultID;
@@ -17,6 +17,7 @@ namespace Kurisu.NGDS
         public IReadOnlyList<Option> Options => options;
         private Piece Reset()
         {
+            IsPooled = false;
             PieceID = DefaultID;
             Content = string.Empty;
             options.Clear();
@@ -36,9 +37,12 @@ namespace Kurisu.NGDS
         {
             if (module is Option option) AddOption(option);
         }
-        public override void Dispose()
+        protected override void OnDispose()
         {
-            pool.Release(this);
+            if (IsPooled)
+            {
+                pool.Release(this);
+            }
         }
     }
 }

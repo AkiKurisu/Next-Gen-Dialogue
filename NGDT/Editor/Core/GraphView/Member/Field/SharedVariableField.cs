@@ -5,11 +5,11 @@ using System.Reflection;
 using UnityEngine.UIElements;
 namespace Kurisu.NGDT.Editor
 {
-    internal interface IInitable
+    internal interface IBindableField
     {
-        void Init(IDialogueTreeView treeView);
+        void BindTreeView(IDialogueTreeView treeView);
     }
-    public abstract class SharedVariableField<T, K> : BaseField<T>, IInitable where T : SharedVariable<K>, new()
+    public abstract class SharedVariableField<T, K> : BaseField<T>, IBindableField where T : SharedVariable<K>, new()
     {
         private readonly bool forceShared;
         private readonly VisualElement sharedVariableContainer;
@@ -35,16 +35,17 @@ namespace Kurisu.NGDT.Editor
             }
             sharedVariableContainer.Add(toggle);
         }
-        public void Init(IDialogueTreeView treeView)
+        public void BindTreeView(IDialogueTreeView treeView)
         {
             this.treeView = treeView;
-            treeView.BlackBoard.View.RegisterCallback<VariableChangeEvent>(evt =>
-            {
-                if (evt.ChangeType != VariableChangeType.NameChange) return;
-                if (evt.Variable != bindExposedProperty) return;
-                nameDropdown.value = value.Name = evt.Variable.Name;
-            });
+            treeView.BlackBoard.View.RegisterCallback<VariableChangeEvent>(OnVariableChange);
             OnToggle(toggle.value);
+        }
+        private void OnVariableChange(VariableChangeEvent evt)
+        {
+            if (evt.ChangeType != VariableChangeType.NameChange) return;
+            if (evt.Variable != bindExposedProperty) return;
+            nameDropdown.value = value.Name = evt.Variable.Name;
         }
         private static List<string> GetList(IDialogueTreeView treeView)
         {

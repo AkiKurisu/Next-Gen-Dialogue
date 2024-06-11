@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 namespace Kurisu.NGDT.Editor
@@ -25,9 +26,32 @@ namespace Kurisu.NGDT.Editor
             var array = group.Split(Span, StringSplitOptions.RemoveEmptyEntries);
             return array.Length > 0 ? array : new string[1] { group };
         }
+
     }
     public static class SubclassSearchExtension
     {
+        private static IEnumerable<FieldInfo> GetAllFields(Type t)
+        {
+            if (t == null)
+                return Enumerable.Empty<FieldInfo>();
+
+            return t.GetFields(BindingFlags.NonPublic | BindingFlags.Instance)
+                .Where(field => field.GetCustomAttribute<SerializeField>() != null && field.GetCustomAttribute<HideInEditorWindow>() == null)
+                .Concat(GetAllFields(t.BaseType));
+        }
+        /// <summary>
+        /// Get all <see cref="FieldInfo"/> visible in EditorWindow
+        /// </summary>
+        /// <param name="t"></param>
+        /// <returns></returns>
+        public static List<FieldInfo> GetEditorWindowFields(this Type t)
+        {
+            return t.GetFields(BindingFlags.Public | BindingFlags.Instance)
+                    .Where(field => field.GetCustomAttribute<HideInEditorWindow>() == null)
+                    .Concat(GetAllFields(t))
+                    .Where(field => field.IsInitOnly == false)
+                    .ToList();
+        }
         public static IEnumerable<IGrouping<string, Type>> GroupsByAkiGroup(this IEnumerable<Type> types)
         {
             return types.GroupBy(t =>

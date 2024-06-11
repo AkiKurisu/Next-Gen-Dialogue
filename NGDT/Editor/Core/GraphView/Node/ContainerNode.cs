@@ -35,7 +35,6 @@ namespace Kurisu.NGDT.Editor
             Parent = bridge.Parent;
             Parent.portColor = PortColor;
             AddElement(bridge);
-            InitializeSettings();
         }
         public Node View => this;
         public virtual Port.Capacity PortCapacity => Port.Capacity.Single;
@@ -54,76 +53,11 @@ namespace Kurisu.NGDT.Editor
         public Action<IDialogueNode> OnSelectAction { get; set; }
         public IDialogueTreeView MapTreeView { get; private set; }
         VisualElement ILayoutTreeNode.View => this;
-        //Setting
-        private VisualElement settings;
-        private NodeSettingsView settingsContainer;
-        private Button settingButton;
-        private bool settingsExpanded = false;
         public IFieldResolver GetFieldResolver(string fieldName)
         {
             int index = fieldInfos.FindIndex(x => x.Name == fieldName);
             if (index != -1) return resolvers[index];
             else return null;
-        }
-        private void InitializeSettings()
-        {
-            // Initialize settings button:
-            settingsContainer = new NodeSettingsView(this)
-            {
-                visible = false
-            };
-            settings = new VisualElement();
-            // Add Node type specific settings
-            settings.Add(CreateSettingsView());
-            settingsContainer.Add(settings);
-            headerContainer.Add(settingsContainer);
-            RegisterCallback<GeometryChangedEvent>(OnGeometryChanged);
-            OnGeometryChanged(null);
-        }
-        private void CreateSettingButton()
-        {
-            settingButton = new Button(ToggleSettings) { name = "settings-button" };
-            var image = new Image() { name = "icon", scaleMode = ScaleMode.ScaleToFit };
-            image.style.backgroundImage = Resources.Load<Texture2D>("NGDT/SettingIcon");
-            settingButton.Add(image);
-            headerContainer.Add(settingButton);
-        }
-        protected virtual VisualElement CreateSettingsView() => new Label("Advanced Settings") { name = "header" };
-        void ToggleSettings()
-        {
-            settingsExpanded = !settingsExpanded;
-            if (settingsExpanded)
-                OpenSettings();
-            else
-                CloseSettings();
-        }
-        public void OpenSettings()
-        {
-            if (settingsContainer != null)
-            {
-                settingButton.AddToClassList("clicked");
-                settingsContainer.visible = true;
-                settingsExpanded = true;
-            }
-        }
-
-        public void CloseSettings()
-        {
-            if (settingsContainer != null)
-            {
-                settingButton.RemoveFromClassList("clicked");
-                settingsContainer.visible = false;
-                settingsExpanded = false;
-            }
-        }
-        private void OnGeometryChanged(GeometryChangedEvent evt)
-        {
-            if (settingButton != null)
-            {
-                var settingsButtonLayout = settingButton.ChangeCoordinatesTo(settingsContainer.parent, settingButton.layout);
-                settingsContainer.style.top = settingsButtonLayout.yMax - 18f;
-                settingsContainer.style.left = settingsButtonLayout.xMin - layout.width + 20f;
-            }
         }
         private void Initialize()
         {
@@ -246,44 +180,16 @@ namespace Kurisu.NGDT.Editor
             dirtyNodeBehaviorType = nodeBehavior;
 
             var defaultValue = (NodeBehavior)Activator.CreateInstance(nodeBehavior);
-            bool haveSetting = false;
-            nodeBehavior
-                .GetFields(BindingFlags.Public | BindingFlags.Instance)
-                .Where(field => field.GetCustomAttribute<HideInEditorWindow>() == null)
-                .Concat(GetAllFields(nodeBehavior))
-                .Where(field => field.IsInitOnly == false)
-                .ToList().ForEach((p) =>
+            nodeBehavior.GetEditorWindowFields().ForEach((p) =>
                 {
                     var fieldResolver = fieldResolverFactory.Create(p);
                     fieldResolver.Restore(defaultValue);
-                    if (p.GetCustomAttribute<SettingAttribute>() != null)
-                    {
-                        settingsContainer.Add(fieldResolver.GetEditorField(MapTreeView));
-                        haveSetting = true;
-                    }
-                    else
-                    {
-                        fieldContainer.Add(fieldResolver.GetEditorField(MapTreeView));
-                    }
+                    fieldContainer.Add(fieldResolver.GetEditorField(MapTreeView));
                     resolvers.Add(fieldResolver);
                     fieldInfos.Add(p);
                 });
             var label = nodeBehavior.GetCustomAttribute(typeof(AkiLabelAttribute), false) as AkiLabelAttribute;
             titleLabel.text = label?.Title ?? nodeBehavior.Name;
-            if (settingButton != null) headerContainer.Remove(settingButton);
-            if (haveSetting)
-            {
-                CreateSettingButton();
-            }
-        }
-        private static IEnumerable<FieldInfo> GetAllFields(Type t)
-        {
-            if (t == null)
-                return Enumerable.Empty<FieldInfo>();
-
-            return t.GetFields(BindingFlags.NonPublic | BindingFlags.Instance)
-                .Where(field => field.GetCustomAttribute<SerializeField>() != null)
-                .Where(field => field.GetCustomAttribute<HideInEditorWindow>() == null).Concat(GetAllFields(t.BaseType));
         }
         private void MarkAsExecuted(Status status)
         {
@@ -469,7 +375,14 @@ namespace Kurisu.NGDT.Editor
         public PieceContainer() : base()
         {
             name = "PieceContainer";
+            RegisterCallback<DetachFromPanelEvent>(OnDetachFromPanel);
         }
+
+        private void OnDetachFromPanel(DetachFromPanelEvent evt)
+        {
+            MapTreeView.BlackBoard.RemoveVariable(mainContainer.Q<PieceIDField>().bindVariable, true);
+        }
+
         protected override void OnSeparatorContextualMenuEvent(ContextualMenuPopulateEvent evt, int separatorIndex)
         {
             base.OnSeparatorContextualMenuEvent(evt, separatorIndex);
@@ -483,7 +396,7 @@ namespace Kurisu.NGDT.Editor
         {
             evt.menu.MenuItems().Add(new NGDTDropdownMenuAction("Edit PieceID", (a) =>
             {
-                MapTreeView.BlackBoard.EditProperty(GetPieceID());
+                MapTreeView.BlackBoard.EditVariable(GetPieceID());
             }));
             evt.menu.MenuItems().Add(new NGDTDropdownMenuAction("Auto Layout", (a) =>
             {
@@ -529,7 +442,7 @@ namespace Kurisu.NGDT.Editor
         public void GenerateNewPieceID()
         {
             var variable = new PieceID() { Name = "New Piece" };
-            MapTreeView.BlackBoard.AddSharedVariable(variable);
+            MapTreeView.BlackBoard.AddVariable(variable, false);
             mainContainer.Q<PieceIDField>().value = new PieceID() { Name = variable.Name };
         }
     }

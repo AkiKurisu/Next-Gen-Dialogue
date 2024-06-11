@@ -43,11 +43,11 @@ namespace Kurisu.NGDT.Editor
                 //In play mode, use original variable to observe value change
                 if (Application.isPlaying)
                 {
-                    blackBoard.AddSharedVariable(variable);
+                    blackBoard.AddVariable(variable, false);
                 }
                 else
                 {
-                    blackBoard.AddSharedVariable(variable.Clone());
+                    blackBoard.AddVariable(variable.Clone(), false);
                 }
             }
             blackBoard.style.position = Position.Relative;
@@ -80,11 +80,11 @@ namespace Kurisu.NGDT.Editor
                 //In play mode, use original variable to observe value change
                 if (Application.isPlaying)
                 {
-                    blackBoard.AddSharedVariable(variable);
+                    blackBoard.AddVariable(variable, false);
                 }
                 else
                 {
-                    blackBoard.AddSharedVariable(variable.Clone());
+                    blackBoard.AddVariable(variable.Clone(), false);
                 }
             }
             blackBoard.style.position = Position.Relative;

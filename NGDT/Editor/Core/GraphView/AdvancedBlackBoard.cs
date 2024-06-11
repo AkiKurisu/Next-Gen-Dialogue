@@ -15,7 +15,6 @@ namespace Kurisu.NGDT.Editor
         public bool AlwaysExposed { get; set; }
         private readonly FieldResolverFactory fieldResolverFactory = FieldResolverFactory.Instance;
         private readonly ScrollView scrollView;
-        public VisualElement RawContainer => scrollView;
         private readonly List<SharedVariable> sharedVariables;
         private readonly HashSet<ObserveProxyVariable> observeProxies = new();
         public AdvancedBlackBoard(IVariableSource variableSource, GraphView graphView) : base(graphView)
@@ -41,12 +40,12 @@ namespace Kurisu.NGDT.Editor
             addItemRequested = _blackboard =>
                 {
                     var menu = new GenericMenu();
-                    menu.AddItem(new GUIContent("Int"), false, () => AddSharedVariableWithNotify(new SharedInt()));
-                    menu.AddItem(new GUIContent("Float"), false, () => AddSharedVariableWithNotify(new SharedFloat()));
-                    menu.AddItem(new GUIContent("Bool"), false, () => AddSharedVariableWithNotify(new SharedBool()));
-                    menu.AddItem(new GUIContent("Vector3"), false, () => AddSharedVariableWithNotify(new SharedVector3()));
-                    menu.AddItem(new GUIContent("String"), false, () => AddSharedVariableWithNotify(new SharedString()));
-                    menu.AddItem(new GUIContent("Object"), false, () => AddSharedVariableWithNotify(new SharedObject()));
+                    menu.AddItem(new GUIContent("Int"), false, () => AddVariable(new SharedInt(), true));
+                    menu.AddItem(new GUIContent("Float"), false, () => AddVariable(new SharedFloat(), true));
+                    menu.AddItem(new GUIContent("Bool"), false, () => AddVariable(new SharedBool(), true));
+                    menu.AddItem(new GUIContent("Vector3"), false, () => AddVariable(new SharedVector3(), true));
+                    menu.AddItem(new GUIContent("String"), false, () => AddVariable(new SharedString(), true));
+                    menu.AddItem(new GUIContent("Object"), false, () => AddVariable(new SharedObject(), true));
                     menu.ShowAsContext();
                 };
             editTextRequested = (_blackboard, element, newValue) =>
@@ -55,7 +54,7 @@ namespace Kurisu.NGDT.Editor
                 var index = sharedVariables.FindIndex(x => x.Name == oldPropertyName);
                 if (string.IsNullOrEmpty(newValue))
                 {
-                    RawContainer.RemoveAt(index + 1);
+                    scrollView.RemoveAt(index + 1);
                     sharedVariables.RemoveAt(index);
                     return;
                 }
@@ -76,7 +75,7 @@ namespace Kurisu.NGDT.Editor
         {
             contentContainer.style.height = layout.height - 50;
         }
-        public void EditProperty(string variableName)
+        public void EditVariable(string variableName)
         {
             var index = sharedVariables.FindIndex(x => x.Name == variableName);
             if (index < 0) return;
@@ -84,12 +83,7 @@ namespace Kurisu.NGDT.Editor
             scrollView.ScrollTo(field);
             field.OpenTextEditor();
         }
-        private void AddSharedVariableWithNotify(SharedVariable variable)
-        {
-            AddSharedVariable(variable);
-            NotifyVariableChanged(variable, VariableChangeType.Create);
-        }
-        public void AddSharedVariable(SharedVariable variable)
+        public void AddVariable(SharedVariable variable, bool fireEvents)
         {
             var localPropertyValue = variable.GetValue();
             if (string.IsNullOrEmpty(variable.Name)) variable.Name = variable.GetType().Name;
@@ -172,8 +166,18 @@ namespace Kurisu.NGDT.Editor
             {
                 sa.Q<Button>("expandButton").RemoveFromHierarchy();
             }
-            sa.AddManipulator(new ContextualMenuManipulator((evt) => BuildBlackboardMenu(evt, sa, variable)));
-            RawContainer.Add(sa);
+            sa.AddManipulator(new ContextualMenuManipulator((evt) => BuildBlackboardMenu(evt, variable)));
+            scrollView.Add(sa);
+            if (fireEvents) NotifyVariableChanged(variable, VariableChangeType.Create);
+        }
+        public void RemoveVariable(SharedVariable variable, bool fireEvents)
+        {
+            var index = sharedVariables.FindIndex(x => x == variable);
+            if (index < 0) return;
+            var row = scrollView.Query<BlackboardRow>().AtIndex(index);
+            row.RemoveFromHierarchy();
+            sharedVariables.Remove(variable);
+            if (fireEvents) NotifyVariableChanged(variable, VariableChangeType.Delate);
         }
         private void NotifyVariableChanged(SharedVariable sharedVariable, VariableChangeType changeType)
         {
@@ -190,18 +194,16 @@ namespace Kurisu.NGDT.Editor
             }
         }
 
-        private void BuildBlackboardMenu(ContextualMenuPopulateEvent evt, VisualElement element, SharedVariable variable)
+        private void BuildBlackboardMenu(ContextualMenuPopulateEvent evt, SharedVariable variable)
         {
             evt.menu.MenuItems().Clear();
             evt.menu.MenuItems().Add(new NGDTDropdownMenuAction("Delate", (a) =>
             {
-                sharedVariables.Remove(variable);
-                RawContainer.Remove(element);
-                NotifyVariableChanged(variable, VariableChangeType.Delate);
+                RemoveVariable(variable, true);
             }));
             evt.menu.MenuItems().Add(new NGDTDropdownMenuAction("Duplicate", (a) =>
            {
-               AddSharedVariableWithNotify(variable.Clone());
+               AddVariable(variable.Clone(), true);
            }));
         }
         private static VisualElement GetConstraintField(SharedObject sharedObject, ObjectField objectField)
