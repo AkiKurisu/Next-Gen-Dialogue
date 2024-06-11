@@ -127,14 +127,14 @@ namespace Kurisu.NGDT.Editor
             var toggle = new Toggle("Use Reference");
             toggle.RegisterValueChangedCallback(evt => OnToggle(evt.newValue));
             mainContainer.Add(toggle);
-            pieceIDField = new PieceIDField("Reference", treeView, true)
+            pieceIDField = new PieceIDField("Reference", true)
             {
                 value = new PieceID()
                 {
                     Name = pieceIDName
                 }
             };
-            pieceIDField.InitField(treeView);
+            pieceIDField.BindTreeView(treeView);
             mainContainer.Add(pieceIDField);
             toggle.value = !string.IsNullOrEmpty(pieceIDName);
             OnToggle(toggle.value);

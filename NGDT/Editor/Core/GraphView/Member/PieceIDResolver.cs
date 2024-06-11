@@ -5,39 +5,33 @@ using System.Reflection;
 using UnityEngine.UIElements;
 namespace Kurisu.NGDT.Editor
 {
+    [Ordered]
     public class PieceIDResolver : FieldResolver<PieceIDField, PieceID>
     {
         public PieceIDResolver(FieldInfo fieldInfo) : base(fieldInfo)
         {
         }
-        protected override void SetTree(IDialogueTreeView ownerTreeView)
-        {
-            editorField.InitField(ownerTreeView);
-        }
-        private PieceIDField editorField;
         protected override PieceIDField CreateEditorField(FieldInfo fieldInfo)
         {
             bool isReferenced = fieldInfo.GetCustomAttribute<ReferencePieceIDAttribute>() != null;
-            editorField = new PieceIDField(fieldInfo.Name, null, isReferenced);
-            return editorField;
+            return new PieceIDField(fieldInfo.Name, isReferenced);
         }
         public static bool IsAcceptable(Type infoType, FieldInfo _) => infoType == typeof(PieceID);
 
     }
-    public class PieceIDField : BaseField<PieceID>
+    public class PieceIDField : BaseField<PieceID>, IBindableField
     {
         private IDialogueTreeView treeView;
         private DropdownField nameDropdown;
         internal SharedVariable bindVariable;
         private readonly bool isReferenced;
-        public PieceIDField(string label, IDialogueTreeView treeView, bool isReferenced) : base(label, null)
+        public PieceIDField(string label, bool isReferenced) : base(label, null)
         {
             AddToClassList("SharedVariableField");
-            this.treeView = treeView;
             this.isReferenced = isReferenced;
             if (!isReferenced) AddToClassList("PieceIDField");
         }
-        internal void InitField(IDialogueTreeView treeView)
+        public void BindTreeView(IDialogueTreeView treeView)
         {
             this.treeView = treeView;
             treeView.BlackBoard.View.RegisterCallback<VariableChangeEvent>(evt =>
@@ -67,7 +61,7 @@ namespace Kurisu.NGDT.Editor
         }
         private void BindProperty()
         {
-            bindVariable = treeView.SharedVariables.Where(x => x.GetType() == typeof(PieceID) && x.Name.Equals(value.Name)).FirstOrDefault();
+            bindVariable = treeView.SharedVariables.FirstOrDefault(x => x.GetType() == typeof(PieceID) && x.Name.Equals(value.Name));
         }
         private void UpdateValueField()
         {

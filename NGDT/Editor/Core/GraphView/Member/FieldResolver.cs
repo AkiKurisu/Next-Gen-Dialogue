@@ -1,7 +1,7 @@
 using System.Reflection;
 using UnityEngine.UIElements;
 using UnityEngine;
-using System.Collections.Generic;
+using System;
 namespace Kurisu.NGDT.Editor
 {
     public delegate void ValueChangeDelegate(object value);
@@ -13,13 +13,6 @@ namespace Kurisu.NGDT.Editor
         /// <param name="ownerTreeView"></param>
         /// <returns></returns>
         VisualElement GetEditorField(IDialogueTreeView ownerTreeView);
-        /// <summary>
-        /// Get the ValueField and bind the shared variable at the same time
-        /// </summary>
-        /// <param name="ExposedProperties"></param>
-        /// <param name="variable"></param>
-        /// <returns></returns>
-        VisualElement GetEditorField(List<SharedVariable> ExposedProperties, SharedVariable variable);
         /// <summary>
         /// Only create ValueField without any binding
         /// </summary>
@@ -39,59 +32,77 @@ namespace Kurisu.NGDT.Editor
     public abstract class FieldResolver<T, K> : IFieldResolver where T : BaseField<K>
     {
         private readonly FieldInfo fieldInfo;
-        private T editorField;
+        protected readonly T editorField;
         public T EditorField => editorField;
-        public object Value { get => editorField.value; set => editorField.SetValueWithoutNotify((K)value); }
+        public virtual object Value
+        {
+            get => editorField.value;
+            set => editorField.value = (K)value;
+        }
         protected FieldResolver(FieldInfo fieldInfo)
         {
             this.fieldInfo = fieldInfo;
-            SetEditorField();
-        }
-        private void SetEditorField()
-        {
             editorField = CreateEditorField(fieldInfo);
-            //修改标签
             AkiLabelAttribute label = fieldInfo.GetCustomAttribute<AkiLabelAttribute>();
             if (label != null) editorField.label = label.Title;
             TooltipAttribute tooltip = fieldInfo.GetCustomAttribute<TooltipAttribute>();
             if (tooltip != null) editorField.tooltip = tooltip.tooltip;
         }
-
-        protected abstract T CreateEditorField(FieldInfo fieldInfo);
-        public VisualElement CreateField() => CreateEditorField(fieldInfo);
-        protected virtual void SetTree(IDialogueTreeView ownerTreeView) { }
+        public VisualElement CreateField()
+        {
+            return CreateEditorField(fieldInfo);
+        }
         public VisualElement GetEditorField(IDialogueTreeView ownerTreeView)
         {
-            SetTree(ownerTreeView);
-            return editorField;
-        }
-        public VisualElement GetEditorField(List<SharedVariable> ExposedProperties, SharedVariable variable)
-        {
-            editorField.RegisterValueChangedCallback(evt =>
-            {
-                var index = ExposedProperties.FindIndex(x => x.Name == variable.Name);
-                ExposedProperties[index].SetValue(evt.newValue);
-            });
-            editorField.value = (K)variable.GetValue();
+            if (editorField is IBindableField bindableField) bindableField.BindTreeView(ownerTreeView);
             return editorField;
         }
         public void Copy(IFieldResolver resolver)
         {
             if (resolver is not FieldResolver<T, K>) return;
             if (fieldInfo.GetCustomAttribute<CopyDisableAttribute>() != null) return;
-            editorField.value = (K)resolver.Value;
+            Value = resolver.Value;
         }
         public void Restore(object behavior)
         {
-            editorField.value = (K)fieldInfo.GetValue(behavior);
+            Value = fieldInfo.GetValue(behavior);
         }
         public void Commit(object behavior)
         {
-            fieldInfo.SetValue(behavior, editorField.value);
+            fieldInfo.SetValue(behavior, Value);
         }
         public void RegisterValueChangeCallback(ValueChangeDelegate fieldChangeCallBack)
         {
             editorField.RegisterValueChangedCallback(evt => fieldChangeCallBack?.Invoke(evt.newValue));
         }
+        /// <summary>
+        /// Create <see cref="BaseField{T}"/>
+        /// </summary>
+        /// <param name="fieldInfo"></param>
+        /// <returns></returns>
+        protected abstract T CreateEditorField(FieldInfo fieldInfo);
+    }
+    public abstract class FieldResolver<T, K, F> : FieldResolver<T, K> where T : BaseField<K> where K : F
+    {
+        protected FieldResolver(FieldInfo fieldInfo) : base(fieldInfo)
+        {
+        }
+
+        public sealed override object Value
+        {
+            get => ValueGetter != null ? ValueGetter(editorField.value) : editorField.value;
+            set => editorField.value = ValueSetter != null ? ValueSetter((F)value) : (K)value;
+        }
+
+        /// <summary>
+        /// Bridge for setting value from <see cref="K"/> to <see cref="F"/>
+        /// </summary>
+        /// <value></value>
+        protected Func<F, K> ValueSetter { get; set; }
+        /// <summary>
+        /// Bridge for setting value from <see cref="K"/> to <see cref="F"/>
+        /// </summary>
+        /// <value></value>
+        protected Func<K, object> ValueGetter { get; set; }
     }
 }

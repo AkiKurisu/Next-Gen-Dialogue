@@ -12,15 +12,9 @@ namespace Kurisu.NGDT.Editor
         public SharedVector3Resolver(FieldInfo fieldInfo) : base(fieldInfo)
         {
         }
-        protected override void SetTree(IDialogueTreeView ownerTreeView)
-        {
-            editorField.Init(ownerTreeView);
-        }
-        private SharedVector3Field editorField;
         protected override SharedVector3Field CreateEditorField(FieldInfo fieldInfo)
         {
-            editorField = new SharedVector3Field(fieldInfo.Name, null, fieldInfo.FieldType, fieldInfo);
-            return editorField;
+            return new SharedVector3Field(fieldInfo.Name, null, fieldInfo.FieldType, fieldInfo);
         }
         public static bool IsAcceptable(Type infoType, FieldInfo _) => infoType == typeof(SharedVector3);
     }

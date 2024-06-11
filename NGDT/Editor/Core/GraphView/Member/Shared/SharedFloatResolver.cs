@@ -11,15 +11,9 @@ namespace Kurisu.NGDT.Editor
         public SharedFloatResolver(FieldInfo fieldInfo) : base(fieldInfo)
         {
         }
-        protected override void SetTree(IDialogueTreeView ownerTreeView)
-        {
-            editorField.Init(ownerTreeView);
-        }
-        private SharedFloatField editorField;
         protected override SharedFloatField CreateEditorField(FieldInfo fieldInfo)
         {
-            editorField = new SharedFloatField(fieldInfo.Name, null, fieldInfo.FieldType, fieldInfo);
-            return editorField;
+            return new SharedFloatField(fieldInfo.Name, null, fieldInfo.FieldType, fieldInfo);
         }
         public static bool IsAcceptable(Type infoType, FieldInfo _) => infoType == typeof(SharedFloat);
 
