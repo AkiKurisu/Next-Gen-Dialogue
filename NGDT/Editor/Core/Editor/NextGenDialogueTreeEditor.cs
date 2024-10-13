@@ -16,7 +16,7 @@ namespace Kurisu.NGDT.Editor
             style.color = Color.white;
             if (!Application.isPlaying)
             {
-                style.backgroundColor = new StyleColor(new Color(140 / 255f, 160 / 255f, 250 / 255f));
+                style.backgroundColor = new StyleColor(new Color(85 / 255f, 205 / 255f, 115 / 255f));
                 text = ButtonText;
             }
             else
@@ -34,7 +34,7 @@ namespace Kurisu.NGDT.Editor
             style.fontSize = 15;
             style.unityFontStyleAndWeight = FontStyle.Bold;
             style.color = Color.white;
-            style.backgroundColor = new StyleColor(new Color(140 / 255f, 160 / 255f, 250 / 255f));
+            style.backgroundColor = new StyleColor(new Color(85 / 255f, 205 / 255f, 115 / 255f));
             text = ButtonText;
         }
     }
@@ -65,14 +65,14 @@ namespace Kurisu.NGDT.Editor
             return myInspector;
         }
     }
-    [CustomEditor(typeof(NextGenDialogueTreeSO))]
-    public class NextGenDialogueTreeSOEditor : UnityEditor.Editor
+    [CustomEditor(typeof(NextGenDialogueTreeAsset))]
+    public class NextGenDialogueTreeAssetEditor : UnityEditor.Editor
     {
-        private static readonly string LabelText = $"Next-Gen DialogueTreeSO <size=12>{NextGenDialogueSetting.Version}</size>";
+        private static readonly string LabelText = $"Next-Gen DialogueTree Asset <size=12>{NextGenDialogueSetting.Version}</size>";
         public override VisualElement CreateInspectorGUI()
         {
             var myInspector = new VisualElement();
-            var tree = target as NextGenDialogueTreeSO;
+            var tree = target as NextGenDialogueTreeAsset;
             var label = new Label(LabelText);
             label.style.fontSize = 20;
             label.style.unityTextAlign = TextAnchor.MiddleCenter;

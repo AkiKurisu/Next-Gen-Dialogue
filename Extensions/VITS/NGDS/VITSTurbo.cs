@@ -93,7 +93,7 @@ namespace Kurisu.NGDS.VITS
         {
             if (Translator != null)
             {
-                message = await Translator.Translate(message, ct);
+                message = await Translator.TranslateAsync(message, ct);
             }
             return await SendVITSRequestAsync(message, characterID, ct);
         }

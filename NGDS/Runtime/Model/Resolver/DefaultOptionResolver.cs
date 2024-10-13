@@ -30,13 +30,9 @@ namespace Kurisu.NGDS
         {
             foreach (var option in DialogueOptions)
             {
-                ObjectContainer.Register<IContent>(option);
-                for (int i = 0; i < option.Modules.Count; i++)
-                {
-                    if (option.Modules[i] is IProcessable injectable)
-                        yield return injectable.Process(ObjectContainer);
-                    yield return OnOptionResolve(option);
-                }
+                ObjectContainer.Register<IContentModule>(option);
+                yield return option.ProcessModules(ObjectContainer);
+                yield return OnOptionResolve(option);
             }
         }
         protected virtual IEnumerator OnOptionResolve(Option option)

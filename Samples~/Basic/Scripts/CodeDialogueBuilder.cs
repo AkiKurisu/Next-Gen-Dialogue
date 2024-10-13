@@ -23,7 +23,7 @@ namespace Kurisu.NGDS.Example
         private static Piece GetFirstPiece()
         {
             var piece = Piece.GetPooled();
-            piece.Content = "This is the first dialogue piece";
+            piece.Contents = new string[1] { "This is the first dialogue piece" };
             piece.PieceID = "01";
             piece.AddOption(new Option()
             {
@@ -35,7 +35,7 @@ namespace Kurisu.NGDS.Example
         private static Piece GetSecondPiece()
         {
             var piece = Piece.GetPooled();
-            piece.Content = "This is the second dialogue piece";
+            piece.Contents = new string[1] { "This is the second dialogue piece" };
             piece.PieceID = "02";
             piece.AddOption(GetFirstOption());
             piece.AddOption(GetSecondOption());

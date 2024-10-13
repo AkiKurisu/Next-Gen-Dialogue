@@ -14,7 +14,7 @@ namespace Kurisu.NGDS.Translator
             else
                 Prompt = $"{targetLanguage} is language code. You should detect my language and translate them to {targetLanguage}. You should only reply the translation.";
         }
-        public async Task<string> Translate(string input, CancellationToken ct)
+        public async Task<string> TranslateAsync(string input, CancellationToken ct)
         {
             return (await llm.GenerateAsync($"{Prompt}\n{input}", ct)).Response;
         }

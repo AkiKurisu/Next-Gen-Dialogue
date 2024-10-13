@@ -283,7 +283,7 @@ namespace Kurisu.NGDT.Editor
         }
         public bool CopyFromJson(string serializedData, Vector3 mousePosition)
         {
-            var temp = ScriptableObject.CreateInstance<NextGenDialogueTreeSO>();
+            var temp = ScriptableObject.CreateInstance<NextGenDialogueTreeAsset>();
             try
             {
                 temp.Deserialize(serializedData);

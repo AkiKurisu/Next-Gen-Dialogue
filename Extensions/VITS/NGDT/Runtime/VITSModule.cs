@@ -1,11 +1,10 @@
 using Kurisu.NGDS;
-using Kurisu.NGDS.VITS;
 using UnityEngine;
 namespace Kurisu.NGDT.VITS
 {
     [AkiInfo("Module : VITS Module is used to generate audio for dialogue using VITS model.")]
     [AkiGroup("AIGC")]
-    [ModuleOf(typeof(Piece))]
+    [ModuleOf(typeof(Piece), true)]
     [ModuleOf(typeof(Option))]
     public class VITSModule : CustomModule
     {
@@ -15,8 +14,8 @@ namespace Kurisu.NGDT.VITS
         public bool noTranslation;
         protected sealed override IDialogueModule GetModule()
         {
-            if (audioClip.Value != null) return new VITSAudioClipModule(audioClip.Value);
-            else return new VITSGenerateModule(characterID.Value, noTranslation);
+            if (audioClip.Value != null) return new NGDS.VITS.VITSModule(audioClip.Value);
+            else return new NGDS.VITS.VITSModule(characterID.Value, noTranslation);
         }
     }
 }

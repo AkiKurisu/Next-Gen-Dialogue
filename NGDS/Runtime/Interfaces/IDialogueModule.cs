@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 namespace Kurisu.NGDS
 {
     /// <summary>
@@ -30,10 +31,12 @@ namespace Kurisu.NGDS
         T Resolve<T>();
     }
     /// <summary>
-    /// Interface for changing string content
+    /// Base class for module contains dialogue content
     /// </summary>
-    public interface IContent
+    public interface IContentModule
     {
-        string Content { get; set; }
+        void GetContents(List<string> contents);
+        void AddContent(string content);
+        void SetContents(List<string> contents);
     }
 }

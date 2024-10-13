@@ -3,7 +3,7 @@ using UnityEngine;
 namespace Kurisu.NGDT
 {
     [AkiInfo("Module: Content Module is used to modify dialogue content such as piece and option.")]
-    [ModuleOf(typeof(Piece))]
+    [ModuleOf(typeof(Piece), true)]
     [ModuleOf(typeof(Option))]
     public class ContentModule : CustomModule, IExposedContent
     {

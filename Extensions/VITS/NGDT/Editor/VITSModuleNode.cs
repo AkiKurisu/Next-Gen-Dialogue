@@ -1,6 +1,7 @@
 using Kurisu.NGDS.AI;
 using Kurisu.NGDS.VITS;
 using Kurisu.NGDT.Editor;
+using System;
 using System.Threading.Tasks;
 using UnityEditor;
 using UnityEngine;
@@ -62,7 +63,10 @@ namespace Kurisu.NGDT.VITS.Editor
         public async Task<bool> BakeAudio()
         {
             var characterID = this.GetSharedIntValue("characterID");
-            if (!GetFirstAncestorOfType<ContainerNode>().TryGetModuleNode<ContentModule>(out ModuleNode contentModule)) return false;
+            var parent = GetFirstAncestorOfType<ContainerNode>();
+            if (parent == null) return false;
+            int index = Array.IndexOf(parent.GetModuleNodes<VITSModule>(), this);
+            var contentModule = parent.GetModuleNode<ContentModule>(index);
             string content = contentModule.GetSharedStringValue("content");
             var turboSetting = NextGenDialogueSetting.GetOrCreateSettings().AITurboSetting;
             var vitsTurbo = new VITSTurbo(turboSetting)

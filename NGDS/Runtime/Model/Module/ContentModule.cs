@@ -9,9 +9,9 @@ namespace Kurisu.NGDS
         }
         public void Apply(Node node)
         {
-            if (node is IContent content)
+            if (node is IContentModule contentModule)
             {
-                content.Content = this.content;
+                contentModule.AddContent(content);
             }
             else
             {

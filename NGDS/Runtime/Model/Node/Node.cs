@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 namespace Kurisu.NGDS
@@ -36,7 +37,7 @@ namespace Kurisu.NGDS
             module = default;
             return false;
         }
-        public List<T> CollectModules<T>(List<T> modules) where T : IDialogueModule
+        public void CollectModules<T>(List<T> modules) where T : IDialogueModule
         {
             foreach (var localModule in this.modules)
             {
@@ -45,7 +46,17 @@ namespace Kurisu.NGDS
                     modules.Add(target);
                 }
             }
-            return modules;
+        }
+
+        public IEnumerator ProcessModules(IObjectResolver resolver)
+        {
+            foreach (var localModule in modules)
+            {
+                if (localModule is IProcessable processable)
+                {
+                    yield return processable.Process(resolver);
+                }
+            }
         }
 
         public void Dispose()

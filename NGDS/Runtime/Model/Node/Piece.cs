@@ -1,25 +1,22 @@
 using System;
 using System.Collections.Generic;
-using UnityEngine;
 using UnityEngine.Pool;
 namespace Kurisu.NGDS
 {
-    [Serializable]
-    public class Piece : Node, IContent, IDialogueModule
+    public class Piece : Node, IContentModule, IDialogueModule
     {
         private static readonly ObjectPool<Piece> pool = new(() => new Piece(), (p) => p.IsPooled = true, (p) => p.Reset());
         private const string DefaultID = "00";
-        [field: SerializeField]
         public string PieceID { get; set; } = DefaultID;
-        [field: SerializeField]
-        public string Content { get; set; } = string.Empty;
+        public string[] Contents { get; set; } = EmptyContents;
+        private static readonly string[] EmptyContents = new string[0];
         private readonly List<Option> options = new();
         public IReadOnlyList<Option> Options => options;
         private Piece Reset()
         {
             IsPooled = false;
             PieceID = DefaultID;
-            Content = string.Empty;
+            Contents = EmptyContents;
             options.Clear();
             ClearModules();
             return this;
@@ -43,6 +40,24 @@ namespace Kurisu.NGDS
             {
                 pool.Release(this);
             }
+        }
+
+        public void GetContents(List<string> contents)
+        {
+            contents.AddRange(Contents);
+        }
+
+        public void SetContents(List<string> contents)
+        {
+            Contents = contents.ToArray();
+        }
+
+        public void AddContent(string content)
+        {
+            var contents = Contents;
+            Array.Resize(ref contents, contents.Length + 1);
+            contents[^1] = content;
+            Contents = contents;
         }
     }
 }

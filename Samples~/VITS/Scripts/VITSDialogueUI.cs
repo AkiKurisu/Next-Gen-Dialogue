@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using Kurisu.NGDS;
+using Kurisu.NGDS.VITS;
 using UnityEngine;
 using UnityEngine.UI;
 namespace Kurisu.NGDT.VITS.Example
@@ -18,6 +19,8 @@ namespace Kurisu.NGDT.VITS.Example
         private IDialogueSystem dialogueSystem;
         [SerializeField]
         private AudioSource audioSource;
+        [SerializeField, Header("FallBack")]
+        private float delayForWord = 0.05f;
         private void Start()
         {
             dialogueSystem = IOCContainer.Resolve<IDialogueSystem>();
@@ -45,20 +48,35 @@ namespace Kurisu.NGDT.VITS.Example
         {
             StopCoroutine(nameof(WaitOver));
             CleanUp();
-            StartCoroutine(PlayText(resolver.DialoguePiece.Content, () => StartCoroutine(resolver.ExitPiece())));
+            StartCoroutine(PlayText(resolver.DialoguePiece.Contents, (resolver as VITSPieceResolver).AudioClips, () => StartCoroutine(resolver.ExitPiece())));
         }
         private readonly StringBuilder stringBuilder = new();
-        private IEnumerator PlayText(string text, System.Action callBack)
+        private IEnumerator PlayText(string[] contents, AudioClip[] audioClips, System.Action callBack)
         {
-            WaitForSeconds seconds = new(audioSource.clip.length / text.Length);
-            int count = text.Length;
-            mainText.text = string.Empty;
-            stringBuilder.Clear();
-            for (int i = 0; i < count; i++)
+            for (int i = 0; i < contents.Length; ++i)
             {
-                stringBuilder.Append(text[i]);
-                mainText.text = stringBuilder.ToString();
-                yield return seconds;
+                var text = contents[i];
+                var clip = audioClips[i];
+                WaitForSeconds seconds;
+                if (clip)
+                {
+                    audioSource.clip = clip;
+                    audioSource.Play();
+                    seconds = new(clip.length / text.Length);
+                }
+                else
+                {
+                    seconds = new(delayForWord);
+                }
+                int count = text.Length;
+                mainText.text = string.Empty;
+                stringBuilder.Clear();
+                for (int n = 0; n < count; n++)
+                {
+                    stringBuilder.Append(text[n]);
+                    mainText.text = stringBuilder.ToString();
+                    yield return seconds;
+                }
             }
             callBack?.Invoke();
         }

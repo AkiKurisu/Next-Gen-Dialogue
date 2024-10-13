@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System.Threading;
 using Kurisu.NGDS.Translator;
+using UnityEngine.Pool;
 namespace Kurisu.NGDS
 {
     public readonly struct GoogleTranslateModule : IDialogueModule, IProcessable
@@ -21,8 +22,10 @@ namespace Kurisu.NGDS
         }
         public IEnumerator Process(IObjectResolver resolver)
         {
-            var content = resolver.Resolve<IContent>();
-            var task = googleTranslator.Translate(content.Content, ct.Token);
+            var content = resolver.Resolve<IContentModule>();
+            var contents = ListPool<string>.Get();
+            content.GetContents(contents);
+            var task = googleTranslator.TranslateAsyncBatch(contents, ct.Token);
             float waitTime = 0;
             while (!task.IsCompleted)
             {
@@ -34,7 +37,8 @@ namespace Kurisu.NGDS
                     break;
                 }
             }
-            content.Content = task.Result;
+            content.SetContents(contents);
+            ListPool<string>.Release(contents);
         }
     }
 }

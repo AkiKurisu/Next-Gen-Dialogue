@@ -221,7 +221,7 @@ namespace Kurisu.NGDT.Editor
             evt.menu.MenuItems().Add(new NGDTDropdownMenuAction("Add Module", (a) =>
             {
                 var provider = ScriptableObject.CreateInstance<ModuleSearchWindowProvider>();
-                provider.Init(this, MapTreeView, NextGenDialogueSetting.GetMask(), GetModuleTypes());
+                provider.Init(this, MapTreeView, NextGenDialogueSetting.GetMask(), GetExceptModuleTypes());
                 SearchWindow.Open(new SearchWindowContext(a.eventInfo.localMousePosition), provider);
             }));
         }
@@ -232,10 +232,7 @@ namespace Kurisu.NGDT.Editor
                 RemoveElement(node);
             }
         }
-        private IEnumerable<Type> GetModuleTypes()
-        {
-            return contentContainer.Query<ModuleNode>().ToList().Select(x => x.GetBehavior());
-        }
+        protected abstract IEnumerable<Type> GetExceptModuleTypes();
         public bool TryGetModuleNode<T>(out ModuleNode moduleNode) where T : Module
         {
             moduleNode = contentContainer.Query<ModuleNode>().ToList().FirstOrDefault(x => x.GetBehavior() == typeof(T));
@@ -245,6 +242,15 @@ namespace Kurisu.NGDT.Editor
         {
             moduleNode = contentContainer.Query<ModuleNode>().ToList().FirstOrDefault(x => x.GetBehavior() == type);
             return moduleNode != null;
+        }
+        public ModuleNode GetModuleNode<T>(int index) where T : Module
+        {
+            var nodes = GetModuleNodes<T>();
+            return nodes[index];
+        }
+        public ModuleNode[] GetModuleNodes<T>() where T : Module
+        {
+            return contentContainer.Query<ModuleNode>().ToList().Where(x => x.GetBehavior() == typeof(T)).ToArray();
         }
         public ModuleNode AddModuleNode<T>(T module) where T : Module, new()
         {
@@ -335,7 +341,9 @@ namespace Kurisu.NGDT.Editor
             if (element is ModuleNode moduleNode)
             {
                 var behaviorType = moduleNode.GetBehavior();
-                if (!behaviorType.GetCustomAttributes<ModuleOfAttribute>().Any(x => x.ContainerType == typeof(Dialogue))) return false;
+                var define = behaviorType.GetCustomAttributes<ModuleOfAttribute>().FirstOrDefault(x => x.ContainerType == typeof(Dialogue));
+                if (define == null) return false;
+                if (define.AllowMulti) return true;
                 return !TryGetModuleNode(behaviorType, out _);
             }
             return element is PieceBridge or ParentBridge;
@@ -357,6 +365,15 @@ namespace Kurisu.NGDT.Editor
                 NodeAutoLayoutHelper.Layout(new DialogueTreeLayoutConvertor(MapTreeView.View, this));
             }));
             base.BuildContextualMenu(evt);
+        }
+
+        protected override IEnumerable<Type> GetExceptModuleTypes()
+        {
+            return contentContainer.Query<ModuleNode>().ToList().Select(x => x.GetBehavior()).Where(x =>
+            {
+                var define = x.GetCustomAttributes<ModuleOfAttribute>().FirstOrDefault(x => x.ContainerType == typeof(Dialogue));
+                return !define.AllowMulti;
+            });
         }
     }
     public class PieceContainer : ContainerNode, IContainChild
@@ -434,7 +451,9 @@ namespace Kurisu.NGDT.Editor
             if (element is ModuleNode moduleNode)
             {
                 var behaviorType = moduleNode.GetBehavior();
-                if (!behaviorType.GetCustomAttributes<ModuleOfAttribute>().Any(x => x.ContainerType == typeof(Piece))) return false;
+                var define = behaviorType.GetCustomAttributes<ModuleOfAttribute>().FirstOrDefault(x => x.ContainerType == typeof(Piece));
+                if (define == null) return false;
+                if (define.AllowMulti) return true;
                 return !TryGetModuleNode(behaviorType, out _);
             }
             return element is OptionBridge or ParentBridge;
@@ -444,6 +463,14 @@ namespace Kurisu.NGDT.Editor
             var variable = new PieceID() { Name = "New Piece" };
             MapTreeView.BlackBoard.AddVariable(variable, false);
             mainContainer.Q<PieceIDField>().value = new PieceID() { Name = variable.Name };
+        }
+        protected override IEnumerable<Type> GetExceptModuleTypes()
+        {
+            return contentContainer.Query<ModuleNode>().ToList().Select(x => x.GetBehavior()).Where(x =>
+            {
+                var define = x.GetCustomAttributes<ModuleOfAttribute>().FirstOrDefault(x => x.ContainerType == typeof(Piece));
+                return !define.AllowMulti;
+            });
         }
     }
     public class OptionContainer : ContainerNode
@@ -471,6 +498,14 @@ namespace Kurisu.NGDT.Editor
                 return !TryGetModuleNode(behaviorType, out _);
             }
             return element is ParentBridge;
+        }
+        protected override IEnumerable<Type> GetExceptModuleTypes()
+        {
+            return contentContainer.Query<ModuleNode>().ToList().Select(x => x.GetBehavior()).Where(x =>
+            {
+                var define = x.GetCustomAttributes<ModuleOfAttribute>().FirstOrDefault(x => x.ContainerType == typeof(Option));
+                return !define.AllowMulti;
+            });
         }
     }
 }

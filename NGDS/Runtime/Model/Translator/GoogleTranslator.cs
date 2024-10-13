@@ -2,6 +2,8 @@ using UnityEngine;
 using System.Threading.Tasks;
 using System;
 using System.Threading;
+using System.Collections.Generic;
+using System.Linq;
 namespace Kurisu.NGDS.Translator
 {
     public class GoogleTranslator : ITranslator
@@ -14,7 +16,7 @@ namespace Kurisu.NGDS.Translator
             SourceLanguageCode = sourceLanguageCode;
             TargetLanguageCode = targetLanguageCode;
         }
-        public async Task<string> Translate(string input, CancellationToken ct)
+        public async Task<string> TranslateAsync(string input, CancellationToken ct)
         {
             if (SourceLanguageCode == TargetLanguageCode) return input;
             try
@@ -32,6 +34,28 @@ namespace Kurisu.NGDS.Translator
             {
                 Debug.LogError(ex.Message);
                 return input;
+            }
+        }
+        public async Task TranslateAsyncBatch(List<string> inputs, CancellationToken ct)
+        {
+            if (SourceLanguageCode == TargetLanguageCode) return;
+            try
+            {
+                var responses = await Task.WhenAll(inputs.Select(x => GoogleTranslateHelper.TranslateTextAsync(SourceLanguageCode, TargetLanguageCode, x, ct)));
+                inputs.Clear();
+                foreach (var response in responses)
+                {
+                    if (response.Status) inputs.Add(response.TranslateText);
+                    else inputs.Add(response.SourceText);
+                }
+            }
+            catch (OperationCanceledException)
+            {
+                Debug.LogError("[Google Translator] Translation is out of time!");
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError(ex.Message);
             }
         }
     }

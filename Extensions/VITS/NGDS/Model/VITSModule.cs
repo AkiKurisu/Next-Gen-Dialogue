@@ -1,22 +1,58 @@
+using System.Threading;
+using System.Threading.Tasks;
 using UnityEngine;
 namespace Kurisu.NGDS.VITS
 {
-    public readonly struct VITSGenerateModule : IDialogueModule
+    public readonly struct VITSModule : IDialogueModule
     {
         public readonly int CharacterID { get; }
         public readonly bool NoTranslation { get; }
-        public VITSGenerateModule(int characterID, bool noTranslation)
+        public AudioClip AudioClip { get; }
+        public VITSModule(int characterID, bool noTranslation)
         {
             CharacterID = characterID;
             NoTranslation = noTranslation;
+            AudioClip = null;
         }
-    }
-    public readonly struct VITSAudioClipModule : IDialogueModule
-    {
-        public AudioClip AudioClip { get; }
-        public VITSAudioClipModule(AudioClip audioClip)
+        public VITSModule(AudioClip audioClip)
         {
             AudioClip = audioClip;
+            CharacterID = 0;
+            NoTranslation = false;
+        }
+        public async Task RequestOrLoadAudioClipParallel(int i, VITSTurbo vitsTurbo, string[] contents, AudioClip[] results, CancellationToken token)
+        {
+            if (AudioClip)
+            {
+                results[i] = AudioClip;
+                return;
+            }
+            VITSResponse response;
+            if (NoTranslation)
+                response = await vitsTurbo.SendVITSRequestAsync(contents[i], CharacterID, token);
+            else
+                response = await vitsTurbo.SendVITSRequestAsyncWithTranslation(contents[i], CharacterID, token);
+            if (response.Status)
+            {
+                results[i] = response.Result;
+            }
+        }
+        public async Task<AudioClip> RequestOrLoadAudioClip(VITSTurbo vitsTurbo, string content, CancellationToken token)
+        {
+            if (AudioClip)
+            {
+                return AudioClip;
+            }
+            VITSResponse response;
+            if (NoTranslation)
+                response = await vitsTurbo.SendVITSRequestAsync(content, CharacterID, token);
+            else
+                response = await vitsTurbo.SendVITSRequestAsyncWithTranslation(content, CharacterID, token);
+            if (response.Status)
+            {
+                return response.Result;
+            }
+            return null;
         }
     }
 }

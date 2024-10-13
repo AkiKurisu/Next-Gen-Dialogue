@@ -4,6 +4,6 @@ namespace Kurisu.NGDS
 {
     public interface ITranslator
     {
-        Task<string> Translate(string input, CancellationToken ct);
+        Task<string> TranslateAsync(string input, CancellationToken ct);
     }
 }

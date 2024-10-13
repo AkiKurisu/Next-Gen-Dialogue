@@ -7,11 +7,16 @@ namespace Kurisu.NGDT
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = true, Inherited = true)]
     public sealed class ModuleOfAttribute : Attribute
     {
-        private readonly Type containerType;
-        public Type ContainerType => containerType;
-        public ModuleOfAttribute(Type containerType)
+        public Type ContainerType { get; }
+        /// <summary>
+        /// Allow container contains multi instance of this module
+        /// </summary>
+        /// <value></value>
+        public bool AllowMulti { get; }
+        public ModuleOfAttribute(Type containerType, bool allowMulti = false)
         {
-            this.containerType = containerType;
+            ContainerType = containerType;
+            AllowMulti = allowMulti;
         }
     }
 }

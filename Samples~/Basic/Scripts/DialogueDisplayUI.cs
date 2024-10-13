@@ -44,20 +44,23 @@ namespace Kurisu.NGDS.Example
         {
             StopCoroutine(nameof(WaitOver));
             CleanUp();
-            StartCoroutine(PlayText(resolver.DialoguePiece.Content, () => StartCoroutine(resolver.ExitPiece())));
+            StartCoroutine(PlayText(resolver.DialoguePiece.Contents, () => StartCoroutine(resolver.ExitPiece())));
         }
         private readonly StringBuilder stringBuilder = new();
-        private IEnumerator PlayText(string text, System.Action callBack)
+        private IEnumerator PlayText(string[] contents, System.Action callBack)
         {
             WaitForSeconds seconds = new(delayForWord);
-            int count = text.Length;
-            mainText.text = string.Empty;
-            stringBuilder.Clear();
-            for (int i = 0; i < count; i++)
+            foreach (var text in contents)
             {
-                stringBuilder.Append(text[i]);
-                mainText.text = stringBuilder.ToString();
-                yield return seconds;
+                int count = text.Length;
+                mainText.text = string.Empty;
+                stringBuilder.Clear();
+                for (int i = 0; i < count; i++)
+                {
+                    stringBuilder.Append(text[i]);
+                    mainText.text = stringBuilder.ToString();
+                    yield return seconds;
+                }
             }
             callBack?.Invoke();
         }

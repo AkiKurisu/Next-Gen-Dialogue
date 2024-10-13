@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
-using System.Threading.Tasks;
 using UnityEngine;
 namespace Kurisu.NGDS.VITS
 {
@@ -53,29 +52,12 @@ namespace Kurisu.NGDS.VITS
             audioCacheMap.Clear();
             foreach (var option in DialogueOptions)
             {
-                objectContainer.Register<IContent>(option);
-                for (int i = 0; i < option.Modules.Count; i++)
+                objectContainer.Register<IContentModule>(option);
+                yield return option.ProcessModules(objectContainer);
+                if (option.TryGetModule(out VITSModule module))
                 {
-                    if (option.Modules[i] is IProcessable injectable)
-                        yield return injectable.Process(objectContainer);
-                }
-                if (option.TryGetModule(out VITSAudioClipModule audioClipModule))
-                {
-                    audioCacheMap[option] = audioClipModule.AudioClip;
-                    continue;
-                }
-                if (option.TryGetModule(out VITSGenerateModule vitsModule))
-                {
-                    Task<VITSResponse> task;
-                    if (vitsModule.NoTranslation)
-                    {
-                        task = vitsTurbo.SendVITSRequestAsync(option.Content, vitsModule.CharacterID, ct.Token);
-                    }
-                    else
-                    {
-                        task = vitsTurbo.SendVITSRequestAsyncWithTranslation(option.Content, vitsModule.CharacterID, ct.Token);
-                    }
                     float waitTime = 0;
+                    var task = module.RequestOrLoadAudioClip(vitsTurbo, option.Content, ct.Token);
                     while (!task.IsCompleted)
                     {
                         yield return null;
@@ -86,15 +68,8 @@ namespace Kurisu.NGDS.VITS
                             break;
                         }
                     }
-                    var response = task.Result;
-                    if (response.Status)
-                    {
-                        audioCacheMap[option] = response.Result;
-                    }
-                    else
-                    {
-                        Debug.LogWarning("[VITS Option Resolver] VITS Request failed !");
-                    }
+                    audioCacheMap[option] = task.Result;
+                    continue;
                 }
             }
         }

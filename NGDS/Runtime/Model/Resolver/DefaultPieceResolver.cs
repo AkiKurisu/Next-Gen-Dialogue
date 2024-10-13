@@ -10,15 +10,11 @@ namespace Kurisu.NGDS
         {
             DialoguePiece = piece;
             this.system = system;
-            ObjectContainer.Register<IContent>(piece);
+            ObjectContainer.Register<IContentModule>(piece);
         }
         public IEnumerator EnterPiece()
         {
-            for (int i = 0; i < DialoguePiece.Modules.Count; i++)
-            {
-                if (DialoguePiece.Modules[i] is IProcessable injectable)
-                    yield return injectable.Process(ObjectContainer);
-            }
+            yield return DialoguePiece.ProcessModules(ObjectContainer);
             yield return OnPieceResolve(DialoguePiece);
         }
         protected virtual IEnumerator OnPieceResolve(Piece piece)

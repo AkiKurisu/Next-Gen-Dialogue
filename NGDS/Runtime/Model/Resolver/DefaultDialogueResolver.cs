@@ -12,11 +12,7 @@ namespace Kurisu.NGDS
 
         public IEnumerator EnterDialogue()
         {
-            for (int i = 0; i < Dialogue.Modules.Count; i++)
-            {
-                if (Dialogue.Modules[i] is IProcessable injectable)
-                    yield return injectable.Process(ObjectContainer);
-            }
+            yield return Dialogue.ProcessModules(ObjectContainer);
         }
         public IEnumerator ExitDialogue()
         {

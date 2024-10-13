@@ -1,8 +1,9 @@
 using System.Collections;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Kurisu.NGDS.AI;
 using UnityEngine;
+using UnityEngine.Pool;
 namespace Kurisu.NGDS.VITS
 {
     public class VITSPieceResolver : IPieceResolver
@@ -19,60 +20,33 @@ namespace Kurisu.NGDS.VITS
         private readonly ObjectContainer objectContainer = new();
         public Piece DialoguePiece { get; private set; }
         public float MaxWaitTime { get; set; } = 30f;
+        public AudioClip[] AudioClips { get; private set; }
         public void Inject(Piece piece, IDialogueSystem system)
         {
             DialoguePiece = piece;
             this.system = system;
-            objectContainer.Register<IContent>(piece);
+            objectContainer.Register<IContentModule>(piece);
         }
         public IEnumerator EnterPiece()
         {
-            for (int i = 0; i < DialoguePiece.Modules.Count; i++)
+            yield return DialoguePiece.ProcessModules(objectContainer);
+            AudioClips = new AudioClip[DialoguePiece.Contents.Length];
+            var modules = ListPool<VITSModule>.Get();
+            DialoguePiece.CollectModules(modules);
+            var task = Task.WhenAll(modules.Select((x, idx) => x.RequestOrLoadAudioClipParallel(idx, vitsTurbo, DialoguePiece.Contents, AudioClips, ct.Token)));
+            float waitTime = 0;
+            while (!task.IsCompleted)
             {
-                if (DialoguePiece.Modules[i] is IProcessable injectable)
-                    yield return injectable.Process(objectContainer);
-            }
-            if (DialoguePiece.TryGetModule(out VITSAudioClipModule audioClipModule))
-            {
-                while (audioSource.isPlaying) yield return null;
-                audioSource.clip = audioClipModule.AudioClip;
-                audioSource.Play();
-                yield break;
-            }
-            if (DialoguePiece.TryGetModule(out VITSGenerateModule vitsModule))
-            {
-                Task<VITSResponse> task;
-                if (vitsModule.NoTranslation)
+                yield return null;
+                waitTime += Time.deltaTime;
+                if (waitTime >= MaxWaitTime)
                 {
-                    task = vitsTurbo.SendVITSRequestAsync(DialoguePiece.Content, vitsModule.CharacterID, ct.Token);
-                }
-                else
-                {
-                    task = vitsTurbo.SendVITSRequestAsyncWithTranslation(DialoguePiece.Content, vitsModule.CharacterID, ct.Token);
-                }
-                float waitTime = 0;
-                while (!task.IsCompleted)
-                {
-                    yield return null;
-                    waitTime += Time.deltaTime;
-                    if (waitTime >= MaxWaitTime)
-                    {
-                        ct.Cancel();
-                        break;
-                    }
-                }
-                var response = task.Result;
-                if (response.Status)
-                {
-                    while (audioSource.isPlaying) yield return null;
-                    audioSource.clip = response.Result;
-                    audioSource.Play();
-                }
-                else
-                {
-                    Debug.LogWarning("[VITS Piece Resolver] VITS Request failed !");
+                    ct.Cancel();
+                    break;
                 }
             }
+            ListPool<VITSModule>.Release(modules);
+            while (audioSource.isPlaying) yield return null;
         }
         public IEnumerator ExitPiece()
         {
