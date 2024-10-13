@@ -16,12 +16,12 @@ namespace Kurisu.NGDT
         private List<SharedVariable> sharedVariables = new();
         [SerializeField, Tooltip("Replace the dialogue tree in the component with the external dialogue tree," +
         " which will overwrite the dialogue tree in the component when saving")]
-        private NextGenDialogueTreeSO externalDialogueTree;
+        private NextGenDialogueTreeAsset externalDialogueTree;
         /// <summary>
         /// Overwrite external dialogueTreeSO to use external data, and leave null to use embedded data.
         /// </summary>
         /// <value></value>
-        public NextGenDialogueTreeSO ExternalData { get => externalDialogueTree; set => externalDialogueTree = value; }
+        public NextGenDialogueTreeAsset ExternalData { get => externalDialogueTree; set => externalDialogueTree = value; }
 #if UNITY_EDITOR
         [SerializeField, HideInInspector]
         private List<GroupBlockData> blockData = new();

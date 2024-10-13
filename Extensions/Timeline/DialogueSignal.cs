@@ -6,7 +6,7 @@ namespace Kurisu.NGDT.Timeline
     public class DialogueSignal : Marker, INotification
     {
         public string dialogueName;
-        public NextGenDialogueTreeSO dialogueAsset;
+        public NextGenDialogueTreeAsset dialogueAsset;
         public bool pausePlayable;
         public PropertyName id { get; }
     }

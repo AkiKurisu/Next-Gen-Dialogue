@@ -41,7 +41,7 @@ namespace Kurisu.NGDT.Editor
                 return true;
             }
             var asset = EditorUtility.InstanceIDToObject(instanceId);
-            if (asset.GetType() == typeof(NextGenDialogueTreeSO))
+            if (asset.GetType() == typeof(NextGenDialogueTreeAsset))
             {
                 Show((IDialogueTree)asset);
                 return true;
@@ -55,7 +55,7 @@ namespace Kurisu.NGDT.Editor
             string path = EditorUtility.SaveFilePanel("Select DialogueTreeSO save path", Application.dataPath, "DialogueTreeSO", "asset");
             if (string.IsNullOrEmpty(path)) return;
             path = path.Replace(Application.dataPath, string.Empty);
-            var treeSO = CreateInstance<NextGenDialogueTreeSO>();
+            var treeSO = CreateInstance<NextGenDialogueTreeAsset>();
             AssetDatabase.CreateAsset(treeSO, $"Assets/{path}");
             AssetDatabase.SaveAssets();
             Show(treeSO);
@@ -117,7 +117,7 @@ namespace Kurisu.NGDT.Editor
         }
         private void SaveDataToSO(string path)
         {
-            var treeSO = CreateInstance<NextGenDialogueTreeSO>();
+            var treeSO = CreateInstance<NextGenDialogueTreeAsset>();
             if (!graphView.Validate())
             {
                 Debug.LogWarning($"<color=#ff2f2f>NGDT</color> : Save failed, ScriptableObject wasn't created !\n{DateTime.Now}");
@@ -348,7 +348,7 @@ namespace Kurisu.NGDT.Editor
         {
             try
             {
-                return AssetDatabase.LoadAssetAtPath<NextGenDialogueTreeSO>($"Assets/{path}");
+                return AssetDatabase.LoadAssetAtPath<NextGenDialogueTreeAsset>($"Assets/{path}");
 
             }
             catch

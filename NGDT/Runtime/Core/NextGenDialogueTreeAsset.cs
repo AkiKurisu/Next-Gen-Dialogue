@@ -6,8 +6,8 @@ using UnityEditor;
 #endif
 namespace Kurisu.NGDT
 {
-    [CreateAssetMenu(fileName = "NextGenDialogueTreeSO", menuName = "Next Gen Dialogue/NextGenDialogueTreeSO")]
-    public class NextGenDialogueTreeSO : ScriptableObject, IDialogueTree
+    [CreateAssetMenu(fileName = "NextGenDialogueTreeAsset", menuName = "Next Gen Dialogue/NextGenDialogueTreeAsset")]
+    public class NextGenDialogueTreeAsset : ScriptableObject, IDialogueTree
     {
         [SerializeReference, HideInInspector]
         protected Root root = new();
