@@ -1,6 +1,9 @@
 using Kurisu.NGDS;
 namespace Kurisu.NGDT
 {
+    /// <summary>
+    /// Interface of dialogue builder for dialogue tree
+    /// </summary>
     public interface IDialogueBuilder
     {
         /// <summary>

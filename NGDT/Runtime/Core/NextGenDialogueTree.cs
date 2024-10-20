@@ -3,7 +3,7 @@ using Kurisu.NGDS;
 using UnityEngine;
 namespace Kurisu.NGDT
 {
-    public delegate void ResolveDialogueDelegate(NGDS.IDialogueLookup dialogue);
+    public delegate void ResolveDialogueDelegate(IDialogueLookup dialogue);
     [DisallowMultipleComponent]
     public class NextGenDialogueTree : MonoBehaviour, IDialogueTree
     {
@@ -18,7 +18,7 @@ namespace Kurisu.NGDT
         " which will overwrite the dialogue tree in the component when saving")]
         private NextGenDialogueTreeAsset externalDialogueTree;
         /// <summary>
-        /// Overwrite external dialogueTreeSO to use external data, and leave null to use embedded data.
+        /// Overwrite external dialogueTreeAsset to use external data, and leave null to use embedded data.
         /// </summary>
         /// <value></value>
         public NextGenDialogueTreeAsset ExternalData { get => externalDialogueTree; set => externalDialogueTree = value; }
@@ -47,7 +47,7 @@ namespace Kurisu.NGDT
         #endregion
         private void Awake()
         {
-            builder = new DialogueBuilder(ResolveDialogue);
+            builder = new DialogueBuilder(this);
             foreach (var variable in sharedVariables)
             {
                 if (variable is PieceID pieceID) pieceID.Value = global::System.Guid.NewGuid().ToString();
@@ -75,7 +75,7 @@ namespace Kurisu.NGDT
         /// </summary>
         public void PlayDialogue()
         {
-            builder.ClearBuffer();
+            builder.Clear();
             if (externalDialogueTree)
             {
                 externalDialogueTree.Init(gameObject, builder);
@@ -93,6 +93,41 @@ namespace Kurisu.NGDT
             else
             {
                 Debug.LogError("No dialogue system registered!");
+            }
+        }
+        private class DialogueBuilder : IDialogueBuilder
+        {
+            public DialogueBuilder(NextGenDialogueTree tree)
+            {
+                this.tree = tree;
+            }
+            private readonly NextGenDialogueTree tree;
+            private readonly Stack<Node> nodesBuffer = new();
+            public void StartWriteNode(Node node)
+            {
+                nodesBuffer.Push(node);
+            }
+            public void DisposeWriteNode()
+            {
+                nodesBuffer.Pop().Dispose();
+            }
+            public Node GetNode()
+            {
+                return nodesBuffer.Peek();
+            }
+            public void EndWriteNode()
+            {
+                var node = nodesBuffer.Pop();
+                if (nodesBuffer.TryPeek(out Node parentNode) && node is IDialogueModule module)
+                    parentNode.AddModule(module);
+            }
+            public void Clear()
+            {
+                nodesBuffer.Clear();
+            }
+            public void EndBuildDialogue(IDialogueLookup dialogue)
+            {
+                tree.ResolveDialogue(dialogue);
             }
         }
     }

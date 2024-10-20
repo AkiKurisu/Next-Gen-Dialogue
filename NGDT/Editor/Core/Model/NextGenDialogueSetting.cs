@@ -59,17 +59,17 @@ namespace Kurisu.NGDT.Editor
         public static StyleSheet GetGraphStyle()
         {
             var setting = GetOrCreateSettings();
-            return setting.graphEditorSetting.graphStyleSheet ?? Resources.Load<StyleSheet>(GraphFallBackPath);
+            return setting.graphEditorSetting.graphStyleSheet != null ? setting.graphEditorSetting.graphStyleSheet : Resources.Load<StyleSheet>(GraphFallBackPath);
         }
         public static StyleSheet GetInspectorStyle()
         {
             var setting = GetOrCreateSettings();
-            return setting.graphEditorSetting.inspectorStyleSheet ?? Resources.Load<StyleSheet>(InspectorFallBackPath);
+            return setting.graphEditorSetting.inspectorStyleSheet != null ? setting.graphEditorSetting.inspectorStyleSheet : Resources.Load<StyleSheet>(InspectorFallBackPath);
         }
         public static StyleSheet GetNodeStyle()
         {
             var setting = GetOrCreateSettings();
-            return setting.graphEditorSetting.nodeStyleSheet ?? Resources.Load<StyleSheet>(NodeFallBackPath);
+            return setting.graphEditorSetting.nodeStyleSheet != null ? setting.graphEditorSetting.nodeStyleSheet : Resources.Load<StyleSheet>(NodeFallBackPath);
         }
         public static (string[], string[]) GetMask()
         {
