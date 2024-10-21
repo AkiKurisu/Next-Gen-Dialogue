@@ -1,8 +1,8 @@
 namespace Kurisu.NGDT.Behavior
 {
-    [AkiInfo("Action: Replace value of string")]
-    [AkiLabel("String: Replace")]
-    [AkiGroup("String")]
+    [NodeInfo("Action: Replace value of string")]
+    [NodeLabel("String: Replace")]
+    [NodeGroup("String")]
     public class ReplaceString : Action
     {
         public SharedString target;

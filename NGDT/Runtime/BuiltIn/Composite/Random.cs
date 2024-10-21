@@ -1,6 +1,6 @@
 namespace Kurisu.NGDT
 {
-    [AkiInfo("Composite : Random, random update a child and reselect the next node")]
+    [NodeInfo("Composite : Random, random update a child and reselect the next node")]
     public class Random : Composite
     {
         protected override Status OnUpdate()

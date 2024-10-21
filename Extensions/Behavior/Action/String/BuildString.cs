@@ -2,9 +2,9 @@ using System.Collections.Generic;
 using System.Text;
 namespace Kurisu.NGDT.Behavior
 {
-    [AkiInfo("Action: Build value of string")]
-    [AkiLabel("String: Build")]
-    [AkiGroup("String")]
+    [NodeInfo("Action: Build value of string")]
+    [NodeLabel("String: Build")]
+    [NodeGroup("String")]
     public class BuildString : Action
     {
         public List<SharedString> values;

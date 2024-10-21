@@ -3,8 +3,8 @@ namespace Kurisu.NGDT
 {
     //Dummy editor module
     [ModuleOf(typeof(Dialogue))]
-    [AkiGroup("Editor/AIGC")]
-    [AkiInfo("Load Oobabooga session to graph")]
+    [NodeGroup("Editor/AIGC")]
+    [NodeInfo("Load Oobabooga session to graph")]
     public class OobaboogaSessionModule : EditorModule
     {
 

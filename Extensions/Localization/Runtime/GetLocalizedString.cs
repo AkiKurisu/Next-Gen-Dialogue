@@ -2,9 +2,9 @@ using UnityEngine;
 using UnityEngine.Localization;
 namespace Kurisu.NGDT.Localization
 {
-    [AkiInfo("Action: Get LocalizedString")]
-    [AkiLabel("String: GetLocalizedString")]
-    [AkiGroup("String")]
+    [NodeInfo("Action: Get LocalizedString")]
+    [NodeLabel("String: GetLocalizedString")]
+    [NodeGroup("String")]
     public class GetLocalizedString : Action
     {
         [WrapField]

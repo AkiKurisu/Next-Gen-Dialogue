@@ -43,7 +43,7 @@ namespace Kurisu.NGDT.Editor
         {
             this.fieldInfo = fieldInfo;
             editorField = CreateEditorField(fieldInfo);
-            AkiLabelAttribute label = fieldInfo.GetCustomAttribute<AkiLabelAttribute>();
+            NodeLabelAttribute label = fieldInfo.GetCustomAttribute<NodeLabelAttribute>();
             if (label != null) editorField.label = label.Title;
             TooltipAttribute tooltip = fieldInfo.GetCustomAttribute<TooltipAttribute>();
             if (tooltip != null) editorField.tooltip = tooltip.tooltip;

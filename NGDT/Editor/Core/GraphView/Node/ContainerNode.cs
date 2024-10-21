@@ -188,7 +188,7 @@ namespace Kurisu.NGDT.Editor
                     resolvers.Add(fieldResolver);
                     fieldInfos.Add(p);
                 });
-            var label = nodeBehavior.GetCustomAttribute(typeof(AkiLabelAttribute), false) as AkiLabelAttribute;
+            var label = nodeBehavior.GetCustomAttribute(typeof(NodeLabelAttribute), false) as NodeLabelAttribute;
             titleLabel.text = label?.Title ?? nodeBehavior.Name;
         }
         private void MarkAsExecuted(Status status)

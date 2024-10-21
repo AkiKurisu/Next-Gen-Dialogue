@@ -1,7 +1,7 @@
 using Kurisu.NGDS;
 namespace Kurisu.NGDT
 {
-    [AkiInfo("Module: Google Translate Module is used to translate content.")]
+    [NodeInfo("Module: Google Translate Module is used to translate content.")]
     [ModuleOf(typeof(Piece))]
     [ModuleOf(typeof(Option))]
     public class GoogleTranslateModule : CustomModule

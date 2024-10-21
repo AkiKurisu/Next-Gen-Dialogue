@@ -3,8 +3,8 @@ using Kurisu.NGDS.AI;
 using UnityEngine;
 namespace Kurisu.NGDT
 {
-    [AkiInfo("Module: Character Preset Module is used to set up AI prompt, used for chat dialogue.")]
-    [AkiGroup("AIGC")]
+    [NodeInfo("Module: Character Preset Module is used to set up AI prompt, used for chat dialogue.")]
+    [NodeGroup("AIGC")]
     [ModuleOf(typeof(Dialogue))]
     public class CharacterPresetModule : CustomModule
     {

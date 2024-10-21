@@ -1,9 +1,9 @@
 using UnityEngine;
 namespace Kurisu.NGDT.Behavior
 {
-    [AkiInfo("Condition: Get the Bool parameter of Animator, if it is consistent with the status, return Status.Success, otherwise return Status.Failure")]
-    [AkiLabel("Animator: BoolCondition")]
-    [AkiGroup("Animator")]
+    [NodeInfo("Condition: Get the Bool parameter of Animator, if it is consistent with the status, return Status.Success, otherwise return Status.Failure")]
+    [NodeLabel("Animator: BoolCondition")]
+    [NodeGroup("Animator")]
     public class AnimatorBoolCondition : AnimatorCondition
     {
         public SharedString parameter;

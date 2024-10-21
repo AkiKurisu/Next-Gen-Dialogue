@@ -1,9 +1,9 @@
 using UnityEngine.Serialization;
 namespace Kurisu.NGDT.Behavior
 {
-    [AkiInfo("Action: Set float value")]
-    [AkiLabel("Math: SetFloat")]
-    [AkiGroup("Math")]
+    [NodeInfo("Action: Set float value")]
+    [NodeLabel("Math: SetFloat")]
+    [NodeGroup("Math")]
     public class SetFloat : Action
     {
         public SharedFloat floatValue;

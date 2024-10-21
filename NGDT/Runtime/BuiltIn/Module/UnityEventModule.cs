@@ -3,7 +3,7 @@ using Kurisu.NGDS;
 using UnityEngine.Events;
 namespace Kurisu.NGDT
 {
-    [AkiInfo("Module: UnityEvent Module is used to add UnityEvent callBack for dialogue option")]
+    [NodeInfo("Module: UnityEvent Module is used to add UnityEvent callBack for dialogue option")]
     [ModuleOf(typeof(Option))]
     public class UnityEventModule : CustomModule
     {

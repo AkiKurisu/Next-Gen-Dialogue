@@ -1,8 +1,8 @@
 using UnityEngine;
 namespace Kurisu.NGDT
 {
-    [AkiInfo("Editor Module: Novel Prompt Module is used to set up novel prompt.")]
-    [AkiGroup("Editor/AIGC")]
+    [NodeInfo("Editor Module: Novel Prompt Module is used to set up novel prompt.")]
+    [NodeGroup("Editor/AIGC")]
     [ModuleOf(typeof(Dialogue))]
     public class NovelPromptModule : EditorModule
     {

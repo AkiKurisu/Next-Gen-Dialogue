@@ -1,9 +1,9 @@
 using UnityEngine.Serialization;
 namespace Kurisu.NGDT.Behavior
 {
-    [AkiInfo("Action: Set int value")]
-    [AkiLabel("Math: SetInt")]
-    [AkiGroup("Math")]
+    [NodeInfo("Action: Set int value")]
+    [NodeLabel("Math: SetInt")]
+    [NodeGroup("Math")]
     public class SetInt : Action
     {
         public SharedInt intValue;

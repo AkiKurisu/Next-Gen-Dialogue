@@ -1,9 +1,9 @@
 using UnityEngine;
 namespace Kurisu.NGDT.Behavior
 {
-    [AkiInfo("Action: Plays an AudioClip at a given position in world space")]
-    [AkiLabel("Audio: PlayClipAtPoint")]
-    [AkiGroup("Audio")]
+    [NodeInfo("Action: Plays an AudioClip at a given position in world space")]
+    [NodeLabel("Audio: PlayClipAtPoint")]
+    [NodeGroup("Audio")]
     public class PlayClipAtPoint : Action
     {
         public SharedTObject<AudioClip> audioClip;

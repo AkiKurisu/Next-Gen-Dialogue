@@ -1,9 +1,9 @@
 using UnityEngine;
 namespace Kurisu.NGDT.Behavior
 {
-    [AkiInfo("Action: Play audioClip on target audioSource")]
-    [AkiLabel("Audio: PlayAudioClip")]
-    [AkiGroup("Audio")]
+    [NodeInfo("Action: Play audioClip on target audioSource")]
+    [NodeLabel("Audio: PlayAudioClip")]
+    [NodeGroup("Audio")]
     public class PlayAudioClip : Action
     {
         public SharedTObject<AudioClip> audioClip;

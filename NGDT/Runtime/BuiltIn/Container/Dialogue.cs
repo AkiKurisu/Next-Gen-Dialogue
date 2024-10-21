@@ -3,7 +3,7 @@ using Kurisu.NGDS;
 using UnityEngine;
 namespace Kurisu.NGDT
 {
-    [AkiInfo("Dialogue is the main container of dialogue pieces")]
+    [NodeInfo("Dialogue is the main container of dialogue pieces")]
     public class Dialogue : Container, IDialogueLookup
     {
 #if UNITY_EDITOR

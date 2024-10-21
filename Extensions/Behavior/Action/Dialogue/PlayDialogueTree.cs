@@ -1,8 +1,8 @@
 namespace Kurisu.NGDT.Behavior
 {
-    [AkiInfo("Action: Play another dialogue tree")]
-    [AkiLabel("Dialogue: Play DialogueTree")]
-    [AkiGroup("Dialogue")]
+    [NodeInfo("Action: Play another dialogue tree")]
+    [NodeLabel("Dialogue: Play DialogueTree")]
+    [NodeGroup("Dialogue")]
     public class PlayDialogueTree : Action
     {
         public SharedTObject<NextGenDialogueTree> dialogueTree;

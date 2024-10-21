@@ -1,8 +1,8 @@
 namespace Kurisu.NGDT.Behavior
 {
-    [AkiInfo("Condition: Compare Float values, if the condition is met, return Status.Success, otherwise return Status.Failure")]
-    [AkiLabel("Math: FloatComparison")]
-    [AkiGroup("Math")]
+    [NodeInfo("Condition: Compare Float values, if the condition is met, return Status.Success, otherwise return Status.Failure")]
+    [NodeLabel("Math: FloatComparison")]
+    [NodeGroup("Math")]
     public class FloatComparison : Conditional
     {
         public enum Operation

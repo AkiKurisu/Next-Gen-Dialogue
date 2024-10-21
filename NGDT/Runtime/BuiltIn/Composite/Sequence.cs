@@ -1,6 +1,6 @@
 namespace Kurisu.NGDT
 {
-    [AkiInfo("Composite : Sequence, traversing the child nodes in turn, if it returns Success" +
+    [NodeInfo("Composite : Sequence, traversing the child nodes in turn, if it returns Success" +
     ", continue to update the next one, otherwise it returns Failure")]
     public class Sequence : Composite
     {

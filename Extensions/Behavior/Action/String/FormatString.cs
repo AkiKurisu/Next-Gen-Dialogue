@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 namespace Kurisu.NGDT.Behavior
 {
-    [AkiInfo("Action: Format value of string")]
-    [AkiLabel("String: Format")]
-    [AkiGroup("String")]
+    [NodeInfo("Action: Format value of string")]
+    [NodeLabel("String: Format")]
+    [NodeGroup("String")]
     public class FormatString : Action
     {
         public SharedString format;

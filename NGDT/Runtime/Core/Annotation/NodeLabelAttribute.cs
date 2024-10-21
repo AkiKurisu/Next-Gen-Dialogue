@@ -5,7 +5,7 @@ namespace Kurisu.NGDT
     /// Replace the name of the behavior node in the editor, or replace the field name
     /// </summary>
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Field, AllowMultiple = false, Inherited = false)]
-    public sealed class AkiLabelAttribute : Attribute
+    public sealed class NodeLabelAttribute : Attribute
     {
         public string Title
         {
@@ -16,7 +16,7 @@ namespace Kurisu.NGDT
         }
 
         private readonly string mTitle;
-        public AkiLabelAttribute(string title)
+        public NodeLabelAttribute(string title)
         {
             mTitle = title;
         }

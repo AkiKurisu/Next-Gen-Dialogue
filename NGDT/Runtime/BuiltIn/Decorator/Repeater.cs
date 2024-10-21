@@ -1,8 +1,8 @@
 namespace Kurisu.NGDT
 {
-    [AkiInfo("Decorator: Execute the child node repeatedly by the specified number of times" +
+    [NodeInfo("Decorator: Execute the child node repeatedly by the specified number of times" +
     ", if the execution returns Failure, the loop ends and returns Failure")]
-    [AkiLabel("Repeater")]
+    [NodeLabel("Repeater")]
     public class Repeater : Decorator
     {
         public SharedInt repeatCount;

@@ -1,9 +1,9 @@
 using UnityEngine;
 namespace Kurisu.NGDT.Behavior
 {
-    [AkiInfo("Action: Log some text")]
-    [AkiLabel("Debug: Log")]
-    [AkiGroup("Debug")]
+    [NodeInfo("Action: Log some text")]
+    [NodeLabel("Debug: Log")]
+    [NodeGroup("Debug")]
     public class DebugLog : Action
     {
         public SharedString logText;

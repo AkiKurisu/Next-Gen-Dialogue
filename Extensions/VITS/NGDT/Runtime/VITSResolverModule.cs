@@ -4,8 +4,8 @@ using Kurisu.NGDS.VITS;
 using UnityEngine;
 namespace Kurisu.NGDT.VITS
 {
-    [AkiInfo("Module : Specify VITS dialogue resolver for this dialogue tree.")]
-    [AkiGroup("AIGC")]
+    [NodeInfo("Module : Specify VITS dialogue resolver for this dialogue tree.")]
+    [NodeGroup("AIGC")]
     [ModuleOf(typeof(Dialogue))]
     public class VITSResolverModule : CustomModule
     {

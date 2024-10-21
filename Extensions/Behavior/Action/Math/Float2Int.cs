@@ -1,9 +1,9 @@
 using UnityEngine;
 namespace Kurisu.NGDT.Behavior
 {
-    [AkiInfo("Action: Convert float type to int type")]
-    [AkiLabel("Math: Float2Int")]
-    [AkiGroup("Math")]
+    [NodeInfo("Action: Convert float type to int type")]
+    [NodeLabel("Math: Float2Int")]
+    [NodeGroup("Math")]
     public class Float2Int : Action
     {
         [SerializeField]

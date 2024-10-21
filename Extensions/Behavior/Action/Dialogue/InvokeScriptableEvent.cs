@@ -1,9 +1,9 @@
 using Kurisu.NGDS;
 namespace Kurisu.NGDT.Behavior
 {
-    [AkiInfo("Action: Invoke a scriptableEvent")]
-    [AkiLabel("Dialogue: Invoke ScriptableEvent")]
-    [AkiGroup("Dialogue")]
+    [NodeInfo("Action: Invoke a scriptableEvent")]
+    [NodeLabel("Dialogue: Invoke ScriptableEvent")]
+    [NodeGroup("Dialogue")]
     public class InvokeScriptableEvent : Action
     {
         public SharedTObject<ScriptableEvent> scriptableEvent;

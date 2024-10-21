@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.Localization;
 namespace Kurisu.NGDT.Localization
 {
-    [AkiInfo("Module : Localized Content Module is used to modify dialogue content such as piece and option using Unity.Localization.")]
+    [NodeInfo("Module : Localized Content Module is used to modify dialogue content such as piece and option using Unity.Localization.")]
     [ModuleOf(typeof(Piece))]
     [ModuleOf(typeof(Option))]
     public class LocalizedContentModule : CustomModule, IExposedContent

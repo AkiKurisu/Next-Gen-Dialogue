@@ -6,7 +6,7 @@ namespace Kurisu.NGDT
     /// <summary>
     /// Entry point of the dialogue tree
     /// </summary>
-    [AkiInfo("Root : The root of dialogue tree, you can not delate it.")]
+    [NodeInfo("Root : The root of dialogue tree, you can not delate it.")]
     public class Root : NodeBehavior, IIterable
     {
         [SerializeReference]

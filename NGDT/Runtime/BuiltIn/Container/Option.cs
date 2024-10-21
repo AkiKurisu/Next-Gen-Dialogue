@@ -1,6 +1,6 @@
 namespace Kurisu.NGDT
 {
-    [AkiInfo("Option is the container of user option")]
+    [NodeInfo("Option is the container of user option")]
     public class Option : Container
     {
         protected override Status OnUpdate()

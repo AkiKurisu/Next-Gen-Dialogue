@@ -1,8 +1,8 @@
 namespace Kurisu.NGDT.Behavior
 {
-    [AkiInfo("Condition: Compare Int values, if the conditions are met, return Status.Success, otherwise return Status.Failure")]
-    [AkiLabel("Math: IntComparison")]
-    [AkiGroup("Math")]
+    [NodeInfo("Condition: Compare Int values, if the conditions are met, return Status.Success, otherwise return Status.Failure")]
+    [NodeLabel("Math: IntComparison")]
+    [NodeGroup("Math")]
     public class IntComparison : Conditional
     {
         public enum Operation

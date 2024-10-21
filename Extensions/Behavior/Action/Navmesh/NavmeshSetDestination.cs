@@ -2,9 +2,9 @@ using UnityEngine;
 using UnityEngine.AI;
 namespace Kurisu.NGDT.Behavior
 {
-    [AkiInfo("Action: Set the destination of NavmeshAgent")]
-    [AkiLabel("Navmesh: SetDestination")]
-    [AkiGroup("Navmesh")]
+    [NodeInfo("Action: Set the destination of NavmeshAgent")]
+    [NodeLabel("Navmesh: SetDestination")]
+    [NodeGroup("Navmesh")]
     public class NavmeshSetDestination : Action
     {
         [SerializeField, Tooltip("If not filled in, it will be obtained from the bound gameObject")]

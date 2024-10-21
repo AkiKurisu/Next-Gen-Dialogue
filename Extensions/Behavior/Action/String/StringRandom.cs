@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 namespace Kurisu.NGDT.Behavior
 {
-    [AkiInfo("Action: Set random string value")]
-    [AkiLabel("String: Random")]
-    [AkiGroup("String")]
+    [NodeInfo("Action: Set random string value")]
+    [NodeLabel("String: Random")]
+    [NodeGroup("String")]
     public class StringRandom : Action
     {
         public List<string> randomStrings;

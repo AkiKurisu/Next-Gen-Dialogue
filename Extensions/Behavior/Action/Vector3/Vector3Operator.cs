@@ -1,9 +1,9 @@
 using UnityEngine;
 namespace Kurisu.NGDT.Behavior
 {
-    [AkiInfo("Action : Operate Vector3 value")]
-    [AkiLabel("Vector3 : Operator")]
-    [AkiGroup("Vector3")]
+    [NodeInfo("Action : Operate Vector3 value")]
+    [NodeLabel("Vector3 : Operator")]
+    [NodeGroup("Vector3")]
     public class Vector3Operator : Action
     {
 

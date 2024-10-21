@@ -1,9 +1,9 @@
 using UnityEngine;
 namespace Kurisu.NGDT.Behavior
 {
-    [AkiInfo("Action: Get the Bool element of the Animator")]
-    [AkiLabel("Animator: GetBool")]
-    [AkiGroup("Animator")]
+    [NodeInfo("Action: Get the Bool element of the Animator")]
+    [NodeLabel("Animator: GetBool")]
+    [NodeGroup("Animator")]
     public class AnimatorGetBool : AnimatorAction
     {
         public SharedString parameter;

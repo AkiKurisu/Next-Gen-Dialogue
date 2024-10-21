@@ -1,9 +1,9 @@
 using UnityEngine.Serialization;
 namespace Kurisu.NGDT.Behavior
 {
-    [AkiInfo("Action: Set bool value")]
-    [AkiLabel("Math: SetBool")]
-    [AkiGroup("Math")]
+    [NodeInfo("Action: Set bool value")]
+    [NodeLabel("Math: SetBool")]
+    [NodeGroup("Math")]
     public class SetBool : Action
     {
         public SharedBool boolValue;

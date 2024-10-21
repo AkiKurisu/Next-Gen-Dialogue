@@ -15,8 +15,8 @@ namespace Kurisu.NGDT.Editor
             if (EditorGUI.DropdownButton(position, new GUIContent(property.stringValue, property.tooltip), FocusType.Passive))
             {
                 var groups = SubclassSearchUtility.FindSubClassTypes(_Types)
-                .Where(x => x.GetCustomAttribute<AkiGroupAttribute>() != null)
-                .Select(x => SubclassSearchUtility.GetSplittedGroupName(x.GetCustomAttribute<AkiGroupAttribute>().Group)[0])
+                .Where(x => x.GetCustomAttribute<NodeGroupAttribute>() != null)
+                .Select(x => SubclassSearchUtility.GetSplittedGroupName(x.GetCustomAttribute<NodeGroupAttribute>().Group)[0])
                 .Distinct()
                 .ToList();
                 var menu = new GenericMenu();

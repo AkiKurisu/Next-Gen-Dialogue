@@ -1,9 +1,9 @@
 using UnityEngine;
 namespace Kurisu.NGDT.Behavior
 {
-    [AkiInfo("Action : Calculate the distance between two Vector3")]
-    [AkiLabel("Vector3 : Distance")]
-    [AkiGroup("Vector3")]
+    [NodeInfo("Action : Calculate the distance between two Vector3")]
+    [NodeLabel("Vector3 : Distance")]
+    [NodeGroup("Vector3")]
     public class Vector3Distance : Action
     {
         public SharedVector3 firstVector3;

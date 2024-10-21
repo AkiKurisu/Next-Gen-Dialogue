@@ -1,9 +1,9 @@
 using UnityEngine;
 namespace Kurisu.NGDT.Behavior
 {
-    [AkiInfo("Action: Operate bool value")]
-    [AkiLabel("Math: BoolOperator")]
-    [AkiGroup("Math")]
+    [NodeInfo("Action: Operate bool value")]
+    [NodeLabel("Math: BoolOperator")]
+    [NodeGroup("Math")]
     public class BoolOperator : Action
     {
         private enum Operation

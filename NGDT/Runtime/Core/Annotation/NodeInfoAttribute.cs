@@ -5,7 +5,7 @@ namespace Kurisu.NGDT
     /// Describe node behavior in the editor
     /// </summary>
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = false)]
-    public sealed class AkiInfoAttribute : Attribute
+    public sealed class NodeInfoAttribute : Attribute
     {
         public string Description
         {
@@ -16,7 +16,7 @@ namespace Kurisu.NGDT
         }
 
         private readonly string mDescription;
-        public AkiInfoAttribute(string description)
+        public NodeInfoAttribute(string description)
         {
             mDescription = description;
         }

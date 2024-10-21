@@ -2,9 +2,9 @@ using UnityEngine;
 using UnityEngine.Serialization;
 namespace Kurisu.NGDT.Behavior
 {
-    [AkiInfo("Action: Set string value")]
-    [AkiLabel("String: Set")]
-    [AkiGroup("String")]
+    [NodeInfo("Action: Set string value")]
+    [NodeLabel("String: Set")]
+    [NodeGroup("String")]
     public class SetString : Action
     {
         [Multiline, TranslateEntry, FormerlySerializedAs("value")]

@@ -266,7 +266,7 @@ namespace Kurisu.NGDT.Editor
                     resolvers.Add(fieldResolver);
                     fieldInfos.Add(p);
                 });
-            var label = nodeBehavior.GetCustomAttribute(typeof(AkiLabelAttribute), false) as AkiLabelAttribute;
+            var label = nodeBehavior.GetCustomAttribute(typeof(NodeLabelAttribute), false) as NodeLabelAttribute;
             title = label?.Title ?? nodeBehavior.Name;
             if (!haveSetting) settingButton.visible = false;
             OnBehaviorSet();

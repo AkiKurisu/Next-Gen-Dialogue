@@ -2,7 +2,7 @@ using Kurisu.NGDS;
 using UnityEngine;
 namespace Kurisu.NGDT
 {
-    [AkiInfo("Module: Next Piece Module is used to play target dialogue piece automatically" +
+    [NodeInfo("Module: Next Piece Module is used to play target dialogue piece automatically" +
     " when parent piece is completed and have no option.")]
     [ModuleOf(typeof(Piece))]
     public class NextPieceModule : CustomModule
@@ -11,7 +11,7 @@ namespace Kurisu.NGDT
         [SerializeField]
         private bool useReference;
 #endif
-        [AkiLabel("Next ID"), Tooltip("The next dialogue piece's PieceID"), ReferencePieceID]
+        [NodeLabel("Next ID"), Tooltip("The next dialogue piece's PieceID"), ReferencePieceID]
         public PieceID nextID;
         protected sealed override IDialogueModule GetModule()
         {

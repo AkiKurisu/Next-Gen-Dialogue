@@ -1,9 +1,9 @@
 using UnityEngine;
 namespace Kurisu.NGDT.Behavior
 {
-    [AkiInfo("Action : Get Transform.Position")]
-    [AkiLabel("Transform : GetPosition")]
-    [AkiGroup("Transform")]
+    [NodeInfo("Action : Get Transform.Position")]
+    [NodeLabel("Transform : GetPosition")]
+    [NodeGroup("Transform")]
     public class TransformGetPosition : Action
     {
         [Tooltip("Target Transform, if not filled in, it will be its own Transform")]

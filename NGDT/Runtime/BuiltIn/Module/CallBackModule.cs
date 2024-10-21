@@ -1,6 +1,6 @@
 namespace Kurisu.NGDT
 {
-    [AkiInfo("Module: CallBack Module is used to add callBack for dialogue option")]
+    [NodeInfo("Module: CallBack Module is used to add callBack for dialogue option")]
     [ModuleOf(typeof(Option))]
     public class CallBackModule : BehaviorModule
     {

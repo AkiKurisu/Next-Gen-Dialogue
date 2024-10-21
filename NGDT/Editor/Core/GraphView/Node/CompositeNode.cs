@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -7,6 +8,7 @@ namespace Kurisu.NGDT.Editor
 {
     public class CompositeNode : DialogueTreeNode, ILayoutTreeNode
     {
+        public bool NoValidate { get; private set; }
         public readonly List<Port> ChildPorts = new();
 
         VisualElement ILayoutTreeNode.View => this;
@@ -35,8 +37,11 @@ namespace Kurisu.NGDT.Editor
             ChildPorts.Add(child);
             outputContainer.Add(child);
         }
-
-        private void RemoveUnnecessaryChildren()
+        protected override void OnBehaviorSet()
+        {
+            NoValidate = GetBehavior().GetCustomAttribute(typeof(NoValidateAttribute), false) != null;
+        }
+        public void RemoveUnnecessaryChildren()
         {
             var unnecessary = ChildPorts.Where(p => !p.connected).ToList();
             unnecessary.ForEach(e =>
@@ -48,11 +53,12 @@ namespace Kurisu.NGDT.Editor
 
         protected override bool OnValidate(Stack<IDialogueNode> stack)
         {
-            if (ChildPorts.Count <= 0) return false;
+            if (ChildPorts.Count <= 0 && !NoValidate) return false;
             foreach (var port in ChildPorts)
             {
                 if (!port.connected)
                 {
+                    if (NoValidate) continue;
                     style.backgroundColor = Color.red;
                     return false;
                 }

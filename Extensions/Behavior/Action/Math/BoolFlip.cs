@@ -1,9 +1,9 @@
 using UnityEngine;
 namespace Kurisu.NGDT.Behavior
 {
-    [AkiInfo("Action: Flip bool value")]
-    [AkiLabel("Math: BoolFlip")]
-    [AkiGroup("Math")]
+    [NodeInfo("Action: Flip bool value")]
+    [NodeLabel("Math: BoolFlip")]
+    [NodeGroup("Math")]
     public class BoolFlip : Action
     {
         [SerializeField, ForceShared]

@@ -1,10 +1,10 @@
 using UnityEngine;
 namespace Kurisu.NGDT
 {
-    [AkiInfo("Piece is the container of single dialogue fragment")]
+    [NodeInfo("Piece is the container of single dialogue fragment")]
     public class Piece : Container
     {
-        [SerializeField, CopyDisable, AkiLabel("Piece ID"), Tooltip("You don't need to fill in this shared variable because its value will be automatically generated at runtime")]
+        [SerializeField, CopyDisable, NodeLabel("Piece ID"), Tooltip("You don't need to fill in this shared variable because its value will be automatically generated at runtime")]
         private PieceID pieceID;
         private NGDS.Piece pieceCache;
         protected override Status OnUpdate()

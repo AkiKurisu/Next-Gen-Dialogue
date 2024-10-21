@@ -1,6 +1,6 @@
 namespace Kurisu.NGDT
 {
-    [AkiInfo("Composite : Select, traverse the child nodes in turn," +
+    [NodeInfo("Composite : Select, traverse the child nodes in turn," +
     " if it returns Failure, continue to update the next one, otherwise return Success")]
     public class Selector : Composite
     {

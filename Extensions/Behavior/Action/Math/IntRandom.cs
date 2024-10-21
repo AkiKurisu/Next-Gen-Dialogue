@@ -2,9 +2,9 @@ using UnityEngine;
 using UnityEngine.Serialization;
 namespace Kurisu.NGDT.Behavior
 {
-    [AkiInfo("Action: Int type set random value")]
-    [AkiLabel("Math: IntRandom")]
-    [AkiGroup("Math")]
+    [NodeInfo("Action: Int type set random value")]
+    [NodeLabel("Math: IntRandom")]
+    [NodeGroup("Math")]
     public class IntRandom : Action
     {
         private enum Operation

@@ -1,8 +1,8 @@
 using UnityEngine;
 namespace Kurisu.NGDT
 {
-    [AkiInfo("Editor Module: Use AI dialogue baker in Editor, should be added to last select node that needs to generate dialogue.")]
-    [AkiGroup("Editor/AIGC")]
+    [NodeInfo("Editor Module: Use AI dialogue baker in Editor, should be added to last select node that needs to generate dialogue.")]
+    [NodeGroup("Editor/AIGC")]
     [ModuleOf(typeof(Piece))]
     [ModuleOf(typeof(Option))]
     public class AIBakeModule : EditorModule

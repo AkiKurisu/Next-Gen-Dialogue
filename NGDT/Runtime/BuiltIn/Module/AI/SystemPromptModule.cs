@@ -2,8 +2,8 @@ using Kurisu.NGDS;
 using UnityEngine;
 namespace Kurisu.NGDT
 {
-    [AkiInfo("Module: Prompt Module is used to set up AI dialogue system prompt.")]
-    [AkiGroup("AIGC")]
+    [NodeInfo("Module: Prompt Module is used to set up AI dialogue system prompt.")]
+    [NodeGroup("AIGC")]
     [ModuleOf(typeof(Dialogue))]
     public class SystemPromptModule : CustomModule
     {

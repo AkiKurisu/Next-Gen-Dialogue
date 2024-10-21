@@ -16,8 +16,8 @@ namespace Kurisu.NGDT.Editor
             container?.Dispose();
             container = null;
             Clear();
-            AkiInfoAttribute[] array;
-            if ((array = node.GetBehavior().GetCustomAttributes(typeof(AkiInfoAttribute), false) as AkiInfoAttribute[]).Length > 0)
+            NodeInfoAttribute[] array;
+            if ((array = node.GetBehavior().GetCustomAttributes(typeof(NodeInfoAttribute), false) as NodeInfoAttribute[]).Length > 0)
             {
                 container = new IMGUIContainer();
                 container.Add(new Label(array[0].Description));

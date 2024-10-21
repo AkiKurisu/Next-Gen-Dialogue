@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 namespace Kurisu.NGDT
 {
-    [AkiInfo("Composite : Weighted random, randomly selected according to the weight")]
+    [NodeInfo("Composite : Weighted random, randomly selected according to the weight")]
     public class WeightedRandom : Composite
     {
         [SerializeField, Tooltip("Node weight list, when the length of the list is greater than the number of child nodes" +

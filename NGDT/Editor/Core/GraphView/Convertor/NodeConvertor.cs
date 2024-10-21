@@ -104,6 +104,11 @@ namespace Kurisu.NGDT.Editor
                         {
                             var compositeNode = node as CompositeNode;
                             var addible = nb.Children.Count - compositeNode.ChildPorts.Count;
+                            if (compositeNode.NoValidate && nb.Children.Count == 0)
+                            {
+                                compositeNode.RemoveUnnecessaryChildren();
+                                break;
+                            }
                             for (var i = 0; i < addible; i++)
                             {
                                 compositeNode.AddChild();

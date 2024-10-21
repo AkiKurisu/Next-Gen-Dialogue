@@ -1,8 +1,8 @@
 namespace Kurisu.NGDT
 {
-    [AkiInfo("Decorator: If the child node returns Success, it is reversed to Failure," +
+    [NodeInfo("Decorator: If the child node returns Success, it is reversed to Failure," +
     " if it is Failure, it is reversed to Success.")]
-    [AkiLabel("Invertor")]
+    [NodeLabel("Invertor")]
     public class Invertor : Decorator
     {
 

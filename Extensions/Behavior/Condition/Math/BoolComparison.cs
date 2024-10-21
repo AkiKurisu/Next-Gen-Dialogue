@@ -1,8 +1,8 @@
 namespace Kurisu.NGDT.Behavior
 {
-    [AkiInfo("Condition: Compare Bool values, if the conditions are met, return Status.Success, otherwise return Status.Failure")]
-    [AkiLabel("Math: BoolComparison")]
-    [AkiGroup("Math")]
+    [NodeInfo("Condition: Compare Bool values, if the conditions are met, return Status.Success, otherwise return Status.Failure")]
+    [NodeLabel("Math: BoolComparison")]
+    [NodeGroup("Math")]
     public class BoolComparison : Conditional
     {
         public enum Operation

@@ -2,14 +2,14 @@ using UnityEngine;
 using UnityEngine.AI;
 namespace Kurisu.NGDT.Behavior
 {
-    [AkiInfo("Action : Stop NavmeshAgent according to isStopped")]
-    [AkiLabel("Navmesh : StopAgent")]
-    [AkiGroup("Navmesh")]
+    [NodeInfo("Action : Stop NavmeshAgent according to isStopped")]
+    [NodeLabel("Navmesh : StopAgent")]
+    [NodeGroup("Navmesh")]
     public class NavmeshStopAgent : Action
     {
         [SerializeField, Tooltip("If not filled in, it will be obtained from the bound gameObject")]
         private SharedTObject<NavMeshAgent> agent;
-        [SerializeField, AkiLabel("Whether to stop")]
+        [SerializeField, NodeLabel("Whether to stop")]
         private SharedBool isStopped;
         protected override Status OnUpdate()
         {

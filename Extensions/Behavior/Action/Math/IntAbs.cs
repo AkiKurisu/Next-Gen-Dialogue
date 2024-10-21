@@ -1,9 +1,9 @@
 using UnityEngine;
 namespace Kurisu.NGDT.Behavior
 {
-    [AkiInfo("Action: Int type takes absolute value")]
-    [AkiLabel("Math: IntAbs")]
-    [AkiGroup("Math")]
+    [NodeInfo("Action: Int type takes absolute value")]
+    [NodeLabel("Math: IntAbs")]
+    [NodeGroup("Math")]
     public class IntAbs : Action
     {
         [SerializeField, ForceShared]

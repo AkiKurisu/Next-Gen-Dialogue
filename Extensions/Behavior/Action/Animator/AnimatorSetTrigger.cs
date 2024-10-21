@@ -1,9 +1,9 @@
 using UnityEngine;
 namespace Kurisu.NGDT.Behavior
 {
-    [AkiInfo("Action: Set trigger parameter of the Animator")]
-    [AkiLabel("Animator: SetTrigger")]
-    [AkiGroup("Animator")]
+    [NodeInfo("Action: Set trigger parameter of the Animator")]
+    [NodeLabel("Animator: SetTrigger")]
+    [NodeGroup("Animator")]
     public class AnimatorSetTrigger : AnimatorAction
     {
         public SharedString parameter;

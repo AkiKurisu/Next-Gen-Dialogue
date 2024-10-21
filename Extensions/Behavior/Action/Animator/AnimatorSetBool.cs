@@ -1,9 +1,9 @@
 using UnityEngine;
 namespace Kurisu.NGDT.Behavior
 {
-    [AkiInfo("Action: Set the Bool element of Animator according to status")]
-    [AkiLabel("Animator: SetBool")]
-    [AkiGroup("Animator")]
+    [NodeInfo("Action: Set the Bool element of Animator according to status")]
+    [NodeLabel("Animator: SetBool")]
+    [NodeGroup("Animator")]
     public class AnimatorSetBool : AnimatorAction
     {
         public SharedString parameter;

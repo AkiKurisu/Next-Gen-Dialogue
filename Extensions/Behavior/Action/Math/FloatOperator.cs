@@ -1,9 +1,9 @@
 using UnityEngine;
 namespace Kurisu.NGDT.Behavior
 {
-    [AkiInfo("Action: Operate float value")]
-    [AkiLabel("Math: FloatOperator")]
-    [AkiGroup("Math")]
+    [NodeInfo("Action: Operate float value")]
+    [NodeLabel("Math: FloatOperator")]
+    [NodeGroup("Math")]
     public class FloatOperator : Action
     {
         private enum Operation

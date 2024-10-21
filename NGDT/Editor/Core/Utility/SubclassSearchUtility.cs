@@ -56,7 +56,7 @@ namespace Kurisu.NGDT.Editor
         {
             return types.GroupBy(t =>
             {
-                var array = t.GetCustomAttributes(typeof(AkiGroupAttribute), false) as AkiGroupAttribute[];
+                var array = t.GetCustomAttributes(typeof(NodeGroupAttribute), false) as NodeGroupAttribute[];
                 return array.Length > 0 ? SubclassSearchUtility.GetSplittedGroupName(array[0].Group)[0] : null;
             }).Where(x => !string.IsNullOrEmpty(x.Key));
         }
@@ -64,7 +64,7 @@ namespace Kurisu.NGDT.Editor
         {
             return group.GroupBy(t =>
             {
-                var array = t.GetCustomAttributes(typeof(AkiGroupAttribute), false) as AkiGroupAttribute[];
+                var array = t.GetCustomAttributes(typeof(NodeGroupAttribute), false) as NodeGroupAttribute[];
                 var subcategory = SubclassSearchUtility.GetSplittedGroupName(array[0].Group);
                 return subcategory.Length > level ? subcategory[level] : null;
             }).Where(x => !string.IsNullOrEmpty(x.Key));
@@ -84,7 +84,7 @@ namespace Kurisu.NGDT.Editor
         public static void AddEntry(this List<SearchTreeEntry> entries, Type _type, int _level, Texture icon)
         {
             string label = _type.Name;
-            var array = _type.GetCustomAttributes(typeof(AkiLabelAttribute), false) as AkiLabelAttribute[];
+            var array = _type.GetCustomAttributes(typeof(NodeLabelAttribute), false) as NodeLabelAttribute[];
             if (array.Length > 0) label = array[0].Title;
             entries.Add(new SearchTreeEntry(new GUIContent(label, icon)) { level = _level, userData = _type });
         }
