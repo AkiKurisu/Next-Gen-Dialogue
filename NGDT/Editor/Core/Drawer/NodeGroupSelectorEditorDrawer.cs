@@ -5,8 +5,8 @@ using UnityEditor;
 using UnityEngine;
 namespace Kurisu.NGDT.Editor
 {
-    [CustomPropertyDrawer(typeof(AkiGroupSelectorAttribute))]
-    internal class AkiGroupSelectorEditorDrawer : PropertyDrawer
+    [CustomPropertyDrawer(typeof(NodeGroupSelectorAttribute))]
+    internal class NodeGroupSelectorEditorDrawer : PropertyDrawer
     {
         private static readonly Type[] _Types = { typeof(Action), typeof(Conditional), typeof(Composite), typeof(Decorator) };
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
