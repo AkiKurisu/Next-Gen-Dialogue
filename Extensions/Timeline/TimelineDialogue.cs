@@ -10,11 +10,11 @@ namespace Kurisu.NGDT.Timeline
         private class DialogueReceiver
         {
             public string dialogueName;
-            public NextGenDialogueTree dialogueTree;
+            public NextGenDialogueComponent dialogueTree;
         }
         [SerializeField]
         private DialogueReceiver[] receivers;
-        private NextGenDialogueTree dialogueTree;
+        private NextGenDialogueComponent dialogueTree;
         private PlayableDirector director;
         private IDialogueSystem dialogueSystem;
         private void Awake()
@@ -35,7 +35,7 @@ namespace Kurisu.NGDT.Timeline
             {
                 if (dialogueSignal.dialogueAsset != null)
                 {
-                    if (dialogueTree == null) dialogueTree = gameObject.AddComponent<NextGenDialogueTree>();
+                    if (dialogueTree == null) dialogueTree = gameObject.AddComponent<NextGenDialogueComponent>();
                     dialogueTree.ExternalData = dialogueSignal.dialogueAsset;
                     dialogueTree.GetDialogueGraph().PlayDialogue(dialogueTree.gameObject);
                 }

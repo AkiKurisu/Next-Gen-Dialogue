@@ -12,8 +12,8 @@ namespace Kurisu.NGDT.Editor
 {
     public class DialogueTreeView : CeresGraphView
     {
-        private readonly IDialogueTree dialogueTree;
-        public IDialogueTree DialogueTree => dialogueTree;
+        private readonly IDialogueContainer dialogueTree;
+        public IDialogueContainer DialogueTree => dialogueTree;
         
         private RootNode root;
 
@@ -27,7 +27,7 @@ namespace Kurisu.NGDT.Editor
         private readonly DragDropManipulator dragDropManipulator;
         public IControlGroupBlock GroupBlockController { get; }
         public ContextualMenuController ContextualMenuController { get; }
-        public DialogueTreeView(IDialogueTree bt, EditorWindow editor)
+        public DialogueTreeView(IDialogueContainer bt, EditorWindow editor)
         {
             EditorWindow = editor;
             dialogueTree = bt;
@@ -132,7 +132,7 @@ namespace Kurisu.NGDT.Editor
         {
             if (data is GameObject)
             {
-                if ((data as GameObject).TryGetComponent(out IDialogueTree tree))
+                if ((data as GameObject).TryGetComponent(out IDialogueContainer tree))
                 {
                     EditorWindow.ShowNotification(new GUIContent("GameObject Dropped Succeed !"));
                     CopyFromOtherTree(tree, mousePosition);
@@ -149,15 +149,15 @@ namespace Kurisu.NGDT.Editor
                     EditorWindow.ShowNotification(new GUIContent("Invalid Drag Text Asset !"));
                 return;
             }
-            if (data is not IDialogueTree)
+            if (data is not IDialogueContainer)
             {
                 EditorWindow.ShowNotification(new GUIContent("Invalid Drag Data !"));
                 return;
             }
             EditorWindow.ShowNotification(new GUIContent("Data Dropped Succeed !"));
-            CopyFromOtherTree(data as IDialogueTree, mousePosition);
+            CopyFromOtherTree(data as IDialogueContainer, mousePosition);
         }
-        public void CopyFromOtherTree(IDialogueTree otherTree, Vector2 mousePosition)
+        public void CopyFromOtherTree(IDialogueContainer otherTree, Vector2 mousePosition)
         {
             var localMousePosition = contentViewContainer.WorldToLocal(mousePosition) - new Vector2(400, 300);
             IEnumerable<IDialogueNode> nodes;
@@ -175,7 +175,7 @@ namespace Kurisu.NGDT.Editor
         }
         public void Restore()
         {
-            if (DialogueTreeEditorUtility.TryGetExternalTree(DialogueTree, out IDialogueTree tree))
+            if (DialogueTreeEditorUtility.TryGetExternalTree(DialogueTree, out IDialogueContainer tree))
             {
                 OnRestore(tree);
             }
@@ -184,7 +184,7 @@ namespace Kurisu.NGDT.Editor
                 OnRestore(DialogueTree);
             }
         }
-        private void OnRestore(IDialogueTree tree)
+        private void OnRestore(IDialogueContainer tree)
         {
             //Add default dialogue
             if (tree.Root.Child == null)
@@ -200,7 +200,7 @@ namespace Kurisu.NGDT.Editor
             foreach (var node in nodes) node.OnSelectAction = OnSelectAction;
             RestoreBlocks(tree, nodes);
         }
-        private void RestoreSharedVariables(IDialogueTree tree)
+        private void RestoreSharedVariables(IDialogueContainer tree)
         {
             foreach (var variable in tree.SharedVariables)
             {
@@ -215,7 +215,7 @@ namespace Kurisu.NGDT.Editor
                 }
             }
         }
-        private void RestoreBlocks(IDialogueTree tree, IEnumerable<IDialogueNode> nodes)
+        private void RestoreBlocks(IDialogueContainer tree, IEnumerable<IDialogueNode> nodes)
         {
             foreach (var nodeBlockData in tree.BlockData)
             {
@@ -251,7 +251,7 @@ namespace Kurisu.NGDT.Editor
             }
             return true;
         }
-        public void Commit(IDialogueTree tree)
+        public void Commit(IDialogueContainer tree)
         {
             var stack = new Stack<IDialogueNode>();
             stack.Push(root);
@@ -274,7 +274,7 @@ namespace Kurisu.NGDT.Editor
                 block.Commit(tree.BlockData);
             }
             // Should set tree dirty flag if it is in a prefab
-            if (tree is NextGenDialogueTree nextGenDialogueTree)
+            if (tree is NextGenDialogueComponent nextGenDialogueTree)
             {
                 EditorUtility.SetDirty(nextGenDialogueTree);
             }
@@ -287,7 +287,7 @@ namespace Kurisu.NGDT.Editor
         }
         public bool CopyFromJson(string serializedData, Vector3 mousePosition)
         {
-            var temp = ScriptableObject.CreateInstance<NextGenDialogueTreeAsset>();
+            var temp = ScriptableObject.CreateInstance<NextGenDialogueAsset>();
             try
             {
                 temp.Deserialize(serializedData);

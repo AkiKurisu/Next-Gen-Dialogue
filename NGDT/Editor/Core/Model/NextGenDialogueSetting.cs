@@ -22,20 +22,29 @@ namespace Kurisu.NGDT.Editor
     }
     public class NextGenDialogueSetting : ScriptableObject
     {
-        public const string Version = "v1.0.2";
+        public const string Version = "v2.0.0";
+        
         private const string k_NDGTSettingsPath = "Assets/Next Gen Dialogue Setting.asset";
+        
         private const string k_AITurboSettingsPath = "Assets/AI Turbo Setting.asset";
+        
         private const string GraphFallBackPath = "NGDT/Graph";
+        
         private const string InspectorFallBackPath = "NGDT/Inspector";
+        
         private const string NodeFallBackPath = "NGDT/Node";
 
         [SerializeField]
         private GraphEditorSetting graphEditorSetting;
+        
         [SerializeField]
         private AITurboSetting aiTurboSetting;
+        
         public AITurboSetting AITurboSetting => aiTurboSetting;
         [SerializeField, HideInInspector]
+        
         private bool autoSave;
+        
         [SerializeField, HideInInspector]
         private string lastPath;
         /// <summary>

@@ -42,9 +42,9 @@ namespace Kurisu.NGDT.Editor
                 return true;
             }
             var asset = EditorUtility.InstanceIDToObject(instanceId);
-            if (asset.GetType() == typeof(NextGenDialogueTreeAsset))
+            if (asset.GetType() == typeof(NextGenDialogueAsset))
             {
-                Show((IDialogueTree)asset);
+                Show((IDialogueContainer)asset);
                 return true;
             }
             return false;
@@ -56,7 +56,7 @@ namespace Kurisu.NGDT.Editor
             string path = EditorUtility.SaveFilePanel("Select DialogueTreeSO save path", Application.dataPath, "DialogueTreeSO", "asset");
             if (string.IsNullOrEmpty(path)) return;
             path = path.Replace(Application.dataPath, string.Empty);
-            var treeSO = CreateInstance<NextGenDialogueTreeAsset>();
+            var treeSO = CreateInstance<NextGenDialogueAsset>();
             AssetDatabase.CreateAsset(treeSO, $"Assets/{path}");
             AssetDatabase.SaveAssets();
             Show(treeSO);
@@ -69,17 +69,17 @@ namespace Kurisu.NGDT.Editor
             }
             return false;
         }
-        public static void Show(IDialogueTree bt)
+        public static void Show(IDialogueContainer bt)
         {
             var window = Create<DialogueEditorWindow>(bt);
             window.Show();
             window.Focus();
         }
-        private DialogueTreeView CreateView(IDialogueTree behaviorTree)
+        private DialogueTreeView CreateView(IDialogueContainer behaviorTree)
         {
             return new DialogueTreeView(behaviorTree, this);
         }
-        private static T Create<T>(IDialogueTree bt) where T : DialogueEditorWindow
+        private static T Create<T>(IDialogueContainer bt) where T : DialogueEditorWindow
         {
 
             var key = bt.Object.GetHashCode();
@@ -94,7 +94,7 @@ namespace Kurisu.NGDT.Editor
             cache[key] = window;
             return window;
         }
-        private static void StructGraphView(DialogueEditorWindow window, IDialogueTree behaviorTree)
+        private static void StructGraphView(DialogueEditorWindow window, IDialogueContainer behaviorTree)
         {
             window.rootVisualElement.Clear();
             window.graphView = window.CreateView(behaviorTree);
@@ -118,7 +118,7 @@ namespace Kurisu.NGDT.Editor
         }
         private void SaveDataToAsset(string path)
         {
-            var treeAsset = CreateInstance<NextGenDialogueTreeAsset>();
+            var treeAsset = CreateInstance<NextGenDialogueAsset>();
             if (!graphView.Validate())
             {
                 Debug.LogWarning($"<color=#ff2f2f>NGDT</color> : Save failed, ScriptableObject wasn't created !\n{DateTime.Now}");
@@ -203,8 +203,8 @@ namespace Kurisu.NGDT.Editor
         {
             if (Key != null)
             {
-                if (Key is GameObject) StructGraphView(this, (Key as GameObject).GetComponent<IDialogueTree>());
-                else StructGraphView(this, Key as IDialogueTree);
+                if (Key is GameObject) StructGraphView(this, (Key as GameObject).GetComponent<IDialogueContainer>());
+                else StructGraphView(this, Key as IDialogueContainer);
                 Repaint();
             }
         }
@@ -342,11 +342,11 @@ namespace Kurisu.NGDT.Editor
             }
             return false;
         }
-        private IDialogueTree LoadDataFromFile(string path)
+        private IDialogueContainer LoadDataFromFile(string path)
         {
             try
             {
-                return AssetDatabase.LoadAssetAtPath<NextGenDialogueTreeAsset>($"Assets/{path}");
+                return AssetDatabase.LoadAssetAtPath<NextGenDialogueAsset>($"Assets/{path}");
 
             }
             catch

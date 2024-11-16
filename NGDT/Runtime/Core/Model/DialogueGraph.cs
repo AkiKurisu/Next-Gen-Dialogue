@@ -38,7 +38,7 @@ namespace Kurisu.NGDT
         /// <param name="serializeEditorData"></param>
         /// <param name="verbose"></param>
         /// <returns></returns>
-        public static string Serialize(IDialogueTree dialogueTree, bool indented = false, bool serializeEditorData = false,
+        public static string Serialize(IDialogueContainer dialogueTree, bool indented = false, bool serializeEditorData = false,
             bool verbose = true)
         {
             var graphData = new DialogueGraphData(new DialogueGraph(dialogueTree)).CloneT<DialogueGraphData>();
@@ -58,7 +58,7 @@ namespace Kurisu.NGDT
     {
         public Root Root => nodes[0] as Root;
         
-        public DialogueGraph(IDialogueTree dt)
+        public DialogueGraph(IDialogueContainer dt)
         {
             variables = new List<SharedVariable>();
             foreach (var variable in dt.SharedVariables)
@@ -108,13 +108,6 @@ namespace Kurisu.NGDT
             base.InitVariables();
         }
         
-        public void Run(GameObject gameObject)
-        {
-            Root.Run(gameObject, this);
-            Root.Awake();
-            Root.Start();
-        }
-        
         public override void Dispose()
         {
             base.Dispose();
@@ -128,7 +121,9 @@ namespace Kurisu.NGDT
         {
             ((DialogueBuilder)Builder).Clear();
             Root.Abort();
-            Run(gameObject);
+            Root.Run(gameObject, this);
+            Root.Awake();
+            Root.Start();
             Root.Update();
         }
         

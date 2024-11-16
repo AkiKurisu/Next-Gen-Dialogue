@@ -50,7 +50,7 @@ namespace Kurisu.NGDT.Editor
         }
         private readonly NodeResolverFactory nodeResolver = NodeResolverFactory.Instance;
         private readonly List<IDialogueNode> tempNodes = new();
-        public (RootNode, IEnumerable<IDialogueNode>) ConvertToNode(IDialogueTree tree, DialogueTreeView treeView, Vector2 initPos)
+        public (RootNode, IEnumerable<IDialogueNode>) ConvertToNode(IDialogueContainer tree, DialogueTreeView treeView, Vector2 initPos)
         {
             var stack = new Stack<EdgePair>();
             var alreadyCreateNodes = new Dictionary<NodeBehavior, IDialogueNode>();

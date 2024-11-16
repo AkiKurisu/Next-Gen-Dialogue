@@ -38,7 +38,7 @@ namespace Kurisu.NGDT.Editor
                 new SearchTreeGroupEntry(new GUIContent("Create Node"), 0)
             };
             List<Type> nodeTypes = SubclassSearchUtility.FindSubClassTypes(_Types);
-            var groups = nodeTypes.GroupsByAkiGroup(); ;
+            var groups = nodeTypes.GroupsByNodeGroup(); ;
             nodeTypes = nodeTypes.Except(groups.SelectMany(x => x)).ToList();
             groups = groups.SelectGroup(showGroups).ExceptGroup(notShowGroups);
             foreach (var _type in _Types)
@@ -114,7 +114,7 @@ namespace Kurisu.NGDT.Editor
 
             entries.Add(new SearchTreeGroupEntry(new GUIContent($"Select {typeof(T).Name}"), 0));
             List<Type> nodeTypes = SubclassSearchUtility.FindSubClassTypes(typeof(T));
-            var groups = nodeTypes.GroupsByAkiGroup();//按AkiGroup进行分类
+            var groups = nodeTypes.GroupsByNodeGroup();//按AkiGroup进行分类
             nodeTypes = nodeTypes.Except(groups.SelectMany(x => x)).ToList();//去除被分类的部分
             groups = groups.SelectGroup(showGroups).ExceptGroup(notShowGroups);
             foreach (var group in groups)

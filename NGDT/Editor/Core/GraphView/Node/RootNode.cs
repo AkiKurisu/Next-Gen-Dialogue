@@ -78,7 +78,7 @@ namespace Kurisu.NGDT.Editor
             cache = child;
         }
 
-        public void PostCommit(IDialogueTree tree)
+        public void PostCommit(IDialogueContainer tree)
         {
             DialogueTreeEditorUtility.SetRoot(tree, NodeBehavior as Root);
         }

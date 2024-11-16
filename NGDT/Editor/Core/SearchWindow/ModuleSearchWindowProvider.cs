@@ -44,7 +44,7 @@ namespace Kurisu.NGDT.Editor
                 return validTypes.Length != 0 && validTypes.Any(x => ((ModuleOfAttribute)x).ContainerType == ContainerType);
             })
             .ToList();
-            var groups = nodeTypes.GroupsByAkiGroup();
+            var groups = nodeTypes.GroupsByNodeGroup();
             nodeTypes = nodeTypes.Except(groups.SelectMany(x => x)).ToList();
             groups = groups.SelectGroup(showGroups).ExceptGroup(notShowGroups);
             foreach (var group in groups)

@@ -1,7 +1,6 @@
 using System;
 using System.Reflection;
 using Ceres.Editor;
-using Kurisu.NGDT.Editor;
 using UnityEngine.Localization;
 using UnityEngine.UIElements;
 namespace Kurisu.NGDT.Localization.Editor
@@ -14,14 +13,14 @@ namespace Kurisu.NGDT.Localization.Editor
         }
         protected override LocalizedStringField CreateEditorField(FieldInfo fieldInfo)
         {
-            return new LocalizedStringField(fieldInfo.Name);
+            return new LocalizedStringField(fieldInfo.Name, fieldInfo);
         }
         public static bool IsAcceptable(Type infoType, FieldInfo _) => infoType == typeof(LocalizedString);
 
     }
-    public class LocalizedStringField : WrapField<LocalizedString>
+    public sealed class LocalizedStringField : WrapField<LocalizedString>
     {
-        public LocalizedStringField(string label) : base(label)
+        public LocalizedStringField(string label, FieldInfo fieldInfo) : base(label, fieldInfo)
         {
             contentContainer.Q<IMGUIContainer>().style.minWidth = 350;
         }
