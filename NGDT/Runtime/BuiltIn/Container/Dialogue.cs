@@ -51,7 +51,7 @@ namespace Kurisu.NGDT
         NGDS.Piece IDialogueLookup.GetNext(string ID)
         {
 #if UNITY_EDITOR
-            Tree.Root.UpdateEditor?.Invoke();
+            Graph.Root.UpdateEditor?.Invoke();
 #endif
             if (visitedPieceID.Contains(ID))
             {
@@ -66,7 +66,7 @@ namespace Kurisu.NGDT
         NGDS.Piece IDialogueLookup.GetFirst()
         {
 #if UNITY_EDITOR
-            Tree.Root.UpdateEditor?.Invoke();
+            Graph.Root.UpdateEditor?.Invoke();
 #endif
             for (int i = 0; i < Children.Count; i++)
             {

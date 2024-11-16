@@ -17,7 +17,6 @@ namespace Kurisu.NGDT.Behavior
         private string[] parameterValues;
         public override void Awake()
         {
-            foreach (var value in parameters) InitVariable(value);
             parameterValues = new string[parameters.Count];
         }
         protected override Status OnUpdate()

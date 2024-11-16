@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Text;
 using Ceres;
 using Ceres.Annotations;
-
 namespace Kurisu.NGDT.Behavior
 {
     [NodeInfo("Action: Build value of string")]
@@ -14,10 +13,6 @@ namespace Kurisu.NGDT.Behavior
         [ForceShared]
         public SharedString storeResult;
         private readonly StringBuilder stringBuilder = new();
-        public override void Awake()
-        {
-            foreach (var value in values) InitVariable(value);
-        }
         protected override Status OnUpdate()
         {
             stringBuilder.Clear();

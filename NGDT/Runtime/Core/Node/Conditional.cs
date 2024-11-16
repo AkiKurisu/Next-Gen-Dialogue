@@ -1,4 +1,4 @@
-using Ceres.Node;
+using Ceres.Graph;
 using UnityEngine;
 namespace Kurisu.NGDT
 {
@@ -18,7 +18,7 @@ namespace Kurisu.NGDT
 
         protected sealed override void OnRun()
         {
-            child?.Run(GameObject, Tree);
+            child?.Run(GameObject, Graph);
         }
 
         public sealed override void Awake()

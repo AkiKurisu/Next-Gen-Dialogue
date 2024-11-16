@@ -81,7 +81,7 @@ namespace Kurisu.NGDT.Editor
             NodeBehavior = behavior;
             resolvers.ForEach(e => e.Restore(NodeBehavior));
             NodeBehavior.NotifyEditor = MarkAsExecuted;
-            description.value = NodeBehavior.description;
+            description.value = NodeBehavior.nodeData.description;
             GUID = string.IsNullOrEmpty(behavior.GUID) ? Guid.NewGuid().ToString() : behavior.GUID;
         }
         public void CopyFrom(IDialogueNode copyNode)
@@ -91,14 +91,14 @@ namespace Kurisu.NGDT.Editor
             {
                 resolvers[i].Copy(node.resolvers[i]);
             }
-            copyMap.Clear();
+            _copyMap.Clear();
             node.contentContainer.Query<ModuleNode>()
             .ToList()
             .ForEach(
                 x =>
                 {
                     //Copy child module
-                    var newNode = copyMap[x.GetHashCode()] = MapTreeView.DuplicateNode(x) as ModuleNode;
+                    var newNode = _copyMap[x.GetHashCode()] = MapTreeView.DuplicateNode(x) as ModuleNode;
                     AddElement(newNode);
                 }
             );
@@ -108,7 +108,7 @@ namespace Kurisu.NGDT.Editor
                 x =>
                 {
                     //Copy child bridge
-                    var newNode = copyMap[x.GetHashCode()] = x.Clone();
+                    var newNode = _copyMap[x.GetHashCode()] = x.Clone();
                     AddElement(newNode);
                 }
             );
@@ -117,10 +117,10 @@ namespace Kurisu.NGDT.Editor
             NodeBehavior.NotifyEditor = MarkAsExecuted;
             GUID = Guid.NewGuid().ToString();
         }
-        private readonly Dictionary<int, Node> copyMap = new();
+        private readonly Dictionary<int, Node> _copyMap = new();
         internal IReadOnlyDictionary<int, Node> GetCopyMap()
         {
-            return copyMap;
+            return _copyMap;
         }
         public NodeBehavior ReplaceBehavior()
         {
@@ -138,7 +138,7 @@ namespace Kurisu.NGDT.Editor
             var nodes = contentContainer.Query<ModuleNode>().ToList();
             nodes.ForEach(x =>
             {
-                (NodeBehavior as Container).AddChild(x.ReplaceBehavior());
+                ((Container)NodeBehavior).AddChild(x.ReplaceBehavior());
                 stack.Push(x);
             });
             var bridges = contentContainer.Query<ChildBridge>().ToList();
@@ -146,8 +146,8 @@ namespace Kurisu.NGDT.Editor
             //Do not duplicate commit dialogue piece
             bridges.ForEach(x => x.Commit(NodeBehavior as Container, stack));
             resolvers.ForEach(r => r.Commit(NodeBehavior));
-            NodeBehavior.description = description.value;
-            NodeBehavior.graphPosition = GetPosition();
+            NodeBehavior.nodeData.description = description.value;
+            NodeBehavior.nodeData.graphPosition = GetPosition();
             NodeBehavior.NotifyEditor = MarkAsExecuted;
             NodeBehavior.GUID = GUID;
         }

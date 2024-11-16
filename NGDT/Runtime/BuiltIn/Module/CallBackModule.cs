@@ -9,7 +9,7 @@ namespace Kurisu.NGDT
         {
             if (Child != null)
             {
-                Tree.Builder.GetNode().AddModule(new NGDS.CallBackModule(RunChild));
+                Graph.Builder.GetNode().AddModule(new NGDS.CallBackModule(RunChild));
             }
             return Status.Success;
         }

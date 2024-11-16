@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Ceres.Editor;
+using Ceres.Graph;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine.UIElements;
 namespace Kurisu.NGDT.Editor
@@ -17,13 +18,13 @@ namespace Kurisu.NGDT.Editor
             if (element is ModuleNode) return false;
             return true;
         }
-        public void Commit(List<GroupBlockData> blockData)
+        public void Commit(List<NodeGroupBlock> blockData)
         {
             var nodes = containedElements
                                 .OfType<IDialogueNode>()
                                 .Where(x => x is not ModuleNode)
                                 .Select(x => x.GUID).ToList();
-            blockData.Add(new GroupBlockData
+            blockData.Add(new NodeGroupBlock
             {
                 ChildNodes = nodes,
                 Title = title,

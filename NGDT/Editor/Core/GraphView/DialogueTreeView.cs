@@ -6,6 +6,8 @@ using UnityEngine.UIElements;
 using System.Linq;
 using System;
 using Ceres.Editor;
+using Ceres.Graph;
+
 namespace Kurisu.NGDT.Editor
 {
     public class DialogueTreeView : CeresGraphView
@@ -188,9 +190,9 @@ namespace Kurisu.NGDT.Editor
             if (tree.Root.Child == null)
             {
                 tree.Root.Child = new Dialogue();
-                var pos = tree.Root.graphPosition;
+                var pos = tree.Root.nodeData.graphPosition;
                 pos.x += 200;
-                tree.Root.Child.graphPosition = pos;
+                tree.Root.Child.nodeData.graphPosition = pos;
             }
             RestoreSharedVariables(tree);
             IEnumerable<IDialogueNode> nodes;
@@ -265,13 +267,13 @@ namespace Kurisu.NGDT.Editor
             {
                 tree.SharedVariables.Add(sharedVariable);
             }
-            List<GroupBlock> NodeBlocks = graphElements.OfType<GroupBlock>().ToList();
+            List<GroupBlock> groupBlocks = graphElements.OfType<GroupBlock>().ToList();
             tree.BlockData.Clear();
-            foreach (var block in NodeBlocks)
+            foreach (var block in groupBlocks)
             {
                 block.Commit(tree.BlockData);
             }
-            //Should set tree dirty flag if it is in a prefab
+            // Should set tree dirty flag if it is in a prefab
             if (tree is NextGenDialogueTree nextGenDialogueTree)
             {
                 EditorUtility.SetDirty(nextGenDialogueTree);
@@ -281,7 +283,7 @@ namespace Kurisu.NGDT.Editor
         }
         public string SerializeTreeToJson()
         {
-            return SerializationUtility.SerializeTree(dialogueTree, false, true);
+            return DialogueGraphData.Serialize(dialogueTree, false, true);
         }
         public bool CopyFromJson(string serializedData, Vector3 mousePosition)
         {
@@ -292,8 +294,9 @@ namespace Kurisu.NGDT.Editor
                 CopyFromOtherTree(temp, mousePosition);
                 return true;
             }
-            catch
+            catch(Exception e)
             {
+                Debug.Log(e);
                 return false;
             }
         }

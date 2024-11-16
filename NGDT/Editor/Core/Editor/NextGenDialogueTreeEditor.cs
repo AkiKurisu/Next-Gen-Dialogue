@@ -29,7 +29,7 @@ namespace Kurisu.NGDT.Editor
     internal class DialogueTreePlayButton : Button
     {
         private const string ButtonText = "Play Dialogue";
-        public DialogueTreePlayButton(NextGenDialogueTree tree) : base(() => tree.PlayDialogue())
+        public DialogueTreePlayButton(NextGenDialogueTree tree) : base(() => tree.GetDialogueGraph().PlayDialogue(tree.gameObject))
         {
             style.fontSize = 15;
             style.unityFontStyleAndWeight = FontStyle.Bold;

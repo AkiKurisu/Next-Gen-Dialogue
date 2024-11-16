@@ -10,7 +10,7 @@ namespace Kurisu.NGDT.Behavior
         public SharedTObject<NextGenDialogueTree> dialogueTree;
         protected override Status OnUpdate()
         {
-            if (dialogueTree.Value != null) dialogueTree.Value.PlayDialogue();
+            if (dialogueTree.Value) dialogueTree.Value.GetDialogueGraph().PlayDialogue(dialogueTree.Value.gameObject);
             return Status.Success;
         }
     }

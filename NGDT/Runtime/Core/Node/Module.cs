@@ -1,5 +1,5 @@
 using System;
-using Ceres.Node;
+using Ceres.Graph;
 using Kurisu.NGDS;
 using UnityEngine;
 namespace Kurisu.NGDT
@@ -24,7 +24,7 @@ namespace Kurisu.NGDT
 
         protected sealed override void OnRun()
         {
-            child?.Run(GameObject, Tree);
+            child?.Run(GameObject, Graph);
         }
 
         public override void Awake()
@@ -70,7 +70,7 @@ namespace Kurisu.NGDT
         }
         protected sealed override Status OnUpdate()
         {
-            Tree.Builder.GetNode().AddModule(GetModule());
+            Graph.Builder.GetNode().AddModule(GetModule());
             return Status.Success;
         }
         protected abstract IDialogueModule GetModule();

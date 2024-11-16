@@ -5,16 +5,23 @@ using System.Reflection;
 using Ceres.Annotations;
 using UnityEngine;
 using UnityEngine.Pool;
-namespace Ceres.Node
+namespace Ceres.Graph
 {
+    /// <summary>
+    /// Base class for ceres graph node
+    /// </summary>
+    [Serializable]
     public class CeresNode: IEnumerable<CeresNode>, IDisposable
     {
-        
-#if UNITY_EDITOR
         [HideInEditorWindow, NonSerialized]
-        internal NodeData nodeData = new();
-#endif
+        public CeresNodeData nodeData = new();
 
+        public string GUID 
+        { 
+            get => nodeData.guid; 
+            set => nodeData.guid = value; 
+        }
+        
         /// <summary>
         /// Release on node destroy
         /// </summary>
@@ -68,14 +75,18 @@ namespace Ceres.Node
         /// <param name="children"></param>
         public virtual void SetChildren(CeresNode[] children) { }
         
-#if UNITY_EDITOR
-        internal NodeData GetSerializedData()
+        /// <summary>
+        /// Get serialized data of this node
+        /// </summary>
+        /// <returns></returns>
+        public virtual CeresNodeData GetSerializedData()
         {
+            /* Allows polymorphic serialization */
             var data = nodeData.Clone();
             data.Serialize(this);
             return data;
         }
-#endif
+        
         protected struct Enumerator : IEnumerator<CeresNode>
         {
             private readonly Stack<CeresNode> stack;
@@ -147,16 +158,19 @@ namespace Ceres.Node
         }
     }
     /// <summary>
-    /// Class store the node data, editor only
+    /// Class store the node editor data
     /// </summary>
     [Serializable]
-    public class NodeData
+    public class CeresNodeData
     {
+        /// <summary>
+        /// Serialized node type in ManagedReference format
+        /// </summary>
         [Serializable]
         public struct NodeType
         {
             public string _class;
-            
+
             public string _ns;
             
             public string _asm;
@@ -191,19 +205,27 @@ namespace Ceres.Node
         
         public string guid;
         
-        // metadata to find missing class or recover
+        /// <summary>
+        /// Node type that helps to locate and recover node when missing class
+        /// </summary>
         public NodeType nodeType;
         
         public string serializedData;
+        
+        /// <summary>
+        /// Serialize node data
+        /// </summary>
+        /// <param name="node"></param>
         public virtual void Serialize(CeresNode node)
         {
             nodeType = new NodeType(node.GetType());
-            serializedData = JsonUtility.ToJson(node);
+            serializedData = CeresGraphData.Serialize(node);
+            /* Override to customize serialization like ISerializationCallbackReceiver */
         }
         
-        public NodeData Clone()
+        public virtual CeresNodeData Clone()
         {
-            return new NodeData
+            return new CeresNodeData
             {
                 graphPosition = graphPosition,
                 description = description,

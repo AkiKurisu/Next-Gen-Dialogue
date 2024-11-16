@@ -1,19 +1,18 @@
 using System.Collections.Generic;
 using Ceres;
-using Kurisu.NGDS;
+using Ceres.Graph;
 using UnityEngine;
+using UObject = UnityEngine.Object;
 namespace Kurisu.NGDT
 {
-    public delegate void ResolveDialogueDelegate(IDialogueLookup dialogue);
     [DisallowMultipleComponent]
     public class NextGenDialogueTree : MonoBehaviour, IDialogueTree
     {
-        #region  Tree Part
         [HideInInspector, SerializeReference]
         private Root root = new();
         
-        Object IDialogueTree.Object => gameObject;
-        
+        UObject ICeresGraphContainer.Object => gameObject;
+
         [HideInInspector, SerializeReference]
         private List<SharedVariable> sharedVariables = new();
         
@@ -27,12 +26,11 @@ namespace Kurisu.NGDT
         /// <value></value>
         public NextGenDialogueTreeAsset ExternalData { get => externalDialogueTree; set => externalDialogueTree = value; }
         
-#if UNITY_EDITOR
         [SerializeField, HideInInspector]
-        private List<GroupBlockData> blockData = new();
+        private List<NodeGroupBlock> blockData = new();
         
-        public List<GroupBlockData> BlockData => blockData;
-#endif
+        public List<NodeGroupBlock> BlockData => blockData;
+        
         public Root Root
         {
             get => root;
@@ -42,97 +40,33 @@ namespace Kurisu.NGDT
         {
             get => sharedVariables;
         }
-        
-        public IDialogueSystem System { get; set; }
-        
-        private DialogueBuilder builder;
-        
-        public IDialogueBuilder Builder => builder;
-        #endregion
+
+        private DialogueGraph graphInstance;
+
         private void Awake()
         {
-            builder = new DialogueBuilder(this);
-            foreach (var variable in sharedVariables)
-            {
-                if (variable is PieceID pieceID) pieceID.Value = global::System.Guid.NewGuid().ToString();
-            }
-            this.MapGlobal();
-            if (externalDialogueTree)
-            {
-                //Prevent remap for external tree
-                if (!externalDialogueTree.IsInitialized)
-                    externalDialogueTree.Initialize();
-            }
-            else
-            {
-                SharedVariableMapper.Traverse(this);
-            }
-            root.Run(gameObject, this);
-            root.Awake();
+            var instance = GetDialogueGraph();
+            // Init instance
+            instance.InitVariables();
+            instance.BlackBoard.MapGlobal();
         }
-        private void Start()
+
+        public CeresGraph GetGraph()
         {
-            root.Start();
+            return GetDialogueGraph();
         }
-        /// <summary>
-        /// Play the dialogue tree
-        /// </summary>
-        public void PlayDialogue()
+        
+        public DialogueGraph GetDialogueGraph()
         {
-            builder.Clear();
-            if (externalDialogueTree)
-            {
-                externalDialogueTree.Init(gameObject, builder);
-                externalDialogueTree.Root.Update();
-                return;
-            }
-            root.Abort();
-            root.Update();
+            return graphInstance ??= new DialogueGraph(externalDialogueTree ? externalDialogueTree : this);
         }
-        private void ResolveDialogue(IDialogueLookup dialogue)
+
+        public void SetGraphData(CeresGraphData graphData)
         {
-            System ??= IOCContainer.Resolve<IDialogueSystem>();
-            if (System != null)
-                System.StartDialogue(dialogue);
-            else
-            {
-                Debug.LogError("No dialogue system registered!");
-            }
-        }
-        private class DialogueBuilder : IDialogueBuilder
-        {
-            public DialogueBuilder(NextGenDialogueTree tree)
-            {
-                this.tree = tree;
-            }
-            private readonly NextGenDialogueTree tree;
-            private readonly Stack<Node> nodesBuffer = new();
-            public void StartWriteNode(Node node)
-            {
-                nodesBuffer.Push(node);
-            }
-            public void DisposeWriteNode()
-            {
-                nodesBuffer.Pop().Dispose();
-            }
-            public Node GetNode()
-            {
-                return nodesBuffer.Peek();
-            }
-            public void EndWriteNode()
-            {
-                var node = nodesBuffer.Pop();
-                if (nodesBuffer.TryPeek(out Node parentNode) && node is IDialogueModule module)
-                    parentNode.AddModule(module);
-            }
-            public void Clear()
-            {
-                nodesBuffer.Clear();
-            }
-            public void EndBuildDialogue(IDialogueLookup dialogue)
-            {
-                tree.ResolveDialogue(dialogue);
-            }
+            var dialogueGraph = new DialogueGraph(graphData as DialogueGraphData);
+            root = dialogueGraph.Root;
+            blockData = dialogueGraph.nodeGroupBlocks;
+            sharedVariables = dialogueGraph.variables;
         }
     }
 }

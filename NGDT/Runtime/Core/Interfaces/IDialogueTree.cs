@@ -1,24 +1,21 @@
-using UnityEngine;
 using System.Collections.Generic;
-using Ceres;
-using Kurisu.NGDS;
+using Ceres.Graph;
 namespace Kurisu.NGDT
 {
-    public interface IDialogueTree : IVariableSource
+    /// <summary>
+    /// Interface for dialogue tree graph container
+    /// </summary>
+    public interface IDialogueTree : ICeresGraphContainer
     {
-        Object Object { get; }
         Root Root
         {
             get;
         }
-#if UNITY_EDITOR
+        // TODO: Remove
         /// <summary>
-        /// Get block data from behavior tree graph, using only in editor
+        /// Get block data from behavior tree graph
         /// </summary>
         /// <value></value>  
-        List<GroupBlockData> BlockData { get; }
-#endif
-        IDialogueBuilder Builder { get; }
-        IDialogueSystem System { get; set; }
+        List<NodeGroupBlock> BlockData { get; }
     }
 }

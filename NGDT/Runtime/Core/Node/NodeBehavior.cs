@@ -1,7 +1,6 @@
 using System;
-using Ceres;
 using Ceres.Annotations;
-using Ceres.Node;
+using Ceres.Graph;
 using UnityEngine;
 namespace Kurisu.NGDT
 {
@@ -10,30 +9,23 @@ namespace Kurisu.NGDT
         Success,
         Failure
     }
+    /// <summary>
+    /// Base class for dialogue graph node
+    /// </summary>
     [Serializable]
     public abstract class NodeBehavior: CeresNode
     {
-
 #if UNITY_EDITOR
-        [HideInEditorWindow]
-        public Rect graphPosition = new(400, 300, 100, 100);
-
-        [HideInEditorWindow]
-        public string description;
-
         [HideInEditorWindow, NonSerialized]
         public Action<Status> NotifyEditor;
-        [SerializeField, HideInEditorWindow]
-        private string guid;
-        public string GUID { get => guid; set => guid = value; }
 #endif
 
         protected GameObject GameObject { private set; get; }
-        protected IDialogueTree Tree { private set; get; }
-        public void Run(GameObject attachedObject, IDialogueTree attachedTree)
+        protected DialogueGraph Graph { private set; get; }
+        public void Run(GameObject attachedObject, DialogueGraph graph)
         {
             GameObject = attachedObject;
-            Tree = attachedTree;
+            Graph = graph;
             OnRun();
         }
 
@@ -54,9 +46,5 @@ namespace Kurisu.NGDT
         }
 
         protected abstract Status OnUpdate();
-        protected void InitVariable(SharedVariable sharedVariable)
-        {
-            sharedVariable.MapTo(Tree);
-        }
     }
 }

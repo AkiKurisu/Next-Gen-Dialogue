@@ -242,8 +242,8 @@ namespace Kurisu.NGDT.Editor
                         EditorUtility.SetDirty(setting);
                         AssetDatabase.SaveAssets();
                     }
-
-                    if (GUILayout.Button("Save To SO", EditorStyles.toolbarButton))
+                    GUI.enabled = !Application.isPlaying;
+                    if (GUILayout.Button("Save to Asset", EditorStyles.toolbarButton))
                     {
                         string path = EditorUtility.OpenFolderPanel("Select ScriptableObject save path", Setting.LastPath, "");
                         if (!string.IsNullOrEmpty(path))
@@ -253,8 +253,7 @@ namespace Kurisu.NGDT.Editor
                         }
 
                     }
-                    GUI.enabled = !Application.isPlaying;
-                    if (GUILayout.Button("Copy From SO", EditorStyles.toolbarButton))
+                    if (GUILayout.Button("Copy from Asset", EditorStyles.toolbarButton))
                     {
                         string path = EditorUtility.OpenFilePanel("Select ScriptableObject to copy", Setting.LastPath, "asset");
                         var data = LoadDataFromFile(path.Replace(Application.dataPath, string.Empty));
@@ -267,14 +266,13 @@ namespace Kurisu.NGDT.Editor
                             graphView.CopyFromOtherTree(data, new Vector3(400, 300));
                         }
                     }
-                    GUI.enabled = true;
                     GUILayout.FlexibleSpace();
-                    if (GUILayout.Button("Save To Json", EditorStyles.toolbarButton))
+                    if (GUILayout.Button("Save to Json", EditorStyles.toolbarButton))
                     {
-                        var serializedData = graphView.SerializeTreeToJson();
                         string path = EditorUtility.SaveFilePanel("Select json file save path", Setting.LastPath, graphView.DialogueTree.Object.name, "json");
                         if (!string.IsNullOrEmpty(path))
                         {
+                            var serializedData = graphView.SerializeTreeToJson();
                             FileInfo info = new(path);
                             Setting.LastPath = info.Directory.FullName;
                             EditorUtility.SetDirty(setting);
@@ -283,9 +281,9 @@ namespace Kurisu.NGDT.Editor
                             AssetDatabase.SaveAssets();
                             AssetDatabase.Refresh();
                         }
+                        GUIUtility.ExitGUI();
                     }
-                    GUI.enabled = !Application.isPlaying;
-                    if (GUILayout.Button("Copy From Json", EditorStyles.toolbarButton))
+                    if (GUILayout.Button("Copy from Json", EditorStyles.toolbarButton))
                     {
                         string path = EditorUtility.OpenFilePanel("Select json file to copy", Setting.LastPath, "json");
                         if (!string.IsNullOrEmpty(path))
@@ -305,7 +303,6 @@ namespace Kurisu.NGDT.Editor
                     GUI.enabled = true;
                     GUILayout.EndHorizontal();
                 }
-
             );
         }
         private VisualElement CreateBakePreview()

@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
-using Ceres.Node;
+using Ceres.Graph;
 using UnityEngine;
 namespace Kurisu.NGDT
 {
@@ -14,13 +14,13 @@ namespace Kurisu.NGDT
         {
             for (int i = 0; i < children.Count; i++)
             {
-                children[i].Run(GameObject, Tree);
+                children[i].Run(GameObject, Graph);
             }
         }
 
         public sealed override void Awake()
         {
-            Builder = Tree.Builder;
+            Builder = Graph.Builder;
             OnAwake();
             for (int i = 0; i < children.Count; i++)
             {

@@ -1,4 +1,5 @@
 using System.Linq;
+using Ceres.Graph;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 namespace Kurisu.NGDT.Editor
@@ -10,9 +11,9 @@ namespace Kurisu.NGDT.Editor
         {
             this.graphView = graphView;
         }
-        public GroupBlock CreateBlock(Rect rect, GroupBlockData blockData = null)
+        public GroupBlock CreateBlock(Rect rect, NodeGroupBlock blockData = null)
         {
-            blockData ??= new GroupBlockData();
+            blockData ??= new NodeGroupBlock();
             var group = new GroupBlock
             {
                 autoUpdateGeometry = true,

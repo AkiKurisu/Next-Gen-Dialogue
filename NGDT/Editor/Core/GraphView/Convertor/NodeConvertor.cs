@@ -75,7 +75,7 @@ namespace Kurisu.NGDT.Editor
                 node.Restore(edgePair.NodeBehavior);
                 treeView.AddElement(node as Node);
                 tempNodes.Add(node);
-                var rect = edgePair.NodeBehavior.graphPosition;
+                var rect = edgePair.NodeBehavior.nodeData.graphPosition;
                 rect.position += initPos;
                 (node as Node).SetPosition(rect);
                 alreadyCreateNodes.Add(edgePair.NodeBehavior, node);

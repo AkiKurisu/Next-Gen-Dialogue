@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-namespace Kurisu.NGDT
+namespace Ceres.Graph
 {
     [Serializable]
-    public class GroupBlockData
+    public class NodeGroupBlock
     {
         public List<string> ChildNodes = new();
         public Vector2 Position;

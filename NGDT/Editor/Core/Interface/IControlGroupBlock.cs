@@ -1,3 +1,4 @@
+using Ceres.Graph;
 using UnityEngine;
 namespace Kurisu.NGDT.Editor
 {
@@ -5,6 +6,6 @@ namespace Kurisu.NGDT.Editor
     {
         void SelectGroup(IDialogueNode node);
         void UnSelectGroup();
-        GroupBlock CreateBlock(Rect rect, GroupBlockData blockData = null);
+        GroupBlock CreateBlock(Rect rect, NodeGroupBlock blockData = null);
     }
 }
