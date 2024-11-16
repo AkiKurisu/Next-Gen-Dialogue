@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using Ceres.Editor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine.UIElements;
 namespace Kurisu.NGDT.Editor
@@ -47,7 +48,7 @@ namespace Kurisu.NGDT.Editor
             if (!type.GetInterfaces().Any(t => t == typeof(INodeResolver))) return false;
             return true;
         }
-        public IDialogueNode Create(Type behaviorType, IDialogueTreeView treeView)
+        public IDialogueNode Create(Type behaviorType, DialogueTreeView treeView)
         {
             IDialogueNode node = null;
             bool find = false;

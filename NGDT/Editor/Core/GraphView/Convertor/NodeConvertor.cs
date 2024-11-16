@@ -7,7 +7,7 @@ namespace Kurisu.NGDT.Editor
     {
         private interface IParentAdapter
         {
-            void Connect(IDialogueTreeView treeView, IDialogueNode nodeToConnect);
+            void Connect(DialogueTreeView treeView, IDialogueNode nodeToConnect);
         }
         private readonly struct PortAdapter : IParentAdapter
         {
@@ -16,10 +16,10 @@ namespace Kurisu.NGDT.Editor
             {
                 this.port = port;
             }
-            public void Connect(IDialogueTreeView treeView, IDialogueNode nodeToConnect)
+            public void Connect(DialogueTreeView treeView, IDialogueNode nodeToConnect)
             {
                 var edge = PortHelper.ConnectPorts(port, nodeToConnect.Parent);
-                treeView.View.Add(edge);
+                treeView.Add(edge);
             }
         }
         private readonly struct ContainerAdapter : IParentAdapter
@@ -29,7 +29,7 @@ namespace Kurisu.NGDT.Editor
             {
                 this.container = container;
             }
-            public void Connect(IDialogueTreeView treeView, IDialogueNode nodeToConnect)
+            public void Connect(DialogueTreeView treeView, IDialogueNode nodeToConnect)
             {
                 if (nodeToConnect is ModuleNode moduleNode)
                     container.AddElement(moduleNode);
@@ -50,7 +50,7 @@ namespace Kurisu.NGDT.Editor
         }
         private readonly NodeResolverFactory nodeResolver = NodeResolverFactory.Instance;
         private readonly List<IDialogueNode> tempNodes = new();
-        public (RootNode, IEnumerable<IDialogueNode>) ConvertToNode(IDialogueTree tree, IDialogueTreeView treeView, Vector2 initPos)
+        public (RootNode, IEnumerable<IDialogueNode>) ConvertToNode(IDialogueTree tree, DialogueTreeView treeView, Vector2 initPos)
         {
             var stack = new Stack<EdgePair>();
             var alreadyCreateNodes = new Dictionary<NodeBehavior, IDialogueNode>();
@@ -73,7 +73,7 @@ namespace Kurisu.NGDT.Editor
                 }
                 IDialogueNode node = nodeResolver.Create(edgePair.NodeBehavior.GetType(), treeView);
                 node.Restore(edgePair.NodeBehavior);
-                treeView.View.AddElement(node as Node);
+                treeView.AddElement(node as Node);
                 tempNodes.Add(node);
                 var rect = edgePair.NodeBehavior.graphPosition;
                 rect.position += initPos;

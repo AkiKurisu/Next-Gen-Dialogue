@@ -1,3 +1,4 @@
+using Ceres.Annotations;
 using Newtonsoft.Json;
 namespace Kurisu.NGDT
 {

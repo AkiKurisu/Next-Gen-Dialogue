@@ -3,7 +3,9 @@
     "rootNamespace": "Kurisu.NGDT.Editor",
     "references": [
         "Kurisu.NGDT",
-        "Kurisu.NGDS"
+        "Kurisu.NGDS",
+        "Ceres.Editor",
+        "Ceres"
     ],
     "includePlatforms": [
         "Editor"

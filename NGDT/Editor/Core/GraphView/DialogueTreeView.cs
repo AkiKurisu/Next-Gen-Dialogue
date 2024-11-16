@@ -5,21 +5,23 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using System.Linq;
 using System;
+using Ceres.Editor;
 namespace Kurisu.NGDT.Editor
 {
-    public class DialogueTreeView : GraphView, IDialogueTreeView
+    public class DialogueTreeView : CeresGraphView
     {
-        public GraphView View => this;
-        public IBlackBoard BlackBoard { get; internal set; }
         private readonly IDialogueTree dialogueTree;
         public IDialogueTree DialogueTree => dialogueTree;
+        
         private RootNode root;
-        public List<SharedVariable> SharedVariables { get; } = new();
+
         private readonly NodeSearchWindowProvider provider;
+        
         private readonly NodeResolverFactory nodeResolver = NodeResolverFactory.Instance;
         public Action<IDialogueNode> OnSelectAction { get; internal set; }
-        public EditorWindow EditorWindow { get; internal set; }
+        
         private readonly NodeConvertor converter = new();
+        
         private readonly DragDropManipulator dragDropManipulator;
         public IControlGroupBlock GroupBlockController { get; }
         public ContextualMenuController ContextualMenuController { get; }
@@ -106,7 +108,7 @@ namespace Kurisu.NGDT.Editor
             {
                 return e switch
                 {
-                    NGDTDropdownMenuAction _ => true,
+                    CeresDropdownMenuAction _ => true,
                     DropdownMenuAction a => a.name == "Create Node" || a.name == "Delete",
                     _ => false,
                 };
@@ -114,7 +116,7 @@ namespace Kurisu.NGDT.Editor
             //Remove needless default actions .
             evt.menu.MenuItems().Clear();
             remainTargets.ForEach(evt.menu.MenuItems().Add);
-            evt.menu.MenuItems().Add(new NGDTDropdownMenuAction("Paste", (evt) =>
+            evt.menu.MenuItems().Add(new CeresDropdownMenuAction("Paste", (evt) =>
             {
                 Paste(contentViewContainer.WorldToLocal(evt.eventInfo.mousePosition) - CopyPaste.CenterPosition);
             }, x => CopyPaste.CanPaste ? DropdownMenuAction.Status.Normal : DropdownMenuAction.Status.Disabled));
@@ -160,7 +162,7 @@ namespace Kurisu.NGDT.Editor
             RootNode rootNode;
             foreach (var variable in otherTree.SharedVariables)
             {
-                BlackBoard.AddVariable(variable.Clone(), false);
+                Blackboard.AddVariable(variable.Clone(), false);
             }
             (rootNode, nodes) = converter.ConvertToNode(otherTree, this, localMousePosition);
             foreach (var node in nodes) node.OnSelectAction = OnSelectAction;
@@ -203,11 +205,11 @@ namespace Kurisu.NGDT.Editor
                 //In play mode, use original variable to observe value change
                 if (Application.isPlaying)
                 {
-                    BlackBoard.AddVariable(variable, false);
+                    Blackboard.AddVariable(variable, false);
                 }
                 else
                 {
-                    BlackBoard.AddVariable(variable.Clone(), false);
+                    Blackboard.AddVariable(variable.Clone(), false);
                 }
             }
         }

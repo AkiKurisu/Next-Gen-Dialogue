@@ -1,3 +1,4 @@
+using Ceres.Annotations;
 using UnityEngine;
 namespace Kurisu.NGDT
 {
@@ -8,11 +9,11 @@ namespace Kurisu.NGDT
     {
 #pragma warning disable IDE0052
         [SerializeField, Multiline, TranslateEntry]
-        private SharedString pieceSystemPrompt;
+        private Ceres.SharedString pieceSystemPrompt;
         [SerializeField, Multiline, TranslateEntry]
-        private SharedString optionSystemPrompt;
+        private Ceres.SharedString optionSystemPrompt;
         [SerializeField, Multiline, TranslateEntry]
-        private SharedString storySummary;
+        private Ceres.SharedString storySummary;
         public NovelPromptModule() { }
         public NovelPromptModule(string pieceSystemPrompt, string optionSystemPrompt, string storySummary)
         {

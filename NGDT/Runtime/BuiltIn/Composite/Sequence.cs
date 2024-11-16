@@ -1,3 +1,4 @@
+using Ceres.Annotations;
 namespace Kurisu.NGDT
 {
     [NodeInfo("Composite : Sequence, traversing the child nodes in turn, if it returns Success" +

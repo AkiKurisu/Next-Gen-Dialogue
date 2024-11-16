@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Ceres.Editor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -39,7 +40,7 @@ namespace Kurisu.NGDT.Editor
             if (node != null)
             {
                 var edge = PortHelper.ConnectPorts(childPort, node.Parent);
-                MapTreeView.View.Add(edge);
+                MapTreeView.Add(edge);
             }
             OnToggle(useReferenceField.value);
         }

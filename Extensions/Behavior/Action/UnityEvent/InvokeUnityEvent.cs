@@ -1,3 +1,4 @@
+using Ceres.Annotations;
 using UnityEngine.Events;
 namespace Kurisu.NGDT.Behavior
 {

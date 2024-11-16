@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using Ceres.Annotations;
+using Ceres.Editor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 namespace Kurisu.NGDT.Editor
@@ -14,9 +16,9 @@ namespace Kurisu.NGDT.Editor
         private readonly NodeResolverFactory nodeResolver = NodeResolverFactory.Instance;
         private string[] showGroups;
         private string[] notShowGroups;
-        private IDialogueTreeView treeView;
+        private DialogueTreeView treeView;
         private IEnumerable<Type> exceptTypes;
-        public void Init(ContainerNode node, IDialogueTreeView treeView, (string[], string[]) mask, IEnumerable<Type> exceptTypes)
+        public void Init(ContainerNode node, DialogueTreeView treeView, (string[], string[]) mask, IEnumerable<Type> exceptTypes)
         {
             this.exceptTypes = exceptTypes;
             this.treeView = treeView;

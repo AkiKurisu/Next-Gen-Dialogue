@@ -2,7 +2,8 @@
     "name": "Kurisu.NGDT",
     "rootNamespace": "Kurisu.NGDT",
     "references": [
-        "GUID:a3641cccf50efcd4cafc57a3120fb40e"
+        "GUID:a3641cccf50efcd4cafc57a3120fb40e",
+        "GUID:7dddf801c0fab33408b06985cd6a607e"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

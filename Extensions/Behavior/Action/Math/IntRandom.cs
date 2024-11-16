@@ -1,3 +1,5 @@
+using Ceres;
+using Ceres.Annotations;
 using UnityEngine;
 using UnityEngine.Serialization;
 namespace Kurisu.NGDT.Behavior

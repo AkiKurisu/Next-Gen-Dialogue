@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Ceres.Editor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -26,7 +27,7 @@ namespace Kurisu.NGDT.Editor
             {
                 return e switch
                 {
-                    NGDTDropdownMenuAction a => false,
+                    CeresDropdownMenuAction a => false,
                     DropdownMenuAction a => a.name == "Create Node" || a.name == "Delete",
                     _ => false,
                 };

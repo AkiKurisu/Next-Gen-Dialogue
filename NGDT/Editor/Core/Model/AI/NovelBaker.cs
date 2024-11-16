@@ -158,9 +158,9 @@ namespace Kurisu.NGDT.Editor
         {
             return role == MessageRole.User ? UserName : BotName;
         }
-        public static async Task AutoGenerateNovel(IDialogueTreeView treeView)
+        public static async Task AutoGenerateNovel(DialogueTreeView treeView)
         {
-            var containers = treeView.View.selection.OfType<ContainerNode>().ToList();
+            var containers = treeView.selection.OfType<ContainerNode>().ToList();
             if (containers.Count == 0) return;
             var bakeContainer = containers.Last();
             bakeContainer.TryGetModuleNode<NovelBakeModule>(out ModuleNode novelModule);
@@ -189,7 +189,7 @@ namespace Kurisu.NGDT.Editor
             EditorUtility.ClearProgressBar();
             await Task.Delay(2);
             //Auto layout
-            NodeAutoLayoutHelper.Layout(new DialogueTreeLayoutConvertor(treeView.View, bakeContainer));
+            NodeAutoLayoutHelper.Layout(new DialogueTreeLayoutConvertor(treeView, bakeContainer));
 
             //Start from Piece
             async Task<bool> Generate(IReadOnlyList<ContainerNode> containers, ContainerNode bakeContainer, CancellationToken ct, int currentDepth, int maxDepth)

@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using Ceres.Annotations;
+using Ceres.Editor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -15,14 +17,14 @@ namespace Kurisu.NGDT.Editor
 
         public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
         {
-            evt.menu.MenuItems().Add(new NGDTDropdownMenuAction("Change Behavior", (a) =>
+            evt.menu.MenuItems().Add(new CeresDropdownMenuAction("Change Behavior", (a) =>
             {
                 var provider = ScriptableObject.CreateInstance<CompositeSearchWindowProvider>();
                 provider.Init(this, NextGenDialogueSetting.GetMask());
                 SearchWindow.Open(new SearchWindowContext(a.eventInfo.localMousePosition), provider);
             }));
-            evt.menu.MenuItems().Add(new NGDTDropdownMenuAction("Add Child", (a) => AddChild()));
-            evt.menu.MenuItems().Add(new NGDTDropdownMenuAction("Remove Unnecessary Children", (a) => RemoveUnnecessaryChildren()));
+            evt.menu.MenuItems().Add(new CeresDropdownMenuAction("Add Child", (a) => AddChild()));
+            evt.menu.MenuItems().Add(new CeresDropdownMenuAction("Remove Unnecessary Children", (a) => RemoveUnnecessaryChildren()));
             base.BuildContextualMenu(evt);
         }
 

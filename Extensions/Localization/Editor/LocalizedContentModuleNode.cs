@@ -1,3 +1,5 @@
+using Ceres;
+using Ceres.Editor;
 using Kurisu.NGDT.Editor;
 using UnityEditor.Localization;
 using UnityEngine.Localization.Tables;
@@ -14,8 +16,8 @@ namespace Kurisu.NGDT.Localization.Editor
         }
         protected override void OnBehaviorSet()
         {
-            var tableEntryField = (GetFieldResolver("tableEntry") as FieldResolver<SharedStringField, SharedString>).EditorField;
-            var stringEntryField = (GetFieldResolver("stringEntry") as FieldResolver<SharedStringField, SharedString>).EditorField;
+            var tableEntryField = (GetFieldResolver("tableEntry") as FieldResolver<SharedStringField, SharedString>)?.EditorField;
+            var stringEntryField = (GetFieldResolver("stringEntry") as FieldResolver<SharedStringField, SharedString>)?.EditorField;
             tableEntryField.RegisterValueChangedCallback(x => UpdateEditor());
             stringEntryField.RegisterValueChangedCallback(x => UpdateEditor());
         }
@@ -32,7 +34,7 @@ namespace Kurisu.NGDT.Localization.Editor
         public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
         {
             base.BuildContextualMenu(evt);
-            evt.menu.MenuItems().Add(new NGDTDropdownMenuAction("Create Entry", (a) =>
+            evt.menu.MenuItems().Add(new CeresDropdownMenuAction("Create Entry", (a) =>
             {
                 var tableEntry = this.GetSharedStringValue("tableEntry");
                 var stringEntry = this.GetSharedStringValue("stringEntry");

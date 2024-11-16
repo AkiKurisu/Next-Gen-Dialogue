@@ -4,6 +4,8 @@ using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
 using System.Linq;
+using Ceres.Editor;
+
 namespace Kurisu.NGDT.Editor
 {
     public class NodeSearchWindowProvider : ScriptableObject, ISearchWindowProvider

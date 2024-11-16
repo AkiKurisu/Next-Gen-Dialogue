@@ -1,3 +1,4 @@
+using Ceres.Annotations;
 namespace Kurisu.NGDT
 {
     [NodeInfo("Composite : Random, random update a child and reselect the next node")]

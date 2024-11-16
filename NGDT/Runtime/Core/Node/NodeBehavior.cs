@@ -1,4 +1,7 @@
 using System;
+using Ceres;
+using Ceres.Annotations;
+using Ceres.Node;
 using UnityEngine;
 namespace Kurisu.NGDT
 {
@@ -8,7 +11,7 @@ namespace Kurisu.NGDT
         Failure
     }
     [Serializable]
-    public abstract class NodeBehavior
+    public abstract class NodeBehavior: CeresNode
     {
 
 #if UNITY_EDITOR
@@ -53,7 +56,7 @@ namespace Kurisu.NGDT
         protected abstract Status OnUpdate();
         protected void InitVariable(SharedVariable sharedVariable)
         {
-            sharedVariable.MapToInternal(Tree);
+            sharedVariable.MapTo(Tree);
         }
     }
 }

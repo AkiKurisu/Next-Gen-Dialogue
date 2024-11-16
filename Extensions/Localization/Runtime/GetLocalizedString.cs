@@ -1,3 +1,5 @@
+using Ceres;
+using Ceres.Annotations;
 using UnityEngine;
 using UnityEngine.Localization;
 namespace Kurisu.NGDT.Localization

@@ -1,7 +1,8 @@
+using Ceres.Node;
 using UnityEngine;
 namespace Kurisu.NGDT
 {
-    public abstract class Conditional : NodeBehavior, IIterable
+    public abstract class Conditional : NodeBehavior
     {
 
         [SerializeReference]
@@ -55,14 +56,31 @@ namespace Kurisu.NGDT
         }
 
         protected abstract Status IsUpdatable();
-        public NodeBehavior GetChildAt(int index)
+        
+        public sealed override CeresNode GetChildAt(int index)
         {
             return child;
         }
-
-        public int GetChildCount()
+        public sealed override int GetChildrenCount()
         {
             return child == null ? 0 : 1;
+        }
+        public sealed override void ClearChildren()
+        {
+            child = null;
+        }
+        public sealed override void AddChild(CeresNode nodeBehavior)
+        {
+            child = nodeBehavior as NodeBehavior;
+        }
+        public sealed override void SetChildren(CeresNode[] inChildren)
+        {
+            child = inChildren[0] as NodeBehavior;
+        }
+        public sealed override CeresNode[] GetChildren()
+        {
+            if (child == null) return base.GetChildren();
+            return new CeresNode[1] { child };
         }
     }
 

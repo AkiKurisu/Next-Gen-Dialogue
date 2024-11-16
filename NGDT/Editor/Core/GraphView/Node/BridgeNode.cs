@@ -102,7 +102,7 @@ namespace Kurisu.NGDT.Editor
     {
         private readonly PieceIDField pieceIDField;
         private bool useReference;
-        private readonly IDialogueTreeView treeView;
+        private readonly DialogueTreeView treeView;
         public string PieceID
         {
             get
@@ -120,7 +120,7 @@ namespace Kurisu.NGDT.Editor
             }
         }
         public VisualElement View => this;
-        public PieceBridge(IDialogueTreeView treeView, Color portColor, string pieceIDName)
+        public PieceBridge(DialogueTreeView treeView, Color portColor, string pieceIDName)
         : base("Piece", typeof(PiecePort), portColor)
         {
             this.treeView = treeView;
@@ -128,7 +128,7 @@ namespace Kurisu.NGDT.Editor
             toggle.RegisterValueChangedCallback(evt => OnToggle(evt.newValue));
             mainContainer.Add(toggle);
             pieceIDField = new PieceIDField("Reference", true);
-            pieceIDField.BindTreeView(treeView);
+            pieceIDField.BindGraph(treeView);
             pieceIDField.value = new PieceID() { Name = pieceIDName };
             mainContainer.Add(pieceIDField);
             toggle.value = !string.IsNullOrEmpty(pieceIDName);

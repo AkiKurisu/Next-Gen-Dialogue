@@ -1,3 +1,4 @@
+using Ceres.Annotations;
 namespace Kurisu.NGDT
 {
     [NodeInfo("Module: Condition Module is used to add condition for dialogue piece or option,"

@@ -1,7 +1,8 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
+using Ceres.Annotations;
+using Ceres.Editor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -12,13 +13,13 @@ namespace Kurisu.NGDT.Editor
         Node View { get; }
         string GUID { get; }
         Port Parent { get; }
-        IDialogueTreeView MapTreeView { get; }
+        DialogueTreeView MapTreeView { get; }
         Action<IDialogueNode> OnSelectAction { get; set; }
         void Restore(NodeBehavior behavior);
         void Commit(Stack<IDialogueNode> stack);
         bool Validate(Stack<IDialogueNode> stack);
         Type GetBehavior();
-        void SetBehavior(Type nodeBehavior, IDialogueTreeView ownerTreeView = null);
+        void SetBehavior(Type nodeBehavior, DialogueTreeView ownerTreeView = null);
         void CopyFrom(IDialogueNode copyNode);
         NodeBehavior ReplaceBehavior();
         void ClearStyle();
@@ -37,7 +38,7 @@ namespace Kurisu.NGDT.Editor
         private readonly List<IFieldResolver> resolvers = new();
         protected readonly List<FieldInfo> fieldInfos = new();
         public Action<IDialogueNode> OnSelectAction { get; set; }
-        public IDialogueTreeView MapTreeView { get; private set; }
+        public DialogueTreeView MapTreeView { get; private set; }
         //Setting
         private VisualElement settings;
         protected NodeSettingsView settingsContainer;
@@ -230,7 +231,7 @@ namespace Kurisu.NGDT.Editor
         }
 
         protected abstract bool OnValidate(Stack<IDialogueNode> stack);
-        public void SetBehavior(Type nodeBehavior, IDialogueTreeView ownerTreeView = null)
+        public void SetBehavior(Type nodeBehavior, DialogueTreeView ownerTreeView = null)
         {
             if (ownerTreeView != null)
             {
@@ -299,15 +300,15 @@ namespace Kurisu.NGDT.Editor
         protected abstract void OnClearStyle();
         public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
         {
-            evt.menu.MenuItems().Add(new NGDTDropdownMenuAction("Duplicate", (a) =>
+            evt.menu.MenuItems().Add(new CeresDropdownMenuAction("Duplicate", (a) =>
             {
                 MapTreeView.DuplicateNode(this);
             }));
-            evt.menu.MenuItems().Add(new NGDTDropdownMenuAction("Select Group", (a) =>
+            evt.menu.MenuItems().Add(new CeresDropdownMenuAction("Select Group", (a) =>
             {
                 MapTreeView.GroupBlockController.SelectGroup(this);
             }));
-            evt.menu.MenuItems().Add(new NGDTDropdownMenuAction("UnSelect Group", (a) =>
+            evt.menu.MenuItems().Add(new CeresDropdownMenuAction("UnSelect Group", (a) =>
             {
                 MapTreeView.GroupBlockController.UnSelectGroup();
             }));

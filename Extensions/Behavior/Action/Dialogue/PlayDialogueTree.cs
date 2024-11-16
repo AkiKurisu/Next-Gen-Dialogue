@@ -1,3 +1,5 @@
+using Ceres;
+using Ceres.Annotations;
 namespace Kurisu.NGDT.Behavior
 {
     [NodeInfo("Action: Play another dialogue tree")]

@@ -1,4 +1,5 @@
 using System;
+using Ceres.Node;
 using Kurisu.NGDS;
 using UnityEngine;
 namespace Kurisu.NGDT
@@ -9,7 +10,7 @@ namespace Kurisu.NGDT
         protected override void OnRun() { }
     }
     [Serializable]
-    public abstract class BehaviorModule : Module, IIterable
+    public abstract class BehaviorModule : Module
     {
         [SerializeReference]
         private NodeBehavior child;
@@ -35,14 +36,30 @@ namespace Kurisu.NGDT
         {
             child?.Start();
         }
-        public NodeBehavior GetChildAt(int index)
+        public sealed override CeresNode GetChildAt(int index)
         {
             return child;
         }
-
-        public int GetChildCount()
+        public sealed override int GetChildrenCount()
         {
             return child == null ? 0 : 1;
+        }
+        public sealed override void ClearChildren()
+        {
+            child = null;
+        }
+        public sealed override void AddChild(CeresNode nodeBehavior)
+        {
+            child = nodeBehavior as NodeBehavior;
+        }
+        public sealed override void SetChildren(CeresNode[] inChildren)
+        {
+            child = inChildren[0] as NodeBehavior;
+        }
+        public sealed override CeresNode[] GetChildren()
+        {
+            if (child == null) return base.GetChildren();
+            return new CeresNode[1] { child };
         }
     }
     [Serializable]

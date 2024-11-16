@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Ceres.Editor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine.UIElements;
 namespace Kurisu.NGDT.Editor
@@ -32,7 +33,7 @@ namespace Kurisu.NGDT.Editor
         private void BuildContextualMenu(ContextualMenuPopulateEvent evt)
         {
             evt.menu.MenuItems().Clear();
-            evt.menu.MenuItems().Add(new NGDTDropdownMenuAction("UnSelect All", (a) =>
+            evt.menu.MenuItems().Add(new CeresDropdownMenuAction("UnSelect All", (a) =>
             {
                 //Clone to prevent self modify
                 RemoveElements(containedElements.ToArray());

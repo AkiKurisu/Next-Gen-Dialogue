@@ -1,3 +1,4 @@
+using Ceres.Annotations;
 namespace Kurisu.NGDT
 {
     [NodeInfo("Option is the container of user option")]

@@ -1,3 +1,4 @@
+using Ceres.Annotations;
 namespace Kurisu.NGDT
 {
     [NodeInfo("Decorator: Regardless of the return value of the child node, always return Success")]

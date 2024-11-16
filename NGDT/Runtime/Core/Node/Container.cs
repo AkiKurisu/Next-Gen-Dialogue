@@ -1,8 +1,10 @@
 using System.Collections.Generic;
+using System.Linq;
+using Ceres.Node;
 using UnityEngine;
 namespace Kurisu.NGDT
 {
-    public abstract class Container : NodeBehavior, IIterable
+    public abstract class Container : NodeBehavior
     {
         [SerializeReference]
         private List<NodeBehavior> children = new();
@@ -46,15 +48,34 @@ namespace Kurisu.NGDT
         {
         }
 
-#if UNITY_EDITOR
-        public void AddChild(NodeBehavior child)
+        public sealed override void AddChild(CeresNode child)
         {
-            children.Add(child);
+            children.Add(child as NodeBehavior);
         }
-#endif
-        public NodeBehavior GetChildAt(int index)
+        public sealed override CeresNode GetChildAt(int index)
         {
             return children[index];
+        }
+
+        public sealed override int GetChildrenCount()
+        {
+            return children.Count;
+        }
+        public sealed override void ClearChildren()
+        {
+            children.Clear();
+        }
+        public sealed override void SetChildren(CeresNode[] inChildren)
+        {
+            children.Clear();
+            foreach (var child in inChildren)
+            {
+                children.Add(child as NodeBehavior);
+            }
+        }
+        public sealed override CeresNode[] GetChildren()
+        {
+            return children.Select(x=> x as CeresNode).ToArray();
         }
 
         public int GetChildCount()

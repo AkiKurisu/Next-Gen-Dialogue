@@ -1,0 +1,16 @@
+{
+    "name": "Ceres.Editor",
+    "rootNamespace": "Ceres.Editor",
+    "references": ["GUID:7dddf801c0fab33408b06985cd6a607e"],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

@@ -1,3 +1,5 @@
+using Ceres;
+using Ceres.Annotations;
 using Kurisu.NGDS;
 using UnityEngine;
 namespace Kurisu.NGDT
@@ -8,9 +10,9 @@ namespace Kurisu.NGDT
     public class SystemPromptModule : CustomModule
     {
         [Multiline, TranslateEntry]
-        public SharedString prompt;
+        public Ceres.SharedString prompt;
         public SystemPromptModule() { }
-        public SystemPromptModule(SharedString prompt)
+        public SystemPromptModule(Ceres.SharedString prompt)
         {
             this.prompt = prompt;
         }

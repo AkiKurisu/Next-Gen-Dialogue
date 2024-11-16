@@ -1,3 +1,5 @@
+using Ceres;
+using Ceres.Annotations;
 using Kurisu.NGDS;
 using UnityEngine;
 namespace Kurisu.NGDT
@@ -8,7 +10,7 @@ namespace Kurisu.NGDT
     public class PromptPresetModule : CustomModule
     {
         [Multiline]
-        public SharedTObject<TextAsset> prompt;
+        public Ceres.SharedTObject<TextAsset> prompt;
         protected sealed override IDialogueModule GetModule()
         {
             return new NGDS.SystemPromptModule(prompt.Value.text);

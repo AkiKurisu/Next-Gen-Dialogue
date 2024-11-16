@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Ceres;
 using Kurisu.NGDS;
 using UnityEngine;
 namespace Kurisu.NGDT
@@ -10,39 +11,42 @@ namespace Kurisu.NGDT
         #region  Tree Part
         [HideInInspector, SerializeReference]
         private Root root = new();
+        
         Object IDialogueTree.Object => gameObject;
-        [HideInInspector]
-        [SerializeReference]
+        
+        [HideInInspector, SerializeReference]
         private List<SharedVariable> sharedVariables = new();
+        
         [SerializeField, Tooltip("Replace the dialogue tree in the component with the external dialogue tree," +
         " which will overwrite the dialogue tree in the component when saving")]
         private NextGenDialogueTreeAsset externalDialogueTree;
+        
         /// <summary>
         /// Overwrite external dialogueTreeAsset to use external data, and leave null to use embedded data.
         /// </summary>
         /// <value></value>
         public NextGenDialogueTreeAsset ExternalData { get => externalDialogueTree; set => externalDialogueTree = value; }
+        
 #if UNITY_EDITOR
         [SerializeField, HideInInspector]
         private List<GroupBlockData> blockData = new();
+        
         public List<GroupBlockData> BlockData => blockData;
 #endif
         public Root Root
         {
             get => root;
-#if UNITY_EDITOR
-            set => root = value;
-#endif
         }
+        
         public List<SharedVariable> SharedVariables
         {
             get => sharedVariables;
-#if UNITY_EDITOR
-            set => sharedVariables = value;
-#endif
         }
+        
         public IDialogueSystem System { get; set; }
+        
         private DialogueBuilder builder;
+        
         public IDialogueBuilder Builder => builder;
         #endregion
         private void Awake()

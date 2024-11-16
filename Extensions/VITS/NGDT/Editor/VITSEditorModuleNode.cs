@@ -1,3 +1,4 @@
+using Ceres.Editor;
 using Kurisu.NGDT.Editor;
 using UnityEngine.UIElements;
 namespace Kurisu.NGDT.VITS.Editor

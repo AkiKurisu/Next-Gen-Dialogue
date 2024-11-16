@@ -1,3 +1,6 @@
+using Ceres;
+using Ceres.Annotations;
+
 namespace Kurisu.NGDT.Behavior
 {
     [NodeInfo("Condition: Compare Float values, if the condition is met, return Status.Success, otherwise return Status.Failure")]

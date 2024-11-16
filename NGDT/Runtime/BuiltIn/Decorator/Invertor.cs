@@ -1,3 +1,4 @@
+using Ceres.Annotations;
 namespace Kurisu.NGDT
 {
     [NodeInfo("Decorator: If the child node returns Success, it is reversed to Failure," +

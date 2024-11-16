@@ -3,6 +3,7 @@ using Kurisu.NGDS.VITS;
 using Kurisu.NGDT.Editor;
 using System;
 using System.Threading.Tasks;
+using Ceres.Editor;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -17,7 +18,7 @@ namespace Kurisu.NGDT.VITS.Editor
         public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
         {
             base.BuildContextualMenu(evt);
-            evt.menu.MenuItems().Add(new NGDTDropdownMenuAction("Bake Audio", async (a) =>
+            evt.menu.MenuItems().Add(new CeresDropdownMenuAction("Bake Audio", async (a) =>
             {
                 await BakeAudio();
             }, (e) =>
@@ -25,7 +26,7 @@ namespace Kurisu.NGDT.VITS.Editor
                 if (isBaking) return DropdownMenuAction.Status.Disabled;
                 else return DropdownMenuAction.Status.Normal;
             }));
-            evt.menu.MenuItems().Add(new NGDTDropdownMenuAction("Clean Audio", (a) =>
+            evt.menu.MenuItems().Add(new CeresDropdownMenuAction("Clean Audio", (a) =>
             {
                 audioClipField.value.Value = null;
                 audioClipField.Repaint();
@@ -34,9 +35,9 @@ namespace Kurisu.NGDT.VITS.Editor
                 if (ContainsAudioClip()) return DropdownMenuAction.Status.Normal;
                 else return DropdownMenuAction.Status.Disabled;
             }));
-            evt.menu.MenuItems().Add(new NGDTDropdownMenuAction("Delate Audio", (a) =>
+            evt.menu.MenuItems().Add(new CeresDropdownMenuAction("Delete Audio", (a) =>
            {
-               if (EditorUtility.DisplayDialog("Warning", $"Delate audioClip {audioClipField.value.Value.name}? This operation cannot be undone.", "Delate", "Cancel"))
+               if (EditorUtility.DisplayDialog("Warning", $"Delete audioClip {audioClipField.value.Value.name}? This operation cannot be undone.", "Delate", "Cancel"))
                {
                    AssetDatabase.DeleteAsset(AssetDatabase.GetAssetPath(audioClipField.value.Value));
                    audioClipField.value.Value = null;

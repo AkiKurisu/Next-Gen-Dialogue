@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using Ceres;
+using Ceres.Editor;
 using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine;
@@ -61,7 +63,7 @@ namespace Kurisu.NGDT.Editor
                     var objectField = valueField as ObjectField;
                     try
                     {
-                        objectField.objectType = Type.GetType(sharedObject.ConstraintTypeAQM, true);
+                        objectField.objectType = Type.GetType(sharedObject.ConstraintTypeAQN, true);
                         grid.text = $"{variable.GetType().Name} ({objectField.objectType.Name})  :  {variable.Name}";
                     }
                     catch

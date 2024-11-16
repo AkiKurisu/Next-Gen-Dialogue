@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using Ceres;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -9,7 +10,7 @@ namespace Kurisu.NGDT.Editor
 {
     public static class DialogueTreeViewExtension
     {
-        public static T GetSharedVariableValue<T>(this IDialogueTreeView treeView, SharedVariable<T> variable)
+        public static T GetSharedVariableValue<T>(this DialogueTreeView treeView, SharedVariable<T> variable)
         {
             if (variable.IsShared)
             {
@@ -21,18 +22,18 @@ namespace Kurisu.NGDT.Editor
                 return variable.Value;
             }
         }
-        public static bool TryGetProperty<T>(this IDialogueTreeView treeView, string name, out T variable) where T : SharedVariable
+        public static bool TryGetProperty<T>(this DialogueTreeView treeView, string name, out T variable) where T : SharedVariable
         {
             variable = (T)treeView.SharedVariables.Where(x => x is T && x.Name.Equals(name)).FirstOrDefault();
             return variable != null;
         }
-        public static PieceContainer FindPiece(this IDialogueTreeView treeView, string pieceID)
+        public static PieceContainer FindPiece(this DialogueTreeView treeView, string pieceID)
         {
-            return treeView.View.nodes.OfType<PieceContainer>().FirstOrDefault(x => x.GetPieceID() == pieceID);
+            return treeView.nodes.OfType<PieceContainer>().FirstOrDefault(x => x.GetPieceID() == pieceID);
         }
-        public static List<T> CollectNodes<T>(this IDialogueTreeView treeView) where T : Node
+        public static List<T> CollectNodes<T>(this DialogueTreeView treeView) where T : Node
         {
-            return treeView.View.nodes.OfType<T>().ToList();
+            return treeView.nodes.OfType<T>().ToList();
         }
         /// <summary>
         /// Create an empty node and add to tree view
@@ -41,7 +42,7 @@ namespace Kurisu.NGDT.Editor
         /// <param name="position"></param>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        public static IDialogueNode CreateNode<T>(this IDialogueTreeView treeView, Vector2 position) where T : NodeBehavior
+        public static IDialogueNode CreateNode<T>(this DialogueTreeView treeView, Vector2 position) where T : NodeBehavior
         {
             var node = NodeResolverFactory.Instance.Create(typeof(T), treeView);
             treeView.AddNode(node, new(0, 0, position.x, position.y));
@@ -55,14 +56,14 @@ namespace Kurisu.NGDT.Editor
         /// <param name="position"></param>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        public static IDialogueNode CreateNode<T>(this IDialogueTreeView treeView, T behavior, Vector2 position) where T : NodeBehavior
+        public static IDialogueNode CreateNode<T>(this DialogueTreeView treeView, T behavior, Vector2 position) where T : NodeBehavior
         {
             var node = NodeResolverFactory.Instance.Create(typeof(T), treeView);
             node.Restore(behavior);
             treeView.AddNode(node, new(0, 0, position.x, position.y));
             return node;
         }
-        public static ContainerNode CreateNextContainer(this IDialogueTreeView treeView, ContainerNode first)
+        public static ContainerNode CreateNextContainer(this DialogueTreeView treeView, ContainerNode first)
         {
             Type nextNodeType = first is PieceContainer ? typeof(Option) : typeof(Piece);
             var node = NodeResolverFactory.Instance.Create(nextNodeType, treeView) as ContainerNode;
@@ -77,13 +78,13 @@ namespace Kurisu.NGDT.Editor
         /// </summary>
         /// <param name="treeView"></param>
         /// <returns></returns>
-        public static CancellationTokenSource GetCancellationTokenSource(this IDialogueTreeView treeView)
+        public static CancellationTokenSource GetCancellationTokenSource(this DialogueTreeView treeView)
         {
             var ct = new CancellationTokenSource();
-            treeView.View.RegisterCallback<DetachFromPanelEvent>((evt) => ct.Cancel());
+            treeView.RegisterCallback<DetachFromPanelEvent>((evt) => ct.Cancel());
             return ct;
         }
-        public static void ConnectContainerNodes(this IDialogueTreeView treeView, ContainerNode first, ContainerNode second)
+        public static void ConnectContainerNodes(this DialogueTreeView treeView, ContainerNode first, ContainerNode second)
         {
             if (first is PieceContainer pieceContainer)
             {

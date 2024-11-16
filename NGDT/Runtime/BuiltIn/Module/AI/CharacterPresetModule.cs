@@ -1,3 +1,5 @@
+using Ceres;
+using Ceres.Annotations;
 using Kurisu.NGDS;
 using Kurisu.NGDS.AI;
 using UnityEngine;
@@ -9,13 +11,13 @@ namespace Kurisu.NGDT
     public class CharacterPresetModule : CustomModule
     {
         [TranslateEntry]
-        public SharedString user_Name = new("You");
+        public Ceres.SharedString user_Name = new("You");
         [TranslateEntry]
-        public SharedString char_name = new("Bot");
+        public Ceres.SharedString char_name = new("Bot");
         [Multiline, TranslateEntry]
-        public SharedString char_persona;
+        public Ceres.SharedString char_persona;
         [Multiline, TranslateEntry]
-        public SharedString world_scenario;
+        public Ceres.SharedString world_scenario;
         protected sealed override IDialogueModule GetModule()
         {
             return new NGDS.SystemPromptModule(ChatPromptHelper.ConstructPrompt(

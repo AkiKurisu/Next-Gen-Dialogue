@@ -1,13 +1,15 @@
 using System.Collections.Generic;
 using System.Linq;
+using Ceres.Annotations;
+using Ceres.Node;
 using UnityEngine;
 namespace Kurisu.NGDT
 {
     /// <summary>
     /// Entry point of the dialogue tree
     /// </summary>
-    [NodeInfo("Root : The root of dialogue tree, you can not delate it.")]
-    public class Root : NodeBehavior, IIterable
+    [NodeInfo("Root : The root of dialogue tree, you can not delete it.")]
+    public class Root : NodeBehavior
     {
         [SerializeReference]
         private NodeBehavior child;
@@ -17,10 +19,6 @@ namespace Kurisu.NGDT
 #if UNITY_EDITOR
         [HideInEditorWindow]
         public System.Action UpdateEditor;
-        public void AddChild(NodeBehavior child)
-        {
-            children.Add(child);
-        }
 #endif
         public NodeBehavior Child
         {
@@ -90,17 +88,32 @@ namespace Kurisu.NGDT
         {
             return child as Dialogue;
         }
-
-        public NodeBehavior GetChildAt(int index)
+        
+        public sealed override CeresNode GetChildAt(int index)
         {
             if (index == 0) return child;
             return children[index - 1];
         }
-
-        public int GetChildCount()
+        public sealed override int GetChildrenCount()
         {
             if (child == null) return 0;
             return children.Count + 1;
+        }
+        public sealed override void ClearChildren()
+        {
+            children.Clear();
+        }
+        public sealed override void SetChildren(CeresNode[] inChildren)
+        {
+            children.Clear();
+            foreach (var child in inChildren)
+            {
+                children.Add(child as NodeBehavior);
+            }
+        }
+        public sealed override CeresNode[] GetChildren()
+        {
+            return children.Select(x=>x as CeresNode).ToArray();
         }
     }
 }

@@ -1,3 +1,6 @@
+using Ceres;
+using Ceres.Annotations;
+
 namespace Kurisu.NGDT.Behavior
 {
     [NodeInfo("Action: Replace value of string")]

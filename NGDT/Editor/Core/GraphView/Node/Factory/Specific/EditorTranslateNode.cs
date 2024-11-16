@@ -4,6 +4,9 @@ using System.Linq;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
+using Ceres;
+using Ceres.Annotations;
+using Ceres.Editor;
 using Kurisu.NGDS;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -34,7 +37,7 @@ namespace Kurisu.NGDT.Editor
         public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
         {
             base.BuildContextualMenu(evt);
-            evt.menu.MenuItems().Add(new NGDTDropdownMenuAction("Translate All Contents", (a) =>
+            evt.menu.MenuItems().Add(new CeresDropdownMenuAction("Translate All Contents", (a) =>
             {
                 TranslateAllContentsAsync();
             }, (e) =>
@@ -49,7 +52,7 @@ namespace Kurisu.NGDT.Editor
             IsPending = true;
             string sourceLanguageCode = this.GetFieldValue<string>("sourceLanguageCode");
             string targetLanguageCode = this.GetFieldValue<string>("targetLanguageCode");
-            var containerNodes = MapTreeView.View.nodes
+            var containerNodes = MapTreeView.nodes
                 .OfType<ContainerNode>()
                 .Where(x => x is not DialogueContainer)
                 .ToArray();
@@ -148,7 +151,7 @@ namespace Kurisu.NGDT.Editor
                (evt) =>
                {
                    var target = evt.target;
-                   evt.menu.MenuItems().Add(new NGDTDropdownMenuAction("Translate", (a) =>
+                   evt.menu.MenuItems().Add(new CeresDropdownMenuAction("Translate", (a) =>
                     {
                         editorTranslateNode.TranslateNodeAsync(target as IDialogueNode);
                     }, (e) =>

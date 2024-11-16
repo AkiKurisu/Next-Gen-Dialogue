@@ -1,3 +1,5 @@
+using Ceres;
+using Ceres.Annotations;
 using Kurisu.NGDS;
 using UnityEngine;
 namespace Kurisu.NGDT
@@ -10,10 +12,10 @@ namespace Kurisu.NGDT
         public ContentModule() { }
         public ContentModule(string contentValue)
         {
-            content = new SharedString(contentValue);
+            content = new Ceres.SharedString(contentValue);
         }
         [Multiline, TranslateEntry]
-        public SharedString content;
+        public Ceres.SharedString content;
         protected sealed override IDialogueModule GetModule()
         {
             return new NGDS.ContentModule(content.Value);

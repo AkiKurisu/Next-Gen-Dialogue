@@ -1,3 +1,4 @@
+using Ceres.Annotations;
 namespace Kurisu.NGDT
 {
     [NodeInfo("Composite : Rotator, update child nodes in order, each Update will only update the current node" +

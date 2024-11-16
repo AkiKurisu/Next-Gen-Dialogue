@@ -1,5 +1,8 @@
 using System.Collections.Generic;
 using System.Text;
+using Ceres;
+using Ceres.Annotations;
+
 namespace Kurisu.NGDT.Behavior
 {
     [NodeInfo("Action: Build value of string")]

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Ceres.Editor;
 using Newtonsoft.Json;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine.UIElements;
@@ -24,8 +25,8 @@ namespace Kurisu.NGDT.Editor
                 var lastSelections = JsonConvert.DeserializeObject<string[]>(lastSelection);
                 foreach (var selection in lastSelections)
                 {
-                    var node = MapTreeView.View.Query<Node>().ToList().OfType<IDialogueNode>().FirstOrDefault(x => x.GUID == selection);
-                    if (node != null) MapTreeView.View.AddToSelection(node.View);
+                    var node = MapTreeView.Query<Node>().ToList().OfType<IDialogueNode>().FirstOrDefault(x => x.GUID == selection);
+                    if (node != null) MapTreeView.AddToSelection(node.View);
                 }
             }
         }
@@ -38,7 +39,7 @@ namespace Kurisu.NGDT.Editor
         }
         private void SaveCurrentSelection()
         {
-            var containers = MapTreeView.View.selection.OfType<ContainerNode>();
+            var containers = MapTreeView.selection.OfType<ContainerNode>();
             lastSelection = JsonConvert.SerializeObject(containers.Select(x => x.GUID).ToArray());
             loadLast.SetEnabled(true);
         }

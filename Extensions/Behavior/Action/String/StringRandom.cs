@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using Ceres;
+using Ceres.Annotations;
 namespace Kurisu.NGDT.Behavior
 {
     [NodeInfo("Action: Set random string value")]

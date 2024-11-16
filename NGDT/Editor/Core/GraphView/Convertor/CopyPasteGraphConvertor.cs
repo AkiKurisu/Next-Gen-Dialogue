@@ -7,13 +7,13 @@ namespace Kurisu.NGDT.Editor
 {
     public class CopyPasteGraphConvertor
     {
-        private readonly IDialogueTreeView sourceView;
+        private readonly DialogueTreeView sourceView;
         private readonly List<ISelectable> copyElements;
         private readonly Dictionary<Port, Port> portCopyDict;
         private readonly Dictionary<IDialogueNode, IDialogueNode> nodeCopyDict;
         private readonly List<GraphElement> sourceElements;
         private readonly HashSet<Edge> sourceEdges;
-        public CopyPasteGraphConvertor(IDialogueTreeView sourceView, List<GraphElement> sourceElements, Vector2 positionOffSet)
+        public CopyPasteGraphConvertor(DialogueTreeView sourceView, List<GraphElement> sourceElements, Vector2 positionOffSet)
         {
             this.sourceView = sourceView;
             this.sourceElements = sourceElements;
@@ -122,7 +122,7 @@ namespace Kurisu.NGDT.Editor
             {
                 if (!portCopyDict.ContainsKey(edge.input) || !portCopyDict.ContainsKey(edge.output)) continue;
                 var newEdge = PortHelper.ConnectPorts(portCopyDict[edge.output], portCopyDict[edge.input]);
-                sourceView.View.AddElement(newEdge);
+                sourceView.AddElement(newEdge);
                 copyElements.Add(newEdge);
             }
         }

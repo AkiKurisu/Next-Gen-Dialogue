@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using Ceres;
+using Ceres.Editor;
 using UnityEngine.UIElements;
 namespace Kurisu.NGDT.Editor
 {
@@ -21,7 +23,7 @@ namespace Kurisu.NGDT.Editor
     }
     public class PieceIDField : BaseField<PieceID>, IBindableField
     {
-        private IDialogueTreeView treeView;
+        private CeresGraphView graphView;
         private DropdownField nameDropdown;
         internal SharedVariable bindVariable;
         private readonly bool isReferenced;
@@ -31,10 +33,10 @@ namespace Kurisu.NGDT.Editor
             this.isReferenced = isReferenced;
             if (!isReferenced) AddToClassList("PieceIDField");
         }
-        public void BindTreeView(IDialogueTreeView treeView)
+        public void BindGraph(CeresGraphView graphView)
         {
-            this.treeView = treeView;
-            treeView.BlackBoard.View.RegisterCallback<VariableChangeEvent>(evt =>
+            this.graphView = graphView;
+            this.graphView.Blackboard.View.RegisterCallback<VariableChangeEvent>(evt =>
             {
                 if (evt.ChangeType != VariableChangeType.NameChange) return;
                 if (evt.Variable != bindVariable) return;
@@ -55,16 +57,16 @@ namespace Kurisu.NGDT.Editor
             else label = variable.Name;
             value.Name = variable.Name;
         }
-        private static List<string> GetList(IDialogueTreeView treeView)
+        private static List<string> GetList(CeresGraphView graphView)
         {
-            return treeView.SharedVariables
+            return graphView.SharedVariables
                         .Where(x => x.GetType() == typeof(PieceID))
                         .Select(v => v.Name)
                         .ToList();
         }
         private void BindProperty()
         {
-            bindVariable = treeView.SharedVariables.FirstOrDefault(x => x.GetType() == typeof(PieceID) && x.Name.Equals(value.Name));
+            bindVariable = graphView.SharedVariables.FirstOrDefault(x => x.GetType() == typeof(PieceID) && x.Name.Equals(value.Name));
         }
         private void UpdateValueField()
         {
@@ -80,11 +82,11 @@ namespace Kurisu.NGDT.Editor
         }
         private void AddDropDown()
         {
-            var list = GetList(treeView);
+            var list = GetList(graphView);
             value.Name = value.Name ?? string.Empty;
             int index = list.IndexOf(value.Name);
             nameDropdown = new DropdownField("Piece ID", list, index);
-            nameDropdown.RegisterCallback<MouseEnterEvent>((evt) => { nameDropdown.choices = GetList(treeView); });
+            nameDropdown.RegisterCallback<MouseEnterEvent>((evt) => { nameDropdown.choices = GetList(graphView); });
             nameDropdown.RegisterValueChangedCallback(evt => { value.Name = evt.newValue; BindProperty(); });
             Add(nameDropdown);
         }
@@ -96,7 +98,7 @@ namespace Kurisu.NGDT.Editor
                 if (value != null)
                 {
                     base.value = value.Clone() as PieceID;
-                    if (treeView != null)
+                    if (graphView != null)
                     {
                         BindProperty();
                         UpdateValueField();

@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using System.Linq;
 using System.IO;
+using Ceres.Editor;
 using UnityEditor.Callbacks;
 namespace Kurisu.NGDT.Editor
 {
@@ -108,23 +109,23 @@ namespace Kurisu.NGDT.Editor
             window.rootVisualElement.Add(window.CreateBakePreview());
         }
 
-        private static void GenerateBlackBoard(DialogueTreeView _graphView)
+        private static void GenerateBlackBoard(DialogueTreeView graphView)
         {
-            var blackboard = new AdvancedBlackBoard(_graphView, _graphView);
+            var blackboard = new DialogueBlackboard(graphView, graphView);
             blackboard.SetPosition(new Rect(10, 100, 300, 400));
-            _graphView.Add(blackboard);
-            _graphView.BlackBoard = blackboard;
+            graphView.Add(blackboard);
+            graphView.Blackboard = blackboard;
         }
-        private void SaveDataToSO(string path)
+        private void SaveDataToAsset(string path)
         {
-            var treeSO = CreateInstance<NextGenDialogueTreeAsset>();
+            var treeAsset = CreateInstance<NextGenDialogueTreeAsset>();
             if (!graphView.Validate())
             {
                 Debug.LogWarning($"<color=#ff2f2f>NGDT</color> : Save failed, ScriptableObject wasn't created !\n{DateTime.Now}");
                 return;
             }
-            graphView.Commit(treeSO);
-            AssetDatabase.CreateAsset(treeSO, $"Assets/{path}/{Key.name}.asset");
+            graphView.Commit(treeAsset);
+            AssetDatabase.CreateAsset(treeAsset, $"Assets/{path}/{Key.name}.asset");
             AssetDatabase.SaveAssets();
             Debug.Log($"<color=#3aff48>NGDT</color> : Save succeed, ScriptableObject created path : {path}/{Key.name}.asset\n{DateTime.Now}");
         }
@@ -248,7 +249,7 @@ namespace Kurisu.NGDT.Editor
                         if (!string.IsNullOrEmpty(path))
                         {
                             Setting.LastPath = path;
-                            SaveDataToSO(path.Replace(Application.dataPath, string.Empty));
+                            SaveDataToAsset(path.Replace(Application.dataPath, string.Empty));
                         }
 
                     }

@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Threading.Tasks;
+using Ceres.Editor;
 using Newtonsoft.Json;
 using UnityEditor;
 using UnityEngine;
@@ -41,7 +42,7 @@ namespace Kurisu.NGDT.Editor
                 var session = JsonConvert.DeserializeObject<OobaboogaSession>(await File.ReadAllTextAsync(path));
                 var internalData = session.history.internalData;
                 //Add first piece
-                var position = MapTreeView.View.contentViewContainer.WorldToLocal(mousePosition) - new Vector2(400, 300);
+                var position = MapTreeView.contentViewContainer.WorldToLocal(mousePosition) - new Vector2(400, 300);
                 var firstPiece = MapTreeView.CreateNode(new Piece(), position) as PieceContainer;
                 firstPiece.GenerateNewPieceID();
                 firstPiece.AddModuleNode(new ContentModule(internalData[0][1]));
@@ -66,7 +67,7 @@ namespace Kurisu.NGDT.Editor
                     .AddModuleNode(new SystemPromptModule(session.context));
                 await Task.Delay(2);
                 //Auto layout
-                NodeAutoLayoutHelper.Layout(new DialogueTreeLayoutConvertor(MapTreeView.View, firstPiece));
+                NodeAutoLayoutHelper.Layout(new DialogueTreeLayoutConvertor(MapTreeView, firstPiece));
             }
             catch (Exception e)
             {
@@ -86,7 +87,7 @@ namespace Kurisu.NGDT.Editor
                 (evt) =>
                 {
                     var target = evt.target;
-                    evt.menu.MenuItems().Add(new NGDTDropdownMenuAction("Load Oobabooga Session", (a) =>
+                    evt.menu.MenuItems().Add(new CeresDropdownMenuAction("Load Oobabooga Session", (a) =>
                         {
                             node.LoadSession(evt.mousePosition);
                         }));

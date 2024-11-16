@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using Ceres;
 using Kurisu.NGDS;
 #if UNITY_EDITOR
 using UnityEditor;

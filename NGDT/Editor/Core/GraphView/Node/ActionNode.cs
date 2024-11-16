@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Ceres.Editor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine.UIElements;
 using UnityEngine;
@@ -14,7 +15,7 @@ namespace Kurisu.NGDT.Editor
         }
         public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
         {
-            evt.menu.MenuItems().Add(new NGDTDropdownMenuAction("Change Behavior", (a) =>
+            evt.menu.MenuItems().Add(new CeresDropdownMenuAction("Change Behavior", (a) =>
             {
                 var provider = ScriptableObject.CreateInstance<ActionSearchWindowProvider>();
                 provider.Init(this, NextGenDialogueSetting.GetMask());

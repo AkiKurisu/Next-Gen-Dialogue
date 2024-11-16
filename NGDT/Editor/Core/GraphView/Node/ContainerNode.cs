@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using Ceres.Annotations;
+using Ceres.Editor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -51,7 +53,7 @@ namespace Kurisu.NGDT.Editor
         private readonly List<IFieldResolver> resolvers = new();
         private readonly List<FieldInfo> fieldInfos = new();
         public Action<IDialogueNode> OnSelectAction { get; set; }
-        public IDialogueTreeView MapTreeView { get; private set; }
+        public DialogueTreeView MapTreeView { get; private set; }
         VisualElement ILayoutTreeNode.View => this;
         public IFieldResolver GetFieldResolver(string fieldName)
         {
@@ -167,7 +169,7 @@ namespace Kurisu.NGDT.Editor
             }
             return valid;
         }
-        public void SetBehavior(Type nodeBehavior, IDialogueTreeView ownerTreeView = null)
+        public void SetBehavior(Type nodeBehavior, DialogueTreeView ownerTreeView = null)
         {
             if (ownerTreeView != null) MapTreeView = ownerTreeView;
             if (dirtyNodeBehaviorType != null)
@@ -218,7 +220,7 @@ namespace Kurisu.NGDT.Editor
         protected override void OnSeparatorContextualMenuEvent(ContextualMenuPopulateEvent evt, int separatorIndex)
         {
             evt.menu.MenuItems().Clear();
-            evt.menu.MenuItems().Add(new NGDTDropdownMenuAction("Add Module", (a) =>
+            evt.menu.MenuItems().Add(new CeresDropdownMenuAction("Add Module", (a) =>
             {
                 var provider = ScriptableObject.CreateInstance<ModuleSearchWindowProvider>();
                 provider.Init(this, MapTreeView, NextGenDialogueSetting.GetMask(), GetExceptModuleTypes());
@@ -263,15 +265,15 @@ namespace Kurisu.NGDT.Editor
         }
         public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
         {
-            evt.menu.MenuItems().Add(new NGDTDropdownMenuAction("Duplicate", (a) =>
+            evt.menu.MenuItems().Add(new CeresDropdownMenuAction("Duplicate", (a) =>
             {
                 MapTreeView.DuplicateNode(this);
             }));
-            evt.menu.MenuItems().Add(new NGDTDropdownMenuAction("Select Group", (a) =>
+            evt.menu.MenuItems().Add(new CeresDropdownMenuAction("Select Group", (a) =>
             {
                 MapTreeView.GroupBlockController.SelectGroup(this);
             }));
-            evt.menu.MenuItems().Add(new NGDTDropdownMenuAction("UnSelect Group", (a) =>
+            evt.menu.MenuItems().Add(new CeresDropdownMenuAction("UnSelect Group", (a) =>
             {
                 MapTreeView.GroupBlockController.UnSelectGroup();
             }));
@@ -312,13 +314,13 @@ namespace Kurisu.NGDT.Editor
         protected override void OnSeparatorContextualMenuEvent(ContextualMenuPopulateEvent evt, int separatorIndex)
         {
             base.OnSeparatorContextualMenuEvent(evt, separatorIndex);
-            evt.menu.MenuItems().Add(new NGDTDropdownMenuAction("Add Piece", (a) =>
+            evt.menu.MenuItems().Add(new CeresDropdownMenuAction("Add Piece", (a) =>
             {
                 var bridge = new PieceBridge(MapTreeView, PortColor, string.Empty);
                 AddElement(bridge);
             }));
         }
-        public void AddChildElement(IDialogueNode node, IDialogueTreeView treeView)
+        public void AddChildElement(IDialogueNode node, DialogueTreeView treeView)
         {
             string pieceID = ((PieceContainer)node).GetPieceID();
             var count = this.Query<PieceBridge>().ToList().Count;
@@ -330,7 +332,7 @@ namespace Kurisu.NGDT.Editor
             var bridge = new PieceBridge(treeView, PortColor, string.Empty);
             AddElement(bridge);
             var edge = PortHelper.ConnectPorts(bridge.Child, node.Parent);
-            treeView.View.Add(edge);
+            treeView.Add(edge);
         }
         protected sealed override void OnCommit(Stack<IDialogueNode> stack)
         {
@@ -350,7 +352,7 @@ namespace Kurisu.NGDT.Editor
         }
         public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
         {
-            evt.menu.MenuItems().Add(new NGDTDropdownMenuAction("Collect All Pieces", (a) =>
+            evt.menu.MenuItems().Add(new CeresDropdownMenuAction("Collect All Pieces", (a) =>
             {
                 var pieces = MapTreeView.CollectNodes<PieceContainer>();
                 var currentPieces = this.Query<PieceBridge>().ToList();
@@ -360,9 +362,9 @@ namespace Kurisu.NGDT.Editor
                     AddElement(new PieceBridge(MapTreeView, PortColor, piece.GetPieceID()));
                 }
             }));
-            evt.menu.MenuItems().Add(new NGDTDropdownMenuAction("Auto Layout", (a) =>
+            evt.menu.MenuItems().Add(new CeresDropdownMenuAction("Auto Layout", (a) =>
             {
-                NodeAutoLayoutHelper.Layout(new DialogueTreeLayoutConvertor(MapTreeView.View, this));
+                NodeAutoLayoutHelper.Layout(new DialogueTreeLayoutConvertor(MapTreeView, this));
             }));
             base.BuildContextualMenu(evt);
         }
@@ -397,13 +399,13 @@ namespace Kurisu.NGDT.Editor
 
         private void OnDetachFromPanel(DetachFromPanelEvent evt)
         {
-            MapTreeView.BlackBoard.RemoveVariable(mainContainer.Q<PieceIDField>().bindVariable, true);
+            MapTreeView.Blackboard.RemoveVariable(mainContainer.Q<PieceIDField>().bindVariable, true);
         }
 
         protected override void OnSeparatorContextualMenuEvent(ContextualMenuPopulateEvent evt, int separatorIndex)
         {
             base.OnSeparatorContextualMenuEvent(evt, separatorIndex);
-            evt.menu.MenuItems().Add(new NGDTDropdownMenuAction("Add Option", (a) =>
+            evt.menu.MenuItems().Add(new CeresDropdownMenuAction("Add Option", (a) =>
             {
                 var bridge = new OptionBridge("Option", PortColor);
                 AddElement(bridge);
@@ -411,17 +413,17 @@ namespace Kurisu.NGDT.Editor
         }
         public sealed override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
         {
-            evt.menu.MenuItems().Add(new NGDTDropdownMenuAction("Edit PieceID", (a) =>
+            evt.menu.MenuItems().Add(new CeresDropdownMenuAction("Edit PieceID", (a) =>
             {
-                MapTreeView.BlackBoard.EditVariable(GetPieceID());
+                MapTreeView.Blackboard.EditVariable(GetPieceID());
             }));
-            evt.menu.MenuItems().Add(new NGDTDropdownMenuAction("Auto Layout", (a) =>
+            evt.menu.MenuItems().Add(new CeresDropdownMenuAction("Auto Layout", (a) =>
             {
-                NodeAutoLayoutHelper.Layout(new DialogueTreeLayoutConvertor(MapTreeView.View, this));
+                NodeAutoLayoutHelper.Layout(new DialogueTreeLayoutConvertor(MapTreeView, this));
             }));
             if (Application.isPlaying)
             {
-                evt.menu.MenuItems().Add(new NGDTDropdownMenuAction("Jump to this Piece", (a) =>
+                evt.menu.MenuItems().Add(new CeresDropdownMenuAction("Jump to this Piece", (a) =>
                 {
                     NGDS.IOCContainer.Resolve<NGDS.IDialogueSystem>()
                                      .PlayDialoguePiece(GetPiece().CastPiece().PieceID);
@@ -439,12 +441,12 @@ namespace Kurisu.NGDT.Editor
             }
             base.BuildContextualMenu(evt);
         }
-        public void AddChildElement(IDialogueNode node, IDialogueTreeView treeView)
+        public void AddChildElement(IDialogueNode node, DialogueTreeView treeView)
         {
             var bridge = new OptionBridge("Option", PortColor);
             AddElement(bridge);
             var edge = PortHelper.ConnectPorts(bridge.Child, node.Parent);
-            treeView.View.Add(edge);
+            treeView.Add(edge);
         }
         protected sealed override bool AcceptsElement(GraphElement element, ref int proposedIndex, int maxIndex)
         {
@@ -461,7 +463,7 @@ namespace Kurisu.NGDT.Editor
         public void GenerateNewPieceID()
         {
             var variable = new PieceID() { Name = "New Piece" };
-            MapTreeView.BlackBoard.AddVariable(variable, false);
+            MapTreeView.Blackboard.AddVariable(variable, false);
             mainContainer.Q<PieceIDField>().value = new PieceID() { Name = variable.Name };
         }
         protected override IEnumerable<Type> GetExceptModuleTypes()
@@ -483,9 +485,9 @@ namespace Kurisu.NGDT.Editor
         }
         public sealed override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
         {
-            evt.menu.MenuItems().Add(new NGDTDropdownMenuAction("Auto Layout", (a) =>
+            evt.menu.MenuItems().Add(new CeresDropdownMenuAction("Auto Layout", (a) =>
             {
-                NodeAutoLayoutHelper.Layout(new DialogueTreeLayoutConvertor(MapTreeView.View, this));
+                NodeAutoLayoutHelper.Layout(new DialogueTreeLayoutConvertor(MapTreeView, this));
             }));
             base.BuildContextualMenu(evt);
         }
