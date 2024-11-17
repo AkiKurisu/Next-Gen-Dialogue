@@ -26,7 +26,7 @@ namespace Kurisu.NGDT.Editor
     {
         public const string Version = "v2.0.0";
         
-        private const string k_NDGTSettingsPath = "ProjectSettings/Next Gen Dialogue Setting.asset";
+        private const string k_NDGTSettingsPath = "ProjectSettings/NextGenDialogueSetting.asset";
         
         private const string k_AITurboSettingsPath = "Assets/AI Turbo Setting.asset";
         
@@ -36,6 +36,8 @@ namespace Kurisu.NGDT.Editor
         
         private const string NodeFallBackPath = "NGDT/Node";
 
+        private static NextGenDialogueSetting setting;
+        
         [SerializeField]
         private GraphEditorSetting graphEditorSetting;
         
@@ -94,9 +96,8 @@ namespace Kurisu.NGDT.Editor
         
         public static NextGenDialogueSetting GetOrCreateSettings()
         {
-            NextGenDialogueSetting setting = null;
             var arr = InternalEditorUtility.LoadSerializedFileAndForget(k_NDGTSettingsPath);
-            setting = arr.Length > 0 ? arr[0] as NextGenDialogueSetting : setting != null ? setting : CreateInstance<NextGenDialogueSetting>();
+            setting = arr.Length > 0 ? arr[0] as NextGenDialogueSetting : setting ?? CreateInstance<NextGenDialogueSetting>();
             if (!setting.aiTurboSetting)
             {
                 setting.aiTurboSetting = GetOrCreateAITurboSetting();
@@ -107,16 +108,16 @@ namespace Kurisu.NGDT.Editor
         private static AITurboSetting GetOrCreateAITurboSetting()
         {
             var guids = AssetDatabase.FindAssets($"t:{nameof(AITurboSetting)}");
-            AITurboSetting setting;
+            AITurboSetting turboSetting;
             if (guids.Length == 0)
             {
-                setting = CreateInstance<AITurboSetting>();
+                turboSetting = CreateInstance<AITurboSetting>();
                 Debug.Log($"AI Turbo Setting saving path : {k_AITurboSettingsPath}");
-                AssetDatabase.CreateAsset(setting, k_AITurboSettingsPath);
+                AssetDatabase.CreateAsset(turboSetting, k_AITurboSettingsPath);
                 AssetDatabase.SaveAssets();
             }
-            else setting = AssetDatabase.LoadAssetAtPath<AITurboSetting>(AssetDatabase.GUIDToAssetPath(guids[0]));
-            return setting;
+            else turboSetting = AssetDatabase.LoadAssetAtPath<AITurboSetting>(AssetDatabase.GUIDToAssetPath(guids[0]));
+            return turboSetting;
         }
         
         public void Save(bool saveAsText = true)
@@ -176,13 +177,12 @@ namespace Kurisu.NGDT.Editor
         [SettingsProvider]
         public static SettingsProvider CreateMyCustomSettingsProvider()
         {
-
             var provider = new NGDTSettingsProvider("Project/Next Gen Dialogue Setting", SettingsScope.Project)
             {
                 keywords = GetSearchKeywordsFromGUIContentProperties<Styles>()
             };
+            
             return provider;
-
         }
     }
 }
