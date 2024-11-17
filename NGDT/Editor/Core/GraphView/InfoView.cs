@@ -1,28 +1,29 @@
+using System.Reflection;
 using Ceres.Annotations;
 using UnityEngine.UIElements;
 namespace Kurisu.NGDT.Editor
 {
     public class InfoView : VisualElement
     {
-        private IMGUIContainer container;
+        private IMGUIContainer _container;
         public InfoView(string info)
         {
             Clear();
-            container = new IMGUIContainer();
-            container.Add(new Label(info));
-            Add(container);
+            _container = new IMGUIContainer();
+            _container.Add(new Label(info));
+            Add(_container);
         }
         public void UpdateSelection(IDialogueNode node)
         {
-            container?.Dispose();
-            container = null;
+            _container?.Dispose();
+            _container = null;
             Clear();
-            NodeInfoAttribute[] array;
-            if ((array = node.GetBehavior().GetCustomAttributes(typeof(NodeInfoAttribute), false) as NodeInfoAttribute[]).Length > 0)
+            var attribute = node.GetBehavior().GetCustomAttribute<NodeInfoAttribute>();
+            if (attribute != null)
             {
-                container = new IMGUIContainer();
-                container.Add(new Label(array[0].Description));
-                Add(container);
+                _container = new IMGUIContainer();
+                _container.Add(new Label(attribute.Description));
+                Add(_container);
             }
         }
     }

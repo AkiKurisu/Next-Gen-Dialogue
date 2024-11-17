@@ -6,9 +6,9 @@ using UnityEditor.Experimental.GraphView;
 using UnityEngine.UIElements;
 namespace Kurisu.NGDT.Editor
 {
-    public class GroupBlock : Group
+    public class DialogueGroup : Group
     {
-        public GroupBlock()
+        public DialogueGroup()
         {
             this.AddManipulator(new ContextualMenuManipulator(BuildContextualMenu));
             capabilities |= Capabilities.Ascendable;

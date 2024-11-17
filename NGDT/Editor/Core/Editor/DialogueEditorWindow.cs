@@ -101,7 +101,7 @@ namespace Kurisu.NGDT.Editor
             window.infoView = new InfoView(InfoText);
             window.infoView.styleSheets.Add(Resources.Load<StyleSheet>("NGDT/Info"));
             window.graphView.Add(window.infoView);
-            window.graphView.OnSelectAction = window.OnNodeSelectionChange;
+            window.graphView.OnSelectNode = window.OnNodeSelectionChange;
             GenerateBlackBoard(window.graphView);
             window.graphView.Restore();
             window.rootVisualElement.Add(window.CreateToolBar(window.graphView));
@@ -164,7 +164,7 @@ namespace Kurisu.NGDT.Editor
             newWindow.graphView = graphView;
             newWindow.rootVisualElement.Add(graphView);
             newWindow.rootVisualElement.Add(newWindow.CreateBakePreview());
-            graphView.OnSelectAction = newWindow.OnNodeSelectionChange;
+            graphView.OnSelectNode = newWindow.OnNodeSelectionChange;
             graphView.EditorWindow = newWindow;
             newWindow.Key = Key;
             return newWindow;

@@ -24,13 +24,13 @@ namespace Kurisu.NGDT.Editor
         private void OnAttach(AttachToPanelEvent evt)
         {
             //The custom contextual menu builder will only activate when this editor node is attached
-            MapTreeView.ContextualMenuController.Register<OobaboogaSessionNode>(new SessionContextualMenuBuilder(this));
+            MapTreeView.ContextualMenuRegistry.Register<OobaboogaSessionNode>(new SessionContextualMenuBuilder(this));
         }
 
         private void OnDetach(DetachFromPanelEvent evt)
         {
             //Do not forget to unregister after detach
-            MapTreeView.ContextualMenuController.UnRegister<OobaboogaSessionNode>();
+            MapTreeView.ContextualMenuRegistry.UnRegister<OobaboogaSessionNode>();
         }
         internal async void LoadSession(Vector2 mousePosition)
         {

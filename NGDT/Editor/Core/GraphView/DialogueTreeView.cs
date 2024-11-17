@@ -6,68 +6,40 @@ using UnityEngine.UIElements;
 using System.Linq;
 using System;
 using Ceres.Editor;
-using Ceres.Graph;
-
 namespace Kurisu.NGDT.Editor
 {
     public class DialogueTreeView : CeresGraphView
     {
-        private readonly IDialogueContainer dialogueTree;
-        public IDialogueContainer DialogueTree => dialogueTree;
+        private readonly IDialogueContainer _dialogueTree;
+        public IDialogueContainer DialogueTree => _dialogueTree;
         
-        private RootNode root;
+        private RootNode _root;
 
-        private readonly NodeSearchWindowProvider provider;
+        private readonly NodeResolverFactory _nodeResolver = NodeResolverFactory.Instance;
+        public Action<IDialogueNode> OnSelectNode { get; internal set; }
         
-        private readonly NodeResolverFactory nodeResolver = NodeResolverFactory.Instance;
-        public Action<IDialogueNode> OnSelectAction { get; internal set; }
+        private readonly NodeConvertor _converter = new();
         
-        private readonly NodeConvertor converter = new();
-        
-        private readonly DragDropManipulator dragDropManipulator;
-        public IControlGroupBlock GroupBlockController { get; }
-        public ContextualMenuController ContextualMenuController { get; }
-        public DialogueTreeView(IDialogueContainer bt, EditorWindow editor)
+        public DialogueTreeView(IDialogueContainer bt, EditorWindow editorWindow) : base(editorWindow)
         {
-            EditorWindow = editor;
-            dialogueTree = bt;
-            style.flexGrow = 1;
-            style.flexShrink = 1;
+            _dialogueTree = bt;
             styleSheets.Add(NextGenDialogueSetting.GetGraphStyle());
-            SetupZoom(ContentZoomer.DefaultMinScale, ContentZoomer.DefaultMaxScale);
-            Insert(0, new GridBackground());
-            var contentDragger = new ContentDragger();
-            contentDragger.activators.Add(new ManipulatorActivationFilter()
-            {
-                button = MouseButton.MiddleMouse,
-            });
-            this.AddManipulator(new SelectionDragger());
-            this.AddManipulator(new RectangleSelector());
-            this.AddManipulator(new FreehandSelector());
-            this.AddManipulator(contentDragger);
-            dragDropManipulator = new DragDropManipulator(this);
-            dragDropManipulator.OnDragOverEvent += CopyFromObject;
-            this.AddManipulator(dragDropManipulator);
-            provider = ScriptableObject.CreateInstance<NodeSearchWindowProvider>();
+            var provider = ScriptableObject.CreateInstance<NodeSearchWindowProvider>();
             provider.Initialize(this, NextGenDialogueSetting.GetMask());
             nodeCreationRequest += context =>
             {
                 SearchWindow.Open(new SearchWindowContext(context.screenMousePosition), provider);
             };
-            ContextualMenuController = new();
-            GroupBlockController = new GroupBlockController(this);
-            canPasteSerializedData += (data) => true;
-            serializeGraphElements += OnSerialize;
-            unserializeAndPaste += OnPaste;
+            GroupBlockHandler = new DialogueGroupBlockHandler(this);
         }
 
-        private string OnSerialize(IEnumerable<GraphElement> elements)
+        protected override string OnSerialize(IEnumerable<GraphElement> elements)
         {
             CopyPaste.Copy(EditorWindow.GetInstanceID(), elements);
             return string.Empty;
         }
 
-        private void OnPaste(string a, string b)
+        protected override void OnPaste(string a, string b)
         {
             if (CopyPaste.CanPaste)
                 Paste(new Vector2(50, 50));
@@ -83,7 +55,7 @@ namespace Kurisu.NGDT.Editor
         }
         public IDialogueNode DuplicateNode(IDialogueNode node)
         {
-            var newNode = nodeResolver.Create(node.GetBehavior(), this);
+            var newNode = _nodeResolver.Create(node.GetBehavior(), this);
             if (newNode is PieceContainer pieceContainer)
             {
                 pieceContainer.GenerateNewPieceID();
@@ -92,7 +64,7 @@ namespace Kurisu.NGDT.Editor
             Rect newRect = node.GetWorldPosition();
             newRect.position += new Vector2(50, 50);
             nodeElement.SetPosition(newRect);
-            newNode.OnSelectAction = OnSelectAction;
+            newNode.OnSelect = OnSelectNode;
             AddElement(nodeElement);
             newNode.CopyFrom(node);
             return newNode;
@@ -101,7 +73,7 @@ namespace Kurisu.NGDT.Editor
         {
             node.View.SetPosition(worldRect);
             AddElement(node.View);
-            node.OnSelectAction = OnSelectAction;
+            node.OnSelect = OnSelectNode;
         }
         public sealed override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
         {
@@ -122,13 +94,13 @@ namespace Kurisu.NGDT.Editor
             {
                 Paste(contentViewContainer.WorldToLocal(evt.eventInfo.mousePosition) - CopyPaste.CenterPosition);
             }, x => CopyPaste.CanPaste ? DropdownMenuAction.Status.Normal : DropdownMenuAction.Status.Disabled));
-            ContextualMenuController.BuildContextualMenu(ContextualMenuType.Graph, evt, null);
+            ContextualMenuRegistry.BuildContextualMenu(ContextualMenuType.Graph, evt, null);
         }
         public sealed override List<Port> GetCompatiblePorts(Port startAnchor, NodeAdapter nodeAdapter)
         {
             return PortHelper.GetCompatiblePorts(this, startAnchor);
         }
-        private void CopyFromObject(UnityEngine.Object data, Vector3 mousePosition)
+        protected override void CopyFromObject(UnityEngine.Object data, Vector3 mousePosition)
         {
             if (data is GameObject)
             {
@@ -166,8 +138,8 @@ namespace Kurisu.NGDT.Editor
             {
                 Blackboard.AddVariable(variable.Clone(), false);
             }
-            (rootNode, nodes) = converter.ConvertToNode(otherTree, this, localMousePosition);
-            foreach (var node in nodes) node.OnSelectAction = OnSelectAction;
+            (rootNode, nodes) = _converter.ConvertToNode(otherTree, this, localMousePosition);
+            foreach (var node in nodes) node.OnSelect = OnSelectNode;
             var edge = rootNode.Child.connections.First();
             RemoveElement(edge);
             RemoveElement(rootNode);
@@ -196,8 +168,8 @@ namespace Kurisu.NGDT.Editor
             }
             RestoreSharedVariables(tree);
             IEnumerable<IDialogueNode> nodes;
-            (root, nodes) = converter.ConvertToNode(tree, this, Vector2.zero);
-            foreach (var node in nodes) node.OnSelectAction = OnSelectAction;
+            (_root, nodes) = _converter.ConvertToNode(tree, this, Vector2.zero);
+            foreach (var node in nodes) node.OnSelect = OnSelectNode;
             RestoreBlocks(tree, nodes);
         }
         private void RestoreSharedVariables(IDialogueContainer tree)
@@ -219,7 +191,7 @@ namespace Kurisu.NGDT.Editor
         {
             foreach (var nodeBlockData in tree.BlockData)
             {
-                GroupBlockController.CreateBlock(new Rect(nodeBlockData.Position, new Vector2(100, 100)), nodeBlockData)
+                GroupBlockHandler.CreateGroup(new Rect(nodeBlockData.Position, new Vector2(100, 100)), nodeBlockData)
                 .AddElements(nodes.Where(x => nodeBlockData.ChildNodes.Contains(x.GUID)).Cast<Node>());
             }
         }
@@ -229,7 +201,7 @@ namespace Kurisu.NGDT.Editor
             if (Application.isPlaying) return false;
             if (Validate())
             {
-                Commit(dialogueTree);
+                Commit(_dialogueTree);
                 AssetDatabase.SaveAssets();
                 return true;
             }
@@ -240,7 +212,7 @@ namespace Kurisu.NGDT.Editor
         {
             //validate nodes by DFS.
             var stack = new Stack<IDialogueNode>();
-            stack.Push(root);
+            stack.Push(_root);
             while (stack.Count > 0)
             {
                 var node = stack.Pop();
@@ -254,20 +226,20 @@ namespace Kurisu.NGDT.Editor
         public void Commit(IDialogueContainer tree)
         {
             var stack = new Stack<IDialogueNode>();
-            stack.Push(root);
+            stack.Push(_root);
             // save new components
             while (stack.Count > 0)
             {
                 var node = stack.Pop();
                 node.Commit(stack);
             }
-            root.PostCommit(tree);
+            _root.PostCommit(tree);
             tree.SharedVariables.Clear();
             foreach (var sharedVariable in SharedVariables)
             {
                 tree.SharedVariables.Add(sharedVariable);
             }
-            List<GroupBlock> groupBlocks = graphElements.OfType<GroupBlock>().ToList();
+            List<DialogueGroup> groupBlocks = graphElements.OfType<DialogueGroup>().ToList();
             tree.BlockData.Clear();
             foreach (var block in groupBlocks)
             {
@@ -283,7 +255,7 @@ namespace Kurisu.NGDT.Editor
         }
         public string SerializeTreeToJson()
         {
-            return DialogueGraphData.Serialize(dialogueTree, false, true);
+            return DialogueGraphData.Serialize(_dialogueTree, false, true);
         }
         public bool CopyFromJson(string serializedData, Vector3 mousePosition)
         {

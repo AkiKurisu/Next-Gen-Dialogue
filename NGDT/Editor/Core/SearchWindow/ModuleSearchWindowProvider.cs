@@ -63,7 +63,7 @@ namespace Kurisu.NGDT.Editor
             var type = searchTreeEntry.userData as Type;
             var moduleNode = nodeResolver.Create(type, treeView) as ModuleNode;
             node.AddElement(moduleNode);
-            moduleNode.OnSelectAction = treeView.OnSelectAction;
+            moduleNode.OnSelect = treeView.OnSelectNode;
             return true;
         }
     }

@@ -35,16 +35,16 @@ namespace Kurisu.NGDT.Editor
             //Remove needless default actions .
             evt.menu.MenuItems().Clear();
             remainTargets.ForEach(evt.menu.MenuItems().Add);
-            MapTreeView.ContextualMenuController.BuildContextualMenu(ContextualMenuType.Node, evt, GetBehavior());
+            MapTreeView.ContextualMenuRegistry.BuildContextualMenu(ContextualMenuType.Node, evt, GetBehavior());
         }
         protected override void OnGeometryChanged(GeometryChangedEvent evt)
         {
             bool isAttached = GetFirstAncestorOfType<ContainerNode>() != null;
-            if (settingButton != null && settingsContainer != null && settingsContainer.parent != null)
+            if (SettingButton != null && SettingsContainer != null && SettingsContainer.parent != null)
             {
-                var settingsButtonLayout = settingButton.ChangeCoordinatesTo(settingsContainer.parent, settingButton.layout);
-                settingsContainer.style.top = settingsButtonLayout.yMax - (isAttached ? 70f : 20f);
-                settingsContainer.style.left = settingsButtonLayout.xMin - layout.width + (isAttached ? 10f : 20f);
+                var settingsButtonLayout = SettingButton.ChangeCoordinatesTo(SettingsContainer.parent, SettingButton.layout);
+                SettingsContainer.style.top = settingsButtonLayout.yMax - (isAttached ? 70f : 20f);
+                SettingsContainer.style.left = settingsButtonLayout.xMin - layout.width + (isAttached ? 10f : 20f);
             }
         }
         public sealed override Rect GetWorldPosition()

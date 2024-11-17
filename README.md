@@ -59,9 +59,18 @@ Demo video: https://www.bilibili.com/video/BV1hg4y1U7FG
 
 Using git URL to download package by Unity PackageManager ```https://github.com/AkiKurisu/Next-Gen-Dialogue.git```
 
-The experimental features of Next Gen Dialogue are placed in the Modules folder and will not be enabled without installing the corresponding dependencies. You can view the dependencies in the `README.md` document under its folder.
+### Dependencies
 
-To use core functions, you need to install `Newtonsoft Json` in PackageManager.
+```json
+"dependencies": {
+  "com.kurisu.akiframework": "1.2.0",
+  "com.unity.nuget.newtonsoft-json": "3.2.1"
+}
+```
+
+### Modules
+
+The experimental features of Next Gen Dialogue are placed in the Modules folder and will not be enabled without installing the corresponding dependencies. You can view the dependencies in the `README.md` document under its folder.
 
 ## Quick Start
 

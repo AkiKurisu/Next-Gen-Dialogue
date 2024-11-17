@@ -14,19 +14,19 @@ namespace Kurisu.NGDT.Editor
         public ContainerNode() : base()
         {
             capabilities |= Capabilities.Groupable;
-            fieldResolverFactory = FieldResolverFactory.Instance;
-            fieldContainer = new VisualElement();
+            _fieldResolverFactory = FieldResolverFactory.Instance;
+            _fieldContainer = new VisualElement();
             GUID = Guid.NewGuid().ToString();
             Initialize();
             headerContainer.style.flexDirection = FlexDirection.Column;
             headerContainer.style.justifyContent = Justify.Center;
-            titleLabel = new Label();
-            headerContainer.Add(titleLabel);
-            description = new TextField
+            _titleLabel = new Label();
+            headerContainer.Add(_titleLabel);
+            _description = new TextField
             {
                 multiline = true
             };
-            description.style.whiteSpace = WhiteSpace.Normal;
+            _description.style.whiteSpace = WhiteSpace.Normal;
             AddDescription();
             AddToClassList("DialogueStack");
             //Replace dark color of the place holder
@@ -39,57 +39,71 @@ namespace Kurisu.NGDT.Editor
             AddElement(bridge);
         }
         public Node View => this;
+        
         public virtual Port.Capacity PortCapacity => Port.Capacity.Single;
+        
         public abstract Color PortColor { get; }
-        private readonly TextField description;
+        
+        private readonly TextField _description;
+        
         public abstract Type ParentPortType { get; }
+        
         public string GUID { get; private set; }
+        
         protected NodeBehavior NodeBehavior { set; get; }
-        private readonly Label titleLabel;
-        private Type dirtyNodeBehaviorType;
+        
+        private readonly Label _titleLabel;
+        
+        private Type _dirtyNodeBehaviorType;
+        
         public Port Parent { get; }
-        private readonly VisualElement fieldContainer;
-        private readonly FieldResolverFactory fieldResolverFactory;
-        private readonly List<IFieldResolver> resolvers = new();
-        private readonly List<FieldInfo> fieldInfos = new();
-        public Action<IDialogueNode> OnSelectAction { get; set; }
+        
+        private readonly VisualElement _fieldContainer;
+        
+        private readonly FieldResolverFactory _fieldResolverFactory;
+        
+        private readonly List<IFieldResolver> _resolvers = new();
+        
+        private readonly List<FieldInfo> _fieldInfos = new();
+        public Action<IDialogueNode> OnSelect { get; set; }
         public DialogueTreeView MapTreeView { get; private set; }
         VisualElement ILayoutTreeNode.View => this;
+        
         public IFieldResolver GetFieldResolver(string fieldName)
         {
-            int index = fieldInfos.FindIndex(x => x.Name == fieldName);
-            if (index != -1) return resolvers[index];
-            else return null;
+            int index = _fieldInfos.FindIndex(x => x.Name == fieldName);
+            if (index != -1) return _resolvers[index];
+            return null;
         }
         private void Initialize()
         {
-            mainContainer.Add(fieldContainer);
+            mainContainer.Add(_fieldContainer);
         }
         public override void OnSelected()
         {
             base.OnSelected();
-            OnSelectAction?.Invoke(this);
+            OnSelect?.Invoke(this);
         }
         private void AddDescription()
         {
-            description.RegisterCallback<FocusInEvent>(evt => { Input.imeCompositionMode = IMECompositionMode.On; });
-            description.RegisterCallback<FocusOutEvent>(evt => { Input.imeCompositionMode = IMECompositionMode.Auto; });
-            headerContainer.Add(description);
+            _description.RegisterCallback<FocusInEvent>(evt => { Input.imeCompositionMode = IMECompositionMode.On; });
+            _description.RegisterCallback<FocusOutEvent>(evt => { Input.imeCompositionMode = IMECompositionMode.Auto; });
+            headerContainer.Add(_description);
         }
         public void Restore(NodeBehavior behavior)
         {
             NodeBehavior = behavior;
-            resolvers.ForEach(e => e.Restore(NodeBehavior));
+            _resolvers.ForEach(e => e.Restore(NodeBehavior));
             NodeBehavior.NotifyEditor = MarkAsExecuted;
-            description.value = NodeBehavior.nodeData.description;
+            _description.value = NodeBehavior.nodeData.description;
             GUID = string.IsNullOrEmpty(behavior.GUID) ? Guid.NewGuid().ToString() : behavior.GUID;
         }
         public void CopyFrom(IDialogueNode copyNode)
         {
             var node = copyNode as ContainerNode;
-            for (int i = 0; i < node.resolvers.Count; i++)
+            for (int i = 0; i < node._resolvers.Count; i++)
             {
-                resolvers[i].Copy(node.resolvers[i]);
+                _resolvers[i].Copy(node._resolvers[i]);
             }
             _copyMap.Clear();
             node.contentContainer.Query<ModuleNode>()
@@ -112,7 +126,7 @@ namespace Kurisu.NGDT.Editor
                     AddElement(newNode);
                 }
             );
-            description.value = node.description.value;
+            _description.value = node._description.value;
             NodeBehavior = (NodeBehavior)Activator.CreateInstance(copyNode.GetBehavior());
             NodeBehavior.NotifyEditor = MarkAsExecuted;
             GUID = Guid.NewGuid().ToString();
@@ -129,7 +143,7 @@ namespace Kurisu.NGDT.Editor
         }
         public Type GetBehavior()
         {
-            return dirtyNodeBehaviorType;
+            return _dirtyNodeBehaviorType;
         }
 
         public void Commit(Stack<IDialogueNode> stack)
@@ -145,8 +159,8 @@ namespace Kurisu.NGDT.Editor
             //Manually commit bridge node
             //Do not duplicate commit dialogue piece
             bridges.ForEach(x => x.Commit(NodeBehavior as Container, stack));
-            resolvers.ForEach(r => r.Commit(NodeBehavior));
-            NodeBehavior.nodeData.description = description.value;
+            _resolvers.ForEach(r => r.Commit(NodeBehavior));
+            NodeBehavior.nodeData.description = _description.value;
             NodeBehavior.nodeData.graphPosition = GetPosition();
             NodeBehavior.NotifyEditor = MarkAsExecuted;
             NodeBehavior.GUID = GUID;
@@ -172,26 +186,26 @@ namespace Kurisu.NGDT.Editor
         public void SetBehavior(Type nodeBehavior, DialogueTreeView ownerTreeView = null)
         {
             if (ownerTreeView != null) MapTreeView = ownerTreeView;
-            if (dirtyNodeBehaviorType != null)
+            if (_dirtyNodeBehaviorType != null)
             {
-                dirtyNodeBehaviorType = null;
-                fieldContainer.Clear();
-                resolvers.Clear();
-                fieldInfos.Clear();
+                _dirtyNodeBehaviorType = null;
+                _fieldContainer.Clear();
+                _resolvers.Clear();
+                _fieldInfos.Clear();
             }
-            dirtyNodeBehaviorType = nodeBehavior;
+            _dirtyNodeBehaviorType = nodeBehavior;
 
             var defaultValue = (NodeBehavior)Activator.CreateInstance(nodeBehavior);
             nodeBehavior.GetEditorWindowFields().ForEach((p) =>
                 {
-                    var fieldResolver = fieldResolverFactory.Create(p);
+                    var fieldResolver = _fieldResolverFactory.Create(p);
                     fieldResolver.Restore(defaultValue);
-                    fieldContainer.Add(fieldResolver.GetEditorField(MapTreeView));
-                    resolvers.Add(fieldResolver);
-                    fieldInfos.Add(p);
+                    _fieldContainer.Add(fieldResolver.GetEditorField(MapTreeView));
+                    _resolvers.Add(fieldResolver);
+                    _fieldInfos.Add(p);
                 });
             var label = nodeBehavior.GetCustomAttribute(typeof(NodeLabelAttribute), false) as NodeLabelAttribute;
-            titleLabel.text = label?.Title ?? nodeBehavior.Name;
+            _titleLabel.text = label?.Title ?? nodeBehavior.Name;
         }
         private void MarkAsExecuted(Status status)
         {
@@ -260,7 +274,7 @@ namespace Kurisu.NGDT.Editor
             var moduleNode = NodeResolverFactory.Instance.Create(type, MapTreeView) as ModuleNode;
             moduleNode.Restore(module);
             AddElement(moduleNode);
-            moduleNode.OnSelectAction = OnSelectAction;
+            moduleNode.OnSelect = OnSelect;
             return moduleNode;
         }
         public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
@@ -271,13 +285,13 @@ namespace Kurisu.NGDT.Editor
             }));
             evt.menu.MenuItems().Add(new CeresDropdownMenuAction("Select Group", (a) =>
             {
-                MapTreeView.GroupBlockController.SelectGroup(this);
+                MapTreeView.GroupBlockHandler.SelectGroup(this);
             }));
             evt.menu.MenuItems().Add(new CeresDropdownMenuAction("UnSelect Group", (a) =>
             {
-                MapTreeView.GroupBlockController.UnSelectGroup();
+                MapTreeView.GroupBlockHandler.UnselectGroup();
             }));
-            MapTreeView.ContextualMenuController.BuildContextualMenu(ContextualMenuType.Node, evt, GetBehavior());
+            MapTreeView.ContextualMenuRegistry.BuildContextualMenu(ContextualMenuType.Node, evt, GetBehavior());
         }
         public Rect GetWorldPosition()
         {

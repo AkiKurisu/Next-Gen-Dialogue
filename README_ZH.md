@@ -63,9 +63,18 @@ Next Gen Dialogue插件是一款结合大语言模型设计的Unity对话插件�
 
 在Unity PackageManager中使用Git URL下载 ```https://github.com/AkiKurisu/Next-Gen-Dialogue.git```
 
-Next Gen Dialogue的实验特性放入了Modules文件夹中，再没有安装相应依赖的情况下不会被启用，你可以在其文件夹下的`README.md`文档中查看依赖项。
+### 依赖
 
-使用核心功能需在PackageManager中安装`Newtonsoft Json`。
+```json
+"dependencies": {
+  "com.kurisu.akiframework": "1.2.0",
+  "com.unity.nuget.newtonsoft-json": "3.2.1"
+}
+```
+
+### 模组
+
+Next Gen Dialogue的实验特性放入了Modules文件夹中，再没有安装相应依赖的情况下不会被启用，你可以在其文件夹下的`README.md`文档中查看依赖项。
 
 ## 快速开始
 

@@ -12,6 +12,7 @@
   ],
   "category": "Visual Scripting",
   "dependencies": {
+    "com.kurisu.akiframework": "1.2.0",
     "com.unity.nuget.newtonsoft-json": "3.2.1"
   },
   "author": {

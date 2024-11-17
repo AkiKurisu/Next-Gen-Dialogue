@@ -55,7 +55,7 @@ namespace Kurisu.NGDT.Editor
                     entries.AddEntry(type, 2, _indentationIcon);
                 }
             }
-            entries.Add(new SearchTreeEntry(new GUIContent("Create Group Block", _indentationIcon)) { level = 1, userData = typeof(GroupBlock) });
+            entries.Add(new SearchTreeEntry(new GUIContent("Create Group Block", _indentationIcon)) { level = 1, userData = typeof(DialogueGroup) });
             return entries;
         }
         bool ISearchWindowProvider.OnSelectEntry(SearchTreeEntry searchTreeEntry, SearchWindowContext context)
@@ -64,9 +64,9 @@ namespace Kurisu.NGDT.Editor
             var localMousePosition = graphView.contentViewContainer.WorldToLocal(worldMousePosition);
             Rect newRect = new(localMousePosition, new Vector2(100, 100));
             var type = searchTreeEntry.userData as Type;
-            if (type == typeof(GroupBlock))
+            if (type == typeof(DialogueGroup))
             {
-                graphView.GroupBlockController.CreateBlock(newRect);
+                graphView.GroupBlockHandler.CreateGroup(newRect);
                 return true;
             }
             if (type.IsSubclassOf(typeof(Container)))

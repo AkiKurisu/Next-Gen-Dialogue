@@ -25,13 +25,13 @@ namespace Kurisu.NGDT.Editor
         private void OnAttach(AttachToPanelEvent evt)
         {
             //The custom contextual menu builder will only activate when this editor node is attached
-            MapTreeView.ContextualMenuController.Register<EditorTranslateNode>(new TranslateContextualMenuBuilder(this, CanTranslate));
+            MapTreeView.ContextualMenuRegistry.Register<EditorTranslateNode>(new TranslateContextualMenuBuilder(this, CanTranslate));
         }
 
         private void OnDetach(DetachFromPanelEvent evt)
         {
             //Do not forget to unregister after detach
-            MapTreeView.ContextualMenuController.UnRegister<EditorTranslateNode>();
+            MapTreeView.ContextualMenuRegistry.UnRegister<EditorTranslateNode>();
         }
 
         public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
