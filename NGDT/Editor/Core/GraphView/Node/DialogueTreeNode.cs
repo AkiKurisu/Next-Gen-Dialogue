@@ -177,8 +177,8 @@ namespace Kurisu.NGDT.Editor
             NodeBehavior = behavior;
             _resolvers.ForEach(e => e.Restore(NodeBehavior));
             NodeBehavior.NotifyEditor = MarkAsExecuted;
-            _description.value = NodeBehavior.nodeData.description;
-            GUID = string.IsNullOrEmpty(behavior.GUID) ? Guid.NewGuid().ToString() : behavior.GUID;
+            _description.value = NodeBehavior.NodeData.description;
+            GUID = string.IsNullOrEmpty(behavior.Guid) ? Guid.NewGuid().ToString() : behavior.Guid;
             OnRestore();
         }
         
@@ -230,10 +230,10 @@ namespace Kurisu.NGDT.Editor
         {
             OnCommit(stack);
             _resolvers.ForEach(r => r.Commit(NodeBehavior));
-            NodeBehavior.nodeData.description = _description.value;
-            NodeBehavior.nodeData.graphPosition = GetPosition();
+            NodeBehavior.NodeData.description = _description.value;
+            NodeBehavior.NodeData.graphPosition = GetPosition();
             NodeBehavior.NotifyEditor = MarkAsExecuted;
-            NodeBehavior.GUID = GUID;
+            NodeBehavior.Guid = GUID;
         }
         protected abstract void OnCommit(Stack<IDialogueNode> stack);
 

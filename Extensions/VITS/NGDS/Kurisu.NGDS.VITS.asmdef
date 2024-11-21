@@ -2,7 +2,8 @@
     "name": "Kurisu.NGDS.VITS",
     "rootNamespace": "Kurisu.NGDS.VITS",
     "references": [
-        "GUID:a3641cccf50efcd4cafc57a3120fb40e"
+        "GUID:a3641cccf50efcd4cafc57a3120fb40e",
+        "GUID:e61a2a07ba2680848ad23eef5b7c024b"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

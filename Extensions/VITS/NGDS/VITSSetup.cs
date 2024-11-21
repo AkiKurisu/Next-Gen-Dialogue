@@ -1,3 +1,4 @@
+using Kurisu.Framework;
 using UnityEngine;
 using Kurisu.NGDS.AI;
 namespace Kurisu.NGDS.VITS
@@ -17,20 +18,20 @@ namespace Kurisu.NGDS.VITS
         {
             vitsTurbo = new VITSTurbo(setting)
             {
-                //Auto detect language, not specify source language
+                // Auto-detect language, not specify source language
                 Translator = LLMFactory.CreateTranslator(setting.TranslatorType, setting, setting.LLM_Language, setting.VITS_Language)
             };
-            IOCContainer.Register(vitsTurbo);
-            IOCContainer.Register(pieceResolver = new VITSPieceResolver(vitsTurbo, audioSource));
-            IOCContainer.Register(optionResolver = new VITSOptionResolver(vitsTurbo, audioSource));
-            IOCContainer.Register(dialogueResolver = new DefaultDialogueResolver());
+            ContainerSubsystem.Get().Register(vitsTurbo);
+            ContainerSubsystem.Get().Register(pieceResolver = new VITSPieceResolver(vitsTurbo, audioSource));
+            ContainerSubsystem.Get().Register(optionResolver = new VITSOptionResolver(vitsTurbo, audioSource));
+            ContainerSubsystem.Get().Register(dialogueResolver = new DefaultDialogueResolver());
         }
         private void OnDestroy()
         {
-            IOCContainer.UnRegister(vitsTurbo);
-            IOCContainer.UnRegister(pieceResolver);
-            IOCContainer.UnRegister(optionResolver);
-            IOCContainer.UnRegister(dialogueResolver);
+            ContainerSubsystem.Get()?.Unregister(vitsTurbo);
+            ContainerSubsystem.Get()?.Unregister(pieceResolver);
+            ContainerSubsystem.Get()?.Unregister(optionResolver);
+            ContainerSubsystem.Get()?.Unregister(dialogueResolver);
         }
     }
 

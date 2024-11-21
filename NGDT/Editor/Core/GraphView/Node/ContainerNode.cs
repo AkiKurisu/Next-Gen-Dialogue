@@ -4,9 +4,13 @@ using System.Linq;
 using System.Reflection;
 using Ceres.Annotations;
 using Ceres.Editor;
+using Kurisu.Framework;
+using Kurisu.NGDS;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
+using Node = UnityEditor.Experimental.GraphView.Node;
+
 namespace Kurisu.NGDT.Editor
 {
     public abstract class ContainerNode : StackNode, IDialogueNode, ILayoutTreeNode
@@ -29,7 +33,7 @@ namespace Kurisu.NGDT.Editor
             _description.style.whiteSpace = WhiteSpace.Normal;
             AddDescription();
             AddToClassList("DialogueStack");
-            //Replace dark color of the place holder
+            // Replace dark color of the placeholder
             this.Q<VisualElement>(classes: "stack-node-placeholder")
                 .Children()
                 .First().style.color = new Color(1, 1, 1, 0.6f);
@@ -95,8 +99,8 @@ namespace Kurisu.NGDT.Editor
             NodeBehavior = behavior;
             _resolvers.ForEach(e => e.Restore(NodeBehavior));
             NodeBehavior.NotifyEditor = MarkAsExecuted;
-            _description.value = NodeBehavior.nodeData.description;
-            GUID = string.IsNullOrEmpty(behavior.GUID) ? Guid.NewGuid().ToString() : behavior.GUID;
+            _description.value = NodeBehavior.NodeData.description;
+            GUID = string.IsNullOrEmpty(behavior.Guid) ? Guid.NewGuid().ToString() : behavior.Guid;
         }
         public void CopyFrom(IDialogueNode copyNode)
         {
@@ -156,14 +160,14 @@ namespace Kurisu.NGDT.Editor
                 stack.Push(x);
             });
             var bridges = contentContainer.Query<ChildBridge>().ToList();
-            //Manually commit bridge node
-            //Do not duplicate commit dialogue piece
+            // Manually commit bridge node
+            // Do not duplicate commit dialogue piece
             bridges.ForEach(x => x.Commit(NodeBehavior as Container, stack));
             _resolvers.ForEach(r => r.Commit(NodeBehavior));
-            NodeBehavior.nodeData.description = _description.value;
-            NodeBehavior.nodeData.graphPosition = GetPosition();
+            NodeBehavior.NodeData.description = _description.value;
+            NodeBehavior.NodeData.graphPosition = GetPosition();
             NodeBehavior.NotifyEditor = MarkAsExecuted;
-            NodeBehavior.GUID = GUID;
+            NodeBehavior.Guid = GUID;
         }
         protected virtual void OnCommit(Stack<IDialogueNode> stack) { }
         public bool Validate(Stack<IDialogueNode> stack)
@@ -439,12 +443,12 @@ namespace Kurisu.NGDT.Editor
             {
                 evt.menu.MenuItems().Add(new CeresDropdownMenuAction("Jump to this Piece", (a) =>
                 {
-                    NGDS.IOCContainer.Resolve<NGDS.IDialogueSystem>()
+                    ContainerSubsystem.Get().Resolve<IDialogueSystem>()
                                      .PlayDialoguePiece(GetPiece().CastPiece().PieceID);
                 },
                 (e) =>
                 {
-                    var ds = NGDS.IOCContainer.Resolve<NGDS.IDialogueSystem>();
+                    var ds = ContainerSubsystem.Get().Resolve<IDialogueSystem>();
                     if (ds == null) return DropdownMenuAction.Status.Hidden;
                     if (!ds.IsPlaying) return DropdownMenuAction.Status.Disabled;
                     //Whether is the container of this piece
@@ -510,7 +514,7 @@ namespace Kurisu.NGDT.Editor
             if (element is ModuleNode moduleNode)
             {
                 var behaviorType = moduleNode.GetBehavior();
-                if (!behaviorType.GetCustomAttributes<ModuleOfAttribute>().Any(x => x.ContainerType == typeof(Option))) return false;
+                if (behaviorType.GetCustomAttributes<ModuleOfAttribute>().All(x => x.ContainerType != typeof(Option))) return false;
                 return !TryGetModuleNode(behaviorType, out _);
             }
             return element is ParentBridge;

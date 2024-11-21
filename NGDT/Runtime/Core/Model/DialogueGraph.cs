@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Ceres;
 using Ceres.Graph;
+using Kurisu.Framework;
 using Kurisu.NGDS;
 using UnityEngine;
 namespace Kurisu.NGDT
@@ -88,7 +89,7 @@ namespace Kurisu.NGDT
         
         private void ResolveDialogue(IDialogueLookup dialogue)
         {
-            _dialogueSystem ??= IOCContainer.Resolve<IDialogueSystem>();
+            _dialogueSystem ??= ContainerSubsystem.Get().Resolve<IDialogueSystem>();
             if (_dialogueSystem != null)
             {
                 _dialogueSystem.StartDialogue(dialogue);

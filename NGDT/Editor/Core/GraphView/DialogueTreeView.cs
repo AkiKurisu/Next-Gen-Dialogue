@@ -162,9 +162,9 @@ namespace Kurisu.NGDT.Editor
             if (tree.Root.Child == null)
             {
                 tree.Root.Child = new Dialogue();
-                var pos = tree.Root.nodeData.graphPosition;
+                var pos = tree.Root.NodeData.graphPosition;
                 pos.x += 200;
-                tree.Root.Child.nodeData.graphPosition = pos;
+                tree.Root.Child.NodeData.graphPosition = pos;
             }
             RestoreSharedVariables(tree);
             IEnumerable<IDialogueNode> nodes;

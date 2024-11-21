@@ -5,7 +5,8 @@
         "Kurisu.NGDT",
         "Kurisu.NGDS",
         "Ceres.Editor",
-        "Ceres"
+        "Ceres",
+        "Kurisu.Framework"
     ],
     "includePlatforms": [
         "Editor"
