@@ -61,7 +61,7 @@ namespace Kurisu.NGDS
         }
         private void OnDestroy()
         {
-            ContainerSubsystem.Get().Unregister<IDialogueSystem>(this);
+            ContainerSubsystem.Get()?.Unregister<IDialogueSystem>(this);
         }
         public IDialogueLookup GetCurrentLookup()
         {
