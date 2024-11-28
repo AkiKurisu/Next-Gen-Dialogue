@@ -1,0 +1,44 @@
+using System.Collections.Generic;
+using System.Linq;
+using Ceres.Editor;
+using Ceres.Graph;
+using UnityEditor.Experimental.GraphView;
+using UnityEngine.UIElements;
+namespace Kurisu.NGDT.Editor
+{
+    public class DialogueGroup : Group
+    {
+        public DialogueGroup()
+        {
+            this.AddManipulator(new ContextualMenuManipulator(BuildContextualMenu));
+            capabilities |= Capabilities.Ascendable;
+        }
+        public override bool AcceptsElement(GraphElement element, ref string reasonWhyNotAccepted)
+        {
+            if (element is ModuleNode) return false;
+            return true;
+        }
+        public void Commit(List<NodeGroupBlock> blockData)
+        {
+            var nodes = containedElements
+                                .OfType<IDialogueNode>()
+                                .Where(x => x is not ModuleNode)
+                                .Select(x => x.Guid).ToList();
+            blockData.Add(new NodeGroupBlock
+            {
+                childNodes = nodes,
+                title = title,
+                position = GetPosition().position
+            });
+        }
+        private void BuildContextualMenu(ContextualMenuPopulateEvent evt)
+        {
+            evt.menu.MenuItems().Clear();
+            evt.menu.MenuItems().Add(new CeresDropdownMenuAction("UnSelect All", (a) =>
+            {
+                //Clone to prevent self modify
+                RemoveElements(containedElements.ToArray());
+            }));
+        }
+    }
+}

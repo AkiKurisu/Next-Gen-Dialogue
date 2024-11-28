@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Ceres;
 using Ceres.Graph;
@@ -29,11 +30,11 @@ namespace Kurisu.NGDT
             set
             {
                 externalDialogueAsset = value;
-                if (graphInstance != null)
+                if (_graphInstance != null)
                 {
-                    graphInstance.Dispose();
-                    graphInstance = null;
-                    InitDialogueGraph(graphInstance = GetDialogueGraph());
+                    _graphInstance.Dispose();
+                    _graphInstance = null;
+                    InitDialogueGraph(_graphInstance = GetDialogueGraph());
                 }
             } 
         }
@@ -53,16 +54,17 @@ namespace Kurisu.NGDT
             get => sharedVariables;
         }
 
-        private DialogueGraph graphInstance = null;
+        [NonSerialized]
+        private DialogueGraph _graphInstance;
 
         private void Awake()
         {
-            InitDialogueGraph(graphInstance = GetDialogueGraph());
+            InitDialogueGraph(_graphInstance = GetDialogueGraph());
         }
 
         private void OnDestroy()
         {
-            graphInstance?.Dispose();
+            _graphInstance?.Dispose();
         }
 
         public CeresGraph GetGraph()
@@ -72,10 +74,10 @@ namespace Kurisu.NGDT
         
         public DialogueGraph GetDialogueGraph()
         {
-            return graphInstance ?? new DialogueGraph(externalDialogueAsset ? externalDialogueAsset : this);
+            return _graphInstance ?? new DialogueGraph(externalDialogueAsset ? externalDialogueAsset : this);
         }
 
-        protected virtual void InitDialogueGraph(DialogueGraph instance)
+        private static void InitDialogueGraph(DialogueGraph instance)
         {
             instance.InitVariables();
             instance.BlackBoard.MapGlobal();

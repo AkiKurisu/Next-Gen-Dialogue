@@ -6,16 +6,17 @@ using Kurisu.NGDS;
 using UnityEngine;
 namespace Kurisu.NGDT
 {
-    public class DialogueGraphData : CeresGraphData
+    public class DialogueGraphData : LinkedGraphData
     {
         private DialogueGraphData(DialogueGraph graph) : base(graph)
         {
+        
         }
 
-        protected override CeresNode GetFallbackNode(CeresNodeData fallbackNodeData, Edge output)
+        protected override CeresNode GetFallbackNode(CeresNodeData fallbackNodeData, int index)
         {
             /* Variants for fallback nodes */
-            if (output.children.Length > 0)
+            if (edges[index].children.Length > 0)
             {
                 return new InvalidComposite()
                 {

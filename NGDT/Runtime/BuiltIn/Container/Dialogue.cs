@@ -9,7 +9,7 @@ namespace Kurisu.NGDT
     {
 #if UNITY_EDITOR
         //Just to know which is referenced in graph, should have better solution
-        [HideInEditorWindow, SerializeField]
+        [HideInGraphEditor, SerializeField]
         internal List<string> referencePieces;
 #endif
         private NGDS.Dialogue dialogueCache;

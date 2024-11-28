@@ -12,7 +12,7 @@ namespace Kurisu.NGDT.Behavior
         public SharedTObject<AudioSource> audioSource;
         protected override Status OnUpdate()
         {
-            if (audioSource.Value != null)
+            if (audioSource.Value)
             {
                 audioSource.Value.clip = audioClip.Value;
                 audioSource.Value.Play();

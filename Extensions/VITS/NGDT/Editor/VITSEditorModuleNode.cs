@@ -1,9 +1,10 @@
 using Ceres.Editor;
+using Ceres.Editor.Graph;
 using Kurisu.NGDT.Editor;
 using UnityEngine.UIElements;
 namespace Kurisu.NGDT.VITS.Editor
 {
-    [CustomNodeEditor(typeof(VITSEditorModule))]
+    [CustomNodeView(typeof(VITSEditorModule))]
     public class VITSEditorModuleNode : EditorModuleNode
     {
         private readonly Button generateAll;
@@ -17,8 +18,8 @@ namespace Kurisu.NGDT.VITS.Editor
         }
         protected override void OnBehaviorSet()
         {
-            skipContainedAudioClip = (GetFieldResolver("skipContainedAudioClip") as BoolResolver).EditorField;
-            skipSharedAudioClip = (GetFieldResolver("skipSharedAudioClip") as BoolResolver).EditorField;
+            skipContainedAudioClip = ((BoolResolver)GetFieldResolver("skipContainedAudioClip")).BaseField;
+            skipSharedAudioClip = ((BoolResolver)GetFieldResolver("skipSharedAudioClip")).BaseField;
         }
         private void AttachAllPieces()
         {

@@ -14,7 +14,7 @@ namespace Kurisu.NGDT
         private int generateDepth = 3;
         [SerializeField, Tooltip("Option generate count"), Setting]
         private int optionCount = 2;
-        [HideInEditorWindow]
+        [HideInGraphEditor]
         public string lastSelection;
         public AIBakeModule() { }
         public AIBakeModule(int generateDepth = 3, int optionCount = 2)

@@ -13,10 +13,10 @@ namespace Kurisu.NGDT
     /// Base class for dialogue graph node
     /// </summary>
     [Serializable]
-    public abstract class NodeBehavior: CeresNode
+    public abstract class NodeBehavior: CeresNode, ILinkedNode
     {
 #if UNITY_EDITOR
-        [HideInEditorWindow, NonSerialized]
+        [HideInGraphEditor, NonSerialized]
         public Action<Status> NotifyEditor;
 #endif
 
@@ -46,5 +46,59 @@ namespace Kurisu.NGDT
         }
 
         protected abstract Status OnUpdate();
+
+        /// <summary>
+        /// Get child not at index
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns></returns>
+        public virtual CeresNode GetChildAt(int index)
+        {
+            return null;
+        }
+
+        /// <summary>
+        /// Add new child node
+        /// </summary>
+        /// <param name="node"></param>
+        public virtual void AddChild(CeresNode node)
+        {
+            
+        }
+
+        /// <summary>
+        /// Get child node count
+        /// </summary>
+        /// <returns></returns>
+        public virtual int GetChildrenCount()
+        {
+            return 0;
+        }
+
+        /// <summary>
+        /// Clear all child nodes
+        /// </summary>
+        public virtual void ClearChildren()
+        {
+            
+        }
+
+        /// <summary>
+        ///  Get all child nodes
+        /// </summary>
+        /// <returns></returns>
+        public virtual CeresNode[] GetChildren()
+        {
+            return Array.Empty<CeresNode>();
+        }
+
+        /// <summary>
+        /// Set child nodes
+        /// </summary>
+        /// <param name="children"></param>
+        public virtual void SetChildren(CeresNode[] children)
+        {
+            
+        }
     }
 }

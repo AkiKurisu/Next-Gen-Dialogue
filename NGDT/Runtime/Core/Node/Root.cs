@@ -22,7 +22,7 @@ namespace Kurisu.NGDT
         public List<NodeBehavior> Children => children;
         
 #if UNITY_EDITOR
-        [HideInEditorWindow]
+        [HideInGraphEditor]
         public System.Action UpdateEditor;
 #endif
         

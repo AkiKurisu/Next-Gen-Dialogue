@@ -4,12 +4,13 @@ using Kurisu.NGDT.Editor;
 using System;
 using System.Threading.Tasks;
 using Ceres.Editor;
+using Ceres.Editor.Graph;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 namespace Kurisu.NGDT.VITS.Editor
 {
-    [CustomNodeEditor(typeof(VITSModule))]
+    [CustomNodeView(typeof(VITSModule))]
     public class VITSModuleNode : ModuleNode
     {
         private SharedTObjectField<AudioClip> audioClipField;
@@ -51,7 +52,7 @@ namespace Kurisu.NGDT.VITS.Editor
         }
         protected override void OnBehaviorSet()
         {
-            audioClipField = (GetFieldResolver("audioClip") as SharedTObjectResolver<AudioClip>).EditorField;
+            audioClipField = ((SharedTObjectResolver<AudioClip>)GetFieldResolver("audioClip")).BaseField;
         }
         protected override void OnRestore()
         {

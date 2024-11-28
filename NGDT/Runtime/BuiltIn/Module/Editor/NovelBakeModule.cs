@@ -19,7 +19,7 @@ namespace Kurisu.NGDT
         private TextAsset overridePiecePrompt;
         [SerializeField, Tooltip("Override option prompt")]
         private TextAsset overrideOptionPrompt;
-        [HideInEditorWindow]
+        [HideInGraphEditor]
         public string lastSelection;
         public NovelBakeModule() { }
         public NovelBakeModule(int generateDepth = 3, int optionCount = 2)

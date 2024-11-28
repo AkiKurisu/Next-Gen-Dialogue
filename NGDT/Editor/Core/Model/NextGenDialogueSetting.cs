@@ -1,6 +1,8 @@
 using System;
 using System.Linq;
+using Ceres.Annotations;
 using Ceres.Editor;
+using Ceres.Editor.Graph;
 using Kurisu.NGDS.AI;
 using UnityEditor;
 using UnityEditorInternal;
@@ -11,14 +13,20 @@ namespace Kurisu.NGDT.Editor
     [Serializable]
     internal class GraphEditorSetting
     {
-        [NodeGroupSelector(typeof(NodeBehavior)), Tooltip("Display type, filter AkiGroup according to this list, nodes without category will always be displayed")]
-        public string[] ShowGroups = new string[0];
-        [NodeGroupSelector(typeof(NodeBehavior)), Tooltip("The type that is not displayed, filter the AkiGroup according to this list, and the nodes without categories will always be displayed")]
-        public string[] NotShowGroups = new string[0];
+        [NodeGroupSelector(typeof(NodeBehavior))]
+        [Tooltip("Display type, filter NodeGroup according to this list, nodes without category will always be displayed")]
+        public string[] showGroups = Array.Empty<string>();
+        
+        [NodeGroupSelector(typeof(NodeBehavior))]
+        [Tooltip("The type that is not displayed, filter NodeGroup according to this list, and the nodes without categories will always be displayed")]
+        public string[] notShowGroups = Array.Empty<string>();
+        
         [Tooltip("You can customize the style of the Graph view")]
         public StyleSheet graphStyleSheet;
+        
         [Tooltip("You can customize the style of the Inspector inspector")]
         public StyleSheet inspectorStyleSheet;
+        
         [Tooltip("You can customize the style of Node nodes")]
         public StyleSheet nodeStyleSheet;
     }
@@ -26,9 +34,9 @@ namespace Kurisu.NGDT.Editor
     {
         public const string Version = "v2.0.0";
         
-        private const string k_NDGTSettingsPath = "ProjectSettings/NextGenDialogueSetting.asset";
+        private const string SettingsPath = "ProjectSettings/NextGenDialogueSetting.asset";
         
-        private const string k_AITurboSettingsPath = "Assets/AI Turbo Setting.asset";
+        private const string AITurboSettingsPath = "Assets/AI Turbo Setting.asset";
         
         private const string GraphFallBackPath = "NGDT/Graph";
         
@@ -36,7 +44,7 @@ namespace Kurisu.NGDT.Editor
         
         private const string NodeFallBackPath = "NGDT/Node";
 
-        private static NextGenDialogueSetting setting;
+        private static NextGenDialogueSetting _setting;
         
         [SerializeField]
         private GraphEditorSetting graphEditorSetting;
@@ -86,23 +94,35 @@ namespace Kurisu.NGDT.Editor
             var setting = GetOrCreateSettings();
             return setting.graphEditorSetting.nodeStyleSheet != null ? setting.graphEditorSetting.nodeStyleSheet : Resources.Load<StyleSheet>(NodeFallBackPath);
         }
-        public static (string[] showGroups, string[] notShowGroups) GetMask()
+        public static NodeSearchContext GetNodeSearchSettings()
         {
-            var setting = GetOrCreateSettings();
-            var editorSetting = setting.graphEditorSetting;
-            if (editorSetting == null) return (null, null);
-            return (editorSetting.ShowGroups, editorSetting.NotShowGroups.Concat(internalNotShowGroups).ToArray());
+            var dialogueSettings = GetOrCreateSettings();
+            var editorSetting = dialogueSettings.graphEditorSetting;
+            if (editorSetting == null) return NodeSearchContext.Default;
+            return new NodeSearchContext()
+            {
+                ShowGroups = editorSetting.showGroups,
+                HideGroups = editorSetting.notShowGroups.Concat(new[]{ NodeGroup.Hidden }).ToArray()
+            };
         }
         
         public static NextGenDialogueSetting GetOrCreateSettings()
         {
-            var arr = InternalEditorUtility.LoadSerializedFileAndForget(k_NDGTSettingsPath);
-            setting = arr.Length > 0 ? arr[0] as NextGenDialogueSetting : setting ?? CreateInstance<NextGenDialogueSetting>();
-            if (!setting.aiTurboSetting)
+            var arr = InternalEditorUtility.LoadSerializedFileAndForget(SettingsPath);
+            if (arr.Length > 0)
             {
-                setting.aiTurboSetting = GetOrCreateAITurboSetting();
+                _setting = arr[0] as NextGenDialogueSetting;
             }
-            return setting;
+            else
+            {
+                _setting = CreateInstance<NextGenDialogueSetting>();
+                _setting.Save();
+            }
+            if (!_setting!.aiTurboSetting)
+            {
+                _setting.aiTurboSetting = GetOrCreateAITurboSetting();
+            }
+            return _setting;
         }
         
         private static AITurboSetting GetOrCreateAITurboSetting()
@@ -112,8 +132,8 @@ namespace Kurisu.NGDT.Editor
             if (guids.Length == 0)
             {
                 turboSetting = CreateInstance<AITurboSetting>();
-                Debug.Log($"AI Turbo Setting saving path : {k_AITurboSettingsPath}");
-                AssetDatabase.CreateAsset(turboSetting, k_AITurboSettingsPath);
+                Debug.Log($"AI Turbo Setting saving path : {AITurboSettingsPath}");
+                AssetDatabase.CreateAsset(turboSetting, AITurboSettingsPath);
                 AssetDatabase.SaveAssets();
             }
             else turboSetting = AssetDatabase.LoadAssetAtPath<AITurboSetting>(AssetDatabase.GUIDToAssetPath(guids[0]));
@@ -122,32 +142,38 @@ namespace Kurisu.NGDT.Editor
         
         public void Save(bool saveAsText = true)
         {
-            InternalEditorUtility.SaveToSerializedFileAndForget(new[] { this }, k_NDGTSettingsPath, saveAsText);
+            InternalEditorUtility.SaveToSerializedFileAndForget(new[] { this }, SettingsPath, saveAsText);
         }
     }
 
     internal class NGDTSettingsProvider : SettingsProvider
     {
-        private SerializedObject serializedObject;
-        private NextGenDialogueSetting setting;
+        private SerializedObject _serializedObject;
+        
+        private NextGenDialogueSetting _setting;
+        
         private class Styles
         {
             public static GUIContent GraphEditorSettingStyle = new("Graph Editor Setting");
+            
             public static GUIContent AITurboSettingStyle = new("AI Turbo Setting");
         }
+        
         public NGDTSettingsProvider(string path, SettingsScope scope = SettingsScope.User) : base(path, scope) { }
+        
         public override void OnActivate(string searchContext, VisualElement rootElement)
         {
-            serializedObject = new SerializedObject(setting = NextGenDialogueSetting.GetOrCreateSettings());
+            _serializedObject = new SerializedObject(_setting = NextGenDialogueSetting.GetOrCreateSettings());
         }
+        
         public override void OnGUI(string searchContext)
         {
             GUILayout.BeginVertical("Editor Settings", GUI.skin.box);
             GUILayout.Space(EditorGUIUtility.singleLineHeight);
-            EditorGUILayout.PropertyField(serializedObject.FindProperty("graphEditorSetting"), Styles.GraphEditorSettingStyle);
+            EditorGUILayout.PropertyField(_serializedObject.FindProperty("graphEditorSetting"), Styles.GraphEditorSettingStyle);
             GUILayout.EndVertical();
             GUILayout.BeginVertical("Runtime Settings", GUI.skin.box);
-            var turboSetting = serializedObject.FindProperty("aiTurboSetting");
+            var turboSetting = _serializedObject.FindProperty("aiTurboSetting");
             GUILayout.Space(EditorGUIUtility.singleLineHeight);
             EditorGUILayout.PropertyField(turboSetting, Styles.AITurboSettingStyle);
             if (turboSetting.objectReferenceValue != null)
@@ -169,9 +195,9 @@ namespace Kurisu.NGDT.Editor
                 EditorGUI.EndChangeCheck();
             }
             GUILayout.EndVertical();
-            if (serializedObject.ApplyModifiedPropertiesWithoutUndo())
+            if (_serializedObject.ApplyModifiedPropertiesWithoutUndo())
             {
-                setting.Save();
+                _setting.Save();
             }
         }
         [SettingsProvider]

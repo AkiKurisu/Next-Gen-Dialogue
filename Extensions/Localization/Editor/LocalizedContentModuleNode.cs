@@ -1,12 +1,13 @@
 using Ceres;
 using Ceres.Editor;
+using Ceres.Editor.Graph;
 using Kurisu.NGDT.Editor;
 using UnityEditor.Localization;
 using UnityEngine.Localization.Tables;
 using UnityEngine.UIElements;
 namespace Kurisu.NGDT.Localization.Editor
 {
-    [CustomNodeEditor(typeof(LocalizedContentModule))]
+    [CustomNodeView(typeof(LocalizedContentModule))]
     public class LocalizedContentModuleNode : ModuleNode
     {
         private LocalizedStringEditorField editorField;
@@ -16,8 +17,8 @@ namespace Kurisu.NGDT.Localization.Editor
         }
         protected override void OnBehaviorSet()
         {
-            var tableEntryField = (GetFieldResolver("tableEntry") as FieldResolver<SharedStringField, SharedString>)?.EditorField;
-            var stringEntryField = (GetFieldResolver("stringEntry") as FieldResolver<SharedStringField, SharedString>)?.EditorField;
+            var tableEntryField = (GetFieldResolver("tableEntry") as FieldResolver<SharedStringField, SharedString>)?.BaseField;
+            var stringEntryField = (GetFieldResolver("stringEntry") as FieldResolver<SharedStringField, SharedString>)?.BaseField;
             tableEntryField.RegisterValueChangedCallback(x => UpdateEditor());
             stringEntryField.RegisterValueChangedCallback(x => UpdateEditor());
         }

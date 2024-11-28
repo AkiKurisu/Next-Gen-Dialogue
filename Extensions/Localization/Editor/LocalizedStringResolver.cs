@@ -1,6 +1,7 @@
 using System;
 using System.Reflection;
 using Ceres.Editor;
+using Ceres.Editor.Graph;
 using UnityEngine.Localization;
 using UnityEngine.UIElements;
 namespace Kurisu.NGDT.Localization.Editor
