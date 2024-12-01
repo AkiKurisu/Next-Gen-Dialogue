@@ -279,12 +279,12 @@ namespace Kurisu.NGDT.Editor
                     fieldResolver.Restore(defaultValue);
                     if (p.GetCustomAttribute<SettingAttribute>() != null)
                     {
-                        SettingsContainer.Add(fieldResolver.CreateField(MapTreeView));
+                        SettingsContainer.Add(fieldResolver.GetField(MapTreeView));
                         haveSetting = true;
                     }
                     else
                     {
-                        _fieldContainer.Add(fieldResolver.CreateField(MapTreeView));
+                        _fieldContainer.Add(fieldResolver.GetField(MapTreeView));
                     }
                     _resolvers.Add(fieldResolver);
                     _fieldInfos.Add(p);

@@ -14,49 +14,20 @@ namespace Kurisu.NGDT.Editor
         {
         }
 
+        protected override bool CanVariableExposed(SharedVariable variable)
+        {
+            return variable is not PieceID;
+        }
+
         protected override BlackboardRow CreateBlackboardPropertyRow(SharedVariable variable, BlackboardField blackboardField, VisualElement valueField)
         {
-            var propertyView = new VisualElement();
-            if (!AlwaysExposed && variable is not PieceID)
-            {
-                var toggle = new Toggle("Exposed")
-                {
-                    value = variable.IsExposed
-                };
-                if (Application.isPlaying)
-                {
-                    toggle.SetEnabled(false);
-                }
-                else
-                {
-                    toggle.RegisterValueChangedCallback(x =>
-                    {
-                        var index = SharedVariables.FindIndex(x => x.Name == variable.Name);
-                        SharedVariables[index].IsExposed = x.newValue;
-                        NotifyVariableChanged(variable, VariableChangeType.ValueChange);
-                    });
-                }
-                propertyView.Add(toggle);
-            }
+            var propertyView = base.CreateBlackboardPropertyRow(variable, blackboardField, valueField);
             if (variable is PieceID)
             {
                 blackboardField.RegisterCallback<ClickEvent>((evt) => FindRelatedPiece(variable));
+                propertyView.Q<Button>("expandButton").RemoveFromHierarchy();
             }
-            else
-            {
-                propertyView.Add(valueField);
-            }
-            if (variable is SharedUObject sharedObject)
-            {
-                propertyView.Add(CreateConstraintField(sharedObject, (ObjectField)valueField));
-            }
-            var sa = new BlackboardRow(blackboardField, propertyView);
-            if (variable is PieceID)
-            {
-                sa.Q<Button>("expandButton").RemoveFromHierarchy();
-            }
-            sa.AddManipulator(new ContextualMenuManipulator((evt) => BuildBlackboardMenu(evt, variable)));
-            return sa;
+            return propertyView;
         }
         private void FindRelatedPiece(SharedVariable variable)
         {

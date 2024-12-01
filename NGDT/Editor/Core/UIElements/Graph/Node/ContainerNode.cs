@@ -205,7 +205,7 @@ namespace Kurisu.NGDT.Editor
                 {
                     var fieldResolver = _fieldResolverFactory.Create(p);
                     fieldResolver.Restore(defaultValue);
-                    _fieldContainer.Add(fieldResolver.CreateField(MapTreeView));
+                    _fieldContainer.Add(fieldResolver.GetField(MapTreeView));
                     _resolvers.Add(fieldResolver);
                     _fieldInfos.Add(p);
                 });
