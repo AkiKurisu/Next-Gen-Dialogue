@@ -36,26 +36,26 @@ namespace Kurisu.NGDT.Editor
         {
             var entries = new List<SearchTreeEntry>();
             entries.Add(new SearchTreeGroupEntry(new GUIContent($"Select {nameof(Module)}"), 0));
-            List<Type> nodeTypes = SubClassSearchUtility.FindSubClassTypes(typeof(Module));
-            nodeTypes = nodeTypes.Except(_exceptTypes)
+            List<Type> subClasses = SubClassSearchUtility.FindSubClassTypes(typeof(Module)).Except(_exceptTypes)
                                 .Where(x =>
                                 {
-                                    var validTypes = x.GetCustomAttributes(typeof(ModuleOfAttribute), true);
-                                    return validTypes.Length != 0 && validTypes.Any(x => ((ModuleOfAttribute)x).ContainerType == _containerType);
+                                    var validTypes = (ModuleOfAttribute[])x.GetCustomAttributes(typeof(ModuleOfAttribute), true);
+                                    return validTypes.Length != 0 && validTypes.Any(attribute => attribute.ContainerType == _containerType);
                                 })
                                 .ToList();
-            var groups = nodeTypes.GroupsByNodeGroup();
-            nodeTypes = nodeTypes.Except(groups.SelectMany(x => x)).ToList();
-            groups = groups.SelectGroup(_context.ShowGroups).ExceptGroup(_context.HideGroups);
+            var list = subClasses.GroupsByNodeGroup().ToList(); ;
+            var nodeTypes = subClasses.Except(list.SelectMany(x => x)).ToList();
+            var groups = list.SelectGroup(_context.ShowGroups).ExceptGroup(_context.HideGroups).ToList();
             var builder = new CeresNodeSearchEntryBuilder(_indentationIcon);
             foreach (var group in groups)
             {
                 builder.AddAllEntries(group, 1);
             }
-            foreach (Type type in nodeTypes)
+            foreach (var type in nodeTypes)
             {
                 builder.AddEntry(type, 1);
             }
+            entries.AddRange(builder.GetEntries());
             return entries;
         }
 

@@ -102,7 +102,7 @@ namespace Kurisu.NGDT.Editor
             Debug.Log($"<color=#3aff48>NGDT</color> : Save succeed, ScriptableObject created path : {path}/{Key.name}.asset\n{DateTime.Now}");
         }
 
-        protected override void OnDestroy()
+        protected override void OnDisable()
         {
             if (Key == null) return;
             
@@ -110,7 +110,7 @@ namespace Kurisu.NGDT.Editor
             {
                 if (!_graphView.Save())
                 {
-                    const string msg = "Auto save failed, do you want to discard change ?";
+                    const string msg = "Auto save failed, do you want to discard change?";
                     if (EditorUtility.DisplayDialog("Warning", msg, "Cancel", "Discard"))
                     {
                         var newWindow = Clone();
@@ -119,10 +119,10 @@ namespace Kurisu.NGDT.Editor
                     }
                     return;
                 }
-                Debug.Log($"<color=#3aff48>NGDT</color>[{_graphView.DialogueContainer.Object.name}] saved succeed ! {DateTime.Now}");
+                Debug.Log($"<color=#3aff48>NGDT</color>[{_graphView.DialogueContainer.Object.name}] saved succeed, {DateTime.Now}");
             }
             
-            base.OnDestroy();
+            base.OnDisable();
         }
         
         private DialogueEditorWindow Clone()
