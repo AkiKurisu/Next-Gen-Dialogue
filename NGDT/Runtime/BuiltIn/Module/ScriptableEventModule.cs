@@ -8,7 +8,7 @@ namespace Kurisu.NGDT
     [ModuleOf(typeof(Option))]
     public class ScriptableEventModule : CustomModule
     {
-        public Ceres.SharedTObject<ScriptableEvent> scriptableEvent;
+        public Ceres.SharedUObject<ScriptableEvent> scriptableEvent;
         protected override IDialogueModule GetModule()
         {
             return new NGDS.CallBackModule(scriptableEvent.Value.Invoke);

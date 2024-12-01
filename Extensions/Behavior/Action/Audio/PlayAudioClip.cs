@@ -8,8 +8,8 @@ namespace Kurisu.NGDT.Behavior
     [NodeGroup("Audio")]
     public class PlayAudioClip : Action
     {
-        public SharedTObject<AudioClip> audioClip;
-        public SharedTObject<AudioSource> audioSource;
+        public SharedUObject<AudioClip> audioClip;
+        public SharedUObject<AudioSource> audioSource;
         protected override Status OnUpdate()
         {
             if (audioSource.Value)

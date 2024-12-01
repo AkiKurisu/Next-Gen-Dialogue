@@ -5,7 +5,7 @@ namespace Kurisu.NGDT.Behavior
     public abstract class AnimatorCondition : Conditional
     {
         [Tooltip("If not filled in, it will be obtained from the bound gameObject")]
-        public SharedTObject<Animator> animator;
+        public SharedUObject<Animator> animator;
         protected Animator Animator => animator.Value;
         protected override void OnAwake()
         {

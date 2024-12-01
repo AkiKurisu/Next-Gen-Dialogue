@@ -8,9 +8,9 @@ namespace Kurisu.NGDT.Behavior
     [NodeGroup("Audio")]
     public class SetAudioClip : Action
     {
-        public SharedTObject<AudioClip> source;
+        public SharedUObject<AudioClip> source;
         [ForceShared]
-        public SharedTObject<AudioClip> storeResult;
+        public SharedUObject<AudioClip> storeResult;
         protected override Status OnUpdate()
         {
             storeResult.Value = source.Value;

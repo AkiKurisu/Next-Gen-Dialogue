@@ -11,7 +11,7 @@ namespace Kurisu.NGDT.VITS
     public class VITSModule : CustomModule
     {
         public SharedInt characterID;
-        public SharedTObject<AudioClip> audioClip;
+        public SharedUObject<AudioClip> audioClip;
         [Setting, Tooltip("Set to disable translation for this module")]
         public bool noTranslation;
         protected sealed override IDialogueModule GetModule()

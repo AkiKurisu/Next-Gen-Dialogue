@@ -46,9 +46,9 @@ namespace Kurisu.NGDT.Editor
             {
                 propertyView.Add(valueField);
             }
-            if (variable is SharedObject sharedObject)
+            if (variable is SharedUObject sharedObject)
             {
-                propertyView.Add(GetConstraintField(sharedObject, (ObjectField)valueField));
+                propertyView.Add(CreateConstraintField(sharedObject, (ObjectField)valueField));
             }
             var sa = new BlackboardRow(blackboardField, propertyView);
             if (variable is PieceID)

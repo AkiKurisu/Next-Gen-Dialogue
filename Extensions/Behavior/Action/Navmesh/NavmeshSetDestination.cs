@@ -10,7 +10,7 @@ namespace Kurisu.NGDT.Behavior
     public class NavmeshSetDestination : Action
     {
         [SerializeField, Tooltip("If not filled in, it will be obtained from the bound gameObject")]
-        private SharedTObject<NavMeshAgent> agent;
+        private SharedUObject<NavMeshAgent> agent;
         [SerializeField]
         private SharedVector3 destination;
         protected override Status OnUpdate()

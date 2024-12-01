@@ -30,12 +30,11 @@ namespace Kurisu.NGDT
             set
             {
                 externalDialogueAsset = value;
-                if (_graphInstance != null)
-                {
-                    _graphInstance.Dispose();
-                    _graphInstance = null;
-                    InitDialogueGraph(_graphInstance = GetDialogueGraph());
-                }
+                if (_graphInstance == null) return;
+                
+                _graphInstance.Dispose();
+                _graphInstance = null;
+                (_graphInstance = GetDialogueGraph()).Compile();
             } 
         }
         
@@ -59,7 +58,7 @@ namespace Kurisu.NGDT
 
         private void Awake()
         {
-            InitDialogueGraph(_graphInstance = GetDialogueGraph());
+            (_graphInstance = GetDialogueGraph()).Compile();
         }
 
         private void OnDestroy()
@@ -75,12 +74,6 @@ namespace Kurisu.NGDT
         public DialogueGraph GetDialogueGraph()
         {
             return _graphInstance ?? new DialogueGraph(externalDialogueAsset ? externalDialogueAsset : this);
-        }
-
-        private static void InitDialogueGraph(DialogueGraph instance)
-        {
-            instance.InitVariables();
-            instance.BlackBoard.MapGlobal();
         }
 
         public void SetGraphData(CeresGraphData graphData)

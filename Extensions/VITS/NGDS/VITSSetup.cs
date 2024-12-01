@@ -1,4 +1,4 @@
-using Kurisu.Framework;
+using Chris;
 using UnityEngine;
 using Kurisu.NGDS.AI;
 namespace Kurisu.NGDS.VITS

@@ -6,7 +6,7 @@ using Ceres;
 using Ceres.Annotations;
 using Ceres.Editor;
 using Ceres.Editor.Graph;
-using Kurisu.Framework;
+using Chris;
 using Kurisu.NGDS;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
@@ -242,7 +242,7 @@ namespace Kurisu.NGDT.Editor
             evt.menu.MenuItems().Add(new CeresDropdownMenuAction("Add Module", (a) =>
             {
                 var provider = ScriptableObject.CreateInstance<ModuleSearchWindowProvider>();
-                provider.Init(this, MapTreeView, NextGenDialogueSetting.GetNodeSearchSettings(), GetExceptModuleTypes());
+                provider.Init(this, MapTreeView, NextGenDialogueSetting.GetNodeSearchContext(), GetExceptModuleTypes());
                 SearchWindow.Open(new SearchWindowContext(a.eventInfo.localMousePosition), provider);
             }));
         }

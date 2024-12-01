@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using Ceres;
 using Ceres.Graph;
-using Kurisu.Framework;
+using Chris;
 using Kurisu.NGDS;
 using UnityEngine;
 namespace Kurisu.NGDT
@@ -101,15 +101,16 @@ namespace Kurisu.NGDT
             }
         }
 
-        public override void InitVariables()
+        public override void Compile()
         {
             foreach (var variable in variables)
             {
                 if (variable is PieceID pieceID) pieceID.Value = System.Guid.NewGuid().ToString();
             }
-            base.InitVariables();
+            InitVariables_Imp(this);
+            BlackBoard.MapGlobal();
         }
-        
+
         public override void Dispose()
         {
             base.Dispose();

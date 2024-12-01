@@ -9,7 +9,7 @@ namespace Kurisu.NGDT.Behavior
     public class TransformGetPosition : Action
     {
         [Tooltip("Target Transform, if not filled in, it will be its own Transform")]
-        public SharedTObject<Transform> target;
+        public SharedUObject<Transform> target;
         [ForceShared]
         public SharedVector3 storeResult;
         protected override Status OnUpdate()

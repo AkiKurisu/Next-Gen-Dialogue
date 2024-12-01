@@ -10,7 +10,7 @@ namespace Kurisu.NGDT.Behavior
     public class NavmeshStopAgent : Action
     {
         [SerializeField, Tooltip("If not filled in, it will be obtained from the bound gameObject")]
-        private SharedTObject<NavMeshAgent> agent;
+        private SharedUObject<NavMeshAgent> agent;
         [SerializeField, NodeLabel("Whether to stop")]
         private SharedBool isStopped;
         protected override Status OnUpdate()

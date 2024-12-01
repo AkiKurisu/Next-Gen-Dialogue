@@ -1,7 +1,7 @@
 {
     "name": "Kurisu.NGDS",
     "rootNamespace": "Kurisu.NGDS",
-    "references": ["GUID:e61a2a07ba2680848ad23eef5b7c024b"],
+    "references": ["GUID:e61a2a07ba2680848ad23eef5b7c024b","GUID:77221876cc6b8244180b96e320b1bcd4","GUID:f51ebe6a0ceec4240a699833d6309b23","GUID:593a5b492d29ac6448b1ebf7f035ef33"],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,

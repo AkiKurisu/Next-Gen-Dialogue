@@ -10,7 +10,7 @@ namespace Kurisu.NGDT
     public class PromptPresetModule : CustomModule
     {
         [Multiline]
-        public Ceres.SharedTObject<TextAsset> prompt;
+        public Ceres.SharedUObject<TextAsset> prompt;
         protected sealed override IDialogueModule GetModule()
         {
             return new NGDS.SystemPromptModule(prompt.Value.text);

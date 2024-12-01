@@ -94,7 +94,7 @@ namespace Kurisu.NGDT.Editor
             var setting = GetOrCreateSettings();
             return setting.graphEditorSetting.nodeStyleSheet != null ? setting.graphEditorSetting.nodeStyleSheet : Resources.Load<StyleSheet>(NodeFallBackPath);
         }
-        public static NodeSearchContext GetNodeSearchSettings()
+        public static NodeSearchContext GetNodeSearchContext()
         {
             var dialogueSettings = GetOrCreateSettings();
             var editorSetting = dialogueSettings.graphEditorSetting;

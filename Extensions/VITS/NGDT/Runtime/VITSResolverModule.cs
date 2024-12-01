@@ -12,8 +12,8 @@ namespace Kurisu.NGDT.VITS
     public class VITSResolverModule : CustomModule
     {
         public LLMType llmType;
-        public SharedTObject<AITurboSetting> setting;
-        public SharedTObject<AudioSource> audioSource;
+        public SharedUObject<AITurboSetting> setting;
+        public SharedUObject<AudioSource> audioSource;
         [Setting]
         public bool overrideDialogueResolver = true;
         [Setting]

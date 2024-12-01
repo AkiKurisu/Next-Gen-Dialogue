@@ -7,6 +7,7 @@ using System.Linq;
 using System;
 using Ceres.Editor;
 using Ceres.Editor.Graph;
+using Ceres.Graph;
 using USearchWindow = UnityEditor.Experimental.GraphView.SearchWindow;
 namespace Kurisu.NGDT.Editor
 {
@@ -23,15 +24,23 @@ namespace Kurisu.NGDT.Editor
         
         public DialogueTreeView(CeresGraphEditorWindow editorWindow) : base(editorWindow)
         {
-            DialogueContainer = editorWindow.Container as IDialogueContainer;
+            DialogueContainer = (IDialogueContainer)editorWindow.Container;
             styleSheets.Add(NextGenDialogueSetting.GetGraphStyle());
-            var provider = ScriptableObject.CreateInstance<DialogueNodeSearchWindow>();
-            provider.Initialize(this, NextGenDialogueSetting.GetNodeSearchSettings());
-            nodeCreationRequest = context =>
-            {
-                USearchWindow.Open(new SearchWindowContext(context.screenMousePosition), provider);
-            };
-            GroupBlockHandler = new DialogueGroupBlockHandler(this);
+            AddSearchWindow<DialogueNodeSearchWindow>();
+            AddGroupBlockHandler(new DialogueGroupBlockHandler(this));
+        }
+
+        public override void OpenSearch(Vector2 screenPosition)
+        {
+            /* Override context from settings */
+            SearchWindow.Initialize(this, NextGenDialogueSetting.GetNodeSearchContext());
+            USearchWindow.Open(new SearchWindowContext(screenPosition), SearchWindow);
+        }
+
+        public override void OpenSearch(Vector2 screenPosition, CeresPortView portView)
+        {
+            /* Port not support in dialogue graph view */
+            OpenSearch(screenPosition);
         }
 
         protected override string OnSerialize(IEnumerable<GraphElement> elements)
@@ -103,7 +112,7 @@ namespace Kurisu.NGDT.Editor
         {
             return PortHelper.GetCompatiblePorts(this, startAnchor);
         }
-        protected override void CopyFromObject(UnityEngine.Object data, Vector3 mousePosition)
+        protected override void OnDragDropObjectPerform(UnityEngine.Object data, Vector3 mousePosition)
         {
             if (data is GameObject)
             {

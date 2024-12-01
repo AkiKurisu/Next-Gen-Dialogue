@@ -8,7 +8,7 @@ namespace Kurisu.NGDT.Behavior
     [NodeGroup("Audio")]
     public class PlayClipAtPoint : Action
     {
-        public SharedTObject<AudioClip> audioClip;
+        public SharedUObject<AudioClip> audioClip;
         public SharedVector3 position;
         protected override Status OnUpdate()
         {

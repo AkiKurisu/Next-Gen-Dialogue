@@ -6,7 +6,12 @@
         "Kurisu.NGDS",
         "Ceres.Editor",
         "Ceres",
-        "Kurisu.Framework"
+        "Kurisu.Framework",
+        "Chris",
+        "Chris.Editor",
+        "R3.Unity",
+        "UniTask",
+        "UniTask.Addressables"
     ],
     "includePlatforms": [
         "Editor"

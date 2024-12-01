@@ -58,7 +58,7 @@ namespace Kurisu.NGDT.Editor
                 }
                 valueField.style.width = Length.Percent(70f);
                 content.Add(valueField);
-                if (variable is SharedObject sharedObject)
+                if (variable is SharedUObject sharedObject)
                 {
                     var objectField = valueField as ObjectField;
                     try

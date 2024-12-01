@@ -8,7 +8,7 @@ namespace Kurisu.NGDT.Behavior
     [NodeGroup("Dialogue")]
     public class InvokeScriptableEvent : Action
     {
-        public SharedTObject<ScriptableEvent> scriptableEvent;
+        public SharedUObject<ScriptableEvent> scriptableEvent;
         protected override Status OnUpdate()
         {
             scriptableEvent.Value?.Invoke();

@@ -1,7 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Kurisu.Framework;
+using Chris;
 using UnityEngine;
 namespace Kurisu.NGDS
 {
