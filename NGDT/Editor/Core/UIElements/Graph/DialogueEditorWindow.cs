@@ -12,9 +12,7 @@ namespace Kurisu.NGDT.Editor
     {
         private DialogueTreeView _graphView;
         
-        private CeresNodeInfoContainer _nodeInfoContainer;
-        
-        private const string TreeName = "Dialogue Tree";
+        private CeresInfoContainer _infoContainer;
         
         private const string InfoText = "Welcome to Next-Gen Dialogue Editor!";
         
@@ -79,8 +77,8 @@ namespace Kurisu.NGDT.Editor
         {
             rootVisualElement.Clear();
             _graphView = new DialogueTreeView(this);
-            _nodeInfoContainer = new CeresNodeInfoContainer(InfoText);
-            _graphView.Add(_nodeInfoContainer);
+            _infoContainer = new CeresInfoContainer(InfoText);
+            _graphView.Add(_infoContainer);
             _graphView.OnSelectNode = OnNodeSelectionChange;
             _graphView.AddBlackboard(new DialogueBlackboard(_graphView));
             _graphView.Restore();
@@ -160,17 +158,18 @@ namespace Kurisu.NGDT.Editor
                     GUILayout.BeginHorizontal(EditorStyles.toolbar);
 
                     GUI.enabled = !Application.isPlaying;
-                    if (GUILayout.Button($"Save {TreeName}", EditorStyles.toolbarButton))
+                    var image  = EditorGUIUtility.IconContent("SaveAs@2x").image;
+                    if (GUILayout.Button(new GUIContent(image,$"Save {Key.name}"), EditorStyles.toolbarButton))
                     {
                         var guiContent = new GUIContent();
                         if (graphView.Save())
                         {
-                            guiContent.text = $"Update {TreeName} Succeed !";
+                            guiContent.text = $"Update {Key.name} succeed !";
                             ShowNotification(guiContent);
                         }
                         else
                         {
-                            guiContent.text = $"Invalid {TreeName}, please check the node connection for errors !";
+                            guiContent.text = $"Failed to save {Key.name}, please check the node connection for errors!";
                             ShowNotification(guiContent);
                         }
                     }
@@ -301,7 +300,7 @@ namespace Kurisu.NGDT.Editor
         
         private void OnNodeSelectionChange(IDialogueNode node)
         {
-            _nodeInfoContainer.ShowInfo(node.GetBehavior());
+            _infoContainer.DisplayNodeInfo(node.GetBehavior());
             if (TryBake(out string content))
             {
                 _bakeGenerateText = content;

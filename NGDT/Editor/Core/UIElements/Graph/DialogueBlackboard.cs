@@ -1,17 +1,17 @@
 using System.Linq;
 using Ceres;
-using Ceres.Editor;
 using Ceres.Editor.Graph;
 using UnityEditor.Experimental.GraphView;
-using UnityEditor.UIElements;
 using UnityEngine.UIElements;
-using UnityEngine;
 namespace Kurisu.NGDT.Editor
 {
     public class DialogueBlackboard: CeresBlackboard
     {
+        private readonly BlackboardSection _pieceIdSection;
+        
         public DialogueBlackboard(CeresGraphView graphView) : base(graphView)
         {
+            ScrollView.Add(_pieceIdSection = new BlackboardSection { title = "Piece IDs" });
         }
 
         protected override bool CanVariableExposed(SharedVariable variable)
@@ -19,16 +19,26 @@ namespace Kurisu.NGDT.Editor
             return variable is not PieceID;
         }
 
-        protected override BlackboardRow CreateBlackboardPropertyRow(SharedVariable variable, BlackboardField blackboardField, VisualElement valueField)
+        protected override BlackboardRow CreateVariableBlackboardRow(SharedVariable variable, BlackboardField blackboardField, VisualElement valueField)
         {
-            var propertyView = base.CreateBlackboardPropertyRow(variable, blackboardField, valueField);
-            if (variable is PieceID)
-            {
-                blackboardField.RegisterCallback<ClickEvent>((evt) => FindRelatedPiece(variable));
-                propertyView.Q<Button>("expandButton").RemoveFromHierarchy();
-            }
+            var propertyView = base.CreateVariableBlackboardRow(variable, blackboardField, valueField);
+            if (variable is not PieceID) return propertyView;
+            
+            blackboardField.RegisterCallback<ClickEvent>((evt) => FindRelatedPiece(variable));
+            propertyView.Q<Button>("expandButton").RemoveFromHierarchy();
             return propertyView;
         }
+
+        protected override void AddVariableRow(SharedVariable variable, BlackboardRow blackboardRow)
+        {
+            if (variable is PieceID)
+            {
+                _pieceIdSection.Add(blackboardRow);
+                return;
+            }
+            base.AddVariableRow(variable, blackboardRow);
+        }
+
         private void FindRelatedPiece(SharedVariable variable)
         {
             var piece = graphView.nodes.OfType<PieceContainer>().FirstOrDefault(x => x.GetPieceID() == variable.Name);

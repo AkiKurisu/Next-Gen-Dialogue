@@ -113,7 +113,7 @@ namespace Kurisu.NGDT.Editor
             IsPending = false;
             async Task TranslateContentsAsync(FieldInfo fieldInfo, CancellationToken ct)
             {
-                string input = null;
+                string input;
                 if (fieldInfo.FieldType == typeof(string))
                     input = node.GetFieldValue<string>(fieldInfo.Name);
                 else if (fieldInfo.FieldType == typeof(SharedString))
@@ -145,10 +145,10 @@ namespace Kurisu.NGDT.Editor
         }
         private class TranslateContextualMenuBuilder : ContextualMenuBuilder
         {
-            public TranslateContextualMenuBuilder(EditorTranslateNode editorTranslateNode, Func<Type, bool> CanBuildFunc) :
+            public TranslateContextualMenuBuilder(EditorTranslateNode editorTranslateNode, Func<Type, bool> canBuildFunc) :
             base(
                 ContextualMenuType.Node,
-                CanBuildFunc,
+                canBuildFunc,
                (evt) =>
                {
                    var target = evt.target;
