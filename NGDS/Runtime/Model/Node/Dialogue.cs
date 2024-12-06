@@ -5,46 +5,51 @@ namespace Kurisu.NGDS
 {
     public class Dialogue : Node
     {
-        private static readonly ObjectPool<Dialogue> pool = new(() => new Dialogue(), (d) => d.IsPooled = true, (d) => d.Reset());
-        private readonly List<Piece> dialoguePieces = new();
-        private readonly Dictionary<string, Piece> dialoguePieceMap = new();
-        public IReadOnlyList<Piece> Pieces => dialoguePieces;
+        private static readonly ObjectPool<Dialogue> Pool = new(() => new Dialogue(), (d) => d.IsPooled = true, (d) => d.Reset());
+        
+        private readonly List<Piece> _dialoguePieces = new();
+        
+        private readonly Dictionary<string, Piece> _dialoguePieceMap = new();
+        
+        public IReadOnlyList<Piece> Pieces => _dialoguePieces;
+        
         public Piece this[string pieceName]
         {
-            get => dialoguePieceMap[pieceName];
-            set
-            {
-                dialoguePieceMap[pieceName] = value;
-            }
+            get => _dialoguePieceMap[pieceName];
+            set => _dialoguePieceMap[pieceName] = value;
         }
-        public Piece GetPiece(string ID)
+        
+        public Piece GetPiece(string id)
         {
-            if (dialoguePieceMap.ContainsKey(ID))
+            if (_dialoguePieceMap.TryGetValue(id, out var piece))
             {
-                return dialoguePieceMap[ID];
+                return piece;
             }
             return null;
         }
+        
         private Dialogue Reset()
         {
             IsPooled = false;
-            dialoguePieces.Clear();
-            dialoguePieceMap.Clear();
+            _dialoguePieces.Clear();
+            _dialoguePieceMap.Clear();
             ClearModules();
             return this;
         }
+        
         public void AddPiece(Piece piece)
         {
-            dialoguePieces.Add(piece);
-            if (dialoguePieceMap.ContainsKey(piece.PieceID))
+            _dialoguePieces.Add(piece);
+            if (_dialoguePieceMap.ContainsKey(piece.PieceID))
             {
                 Debug.LogWarning($"Dialogue already contain Piece with PieceID {piece.PieceID} !");
             }
             else
             {
-                dialoguePieceMap.Add(piece.PieceID, piece);
+                _dialoguePieceMap.Add(piece.PieceID, piece);
             }
         }
+        
         protected override void OnModuleAdd(IDialogueModule module)
         {
             if (module is Piece piece)
@@ -52,15 +57,17 @@ namespace Kurisu.NGDS
                 AddPiece(piece);
             }
         }
+        
         public static Dialogue GetPooled()
         {
-            return pool.Get();
+            return Pool.Get();
         }
+        
         protected override void OnDispose()
         {
             if (IsPooled)
             {
-                pool.Release(this);
+                Pool.Release(this);
             }
         }
     }

@@ -78,7 +78,7 @@ namespace Kurisu.NGDT.VITS.Editor
             isBaking = true;
             float startVal = (float)EditorApplication.timeSinceStartup;
             const float maxValue = 60.0f;
-            var ct = MapTreeView.GetCancellationTokenSource();
+            var ct = MapGraphView.GetCancellationTokenSource();
             Task<VITSResponse> task;
             if (this.GetFieldValue<bool>("noTranslation"))
             {
@@ -94,7 +94,7 @@ namespace Kurisu.NGDT.VITS.Editor
                 EditorUtility.DisplayProgressBar("Wait to bake audio", "Waiting for a few seconds", slider);
                 if (slider > 1)
                 {
-                    MapTreeView.EditorWindow.ShowNotification(new GUIContent($"Audio baking is out of time, please check your internet!"));
+                    MapGraphView.EditorWindow.ShowNotification(new GUIContent($"Audio baking is out of time, please check your internet!"));
                     ct.Cancel();
                     break;
                 }
@@ -108,7 +108,7 @@ namespace Kurisu.NGDT.VITS.Editor
             }
             else
             {
-                MapTreeView.EditorWindow.ShowNotification(new GUIContent($"Audio baked failed!"));
+                MapGraphView.EditorWindow.ShowNotification(new GUIContent($"Audio baked failed!"));
             }
             EditorUtility.ClearProgressBar();
             isBaking = false;

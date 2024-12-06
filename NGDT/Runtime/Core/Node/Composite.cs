@@ -70,14 +70,5 @@ namespace Kurisu.NGDT
                 children.Add(child as NodeBehavior);
             }
         }
-        public sealed override CeresNode[] GetChildren()
-        {
-            return children.Select(x=> x as CeresNode).ToArray();
-        }
-
-        public int GetChildCount()
-        {
-            return children.Count;
-        }
     }
 }

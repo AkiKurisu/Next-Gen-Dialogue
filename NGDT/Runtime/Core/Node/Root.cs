@@ -95,20 +95,18 @@ namespace Kurisu.NGDT
             return child as Dialogue;
         }
         
+        /// <summary>
+        /// Add child node to root's <see cref="children"/>, set main dialogue using <see cref="Child"/> setter
+        /// </summary>
+        /// <param name="inChild"></param>
         public sealed override void AddChild(CeresNode inChild)
         {
-            if (child == null)
-            {
-                child = inChild as NodeBehavior;
-                return;
-            }
-            children.Add(inChild as NodeBehavior);
+            children.Add((NodeBehavior)inChild);
         }
         
         public sealed override CeresNode GetChildAt(int index)
         {
-            if (index == 0) return child;
-            return children[index - 1];
+            return index == 0 ? child : children[index - 1];
         }
         
         public sealed override int GetChildrenCount()
@@ -128,20 +126,12 @@ namespace Kurisu.NGDT
             children.Clear();
             child = null;
             if(inChildren.Length <= 0 ) return;
-            foreach (var child in inChildren)
+            foreach (var inChild in inChildren)
             {
-                children.Add(child as NodeBehavior);
+                children.Add(inChild as NodeBehavior);
             }
             child = children[0];
             children.RemoveAt(0);
-        }
-        
-        public sealed override CeresNode[] GetChildren()
-        {
-            var list = new List<CeresNode>();
-            list.Add(child);
-            list.AddRange(children);
-            return children.ToArray();
         }
     }
 }

@@ -23,16 +23,16 @@ namespace Kurisu.NGDT.VITS.Editor
         }
         private void AttachAllPieces()
         {
-            MapTreeView.CollectNodes<PieceContainer>().ForEach(x => x.AddModuleNode(new VITSModule()));
+            MapGraphView.CollectNodes<PieceContainer>().ForEach(x => x.AddModuleNode(new VITSModule()));
         }
         private void AttachAllOptions()
         {
-            MapTreeView.CollectNodes<OptionContainer>().ForEach(x => x.AddModuleNode(new VITSModule()));
+            MapGraphView.CollectNodes<OptionContainer>().ForEach(x => x.AddModuleNode(new VITSModule()));
         }
         private async void GenerateAll()
         {
             generateAll.SetEnabled(false);
-            foreach (var container in MapTreeView.CollectNodes<ContainerNode>())
+            foreach (var container in MapGraphView.CollectNodes<ContainerNode>())
             {
                 if (container.TryGetModuleNode<VITSModule>(out var node))
                 {

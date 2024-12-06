@@ -62,15 +62,8 @@ namespace Kurisu.NGDT.Editor
                 if (variable is SharedUObject sharedObject)
                 {
                     var objectField = (ObjectField)valueField;
-                    try
-                    {
-                        objectField.objectType = Type.GetType(sharedObject.ConstraintTypeAQN, true);
-                        grid.text = $"{variable.GetType().Name} ({objectField.objectType.Name})  :  {variable.Name}";
-                    }
-                    catch
-                    {
-                        objectField.objectType = typeof(UnityEngine.Object);
-                    }
+                    objectField.objectType = sharedObject.GetObjectType();
+                    grid.text = $"{variable.GetType().Name} ({objectField.objectType.Name}):  {variable.Name}";
                 }
                 //Is Global Field
                 var globalToggle = new Button()

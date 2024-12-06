@@ -10,11 +10,7 @@ namespace Kurisu.NGDT.Editor
 {
     public class DialogueEditorWindow : CeresGraphEditorWindow<IDialogueContainer, DialogueEditorWindow>, IHasCustomMenu
     {
-        private DialogueTreeView _graphView;
-        
-        private CeresInfoContainer _infoContainer;
-        
-        private const string InfoText = "Welcome to Next-Gen Dialogue Editor!";
+        private DialogueGraphView _graphView;
         
         private static NextGenDialogueSetting _setting;
         
@@ -76,11 +72,10 @@ namespace Kurisu.NGDT.Editor
         private void StructGraphView()
         {
             rootVisualElement.Clear();
-            _graphView = new DialogueTreeView(this);
-            _infoContainer = new CeresInfoContainer(InfoText);
-            _graphView.Add(_infoContainer);
-            _graphView.OnSelectNode = OnNodeSelectionChange;
-            _graphView.AddBlackboard(new DialogueBlackboard(_graphView));
+            _graphView = new DialogueGraphView(this)
+            {
+                OnSelectNode = OnNodeSelectionChange
+            };
             _graphView.Restore();
             rootVisualElement.Add(CreateToolBar(_graphView));
             rootVisualElement.Add(_graphView);
@@ -145,12 +140,13 @@ namespace Kurisu.NGDT.Editor
             StructGraphView();
             Repaint();
         }
+        
         void IHasCustomMenu.AddItemsToMenu(GenericMenu menu)
         {
             menu.AddItem(new GUIContent("Reload"), false, Reload);
         }
         
-        private VisualElement CreateToolBar(DialogueTreeView graphView)
+        private VisualElement CreateToolBar(DialogueGraphView graphView)
         {
             return new IMGUIContainer(
                 () =>
@@ -202,7 +198,7 @@ namespace Kurisu.NGDT.Editor
                             EditorUtility.SetDirty(_setting);
                             AssetDatabase.SaveAssets();
                             ShowNotification(new GUIContent("Data dropped succeed !"));
-                            graphView.CopyFromOtherTree(data, new Vector3(400, 300));
+                            graphView.DeserializeGraph(data, new Vector3(400, 300));
                         }
                     }
                     GUILayout.FlexibleSpace();
@@ -211,9 +207,9 @@ namespace Kurisu.NGDT.Editor
                         string path = EditorUtility.SaveFilePanel("Select json file save path", Setting.LastPath, graphView.DialogueContainer.Object.name, "json");
                         if (!string.IsNullOrEmpty(path))
                         {
-                            var serializedData = graphView.SerializeTreeToJson();
+                            var serializedData = graphView.SerializeGraph();
                             FileInfo info = new(path);
-                            Setting.LastPath = info.Directory.FullName;
+                            Setting.LastPath = info.Directory!.FullName;
                             EditorUtility.SetDirty(_setting);
                             File.WriteAllText(path, serializedData);
                             Debug.Log($"<color=#3aff48>NGDT</color>:Save json file succeed !");
@@ -232,7 +228,7 @@ namespace Kurisu.NGDT.Editor
                             EditorUtility.SetDirty(_setting);
                             AssetDatabase.SaveAssets();
                             var data = File.ReadAllText(path);
-                            if (graphView.CopyFromJson(data, new Vector3(400, 300)))
+                            if (graphView.DeserializeGraph(data, new Vector3(400, 300)))
                                 ShowNotification(new GUIContent("Json file read Succeed !"));
                             else
                                 ShowNotification(new GUIContent("Json file is in wrong format !"));
@@ -300,15 +296,7 @@ namespace Kurisu.NGDT.Editor
         
         private void OnNodeSelectionChange(IDialogueNode node)
         {
-            _infoContainer.DisplayNodeInfo(node.GetBehavior());
-            if (TryBake(out string content))
-            {
-                _bakeGenerateText = content;
-            }
-            else
-            {
-                _bakeGenerateText = null;
-            }
+            _bakeGenerateText = TryBake(out var content) ? content : null;
         }
     }
 }

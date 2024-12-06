@@ -11,7 +11,7 @@ namespace Kurisu.NGDT.Editor
     {
         private Texture2D _indentationIcon;
 
-        protected DialogueTreeView DialogueView => (DialogueTreeView)GraphView;
+        private DialogueGraphView DialogueView => (DialogueGraphView)GraphView;
         
         protected override void OnInitialize()
         {
@@ -117,11 +117,11 @@ namespace Kurisu.NGDT.Editor
                 new SearchTreeGroupEntry(new GUIContent($"Select {typeof(T).Name}"), 0)
             };
             List<Type> nodeTypes = SubClassSearchUtility.FindSubClassTypes(typeof(T));
-            var groups = nodeTypes.GroupsByNodeGroup();
+            var groups = nodeTypes.GroupsByNodeGroup().ToList();
             nodeTypes = nodeTypes.Except(groups.SelectMany(x => x)).ToList();
-            groups = groups.SelectGroup(_context.ShowGroups).ExceptGroup(_context.HideGroups);
+            var namedGroups = groups.SelectGroup(_context.ShowGroups).ExceptGroup(_context.HideGroups);
             var builder = new CeresNodeSearchEntryBuilder(_indentationIcon);
-            foreach (var group in groups)
+            foreach (var group in namedGroups)
             {
                 builder.AddAllEntries(group, 1);
             }

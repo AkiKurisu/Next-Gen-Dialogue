@@ -37,14 +37,11 @@ namespace Kurisu.NGDT
         /// </summary>
         /// <param name="dialogueTree"></param>
         /// <param name="indented"></param>
-        /// <param name="serializeEditorData"></param>
-        /// <param name="verbose"></param>
         /// <returns></returns>
-        public static string Serialize(IDialogueContainer dialogueTree, bool indented = false, bool serializeEditorData = false,
-            bool verbose = true)
+        public static string Serialize(IDialogueContainer dialogueTree, bool indented = false)
         {
             var graphData = new DialogueGraphData(new DialogueGraph(dialogueTree)).CloneT<DialogueGraphData>();
-            var jsonData = Serialize(graphData, indented, serializeEditorData, verbose);
+            var jsonData = Serialize(graphData, indented);
 #if UNITY_EDITOR
             /* Patch for editor, should save dialogue graph data instead of saving nodes and variables directly */
             if(!Application.isPlaying)
@@ -134,32 +131,32 @@ namespace Kurisu.NGDT
         {
             public DialogueBuilder(DialogueGraph graph)
             {
-                this.graph = graph;
+                this._graph = graph;
             }
             
-            private readonly DialogueGraph graph;
+            private readonly DialogueGraph _graph;
             
-            private readonly Stack<Node> nodesBuffer = new();
+            private readonly Stack<Node> _nodesBuffer = new();
             
             public void StartWriteNode(Node node)
             {
-                nodesBuffer.Push(node);
+                _nodesBuffer.Push(node);
             }
             
             public void DisposeWriteNode()
             {
-                nodesBuffer.Pop().Dispose();
+                _nodesBuffer.Pop().Dispose();
             }
             
             public Node GetNode()
             {
-                return nodesBuffer.Peek();
+                return _nodesBuffer.Peek();
             }
             
             public void EndWriteNode()
             {
-                var node = nodesBuffer.Pop();
-                if (nodesBuffer.TryPeek(out Node parentNode) && node is IDialogueModule module)
+                var node = _nodesBuffer.Pop();
+                if (_nodesBuffer.TryPeek(out Node parentNode) && node is IDialogueModule module)
                 {
                     parentNode.AddModule(module);
                 }
@@ -167,12 +164,12 @@ namespace Kurisu.NGDT
             
             public void Clear()
             {
-                nodesBuffer.Clear();
+                _nodesBuffer.Clear();
             }
             
             public void EndBuildDialogue(IDialogueLookup dialogue)
             {
-                graph.ResolveDialogue(dialogue);
+                _graph.ResolveDialogue(dialogue);
             }
         }
     }

@@ -9,17 +9,21 @@ namespace Kurisu.NGDT
         Success,
         Failure
     }
+    
     /// <summary>
     /// Base class for dialogue graph node
     /// </summary>
     [Serializable]
-    public abstract class NodeBehavior: CeresNode, ILinkedNode
+    public abstract class NodeBehavior: CeresNode, ILinkedNode, ISerializationCallbackReceiver
     {
 #if UNITY_EDITOR
         [HideInGraphEditor, NonSerialized]
         public Action<Status> NotifyEditor;
 #endif
 
+        [HideInGraphEditor, SerializeField]
+        internal CeresNodeData nodeData;
+        
         protected GameObject GameObject { private set; get; }
         protected DialogueGraph Graph { private set; get; }
         public void Run(GameObject attachedObject, DialogueGraph graph)
@@ -84,21 +88,22 @@ namespace Kurisu.NGDT
         }
 
         /// <summary>
-        ///  Get all child nodes
-        /// </summary>
-        /// <returns></returns>
-        public virtual CeresNode[] GetChildren()
-        {
-            return Array.Empty<CeresNode>();
-        }
-
-        /// <summary>
         /// Set child nodes
         /// </summary>
         /// <param name="children"></param>
         public virtual void SetChildren(CeresNode[] children)
         {
             
+        }
+
+        public void OnBeforeSerialize()
+        {
+            nodeData = NodeData.Clone();
+        }
+
+        public void OnAfterDeserialize()
+        {
+            NodeData = nodeData;
         }
     }
 }

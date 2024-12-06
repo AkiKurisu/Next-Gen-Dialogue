@@ -18,5 +18,7 @@ namespace Kurisu.NGDT
         /// </summary>
         /// <value></value>  
         List<NodeGroupBlock> BlockData { get; }
+
+        DialogueGraph GetDialogueGraph();
     }
 }

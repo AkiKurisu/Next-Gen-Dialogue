@@ -17,14 +17,14 @@ namespace Kurisu.NGDT.Editor
 
         private NodeSearchContext _context;
         
-        private DialogueTreeView _treeView;
+        private DialogueGraphView _graphView;
         
         private IEnumerable<Type> _exceptTypes;
         
-        public void Init(ContainerNode node, DialogueTreeView treeView, NodeSearchContext context, IEnumerable<Type> exceptTypes)
+        public void Init(ContainerNode node, DialogueGraphView graphView, NodeSearchContext context, IEnumerable<Type> exceptTypes)
         {
             _exceptTypes = exceptTypes;
-            _treeView = treeView;
+            _graphView = graphView;
             _node = node;
             _context = context;
             _containerType = node.GetBehavior();
@@ -63,9 +63,9 @@ namespace Kurisu.NGDT.Editor
         {
             var entryData = (CeresNodeSearchEntryData)searchTreeEntry.userData;
             var type = entryData.NodeType;
-            var moduleNode = DialogueNodeFactory.Get().Create(type, _treeView) as ModuleNode;
+            var moduleNode = DialogueNodeFactory.Get().Create(type, _graphView) as ModuleNode;
+            _graphView.AddNodeView(moduleNode);
             _node.AddElement(moduleNode);
-            moduleNode!.OnSelect = _treeView.OnSelectNode;
             return true;
         }
     }

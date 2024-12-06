@@ -48,19 +48,19 @@ namespace Kurisu.NGDT
             }
             pieceMap.Clear();
         }
-        NGDS.Piece IDialogueLookup.GetNext(string ID)
+        NGDS.Piece IDialogueLookup.GetNext(string id)
         {
 #if UNITY_EDITOR
             Graph.Root.UpdateEditor?.Invoke();
 #endif
-            if (visitedPieceID.Contains(ID))
+            if (visitedPieceID.Contains(id))
             {
-                dialogueCache.GetPiece(ID).Dispose();
-                dialogueCache[ID] = pieceMap[ID].EmitPiece();
+                dialogueCache.GetPiece(id).Dispose();
+                dialogueCache[id] = pieceMap[id].EmitPiece();
             }
-            var newPiece = dialogueCache.GetPiece(ID);
+            var newPiece = dialogueCache.GetPiece(id);
             visitedPieceID.Add(newPiece.PieceID);
-            pieceMap[ID].Update();
+            pieceMap[id].Update();
             return newPiece;
         }
         NGDS.Piece IDialogueLookup.GetFirst()
@@ -78,12 +78,14 @@ namespace Kurisu.NGDT
             }
             return null;
         }
+        
 #if UNITY_EDITOR
         internal void AddPiece(Piece child, string reference)
         {
             AddChild(child);
             referencePieces.Add(reference);
         }
+        
         internal string ResolvePieceID(int index)
         {
             if (referencePieces == null || index >= referencePieces.Count) return null;
@@ -98,6 +100,7 @@ namespace Kurisu.NGDT
         {
             return dialogueCache;
         }
+        
         /// <summary>
         /// Get runtime piece map for fast lookup
         /// </summary>

@@ -8,8 +8,11 @@ namespace Kurisu.NGDT
     {
         [SerializeReference]
         private List<NodeBehavior> children = new();
+        
         protected IDialogueBuilder Builder { get; private set; }
+        
         public List<NodeBehavior> Children => children;
+        
         protected sealed override void OnRun()
         {
             for (int i = 0; i < children.Count; i++)
@@ -40,10 +43,12 @@ namespace Kurisu.NGDT
                 children[i].Start();
             }
         }
+        
         public virtual void Abort()
         {
 
         }
+        
         protected virtual void OnStart()
         {
         }
@@ -52,6 +57,7 @@ namespace Kurisu.NGDT
         {
             children.Add(child as NodeBehavior);
         }
+        
         public sealed override CeresNode GetChildAt(int index)
         {
             return children[index];
@@ -61,10 +67,12 @@ namespace Kurisu.NGDT
         {
             return children.Count;
         }
+        
         public sealed override void ClearChildren()
         {
             children.Clear();
         }
+        
         public sealed override void SetChildren(CeresNode[] inChildren)
         {
             children.Clear();
@@ -72,15 +80,6 @@ namespace Kurisu.NGDT
             {
                 children.Add(child as NodeBehavior);
             }
-        }
-        public sealed override CeresNode[] GetChildren()
-        {
-            return children.Select(x=> x as CeresNode).ToArray();
-        }
-
-        public int GetChildCount()
-        {
-            return children.Count;
         }
     }
 }

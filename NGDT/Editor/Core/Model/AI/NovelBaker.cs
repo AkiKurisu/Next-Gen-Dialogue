@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Ceres.Editor.Graph;
 using Kurisu.NGDS;
 using Kurisu.NGDS.AI;
 using Newtonsoft.Json;
@@ -158,16 +159,16 @@ namespace Kurisu.NGDT.Editor
         {
             return role == MessageRole.User ? UserName : BotName;
         }
-        public static async Task AutoGenerateNovel(DialogueTreeView treeView)
+        public static async Task AutoGenerateNovel(DialogueGraphView graphView)
         {
-            var containers = treeView.selection.OfType<ContainerNode>().ToList();
+            var containers = graphView.selection.OfType<ContainerNode>().ToList();
             if (containers.Count == 0) return;
             var bakeContainer = containers.Last();
             bakeContainer.TryGetModuleNode<NovelBakeModule>(out ModuleNode novelModule);
             NovelBaker baker = new();
             int depth = (int)novelModule.GetFieldResolver("generateDepth").Value;
             float startVal = (float)EditorApplication.timeSinceStartup;
-            var ct = treeView.GetCancellationTokenSource();
+            var ct = graphView.GetCancellationTokenSource();
             int step = 0;
             var task = Generate(containers, bakeContainer, ct.Token, 0, depth);
             while (!task.IsCompleted)
@@ -176,7 +177,7 @@ namespace Kurisu.NGDT.Editor
                 EditorUtility.DisplayProgressBar($"Wait to bake novel, step {step}", "Waiting for a few seconds", slider);
                 if (slider > 1)
                 {
-                    treeView.EditorWindow.ShowNotification(new GUIContent($"Novel baking is out of time, please check your internet!"));
+                    graphView.EditorWindow.ShowNotification(new GUIContent($"Novel baking is out of time, please check your internet!"));
                     ct.Cancel();
                     break;
                 }
@@ -184,12 +185,13 @@ namespace Kurisu.NGDT.Editor
             }
             if (!task.IsCanceled && !task.Result)
             {
-                treeView.EditorWindow.ShowNotification(new GUIContent($"Novel baking failed"));
+                graphView.EditorWindow.ShowNotification(new GUIContent($"Novel baking failed"));
             }
             EditorUtility.ClearProgressBar();
             await Task.Delay(2);
+            
             //Auto layout
-            NodeAutoLayoutHelper.Layout(new DialogueTreeLayoutConvertor(treeView, bakeContainer));
+            NodeAutoLayoutHelper.Layout(new DialogueTreeLayoutConvertor(graphView, bakeContainer));
 
             //Start from Piece
             async Task<bool> Generate(IReadOnlyList<ContainerNode> containers, ContainerNode bakeContainer, CancellationToken ct, int currentDepth, int maxDepth)
@@ -212,9 +214,9 @@ namespace Kurisu.NGDT.Editor
                 foreach (var pair in options)
                 {
                     // Create next container
-                    var node = treeView.CreateNextContainer(bakeContainer);
+                    var node = graphView.CreateNextContainer(bakeContainer);
                     // Link nodes
-                    treeView.ConnectContainerNodes(bakeContainer, node);
+                    graphView.ConnectContainerNodes(bakeContainer, node);
                     // Add bake module from script
                     node.AddModuleNode(new ContentModule(pair.Value));
                     // Append current bake to last

@@ -33,11 +33,19 @@ namespace Kurisu.NGDT
        
         public void Deserialize(string serializedData)
         {
-            if (CeresGraphData.Deserialize(serializedData, typeof(DialogueGraphData)) is not CeresGraphData graphData) return;
+            if (CeresGraphData.Deserialize(serializedData, typeof(DialogueGraphData)) is not CeresGraphData graphData)
+            {
+                return;
+            }
             SetGraphData(graphData);
         }
         
         public CeresGraph GetGraph()
+        {
+            return GetDialogueGraph();
+        }
+        
+        public DialogueGraph GetDialogueGraph()
         {
             return new DialogueGraph(this);
         }

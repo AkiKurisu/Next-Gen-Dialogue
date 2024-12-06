@@ -7,23 +7,30 @@ namespace Kurisu.NGDS
     public abstract class Node : IDisposable
     {
         protected internal bool IsPooled { get; set; }
+        
         private readonly List<IDialogueModule> modules = new();
+        
         public IReadOnlyList<IDialogueModule> Modules => modules;
+        
         public void AddModule(IDialogueModule module)
         {
             modules.Add(module);
             OnModuleAdd(module);
             if (module is IApplyable applyableModule) applyableModule.Apply(this);
         }
+        
         protected void ClearModules()
         {
             modules.Clear();
         }
+        
         protected virtual void OnModuleAdd(IDialogueModule module) { }
+        
         public IEnumerable<Node> ChildNodes()
         {
             return modules.OfType<Node>();
         }
+        
         public bool TryGetModule<T>(out T module) where T : IDialogueModule
         {
             foreach (var localModule in modules)
@@ -37,6 +44,7 @@ namespace Kurisu.NGDS
             module = default;
             return false;
         }
+        
         public void CollectModules<T>(List<T> modules) where T : IDialogueModule
         {
             foreach (var localModule in this.modules)
@@ -67,6 +75,7 @@ namespace Kurisu.NGDS
             }
             OnDispose();
         }
+        
         protected virtual void OnDispose() { }
     }
 }
