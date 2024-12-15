@@ -4,7 +4,7 @@ using Kurisu.NGDS;
 namespace Kurisu.NGDT.Behavior
 {
     [NodeInfo("Action: Invoke a scriptableEvent")]
-    [NodeLabel("Dialogue: Invoke ScriptableEvent")]
+    [CeresLabel("Dialogue: Invoke ScriptableEvent")]
     [NodeGroup("Dialogue")]
     public class InvokeScriptableEvent : Action
     {

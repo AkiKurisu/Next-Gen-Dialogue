@@ -4,7 +4,7 @@ using UnityEngine;
 namespace Kurisu.NGDT.Behavior
 {
     [NodeInfo("Action: Set trigger parameter of the Animator")]
-    [NodeLabel("Animator: SetTrigger")]
+    [CeresLabel("Animator: SetTrigger")]
     [NodeGroup("Animator")]
     public class AnimatorSetTrigger : AnimatorAction
     {

@@ -4,7 +4,7 @@ using UnityEngine;
 namespace Kurisu.NGDT.Behavior
 {
     [NodeInfo("Action: Convert int type to float type")]
-    [NodeLabel("Math: Int2Float")]
+    [CeresLabel("Math: Int2Float")]
     [NodeGroup("Math")]
     public class Int2Float : Action
     {

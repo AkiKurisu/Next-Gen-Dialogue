@@ -4,7 +4,7 @@ using UnityEngine;
 namespace Kurisu.NGDT.Behavior
 {
     [NodeInfo("Action: Play audioClip on target audioSource")]
-    [NodeLabel("Audio: PlayAudioClip")]
+    [CeresLabel("Audio: PlayAudioClip")]
     [NodeGroup("Audio")]
     public class PlayAudioClip : Action
     {

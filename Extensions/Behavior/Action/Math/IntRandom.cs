@@ -5,7 +5,7 @@ using UnityEngine.Serialization;
 namespace Kurisu.NGDT.Behavior
 {
     [NodeInfo("Action: Int type set random value")]
-    [NodeLabel("Math: IntRandom")]
+    [CeresLabel("Math: IntRandom")]
     [NodeGroup("Math")]
     public class IntRandom : Action
     {

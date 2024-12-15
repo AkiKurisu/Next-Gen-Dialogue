@@ -11,7 +11,7 @@ namespace Kurisu.NGDT
         [SerializeField]
         private bool useReference;
 #endif
-        [NodeLabel("Target ID"), Tooltip("The target dialogue piece's PieceID"), ReferencePieceID]
+        [CeresLabel("Target ID"), Tooltip("The target dialogue piece's PieceID"), ReferencePieceID]
         public PieceID targetID;
         protected sealed override IDialogueModule GetModule()
         {

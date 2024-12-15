@@ -4,7 +4,7 @@ using UnityEngine;
 namespace Kurisu.NGDT.Behavior
 {
     [NodeInfo("Action : Operate Vector3 value")]
-    [NodeLabel("Vector3 : Operator")]
+    [CeresLabel("Vector3 : Operator")]
     [NodeGroup("Vector3")]
     public class Vector3Operator : Action
     {

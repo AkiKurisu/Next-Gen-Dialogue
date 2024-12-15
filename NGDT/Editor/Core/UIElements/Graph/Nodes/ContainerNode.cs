@@ -225,8 +225,8 @@ namespace Kurisu.NGDT.Editor
                     _resolvers.Add(fieldResolver);
                     _fieldInfos.Add(p);
                 });
-            var label = nodeBehavior.GetCustomAttribute(typeof(NodeLabelAttribute), false) as NodeLabelAttribute;
-            _titleLabel.text = label?.Title ?? nodeBehavior.Name;
+            var label = nodeBehavior.GetCustomAttribute(typeof(CeresLabelAttribute), false) as CeresLabelAttribute;
+            _titleLabel.text = label?.Label ?? nodeBehavior.Name;
         }
         
         private void MarkAsExecuted(Status status)

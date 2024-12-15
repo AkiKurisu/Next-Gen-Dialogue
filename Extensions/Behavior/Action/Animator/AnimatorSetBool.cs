@@ -4,7 +4,7 @@ using UnityEngine;
 namespace Kurisu.NGDT.Behavior
 {
     [NodeInfo("Action: Set the Bool element of Animator according to status")]
-    [NodeLabel("Animator: SetBool")]
+    [CeresLabel("Animator: SetBool")]
     [NodeGroup("Animator")]
     public class AnimatorSetBool : AnimatorAction
     {

@@ -4,7 +4,7 @@ using UnityEngine.Serialization;
 namespace Kurisu.NGDT.Behavior
 {
     [NodeInfo("Action: Set float value")]
-    [NodeLabel("Math: SetFloat")]
+    [CeresLabel("Math: SetFloat")]
     [NodeGroup("Math")]
     public class SetFloat : Action
     {

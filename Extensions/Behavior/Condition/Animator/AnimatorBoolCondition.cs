@@ -4,7 +4,7 @@ using UnityEngine;
 namespace Kurisu.NGDT.Behavior
 {
     [NodeInfo("Condition: Get the Bool parameter of Animator, if it is consistent with the status, return Status.Success, otherwise return Status.Failure")]
-    [NodeLabel("Animator: BoolCondition")]
+    [CeresLabel("Animator: BoolCondition")]
     [NodeGroup("Animator")]
     public class AnimatorBoolCondition : AnimatorCondition
     {

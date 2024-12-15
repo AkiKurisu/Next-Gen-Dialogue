@@ -4,7 +4,7 @@ namespace Kurisu.NGDT.Behavior
 {
     [NodeInfo("Action: Fixed return value," +
     " returns a fixed value after running, you can put the node at the end of the combination logic to keep the return value.")]
-    [NodeLabel("Logic: Fixed Return")]
+    [CeresLabel("Logic: Fixed Return")]
     [NodeGroup("Logic")]
     public class FixedReturn : Action
     {

@@ -6,7 +6,7 @@ using UnityEngine;
 namespace Kurisu.NGDT.Behavior
 {
     [NodeInfo("Action: Format value of string")]
-    [NodeLabel("String: Format")]
+    [CeresLabel("String: Format")]
     [NodeGroup("String")]
     public class FormatString : Action
     {

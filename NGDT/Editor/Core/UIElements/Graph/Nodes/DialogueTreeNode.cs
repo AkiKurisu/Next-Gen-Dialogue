@@ -294,8 +294,8 @@ namespace Kurisu.NGDT.Editor
                     _resolvers.Add(fieldResolver);
                     _fieldInfos.Add(p);
                 });
-            var label = nodeBehavior.GetCustomAttribute(typeof(NodeLabelAttribute), false) as NodeLabelAttribute;
-            title = label?.Title ?? nodeBehavior.Name;
+            var label = nodeBehavior.GetCustomAttribute(typeof(CeresLabelAttribute), false) as CeresLabelAttribute;
+            title = label?.Label ?? nodeBehavior.Name;
             if (!haveSetting) SettingButton.visible = false;
             OnBehaviorSet();
         }

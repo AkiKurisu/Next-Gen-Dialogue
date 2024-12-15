@@ -4,7 +4,7 @@ using Ceres.Annotations;
 namespace Kurisu.NGDT.Behavior
 {
     [NodeInfo("Condition: Compare Bool values, if the conditions are met, return Status.Success, otherwise return Status.Failure")]
-    [NodeLabel("Math: BoolComparison")]
+    [CeresLabel("Math: BoolComparison")]
     [NodeGroup("Math")]
     public class BoolComparison : Conditional
     {

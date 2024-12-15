@@ -5,13 +5,13 @@ using UnityEngine.AI;
 namespace Kurisu.NGDT.Behavior
 {
     [NodeInfo("Action : Stop NavmeshAgent according to isStopped")]
-    [NodeLabel("Navmesh : StopAgent")]
+    [CeresLabel("Navmesh : StopAgent")]
     [NodeGroup("Navmesh")]
     public class NavmeshStopAgent : Action
     {
         [SerializeField, Tooltip("If not filled in, it will be obtained from the bound gameObject")]
         private SharedUObject<NavMeshAgent> agent;
-        [SerializeField, NodeLabel("Whether to stop")]
+        [SerializeField, CeresLabel("Whether to stop")]
         private SharedBool isStopped;
         protected override Status OnUpdate()
         {

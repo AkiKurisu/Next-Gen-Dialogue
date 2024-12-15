@@ -4,7 +4,7 @@ using UnityEngine;
 namespace Kurisu.NGDT.Behavior
 {
     [NodeInfo("Action: Log some text")]
-    [NodeLabel("Debug: Log")]
+    [CeresLabel("Debug: Log")]
     [NodeGroup("Debug")]
     public class DebugLog : Action
     {

@@ -4,7 +4,7 @@ using UnityEngine;
 namespace Kurisu.NGDT.Behavior
 {
     [NodeInfo("Action: Operate int value")]
-    [NodeLabel("Math: IntOperator")]
+    [CeresLabel("Math: IntOperator")]
     [NodeGroup("Math")]
     public class IntOperator : Action
     {

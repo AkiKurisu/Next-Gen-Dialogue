@@ -5,7 +5,7 @@ using UnityEngine.Serialization;
 namespace Kurisu.NGDT.Behavior
 {
     [NodeInfo("Action: Set string value")]
-    [NodeLabel("String: Set")]
+    [CeresLabel("String: Set")]
     [NodeGroup("String")]
     public class SetString : Action
     {

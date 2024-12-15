@@ -4,7 +4,7 @@ using UnityEngine;
 namespace Kurisu.NGDT.Behavior
 {
     [NodeInfo("Action: Operate bool value")]
-    [NodeLabel("Math: BoolOperator")]
+    [CeresLabel("Math: BoolOperator")]
     [NodeGroup("Math")]
     public class BoolOperator : Action
     {

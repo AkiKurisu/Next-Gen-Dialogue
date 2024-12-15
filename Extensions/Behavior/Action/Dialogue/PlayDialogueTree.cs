@@ -3,7 +3,7 @@ using Ceres.Annotations;
 namespace Kurisu.NGDT.Behavior
 {
     [NodeInfo("Action: Play another dialogue tree")]
-    [NodeLabel("Dialogue: Play DialogueTree")]
+    [CeresLabel("Dialogue: Play DialogueTree")]
     [NodeGroup("Dialogue")]
     public class PlayDialogueTree : Action
     {

@@ -4,7 +4,7 @@ using UnityEngine;
 namespace Kurisu.NGDT.Behavior
 {
     [NodeInfo("Action: Int type takes absolute value")]
-    [NodeLabel("Math: IntAbs")]
+    [CeresLabel("Math: IntAbs")]
     [NodeGroup("Math")]
     public class IntAbs : Action
     {

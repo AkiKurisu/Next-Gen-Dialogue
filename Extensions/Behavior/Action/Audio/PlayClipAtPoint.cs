@@ -4,7 +4,7 @@ using UnityEngine;
 namespace Kurisu.NGDT.Behavior
 {
     [NodeInfo("Action: Plays an AudioClip at a given position in world space")]
-    [NodeLabel("Audio: PlayClipAtPoint")]
+    [CeresLabel("Audio: PlayClipAtPoint")]
     [NodeGroup("Audio")]
     public class PlayClipAtPoint : Action
     {

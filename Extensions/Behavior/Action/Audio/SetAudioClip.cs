@@ -4,7 +4,7 @@ using UnityEngine;
 namespace Kurisu.NGDT.Behavior
 {
     [NodeInfo("Action: Set Shared AudioClip Value")]
-    [NodeLabel("Audio: SetAudioClip")]
+    [CeresLabel("Audio: SetAudioClip")]
     [NodeGroup("Audio")]
     public class SetAudioClip : Action
     {

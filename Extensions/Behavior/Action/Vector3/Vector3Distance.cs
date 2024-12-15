@@ -4,7 +4,7 @@ using UnityEngine;
 namespace Kurisu.NGDT.Behavior
 {
     [NodeInfo("Action : Calculate the distance between two Vector3")]
-    [NodeLabel("Vector3 : Distance")]
+    [CeresLabel("Vector3 : Distance")]
     [NodeGroup("Vector3")]
     public class Vector3Distance : Action
     {

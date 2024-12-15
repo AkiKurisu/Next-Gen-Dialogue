@@ -4,7 +4,7 @@ using UnityEngine;
 namespace Kurisu.NGDT.Behavior
 {
     [NodeInfo("Action : Get Transform.Position")]
-    [NodeLabel("Transform : GetPosition")]
+    [CeresLabel("Transform : GetPosition")]
     [NodeGroup("Transform")]
     public class TransformGetPosition : Action
     {

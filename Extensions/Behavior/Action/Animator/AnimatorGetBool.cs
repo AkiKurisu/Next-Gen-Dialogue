@@ -4,7 +4,7 @@ using UnityEngine;
 namespace Kurisu.NGDT.Behavior
 {
     [NodeInfo("Action: Get the Bool element of the Animator")]
-    [NodeLabel("Animator: GetBool")]
+    [CeresLabel("Animator: GetBool")]
     [NodeGroup("Animator")]
     public class AnimatorGetBool : AnimatorAction
     {

@@ -5,7 +5,7 @@ using Ceres.Annotations;
 namespace Kurisu.NGDT.Behavior
 {
     [NodeInfo("Action: Build value of string")]
-    [NodeLabel("String: Build")]
+    [CeresLabel("String: Build")]
     [NodeGroup("String")]
     public class BuildString : Action
     {

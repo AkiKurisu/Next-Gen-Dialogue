@@ -4,7 +4,7 @@ using Ceres.Annotations;
 namespace Kurisu.NGDT.Behavior
 {
     [NodeInfo("Condition: Compare Int values, if the conditions are met, return Status.Success, otherwise return Status.Failure")]
-    [NodeLabel("Math: IntComparison")]
+    [CeresLabel("Math: IntComparison")]
     [NodeGroup("Math")]
     public class IntComparison : Conditional
     {

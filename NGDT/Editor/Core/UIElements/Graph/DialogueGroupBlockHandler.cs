@@ -7,7 +7,7 @@ namespace Kurisu.NGDT.Editor
 {
     public class DialogueGroupBlockHandler : GroupBlockHandler
     {
-        public DialogueGroupBlockHandler(GraphView graphView) : base(graphView)
+        public DialogueGroupBlockHandler(DialogueGraphView graphView) : base(graphView)
         {
         }
         
@@ -19,14 +19,14 @@ namespace Kurisu.NGDT.Editor
                 autoUpdateGeometry = true,
                 title = blockData.title
             };
-            _graphView.AddElement(group);
+            GraphView.AddElement(group);
             group.SetPosition(rect);
             return group;
         }
         public override void SelectGroup(Node node)
         {
             var block = CreateGroup(new Rect(node.transform.position, new Vector2(100, 100)));
-            foreach (var select in _graphView.selection)
+            foreach (var select in GraphView.selection)
             {
                 if (select is not IDialogueNode or RootNode) continue;
                 block.AddElement(select as Node);
@@ -34,11 +34,11 @@ namespace Kurisu.NGDT.Editor
         }
         public override void UnselectGroup()
         {
-            foreach (var select in _graphView.selection)
+            foreach (var select in GraphView.selection)
             {
                 if (select is not IDialogueNode) continue;
                 var node = select as Node;
-                var block = _graphView.graphElements.OfType<DialogueGroup>().FirstOrDefault(x => x.ContainsElement(node));
+                var block = GraphView.graphElements.OfType<DialogueGroup>().FirstOrDefault(x => x.ContainsElement(node));
                 block?.RemoveElement(node);
             }
         }

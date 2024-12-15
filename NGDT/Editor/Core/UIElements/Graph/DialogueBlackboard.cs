@@ -7,11 +7,9 @@ namespace Kurisu.NGDT.Editor
 {
     public class DialogueBlackboard: CeresBlackboard
     {
-        private readonly BlackboardSection _pieceIdSection;
-        
         public DialogueBlackboard(CeresGraphView graphView) : base(graphView)
         {
-            ScrollView.Add(_pieceIdSection = new BlackboardSection { title = "Piece IDs" });
+            
         }
 
         protected override bool CanVariableExposed(SharedVariable variable)
@@ -33,7 +31,7 @@ namespace Kurisu.NGDT.Editor
         {
             if (variable is PieceID)
             {
-                _pieceIdSection.Add(blackboardRow);
+                GetOrAddSection("Piece IDs").Add(blackboardRow);
                 return;
             }
             base.AddVariableRow(variable, blackboardRow);

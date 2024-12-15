@@ -3,7 +3,7 @@ namespace Kurisu.NGDT
 {
     [NodeInfo("Decorator: If the child node returns Success, it is reversed to Failure," +
     " if it is Failure, it is reversed to Success.")]
-    [NodeLabel("Invertor")]
+    [CeresLabel("Invertor")]
     public class Invertor : Decorator
     {
 

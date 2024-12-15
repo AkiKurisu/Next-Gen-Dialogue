@@ -4,7 +4,7 @@ using Ceres.Annotations;
 namespace Kurisu.NGDT.Behavior
 {
     [NodeInfo("Action: Replace value of string")]
-    [NodeLabel("String: Replace")]
+    [CeresLabel("String: Replace")]
     [NodeGroup("String")]
     public class ReplaceString : Action
     {

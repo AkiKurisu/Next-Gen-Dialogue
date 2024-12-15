@@ -4,7 +4,7 @@ namespace Kurisu.NGDT
 {
     [NodeInfo("Decorator: Execute the child node repeatedly by the specified number of times" +
     ", if the execution returns Failure, the loop ends and returns Failure")]
-    [NodeLabel("Repeater")]
+    [CeresLabel("Repeater")]
     public class Repeater : Decorator
     {
         public Ceres.SharedInt repeatCount;

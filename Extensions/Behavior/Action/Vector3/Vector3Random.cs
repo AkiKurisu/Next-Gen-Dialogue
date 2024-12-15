@@ -5,7 +5,7 @@ using UnityEngine.Serialization;
 namespace Kurisu.NGDT.Behavior
 {
     [NodeInfo("Action : Random get Vector3 value")]
-    [NodeLabel("Vector3 : Random")]
+    [CeresLabel("Vector3 : Random")]
     [NodeGroup("Vector3")]
     public class Vector3Random : Action
     {

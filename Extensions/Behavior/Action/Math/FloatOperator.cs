@@ -4,7 +4,7 @@ using UnityEngine;
 namespace Kurisu.NGDT.Behavior
 {
     [NodeInfo("Action: Operate float value")]
-    [NodeLabel("Math: FloatOperator")]
+    [CeresLabel("Math: FloatOperator")]
     [NodeGroup("Math")]
     public class FloatOperator : Action
     {

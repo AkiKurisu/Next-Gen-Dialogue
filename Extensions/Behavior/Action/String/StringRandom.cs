@@ -4,7 +4,7 @@ using Ceres.Annotations;
 namespace Kurisu.NGDT.Behavior
 {
     [NodeInfo("Action: Set random string value")]
-    [NodeLabel("String: Random")]
+    [CeresLabel("String: Random")]
     [NodeGroup("String")]
     public class StringRandom : Action
     {

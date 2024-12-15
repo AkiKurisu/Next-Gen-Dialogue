@@ -4,7 +4,7 @@ using UnityEngine;
 namespace Kurisu.NGDT.Behavior
 {
     [NodeInfo("Action: Flip bool value")]
-    [NodeLabel("Math: BoolFlip")]
+    [CeresLabel("Math: BoolFlip")]
     [NodeGroup("Math")]
     public class BoolFlip : Action
     {

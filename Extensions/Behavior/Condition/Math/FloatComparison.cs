@@ -4,7 +4,7 @@ using Ceres.Annotations;
 namespace Kurisu.NGDT.Behavior
 {
     [NodeInfo("Condition: Compare Float values, if the condition is met, return Status.Success, otherwise return Status.Failure")]
-    [NodeLabel("Math: FloatComparison")]
+    [CeresLabel("Math: FloatComparison")]
     [NodeGroup("Math")]
     public class FloatComparison : Conditional
     {

@@ -4,7 +4,7 @@ using UnityEngine.Serialization;
 namespace Kurisu.NGDT.Behavior
 {
     [NodeInfo("Action: Set int value")]
-    [NodeLabel("Math: SetInt")]
+    [CeresLabel("Math: SetInt")]
     [NodeGroup("Math")]
     public class SetInt : Action
     {

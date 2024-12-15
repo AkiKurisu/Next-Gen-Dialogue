@@ -5,7 +5,7 @@ using UnityEngine.AI;
 namespace Kurisu.NGDT.Behavior
 {
     [NodeInfo("Action: Set the destination of NavmeshAgent")]
-    [NodeLabel("Navmesh: SetDestination")]
+    [CeresLabel("Navmesh: SetDestination")]
     [NodeGroup("Navmesh")]
     public class NavmeshSetDestination : Action
     {

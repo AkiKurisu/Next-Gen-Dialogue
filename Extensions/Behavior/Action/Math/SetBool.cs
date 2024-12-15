@@ -4,7 +4,7 @@ using UnityEngine.Serialization;
 namespace Kurisu.NGDT.Behavior
 {
     [NodeInfo("Action: Set bool value")]
-    [NodeLabel("Math: SetBool")]
+    [CeresLabel("Math: SetBool")]
     [NodeGroup("Math")]
     public class SetBool : Action
     {
