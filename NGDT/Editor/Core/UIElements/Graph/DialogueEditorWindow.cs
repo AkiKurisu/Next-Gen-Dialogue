@@ -24,7 +24,7 @@ namespace Kurisu.NGDT.Editor
         {
             get
             {
-                if (_setting == null) _setting = NextGenDialogueSetting.GetOrCreateSettings();
+                if (!_setting) _setting = NextGenDialogueSetting.GetOrCreateSettings();
                 return _setting;
             }
         }
@@ -46,7 +46,7 @@ namespace Kurisu.NGDT.Editor
         [MenuItem("Tools/Next Gen Dialogue/Next Gen Dialogue Editor")]
         private static void ShowEditorWindow()
         {
-            string path = EditorUtility.SaveFilePanel("Select DialogueTreeSO save path", Application.dataPath, "DialogueTreeSO", "asset");
+            string path = EditorUtility.SaveFilePanel("Select DialogueAsset save path", Application.dataPath, "DialogueTreeSO", "asset");
             if (string.IsNullOrEmpty(path)) return;
             path = path.Replace(Application.dataPath, string.Empty);
             var asset = CreateInstance<NextGenDialogueAsset>();
@@ -86,13 +86,13 @@ namespace Kurisu.NGDT.Editor
             var treeAsset = CreateInstance<NextGenDialogueAsset>();
             if (!_graphView.Validate())
             {
-                Debug.LogWarning($"<color=#ff2f2f>NGDT</color> : Save failed, ScriptableObject wasn't created !\n{DateTime.Now}");
+                Debug.LogWarning($"<color=#ff2f2f>NGDT</color>: Save failed, ScriptableObject wasn't created!\n{DateTime.Now}");
                 return;
             }
             _graphView.Commit(treeAsset);
             AssetDatabase.CreateAsset(treeAsset, $"Assets/{path}/{Key.name}.asset");
             AssetDatabase.SaveAssets();
-            Debug.Log($"<color=#3aff48>NGDT</color> : Save succeed, ScriptableObject created path : {path}/{Key.name}.asset\n{DateTime.Now}");
+            Debug.Log($"<color=#3aff48>NGDT</color>: Save succeed, ScriptableObject created path: {path}/{Key.name}.asset\n{DateTime.Now}");
         }
 
         protected override void OnDisable()

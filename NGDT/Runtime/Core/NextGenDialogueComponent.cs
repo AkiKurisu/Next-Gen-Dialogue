@@ -39,9 +39,9 @@ namespace Kurisu.NGDT
         }
         
         [SerializeField, HideInInspector]
-        private List<NodeGroupBlock> blockData = new();
+        private List<NodeGroup> blockData = new();
         
-        public List<NodeGroupBlock> BlockData => blockData;
+        public List<NodeGroup> BlockData => blockData;
         
         public Root Root
         {
@@ -80,7 +80,7 @@ namespace Kurisu.NGDT
         {
             var dialogueGraph = new DialogueGraph(graphData as DialogueGraphData);
             root = dialogueGraph.Root;
-            blockData = dialogueGraph.nodeGroupBlocks;
+            blockData = dialogueGraph.nodeGroups;
             sharedVariables = dialogueGraph.variables;
         }
     }

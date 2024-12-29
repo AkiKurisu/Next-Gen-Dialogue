@@ -33,7 +33,7 @@ namespace Kurisu.NGDT.Editor
             AddBlackboard(new DialogueBlackboard(this));
             Add(_infoContainer = new CeresInfoContainer(InfoText));
             AddSearchWindow<DialogueNodeSearchWindow>();
-            AddGroupBlockHandler(new DialogueGroupBlockHandler(this));
+            AddNodeGroupHandler(new DialogueNodeGroupHandler(this));
         }
 
         public override void OpenSearch(Vector2 screenPosition)
@@ -202,7 +202,7 @@ namespace Kurisu.NGDT.Editor
         {
             foreach (var nodeBlockData in tree.BlockData)
             {
-                GroupBlockHandler.CreateGroup(new Rect(nodeBlockData.position, new Vector2(100, 100)), nodeBlockData)
+                NodeGroupHandler.CreateGroup(new Rect(nodeBlockData.position, new Vector2(100, 100)), nodeBlockData)
                 .AddElements(inNodes.Where(x => nodeBlockData.childNodes.Contains(x.Guid)).Cast<Node>());
             }
         }
@@ -252,7 +252,7 @@ namespace Kurisu.NGDT.Editor
             }
             
             // Commit blocks
-            var groupBlocks = graphElements.OfType<DialogueGroup>().ToList();
+            var groupBlocks = graphElements.OfType<DialogueNodeGroup>().ToList();
             tree.BlockData.Clear();
             foreach (var block in groupBlocks)
             {

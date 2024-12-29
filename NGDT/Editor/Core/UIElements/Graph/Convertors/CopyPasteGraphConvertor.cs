@@ -128,12 +128,12 @@ namespace Kurisu.NGDT.Editor
         }
         private void CopyGroupBlocks()
         {
-            foreach (var selectBlock in sourceElements.OfType<DialogueGroup>())
+            foreach (var selectBlock in sourceElements.OfType<DialogueNodeGroup>())
             {
                 var nodes = selectBlock.containedElements.Cast<IDialogueNode>();
                 Rect newRect = selectBlock.GetPosition();
                 newRect.position += new Vector2(50, 50);
-                var block = sourceView.GroupBlockHandler.CreateGroup(newRect);
+                var block = sourceView.NodeGroupHandler.CreateGroup(newRect);
                 block.title = selectBlock.title;
                 block.AddElements(nodes.Where(x => nodeCopyDict.ContainsKey(x)).Select(x => nodeCopyDict[x]).Cast<Node>());
             }

@@ -57,7 +57,7 @@ namespace Kurisu.NGDT.Editor
                 level = 1, 
                 userData = new CeresNodeSearchEntryData()
                 {
-                    NodeType = typeof(DialogueGroup)
+                    NodeType = typeof(DialogueNodeGroup)
                 } 
             });
             return entries;
@@ -67,9 +67,9 @@ namespace Kurisu.NGDT.Editor
             Rect newRect = new(GraphView.Screen2GraphPosition(context.screenMousePosition), new Vector2(100, 100));
             var entryData = (CeresNodeSearchEntryData)searchTreeEntry.userData;
             var type = entryData.NodeType;
-            if (type == typeof(DialogueGroup))
+            if (type == typeof(DialogueNodeGroup))
             {
-                GraphView.GroupBlockHandler.CreateGroup(newRect);
+                GraphView.NodeGroupHandler.CreateGroup(newRect);
                 return true;
             }
             if (type.IsSubclassOf(typeof(Container)))

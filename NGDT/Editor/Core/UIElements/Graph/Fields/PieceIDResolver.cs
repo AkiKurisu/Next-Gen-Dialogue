@@ -14,13 +14,17 @@ namespace Kurisu.NGDT.Editor
         public PieceIDResolver(FieldInfo fieldInfo) : base(fieldInfo)
         {
         }
+        
         protected override PieceIDField CreateEditorField(FieldInfo fieldInfo)
         {
-            bool isReferenced = fieldInfo.GetCustomAttribute<ReferencePieceIDAttribute>() != null;
+            var isReferenced = fieldInfo.GetCustomAttribute<ReferencePieceIDAttribute>() != null;
             return new PieceIDField(fieldInfo.Name, isReferenced);
         }
-        public static bool IsAcceptable(Type infoType, FieldInfo _) => infoType == typeof(PieceID);
-
+        
+        public override bool IsAcceptable(Type fieldValueType, FieldInfo _)
+        {
+            return fieldValueType == typeof(PieceID);
+        }
     }
     
     public class PieceIDField : BaseField<PieceID>, IBindableField

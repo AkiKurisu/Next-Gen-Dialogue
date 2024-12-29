@@ -24,6 +24,7 @@ namespace Kurisu.NGDT.Editor
             
             blackboardField.RegisterCallback<ClickEvent>((evt) => FindRelatedPiece(variable));
             propertyView.Q<Button>("expandButton").RemoveFromHierarchy();
+            propertyView.AddToClassList("pieceId-blackboard");
             return propertyView;
         }
 

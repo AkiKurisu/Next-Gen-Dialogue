@@ -67,7 +67,7 @@ namespace Kurisu.NGDT
 
             nodes = new List<CeresNode> { dt.Root };
             nodes.AddRange(dt.Root); /* Traverse dialogue tree */
-            nodeGroupBlocks = new List<NodeGroupBlock>(dt.BlockData);
+            nodeGroups = new List<NodeGroup>(dt.BlockData);
         }
 
         public DialogueGraph(DialogueGraphData graphData): base(graphData)

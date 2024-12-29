@@ -294,8 +294,7 @@ namespace Kurisu.NGDT.Editor
                     _resolvers.Add(fieldResolver);
                     _fieldInfos.Add(p);
                 });
-            var label = nodeBehavior.GetCustomAttribute(typeof(CeresLabelAttribute), false) as CeresLabelAttribute;
-            title = label?.Label ?? nodeBehavior.Name;
+            title = CeresLabel.GetLabel(nodeBehavior);
             if (!haveSetting) SettingButton.visible = false;
             OnBehaviorSet();
         }
@@ -331,14 +330,6 @@ namespace Kurisu.NGDT.Editor
             evt.menu.MenuItems().Add(new CeresDropdownMenuAction("Duplicate", (a) =>
             {
                 MapGraphView.DuplicateNode(this);
-            }));
-            evt.menu.MenuItems().Add(new CeresDropdownMenuAction("Select Group", (a) =>
-            {
-                MapGraphView.GroupBlockHandler.SelectGroup(this);
-            }));
-            evt.menu.MenuItems().Add(new CeresDropdownMenuAction("UnSelect Group", (a) =>
-            {
-                MapGraphView.GroupBlockHandler.UnselectGroup();
             }));
             MapGraphView.ContextualMenuRegistry.BuildContextualMenu(ContextualMenuType.Node, evt, GetBehavior());
         }

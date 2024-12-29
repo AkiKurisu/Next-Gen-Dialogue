@@ -5,7 +5,17 @@ GridBackground {
     --spacing: 10;
     
 }
+
 Label
 {
     min-width:10px;
+}
+
+.CeresPortElement.pieceId-blackboard {
+    --port-color: #72B786;
+}
+
+.pieceId-blackboard #pill #contents > #top > #title-label
+{
+    color: #ABFFDA;
 }

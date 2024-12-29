@@ -62,7 +62,7 @@ namespace Kurisu.NGDT.Editor
                 if (variable is SharedUObject sharedObject)
                 {
                     var objectField = (ObjectField)valueField;
-                    objectField.objectType = sharedObject.GetObjectType();
+                    objectField.objectType = sharedObject.GetValueType();
                     grid.text = $"{variable.GetType().Name} ({objectField.objectType.Name}):  {variable.Name}";
                 }
                 //Is Global Field
