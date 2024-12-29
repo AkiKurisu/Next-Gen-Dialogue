@@ -1,4 +1,4 @@
-using Chris;
+using Chris.Gameplay;
 using UnityEngine;
 using Kurisu.NGDS.AI;
 namespace Kurisu.NGDS.VITS
@@ -7,31 +7,39 @@ namespace Kurisu.NGDS.VITS
     {
         [SerializeField]
         private AITurboSetting setting;
+        
         [SerializeField]
         private AudioSource audioSource;
-        private IPieceResolver pieceResolver;
-        private IOptionResolver optionResolver;
-        private IDialogueResolver dialogueResolver;
-        private VITSTurbo vitsTurbo;
-        public AudioClip AudioClipCache => vitsTurbo?.AudioClipCache;
+        
+        private IPieceResolver _pieceResolver;
+        
+        private IOptionResolver _optionResolver;
+        
+        private IDialogueResolver _dialogueResolver;
+        
+        private VITSTurbo _vitsTurbo;
+        
+        public AudioClip AudioClipCache => _vitsTurbo?.AudioClipCache;
+        
         private void Awake()
         {
-            vitsTurbo = new VITSTurbo(setting)
+            _vitsTurbo = new VITSTurbo(setting)
             {
                 // Auto-detect language, not specify source language
                 Translator = LLMFactory.CreateTranslator(setting.TranslatorType, setting, setting.LLM_Language, setting.VITS_Language)
             };
-            ContainerSubsystem.Get().Register(vitsTurbo);
-            ContainerSubsystem.Get().Register(pieceResolver = new VITSPieceResolver(vitsTurbo, audioSource));
-            ContainerSubsystem.Get().Register(optionResolver = new VITSOptionResolver(vitsTurbo, audioSource));
-            ContainerSubsystem.Get().Register(dialogueResolver = new DefaultDialogueResolver());
+            ContainerSubsystem.Get().Register(_vitsTurbo);
+            ContainerSubsystem.Get().Register(_pieceResolver = new VITSPieceResolver(_vitsTurbo, audioSource));
+            ContainerSubsystem.Get().Register(_optionResolver = new VITSOptionResolver(_vitsTurbo, audioSource));
+            ContainerSubsystem.Get().Register(_dialogueResolver = new DefaultDialogueResolver());
         }
+        
         private void OnDestroy()
         {
-            ContainerSubsystem.Get()?.Unregister(vitsTurbo);
-            ContainerSubsystem.Get()?.Unregister(pieceResolver);
-            ContainerSubsystem.Get()?.Unregister(optionResolver);
-            ContainerSubsystem.Get()?.Unregister(dialogueResolver);
+            ContainerSubsystem.Get()?.Unregister(_vitsTurbo);
+            ContainerSubsystem.Get()?.Unregister(_pieceResolver);
+            ContainerSubsystem.Get()?.Unregister(_optionResolver);
+            ContainerSubsystem.Get()?.Unregister(_dialogueResolver);
         }
     }
 

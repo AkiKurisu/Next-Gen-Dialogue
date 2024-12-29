@@ -1,5 +1,5 @@
 using System;
-using Chris;
+using Chris.Gameplay;
 using Kurisu.NGDS;
 using UnityEngine;
 using UnityEngine.Playables;

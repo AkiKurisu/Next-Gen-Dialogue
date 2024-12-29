@@ -13,17 +13,14 @@ namespace Kurisu.NGDT
         
         UObject ICeresGraphContainer.Object => this;
 
-        public Root Root
-        {
-            get => root;
-        }
-        
+        public Root Root => root;
+
         public List<SharedVariable> SharedVariables => sharedVariables;
         
         [SerializeField, HideInInspector]
-        private List<NodeGroup> blockData = new();
+        private List<NodeGroup> nodeGroups = new();
         
-        public List<NodeGroup> BlockData => blockData;
+        public List<NodeGroup> NodeGroups => nodeGroups;
         
         [Multiline, SerializeField]
         private string description;
@@ -54,7 +51,7 @@ namespace Kurisu.NGDT
         {
             var dialogueGraph = new DialogueGraph(graphData as DialogueGraphData);
             root = dialogueGraph.Root;
-            blockData = dialogueGraph.nodeGroups;
+            nodeGroups = dialogueGraph.nodeGroups;
             sharedVariables = dialogueGraph.variables;
         }
     }

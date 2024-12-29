@@ -17,7 +17,7 @@ namespace Kurisu.NGDT
         /// Get block data from behavior tree graph
         /// </summary>
         /// <value></value>  
-        List<NodeGroup> BlockData { get; }
+        List<NodeGroup> NodeGroups { get; }
 
         DialogueGraph GetDialogueGraph();
     }

@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using Ceres;
 using Ceres.Graph;
-using Chris;
+using Chris.Gameplay;
 using Kurisu.NGDS;
 using UnityEngine;
 namespace Kurisu.NGDT
@@ -67,7 +67,7 @@ namespace Kurisu.NGDT
 
             nodes = new List<CeresNode> { dt.Root };
             nodes.AddRange(dt.Root); /* Traverse dialogue tree */
-            nodeGroups = new List<NodeGroup>(dt.BlockData);
+            nodeGroups = new List<NodeGroup>(dt.NodeGroups);
         }
 
         public DialogueGraph(DialogueGraphData graphData): base(graphData)

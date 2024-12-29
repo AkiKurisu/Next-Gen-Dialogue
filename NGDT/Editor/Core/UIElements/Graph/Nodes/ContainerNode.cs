@@ -6,7 +6,7 @@ using Ceres;
 using Ceres.Annotations;
 using Ceres.Editor;
 using Ceres.Editor.Graph;
-using Chris;
+using Chris.Gameplay;
 using Kurisu.NGDS;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
@@ -472,7 +472,7 @@ namespace Kurisu.NGDT.Editor
                     ContainerSubsystem.Get().Resolve<IDialogueSystem>()
                                      .PlayDialoguePiece(GetPiece().CastPiece().PieceID);
                 },
-                (_) =>
+                _ =>
                 {
                     var ds = ContainerSubsystem.Get().Resolve<IDialogueSystem>();
                     if (ds == null) return DropdownMenuAction.Status.Hidden;

@@ -200,10 +200,10 @@ namespace Kurisu.NGDT.Editor
         
         private void RestoreBlocks(IDialogueContainer tree, List<IDialogueNode> inNodes)
         {
-            foreach (var nodeBlockData in tree.BlockData)
+            foreach (var nodeGroup in tree.NodeGroups)
             {
-                NodeGroupHandler.CreateGroup(new Rect(nodeBlockData.position, new Vector2(100, 100)), nodeBlockData)
-                .AddElements(inNodes.Where(x => nodeBlockData.childNodes.Contains(x.Guid)).Cast<Node>());
+                NodeGroupHandler.CreateGroup(new Rect(nodeGroup.position, new Vector2(100, 100)), nodeGroup)
+                .AddElements(inNodes.Where(x => nodeGroup.childNodes.Contains(x.Guid)).Cast<Node>());
             }
         }
 
@@ -253,10 +253,10 @@ namespace Kurisu.NGDT.Editor
             
             // Commit blocks
             var groupBlocks = graphElements.OfType<DialogueNodeGroup>().ToList();
-            tree.BlockData.Clear();
+            tree.NodeGroups.Clear();
             foreach (var block in groupBlocks)
             {
-                block.Commit(tree.BlockData);
+                block.Commit(tree.NodeGroups);
             }
             
             // Should set tree dirty flag if it is in a prefab
