@@ -4,7 +4,7 @@ namespace Kurisu.NGDT
     /// <summary>
     /// Constraint the container nodes this module belongs to
     /// </summary>
-    [AttributeUsage(AttributeTargets.Class, AllowMultiple = true, Inherited = true)]
+    [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
     public sealed class ModuleOfAttribute : Attribute
     {
         public Type ContainerType { get; }

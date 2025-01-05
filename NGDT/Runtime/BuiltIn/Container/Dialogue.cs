@@ -1,9 +1,11 @@
+using System;
 using System.Collections.Generic;
 using Ceres.Annotations;
 using Kurisu.NGDS;
 using UnityEngine;
 namespace Kurisu.NGDT
 {
+    [Serializable]
     [NodeInfo("Dialogue is the main container of dialogue pieces")]
     public class Dialogue : Container, IDialogueLookup
     {
@@ -12,24 +14,28 @@ namespace Kurisu.NGDT
         [HideInGraphEditor, SerializeField]
         internal List<string> referencePieces;
 #endif
-        private NGDS.Dialogue dialogueCache;
-        private readonly Dictionary<string, Piece> pieceMap = new();
-        private readonly HashSet<string> visitedPieceID = new();
+        private NGDS.Dialogue _dialogueCache;
+        
+        private readonly Dictionary<string, Piece> _pieceMap = new();
+        
+        private readonly HashSet<string> _visitedPieceID = new();
+        
         public Status Update(IEnumerable<Piece> allPieces)
         {
-            dialogueCache = NGDS.Dialogue.GetPooled();
+            _dialogueCache = NGDS.Dialogue.GetPooled();
             foreach (var piece in allPieces)
             {
                 var dialoguePiece = piece.EmitPiece();
-                pieceMap[dialoguePiece.PieceID] = piece;
+                _pieceMap[dialoguePiece.PieceID] = piece;
                 //Assert PieceID should be unique
-                dialogueCache.AddModule(dialoguePiece);
+                _dialogueCache.AddModule(dialoguePiece);
             }
             return Update();
         }
+        
         protected sealed override Status OnUpdate()
         {
-            Builder.StartWriteNode(dialogueCache);
+            Builder.StartWriteNode(_dialogueCache);
             foreach (var child in Children)
             {
                 if (child is not Piece)
@@ -39,30 +45,33 @@ namespace Kurisu.NGDT
             Builder.EndBuildDialogue(this);
             return Status.Success;
         }
+        
         public override void Abort()
         {
-            dialogueCache = null;
-            foreach (var piece in pieceMap.Values)
+            _dialogueCache = null;
+            foreach (var piece in _pieceMap.Values)
             {
                 piece.Abort();
             }
-            pieceMap.Clear();
+            _pieceMap.Clear();
         }
+        
         NGDS.Piece IDialogueLookup.GetNext(string id)
         {
 #if UNITY_EDITOR
             Graph.Root.UpdateEditor?.Invoke();
 #endif
-            if (visitedPieceID.Contains(id))
+            if (_visitedPieceID.Contains(id))
             {
-                dialogueCache.GetPiece(id).Dispose();
-                dialogueCache[id] = pieceMap[id].EmitPiece();
+                _dialogueCache.GetPiece(id).Dispose();
+                _dialogueCache[id] = _pieceMap[id].EmitPiece();
             }
-            var newPiece = dialogueCache.GetPiece(id);
-            visitedPieceID.Add(newPiece.PieceID);
-            pieceMap[id].Update();
+            var newPiece = _dialogueCache.GetPiece(id);
+            _visitedPieceID.Add(newPiece.PieceID);
+            _pieceMap[id].Update();
             return newPiece;
         }
+        
         NGDS.Piece IDialogueLookup.GetFirst()
         {
 #if UNITY_EDITOR
@@ -72,8 +81,8 @@ namespace Kurisu.NGDT
             {
                 if (Children[i] is not Piece piece) continue;
                 var dialoguePiece = piece.EmitPiece();
-                visitedPieceID.Add(dialoguePiece.PieceID);
-                var status = pieceMap[dialoguePiece.PieceID].Update();
+                _visitedPieceID.Add(dialoguePiece.PieceID);
+                var status = _pieceMap[dialoguePiece.PieceID].Update();
                 if (status == Status.Success) return dialoguePiece;
             }
             return null;
@@ -98,7 +107,7 @@ namespace Kurisu.NGDT
         /// <returns></returns>
         public NGDS.Dialogue ToDialogue()
         {
-            return dialogueCache;
+            return _dialogueCache;
         }
         
         /// <summary>
@@ -107,7 +116,7 @@ namespace Kurisu.NGDT
         /// <returns></returns>
         public IReadOnlyDictionary<string, Piece> ToReadOnlyPieceMap()
         {
-            return pieceMap;
+            return _pieceMap;
         }
     }
 }

@@ -5,14 +5,16 @@ namespace Kurisu.NGDS
         /// <summary>
         /// Get the next dialogue piece according to the index
         /// </summary>
-        /// <param name="ID"></param>
+        /// <param name="id"></param>
         /// <returns></returns>
-        Piece GetNext(string ID);
+        Piece GetNext(string id);
+        
         /// <summary>
         /// Get the first dialogue piece
         /// </summary>
         /// <returns></returns>
         Piece GetFirst();
+        
         /// <summary>
         /// Cast the dialogue
         /// </summary>

@@ -1,9 +1,10 @@
-using Ceres;
+using System;
 using Ceres.Annotations;
 using Kurisu.NGDS;
 using UnityEngine;
 namespace Kurisu.NGDT
 {
+    [Serializable]
     [NodeInfo("Module: Prompt Preset Module is used to set up AI dialogue always included prompt using external text file.")]
     [NodeGroup("AIGC")]
     [ModuleOf(typeof(Dialogue))]

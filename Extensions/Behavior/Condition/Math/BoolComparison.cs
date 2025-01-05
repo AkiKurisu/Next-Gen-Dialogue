@@ -1,8 +1,9 @@
+using System;
 using Ceres;
 using Ceres.Annotations;
-
 namespace Kurisu.NGDT.Behavior
 {
+    [Serializable]
     [NodeInfo("Condition: Compare Bool values, if the conditions are met, return Status.Success, otherwise return Status.Failure")]
     [CeresLabel("Math: BoolComparison")]
     [NodeGroup("Math")]
@@ -13,9 +14,13 @@ namespace Kurisu.NGDT.Behavior
             EqualTo,
             NotEqualTo,
         }
+        
         public SharedBool bool1;
+        
         public SharedBool bool2;
+        
         public Operation operation;
+        
         protected override Status IsUpdatable()
         {
             return operation switch

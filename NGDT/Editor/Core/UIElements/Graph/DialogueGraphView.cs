@@ -13,7 +13,7 @@ namespace Kurisu.NGDT.Editor
 {
     public class DialogueGraphView : CeresGraphView
     {
-        public IDialogueContainer DialogueContainer { get; }
+        public IDialogueGraphContainer DialogueGraphContainer { get; }
 
         private RootNode _root;
         
@@ -28,7 +28,7 @@ namespace Kurisu.NGDT.Editor
         
         public DialogueGraphView(CeresGraphEditorWindow editorWindow) : base(editorWindow)
         {
-            DialogueContainer = (IDialogueContainer)editorWindow.Container;
+            DialogueGraphContainer = (IDialogueGraphContainer)editorWindow.Container;
             styleSheets.Add(NextGenDialogueSetting.GetGraphStyle());
             AddBlackboard(new DialogueBlackboard(this));
             Add(_infoContainer = new CeresInfoContainer(InfoText));
@@ -131,7 +131,7 @@ namespace Kurisu.NGDT.Editor
         {
             if (data is GameObject gameObject)
             {
-                if (gameObject.TryGetComponent(out IDialogueContainer tree))
+                if (gameObject.TryGetComponent(out IDialogueGraphContainer tree))
                 {
                     EditorWindow.ShowNotification(new GUIContent("GameObject Dropped Succeed !"));
                     DeserializeGraph(tree, mousePosition);
@@ -148,7 +148,7 @@ namespace Kurisu.NGDT.Editor
                     EditorWindow.ShowNotification(new GUIContent("Invalid Drag Text Asset !"));
                 return;
             }
-            if (data is not IDialogueContainer container)
+            if (data is not IDialogueGraphContainer container)
             {
                 EditorWindow.ShowNotification(new GUIContent("Invalid Drag Data !"));
                 return;
@@ -156,33 +156,33 @@ namespace Kurisu.NGDT.Editor
             EditorWindow.ShowNotification(new GUIContent("Data Dropped Succeed !"));
             DeserializeGraph(container, mousePosition);
         }
-        public void DeserializeGraph(IDialogueContainer container, Vector2 mousePosition)
+        public void DeserializeGraph(IDialogueGraphContainer graphContainer, Vector2 mousePosition)
         {
             var localMousePosition = contentViewContainer.WorldToLocal(mousePosition) - new Vector2(400, 300);
-            foreach (var variable in container.SharedVariables)
+            foreach (var variable in graphContainer.SharedVariables)
             {
                 Blackboard.AddVariable(variable.Clone(), false);
             }
-            var (rootNode, newNodes) = _converter.ConvertToNode(container, this, localMousePosition);
+            var (rootNode, newNodes) = _converter.ConvertToNode(graphContainer, this, localMousePosition);
             var edge = rootNode.Child.connections.First();
             RemoveElement(edge);
             RemoveElement(rootNode);
-            RestoreBlocks(container, newNodes);
+            RestoreBlocks(graphContainer, newNodes);
         }
         
         public void Restore()
         {
-            if (DialogueContainerUtility.TryGetExternalTree(DialogueContainer, out var tree))
+            if (DialogueContainerUtility.TryGetExternalTree(DialogueGraphContainer, out var tree))
             {
                 OnRestore(tree);
             }
             else
             {
-                OnRestore(DialogueContainer);
+                OnRestore(DialogueGraphContainer);
             }
         }
         
-        private void OnRestore(IDialogueContainer tree)
+        private void OnRestore(IDialogueGraphContainer tree)
         {
             // Add default dialogue
             if (tree.Root.Child == null)
@@ -198,7 +198,7 @@ namespace Kurisu.NGDT.Editor
             RestoreBlocks(tree, newNodes);
         }
         
-        private void RestoreBlocks(IDialogueContainer tree, List<IDialogueNode> inNodes)
+        private void RestoreBlocks(IDialogueGraphContainer tree, List<IDialogueNode> inNodes)
         {
             foreach (var nodeGroup in tree.NodeGroups)
             {
@@ -212,7 +212,7 @@ namespace Kurisu.NGDT.Editor
             if (Application.isPlaying) return false;
             if (!Validate()) return false;
             
-            Commit(DialogueContainer);
+            Commit(DialogueGraphContainer);
             AssetDatabase.SaveAssets();
             return true;
         }
@@ -233,7 +233,7 @@ namespace Kurisu.NGDT.Editor
             return true;
         }
         
-        public void Commit(IDialogueContainer tree)
+        public void Commit(IDialogueGraphContainer tree)
         {
             var stack = new Stack<IDialogueNode>();
             // Commit node instances
@@ -260,7 +260,7 @@ namespace Kurisu.NGDT.Editor
             }
             
             // Should set tree dirty flag if it is in a prefab
-            if (tree is NextGenDialogueComponent nextGenDialogueTree)
+            if (tree is NextGenDialogueGraphComponent nextGenDialogueTree)
             {
                 EditorUtility.SetDirty(nextGenDialogueTree);
             }
@@ -270,12 +270,12 @@ namespace Kurisu.NGDT.Editor
 
         public string SerializeGraph()
         {
-            return DialogueGraphData.Serialize(DialogueContainer);
+            return DialogueGraphData.Serialize(DialogueGraphContainer);
         }
         
         public bool DeserializeGraph(string serializedData, Vector3 mousePosition)
         {
-            var temp = ScriptableObject.CreateInstance<NextGenDialogueAsset>();
+            var temp = ScriptableObject.CreateInstance<NextGenDialogueGraphAsset>();
             try
             {
                 temp.Deserialize(serializedData);

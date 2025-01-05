@@ -4,17 +4,17 @@ namespace Kurisu.NGDT.Editor
 {
     public static class DialogueContainerUtility
     {
-        public static void SetRoot(IDialogueContainer dialogueTree, Root root)
+        public static void SetRoot(IDialogueGraphContainer dialogueGraphTree, Root root)
         {
-            var field = dialogueTree.GetType().GetField("root", BindingFlags.Instance | BindingFlags.NonPublic);
+            var field = dialogueGraphTree.GetType().GetField("root", BindingFlags.Instance | BindingFlags.NonPublic);
             Assert.IsTrue(field != null);
-            field.SetValue(dialogueTree, root);
+            field.SetValue(dialogueGraphTree, root);
         }
-        public static bool TryGetExternalTree(IDialogueContainer dialogueTree, out IDialogueContainer externalTree)
+        public static bool TryGetExternalTree(IDialogueGraphContainer dialogueGraphTree, out IDialogueGraphContainer externalTree)
         {
-            externalTree = dialogueTree.GetType()
+            externalTree = dialogueGraphTree.GetType()
             .GetField("externalDialogueAsset", BindingFlags.Instance | BindingFlags.NonPublic)
-            ?.GetValue(dialogueTree) as IDialogueContainer;
+            ?.GetValue(dialogueGraphTree) as IDialogueGraphContainer;
             return externalTree != null;
         }
     }

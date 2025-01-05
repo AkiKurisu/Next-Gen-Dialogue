@@ -16,9 +16,11 @@ namespace Kurisu.NGDT.Localization.Editor
         {
             return new LocalizedStringField(fieldInfo.Name, fieldInfo);
         }
-        public static bool IsAcceptable(Type infoType, FieldInfo _) => infoType == typeof(LocalizedString);
+        
+        public override bool IsAcceptable(Type infoType, FieldInfo _) => infoType == typeof(LocalizedString);
 
     }
+    
     public sealed class LocalizedStringField : WrapField<LocalizedString>
     {
         public LocalizedStringField(string label, FieldInfo fieldInfo) : base(label, fieldInfo)

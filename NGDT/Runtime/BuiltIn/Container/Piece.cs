@@ -1,7 +1,9 @@
+using System;
 using Ceres.Annotations;
 using UnityEngine;
 namespace Kurisu.NGDT
 {
+    [Serializable]
     [NodeInfo("Piece is the container of single dialogue fragment")]
     public class Piece : Container
     {

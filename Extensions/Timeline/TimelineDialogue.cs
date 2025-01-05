@@ -1,8 +1,8 @@
 using System;
-using Chris.Gameplay;
 using Kurisu.NGDS;
 using UnityEngine;
 using UnityEngine.Playables;
+using UnityEngine.Serialization;
 namespace Kurisu.NGDT.Timeline
 {
     public class TimelineDialogue : MonoBehaviour, INotificationReceiver
@@ -11,44 +11,48 @@ namespace Kurisu.NGDT.Timeline
         private class DialogueReceiver
         {
             public string dialogueName;
-            public NextGenDialogueComponent dialogueTree;
+            [FormerlySerializedAs("dialogueTree")] public NextGenDialogueGraphComponent dialogueGraphTree;
         }
         
         [SerializeField]
         private DialogueReceiver[] receivers;
         
-        private NextGenDialogueComponent _dialogueTree;
+        private NextGenDialogueGraphComponent _dialogueGraphTree;
         
         private PlayableDirector _director;
         
-        private IDialogueSystem _dialogueSystem;
+        private DialogueSystem _dialogueSystem;
+        
         private void Awake()
         {
             _director = GetComponent<PlayableDirector>();
         }
+        
         private void Start()
         {
-            _dialogueSystem = ContainerSubsystem.Get().Resolve<IDialogueSystem>();
+            _dialogueSystem = DialogueSystem.Get();
         }
+        
         private void OnDestroy()
         {
             _dialogueSystem.OnDialogueOver -= ContinueDialogue;
         }
+        
         public void OnNotify(Playable origin, INotification notification, object context)
         {
             if (notification is not DialogueSignal dialogueSignal) return;
             
-            if (dialogueSignal.dialogueAsset != null)
+            if (dialogueSignal.dialogueGraphAsset != null)
             {
-                if (_dialogueTree == null) _dialogueTree = gameObject.AddComponent<NextGenDialogueComponent>();
-                _dialogueTree.ExternalData = dialogueSignal.dialogueAsset;
-                _dialogueTree.GetDialogueGraph().PlayDialogue(_dialogueTree.gameObject);
+                if (_dialogueGraphTree == null) _dialogueGraphTree = gameObject.AddComponent<NextGenDialogueGraphComponent>();
+                _dialogueGraphTree.ExternalData = dialogueSignal.dialogueGraphAsset;
+                _dialogueGraphTree.GetDialogueGraph().PlayDialogue(_dialogueGraphTree.gameObject);
             }
             else
             {
                 if (TryFindReceiver(dialogueSignal.dialogueName, out var receiver))
                 {
-                    receiver.dialogueTree.GetDialogueGraph().PlayDialogue(receiver.dialogueTree.gameObject);
+                    receiver.dialogueGraphTree.GetDialogueGraph().PlayDialogue(receiver.dialogueGraphTree.gameObject);
                 }
                 else
                 {
@@ -61,11 +65,13 @@ namespace Kurisu.NGDT.Timeline
                 _dialogueSystem.OnDialogueOver += ContinueDialogue;
             }
         }
+        
         private void ContinueDialogue()
         {
             _dialogueSystem.OnDialogueOver -= ContinueDialogue;
             _director.playableGraph.GetRootPlayable(0).SetSpeed(1d);
         }
+        
         private bool TryFindReceiver(string dialogueName, out DialogueReceiver dialogueReceiver)
         {
             foreach (var receiver in receivers)

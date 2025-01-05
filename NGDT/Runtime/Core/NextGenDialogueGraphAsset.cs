@@ -6,12 +6,12 @@ using UObject = UnityEngine.Object;
 namespace Kurisu.NGDT
 {
     [CreateAssetMenu(fileName = "NextGenDialogueAsset", menuName = "Next Gen Dialogue/NextGenDialogueAsset")]
-    public class NextGenDialogueAsset : ScriptableObject, IDialogueContainer
+    public class NextGenDialogueGraphAsset : ScriptableObject, IDialogueGraphContainer
     {
         [SerializeReference, HideInInspector]
         protected Root root = new();
         
-        UObject ICeresGraphContainer.Object => this;
+        public UObject Object => this;
 
         public Root Root => root;
 
@@ -49,7 +49,7 @@ namespace Kurisu.NGDT
 
         public void SetGraphData(CeresGraphData graphData)
         {
-            var dialogueGraph = new DialogueGraph(graphData as DialogueGraphData);
+            var dialogueGraph = new DialogueGraph((DialogueGraphData)graphData);
             root = dialogueGraph.Root;
             nodeGroups = dialogueGraph.nodeGroups;
             sharedVariables = dialogueGraph.variables;

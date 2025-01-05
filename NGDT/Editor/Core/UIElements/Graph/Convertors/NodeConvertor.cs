@@ -56,7 +56,7 @@ namespace Kurisu.NGDT.Editor
         
         private readonly List<IDialogueNode> _tempNodes = new();
         
-        public (RootNode, List<IDialogueNode>) ConvertToNode(IDialogueContainer tree, DialogueGraphView graphView, Vector2 initPos)
+        public (RootNode, List<IDialogueNode>) ConvertToNode(IDialogueGraphContainer tree, DialogueGraphView graphView, Vector2 initPos)
         {
             var stack = new Stack<EdgePair>();
             var alreadyCreateNodes = new Dictionary<NodeBehavior, IDialogueNode>();

@@ -7,28 +7,33 @@ namespace Kurisu.NGDT.Localization.Editor
     /// </summary>
     public class ToggleGroup : VisualElement
     {
-        private int currentIndex;
+        private int _currentIndex;
+        
         public event System.Action<int> OnToggle;
-        private readonly List<VisualElement> elements = new();
+        
+        private readonly List<VisualElement> _elements = new();
+        
         /// <summary>
         /// Toggle Group will only set visible of element but don't remove it from parent (eg. use for propertyField)
         /// </summary>
         /// <value></value>
         public bool DoNotRemove { get; set; }
+        
         public void AddToggleElement(VisualElement element)
         {
-            elements.Add(element);
+            _elements.Add(element);
             if (DoNotRemove) Add(element);
         }
+        
         public void Toggle(int index)
         {
-            currentIndex = index;
-            for (int i = 0; i < elements.Count; i++)
+            _currentIndex = index;
+            for (int i = 0; i < _elements.Count; i++)
             {
-                bool isCurrent = currentIndex == i;
-                elements[i].visible = isCurrent;
-                if (isCurrent) Insert(0, elements[i]);
-                else if (!DoNotRemove && Contains(elements[i])) Remove(elements[i]);
+                bool isCurrent = _currentIndex == i;
+                _elements[i].visible = isCurrent;
+                if (isCurrent) Insert(0, _elements[i]);
+                else if (!DoNotRemove && Contains(_elements[i])) Remove(_elements[i]);
             }
             OnToggle?.Invoke(index);
         }

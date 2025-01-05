@@ -1,9 +1,10 @@
+using System;
 using System.Collections.Generic;
-using System.Linq;
 using Ceres.Graph;
 using UnityEngine;
 namespace Kurisu.NGDT
 {
+    [Serializable]
     public abstract class Container : NodeBehavior
     {
         [SerializeReference]

@@ -7,22 +7,26 @@ namespace Kurisu.NGDS
     {
         string Response { get; }
     }
+    
     public enum MessageRole
     {
         System,
         User,
         Bot
     }
+    
     public interface IMessage
     {
         public MessageRole Role { get; }
         public string Content { get; }
     }
+    
     public interface ILLMRequest
     {
         string Context { get; }
         IEnumerable<IMessage> Messages { get; }
     }
+    
     public interface ILargeLanguageModel
     {
         /// <summary>

@@ -2,8 +2,6 @@
 
 <img src="Docs/Images/Splash.png" >
 
-***Read this document in Chinese: [中文文档](./README_ZH.md)***
-
 ## Content
 
   - [Features](#features)
@@ -275,7 +273,7 @@ public class CodeDialogueBuilder : MonoBehaviour
     {
         var dialogueSystem = IOCContainer.Resolve<IDialogueSystem>();
         builder = new DialogueBuilder();
-        //First Piece
+        // First Piece
         var piece = DialoguePiece.GetPooled();
         piece.Content = "This is the first dialogue piece";
         piece.PieceID = "01";
@@ -285,12 +283,12 @@ public class CodeDialogueBuilder : MonoBehaviour
             TargetID = "02"
         });
         generator.AddPiece(piece);
-        //Second Piece
+        // Second Piece
         piece = DialoguePiece.GetPooled();
         piece.Content = "This is the second dialogue piece";
         piece.PieceID = "02";
         var callBackOption = DialogueOption.GetPooled();
-        //Add CallBack Module
+        // Add CallBack Module
         callBackOption.AddModule(new CallBackModule(() => Debug.Log("Hello World !")));
         callBackOption.Content = "Log";
         piece.AddOption(callBackOption);

@@ -1,5 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 namespace Kurisu.NGDS
 {
     /// <summary>
@@ -9,6 +9,7 @@ namespace Kurisu.NGDS
     {
 
     }
+    
     /// <summary>
     /// Apply data directly after module added
     /// </summary>
@@ -16,13 +17,15 @@ namespace Kurisu.NGDS
     {
         void Apply(Node parentNode);
     }
+    
     /// <summary>
     /// Process data after inject dependency
     /// </summary>
     public interface IProcessable
     {
-        IEnumerator Process(IObjectResolver resolver);
+        UniTask Process(IObjectResolver resolver);
     }
+    
     /// <summary>
     /// Object dependency resolver
     /// </summary>
@@ -30,13 +33,16 @@ namespace Kurisu.NGDS
     {
         T Resolve<T>();
     }
+    
     /// <summary>
     /// Base class for module contains dialogue content
     /// </summary>
     public interface IContentModule
     {
         void GetContents(List<string> contents);
+        
         void AddContent(string content);
+        
         void SetContents(List<string> contents);
     }
 }

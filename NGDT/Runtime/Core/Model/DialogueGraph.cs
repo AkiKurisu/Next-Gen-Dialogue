@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using Ceres;
 using Ceres.Graph;
-using Chris.Gameplay;
 using Kurisu.NGDS;
 using UnityEngine;
 namespace Kurisu.NGDT
@@ -35,18 +34,18 @@ namespace Kurisu.NGDT
         /// <summary>
         /// Serialize dialogue tree
         /// </summary>
-        /// <param name="dialogueTree"></param>
+        /// <param name="dialogueGraphTree"></param>
         /// <param name="indented"></param>
         /// <returns></returns>
-        public static string Serialize(IDialogueContainer dialogueTree, bool indented = false)
+        public static string Serialize(IDialogueGraphContainer dialogueGraphTree, bool indented = false)
         {
-            var graphData = new DialogueGraphData(new DialogueGraph(dialogueTree)).CloneT<DialogueGraphData>();
+            var graphData = new DialogueGraphData(new DialogueGraph(dialogueGraphTree)).CloneT<DialogueGraphData>();
             var jsonData = Serialize(graphData, indented);
 #if UNITY_EDITOR
             /* Patch for editor, should save dialogue graph data instead of saving nodes and variables directly */
             if(!Application.isPlaying)
             {
-                dialogueTree.SetGraphData(graphData);
+                dialogueGraphTree.SetGraphData(graphData);
             }
 #endif
             return jsonData;
@@ -57,7 +56,7 @@ namespace Kurisu.NGDT
     {
         public Root Root => nodes[0] as Root;
         
-        public DialogueGraph(IDialogueContainer dt)
+        public DialogueGraph(IDialogueGraphContainer dt)
         {
             variables = new List<SharedVariable>();
             foreach (var variable in dt.SharedVariables)
@@ -80,21 +79,6 @@ namespace Kurisu.NGDT
             get
             {
                 return _builder ??= new DialogueBuilder(this);
-            }
-        }
-
-        private IDialogueSystem _dialogueSystem;
-        
-        private void ResolveDialogue(IDialogueLookup dialogue)
-        {
-            _dialogueSystem ??= ContainerSubsystem.Get().Resolve<IDialogueSystem>();
-            if (_dialogueSystem != null)
-            {
-                _dialogueSystem.StartDialogue(dialogue);
-            }
-            else
-            {
-                Debug.LogError("[NGDT] No dialogue system registered!");
             }
         }
 
@@ -131,7 +115,7 @@ namespace Kurisu.NGDT
         {
             public DialogueBuilder(DialogueGraph graph)
             {
-                this._graph = graph;
+                _graph = graph;
             }
             
             private readonly DialogueGraph _graph;
@@ -169,7 +153,7 @@ namespace Kurisu.NGDT
             
             public void EndBuildDialogue(IDialogueLookup dialogue)
             {
-                _graph.ResolveDialogue(dialogue);
+                DialogueSystem.Get().StartDialogue(dialogue);
             }
         }
     }

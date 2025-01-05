@@ -8,22 +8,27 @@ namespace Kurisu.NGDT.Localization.Editor
     public class ToggleButton : Button
     {
         public bool IsOn { get; private set; }
-        public System.Action<bool> OnToggle;
-        public ToggleButton() : base()
+        
+        public readonly System.Action<bool> OnToggle;
+                
+        private readonly Color _color = new(253 / 255f, 163 / 255f, 255 / 255f);
+        
+        public ToggleButton()
         {
             clicked += Toggle;
         }
-        public ToggleButton(System.Action<bool> toggleCallBack) : base()
+        
+        public ToggleButton(System.Action<bool> toggleCallBack)
         {
             clicked += Toggle;
             OnToggle += toggleCallBack;
         }
+        
         private void Toggle()
         {
             IsOn = !IsOn;
-            style.backgroundColor = IsOn ? OnColor : Color.grey;
+            style.backgroundColor = IsOn ? _color : Color.grey;
             OnToggle?.Invoke(IsOn);
         }
-        public Color OnColor { get; set; } = new Color(253 / 255f, 163 / 255f, 255 / 255f);
     }
 }

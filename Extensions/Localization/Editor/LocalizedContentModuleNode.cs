@@ -10,28 +10,32 @@ namespace Kurisu.NGDT.Localization.Editor
     [CustomNodeView(typeof(LocalizedContentModule))]
     public class LocalizedContentModuleNode : ModuleNode
     {
-        private LocalizedStringEditorField editorField;
+        private LocalizedStringEditorField _editorField;
+        
         protected override void OnRestore()
         {
             UpdateEditor();
         }
+        
         protected override void OnBehaviorSet()
         {
-            var tableEntryField = (GetFieldResolver("tableEntry") as FieldResolver<SharedStringField, SharedString>)?.BaseField;
-            var stringEntryField = (GetFieldResolver("stringEntry") as FieldResolver<SharedStringField, SharedString>)?.BaseField;
+            var tableEntryField = (GetFieldResolver("tableEntry") as FieldResolver<SharedStringResolver.SharedStringField, SharedString>)?.BaseField;
+            var stringEntryField = (GetFieldResolver("stringEntry") as FieldResolver<SharedStringResolver.SharedStringField, SharedString>)?.BaseField;
             tableEntryField.RegisterValueChangedCallback(x => UpdateEditor());
             stringEntryField.RegisterValueChangedCallback(x => UpdateEditor());
         }
+        
         private void UpdateEditor()
         {
             var tableEntry = this.GetSharedStringValue("tableEntry");
             var stringEntry = this.GetSharedStringValue("stringEntry");
-            if (editorField != null) mainContainer.Remove(editorField);
-            editorField = null;
+            if (_editorField != null) mainContainer.Remove(_editorField);
+            _editorField = null;
             if (string.IsNullOrEmpty(stringEntry) || string.IsNullOrEmpty(tableEntry)) return;
-            editorField = new LocalizedStringEditorField(tableEntry, stringEntry);
-            mainContainer.Add(editorField);
+            _editorField = new LocalizedStringEditorField(tableEntry, stringEntry);
+            mainContainer.Add(_editorField);
         }
+        
         public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
         {
             base.BuildContextualMenu(evt);

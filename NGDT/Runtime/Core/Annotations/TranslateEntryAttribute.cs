@@ -5,6 +5,6 @@ namespace Kurisu.NGDT
     /// <summary>
     /// Notify field can be translated by editor
     /// </summary>
-    [AttributeUsage(AttributeTargets.Field, AllowMultiple = false)]
+    [AttributeUsage(AttributeTargets.Field)]
     public class TranslateEntryAttribute : PropertyAttribute { }
 }

@@ -11,20 +11,24 @@ namespace Kurisu.NGDT
         /// </summary>
         /// <param name="node"></param>
         void StartWriteNode(Node node);
+        
         /// <summary>
         /// Get current writing node
         /// </summary>
         /// <returns></returns>
         Node GetNode();
+        
         /// <summary>
         /// Dispose current writing node
         /// </summary>
         void DisposeWriteNode();
+        
         /// <summary>
         /// End build dialogue nodes
         /// </summary>
         /// <param name="dialogue">Inject <see cref="IDialogueLookup"/></param>
         void EndBuildDialogue(IDialogueLookup dialogue);
+        
         /// <summary>
         /// End writing node
         /// </summary>

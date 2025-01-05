@@ -1,43 +1,50 @@
-using System.Collections;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 namespace Kurisu.NGDS
 {
     public class DefaultOptionResolver : IOptionResolver
     {
-        private IDialogueSystem system;
+        private DialogueSystem _system;
+        
         public IReadOnlyList<Option> DialogueOptions { get; private set; }
+        
         protected ObjectContainer ObjectContainer { get; } = new();
-        public void Inject(IReadOnlyList<Option> options, IDialogueSystem system)
+        
+        public void Inject(IReadOnlyList<Option> options, DialogueSystem system)
         {
             DialogueOptions = options;
-            this.system = system;
+            _system = system;
         }
-        public IEnumerator ClickOption(Option option)
+        
+        public UniTask ClickOption(Option option)
         {
             CallBackModule.InvokeCallBack(option);
             if (string.IsNullOrEmpty(option.TargetID))
             {
                 //Exit Dialogue
-                system.EndDialogue();
+                _system.EndDialogue(false);
             }
             else
             {
-                system.PlayDialoguePiece(option.TargetID);
+                _system.PlayDialoguePiece(option.TargetID);
             }
-            yield return null;
+
+            return UniTask.CompletedTask;
         }
-        public IEnumerator EnterOption()
+        
+        public async UniTask EnterOption()
         {
             foreach (var option in DialogueOptions)
             {
                 ObjectContainer.Register<IContentModule>(option);
-                yield return option.ProcessModules(ObjectContainer);
-                yield return OnOptionResolve(option);
+                await option.ProcessModules(ObjectContainer);
+                await OnOptionResolve(option);
             }
         }
-        protected virtual IEnumerator OnOptionResolve(Option option)
+        
+        protected virtual UniTask OnOptionResolve(Option option)
         {
-            yield break;
+            return UniTask.CompletedTask;
         }
     }
 }

@@ -469,13 +469,11 @@ namespace Kurisu.NGDT.Editor
             {
                 evt.menu.MenuItems().Add(new CeresDropdownMenuAction("Jump to this Piece", (a) =>
                 {
-                    ContainerSubsystem.Get().Resolve<IDialogueSystem>()
-                                     .PlayDialoguePiece(GetPiece().CastPiece().PieceID);
+                    DialogueSystem.Get().PlayDialoguePiece(GetPiece().CastPiece().PieceID);
                 },
                 _ =>
                 {
-                    var ds = ContainerSubsystem.Get().Resolve<IDialogueSystem>();
-                    if (ds == null) return DropdownMenuAction.Status.Hidden;
+                    var ds = DialogueSystem.Get();
                     if (!ds.IsPlaying) return DropdownMenuAction.Status.Disabled;
                     // Whether is the container of this piece
                     var piece = GetPiece().CastPiece();

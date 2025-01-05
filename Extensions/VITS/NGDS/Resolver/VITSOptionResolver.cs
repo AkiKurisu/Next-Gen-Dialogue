@@ -1,6 +1,7 @@
-using System.Collections;
+using System;
 using System.Collections.Generic;
 using System.Threading;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 namespace Kurisu.NGDS.VITS
 {
@@ -8,68 +9,65 @@ namespace Kurisu.NGDS.VITS
     {
         public VITSOptionResolver(VITSTurbo vitsTurbo, AudioSource audioSource)
         {
-            this.vitsTurbo = vitsTurbo;
-            this.audioSource = audioSource;
+            _vitsTurbo = vitsTurbo;
+            _audioSource = audioSource;
         }
-        private readonly VITSTurbo vitsTurbo;
-        private readonly AudioSource audioSource;
-        private IDialogueSystem system;
+        
+        private readonly VITSTurbo _vitsTurbo;
+        
+        private readonly AudioSource _audioSource;
+        
+        private DialogueSystem _system;
+        
         public IReadOnlyList<Option> DialogueOptions { get; private set; }
+        
         public float MaxWaitTime { get; set; } = 30f;
-        private readonly Dictionary<Option, AudioClip> audioCacheMap = new();
-        private readonly ObjectContainer objectContainer = new();
-        private readonly CancellationTokenSource ct = new();
-        public void Inject(IReadOnlyList<Option> options, IDialogueSystem system)
+        
+        
+        private readonly Dictionary<Option, AudioClip> _audioCacheMap = new();
+        
+        private readonly ObjectContainer _objectContainer = new();
+        
+        private readonly CancellationTokenSource _ct = new();
+        
+        public void Inject(IReadOnlyList<Option> options, DialogueSystem system)
         {
             DialogueOptions = options;
-            this.system = system;
+            _system = system;
         }
-        public IEnumerator ClickOption(Option option)
+        
+        public async UniTask ClickOption(Option option)
         {
-            if (audioCacheMap.TryGetValue(option, out AudioClip clip))
+            if (_audioCacheMap.TryGetValue(option, out AudioClip clip))
             {
-                audioSource.clip = clip;
-                audioSource.Play();
-                yield return null;
-                while (audioSource.isPlaying)
-                    yield return null;
+                _audioSource.clip = clip;
+                _audioSource.Play();
+                await UniTask.Yield();
+                await UniTask.WaitUntil(() => !_audioSource.isPlaying);
             }
-            //Handle CallBack Module
+            // Handle CallBack Module
             CallBackModule.InvokeCallBack(option);
             if (string.IsNullOrEmpty(option.TargetID))
             {
-                //Exit Dialogue
-                system.EndDialogue();
+                // Exit Dialogue
+                _system.EndDialogue(false);
             }
             else
             {
-                system.PlayDialoguePiece(option.TargetID);
+                _system.PlayDialoguePiece(option.TargetID);
             }
         }
 
-        public IEnumerator EnterOption()
+        public async UniTask  EnterOption()
         {
-            audioCacheMap.Clear();
+            _audioCacheMap.Clear();
             foreach (var option in DialogueOptions)
             {
-                objectContainer.Register<IContentModule>(option);
-                yield return option.ProcessModules(objectContainer);
+                _objectContainer.Register<IContentModule>(option);
+                await option.ProcessModules(_objectContainer);
                 if (option.TryGetModule(out VITSModule module))
                 {
-                    float waitTime = 0;
-                    var task = module.RequestOrLoadAudioClip(vitsTurbo, option.Content, ct.Token);
-                    while (!task.IsCompleted)
-                    {
-                        yield return null;
-                        waitTime += Time.deltaTime;
-                        if (waitTime >= MaxWaitTime)
-                        {
-                            ct.Cancel();
-                            break;
-                        }
-                    }
-                    audioCacheMap[option] = task.Result;
-                    continue;
+                    _audioCacheMap[option] = await module.RequestOrLoadAudioClip(_vitsTurbo, option.Content, _ct.Token).Timeout(TimeSpan.FromSeconds(MaxWaitTime));
                 }
             }
         }

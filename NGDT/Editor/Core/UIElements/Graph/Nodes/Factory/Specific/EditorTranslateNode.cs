@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading;
-using System.Threading.Tasks;
 using Ceres;
 using Ceres.Editor;
 using Ceres.Editor.Graph;
 using Chris;
+using Cysharp.Threading.Tasks;
 using Kurisu.NGDS;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -57,7 +57,7 @@ namespace Kurisu.NGDT.Editor
                 .OfType<ContainerNode>()
                 .Where(x => x is not DialogueContainer)
                 .ToArray();
-            var tasks = new List<Task>(10);
+            var tasks = new List<UniTask>(10);
             var ct = new CancellationTokenSource();
             foreach (var node in containerNodes)
             {
@@ -67,15 +67,15 @@ namespace Kurisu.NGDT.Editor
                 }
                 if (tasks.Count == 10)
                 {
-                    await Task.WhenAll(tasks);
+                    await UniTask.WhenAll(tasks);
                     tasks.Clear();
                 }
             }
             if (tasks.Count != 0)
-                await Task.WhenAll(tasks);
+                await UniTask.WhenAll(tasks);
             MapGraphView.EditorWindow.ShowNotification(new GUIContent("Translation Complete !"));
             IsPending = false;
-            async Task TranslateContentsAsync(ContainerNode containerNode, ModuleNode moduleNode, CancellationToken ct)
+            async UniTask TranslateContentsAsync(ContainerNode containerNode, ModuleNode moduleNode, CancellationToken ct)
             {
                 string input = moduleNode.GetSharedStringValue("content");
                 var response = await GoogleTranslateHelper.TranslateTextAsync(sourceLanguageCode, targetLanguageCode, input, ct);
@@ -96,22 +96,22 @@ namespace Kurisu.NGDT.Editor
                 .Where(x => x.GetCustomAttribute(typeof(TranslateEntryAttribute)) != null)
                 .ToArray();
             int fieldCount = fieldsToTranslate.Length;
-            var tasks = new List<Task>(10);
+            var tasks = new List<UniTask>(10);
             var ct = new CancellationTokenSource();
             for (int i = 0; i < fieldCount; ++i)
             {
                 tasks.Add(TranslateContentsAsync(fieldsToTranslate[i], ct.Token));
                 if (tasks.Count == 10)
                 {
-                    await Task.WhenAll(tasks);
+                    await UniTask.WhenAll(tasks);
                     tasks.Clear();
                 }
             }
             if (tasks.Count != 0)
-                await Task.WhenAll(tasks);
+                await UniTask.WhenAll(tasks);
             MapGraphView.EditorWindow.ShowNotification(new GUIContent("Translation Complete !"));
             IsPending = false;
-            async Task TranslateContentsAsync(FieldInfo fieldInfo, CancellationToken ct)
+            async UniTask TranslateContentsAsync(FieldInfo fieldInfo, CancellationToken ct)
             {
                 string input;
                 if (fieldInfo.FieldType == typeof(string))
@@ -149,17 +149,17 @@ namespace Kurisu.NGDT.Editor
             base(
                 ContextualMenuType.Node,
                 canBuildFunc,
-               (evt) =>
+               evt =>
                {
                    var target = evt.target;
-                   evt.menu.MenuItems().Add(new CeresDropdownMenuAction("Translate", (a) =>
+                   evt.menu.MenuItems().Add(new CeresDropdownMenuAction("Translate", a =>
                     {
                         editorTranslateNode.TranslateNodeAsync(target as IDialogueNode);
-                    }, (e) =>
-                    {
-                        if (editorTranslateNode.IsPending) return DropdownMenuAction.Status.Disabled;
-                        else return DropdownMenuAction.Status.Normal;
-                    }));
+                    }, e =>
+                   {
+                       if (editorTranslateNode.IsPending) return DropdownMenuAction.Status.Disabled;
+                       return DropdownMenuAction.Status.Normal;
+                   }));
                })
             { }
         }

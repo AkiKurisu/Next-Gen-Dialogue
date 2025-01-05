@@ -8,7 +8,7 @@ using Ceres.Editor.Graph;
 using UnityEditor.Callbacks;
 namespace Kurisu.NGDT.Editor
 {
-    public class DialogueEditorWindow : CeresGraphEditorWindow<IDialogueContainer, DialogueEditorWindow>, IHasCustomMenu
+    public class DialogueEditorWindow : CeresGraphEditorWindow<IDialogueGraphContainer, DialogueEditorWindow>, IHasCustomMenu
     {
         private DialogueGraphView _graphView;
         
@@ -34,7 +34,7 @@ namespace Kurisu.NGDT.Editor
         private static bool OnOpenAsset(int instanceId, int _)
         {
             var asset = EditorUtility.InstanceIDToObject(instanceId);
-            if (asset is not NextGenDialogueAsset dialogueAsset) return false;
+            if (asset is not NextGenDialogueGraphAsset dialogueAsset) return false;
             
             var window = GetOrCreateEditorWindow(dialogueAsset);
             window.Focus();
@@ -49,15 +49,15 @@ namespace Kurisu.NGDT.Editor
             string path = EditorUtility.SaveFilePanel("Select DialogueAsset save path", Application.dataPath, "DialogueTreeSO", "asset");
             if (string.IsNullOrEmpty(path)) return;
             path = path.Replace(Application.dataPath, string.Empty);
-            var asset = CreateInstance<NextGenDialogueAsset>();
+            var asset = CreateInstance<NextGenDialogueGraphAsset>();
             AssetDatabase.CreateAsset(asset, $"Assets/{path}");
             AssetDatabase.SaveAssets();
             Show(asset);
         }
 
-        public static void Show(IDialogueContainer container)
+        public static void Show(IDialogueGraphContainer graphContainer)
         {
-            var window = GetOrCreateEditorWindow(container);
+            var window = GetOrCreateEditorWindow(graphContainer);
             window.Show();
             window.Focus();
         }
@@ -83,7 +83,7 @@ namespace Kurisu.NGDT.Editor
         }
         private void SaveDataToAsset(string path)
         {
-            var treeAsset = CreateInstance<NextGenDialogueAsset>();
+            var treeAsset = CreateInstance<NextGenDialogueGraphAsset>();
             if (!_graphView.Validate())
             {
                 Debug.LogWarning($"<color=#ff2f2f>NGDT</color>: Save failed, ScriptableObject wasn't created!\n{DateTime.Now}");
@@ -112,7 +112,7 @@ namespace Kurisu.NGDT.Editor
                     }
                     return;
                 }
-                Debug.Log($"<color=#3aff48>NGDT</color>[{_graphView.DialogueContainer.Object.name}] saved succeed, {DateTime.Now}");
+                Debug.Log($"<color=#3aff48>NGDT</color>[{_graphView.DialogueGraphContainer.Object.name}] saved succeed, {DateTime.Now}");
             }
             
             base.OnDisable();
@@ -204,7 +204,7 @@ namespace Kurisu.NGDT.Editor
                     GUILayout.FlexibleSpace();
                     if (GUILayout.Button("Save to Json", EditorStyles.toolbarButton))
                     {
-                        string path = EditorUtility.SaveFilePanel("Select json file save path", Setting.LastPath, graphView.DialogueContainer.Object.name, "json");
+                        string path = EditorUtility.SaveFilePanel("Select json file save path", Setting.LastPath, graphView.DialogueGraphContainer.Object.name, "json");
                         if (!string.IsNullOrEmpty(path))
                         {
                             var serializedData = graphView.SerializeGraph();
@@ -280,11 +280,11 @@ namespace Kurisu.NGDT.Editor
             return false;
         }
         
-        private IDialogueContainer LoadDataFromFile(string path)
+        private IDialogueGraphContainer LoadDataFromFile(string path)
         {
             try
             {
-                return AssetDatabase.LoadAssetAtPath<NextGenDialogueAsset>($"Assets/{path}");
+                return AssetDatabase.LoadAssetAtPath<NextGenDialogueGraphAsset>($"Assets/{path}");
 
             }
             catch

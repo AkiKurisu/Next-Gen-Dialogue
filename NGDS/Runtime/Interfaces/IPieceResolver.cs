@@ -1,11 +1,14 @@
-using System.Collections;
+using Cysharp.Threading.Tasks;
 namespace Kurisu.NGDS
 {
     public interface IPieceResolver
     {
-        IEnumerator EnterPiece();
-        IEnumerator ExitPiece();
+        UniTask EnterPiece();
+        
+        UniTask ExitPiece();
+        
         Piece DialoguePiece { get; }
-        void Inject(Piece piece, IDialogueSystem system);
+        
+        void Inject(Piece piece, DialogueSystem system);
     }
 }

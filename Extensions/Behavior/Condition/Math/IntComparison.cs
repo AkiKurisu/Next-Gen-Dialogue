@@ -1,8 +1,9 @@
+using System;
 using Ceres;
 using Ceres.Annotations;
-
 namespace Kurisu.NGDT.Behavior
 {
+    [Serializable]
     [NodeInfo("Condition: Compare Int values, if the conditions are met, return Status.Success, otherwise return Status.Failure")]
     [CeresLabel("Math: IntComparison")]
     [NodeGroup("Math")]
@@ -17,9 +18,13 @@ namespace Kurisu.NGDT.Behavior
             GreaterThanOrEqualTo,
             GreaterThan
         }
+        
         public SharedInt int1;
+        
         public SharedInt int2;
+        
         public Operation operation;
+        
         protected override Status IsUpdatable()
         {
             return operation switch

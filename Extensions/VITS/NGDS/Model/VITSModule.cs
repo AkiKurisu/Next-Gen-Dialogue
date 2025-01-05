@@ -1,5 +1,6 @@
 using System.Threading;
 using System.Threading.Tasks;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 namespace Kurisu.NGDS.VITS
 {
@@ -20,7 +21,7 @@ namespace Kurisu.NGDS.VITS
             CharacterID = 0;
             NoTranslation = false;
         }
-        public async Task RequestOrLoadAudioClipParallel(int i, VITSTurbo vitsTurbo, string[] contents, AudioClip[] results, CancellationToken token)
+        public async UniTask RequestOrLoadAudioClipParallel(int i, VITSTurbo vitsTurbo, string[] contents, AudioClip[] results, CancellationToken token)
         {
             if (AudioClip)
             {
@@ -37,7 +38,7 @@ namespace Kurisu.NGDS.VITS
                 results[i] = response.Result;
             }
         }
-        public async Task<AudioClip> RequestOrLoadAudioClip(VITSTurbo vitsTurbo, string content, CancellationToken token)
+        public async UniTask<AudioClip> RequestOrLoadAudioClip(VITSTurbo vitsTurbo, string content, CancellationToken token)
         {
             if (AudioClip)
             {

@@ -1,9 +1,11 @@
+using System;
 using Ceres;
 using Ceres.Annotations;
 using UnityEngine;
 using UnityEngine.Serialization;
 namespace Kurisu.NGDT.Behavior
 {
+    [Serializable]
     [NodeInfo("Action : Random get Vector3 value")]
     [CeresLabel("Vector3 : Random")]
     [NodeGroup("Vector3")]
@@ -16,11 +18,16 @@ namespace Kurisu.NGDT.Behavior
         }
 
         public Vector2 xRange = new(-5, 5);
+        
         public Vector2 yRange = new(-5, 5);
+        
         public Vector2 zRange = new(-5, 5);
+        
         public Operation operation;
+        
         [ForceShared, FormerlySerializedAs("randomVector3")]
         public SharedVector3 storeResult;
+        
         protected override Status OnUpdate()
         {
             Vector3 addVector3 = new(UnityEngine.Random.Range(xRange.x, xRange.y), UnityEngine.Random.Range(yRange.x, yRange.y), UnityEngine.Random.Range(zRange.x, zRange.y));

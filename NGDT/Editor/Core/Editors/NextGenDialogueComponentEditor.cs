@@ -9,7 +9,7 @@ namespace Kurisu.NGDT.Editor
     {
         private const string ButtonText = "Edit Dialogue";
         private const string DebugText = "Debug Dialogue";
-        public DialogueTreeDebugButton(IDialogueContainer tree) : base(() => DialogueEditorWindow.Show(tree))
+        public DialogueTreeDebugButton(IDialogueGraphContainer tree) : base(() => DialogueEditorWindow.Show(tree))
         {
             style.fontSize = 15;
             style.unityFontStyleAndWeight = FontStyle.Bold;
@@ -29,7 +29,7 @@ namespace Kurisu.NGDT.Editor
     internal class DialogueTreePlayButton : Button
     {
         private const string ButtonText = "Play Dialogue";
-        public DialogueTreePlayButton(NextGenDialogueComponent tree) : base(() => tree.GetDialogueGraph().PlayDialogue(tree.gameObject))
+        public DialogueTreePlayButton(NextGenDialogueGraphComponent tree) : base(() => tree.GetDialogueGraph().PlayDialogue(tree.gameObject))
         {
             style.fontSize = 15;
             style.unityFontStyleAndWeight = FontStyle.Bold;
@@ -39,14 +39,14 @@ namespace Kurisu.NGDT.Editor
         }
     }
 
-    [CustomEditor(typeof(NextGenDialogueComponent))]
+    [CustomEditor(typeof(NextGenDialogueGraphComponent))]
     public class NextGenDialogueComponentEditor : UnityEditor.Editor
     {
         private static readonly string LabelText = $"Next-Gen Dialogue <size=12>{NextGenDialogueSetting.Version}</size>";
         public override VisualElement CreateInspectorGUI()
         {
             var myInspector = new VisualElement();
-            var tree = target as NextGenDialogueComponent;
+            var tree = target as NextGenDialogueGraphComponent;
             var label = new Label(LabelText);
             label.style.fontSize = 20;
             label.style.unityTextAlign = TextAnchor.MiddleCenter;
@@ -65,14 +65,14 @@ namespace Kurisu.NGDT.Editor
             return myInspector;
         }
     }
-    [CustomEditor(typeof(NextGenDialogueAsset))]
+    [CustomEditor(typeof(NextGenDialogueGraphAsset))]
     public class NextGenDialogueAssetEditor : UnityEditor.Editor
     {
         private static readonly string LabelText = $"Next-Gen Dialogue <size=12>{NextGenDialogueSetting.Version}</size>";
         public override VisualElement CreateInspectorGUI()
         {
             var myInspector = new VisualElement();
-            var tree = target as NextGenDialogueAsset;
+            var tree = target as NextGenDialogueGraphAsset;
             var label = new Label(LabelText);
             label.style.fontSize = 20;
             label.style.unityTextAlign = TextAnchor.MiddleCenter;

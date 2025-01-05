@@ -1,13 +1,16 @@
+using System;
 using Ceres;
 using Ceres.Annotations;
 namespace Kurisu.NGDT
 {
+    [Serializable]
     [NodeInfo("Decorator: Execute the child node repeatedly by the specified number of times" +
     ", if the execution returns Failure, the loop ends and returns Failure")]
     [CeresLabel("Repeater")]
     public class Repeater : Decorator
     {
-        public Ceres.SharedInt repeatCount;
+        public SharedInt repeatCount;
+        
         protected override Status OnUpdate()
         {
             for (int i = 0; i < repeatCount.Value; i++)

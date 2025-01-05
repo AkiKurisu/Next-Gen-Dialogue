@@ -1,8 +1,9 @@
+using System;
 using Ceres;
 using Ceres.Annotations;
-
 namespace Kurisu.NGDT.Behavior
 {
+    [Serializable]
     [NodeInfo("Condition: Compare Float values, if the condition is met, return Status.Success, otherwise return Status.Failure")]
     [CeresLabel("Math: FloatComparison")]
     [NodeGroup("Math")]
@@ -17,9 +18,13 @@ namespace Kurisu.NGDT.Behavior
             GreaterThanOrEqualTo,
             GreaterThan
         }
+        
         public SharedFloat float1;
+        
         public SharedFloat float2;
+        
         public Operation operation;
+        
         protected override Status IsUpdatable()
         {
             return operation switch

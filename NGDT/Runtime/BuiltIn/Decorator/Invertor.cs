@@ -6,13 +6,11 @@ namespace Kurisu.NGDT
     [CeresLabel("Invertor")]
     public class Invertor : Decorator
     {
-
         protected override Status OnDecorate(Status childStatus)
         {
             if (childStatus == Status.Success)
                 return Status.Failure;
-            else
-                return Status.Success;
+            return Status.Success;
         }
     }
 }

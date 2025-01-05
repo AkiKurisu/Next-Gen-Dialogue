@@ -1,8 +1,10 @@
+using System;
 using Ceres;
 using Ceres.Annotations;
 using UnityEngine;
 namespace Kurisu.NGDT.Behavior
 {
+    [Serializable]
     [NodeInfo("Action : Calculate the square of the Vector3 modulus, " +
     "the performance is better than Distance, but the accuracy will be lost")]
     [CeresLabel("Vector3 : GetSqrMagnitude")]
@@ -11,8 +13,10 @@ namespace Kurisu.NGDT.Behavior
     {
         [Tooltip("Value to be calculated")]
         public SharedVector3 vector3;
+        
         [ForceShared]
         public SharedFloat result;
+        
         protected override Status OnUpdate()
         {
             result.Value = vector3.Value.sqrMagnitude;

@@ -1,8 +1,10 @@
+using System;
 using Ceres.Annotations;
 using Newtonsoft.Json;
 namespace Kurisu.NGDT
 {
     //Dummy editor module
+    [Serializable]
     [ModuleOf(typeof(Dialogue))]
     [NodeGroup("Editor/AIGC")]
     [NodeInfo("Load Oobabooga session to graph")]
@@ -10,12 +12,18 @@ namespace Kurisu.NGDT
     {
 
     }
+    
+    [Serializable]
     public class OobaboogaSession
     {
         public string name1;
+        
         public string name2;
+        
         public HistoryData history;
+        
         public string context;
+        
         public class HistoryData
         {
             [JsonProperty("internal")]

@@ -5,20 +5,21 @@ namespace Kurisu.NGDT
     ", after the node finishes running, the next Update will continue to update the next node")]
     public class Rotator : Composite
     {
-        private int targetIndex;
+        private int _targetIndex;
+        
         protected override Status OnUpdate()
         {
-            var status = Children[targetIndex].Update();
+            var status = Children[_targetIndex].Update();
             SetNext();
             return status;
         }
 
         private void SetNext()
         {
-            targetIndex++;
-            if (targetIndex >= Children.Count)
+            _targetIndex++;
+            if (_targetIndex >= Children.Count)
             {
-                targetIndex = 0;
+                _targetIndex = 0;
             }
         }
     }

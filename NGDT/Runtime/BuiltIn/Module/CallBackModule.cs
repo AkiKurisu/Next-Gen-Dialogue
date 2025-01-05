@@ -13,6 +13,7 @@ namespace Kurisu.NGDT
             }
             return Status.Success;
         }
+        
         private void RunChild()
         {
             Child?.Update();

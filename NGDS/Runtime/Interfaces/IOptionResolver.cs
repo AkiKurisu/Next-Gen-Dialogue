@@ -1,12 +1,15 @@
-using System.Collections;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 namespace Kurisu.NGDS
 {
     public interface IOptionResolver
     {
-        IEnumerator EnterOption();
-        IEnumerator ClickOption(Option option);
+        UniTask EnterOption();
+        
+        UniTask ClickOption(Option option);
+        
         IReadOnlyList<Option> DialogueOptions { get; }
-        void Inject(IReadOnlyList<Option> options, IDialogueSystem system);
+        
+        void Inject(IReadOnlyList<Option> options, DialogueSystem system);
     }
 }

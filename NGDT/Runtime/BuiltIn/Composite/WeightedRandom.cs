@@ -1,14 +1,17 @@
+using System;
 using System.Collections.Generic;
 using Ceres.Annotations;
 using UnityEngine;
 namespace Kurisu.NGDT
 {
+    [Serializable]
     [NodeInfo("Composite : Weighted random, randomly selected according to the weight")]
     public class WeightedRandom : Composite
     {
         [SerializeField, Tooltip("Node weight list, when the length of the list is greater than the number of child nodes" +
         ", the excess part will not be included in the weight")]
         private List<float> weights = new();
+        
         protected override Status OnUpdate()
         {
             var result = GetNext();

@@ -5,7 +5,6 @@ namespace Kurisu.NGDT
     ", continue to update the next one, otherwise it returns Failure")]
     public class Sequence : Composite
     {
-
         protected override Status OnUpdate()
         {
             return UpdateWhileSuccess(0);

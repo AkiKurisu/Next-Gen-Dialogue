@@ -1,7 +1,6 @@
-using System.Collections;
-using System.Linq;
+using System;
 using System.Threading;
-using System.Threading.Tasks;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Pool;
 namespace Kurisu.NGDS.VITS
@@ -10,63 +9,64 @@ namespace Kurisu.NGDS.VITS
     {
         public VITSPieceResolver(VITSTurbo vitsTurbo, AudioSource audioSource)
         {
-            this.vitsTurbo = vitsTurbo;
-            this.audioSource = audioSource;
+            _vitsTurbo = vitsTurbo;
+            _audioSource = audioSource;
         }
-        private readonly VITSTurbo vitsTurbo;
-        private readonly AudioSource audioSource;
-        private IDialogueSystem system;
-        private readonly CancellationTokenSource ct = new();
-        private readonly ObjectContainer objectContainer = new();
+        private readonly VITSTurbo _vitsTurbo;
+        
+        private readonly AudioSource _audioSource;
+        
+        private DialogueSystem _system;
+        
+        private readonly CancellationTokenSource _ct = new();
+        
+        private readonly ObjectContainer _objectContainer = new();
+        
         public Piece DialoguePiece { get; private set; }
+        
         public float MaxWaitTime { get; set; } = 30f;
+        
         public AudioClip[] AudioClips { get; private set; }
-        public void Inject(Piece piece, IDialogueSystem system)
+        
+        public void Inject(Piece piece, DialogueSystem system)
         {
             DialoguePiece = piece;
-            this.system = system;
-            objectContainer.Register<IContentModule>(piece);
+            _system = system;
+            _objectContainer.Register<IContentModule>(piece);
         }
-        public IEnumerator EnterPiece()
+        
+        public async UniTask EnterPiece()
         {
-            yield return DialoguePiece.ProcessModules(objectContainer);
+            await DialoguePiece.ProcessModules(_objectContainer);
             AudioClips = new AudioClip[DialoguePiece.Contents.Length];
             var modules = ListPool<VITSModule>.Get();
             DialoguePiece.CollectModules(modules);
-            var task = Task.WhenAll(modules.Select((x, idx) => x.RequestOrLoadAudioClipParallel(idx, vitsTurbo, DialoguePiece.Contents, AudioClips, ct.Token)));
-            float waitTime = 0;
-            while (!task.IsCompleted)
-            {
-                yield return null;
-                waitTime += Time.deltaTime;
-                if (waitTime >= MaxWaitTime)
-                {
-                    ct.Cancel();
-                    break;
-                }
-            }
+            await UniTask.WhenAll(modules.Select((x, idx) => x.RequestOrLoadAudioClipParallel(idx, _vitsTurbo, DialoguePiece.Contents, AudioClips, _ct.Token)))
+                        .Timeout(TimeSpan.FromSeconds(MaxWaitTime));
             ListPool<VITSModule>.Release(modules);
-            while (audioSource.isPlaying) yield return null;
+            await UniTask.WaitUntil(() => !_audioSource.isPlaying);
         }
-        public IEnumerator ExitPiece()
+        
+        public UniTask ExitPiece()
         {
             if (DialoguePiece.Options.Count == 0)
             {
                 if (DialoguePiece.TryGetModule(out NextPieceModule module))
                 {
-                    system.PlayDialoguePiece(module.NextID);
+                    _system.PlayDialoguePiece(module.NextID);
                 }
                 else
                 {
-                    //Exit Dialogue
-                    system.EndDialogue();
+                    // Exit Dialogue
+                    _system.EndDialogue(false);
                 }
             }
             else
             {
-                system.CreateOption(DialoguePiece.Options);
+                _system.CreateOption(DialoguePiece.Options);
             }
-            yield break;
+
+            return UniTask.CompletedTask;
         }
     }
 }

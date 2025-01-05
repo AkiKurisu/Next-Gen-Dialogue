@@ -7,29 +7,29 @@ using UObject = UnityEngine.Object;
 namespace Kurisu.NGDT
 {
     [DisallowMultipleComponent]
-    public class NextGenDialogueComponent : MonoBehaviour, IDialogueContainer
+    public class NextGenDialogueGraphComponent : MonoBehaviour, IDialogueGraphContainer
     {
         [HideInInspector, SerializeReference]
         private Root root = new();
         
-        UObject ICeresGraphContainer.Object => gameObject;
+        public UObject Object => gameObject;
 
         [HideInInspector, SerializeReference]
         private List<SharedVariable> sharedVariables = new();
         
         [SerializeField, Tooltip("Create dialogue graph from external dialogue asset at runtime")]
-        private NextGenDialogueAsset externalDialogueAsset;
+        private NextGenDialogueGraphAsset externalDialogueGraphAsset;
         
         /// <summary>
         /// Overwrite external dialogueTreeAsset to use external data, and leave null to use embedded data.
         /// </summary>
         /// <value></value>
-        public NextGenDialogueAsset ExternalData 
+        public NextGenDialogueGraphAsset ExternalData 
         { 
-            get => externalDialogueAsset;
+            get => externalDialogueGraphAsset;
             set
             {
-                externalDialogueAsset = value;
+                externalDialogueGraphAsset = value;
                 if (_graphInstance == null) return;
                 
                 _graphInstance.Dispose();
@@ -43,15 +43,9 @@ namespace Kurisu.NGDT
         
         public List<NodeGroup> NodeGroups => nodeGroups;
         
-        public Root Root
-        {
-            get => root;
-        }
-        
-        public List<SharedVariable> SharedVariables
-        {
-            get => sharedVariables;
-        }
+        public Root Root => root;
+
+        public List<SharedVariable> SharedVariables => sharedVariables;
 
         [NonSerialized]
         private DialogueGraph _graphInstance;
@@ -73,7 +67,7 @@ namespace Kurisu.NGDT
         
         public DialogueGraph GetDialogueGraph()
         {
-            return _graphInstance ?? new DialogueGraph(externalDialogueAsset ? externalDialogueAsset : this);
+            return _graphInstance ?? new DialogueGraph(externalDialogueGraphAsset ? externalDialogueGraphAsset : this);
         }
 
         public void SetGraphData(CeresGraphData graphData)

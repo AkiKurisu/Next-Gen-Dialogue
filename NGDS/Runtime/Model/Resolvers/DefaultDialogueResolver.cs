@@ -1,23 +1,26 @@
-using System.Collections;
+using Cysharp.Threading.Tasks;
 namespace Kurisu.NGDS
 {
     public class DefaultDialogueResolver : IDialogueResolver
     {
         public Dialogue Dialogue { get; private set; }
+        
         protected ObjectContainer ObjectContainer { get; } = new();
-        public void Inject(Dialogue dialogue, IDialogueSystem system)
+        
+        public void Inject(Dialogue dialogue, DialogueSystem system)
         {
             Dialogue = dialogue;
         }
 
-        public IEnumerator EnterDialogue()
+        public UniTask EnterDialogue()
         {
-            yield return Dialogue.ProcessModules(ObjectContainer);
+            return Dialogue.ProcessModules(ObjectContainer);
         }
-        public IEnumerator ExitDialogue()
+        
+        public UniTask ExitDialogue()
         {
             Dialogue.Dispose();
-            yield break;
+            return UniTask.CompletedTask;
         }
     }
 }

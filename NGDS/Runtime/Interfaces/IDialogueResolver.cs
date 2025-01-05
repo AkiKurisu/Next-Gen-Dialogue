@@ -1,11 +1,14 @@
-using System.Collections;
+using Cysharp.Threading.Tasks;
 namespace Kurisu.NGDS
 {
     public interface IDialogueResolver
     {
-        IEnumerator EnterDialogue();
-        IEnumerator ExitDialogue();
+        UniTask EnterDialogue();
+        
+        UniTask ExitDialogue();
+        
         Dialogue Dialogue { get; }
-        void Inject(Dialogue dialogue, IDialogueSystem system);
+        
+        void Inject(Dialogue dialogue, DialogueSystem system);
     }
 }

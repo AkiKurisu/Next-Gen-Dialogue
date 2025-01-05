@@ -1,39 +1,39 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Cysharp.Threading.Tasks;
 namespace Kurisu.NGDS
 {
     public abstract class Node : IDisposable
     {
         protected internal bool IsPooled { get; set; }
         
-        private readonly List<IDialogueModule> modules = new();
+        private readonly List<IDialogueModule> _modules = new();
         
-        public IReadOnlyList<IDialogueModule> Modules => modules;
+        public IReadOnlyList<IDialogueModule> Modules => _modules;
         
         public void AddModule(IDialogueModule module)
         {
-            modules.Add(module);
+            _modules.Add(module);
             OnModuleAdd(module);
             if (module is IApplyable applyableModule) applyableModule.Apply(this);
         }
         
         protected void ClearModules()
         {
-            modules.Clear();
+            _modules.Clear();
         }
         
         protected virtual void OnModuleAdd(IDialogueModule module) { }
         
         public IEnumerable<Node> ChildNodes()
         {
-            return modules.OfType<Node>();
+            return _modules.OfType<Node>();
         }
         
         public bool TryGetModule<T>(out T module) where T : IDialogueModule
         {
-            foreach (var localModule in modules)
+            foreach (var localModule in _modules)
             {
                 if (localModule is T target)
                 {
@@ -45,24 +45,24 @@ namespace Kurisu.NGDS
             return false;
         }
         
-        public void CollectModules<T>(List<T> modules) where T : IDialogueModule
+        public void CollectModules<T>(List<T> inModules) where T : IDialogueModule
         {
-            foreach (var localModule in this.modules)
+            foreach (var localModule in _modules)
             {
                 if (localModule is T target)
                 {
-                    modules.Add(target);
+                    inModules.Add(target);
                 }
             }
         }
 
-        public IEnumerator ProcessModules(IObjectResolver resolver)
+        public async UniTask ProcessModules(IObjectResolver resolver)
         {
-            foreach (var localModule in modules)
+            foreach (var localModule in _modules)
             {
                 if (localModule is IProcessable processable)
                 {
-                    yield return processable.Process(resolver);
+                    await processable.Process(resolver);
                 }
             }
         }
