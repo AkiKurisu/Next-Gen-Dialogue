@@ -18,13 +18,14 @@ namespace Kurisu.NGDT.Editor
             return true;
         }
         
-        public override void Commit(List<NodeGroup> blockData)
+        public override void Commit(List<NodeGroup> nodeGroups)
         {
             var nodes = containedElements
                                 .OfType<IDialogueNode>()
                                 .Where(x => x is not ModuleNode)
-                                .Select(x => x.Guid).ToList();
-            blockData.Add(new NodeGroup
+                                .Select(x => x.Guid)
+                                .ToList();
+            nodeGroups.Add(new NodeGroup
             {
                 childNodes = nodes,
                 title = title,

@@ -21,7 +21,7 @@ namespace Kurisu.NGDT.Editor
             evt.menu.MenuItems().Add(new CeresDropdownMenuAction("Change Behavior", (a) =>
             {
                 var provider = ScriptableObject.CreateInstance<CompositeSearchWindowProvider>();
-                provider.Init(this, NextGenDialogueSetting.GetNodeSearchContext());
+                provider.Init(this, NextGenDialogueSettings.GetNodeSearchContext());
                 SearchWindow.Open(new SearchWindowContext(a.eventInfo.localMousePosition), provider);
             }));
             evt.menu.MenuItems().Add(new CeresDropdownMenuAction("Add Child", (a) => AddChild()));
@@ -80,7 +80,7 @@ namespace Kurisu.NGDT.Editor
             {
                 if (!port.connections.Any()) continue;
                 var child = PortHelper.FindChildNode(port);
-                (NodeBehavior as Composite)?.AddChild(child.ReplaceBehavior());
+                (NodeBehavior as Composite)?.AddChild(child.Compile());
                 stack.Push(child);
             }
         }

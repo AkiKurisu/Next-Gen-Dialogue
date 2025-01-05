@@ -8,30 +8,32 @@ using UnityEditor;
 using UnityEditorInternal;
 using UnityEngine;
 using UnityEngine.UIElements;
+using Object = UnityEngine.Object;
 namespace Kurisu.NGDT.Editor
 {
-    [Serializable]
-    internal class GraphEditorSetting
+    public class NextGenDialogueSettings : ScriptableObject
     {
-        [NodeGroupSelector(typeof(NodeBehavior))]
-        [Tooltip("Display type, filter NodeGroup according to this list, nodes without category will always be displayed")]
-        public string[] showGroups = Array.Empty<string>();
+        [Serializable]
+        public class GraphEditorSetting
+        {
+            [NodeGroupSelector(typeof(NodeBehavior))]
+            [Tooltip("Display type, filter NodeGroup according to this list, nodes without category will always be displayed")]
+            public string[] showGroups = Array.Empty<string>();
         
-        [NodeGroupSelector(typeof(NodeBehavior))]
-        [Tooltip("The type that is not displayed, filter NodeGroup according to this list, and the nodes without categories will always be displayed")]
-        public string[] notShowGroups = Array.Empty<string>();
+            [NodeGroupSelector(typeof(NodeBehavior))]
+            [Tooltip("The type that is not displayed, filter NodeGroup according to this list, and the nodes without categories will always be displayed")]
+            public string[] notShowGroups = Array.Empty<string>();
         
-        [Tooltip("You can customize the style of the Graph view")]
-        public StyleSheet graphStyleSheet;
+            [Tooltip("You can customize the style of the Graph view")]
+            public StyleSheet graphStyleSheet;
         
-        [Tooltip("You can customize the style of the Inspector inspector")]
-        public StyleSheet inspectorStyleSheet;
+            [Tooltip("You can customize the style of the Inspector inspector")]
+            public StyleSheet inspectorStyleSheet;
         
-        [Tooltip("You can customize the style of Node nodes")]
-        public StyleSheet nodeStyleSheet;
-    }
-    public class NextGenDialogueSetting : ScriptableObject
-    {
+            [Tooltip("You can customize the style of Node nodes")]
+            public StyleSheet nodeStyleSheet;
+        }
+        
         public const string Version = "v2.0.0";
         
         private const string SettingsPath = "ProjectSettings/NextGenDialogueSetting.asset";
@@ -44,7 +46,7 @@ namespace Kurisu.NGDT.Editor
         
         private const string NodeFallBackPath = "NGDT/Node";
 
-        private static NextGenDialogueSetting _setting;
+        private static NextGenDialogueSettings _setting;
         
         [SerializeField]
         private GraphEditorSetting graphEditorSetting;
@@ -53,12 +55,13 @@ namespace Kurisu.NGDT.Editor
         private AITurboSetting aiTurboSetting;
         
         public AITurboSetting AITurboSetting => aiTurboSetting;
-        [SerializeField, HideInInspector]
         
+        [SerializeField, HideInInspector]
         private bool autoSave;
         
         [SerializeField, HideInInspector]
         private string lastPath;
+        
         /// <summary>
         /// Cache last open folder path in editor
         /// </summary>
@@ -67,8 +70,8 @@ namespace Kurisu.NGDT.Editor
         {
             get => lastPath;
             set => lastPath = value;
-
         }
+        
         /// <summary>
         /// Cache user auto save option value
         /// </summary>
@@ -78,22 +81,25 @@ namespace Kurisu.NGDT.Editor
             get => autoSave;
             set => autoSave = value;
         }
-        private static readonly string[] internalNotShowGroups = new string[1] { "Hidden" };
+        
         public static StyleSheet GetGraphStyle()
         {
             var setting = GetOrCreateSettings();
             return setting.graphEditorSetting.graphStyleSheet != null ? setting.graphEditorSetting.graphStyleSheet : Resources.Load<StyleSheet>(GraphFallBackPath);
         }
+        
         public static StyleSheet GetInspectorStyle()
         {
             var setting = GetOrCreateSettings();
             return setting.graphEditorSetting.inspectorStyleSheet != null ? setting.graphEditorSetting.inspectorStyleSheet : Resources.Load<StyleSheet>(InspectorFallBackPath);
         }
+        
         public static StyleSheet GetNodeStyle()
         {
             var setting = GetOrCreateSettings();
             return setting.graphEditorSetting.nodeStyleSheet != null ? setting.graphEditorSetting.nodeStyleSheet : Resources.Load<StyleSheet>(NodeFallBackPath);
         }
+        
         public static NodeSearchContext GetNodeSearchContext()
         {
             var dialogueSettings = GetOrCreateSettings();
@@ -106,16 +112,16 @@ namespace Kurisu.NGDT.Editor
             };
         }
         
-        public static NextGenDialogueSetting GetOrCreateSettings()
+        public static NextGenDialogueSettings GetOrCreateSettings()
         {
             var arr = InternalEditorUtility.LoadSerializedFileAndForget(SettingsPath);
             if (arr.Length > 0)
             {
-                _setting = arr[0] as NextGenDialogueSetting;
+                _setting = arr[0] as NextGenDialogueSettings;
             }
             else
             {
-                _setting = CreateInstance<NextGenDialogueSetting>();
+                _setting = CreateInstance<NextGenDialogueSettings>();
                 _setting.Save();
             }
             if (!_setting!.aiTurboSetting)
@@ -142,7 +148,7 @@ namespace Kurisu.NGDT.Editor
         
         public void Save(bool saveAsText = true)
         {
-            InternalEditorUtility.SaveToSerializedFileAndForget(new[] { this }, SettingsPath, saveAsText);
+            InternalEditorUtility.SaveToSerializedFileAndForget(new Object[] { this }, SettingsPath, saveAsText);
         }
     }
 
@@ -150,20 +156,20 @@ namespace Kurisu.NGDT.Editor
     {
         private SerializedObject _serializedObject;
         
-        private NextGenDialogueSetting _setting;
+        private NextGenDialogueSettings _setting;
         
         private class Styles
         {
-            public static GUIContent GraphEditorSettingStyle = new("Graph Editor Setting");
+            public static readonly GUIContent GraphEditorSettingStyle = new("Graph Editor Setting");
             
-            public static GUIContent AITurboSettingStyle = new("AI Turbo Setting");
+            public static readonly GUIContent AITurboSettingStyle = new("AI Turbo Setting");
         }
         
         public NGDTSettingsProvider(string path, SettingsScope scope = SettingsScope.User) : base(path, scope) { }
         
         public override void OnActivate(string searchContext, VisualElement rootElement)
         {
-            _serializedObject = new SerializedObject(_setting = NextGenDialogueSetting.GetOrCreateSettings());
+            _serializedObject = new SerializedObject(_setting = NextGenDialogueSettings.GetOrCreateSettings());
         }
         
         public override void OnGUI(string searchContext)
@@ -200,10 +206,11 @@ namespace Kurisu.NGDT.Editor
                 _setting.Save();
             }
         }
+        
         [SettingsProvider]
         public static SettingsProvider CreateMyCustomSettingsProvider()
         {
-            var provider = new NGDTSettingsProvider("Project/Next Gen Dialogue Setting", SettingsScope.Project)
+            var provider = new NGDTSettingsProvider("Project/Next Gen Dialogue Settings", SettingsScope.Project)
             {
                 keywords = GetSearchKeywordsFromGUIContentProperties<Styles>()
             };

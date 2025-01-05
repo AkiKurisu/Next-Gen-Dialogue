@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Ceres.Annotations;
@@ -8,6 +9,7 @@ namespace Kurisu.NGDT
     /// <summary>
     /// Entry point of the dialogue tree
     /// </summary>
+    [Serializable]
     [NodeInfo("Root : The root of dialogue tree, you can not delete it.")]
     public class Root : NodeBehavior
     {
@@ -35,33 +37,39 @@ namespace Kurisu.NGDT
         protected sealed override void OnRun()
         {
             child?.Run(GameObject, Graph);
-            for (int i = 0; i < children.Count; i++)
+            foreach (var node in children)
             {
-                //Skip inactive dialogue
-                if (children[i] is not Dialogue)
-                    children[i].Run(GameObject, Graph);
+                // Skip inactive dialogue
+                if (node is not Dialogue)
+                {
+                    node.Run(GameObject, Graph);
+                }
             }
         }
 
         public override void Awake()
         {
             child?.Awake();
-            for (int i = 0; i < children.Count; i++)
+            foreach (var node in children)
             {
-                //Skip inactive dialogue
-                if (children[i] is not Dialogue)
-                    children[i].Awake();
+                // Skip inactive dialogue
+                if (node is not Dialogue)
+                {
+                    node.Awake();
+                }
             }
         }
 
         public override void Start()
         {
             child?.Start();
-            for (int i = 0; i < children.Count; i++)
+            foreach (var node in children)
             {
-                //Skip inactive dialogue
-                if (children[i] is not Dialogue)
-                    children[i].Start();
+                // Skip inactive dialogue
+                if (node is not Dialogue)
+                {
+                    node.Start();
+                }
             }
         }
         
@@ -78,11 +86,13 @@ namespace Kurisu.NGDT
         internal void Abort()
         {
             GetActiveDialogue().Abort();
-            for (int i = 0; i < children.Count; i++)
+            foreach (var node in children)
             {
                 // Skip inactive dialogue
-                if (children[i] is Container container and not Dialogue)
+                if (node is Container container and not Dialogue)
+                {
                     container.Abort();
+                }
             }
         }
         
@@ -92,15 +102,20 @@ namespace Kurisu.NGDT
         /// <returns></returns>
         public Dialogue GetActiveDialogue()
         {
-            return child as Dialogue;
+            return (Dialogue)child;
         }
         
         /// <summary>
-        /// Add child node to root's <see cref="children"/>, set main dialogue using <see cref="Child"/> setter
+        /// Add child node to root's <see cref="children"/> set main dialogue if <see cref="Child"/> not exist
         /// </summary>
         /// <param name="inChild"></param>
         public sealed override void AddChild(CeresNode inChild)
         {
+            if (child == null)
+            {
+                child = (NodeBehavior)inChild;
+                return;
+            }
             children.Add((NodeBehavior)inChild);
         }
         
@@ -111,27 +126,13 @@ namespace Kurisu.NGDT
         
         public sealed override int GetChildrenCount()
         {
-            if (child == null) return 0;
-            return children.Count + 1;
+            return children.Count + (child == null ? 0 : 1);
         }
         
         public sealed override void ClearChildren()
         {
             child = null;
             children.Clear();
-        }
-        
-        public sealed override void SetChildren(CeresNode[] inChildren)
-        {
-            children.Clear();
-            child = null;
-            if(inChildren.Length <= 0 ) return;
-            foreach (var inChild in inChildren)
-            {
-                children.Add(inChild as NodeBehavior);
-            }
-            child = children[0];
-            children.RemoveAt(0);
         }
     }
 }

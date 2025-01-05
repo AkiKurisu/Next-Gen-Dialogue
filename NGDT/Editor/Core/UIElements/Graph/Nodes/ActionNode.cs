@@ -19,7 +19,7 @@ namespace Kurisu.NGDT.Editor
             evt.menu.MenuItems().Add(new CeresDropdownMenuAction("Change Behavior", (a) =>
             {
                 var provider = ScriptableObject.CreateInstance<ActionSearchWindowProvider>();
-                provider.Init(this, NextGenDialogueSetting.GetNodeSearchContext());
+                provider.Init(this, NextGenDialogueSettings.GetNodeSearchContext());
                 SearchWindow.Open(new SearchWindowContext(a.eventInfo.localMousePosition), provider);
             }));
             base.BuildContextualMenu(evt);

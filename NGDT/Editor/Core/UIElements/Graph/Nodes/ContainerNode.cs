@@ -153,7 +153,7 @@ namespace Kurisu.NGDT.Editor
             return _copyMap;
         }
         
-        public NodeBehavior ReplaceBehavior()
+        public NodeBehavior Compile()
         {
             NodeBehavior = (NodeBehavior)Activator.CreateInstance(GetBehavior());
             return NodeBehavior;
@@ -170,7 +170,7 @@ namespace Kurisu.NGDT.Editor
             var nodes = contentContainer.Query<ModuleNode>().ToList();
             nodes.ForEach(x =>
             {
-                ((Container)NodeBehavior).AddChild(x.ReplaceBehavior());
+                ((Container)NodeBehavior).AddChild(x.Compile());
                 stack.Push(x);
             });
             var bridges = contentContainer.Query<ChildBridge>().ToList();
@@ -260,7 +260,7 @@ namespace Kurisu.NGDT.Editor
             evt.menu.MenuItems().Add(new CeresDropdownMenuAction("Add Module", (a) =>
             {
                 var provider = ScriptableObject.CreateInstance<ModuleSearchWindowProvider>();
-                provider.Init(this, MapGraphView, NextGenDialogueSetting.GetNodeSearchContext(), GetExceptModuleTypes());
+                provider.Init(this, MapGraphView, NextGenDialogueSettings.GetNodeSearchContext(), GetExceptModuleTypes());
                 SearchWindow.Open(new SearchWindowContext(a.eventInfo.localMousePosition), provider);
             }));
         }

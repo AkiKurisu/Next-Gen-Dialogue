@@ -56,11 +56,6 @@ namespace Kurisu.NGDT
         {
             child = nodeBehavior as NodeBehavior;
         }
-        
-        public sealed override void SetChildren(CeresNode[] inChildren)
-        {
-            child = inChildren[0] as NodeBehavior;
-        }
     }
     
     [Serializable]

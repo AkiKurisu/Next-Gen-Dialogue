@@ -3,96 +3,123 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEditor.UIElements;
 using System.Linq;
+using UEditor = UnityEditor.Editor;
 namespace Kurisu.NGDT.Editor
 {
-    internal class DialogueTreeDebugButton : Button
+    public class NextGenDialogueEditor: UEditor
     {
-        private const string ButtonText = "Edit Dialogue";
-        private const string DebugText = "Debug Dialogue";
-        public DialogueTreeDebugButton(IDialogueGraphContainer tree) : base(() => DialogueEditorWindow.Show(tree))
+        internal class DialogueGraphButton : Button
         {
-            style.fontSize = 15;
-            style.unityFontStyleAndWeight = FontStyle.Bold;
-            style.color = Color.white;
-            if (!Application.isPlaying)
+            private const string ButtonText = "Open in Dialogue Graph";
+            
+            public DialogueGraphButton(IDialogueGraphContainer tree) : base(() => DialogueEditorWindow.Show(tree))
             {
+                style.fontSize = 15;
+                style.unityFontStyleAndWeight = FontStyle.Bold;
+                style.color = Color.white;
                 style.backgroundColor = new StyleColor(new Color(85 / 255f, 205 / 255f, 115 / 255f));
                 text = ButtonText;
             }
-            else
+        }
+        
+        internal class DialogueGraphPlayDialogueButton : Button
+        {
+            private const string ButtonText = "Play Dialogue";
+            
+            public DialogueGraphPlayDialogueButton(NextGenDialogueGraphComponent tree) : base(tree.PlayDialogue)
             {
-                text = DebugText;
-                style.backgroundColor = new StyleColor(new Color(253 / 255f, 163 / 255f, 255 / 255f));
+                style.fontSize = 15;
+                style.unityFontStyleAndWeight = FontStyle.Bold;
+                style.color = Color.white;
+                style.backgroundColor = new StyleColor(new Color(85 / 255f, 205 / 255f, 115 / 255f));
+                text = ButtonText;
             }
         }
-    }
-    internal class DialogueTreePlayButton : Button
-    {
-        private const string ButtonText = "Play Dialogue";
-        public DialogueTreePlayButton(NextGenDialogueGraphComponent tree) : base(() => tree.GetDialogueGraph().PlayDialogue(tree.gameObject))
-        {
-            style.fontSize = 15;
-            style.unityFontStyleAndWeight = FontStyle.Bold;
-            style.color = Color.white;
-            style.backgroundColor = new StyleColor(new Color(85 / 255f, 205 / 255f, 115 / 255f));
-            text = ButtonText;
-        }
+        
+        protected IDialogueGraphContainer Target => (IDialogueGraphContainer)target;
+        
+        protected static readonly string LabelText = $"Next-Gen Dialogue <size=12>{NextGenDialogueSettings.Version}</size>";
     }
 
     [CustomEditor(typeof(NextGenDialogueGraphComponent))]
-    public class NextGenDialogueComponentEditor : UnityEditor.Editor
+    public class NextGenDialogueComponentEditor : NextGenDialogueEditor
     {
-        private static readonly string LabelText = $"Next-Gen Dialogue <size=12>{NextGenDialogueSetting.Version}</size>";
         public override VisualElement CreateInspectorGUI()
         {
             var myInspector = new VisualElement();
-            var tree = target as NextGenDialogueGraphComponent;
-            var label = new Label(LabelText);
-            label.style.fontSize = 20;
-            label.style.unityTextAlign = TextAnchor.MiddleCenter;
+            var label = new Label(LabelText)
+            {
+                style =
+                {
+                    fontSize = 20,
+                    unityTextAlign = TextAnchor.MiddleCenter
+                }
+            };
             myInspector.Add(label);
-            myInspector.styleSheets.Add(NextGenDialogueSetting.GetInspectorStyle());
+            myInspector.styleSheets.Add(NextGenDialogueSettings.GetInspectorStyle());
             var field = new PropertyField(serializedObject.FindProperty("externalDialogueAsset"), "External Dialogue Asset");
             myInspector.Add(field);
-            if (tree.SharedVariables.Count(x => x.IsExposed) != 0)
+            // create instance for edit
+            var instance = (DialogueGraph)Target.GetGraph();
+            if (instance.variables.Count(x => x.IsExposed) != 0)
             {
-                myInspector.Add(new SharedVariablesFoldout(tree, target, this));
+                myInspector.Add(new SharedVariablesFoldout(instance.BlackBoard, () =>
+                {
+                    // Not serialize data in playing mode
+                    if (Application.isPlaying) return;
+                    Target.SetGraphData(instance.GetData());
+                    EditorUtility.SetDirty(target);
+                }));
             }
-            myInspector.Add(new DialogueTreeDebugButton(tree));
-            var playButton = new DialogueTreePlayButton(tree);
+            myInspector.Add(new DialogueGraphButton(Target));
+            var playButton = new DialogueGraphPlayDialogueButton((NextGenDialogueGraphComponent)Target);
             playButton.SetEnabled(Application.isPlaying);
             myInspector.Add(playButton);
             return myInspector;
         }
     }
+    
     [CustomEditor(typeof(NextGenDialogueGraphAsset))]
-    public class NextGenDialogueAssetEditor : UnityEditor.Editor
+    public class NextGenDialogueAssetEditor : NextGenDialogueEditor
     {
-        private static readonly string LabelText = $"Next-Gen Dialogue <size=12>{NextGenDialogueSetting.Version}</size>";
         public override VisualElement CreateInspectorGUI()
         {
             var myInspector = new VisualElement();
-            var tree = target as NextGenDialogueGraphAsset;
-            var label = new Label(LabelText);
-            label.style.fontSize = 20;
-            label.style.unityTextAlign = TextAnchor.MiddleCenter;
+            var label = new Label(LabelText)
+            {
+                style =
+                {
+                    fontSize = 20,
+                    unityTextAlign = TextAnchor.MiddleCenter
+                }
+            };
             myInspector.Add(label);
-            myInspector.styleSheets.Add(NextGenDialogueSetting.GetInspectorStyle());
+            myInspector.styleSheets.Add(NextGenDialogueSettings.GetInspectorStyle());
             myInspector.Add(new Label("Asset Description"));
             var description = new TextField(string.Empty)
             {
-                multiline = true
+                multiline = true,
+                style =
+                {
+                    minHeight = 60
+                }
             };
-            description.style.minHeight = 60;
             description.BindProperty(serializedObject.FindProperty("description"));
             myInspector.Add(description);
-            if (tree.SharedVariables.Count(x => x.IsExposed) != 0)
+            // create instance for edit
+            var instance = (DialogueGraph)Target.GetGraph();
+            if (instance.variables.Count(x => x.IsExposed) != 0)
             {
-                myInspector.Add(new SharedVariablesFoldout(tree, target, this));
+                myInspector.Add(new SharedVariablesFoldout(instance.BlackBoard, () =>
+                {
+                    // Not serialize data in playing mode
+                    if (Application.isPlaying) return;
+                    Target.SetGraphData(instance.GetData());
+                    EditorUtility.SetDirty(target);
+                }));
             }
-            myInspector.Add(new DialogueTreeDebugButton(tree));
+            myInspector.Add(new DialogueGraphButton(Target));
             return myInspector;
         }
     }
-
 }

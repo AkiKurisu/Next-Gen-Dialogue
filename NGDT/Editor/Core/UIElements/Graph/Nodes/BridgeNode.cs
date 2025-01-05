@@ -89,7 +89,7 @@ namespace Kurisu.NGDT.Editor
             {
                 var node = PortHelper.FindChildNode(Child);
                 stack.Push(node);
-                container.AddChild(node.ReplaceBehavior());
+                container.AddChild(node.Compile());
             }
         }
 

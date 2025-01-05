@@ -1,9 +1,10 @@
+using System;
 using System.Collections.Generic;
-using System.Linq;
 using Ceres.Graph;
 using UnityEngine;
 namespace Kurisu.NGDT
 {
+    [Serializable]
     public abstract class Composite : NodeBehavior
     {
         [SerializeReference]
@@ -13,18 +14,18 @@ namespace Kurisu.NGDT
 
         protected sealed override void OnRun()
         {
-            for (int i = 0; i < children.Count; i++)
+            foreach (var node in children)
             {
-                children[i].Run(GameObject, Graph);
+                node.Run(GameObject, Graph);
             }
         }
 
         public sealed override void Awake()
         {
             OnAwake();
-            for (int i = 0; i < children.Count; i++)
+            foreach (var node in children)
             {
-                children[i].Awake();
+                node.Awake();
             }
         }
 
@@ -35,9 +36,9 @@ namespace Kurisu.NGDT
         public sealed override void Start()
         {
             OnStart();
-            for (int i = 0; i < children.Count; i++)
+            foreach (var node in children)
             {
-                children[i].Start();
+                node.Start();
             }
         }
 
@@ -47,8 +48,9 @@ namespace Kurisu.NGDT
 
         public sealed override void AddChild(CeresNode child)
         {
-            children.Add(child as NodeBehavior);
+            children.Add((NodeBehavior)child);
         }
+        
         public sealed override CeresNode GetChildAt(int index)
         {
             return children[index];
@@ -58,17 +60,10 @@ namespace Kurisu.NGDT
         {
             return children.Count;
         }
+        
         public sealed override void ClearChildren()
         {
             children.Clear();
-        }
-        public sealed override void SetChildren(CeresNode[] inChildren)
-        {
-            children.Clear();
-            foreach (var child in inChildren)
-            {
-                children.Add(child as NodeBehavior);
-            }
         }
     }
 }

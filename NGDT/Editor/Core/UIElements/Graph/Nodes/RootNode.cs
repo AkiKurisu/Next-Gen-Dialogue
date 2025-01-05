@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Ceres.Editor;
 using Ceres.Editor.Graph;
 using UnityEditor.Experimental.GraphView;
+using UnityEngine;
 using UnityEngine.UIElements;
 namespace Kurisu.NGDT.Editor
 {
@@ -20,7 +21,7 @@ namespace Kurisu.NGDT.Editor
             title = nameof(Root);
             Child = Port.Create<Edge>(Orientation.Horizontal, Direction.Output, Port.Capacity.Single, typeof(DialoguePort));
             Child.portName = "Child";
-            Child.portColor = new UnityEngine.Color(191 / 255f, 117 / 255f, 255 / 255f, 0.91f);
+            Child.portColor = new Color(191 / 255f, 117 / 255f, 255 / 255f, 0.91f);
             outputContainer.Add(Child);
             capabilities &= ~Capabilities.Copiable;
             capabilities &= ~Capabilities.Deletable;
@@ -29,51 +30,60 @@ namespace Kurisu.NGDT.Editor
             RefreshPorts();
         }
 
-        protected sealed override void AddParent() { }
+        protected override void AddParent() { }
 
-        protected sealed override void AddDescription() { }
+        protected override void AddDescription() { }
 
-        protected sealed override void OnRestore()
+        protected override void OnRestore()
         {
             ((Root)NodeBehavior).UpdateEditor = ClearStyle;
         }
 
-        protected sealed override bool OnValidate(Stack<IDialogueNode> stack)
+        protected override bool OnValidate(Stack<IDialogueNode> stack)
         {
-            //Validate All Pieces and Dialogues
-            MapGraphView.CollectNodes<PieceContainer>()
-            .ForEach(x =>
-            {
-                stack.Push(x);
-            });
+            // Validate All Pieces and Dialogues
+            MapGraphView.CollectNodes<PieceContainer>().ForEach(stack.Push);
             var allDialogues = MapGraphView.CollectNodes<DialogueContainer>();
-            allDialogues.ForEach(x => stack.Push(x));
+            allDialogues.ForEach(stack.Push);
             return true;
         }
-        protected sealed override void OnCommit(Stack<IDialogueNode> stack)
+        protected override void OnCommit(Stack<IDialogueNode> stack)
         {
             var newRoot = new Root();
             DialogueContainer child = null;
-            // Commit Dialogue Piece First, no matter Piece is linked to Dialogue, they will be committed
-            MapGraphView.CollectNodes<PieceContainer>()
-            .ForEach(x =>
-            {
-                newRoot.AddChild(x.ReplaceBehavior());
-                stack.Push(x);
-            });
+            
+            // Commit main dialogue first
             if (Child.connected)
             {
                 child = (DialogueContainer)PortHelper.FindChildNode(Child);
-                newRoot.Child = child.ReplaceBehavior();
+                newRoot.AddChild(child.Compile());
                 stack.Push(child);
             }
+            else
+            {
+                // Add empty dialogue
+                newRoot.AddChild(new Dialogue());
+            }
+            
+            // Commit all pieces
+            MapGraphView.CollectNodes<PieceContainer>()
+            .ForEach(x =>
+            {
+                newRoot.AddChild(x.Compile());
+                stack.Push(x);
+            });
+            
+            // Commit left inactive dialogues
             var allDialogues = MapGraphView.CollectNodes<DialogueContainer>();
             if (child != null)
+            {
                 allDialogues.Remove(child);
+            }
+            
             allDialogues.ForEach(
                 x =>
             {
-                newRoot.AddChild(x.ReplaceBehavior());
+                newRoot.AddChild(x.Compile());
                 stack.Push(x);
             });
             newRoot.UpdateEditor = ClearStyle;
@@ -81,22 +91,24 @@ namespace Kurisu.NGDT.Editor
             _cache = child;
         }
 
-        public void PostCommit(IDialogueGraphContainer tree)
+        internal void PostCommit(DialogueGraph graph)
         {
-            DialogueContainerUtility.SetRoot(tree, NodeBehavior as Root);
+            graph.TraverseAppend((Root)NodeBehavior);
         }
-        protected sealed override void OnClearStyle()
+        
+        protected override void OnClearStyle()
         {
             _cache?.ClearStyle();
-            //Clear all dialogue piece
+            // Clear all dialogue piece
             MapGraphView.CollectNodes<PieceContainer>().ForEach(x => x.ClearStyle());
             if (Child.connected)
             {
-                //Clear child dialogue
+                // Clear child dialogue
                 PortHelper.FindChildNode(Child).ClearStyle();
             }
         }
-        public sealed override void BuildContextualMenu(ContextualMenuPopulateEvent evt) { }
+        
+        public override void BuildContextualMenu(ContextualMenuPopulateEvent evt) { }
         
         public IReadOnlyList<ILayoutNode> GetLayoutChildren()
         {

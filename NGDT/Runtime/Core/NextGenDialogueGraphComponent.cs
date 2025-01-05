@@ -1,6 +1,4 @@
 using System;
-using System.Collections.Generic;
-using Ceres;
 using Ceres.Graph;
 using UnityEngine;
 using UObject = UnityEngine.Object;
@@ -9,13 +7,13 @@ namespace Kurisu.NGDT
     [DisallowMultipleComponent]
     public class NextGenDialogueGraphComponent : MonoBehaviour, IDialogueGraphContainer
     {
-        [HideInInspector, SerializeReference]
-        private Root root = new();
+        [NonSerialized]
+        private DialogueGraph _dialogueGraph;
+        
+        [HideInInspector, SerializeField]
+        private DialogueGraphData graphData;
         
         public UObject Object => gameObject;
-
-        [HideInInspector, SerializeReference]
-        private List<SharedVariable> sharedVariables = new();
         
         [SerializeField, Tooltip("Create dialogue graph from external dialogue asset at runtime")]
         private NextGenDialogueGraphAsset externalDialogueGraphAsset;
@@ -30,52 +28,62 @@ namespace Kurisu.NGDT
             set
             {
                 externalDialogueGraphAsset = value;
-                if (_graphInstance == null) return;
+                if (_dialogueGraph == null) return;
                 
-                _graphInstance.Dispose();
-                _graphInstance = null;
-                (_graphInstance = GetDialogueGraph()).Compile();
+                _dialogueGraph.Dispose();
+                _dialogueGraph = null;
+                (_dialogueGraph = GetDialogueGraph()).Compile();
             } 
         }
-        
-        [SerializeField, HideInInspector]
-        private List<NodeGroup> nodeGroups = new();
-        
-        public List<NodeGroup> NodeGroups => nodeGroups;
-        
-        public Root Root => root;
-
-        public List<SharedVariable> SharedVariables => sharedVariables;
-
-        [NonSerialized]
-        private DialogueGraph _graphInstance;
 
         private void Awake()
         {
-            (_graphInstance = GetDialogueGraph()).Compile();
+            (_dialogueGraph = GetDialogueGraph()).Compile();
         }
 
         private void OnDestroy()
         {
-            _graphInstance?.Dispose();
+            _dialogueGraph?.Dispose();
         }
 
         public CeresGraph GetGraph()
         {
             return GetDialogueGraph();
         }
-        
-        public DialogueGraph GetDialogueGraph()
+
+        /// <summary>
+        /// Get or create dialogue graph instance from this component
+        /// </summary>
+        /// <returns></returns>
+        public DialogueGraph GetDialogueGraphInstance()
         {
-            return _graphInstance ?? new DialogueGraph(externalDialogueGraphAsset ? externalDialogueGraphAsset : this);
+            return _dialogueGraph ?? GetDialogueGraph();
         }
 
-        public void SetGraphData(CeresGraphData graphData)
+        /// <summary>
+        /// Play dialogue
+        /// </summary>
+        public void PlayDialogue()
         {
-            var dialogueGraph = new DialogueGraph(graphData as DialogueGraphData);
-            root = dialogueGraph.Root;
-            nodeGroups = dialogueGraph.nodeGroups;
-            sharedVariables = dialogueGraph.variables;
+            GetDialogueGraphInstance().PlayDialogue(gameObject);
+        }
+
+        /// <summary>
+        /// Create new dialogue graph from this component
+        /// </summary>
+        /// <returns></returns>
+        public DialogueGraph GetDialogueGraph()
+        {
+            if (externalDialogueGraphAsset)
+            {
+                return externalDialogueGraphAsset.GetDialogueGraph();
+            }
+            return new DialogueGraph(graphData.CloneT<DialogueGraphData>());
+        }
+
+        public void SetGraphData(CeresGraphData graph)
+        {
+            graphData = (DialogueGraphData)graph;
         }
     }
 }

@@ -1,13 +1,16 @@
+using System;
 using System.Collections.Generic;
 using Ceres;
 using Ceres.Graph;
 using Kurisu.NGDS;
 using UnityEngine;
+using UnityEngine.Assertions;
 namespace Kurisu.NGDT
 {
+    [Serializable]
     public class DialogueGraphData : LinkedGraphData
     {
-        private DialogueGraphData(DialogueGraph graph) : base(graph)
+        public DialogueGraphData(DialogueGraph graph) : base(graph)
         {
         
         }
@@ -17,68 +20,57 @@ namespace Kurisu.NGDT
             /* Variants for fallback nodes */
             if (edges[index].children.Length > 0)
             {
-                return new InvalidComposite()
+                return new InvalidComposite
                 {
                     nodeType = fallbackNodeData.nodeType.ToString(),
                     serializedData = fallbackNodeData.serializedData
                 };
             }
             
-            return new InvalidAction()
+            return new InvalidAction
             {
                 nodeType = fallbackNodeData.nodeType.ToString(),
                 serializedData = fallbackNodeData.serializedData
             };
         }
-
-        /// <summary>
-        /// Serialize dialogue tree
-        /// </summary>
-        /// <param name="dialogueGraphTree"></param>
-        /// <param name="indented"></param>
-        /// <returns></returns>
-        public static string Serialize(IDialogueGraphContainer dialogueGraphTree, bool indented = false)
+        
+        public bool IsValid()
         {
-            var graphData = new DialogueGraphData(new DialogueGraph(dialogueGraphTree)).CloneT<DialogueGraphData>();
-            var jsonData = Serialize(graphData, indented);
-#if UNITY_EDITOR
-            /* Patch for editor, should save dialogue graph data instead of saving nodes and variables directly */
-            if(!Application.isPlaying)
-            {
-                dialogueGraphTree.SetGraphData(graphData);
-            }
-#endif
-            return jsonData;
+            return nodes != null && nodes.Length > 0;
         }
     }
 
+    [Serializable]
     public class DialogueGraph: CeresGraph
     {
-        public Root Root => nodes[0] as Root;
-        
-        public DialogueGraph(IDialogueGraphContainer dt)
-        {
-            variables = new List<SharedVariable>();
-            foreach (var variable in dt.SharedVariables)
-            {
-                variables.Add(variable.Clone());
-            }
+        public Root Root => (Root)nodes[0];
 
-            nodes = new List<CeresNode> { dt.Root };
-            nodes.AddRange(dt.Root); /* Traverse dialogue tree */
-            nodeGroups = new List<NodeGroup>(dt.NodeGroups);
+        public DialogueGraph()
+        {
+            
         }
 
         public DialogueGraph(DialogueGraphData graphData): base(graphData)
         {
         }
 
+        /// <summary>
+        /// Traverse dialogue graph from root and append node instances
+        /// </summary>
+        /// <param name="root"></param>
+        public void TraverseAppend(Root root)
+        {
+            nodes = new List<CeresNode> { root };
+            nodes.AddRange(root);
+        }
+
         private DialogueBuilder _builder;
 
-        public IDialogueBuilder Builder {
+        public IDialogueBuilder Builder 
+        {
             get
             {
-                return _builder ??= new DialogueBuilder(this);
+                return _builder ??= new DialogueBuilder();
             }
         }
 
@@ -86,7 +78,10 @@ namespace Kurisu.NGDT
         {
             foreach (var variable in variables)
             {
-                if (variable is PieceID pieceID) pieceID.Value = System.Guid.NewGuid().ToString();
+                if (variable is PieceID pieceID)
+                {
+                    pieceID.Value = Guid.NewGuid().ToString();
+                }
             }
             InitVariables_Imp(this);
             BlackBoard.MapGlobal();
@@ -111,15 +106,28 @@ namespace Kurisu.NGDT
             Root.Update();
         }
         
+        public string Serialize(bool indented = false)
+        {
+            return CeresGraphData.Serialize(GetData(), indented);
+        }
+        
+        /// <summary>
+        /// Get better format data for serialization of this graph
+        /// </summary>
+        /// <returns></returns>
+        public DialogueGraphData GetData()
+        {
+#if UNITY_EDITOR
+            // Should not serialize data in playing mode which will modify behavior tree structure
+            Assert.IsFalse(Application.isPlaying);
+#endif
+            // since this function used in editor most time
+            // use clone to prevent modify source tree
+            return new DialogueGraphData(this).CloneT<DialogueGraphData>();
+        }
+        
         private class DialogueBuilder : IDialogueBuilder
         {
-            public DialogueBuilder(DialogueGraph graph)
-            {
-                _graph = graph;
-            }
-            
-            private readonly DialogueGraph _graph;
-            
             private readonly Stack<Node> _nodesBuffer = new();
             
             public void StartWriteNode(Node node)
@@ -140,7 +148,7 @@ namespace Kurisu.NGDT
             public void EndWriteNode()
             {
                 var node = _nodesBuffer.Pop();
-                if (_nodesBuffer.TryPeek(out Node parentNode) && node is IDialogueModule module)
+                if (_nodesBuffer.TryPeek(out var parentNode) && node is IDialogueModule module)
                 {
                     parentNode.AddModule(module);
                 }

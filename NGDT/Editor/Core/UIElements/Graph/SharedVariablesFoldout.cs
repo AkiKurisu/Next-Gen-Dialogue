@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -14,7 +13,7 @@ namespace Kurisu.NGDT.Editor
     public class SharedVariablesFoldout : Foldout
     {
         private readonly HashSet<ObserveProxyVariable> _observeProxies;
-        public SharedVariablesFoldout(IVariableSource source, UnityEngine.Object target, UnityEditor.Editor editor)
+        public SharedVariablesFoldout(IVariableSource source, System.Action onUpdate)
         {
             value = false;
             text = "SharedVariables";
@@ -29,9 +28,14 @@ namespace Kurisu.NGDT.Editor
                     text = $"{variable.GetType().Name}  :  {variable.Name}",
                     value = false
                 };
-                var content = new VisualElement();
-                content.style.flexDirection = FlexDirection.Row;
-                content.style.justifyContent = Justify.SpaceBetween;
+                var content = new VisualElement
+                {
+                    style =
+                    {
+                        flexDirection = FlexDirection.Row,
+                        justifyContent = Justify.SpaceBetween
+                    }
+                };
                 var fieldResolver = factory.Create(variable.GetType().GetField("value", BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Public));
                 var valueField = fieldResolver.EditorField;
                 fieldResolver.Restore(variable);
@@ -39,7 +43,7 @@ namespace Kurisu.NGDT.Editor
                 {
                     var index = source.SharedVariables.FindIndex(x => x.Name == variable.Name);
                     source.SharedVariables[index].SetValue(obj);
-                    NotifyEditor();
+                    onUpdate();
                 });
                 if (Application.isPlaying)
                 {
@@ -76,7 +80,7 @@ namespace Kurisu.NGDT.Editor
                     {
                         variable.IsGlobal = !variable.IsGlobal;
                         SetToggleButtonColor(globalToggle, variable.IsGlobal);
-                        NotifyEditor();
+                        onUpdate();
                     };
                 }
                 SetToggleButtonColor(globalToggle, variable.IsGlobal);
@@ -94,7 +98,7 @@ namespace Kurisu.NGDT.Editor
                         {
                             RemoveFromHierarchy();
                         }
-                        NotifyEditor();
+                        onUpdate();
                     })
                     {
                         text = "Delate",
@@ -113,13 +117,7 @@ namespace Kurisu.NGDT.Editor
             }
 
             return;
-
-            void NotifyEditor()
-            {
-                EditorUtility.SetDirty(target);
-                EditorUtility.SetDirty(editor);
-                AssetDatabase.SaveAssets();
-            }
+            
             void SetToggleButtonColor(Button button, bool isOn)
             {
                 button.style.color = isOn ? Color.green : Color.gray;

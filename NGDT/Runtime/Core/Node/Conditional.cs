@@ -1,7 +1,9 @@
+using System;
 using Ceres.Graph;
 using UnityEngine;
 namespace Kurisu.NGDT
 {
+    [Serializable]
     public abstract class Conditional : NodeBehavior
     {
         [SerializeReference]
@@ -73,11 +75,5 @@ namespace Kurisu.NGDT
         {
             child = nodeBehavior as NodeBehavior;
         }
-        
-        public sealed override void SetChildren(CeresNode[] inChildren)
-        {
-            child = inChildren[0] as NodeBehavior;
-        }
     }
-
 }

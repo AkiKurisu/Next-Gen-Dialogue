@@ -20,7 +20,7 @@ namespace Kurisu.NGDT.Editor
             evt.menu.MenuItems().Add(new CeresDropdownMenuAction("Change Behavior", (a) =>
             {
                 var provider = ScriptableObject.CreateInstance<DecoratorSearchWindowProvider>();
-                provider.Init(this, NextGenDialogueSetting.GetNodeSearchContext());
+                provider.Init(this, NextGenDialogueSettings.GetNodeSearchContext());
                 SearchWindow.Open(new SearchWindowContext(a.eventInfo.localMousePosition), provider);
             }));
             base.BuildContextualMenu(evt);
@@ -51,7 +51,7 @@ namespace Kurisu.NGDT.Editor
                 return;
             }
             var child = PortHelper.FindChildNode(childPort);
-            ((Decorator)NodeBehavior).Child = child.ReplaceBehavior();
+            ((Decorator)NodeBehavior).Child = child.Compile();
             stack.Push(child);
         }
 

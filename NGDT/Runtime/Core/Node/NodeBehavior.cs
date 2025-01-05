@@ -87,15 +87,6 @@ namespace Kurisu.NGDT
             
         }
 
-        /// <summary>
-        /// Set child nodes
-        /// </summary>
-        /// <param name="children"></param>
-        public virtual void SetChildren(CeresNode[] children)
-        {
-            
-        }
-
         public void OnBeforeSerialize()
         {
             nodeData = NodeData.Clone();

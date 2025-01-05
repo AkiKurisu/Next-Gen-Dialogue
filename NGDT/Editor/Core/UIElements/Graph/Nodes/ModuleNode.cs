@@ -106,7 +106,7 @@ namespace Kurisu.NGDT.Editor
                 return;
             }
             var child = PortHelper.FindChildNode(_childPort);
-            ((BehaviorModule)NodeBehavior).Child = child.ReplaceBehavior();
+            ((BehaviorModule)NodeBehavior).Child = child.Compile();
             stack.Push(child);
             _cache = child;
         }

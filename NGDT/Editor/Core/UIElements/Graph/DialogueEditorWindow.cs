@@ -12,7 +12,7 @@ namespace Kurisu.NGDT.Editor
     {
         private DialogueGraphView _graphView;
         
-        private static NextGenDialogueSetting _setting;
+        private static NextGenDialogueSettings _setting;
         
         private string _bakeGenerateText;
         
@@ -20,11 +20,11 @@ namespace Kurisu.NGDT.Editor
         
         private IMGUIContainer _previewContainer;
         
-        private static NextGenDialogueSetting Setting
+        private static NextGenDialogueSettings Setting
         {
             get
             {
-                if (!_setting) _setting = NextGenDialogueSetting.GetOrCreateSettings();
+                if (!_setting) _setting = NextGenDialogueSettings.GetOrCreateSettings();
                 return _setting;
             }
         }
@@ -64,9 +64,31 @@ namespace Kurisu.NGDT.Editor
 
         protected override void OnInitialize()
         {
-            StructGraphView();
-            Key = Container!.Object;
-            titleContent = new GUIContent($"NGDT ({Key.name})");
+            DisplayProgressBar("Initialize field factory",0f);
+            {
+                FieldResolverFactory.Get();
+            }
+            DisplayProgressBar("Initialize node view factory",0.3f);
+            {
+                DialogueNodeFactory.Get();
+            }
+            DisplayProgressBar("Construct graph view", 0.6f);
+            {
+                StructGraphView();
+                Key = Container!.Object;
+                titleContent = new GUIContent($"NGDT ({Key.name})");
+            }
+            ClearProgressBar();
+        }
+        
+        private static void DisplayProgressBar(string stepTitle, float progress)
+        {
+            EditorUtility.DisplayProgressBar("Initialize Dialogue Graph Editor", stepTitle, progress);
+        }
+        
+        private static void ClearProgressBar()
+        {
+            EditorUtility.ClearProgressBar();
         }
         
         private void StructGraphView()
@@ -198,7 +220,7 @@ namespace Kurisu.NGDT.Editor
                             EditorUtility.SetDirty(_setting);
                             AssetDatabase.SaveAssets();
                             ShowNotification(new GUIContent("Data dropped succeed !"));
-                            graphView.DeserializeGraph(data, new Vector3(400, 300));
+                            graphView.DeserializeGraph((DialogueGraph)data.GetGraph(), new Vector3(400, 300));
                         }
                     }
                     GUILayout.FlexibleSpace();

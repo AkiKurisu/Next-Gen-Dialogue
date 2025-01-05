@@ -9,6 +9,7 @@ namespace Kurisu.NGDT.Editor
         {
             void Connect(DialogueGraphView graphView, IDialogueNode nodeToConnect);
         }
+        
         private class PortAdapter : IParentAdapter
         {
             private readonly Port _port;
@@ -24,6 +25,7 @@ namespace Kurisu.NGDT.Editor
                 graphView.Add(edge);
             }
         }
+        
         private class ContainerAdapter : IParentAdapter
         {
             private readonly ContainerNode _container;
@@ -41,6 +43,7 @@ namespace Kurisu.NGDT.Editor
                     childContainer.AddChildElement(nodeToConnect, graphView);
             }
         }
+        
         private readonly struct EdgePair
         {
             public readonly NodeBehavior NodeBehavior;
@@ -56,12 +59,12 @@ namespace Kurisu.NGDT.Editor
         
         private readonly List<IDialogueNode> _tempNodes = new();
         
-        public (RootNode, List<IDialogueNode>) ConvertToNode(IDialogueGraphContainer tree, DialogueGraphView graphView, Vector2 initPos)
+        public (RootNode, List<IDialogueNode>) ConvertToNode(DialogueGraph graph, DialogueGraphView graphView, Vector2 initPos)
         {
             var stack = new Stack<EdgePair>();
             var alreadyCreateNodes = new Dictionary<NodeBehavior, IDialogueNode>();
             RootNode root = null;
-            stack.Push(new EdgePair(tree.Root, null));
+            stack.Push(new EdgePair(graph.Root, null));
             _tempNodes.Clear();
             while (stack.Count > 0)
             {

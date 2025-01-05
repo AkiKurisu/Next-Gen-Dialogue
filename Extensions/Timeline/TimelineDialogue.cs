@@ -46,13 +46,13 @@ namespace Kurisu.NGDT.Timeline
             {
                 if (_dialogueGraphTree == null) _dialogueGraphTree = gameObject.AddComponent<NextGenDialogueGraphComponent>();
                 _dialogueGraphTree.ExternalData = dialogueSignal.dialogueGraphAsset;
-                _dialogueGraphTree.GetDialogueGraph().PlayDialogue(_dialogueGraphTree.gameObject);
+                _dialogueGraphTree.PlayDialogue();
             }
             else
             {
                 if (TryFindReceiver(dialogueSignal.dialogueName, out var receiver))
                 {
-                    receiver.dialogueGraphTree.GetDialogueGraph().PlayDialogue(receiver.dialogueGraphTree.gameObject);
+                    receiver.dialogueGraphTree.PlayDialogue();
                 }
                 else
                 {

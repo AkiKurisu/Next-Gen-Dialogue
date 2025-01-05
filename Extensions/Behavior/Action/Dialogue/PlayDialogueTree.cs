@@ -13,7 +13,7 @@ namespace Kurisu.NGDT.Behavior
         
         protected override Status OnUpdate()
         {
-            if (dialogueTree.Value) dialogueTree.Value.GetDialogueGraph().PlayDialogue(dialogueTree.Value.gameObject);
+            if (dialogueTree.Value) dialogueTree.Value.PlayDialogue();
             return Status.Success;
         }
     }

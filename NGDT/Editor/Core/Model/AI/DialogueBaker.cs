@@ -147,7 +147,7 @@ namespace Kurisu.NGDT.Editor
         }
         private static ILargeLanguageModel CreateLLM()
         {
-            var setting = NextGenDialogueSetting.GetOrCreateSettings().AITurboSetting;
+            var setting = NextGenDialogueSettings.GetOrCreateSettings().AITurboSetting;
             return LLMFactory.CreateLLM(setting);
         }
         private static async Task<bool> GenerateDialogue(ContainerNode containerNode, AIPromptBuilder builder, CancellationToken ct)

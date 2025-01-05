@@ -73,14 +73,5 @@ namespace Kurisu.NGDT
         {
             children.Clear();
         }
-        
-        public sealed override void SetChildren(CeresNode[] inChildren)
-        {
-            children.Clear();
-            foreach (var child in inChildren)
-            {
-                children.Add(child as NodeBehavior);
-            }
-        }
     }
 }

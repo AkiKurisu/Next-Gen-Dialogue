@@ -11,6 +11,7 @@ namespace Kurisu.NGDT.Editor
     {
         IDialogueNode CreateNodeInstance(Type type);
     }
+    
     public class DialogueNodeFactory
     {
         private static DialogueNodeFactory _instance;
@@ -23,6 +24,7 @@ namespace Kurisu.NGDT.Editor
         private StyleSheet _styleSheetCache;
         
         private readonly List<Type> _resolverTypes;
+        
         public DialogueNodeFactory()
         {
             _instance = this;
@@ -46,6 +48,7 @@ namespace Kurisu.NGDT.Editor
                 return 1;
             });
         }
+        
         private static bool IsValidType(Type type)
         {
             if (type.IsAbstract) return false;
@@ -54,6 +57,7 @@ namespace Kurisu.NGDT.Editor
             if (type.GetInterfaces().All(t => t != typeof(INodeResolver))) return false;
             return true;
         }
+        
         public IDialogueNode Create(Type behaviorType, DialogueGraphView graphView)
         {
             IDialogueNode node = null;
@@ -78,16 +82,18 @@ namespace Kurisu.NGDT.Editor
             }
             if (!find) node = new ActionNode();
             node.SetBehavior(behaviorType, graphView);
-            if (_styleSheetCache == null) _styleSheetCache = NextGenDialogueSetting.GetNodeStyle();
+            if (_styleSheetCache == null) _styleSheetCache = NextGenDialogueSettings.GetNodeStyle();
             ((Node)node).styleSheets.Add(_styleSheetCache);
             return node;
         }
+        
         private bool TryAcceptNodeEditor(CustomNodeViewAttribute attribute, Type behaviorType)
         {
             if (attribute.NodeType == behaviorType) return true;
             if (attribute.CanInherit && behaviorType.IsSubclassOf(attribute.NodeType)) return true;
             return false;
         }
+        
         private static bool IsAcceptable(Type type, Type behaviorType)
         {
             return (bool)type.InvokeMember("IsAcceptable", BindingFlags.InvokeMethod, null, null, new object[] { behaviorType });

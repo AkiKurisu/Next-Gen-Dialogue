@@ -22,7 +22,7 @@ namespace Kurisu.NGDT.Editor
         public string BotName { get; set; } = "Bot";
         public NovelBaker()
         {
-            llm = LLMFactory.CreateLLM(NextGenDialogueSetting.GetOrCreateSettings().AITurboSetting);
+            llm = LLMFactory.CreateLLM(NextGenDialogueSettings.GetOrCreateSettings().AITurboSetting);
         }
         /// <summary>
         /// Bake Novel Content in target container based on user's node selection

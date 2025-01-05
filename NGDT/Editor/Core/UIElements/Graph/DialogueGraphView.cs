@@ -5,14 +5,18 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using System.Linq;
 using System;
+using Ceres;
 using Ceres.Editor;
 using Ceres.Editor.Graph;
 using Ceres.Graph;
 using USearchWindow = UnityEditor.Experimental.GraphView.SearchWindow;
+using UObject = UnityEngine.Object;
 namespace Kurisu.NGDT.Editor
 {
     public class DialogueGraphView : CeresGraphView
     {
+        public DialogueGraph Instance { get; }
+        
         public IDialogueGraphContainer DialogueGraphContainer { get; }
 
         private RootNode _root;
@@ -29,7 +33,8 @@ namespace Kurisu.NGDT.Editor
         public DialogueGraphView(CeresGraphEditorWindow editorWindow) : base(editorWindow)
         {
             DialogueGraphContainer = (IDialogueGraphContainer)editorWindow.Container;
-            styleSheets.Add(NextGenDialogueSetting.GetGraphStyle());
+            Instance = (DialogueGraph)DialogueGraphContainer.GetGraph();
+            styleSheets.Add(NextGenDialogueSettings.GetGraphStyle());
             AddBlackboard(new DialogueBlackboard(this));
             Add(_infoContainer = new CeresInfoContainer(InfoText));
             AddSearchWindow<DialogueNodeSearchWindow>();
@@ -39,7 +44,7 @@ namespace Kurisu.NGDT.Editor
         public override void OpenSearch(Vector2 screenPosition)
         {
             /* Override context from settings */
-            SearchWindow.Initialize(this, NextGenDialogueSetting.GetNodeSearchContext());
+            SearchWindow.Initialize(this, NextGenDialogueSettings.GetNodeSearchContext());
             USearchWindow.Open(new SearchWindowContext(screenPosition), SearchWindow);
         }
 
@@ -115,9 +120,9 @@ namespace Kurisu.NGDT.Editor
             // Remove needless default actions
             evt.menu.MenuItems().Clear();
             remainTargets.ForEach(evt.menu.MenuItems().Add);
-            evt.menu.MenuItems().Add(new CeresDropdownMenuAction("Paste", evt =>
+            evt.menu.MenuItems().Add(new CeresDropdownMenuAction("Paste", action =>
             {
-                Paste(contentViewContainer.WorldToLocal(evt.eventInfo.mousePosition) - CopyPaste.CenterPosition);
+                Paste(contentViewContainer.WorldToLocal(action.eventInfo.mousePosition) - CopyPaste.CenterPosition);
             }, x => CopyPaste.CanPaste ? DropdownMenuAction.Status.Normal : DropdownMenuAction.Status.Disabled));
             ContextualMenuRegistry.BuildContextualMenu(ContextualMenuType.Graph, evt, null);
         }
@@ -127,80 +132,69 @@ namespace Kurisu.NGDT.Editor
             return PortHelper.GetCompatiblePorts(this, startAnchor);
         }
         
-        protected override void OnDragDropObjectPerform(UnityEngine.Object data, Vector3 mousePosition)
+        protected override void OnDragDropObjectPerform(UObject data, Vector3 mousePosition)
         {
             if (data is GameObject gameObject)
             {
                 if (gameObject.TryGetComponent(out IDialogueGraphContainer tree))
                 {
-                    EditorWindow.ShowNotification(new GUIContent("GameObject Dropped Succeed !"));
-                    DeserializeGraph(tree, mousePosition);
+                    EditorWindow.ShowNotification(new GUIContent("GameObject Dropped Succeed"));
+                    DeserializeGraph((DialogueGraph)tree.GetGraph(), mousePosition);
                     return;
                 }
-                EditorWindow.ShowNotification(new GUIContent("Invalid Drag GameObject !"));
+                EditorWindow.ShowNotification(new GUIContent("Invalid Drag GameObject!"));
                 return;
             }
             if (data is TextAsset asset)
             {
                 if (DeserializeGraph(asset.text, mousePosition))
-                    EditorWindow.ShowNotification(new GUIContent("Text Asset Dropped Succeed !"));
+                    EditorWindow.ShowNotification(new GUIContent("Text Asset Dropped Succeed"));
                 else
-                    EditorWindow.ShowNotification(new GUIContent("Invalid Drag Text Asset !"));
+                    EditorWindow.ShowNotification(new GUIContent("Invalid Drag Text Asset!"));
                 return;
             }
             if (data is not IDialogueGraphContainer container)
             {
-                EditorWindow.ShowNotification(new GUIContent("Invalid Drag Data !"));
+                EditorWindow.ShowNotification(new GUIContent("Invalid Drag Data!"));
                 return;
             }
-            EditorWindow.ShowNotification(new GUIContent("Data Dropped Succeed !"));
-            DeserializeGraph(container, mousePosition);
+            EditorWindow.ShowNotification(new GUIContent("Data Dropped Succeed"));
+            DeserializeGraph((DialogueGraph)container.GetGraph(), mousePosition);
         }
-        public void DeserializeGraph(IDialogueGraphContainer graphContainer, Vector2 mousePosition)
+        
+        public void DeserializeGraph(DialogueGraph graph, Vector2 mousePosition)
         {
             var localMousePosition = contentViewContainer.WorldToLocal(mousePosition) - new Vector2(400, 300);
-            foreach (var variable in graphContainer.SharedVariables)
+            foreach (var variable in graph.variables)
             {
                 Blackboard.AddVariable(variable.Clone(), false);
             }
-            var (rootNode, newNodes) = _converter.ConvertToNode(graphContainer, this, localMousePosition);
+            var (rootNode, newNodes) = _converter.ConvertToNode(graph, this, localMousePosition);
             var edge = rootNode.Child.connections.First();
             RemoveElement(edge);
             RemoveElement(rootNode);
-            RestoreBlocks(graphContainer, newNodes);
+            RestoreBlocks(graph, newNodes);
         }
         
         public void Restore()
         {
-            if (DialogueContainerUtility.TryGetExternalTree(DialogueGraphContainer, out var tree))
-            {
-                OnRestore(tree);
-            }
-            else
-            {
-                OnRestore(DialogueGraphContainer);
-            }
-        }
-        
-        private void OnRestore(IDialogueGraphContainer tree)
-        {
             // Add default dialogue
-            if (tree.Root.Child == null)
+            if (Instance.Root.Child == null)
             {
-                tree.Root.Child = new Dialogue();
-                var pos = tree.Root.NodeData.graphPosition;
+                Instance.Root.Child = new Dialogue();
+                var pos = Instance.Root.NodeData.graphPosition;
                 pos.x += 200;
-                tree.Root.Child.NodeData.graphPosition = pos;
+                Instance.Root.Child.NodeData.graphPosition = pos;
             }
-            AddSharedVariables(tree.SharedVariables,true);
+            AddSharedVariables(Instance.variables,true);
             List<IDialogueNode> newNodes;
-            (_root, newNodes) = _converter.ConvertToNode(tree, this, Vector2.zero);
-            RestoreBlocks(tree, newNodes);
+            (_root, newNodes) = _converter.ConvertToNode(Instance, this, Vector2.zero);
+            RestoreBlocks(Instance, newNodes);
         }
         
-        private void RestoreBlocks(IDialogueGraphContainer tree, List<IDialogueNode> inNodes)
+        private void RestoreBlocks(DialogueGraph graph, List<IDialogueNode> inNodes)
         {
-            foreach (var nodeGroup in tree.NodeGroups)
+            foreach (var nodeGroup in graph.nodeGroups)
             {
                 NodeGroupHandler.CreateGroup(new Rect(nodeGroup.position, new Vector2(100, 100)), nodeGroup)
                 .AddElements(inNodes.Where(x => nodeGroup.childNodes.Contains(x.Guid)).Cast<Node>());
@@ -233,44 +227,45 @@ namespace Kurisu.NGDT.Editor
             return true;
         }
         
-        public void Commit(IDialogueGraphContainer tree)
+        public void Commit(IDialogueGraphContainer container)
         {
+            Undo.RecordObject(container.Object, "Commit dialogue graph change");
             var stack = new Stack<IDialogueNode>();
+            var graph = new DialogueGraph();
+            
             // Commit node instances
             stack.Push(_root);
             while (stack.Count > 0)
             {
                 stack.Pop().Commit(stack);
             }
-            _root.PostCommit(tree);
-            
+            _root.PostCommit(graph);
+
             // Commit variables
-            tree.SharedVariables.Clear();
-            foreach (var sharedVariable in SharedVariables)
-            {
-                tree.SharedVariables.Add(sharedVariable);
-            }
+            graph.variables = new List<SharedVariable>(SharedVariables);
             
             // Commit blocks
+            graph.nodeGroups = new List<NodeGroup>();
             var groupBlocks = graphElements.OfType<DialogueNodeGroup>().ToList();
-            tree.NodeGroups.Clear();
             foreach (var block in groupBlocks)
             {
-                block.Commit(tree.NodeGroups);
+                block.Commit(graph.nodeGroups);
             }
             
-            // Should set tree dirty flag if it is in a prefab
-            if (tree is NextGenDialogueGraphComponent nextGenDialogueTree)
+            container.SetGraphData(graph.GetData());
+            
+            // Should set component dirty flag if it is in a prefab
+            if (container is NextGenDialogueGraphComponent nextGenDialogueTree)
             {
                 EditorUtility.SetDirty(nextGenDialogueTree);
             }
             // Notify unity editor that the tree is changed.
-            EditorUtility.SetDirty(tree.Object);
+            EditorUtility.SetDirty(container.Object);
         }
 
         public string SerializeGraph()
         {
-            return DialogueGraphData.Serialize(DialogueGraphContainer);
+            return Instance.Serialize(true);
         }
         
         public bool DeserializeGraph(string serializedData, Vector3 mousePosition)
@@ -279,12 +274,12 @@ namespace Kurisu.NGDT.Editor
             try
             {
                 temp.Deserialize(serializedData);
-                DeserializeGraph(temp, mousePosition);
+                DeserializeGraph(temp.GetDialogueGraph(), mousePosition);
                 return true;
             }
             catch(Exception e)
             {
-                Debug.Log(e);
+                Debug.LogError(e);
                 return false;
             }
         }

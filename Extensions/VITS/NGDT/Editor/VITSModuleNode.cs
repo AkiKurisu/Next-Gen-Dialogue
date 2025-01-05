@@ -75,7 +75,7 @@ namespace Kurisu.NGDT.VITS.Editor
             int index = Array.IndexOf(parentNode.GetModuleNodes<VITSModule>(), this);
             var contentModule = parentNode.GetModuleNode<ContentModule>(index);
             string content = contentModule.GetSharedStringValue("content");
-            var turboSetting = NextGenDialogueSetting.GetOrCreateSettings().AITurboSetting;
+            var turboSetting = NextGenDialogueSettings.GetOrCreateSettings().AITurboSetting;
             var vitsTurbo = new VITSTurbo(turboSetting)
             {
                 Translator = LLMFactory.CreateTranslator(turboSetting.TranslatorType, turboSetting, turboSetting.LLM_Language, turboSetting.VITS_Language)

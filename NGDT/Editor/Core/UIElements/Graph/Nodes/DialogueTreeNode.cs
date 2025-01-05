@@ -28,7 +28,7 @@ namespace Kurisu.NGDT.Editor
         
         void CopyFrom(IDialogueNode copyNode);
         
-        NodeBehavior ReplaceBehavior();
+        NodeBehavior Compile();
         
         void ClearStyle();
         
@@ -206,7 +206,7 @@ namespace Kurisu.NGDT.Editor
 
         }
 
-        public NodeBehavior ReplaceBehavior()
+        public NodeBehavior Compile()
         {
             NodeBehavior = Activator.CreateInstance(GetBehavior()) as NodeBehavior;
             return NodeBehavior;

@@ -1,7 +1,9 @@
+using System;
 using Ceres.Graph;
 using UnityEngine;
 namespace Kurisu.NGDT
 {
+    [Serializable]
     public class Decorator : NodeBehavior
     {
         [SerializeReference]
@@ -72,11 +74,6 @@ namespace Kurisu.NGDT
         public sealed override void AddChild(CeresNode nodeBehavior)
         {
             child = nodeBehavior as NodeBehavior;
-        }
-        
-        public sealed override void SetChildren(CeresNode[] inChildren)
-        {
-            child = inChildren[0] as NodeBehavior;
         }
     }
 }
