@@ -10,6 +10,11 @@ namespace Kurisu.NGDT
     [Serializable]
     public class DialogueGraphData : LinkedGraphData
     {
+        public DialogueGraphData()
+        {
+            
+        }
+        
         public DialogueGraphData(DialogueGraph graph) : base(graph)
         {
         
@@ -43,8 +48,6 @@ namespace Kurisu.NGDT
     [Serializable]
     public class DialogueGraph: CeresGraph
     {
-        public Root Root => (Root)nodes[0];
-
         public DialogueGraph()
         {
             
@@ -54,16 +57,15 @@ namespace Kurisu.NGDT
         {
         }
 
-        /// <summary>
-        /// Traverse dialogue graph from root and append node instances
-        /// </summary>
-        /// <param name="root"></param>
-        public void TraverseAppend(Root root)
+        public Root Root
         {
-            nodes = new List<CeresNode> { root };
-            nodes.AddRange(root);
+            get
+            {
+                if (nodes == null || nodes.Count == 0) return null;
+                return (Root)nodes[0];
+            }
         }
-
+        
         private DialogueBuilder _builder;
 
         public IDialogueBuilder Builder 
@@ -72,6 +74,16 @@ namespace Kurisu.NGDT
             {
                 return _builder ??= new DialogueBuilder();
             }
+        }
+        
+        /// <summary>
+        /// Traverse dialogue graph from root and append node instances
+        /// </summary>
+        /// <param name="root"></param>
+        public void TraverseAppend(Root root)
+        {
+            nodes = new List<CeresNode> { root };
+            nodes.AddRange(root);
         }
 
         public override void Compile()
@@ -90,7 +102,7 @@ namespace Kurisu.NGDT
         public override void Dispose()
         {
             base.Dispose();
-            Root.Dispose();
+            Root?.Dispose();
         }
         
         /// <summary>

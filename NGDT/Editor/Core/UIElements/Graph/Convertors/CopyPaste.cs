@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Ceres.Graph;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 namespace Kurisu.NGDT.Editor
@@ -11,13 +12,13 @@ namespace Kurisu.NGDT.Editor
         /// <summary>
         /// Copy elements to global without serialization
         /// </summary>
-        /// <param name="instanceID">EditorWindow InstanceID</param>
+        /// <param name="identifier">Identifier of Dialogue Graph</param>
         /// <param name="elements"></param>
-        public static void Copy(int instanceID, GraphElement[] elements)
+        public static void Copy(CeresGraphIdentifier identifier, GraphElement[] elements)
         {
             _graphStructure = new GraphStructure()
             {
-                InstanceID = instanceID,
+                Identifier = identifier,
                 Edges = elements.OfType<Edge>().ToArray(),
                 Nodes = elements.OfType<Node>().ToArray()
             };
@@ -61,7 +62,7 @@ namespace Kurisu.NGDT.Editor
         
         private class GraphStructure
         {
-            public int InstanceID;
+            public CeresGraphIdentifier Identifier;
             
             public Edge[] Edges;
             
@@ -69,7 +70,7 @@ namespace Kurisu.NGDT.Editor
 
             public bool IsValid()
             {
-               return DialogueEditorWindow.EditorWindowRegistry.FindWindow(InstanceID);
+               return DialogueEditorWindow.EditorWindowRegistry.FindWindow(Identifier);
             }
         }
     }

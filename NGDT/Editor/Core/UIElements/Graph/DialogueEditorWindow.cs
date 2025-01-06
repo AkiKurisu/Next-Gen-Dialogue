@@ -75,8 +75,7 @@ namespace Kurisu.NGDT.Editor
             DisplayProgressBar("Construct graph view", 0.6f);
             {
                 StructGraphView();
-                Key = Container!.Object;
-                titleContent = new GUIContent($"NGDT ({Key.name})");
+                titleContent = new GUIContent($"NGDT ({Identifier.boundObject.name})");
             }
             ClearProgressBar();
         }
@@ -112,14 +111,14 @@ namespace Kurisu.NGDT.Editor
                 return;
             }
             _graphView.Commit(treeAsset);
-            AssetDatabase.CreateAsset(treeAsset, $"Assets/{path}/{Key.name}.asset");
+            AssetDatabase.CreateAsset(treeAsset, $"Assets/{path}/{Identifier.boundObject.name}.asset");
             AssetDatabase.SaveAssets();
-            Debug.Log($"<color=#3aff48>NGDT</color>: Save succeed, ScriptableObject created path: {path}/{Key.name}.asset\n{DateTime.Now}");
+            Debug.Log($"<color=#3aff48>NGDT</color>: Save succeed, ScriptableObject created path: {path}/{Identifier.boundObject.name}.asset\n{DateTime.Now}");
         }
 
         protected override void OnDisable()
         {
-            if (Key == null) return;
+            if (!Identifier.IsValid()) return;
             
             if (Setting.AutoSave && !Application.isPlaying)
             {
@@ -150,13 +149,13 @@ namespace Kurisu.NGDT.Editor
             newWindow.rootVisualElement.Add(newWindow.CreateBakePreview());
             _graphView.OnSelectNode = newWindow.OnNodeSelectionChange;
             _graphView.EditorWindow = newWindow;
-            newWindow.Key = Key;
+            newWindow.Identifier = Identifier;
             return newWindow;
         }
 
         protected override void Reload()
         {
-            if (Key == null) return;
+            if (!Identifier.IsValid()) return;
             
             Container = GetContainer();
             StructGraphView();
@@ -177,17 +176,17 @@ namespace Kurisu.NGDT.Editor
 
                     GUI.enabled = !Application.isPlaying;
                     var image  = EditorGUIUtility.IconContent("SaveAs@2x").image;
-                    if (GUILayout.Button(new GUIContent(image,$"Save {Key.name}"), EditorStyles.toolbarButton))
+                    if (GUILayout.Button(new GUIContent(image,$"Save {Identifier.boundObject.name}"), EditorStyles.toolbarButton))
                     {
                         var guiContent = new GUIContent();
                         if (graphView.Save())
                         {
-                            guiContent.text = $"Update {Key.name} succeed !";
+                            guiContent.text = $"Update {Identifier.boundObject.name} succeed !";
                             ShowNotification(guiContent);
                         }
                         else
                         {
-                            guiContent.text = $"Failed to save {Key.name}, please check the node connection for errors!";
+                            guiContent.text = $"Failed to save {Identifier.boundObject.name}, please check the node connection for errors!";
                             ShowNotification(guiContent);
                         }
                     }

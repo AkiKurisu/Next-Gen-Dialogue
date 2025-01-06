@@ -5,7 +5,7 @@ using UObject = UnityEngine.Object;
 namespace Kurisu.NGDT
 {
     [DisallowMultipleComponent]
-    public class NextGenDialogueGraphComponent : MonoBehaviour, IDialogueGraphContainer
+    public class NextGenDialogueComponent : MonoBehaviour, IDialogueGraphContainer
     {
         [NonSerialized]
         private DialogueGraph _dialogueGraph;
@@ -16,18 +16,18 @@ namespace Kurisu.NGDT
         public UObject Object => gameObject;
         
         [SerializeField, Tooltip("Create dialogue graph from external dialogue asset at runtime")]
-        private NextGenDialogueGraphAsset externalDialogueGraphAsset;
+        private NextGenDialogueGraphAsset externalAsset;
         
         /// <summary>
         /// Overwrite external dialogueTreeAsset to use external data, and leave null to use embedded data.
         /// </summary>
         /// <value></value>
-        public NextGenDialogueGraphAsset ExternalData 
+        public NextGenDialogueGraphAsset Asset 
         { 
-            get => externalDialogueGraphAsset;
+            get => externalAsset;
             set
             {
-                externalDialogueGraphAsset = value;
+                externalAsset = value;
                 if (_dialogueGraph == null) return;
                 
                 _dialogueGraph.Dispose();
@@ -74,10 +74,12 @@ namespace Kurisu.NGDT
         /// <returns></returns>
         public DialogueGraph GetDialogueGraph()
         {
-            if (externalDialogueGraphAsset)
+            if (externalAsset)
             {
-                return externalDialogueGraphAsset.GetDialogueGraph();
+                return externalAsset.GetDialogueGraph();
             }
+
+            graphData ??= new DialogueGraphData();
             return new DialogueGraph(graphData.CloneT<DialogueGraphData>());
         }
 

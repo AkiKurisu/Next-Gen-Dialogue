@@ -11,13 +11,14 @@ namespace Kurisu.NGDT.Timeline
         private class DialogueReceiver
         {
             public string dialogueName;
-            [FormerlySerializedAs("dialogueTree")] public NextGenDialogueGraphComponent dialogueGraphTree;
+            
+            public NextGenDialogueComponent dialogueComponent;
         }
         
         [SerializeField]
         private DialogueReceiver[] receivers;
         
-        private NextGenDialogueGraphComponent _dialogueGraphTree;
+        private NextGenDialogueComponent _dialogueComponent;
         
         private PlayableDirector _director;
         
@@ -44,15 +45,15 @@ namespace Kurisu.NGDT.Timeline
             
             if (dialogueSignal.dialogueGraphAsset != null)
             {
-                if (_dialogueGraphTree == null) _dialogueGraphTree = gameObject.AddComponent<NextGenDialogueGraphComponent>();
-                _dialogueGraphTree.ExternalData = dialogueSignal.dialogueGraphAsset;
-                _dialogueGraphTree.PlayDialogue();
+                if (_dialogueComponent == null) _dialogueComponent = gameObject.AddComponent<NextGenDialogueComponent>();
+                _dialogueComponent.Asset = dialogueSignal.dialogueGraphAsset;
+                _dialogueComponent.PlayDialogue();
             }
             else
             {
                 if (TryFindReceiver(dialogueSignal.dialogueName, out var receiver))
                 {
-                    receiver.dialogueGraphTree.PlayDialogue();
+                    receiver.dialogueComponent.PlayDialogue();
                 }
                 else
                 {

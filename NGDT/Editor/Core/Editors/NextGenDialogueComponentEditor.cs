@@ -26,7 +26,7 @@ namespace Kurisu.NGDT.Editor
         {
             private const string ButtonText = "Play Dialogue";
             
-            public DialogueGraphPlayDialogueButton(NextGenDialogueGraphComponent tree) : base(tree.PlayDialogue)
+            public DialogueGraphPlayDialogueButton(NextGenDialogueComponent component) : base(component.PlayDialogue)
             {
                 style.fontSize = 15;
                 style.unityFontStyleAndWeight = FontStyle.Bold;
@@ -41,7 +41,7 @@ namespace Kurisu.NGDT.Editor
         protected static readonly string LabelText = $"Next-Gen Dialogue <size=12>{NextGenDialogueSettings.Version}</size>";
     }
 
-    [CustomEditor(typeof(NextGenDialogueGraphComponent))]
+    [CustomEditor(typeof(NextGenDialogueComponent))]
     public class NextGenDialogueComponentEditor : NextGenDialogueEditor
     {
         public override VisualElement CreateInspectorGUI()
@@ -72,7 +72,7 @@ namespace Kurisu.NGDT.Editor
                 }));
             }
             myInspector.Add(new DialogueGraphButton(Target));
-            var playButton = new DialogueGraphPlayDialogueButton((NextGenDialogueGraphComponent)Target);
+            var playButton = new DialogueGraphPlayDialogueButton((NextGenDialogueComponent)Target);
             playButton.SetEnabled(Application.isPlaying);
             myInspector.Add(playButton);
             return myInspector;

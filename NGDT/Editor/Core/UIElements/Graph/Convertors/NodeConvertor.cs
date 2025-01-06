@@ -57,15 +57,12 @@ namespace Kurisu.NGDT.Editor
             }
         }
         
-        private readonly List<IDialogueNode> _tempNodes = new();
-        
-        public (RootNode, List<IDialogueNode>) ConvertToNode(DialogueGraph graph, DialogueGraphView graphView, Vector2 initPos)
+        public RootNode ConvertToNode(DialogueGraph graph, DialogueGraphView graphView, Vector2 initPos)
         {
             var stack = new Stack<EdgePair>();
             var alreadyCreateNodes = new Dictionary<NodeBehavior, IDialogueNode>();
             RootNode root = null;
             stack.Push(new EdgePair(graph.Root, null));
-            _tempNodes.Clear();
             while (stack.Count > 0)
             {
                 // create node
@@ -84,7 +81,6 @@ namespace Kurisu.NGDT.Editor
                 nodeView = DialogueNodeFactory.Get().Create(edgePair.NodeBehavior.GetType(), graphView);
                 nodeView.Restore(edgePair.NodeBehavior);
                 graphView.AddNodeView(nodeView);
-                _tempNodes.Add(nodeView);
                 var rect = edgePair.NodeBehavior.NodeData.graphPosition;
                 rect.position += initPos;
                 nodeView.NodeElement.SetPosition(rect);
@@ -158,7 +154,7 @@ namespace Kurisu.NGDT.Editor
                         }
                 }
             }
-            return (root, _tempNodes);
+            return root;
         }
     }
 }

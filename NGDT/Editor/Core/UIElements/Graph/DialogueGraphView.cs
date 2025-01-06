@@ -26,7 +26,7 @@ namespace Kurisu.NGDT.Editor
         
         private readonly NodeConvertor _converter = new();
         
-        private const string InfoText = "Welcome to Next-Gen Dialogue Editor!";
+        private const string InfoText = "Next-Gen Dialogue Graph Editor";
 
         private readonly CeresInfoContainer _infoContainer;
         
@@ -50,20 +50,22 @@ namespace Kurisu.NGDT.Editor
 
         public override void OpenSearch(Vector2 screenPosition, CeresPortView portView)
         {
-            /* Port not support in dialogue graph view */
+            /* Ports are not supported in dialogue graph */
             OpenSearch(screenPosition);
         }
 
         protected override string OnSerialize(IEnumerable<GraphElement> elements)
         {
-            CopyPaste.Copy(EditorWindow.GetWindowId(), elements.ToArray());
+            CopyPaste.Copy(EditorWindow.Identifier, elements.ToArray());
             return string.Empty;
         }
 
         protected override void OnPaste(string a, string b)
         {
             if (CopyPaste.CanPaste)
+            {
                 Paste(new Vector2(50, 50));
+            }
         }
         
         private void Paste(Vector2 positionOffSet)
@@ -96,7 +98,7 @@ namespace Kurisu.NGDT.Editor
         {
             var dialogueNode = (IDialogueNode)nodeView;
             base.AddNodeView(dialogueNode);
-            nodeView.NodeElement.RegisterCallback<MouseDownEvent>(evt => OnNodeClick(dialogueNode));
+            nodeView.NodeElement.RegisterCallback<MouseDownEvent>(_ => OnNodeClick(dialogueNode));
         }
         
         private void OnNodeClick(IDialogueNode nodeView)
@@ -169,11 +171,13 @@ namespace Kurisu.NGDT.Editor
             {
                 Blackboard.AddVariable(variable.Clone(), false);
             }
-            var (rootNode, newNodes) = _converter.ConvertToNode(graph, this, localMousePosition);
+            var rootNode = _converter.ConvertToNode(graph, this, localMousePosition);
+            // Remove root from external graph
             var edge = rootNode.Child.connections.First();
             RemoveElement(edge);
             RemoveElement(rootNode);
-            RestoreBlocks(graph, newNodes);
+            // Restore node groups
+            NodeGroupHandler.RestoreGroups(graph.nodeGroups);
         }
         
         public void Restore()
@@ -187,18 +191,9 @@ namespace Kurisu.NGDT.Editor
                 Instance.Root.Child.NodeData.graphPosition = pos;
             }
             AddSharedVariables(Instance.variables,true);
-            List<IDialogueNode> newNodes;
-            (_root, newNodes) = _converter.ConvertToNode(Instance, this, Vector2.zero);
-            RestoreBlocks(Instance, newNodes);
-        }
-        
-        private void RestoreBlocks(DialogueGraph graph, List<IDialogueNode> inNodes)
-        {
-            foreach (var nodeGroup in graph.nodeGroups)
-            {
-                NodeGroupHandler.CreateGroup(new Rect(nodeGroup.position, new Vector2(100, 100)), nodeGroup)
-                .AddElements(inNodes.Where(x => nodeGroup.childNodes.Contains(x.Guid)).Cast<Node>());
-            }
+            _root = _converter.ConvertToNode(Instance, this, Vector2.zero);
+            // Restore node groups
+            NodeGroupHandler.RestoreGroups(Instance.nodeGroups);
         }
 
         public bool Save()
@@ -255,11 +250,11 @@ namespace Kurisu.NGDT.Editor
             container.SetGraphData(graph.GetData());
             
             // Should set component dirty flag if it is in a prefab
-            if (container is NextGenDialogueGraphComponent nextGenDialogueTree)
+            if (container is NextGenDialogueComponent component)
             {
-                EditorUtility.SetDirty(nextGenDialogueTree);
+                EditorUtility.SetDirty(component);
             }
-            // Notify unity editor that the tree is changed.
+            // Notify unity editor that container is dirty
             EditorUtility.SetDirty(container.Object);
         }
 
