@@ -21,7 +21,7 @@ namespace Kurisu.NGDT.Editor
             if (port.childCount == 0) return null;
             var child = port.connections.FirstOrDefault()?.input?.node;
             if (child == null) return null;
-            if (child is DialogueTreeNode node)
+            if (child is DialogueNode node)
             {
                 return node;
             }

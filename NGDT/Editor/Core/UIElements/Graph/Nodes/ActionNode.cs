@@ -6,7 +6,7 @@ using UnityEngine.UIElements;
 using UnityEngine;
 namespace Kurisu.NGDT.Editor
 {
-    public class ActionNode : DialogueTreeNode, ILayoutNode
+    public class ActionNode : DialogueNode, ILayoutNode
     {
         VisualElement ILayoutNode.View => this;
 

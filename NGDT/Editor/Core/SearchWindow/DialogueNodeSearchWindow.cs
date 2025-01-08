@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using System.Linq;
-using Ceres;
+using Ceres.Utilities;
 using Ceres.Editor.Graph;
 namespace Kurisu.NGDT.Editor
 {

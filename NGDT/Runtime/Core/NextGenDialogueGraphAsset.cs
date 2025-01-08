@@ -16,11 +16,12 @@ namespace Kurisu.NGDT
        
         public void Deserialize(string serializedData)
         {
-            if (CeresGraphData.Deserialize(serializedData, typeof(DialogueGraphData)) is not CeresGraphData ceresGraphData)
+            var data = CeresGraphData.FromJson<DialogueGraphData>(serializedData);
+            if (data == null)
             {
                 return;
             }
-            SetGraphData(ceresGraphData);
+            SetGraphData(data);
         }
         
         public CeresGraph GetGraph()

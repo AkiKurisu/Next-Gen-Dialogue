@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
-using Ceres;
+using Ceres.Utilities;
 using Ceres.Annotations;
 using Ceres.Editor;
 using Ceres.Editor.Graph;
@@ -37,7 +37,7 @@ namespace Kurisu.NGDT.Editor
         Rect GetWorldPosition();
     }
     
-    public abstract class DialogueTreeNode : Node, IDialogueNode
+    public abstract class DialogueNode : Node, IDialogueNode
     {
         public string Guid { get; private set; }
         
@@ -77,7 +77,7 @@ namespace Kurisu.NGDT.Editor
             else return null;
         }
 
-        public DialogueTreeNode()
+        public DialogueNode()
         {
             _fieldResolverFactory = FieldResolverFactory.Get();
             _fieldContainer = new VisualElement();
@@ -189,7 +189,7 @@ namespace Kurisu.NGDT.Editor
         
         public void CopyFrom(IDialogueNode copyNode)
         {
-            var node = copyNode as DialogueTreeNode;
+            var node = copyNode as DialogueNode;
             for (int i = 0; i < node._resolvers.Count; i++)
             {
                 _resolvers[i].Copy(node._resolvers[i]);

@@ -7,7 +7,7 @@ using UnityEngine.UIElements;
 using UnityEngine;
 namespace Kurisu.NGDT.Editor
 {
-    public class DecoratorNode : DialogueTreeNode, ILayoutNode
+    public class DecoratorNode : DialogueNode, ILayoutNode
     {
         private readonly Port childPort;
 
@@ -39,7 +39,7 @@ namespace Kurisu.NGDT.Editor
             {
                 return false;
             }
-            stack.Push(childPort.connections.First().input.node as DialogueTreeNode);
+            stack.Push(childPort.connections.First().input.node as DialogueNode);
             return true;
         }
 

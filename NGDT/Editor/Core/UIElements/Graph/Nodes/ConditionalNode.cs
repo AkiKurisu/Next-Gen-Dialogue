@@ -7,7 +7,7 @@ using UnityEngine.UIElements;
 using UnityEngine;
 namespace Kurisu.NGDT.Editor
 {
-    public class ConditionalNode : DialogueTreeNode, ILayoutNode
+    public class ConditionalNode : DialogueNode, ILayoutNode
     {
         private readonly Port childPort;
 

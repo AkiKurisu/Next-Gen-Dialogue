@@ -7,7 +7,7 @@ using UnityEngine.UIElements;
 namespace Kurisu.NGDT.Editor
 {
     [CustomNodeView(typeof(Root))]
-    public sealed class RootNode : DialogueTreeNode, ILayoutNode
+    public sealed class RootNode : DialogueNode, ILayoutNode
     {
         public readonly Port Child;
 

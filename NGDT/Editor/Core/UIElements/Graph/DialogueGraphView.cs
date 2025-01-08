@@ -54,13 +54,13 @@ namespace Kurisu.NGDT.Editor
             OpenSearch(screenPosition);
         }
 
-        protected override string OnSerialize(IEnumerable<GraphElement> elements)
+        protected override string OnCopySerializedGraph(IEnumerable<GraphElement> elements)
         {
             CopyPaste.Copy(EditorWindow.Identifier, elements.ToArray());
             return string.Empty;
         }
 
-        protected override void OnPaste(string a, string b)
+        protected override void OnPasteSerializedGraph(string operationName, string serializedData)
         {
             if (CopyPaste.CanPaste)
             {
@@ -260,7 +260,7 @@ namespace Kurisu.NGDT.Editor
 
         public string SerializeGraph()
         {
-            return Instance.Serialize(true);
+            return Instance.GetData().ToJson(true);
         }
         
         public bool DeserializeGraph(string serializedData, Vector3 mousePosition)

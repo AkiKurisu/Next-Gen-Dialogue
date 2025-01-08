@@ -8,7 +8,7 @@ using UnityEngine;
 using UnityEngine.UIElements;
 namespace Kurisu.NGDT.Editor
 {
-    public class CompositeNode : DialogueTreeNode, ILayoutNode
+    public class CompositeNode : DialogueNode, ILayoutNode
     {
         public bool NoValidate { get; private set; }
         

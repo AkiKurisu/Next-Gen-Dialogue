@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.UIElements;
 namespace Kurisu.NGDT.Editor
 {
-    public class ModuleNode : DialogueTreeNode
+    public class ModuleNode : DialogueNode
     {
         public ModuleNode() : base()
         {

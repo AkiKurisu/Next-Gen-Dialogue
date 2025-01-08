@@ -118,11 +118,6 @@ namespace Kurisu.NGDT
             Root.Update();
         }
         
-        public string Serialize(bool indented = false)
-        {
-            return CeresGraphData.Serialize(GetData(), indented);
-        }
-        
         /// <summary>
         /// Get better format data for serialization of this graph
         /// </summary>
