@@ -26,12 +26,12 @@ namespace Kurisu.NGDS
             
             public IOptionResolver OptionResolver => _resolverModule.OptionResolver ?? _optionResolver;
             
-            public DialogueResolverContainer()
+            public DialogueResolverContainer(ContainerSubsystem containerSubsystem)
             {
                 // Collect global resolver
-                _dialogueResolver = ContainerSubsystem.Get().Resolve<IDialogueResolver>() ?? new DefaultDialogueResolver();
-                _pieceResolver = ContainerSubsystem.Get().Resolve<IPieceResolver>() ?? new DefaultPieceResolver();
-                _optionResolver = ContainerSubsystem.Get().Resolve<IOptionResolver>() ?? new DefaultOptionResolver();
+                _dialogueResolver = containerSubsystem.Resolve<IDialogueResolver>() ?? new DefaultDialogueResolver();
+                _pieceResolver = containerSubsystem.Resolve<IPieceResolver>() ?? new DefaultPieceResolver();
+                _optionResolver = containerSubsystem.Resolve<IOptionResolver>() ?? new DefaultOptionResolver();
             }
             
             /// <summary>
@@ -58,8 +58,14 @@ namespace Kurisu.NGDS
         
         private DialogueResolverContainer _resolverContainer;
         
-        protected DialogueResolverContainer ResolverContainer => _resolverContainer ??= new DialogueResolverContainer();
-        
+        protected DialogueResolverContainer ResolverContainer
+        {
+            get
+            {
+                return _resolverContainer ??= new DialogueResolverContainer(ContainerSubsystem.Get());
+            }
+        }
+
         private CancellationTokenSource _cts = new();
 
         public static DialogueSystem Get()

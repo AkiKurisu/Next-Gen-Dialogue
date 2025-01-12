@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using Cysharp.Threading.Tasks;
+
 namespace Kurisu.NGDS
 {
     public interface ILLMResponse
@@ -35,13 +37,14 @@ namespace Kurisu.NGDS
         /// <param name="request"></param>
         /// <param name="ct"></param>
         /// <returns></returns>
-        Task<ILLMResponse> GenerateAsync(ILLMRequest request, CancellationToken ct);
+        UniTask<ILLMResponse> GenerateAsync(ILLMRequest request, CancellationToken ct);
+        
         /// <summary>
         /// Generate llm data from string input
         /// </summary>
         /// <param name="input"></param>
         /// <param name="ct"></param>
         /// <returns></returns>
-        Task<ILLMResponse> GenerateAsync(string input, CancellationToken ct);
+        UniTask<ILLMResponse> GenerateAsync(string input, CancellationToken ct);
     }
 }

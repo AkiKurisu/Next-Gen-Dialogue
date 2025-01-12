@@ -3,22 +3,24 @@ using System.Threading.Tasks;
 using System;
 using System.Threading;
 using System.Collections.Generic;
-using System.Linq;
 using Cysharp.Threading.Tasks;
-
 namespace Kurisu.NGDS.Translator
 {
     public class GoogleTranslator : ITranslator
     {
         public string SourceLanguageCode { get; set; }
+        
         public string TargetLanguageCode { get; set; }
+        
         public GoogleTranslator() { }
+        
         public GoogleTranslator(string sourceLanguageCode, string targetLanguageCode)
         {
             SourceLanguageCode = sourceLanguageCode;
             TargetLanguageCode = targetLanguageCode;
         }
-        public async Task<string> TranslateAsync(string input, CancellationToken ct)
+        
+        public async UniTask<string> TranslateAsync(string input, CancellationToken ct)
         {
             if (SourceLanguageCode == TargetLanguageCode) return input;
             try
@@ -38,6 +40,7 @@ namespace Kurisu.NGDS.Translator
                 return input;
             }
         }
+        
         public async UniTask TranslateAsyncBatch(List<string> inputs, CancellationToken ct)
         {
             if (SourceLanguageCode == TargetLanguageCode) return;

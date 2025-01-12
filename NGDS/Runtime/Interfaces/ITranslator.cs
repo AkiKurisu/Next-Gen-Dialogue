@@ -1,9 +1,9 @@
 using System.Threading;
-using System.Threading.Tasks;
+using Cysharp.Threading.Tasks;
 namespace Kurisu.NGDS
 {
     public interface ITranslator
     {
-        Task<string> TranslateAsync(string input, CancellationToken ct);
+        UniTask<string> TranslateAsync(string input, CancellationToken ct);
     }
 }

@@ -6,6 +6,7 @@ namespace Kurisu.NGDS
     public class DialogueBuilder : IDialogueLookup
     {
         private Dialogue _dialogueCache;
+        
         public DialogueBuilder()
         {
             _dialogueCache = Dialogue.GetPooled();
@@ -17,9 +18,9 @@ namespace Kurisu.NGDS
             _dialogueCache = Dialogue.GetPooled();
         }
         
-        Piece IDialogueLookup.GetNext(string ID)
+        Piece IDialogueLookup.GetNext(string id)
         {
-            var newPiece = _dialogueCache.GetPiece(ID);
+            var newPiece = _dialogueCache.GetPiece(id);
             return newPiece;
         }
         
