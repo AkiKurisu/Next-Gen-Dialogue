@@ -21,7 +21,7 @@ namespace Kurisu.NGDT.Editor
     }
     public class NextGenDialogueSetting : ScriptableObject
     {
-        public const string Version = "v1.0.2";
+        public const string Version = "v1.0.3";
         private const string k_NDGTSettingsPath = "Assets/Next Gen Dialogue Setting.asset";
         private const string k_AITurboSettingsPath = "Assets/AI Turbo Setting.asset";
         private const string GraphFallBackPath = "NGDT/Graph";
