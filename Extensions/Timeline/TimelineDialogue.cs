@@ -46,8 +46,7 @@ namespace Kurisu.NGDT.Timeline
             if (dialogueSignal.dialogueGraphAsset != null)
             {
                 if (_dialogueComponent == null) _dialogueComponent = gameObject.AddComponent<NextGenDialogueComponent>();
-                _dialogueComponent.Asset = dialogueSignal.dialogueGraphAsset;
-                _dialogueComponent.PlayDialogue();
+                _dialogueComponent.PlayDialogue(dialogueSignal.dialogueGraphAsset);
             }
             else
             {

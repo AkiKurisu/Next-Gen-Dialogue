@@ -95,7 +95,7 @@ namespace Kurisu.NGDT.Editor
             };
             myInspector.Add(label);
             myInspector.styleSheets.Add(NextGenDialogueSettings.GetInspectorStyle());
-            myInspector.Add(new Label("Asset Description"));
+            myInspector.Add(new Label("Description"));
             var description = new TextField(string.Empty)
             {
                 multiline = true,

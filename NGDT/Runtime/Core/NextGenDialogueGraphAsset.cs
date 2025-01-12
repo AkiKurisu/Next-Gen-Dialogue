@@ -5,7 +5,7 @@ using Ceres.Graph;
 using UObject = UnityEngine.Object;
 namespace Kurisu.NGDT
 {
-    [CreateAssetMenu(fileName = "NextGenDialogueAsset", menuName = "Next Gen Dialogue/NextGenDialogueAsset")]
+    [CreateAssetMenu(fileName = "New Dialogue", menuName = "Next Gen Dialogue/Dialogue Asset")]
     public class NextGenDialogueGraphAsset : ScriptableObject, IDialogueGraphContainer
     {
         [HideInInspector, SerializeField]

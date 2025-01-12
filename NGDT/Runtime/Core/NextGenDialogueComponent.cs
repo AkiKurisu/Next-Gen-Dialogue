@@ -17,11 +17,12 @@ namespace Kurisu.NGDT
         
         public UObject Object => gameObject;
         
-        [SerializeField, Tooltip("Create dialogue graph from external dialogue asset at runtime")]
+        [SerializeField, Tooltip("Create dialogue graph from external asset at runtime")]
         private NextGenDialogueGraphAsset externalAsset;
         
         /// <summary>
-        /// Overwrite external dialogueTreeAsset to use external data, and leave null to use embedded data.
+        /// Overwrite <see cref="externalAsset"/> to create dialogue graph from external asset,
+        /// and leave null to use component embedded data.
         /// </summary>
         /// <value></value>
         public NextGenDialogueGraphAsset Asset 
@@ -80,14 +81,24 @@ namespace Kurisu.NGDT
         }
 
         /// <summary>
+        /// Play dialogue from <see cref="NextGenDialogueGraphAsset"/>
+        /// </summary>
+        /// <param name="asset"></param>
+        public void PlayDialogue(NextGenDialogueGraphAsset asset)
+        {
+            Asset = asset;
+            PlayDialogue();
+        }
+
+        /// <summary>
         /// Create new dialogue graph from this component
         /// </summary>
         /// <returns></returns>
         public DialogueGraph GetDialogueGraph()
         {
-            if (externalAsset)
+            if (Asset)
             {
-                return externalAsset.GetDialogueGraph();
+                return Asset.GetDialogueGraph();
             }
             
             graphData ??= new DialogueGraphData();
