@@ -8,10 +8,15 @@ namespace Kurisu.NGDT.Editor
     public class CopyPasteGraphConvertor
     {
         private readonly DialogueGraphView sourceView;
+        
         private readonly List<ISelectable> copyElements;
+        
         private readonly Dictionary<Port, Port> portCopyDict;
+        
         private readonly Dictionary<IDialogueNode, IDialogueNode> nodeCopyDict;
+        
         private readonly List<GraphElement> sourceElements;
+        
         private readonly HashSet<Edge> sourceEdges;
         public CopyPasteGraphConvertor(DialogueGraphView sourceView, List<GraphElement> sourceElements, Vector2 positionOffSet)
         {
@@ -32,7 +37,9 @@ namespace Kurisu.NGDT.Editor
                 pair.Value.NodeElement.SetPosition(newRect);
             }
         }
+        
         public List<ISelectable> GetCopyElements() => copyElements;
+        
         private void DistinctNodes()
         {
             var containerNodes = sourceElements.OfType<ContainerNode>().ToArray();
@@ -41,6 +48,7 @@ namespace Kurisu.NGDT.Editor
                 containerNode.contentContainer.Query<ModuleNode>().ForEach(x => sourceElements.Remove(x));
             }
         }
+        
         private void CopyNodes()
         {
             foreach (var selectNode in sourceElements.OfType<IDialogueNode>())
@@ -51,6 +59,7 @@ namespace Kurisu.NGDT.Editor
                 CopyPort(selectNode, node);
             }
         }
+        
         private void CopyPort(IDialogueNode sourceNode, IDialogueNode pasteNode)
         {
             var behaviorType = sourceNode.GetBehavior();
@@ -64,9 +73,9 @@ namespace Kurisu.NGDT.Editor
                 .ForEach(x =>
                 {
                     if (x is BehaviorModuleNode behaviorModuleNode)
-                        portCopyDict.Add(behaviorModuleNode.Child, (copyMap[x.GetHashCode()] as BehaviorModuleNode).Child);
+                        portCopyDict.Add(behaviorModuleNode.Child, ((BehaviorModuleNode)copyMap[x.GetHashCode()]).Child);
                     else if (x is ChildBridge childBridge)
-                        portCopyDict.Add(childBridge.Child, (copyMap[x.GetHashCode()] as ChildBridge).Child);
+                        portCopyDict.Add(childBridge.Child, ((ChildBridge)copyMap[x.GetHashCode()]).Child);
                 });
                 //For some reason edges connected to bridge's ports are not selected by graph view
                 //Add edge manually
@@ -79,18 +88,18 @@ namespace Kurisu.NGDT.Editor
             }
             else if (behaviorType.IsSubclassOf(typeof(BehaviorModule)))
             {
-                var behaviorModuleNode = sourceNode as BehaviorModuleNode;
-                portCopyDict.Add(behaviorModuleNode.Child, (pasteNode as BehaviorModuleNode).Child);
+                var behaviorModuleNode = (BehaviorModuleNode)sourceNode;
+                portCopyDict.Add(behaviorModuleNode.Child, ((BehaviorModuleNode)pasteNode).Child);
             }
             else if (behaviorType.IsSubclassOf(typeof(Action)))
             {
-                var actionNode = sourceNode as ActionNode;
-                portCopyDict.Add(actionNode.Parent, (pasteNode as ActionNode).Parent);
+                var actionNode = (ActionNode)sourceNode;
+                portCopyDict.Add(actionNode.Parent, ((ActionNode)pasteNode).Parent);
             }
             else if (behaviorType.IsSubclassOf(typeof(Composite)))
             {
-                var compositeNode = sourceNode as CompositeNode;
-                var copy = pasteNode as CompositeNode;
+                var compositeNode = (CompositeNode)sourceNode;
+                var copy = (CompositeNode)pasteNode;
                 int count = compositeNode.ChildPorts.Count - copy.ChildPorts.Count;
                 for (int i = 0; i < count; i++)
                 {
@@ -104,18 +113,19 @@ namespace Kurisu.NGDT.Editor
             }
             else if (behaviorType.IsSubclassOf(typeof(Conditional)))
             {
-                var conditionalNode = sourceNode as ConditionalNode;
-                portCopyDict.Add(conditionalNode.Child, (pasteNode as ConditionalNode).Child);
-                portCopyDict.Add(conditionalNode.Parent, (pasteNode as ConditionalNode).Parent);
+                var conditionalNode = (ConditionalNode)sourceNode;
+                portCopyDict.Add(conditionalNode.Child, ((ConditionalNode)pasteNode).Child);
+                portCopyDict.Add(conditionalNode.Parent, ((ConditionalNode)pasteNode).Parent);
 
             }
             else if (behaviorType.IsSubclassOf(typeof(Decorator)))
             {
-                var decoratorNode = pasteNode as DecoratorNode;
-                portCopyDict.Add(decoratorNode.Child, (pasteNode as DecoratorNode).Child);
-                portCopyDict.Add(decoratorNode.Parent, (pasteNode as DecoratorNode).Parent);
+                var decoratorNode = (DecoratorNode)pasteNode;
+                portCopyDict.Add(decoratorNode.Child, ((DecoratorNode)pasteNode).Child);
+                portCopyDict.Add(decoratorNode.Parent, ((DecoratorNode)pasteNode).Parent);
             }
         }
+        
         private void CopyEdges()
         {
             foreach (var edge in sourceEdges)
@@ -126,6 +136,7 @@ namespace Kurisu.NGDT.Editor
                 copyElements.Add(newEdge);
             }
         }
+        
         private void CopyGroupBlocks()
         {
             foreach (var selectBlock in sourceElements.OfType<DialogueNodeGroup>())

@@ -56,6 +56,32 @@ namespace Kurisu.NGDT
         public DialogueGraph(DialogueGraphData graphData): base(graphData)
         {
         }
+        
+#if UNITY_EDITOR
+        internal DialogueGraph(NextGenDialogueGraphAsset asset)
+        {
+            LogWarning($"Dialogue graph asset {asset.name} version is outdated, please re-save asset before build.");
+            variables = new List<SharedVariable>();
+            foreach (var variable in asset.sharedVariables)
+            {
+                variables.Add(variable.Clone());
+            }
+            TraverseAppend(asset.root);
+            nodeGroups = new List<NodeGroup>();
+        }
+        
+        internal DialogueGraph(NextGenDialogueComponent component)
+        {
+            LogWarning($"Dialogue graph component {component.name} version is outdated, please re-save component before build.");
+            variables = new List<SharedVariable>();
+            foreach (var variable in component.sharedVariables)
+            {
+                variables.Add(variable.Clone());
+            }
+            TraverseAppend(component.root);
+            nodeGroups = new List<NodeGroup>();
+        }
+#endif
 
         public Root Root
         {

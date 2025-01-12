@@ -5,7 +5,7 @@ using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 namespace Kurisu.NGDT.Editor
 {
-    public class CopyPaste
+    public class CopyPasteGraph
     {
         private static GraphStructure _graphStructure;
         
@@ -24,9 +24,9 @@ namespace Kurisu.NGDT.Editor
             };
         }
         
-        public static List<UnityEditor.Experimental.GraphView.GraphElement> Paste()
+        public static List<GraphElement> Paste()
         {
-            var list = new List<UnityEditor.Experimental.GraphView.GraphElement>();
+            var list = new List<GraphElement>();
             if (_graphStructure == null) return list;
             
             list.AddRange(_graphStructure.Edges);

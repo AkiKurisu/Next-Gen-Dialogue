@@ -16,6 +16,7 @@ namespace Kurisu.NGDT.Editor
             tempEdge.output.Connect(tempEdge);
             return tempEdge;
         }
+        
         public static IDialogueNode FindChildNode(Port port)
         {
             if (port.childCount == 0) return null;
@@ -31,6 +32,7 @@ namespace Kurisu.NGDT.Editor
             }
             return null;
         }
+        
         public static List<Port> GetCompatiblePorts(GraphView graphView, Port startAnchor)
         {
             var compatiblePorts = new List<Port>();

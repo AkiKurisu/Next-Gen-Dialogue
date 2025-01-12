@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using Ceres;
 using Ceres.Graph;
 using UnityEngine;
 using UObject = UnityEngine.Object;
@@ -35,6 +37,15 @@ namespace Kurisu.NGDT
                 (_dialogueGraph = GetDialogueGraph()).Compile();
             } 
         }
+        
+        /* Migration from v1 */
+#if UNITY_EDITOR
+        [SerializeReference, HideInInspector]
+        internal Root root = new();
+        
+        [SerializeReference, HideInInspector]
+        internal List<SharedVariable> sharedVariables = new();
+#endif
 
         private void Awake()
         {
@@ -78,8 +89,14 @@ namespace Kurisu.NGDT
             {
                 return externalAsset.GetDialogueGraph();
             }
-
+            
             graphData ??= new DialogueGraphData();
+#if UNITY_EDITOR
+            if (!graphData.IsValid())
+            {
+                return new DialogueGraph(this);
+            }
+#endif
             return new DialogueGraph(graphData.CloneT<DialogueGraphData>());
         }
 

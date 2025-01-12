@@ -56,13 +56,13 @@ namespace Kurisu.NGDT.Editor
 
         protected override string OnCopySerializedGraph(IEnumerable<GraphElement> elements)
         {
-            CopyPaste.Copy(EditorWindow.Identifier, elements.ToArray());
+            CopyPasteGraph.Copy(EditorWindow.Identifier, elements.ToArray());
             return string.Empty;
         }
 
         protected override void OnPasteSerializedGraph(string operationName, string serializedData)
         {
-            if (CopyPaste.CanPaste)
+            if (CopyPasteGraph.CanPaste)
             {
                 Paste(new Vector2(50, 50));
             }
@@ -72,7 +72,7 @@ namespace Kurisu.NGDT.Editor
         {
             ClearSelection();
             // Add paste elements to selection
-            foreach (var element in new CopyPasteGraphConvertor(this, CopyPaste.Paste(), positionOffSet).GetCopyElements())
+            foreach (var element in new CopyPasteGraphConvertor(this, CopyPasteGraph.Paste(), positionOffSet).GetCopyElements())
             {
                 element.Select(this, true);
             }
@@ -124,8 +124,8 @@ namespace Kurisu.NGDT.Editor
             remainTargets.ForEach(evt.menu.MenuItems().Add);
             evt.menu.MenuItems().Add(new CeresDropdownMenuAction("Paste", action =>
             {
-                Paste(contentViewContainer.WorldToLocal(action.eventInfo.mousePosition) - CopyPaste.CenterPosition);
-            }, x => CopyPaste.CanPaste ? DropdownMenuAction.Status.Normal : DropdownMenuAction.Status.Disabled));
+                Paste(contentViewContainer.WorldToLocal(action.eventInfo.mousePosition) - CopyPasteGraph.CenterPosition);
+            }, x => CopyPasteGraph.CanPaste ? DropdownMenuAction.Status.Normal : DropdownMenuAction.Status.Disabled));
             ContextualMenuRegistry.BuildContextualMenu(ContextualMenuType.Graph, evt, null);
         }
         
@@ -183,7 +183,11 @@ namespace Kurisu.NGDT.Editor
         public void Restore()
         {
             // Add default dialogue
-            if (Instance.Root.Child == null)
+            if (Instance.Root == null)
+            {
+                Instance.nodes.Add(new Root());
+            }
+            if (Instance.Root!.Child == null)
             {
                 Instance.Root.Child = new Dialogue();
                 var pos = Instance.Root.NodeData.graphPosition;
