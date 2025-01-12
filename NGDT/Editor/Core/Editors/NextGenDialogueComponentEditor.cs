@@ -57,7 +57,7 @@ namespace Kurisu.NGDT.Editor
             };
             myInspector.Add(label);
             myInspector.styleSheets.Add(NextGenDialogueSettings.GetInspectorStyle());
-            var field = new PropertyField(serializedObject.FindProperty("externalDialogueAsset"), "External Dialogue Asset");
+            var field = new PropertyField(serializedObject.FindProperty("externalAsset"), "External Asset");
             myInspector.Add(field);
             // create instance for edit
             var instance = (DialogueGraph)Target.GetGraph();
