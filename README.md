@@ -1,13 +1,19 @@
-# Next Gen Dialogue User Manual
+<div align="center">
 
-<img src="Docs/Images/Splash.png" >
+# Next Gen Dialogue
+
+![banner](./Docs/Images/Splash.png)
+
+Next Gen Dialogue(NGD) plugin is a Unity dialogue plugin combined with large language model design, won the 2023 Unity AI Plugin Excellence Award from Unity China. NGD combines the traditional dialogue design method with AI technique. Currently this package is an experimental attempt and hopes you enjoy it. 
+
+</div>
 
 ## Content
 
   - [Features](#features)
-  - [RoadMap](#roadmap)
   - [Supported version](#supported-version)
   - [Install](#install)
+  - [Migrate from V1](#migrate-from-v1)
   - [Quick Start](#quick-start)
     - [Create a Dialogue Tree](#create-a-dialogue-tree)
     - [AI Bake Dialogue](#ai-bake-dialogue)
@@ -23,7 +29,7 @@
     - [Bake Voice](#bake-voice)
   - [Resolvers](#resolvers)
     - [How to Switch Resolver](#how-to-switch-resolver)
-  - [Create Dialogue by Code](#create-dialogue-by-code)
+  - [Create Dialogue in Script](#create-dialogue-in-script)
 
 
 
@@ -31,15 +37,12 @@
 
 <Img src = "Docs/Images/BakeDialogue.png">
 
-Next Gen Dialogue plugin is a Unity dialogue plugin combined with large language model design, won the Unity AI Plugin Excellence Award from Unity China. It combines the traditional dialogue design method with AI technique. Currently this package is an experimental attempt and hopes you enjoy it. 
-
-It has the following features:
-1. Visual dialogue editor
-2. Modular dialogue function
-3. Support AIGC baking dialogue in Editor
-4. Debug during runtime
+- Visual dialogue editor
+- Modular dialogue function
+- Support AIGC baking dialogue in Editor
+- Debug during runtime
    
-Demo project: https://github.com/AkiKurisu/Next-Gen-Dialogue-Example-Project
+>Demo project https://github.com/AkiKurisu/Next-Gen-Dialogue-Example-Project
 
 <Img src = "Docs/Images/DemoExample2.png">
 
@@ -51,7 +54,7 @@ Demo video: https://www.bilibili.com/video/BV1hg4y1U7FG
 
 ## Supported version
 
-* Unity 2021.3 or Later
+* Unity 2022.3 or Later
 
 ## Install
 
@@ -61,7 +64,8 @@ Using git URL to download package by Unity PackageManager ```https://github.com/
 
 ```json
 "dependencies": {
-  "com.kurisu.chris": "1.2.0",
+  "com.kurisu.chris": "1.2.1",
+  "com.kurisu.ceres": "0.1.1",
   "com.unity.nuget.newtonsoft-json": "3.2.1"
 }
 ```
@@ -70,13 +74,17 @@ Using git URL to download package by Unity PackageManager ```https://github.com/
 
 The experimental features of Next Gen Dialogue are placed in the Modules folder and will not be enabled without installing the corresponding dependencies. You can view the dependencies in the `README.md` document under its folder.
 
+## Migrate from V1
+
+`NextGenDialogueComponent` and `NextGenDialogueGraphAsset` need to be re-saved to migrate embedded data to new version.
+
 ## Quick Start
 
 If you are using this plugin for the first time, it is recommended to play the following example scenes first:
 
-`` 1.Normal Usage.unity `` this scene contains the use of NextGenDialogueTree and NextGenDialogueTreeSO;
+`` 1.Normal Usage.unity `` this scene contains the use of NextGenDialogueComponent and NextGenDialogueGraphAsset;
 
-`` 2. Editor Bake Dialogue.unity``this scene contains the sample of baking conversation conversation in the use of AI dialogue Baker in Editor;
+`` 2.Editor Bake Dialogue.unity``this scene contains the sample of baking conversation conversation in the use of AI dialogue Baker in Editor;
 
 ```3.Build Dialogue by Code.unity``` this scene contains the use of Code to generate dialogue.
 
@@ -84,10 +92,10 @@ If you are using this plugin for the first time, it is recommended to play the f
 
 ### Create a Dialogue Tree
 
-NextGenDialogueTree and NextGenDialogueTreeSO are used to store dialogue data. In order to facilitate understanding, it is collectively referred to as dialogue tree.
+`NextGenDialogueComponent` and `NextGenDialogueGraphAsset` are used to store dialogue data. In order to facilitate understanding, it is collectively referred to as dialogue tree.
 The following process is to create a dialogue tree that contains only a single dialogue and a single option:
 
-1. Mount NextGenDialogueTree on any gameObject
+1. Mount `NextGenDialogueComponent` on any gameObject
 2. Click ``Edit DialogueTree`` to enter the editor
 3. Create the Container/dialogue node, the node is the dialogue container used in the game
 4. Connect the Parent port of the dialogue Node to the root node. You can have multiple dialogue in one dialogueTree, but only those connected to the root node will be used.
@@ -96,18 +104,18 @@ The following process is to create a dialogue tree that contains only a single d
 7. Create a Container/Option node and create a dialogue option corresponding to the PIECE node
 8. Right-click Piece node ``Add Option``, connect Piece with Option
 9. <b style = "color:#ee819e"> Very important: </b> At least one Piece node needs to be added to the Dialogue as the first piece of the dialogue.You can right -click dialogue's ``Add Piece `` to connect with the connection or quoting its PieceID. You can also right -click dialogue's ``Collect All Pieces`` to add all the piece in Graph to the dialogue and adjust the priority of the Piece
-    * For priority, please refer to [《General Module-Condition Module》](#general-modules)
+    * For priority, please refer to [General Module-Condition Module](#general-modules)
 
     <Img src = "Docs/Images/CreateDialogue.png">
   
 10. Click on the upper left of the editor's `` Save`` to save dialogue
 11. Click Play to enter PlayMode
-12. Click on NextGenDialogueTree ``Play dialogue`` to play conversation
+12. Click on NextGenDialogueComponent ``Play dialogue`` to play conversation
 13. Click `` Debug DialogueTree `` to enter the debug mode
     
 <IMG SRC = "Docs/Images/RuntimeDebug.png">
 
-- <span style = "color:#f8d09d"> Tips: </span> The currently played dialogue piece will be displayed in green
+> The playing dialogue piece will be displayed in green
 
 ### AI Bake Dialogue
 
@@ -115,7 +123,7 @@ You can use AI dialogue Baker to bake the dialogue content generated by AI in ad
 
 <img src="Docs/Images/BakeDialogue.png">
 
-1. The basic dialogue tree design is consistent with the process of [《Create a Dialogue Tree》](#create-a-dialogue-tree)
+1. The basic dialogue tree design is consistent with the process of [Create a Dialogue Tree](#create-a-dialogue-tree)
 2. Add ```AI Bake Module``` for the fragments or options that need to be baked, and remove the module for nodes that do not need to be baked
 3. Select the type of LLM you are baking with
 4. <b>Select in turn</b> the nodes that AI dialogue Baker needs to recognize, the order of recognition is based on the order selected by the mouse, and finally select the nodes that need to be baked
@@ -196,7 +204,7 @@ The following are experimental modules, you need to install the corresponding Pa
 
 For VITS local deployment, please refer to this repository: [VITS Simple API](https://github.com/Artrajz/vits-simple-api)
 
-If you want to use the VITS module, please use it with VITSAIReResolver. For the use of the Resolver, please refer to the following [《Resolver》](#Resolver)
+If you want to use the VITS module, please use it with VITSAIReResolver. For the use of the Resolver, please refer to the following [Resolver](#Resolver)
 
 | Name        | Description                                                                           |
 | ----------- | ------------------------------------------------------------------------------------- |
@@ -255,23 +263,26 @@ Resolver is used to detect the Module in the Container at runtime and execute a 
    
     You can add  ```VITSResolverModule``` to the dialogue node to specify the resolver used by the dialogue, and you can also click the Setting button in the upper right corner of the module and select which Resolvers to be replaced in ``Advanced Settings``
 
-## Create Dialogue by Code
+## Create Dialogue in Script
 
 NGD is divided into two parts, DialogueSystem (NGDS) and DialogueTree (NGDT). The former defines the data structure of the dialogue, which is interpreted by Resolver after receiving the data. The latter provides a visual editing solution and inherits the interface from the former. So you can also use scripts to write dialogues, examples are as follows:
 
 ```C#
 using UnityEngine;
+using Kurisu.NGDS;
 public class CodeDialogueBuilder : MonoBehaviour
 {
     private DialogueBuilder builder;
+
     private IEnumerator Start()
     {
         yield return new WaitForEndOfFrame();
         PlayDialogue();
     }
+
     private void PlayDialogue()
     {
-        var dialogueSystem = IOCContainer.Resolve<IDialogueSystem>();
+        var dialogueSystem = DialogueSystem.Get();
         builder = new DialogueBuilder();
         // First Piece
         var piece = DialoguePiece.GetPooled();
@@ -289,7 +300,7 @@ public class CodeDialogueBuilder : MonoBehaviour
         piece.PieceID = "02";
         var callBackOption = DialogueOption.GetPooled();
         // Add CallBack Module
-        callBackOption.AddModule(new CallBackModule(() => Debug.Log("Hello World !")));
+        callBackOption.AddModule(new CallBackModule(() => Debug.Log("Hello World!")));
         callBackOption.Content = "Log";
         piece.AddOption(callBackOption);
         generator.AddPiece(piece);

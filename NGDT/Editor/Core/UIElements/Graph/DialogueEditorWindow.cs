@@ -8,7 +8,7 @@ using Ceres.Editor.Graph;
 using UnityEditor.Callbacks;
 namespace Kurisu.NGDT.Editor
 {
-    public class DialogueEditorWindow : CeresGraphEditorWindow<IDialogueGraphContainer, DialogueEditorWindow>, IHasCustomMenu
+    public class DialogueEditorWindow : CeresGraphEditorWindow<IDialogueGraphContainer, DialogueEditorWindow>
     {
         private DialogueGraphView _graphView;
         
@@ -153,18 +153,9 @@ namespace Kurisu.NGDT.Editor
             return newWindow;
         }
 
-        protected override void Reload()
+        protected override void OnReloadGraphView()
         {
-            if (!Identifier.IsValid()) return;
-            
-            Container = GetContainer();
             StructGraphView();
-            Repaint();
-        }
-        
-        void IHasCustomMenu.AddItemsToMenu(GenericMenu menu)
-        {
-            menu.AddItem(new GUIContent("Reload"), false, Reload);
         }
         
         private VisualElement CreateToolBar(DialogueGraphView graphView)
