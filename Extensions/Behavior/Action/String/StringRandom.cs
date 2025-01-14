@@ -7,7 +7,7 @@ namespace Kurisu.NGDT.Behavior
     [Serializable]
     [NodeInfo("Action: Set random string value")]
     [CeresLabel("String: Random")]
-    [NodeGroup("String")]
+    [CeresGroup("String")]
     public class StringRandom : Action
     {
         public List<string> randomStrings;

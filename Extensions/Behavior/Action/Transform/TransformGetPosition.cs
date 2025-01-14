@@ -7,7 +7,7 @@ namespace Kurisu.NGDT.Behavior
     [Serializable]
     [NodeInfo("Action : Get Transform.Position")]
     [CeresLabel("Transform : GetPosition")]
-    [NodeGroup("Transform")]
+    [CeresGroup("Transform")]
     public class TransformGetPosition : Action
     {
         [Tooltip("Target Transform, if not filled in, it will be its own Transform")]

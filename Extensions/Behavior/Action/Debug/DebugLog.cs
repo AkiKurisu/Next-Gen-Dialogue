@@ -7,7 +7,7 @@ namespace Kurisu.NGDT.Behavior
     [Serializable]
     [NodeInfo("Action: Log some text")]
     [CeresLabel("Debug: Log")]
-    [NodeGroup("Debug")]
+    [CeresGroup("Debug")]
     public class DebugLog : Action
     {
         public SharedString logText;

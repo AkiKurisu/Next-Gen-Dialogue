@@ -8,7 +8,7 @@ namespace Kurisu.NGDT.Behavior
     [Serializable]
     [NodeInfo("Action: Build value of string")]
     [CeresLabel("String: Build")]
-    [NodeGroup("String")]
+    [CeresGroup("String")]
     public class BuildString : Action
     {
         public List<SharedString> values;

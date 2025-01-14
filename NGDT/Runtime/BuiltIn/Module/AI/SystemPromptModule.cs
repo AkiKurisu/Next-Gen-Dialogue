@@ -7,7 +7,7 @@ namespace Kurisu.NGDT
 {
     [Serializable]
     [NodeInfo("Module: Prompt Module is used to set up AI dialogue system prompt.")]
-    [NodeGroup("AIGC")]
+    [CeresGroup("AIGC")]
     [ModuleOf(typeof(Dialogue))]
     public class SystemPromptModule : CustomModule
     {

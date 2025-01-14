@@ -8,7 +8,7 @@ namespace Kurisu.NGDT
 {
     [Serializable]
     [NodeInfo("Module: Character Preset Module is used to set up AI prompt, used for chat dialogue.")]
-    [NodeGroup("AIGC")]
+    [CeresGroup("AIGC")]
     [ModuleOf(typeof(Dialogue))]
     public class CharacterPresetModule : CustomModule
     {

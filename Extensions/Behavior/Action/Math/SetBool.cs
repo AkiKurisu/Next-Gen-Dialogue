@@ -5,7 +5,7 @@ namespace Kurisu.NGDT.Behavior
 {
     [NodeInfo("Action: Set bool value")]
     [CeresLabel("Math: SetBool")]
-    [NodeGroup("Math")]
+    [CeresGroup("Math")]
     public class SetBool : Action
     {
         public SharedBool boolValue;

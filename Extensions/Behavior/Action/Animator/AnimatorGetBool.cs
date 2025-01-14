@@ -7,7 +7,7 @@ namespace Kurisu.NGDT.Behavior
     [Serializable]
     [NodeInfo("Action: Get the Bool element of the Animator")]
     [CeresLabel("Animator: GetBool")]
-    [NodeGroup("Animator")]
+    [CeresGroup("Animator")]
     public class AnimatorGetBool : AnimatorAction
     {
         public SharedString parameter;

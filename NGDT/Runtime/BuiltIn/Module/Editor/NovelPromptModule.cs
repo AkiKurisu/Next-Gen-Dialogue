@@ -5,7 +5,7 @@ namespace Kurisu.NGDT
 {
     [Serializable]
     [NodeInfo("Editor Module: Novel Prompt Module is used to set up novel prompt.")]
-    [NodeGroup("Editor/AIGC")]
+    [CeresGroup("Editor/AIGC")]
     [ModuleOf(typeof(Dialogue))]
     public class NovelPromptModule : EditorModule
     {

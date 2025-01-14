@@ -5,7 +5,7 @@ namespace Kurisu.NGDT.Behavior
 {
     [NodeInfo("Action: Flip bool value")]
     [CeresLabel("Math: BoolFlip")]
-    [NodeGroup("Math")]
+    [CeresGroup("Math")]
     public class BoolFlip : Action
     {
         [SerializeField, ForceShared]

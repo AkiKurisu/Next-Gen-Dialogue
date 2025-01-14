@@ -6,7 +6,7 @@ namespace Kurisu.NGDT
 {
     [Serializable]
     [NodeInfo("Module: Prompt Preset Module is used to set up AI dialogue always included prompt using external text file.")]
-    [NodeGroup("AIGC")]
+    [CeresGroup("AIGC")]
     [ModuleOf(typeof(Dialogue))]
     public class PromptPresetModule : CustomModule
     {

@@ -5,7 +5,7 @@ namespace Kurisu.NGDT.Behavior
 {
     [NodeInfo("Action: Set float value")]
     [CeresLabel("Math: SetFloat")]
-    [NodeGroup("Math")]
+    [CeresGroup("Math")]
     public class SetFloat : Action
     {
         public SharedFloat floatValue;

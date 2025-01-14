@@ -5,7 +5,7 @@ namespace Kurisu.NGDT
 {
     [Serializable]
     [NodeInfo("Editor Module: Use Google Translate to translate all valid contents.")]
-    [NodeGroup("Editor")]
+    [CeresGroup("Editor")]
     [ModuleOf(typeof(Dialogue))]
     public class EditorTranslateModule : EditorModule
     {

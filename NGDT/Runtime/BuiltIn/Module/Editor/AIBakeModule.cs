@@ -5,7 +5,7 @@ namespace Kurisu.NGDT
 {
     [Serializable]
     [NodeInfo("Editor Module: Use AI dialogue baker in Editor, should be added to last select node that needs to generate dialogue.")]
-    [NodeGroup("Editor/AIGC")]
+    [CeresGroup("Editor/AIGC")]
     [ModuleOf(typeof(Piece))]
     [ModuleOf(typeof(Option))]
     public class AIBakeModule : EditorModule

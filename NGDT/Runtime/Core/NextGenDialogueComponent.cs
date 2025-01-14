@@ -116,6 +116,7 @@ namespace Kurisu.NGDT
 
         public FlowGraph GetFlowGraph()
         {
+            flowGraphData ??= new FlowGraphData();
             return new FlowGraph(flowGraphData.CloneT<FlowGraphData>());
         }
     }

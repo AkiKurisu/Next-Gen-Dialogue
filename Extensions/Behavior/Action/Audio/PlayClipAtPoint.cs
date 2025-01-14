@@ -7,7 +7,7 @@ namespace Kurisu.NGDT.Behavior
     [Serializable]
     [NodeInfo("Action: Plays an AudioClip at a given position in world space")]
     [CeresLabel("Audio: PlayClipAtPoint")]
-    [NodeGroup("Audio")]
+    [CeresGroup("Audio")]
     public class PlayClipAtPoint : Action
     {
         public SharedUObject<AudioClip> audioClip;

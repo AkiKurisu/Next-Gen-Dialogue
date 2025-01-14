@@ -8,7 +8,7 @@ namespace Kurisu.NGDT.Behavior
     [Serializable]
     [NodeInfo("Action : Stop NavmeshAgent according to isStopped")]
     [CeresLabel("Navmesh : StopAgent")]
-    [NodeGroup("Navmesh")]
+    [CeresGroup("Navmesh")]
     public class NavmeshStopAgent : Action
     {
         [SerializeField, Tooltip("If not filled in, it will be obtained from the bound gameObject")]

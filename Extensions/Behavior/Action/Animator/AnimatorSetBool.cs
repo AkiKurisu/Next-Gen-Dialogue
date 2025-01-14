@@ -7,7 +7,7 @@ namespace Kurisu.NGDT.Behavior
     [Serializable]
     [NodeInfo("Action: Set the Bool element of Animator according to status")]
     [CeresLabel("Animator: SetBool")]
-    [NodeGroup("Animator")]
+    [CeresGroup("Animator")]
     public class AnimatorSetBool : AnimatorAction
     {
         public SharedString parameter;

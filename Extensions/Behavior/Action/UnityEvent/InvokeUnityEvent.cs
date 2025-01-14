@@ -6,7 +6,7 @@ namespace Kurisu.NGDT.Behavior
     [Serializable]
     [NodeInfo("Action : Invoke a UnityEvent, should be noticed that it may loss reference during serialization ")]
     [CeresLabel("UnityEvent : Invoke UnityEvent")]
-    [NodeGroup("UnityEvent")]
+    [CeresGroup("UnityEvent")]
     public class InvokeUnityEvent : Action
     {
         [WrapField]

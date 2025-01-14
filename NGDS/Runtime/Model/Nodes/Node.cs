@@ -8,30 +8,30 @@ namespace Kurisu.NGDS
     {
         protected internal bool IsPooled { get; set; }
         
-        private readonly List<IDialogueModule> _modules = new();
+        public List<IDialogueModule> Modules { get; } = new();
         
         public void AddModule(IDialogueModule module)
         {
-            _modules.Add(module);
+            Modules.Add(module);
             OnModuleAdd(module);
             if (module is IApplyable applyableModule) applyableModule.Apply(this);
         }
         
         protected void ClearModules()
         {
-            _modules.Clear();
+            Modules.Clear();
         }
         
         protected virtual void OnModuleAdd(IDialogueModule module) { }
         
         public IEnumerable<Node> ChildNodes()
         {
-            return _modules.OfType<Node>();
+            return Modules.OfType<Node>();
         }
         
         public bool TryGetModule<T>(out T module) where T : IDialogueModule
         {
-            foreach (var localModule in _modules)
+            foreach (var localModule in Modules)
             {
                 if (localModule is T target)
                 {
@@ -45,7 +45,7 @@ namespace Kurisu.NGDS
         
         public void CollectModules<T>(List<T> inModules) where T : IDialogueModule
         {
-            foreach (var localModule in _modules)
+            foreach (var localModule in Modules)
             {
                 if (localModule is T target)
                 {
@@ -54,14 +54,9 @@ namespace Kurisu.NGDS
             }
         }
 
-        public IReadOnlyList<IDialogueModule> GetAllModules()
-        {
-            return _modules;
-        }
-
         public async UniTask ProcessModules(IObjectResolver resolver)
         {
-            foreach (var localModule in _modules)
+            foreach (var localModule in Modules)
             {
                 if (localModule is IProcessable processable)
                 {

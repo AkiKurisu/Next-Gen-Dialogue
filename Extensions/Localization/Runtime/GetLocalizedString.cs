@@ -8,7 +8,7 @@ namespace Kurisu.NGDT.Localization
     [Serializable]
     [NodeInfo("Action: Get LocalizedString")]
     [CeresLabel("String: GetLocalizedString")]
-    [NodeGroup("String")]
+    [CeresGroup("String")]
     public class GetLocalizedString : Action
     {
         [WrapField]

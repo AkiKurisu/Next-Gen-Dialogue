@@ -5,7 +5,7 @@ namespace Kurisu.NGDT.Behavior
 {
     [NodeInfo("Action: Operate float value")]
     [CeresLabel("Math: FloatOperator")]
-    [NodeGroup("Math")]
+    [CeresGroup("Math")]
     public class FloatOperator : Action
     {
         private enum Operation

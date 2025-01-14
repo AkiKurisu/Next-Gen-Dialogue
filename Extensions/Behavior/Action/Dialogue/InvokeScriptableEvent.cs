@@ -7,7 +7,7 @@ namespace Kurisu.NGDT.Behavior
     [Serializable]
     [NodeInfo("Action: Invoke a scriptableEvent")]
     [CeresLabel("Dialogue: Invoke ScriptableEvent")]
-    [NodeGroup("Dialogue")]
+    [CeresGroup("Dialogue")]
     public class InvokeScriptableEvent : Action
     {
         public SharedUObject<ScriptableEvent> scriptableEvent;

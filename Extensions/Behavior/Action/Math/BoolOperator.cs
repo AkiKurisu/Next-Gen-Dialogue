@@ -5,7 +5,7 @@ namespace Kurisu.NGDT.Behavior
 {
     [NodeInfo("Action: Operate bool value")]
     [CeresLabel("Math: BoolOperator")]
-    [NodeGroup("Math")]
+    [CeresGroup("Math")]
     public class BoolOperator : Action
     {
         private enum Operation

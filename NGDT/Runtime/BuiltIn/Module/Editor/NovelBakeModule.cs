@@ -6,7 +6,7 @@ namespace Kurisu.NGDT
     [Serializable]
     [NodeInfo("Editor Module: Use Novel baker in Editor, should be added to last select node that needs to generate novel" +
     ", currently can only use ChatGPT as LLM backend.")]
-    [NodeGroup("Editor/AIGC")]
+    [CeresGroup("Editor/AIGC")]
     [ModuleOf(typeof(Piece))]
     [ModuleOf(typeof(Option))]
     public class NovelBakeModule : EditorModule

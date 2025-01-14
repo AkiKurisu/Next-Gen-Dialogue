@@ -6,7 +6,7 @@ namespace Kurisu.NGDT.Behavior
     [Serializable]
     [NodeInfo("Condition: Compare Bool values, if the conditions are met, return Status.Success, otherwise return Status.Failure")]
     [CeresLabel("Math: BoolComparison")]
-    [NodeGroup("Math")]
+    [CeresGroup("Math")]
     public class BoolComparison : Conditional
     {
         public enum Operation

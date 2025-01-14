@@ -7,7 +7,7 @@ using UnityEngine;
 namespace Kurisu.NGDT.VITS
 {
     [NodeInfo("Module : Specify VITS dialogue resolver for this dialogue tree.")]
-    [NodeGroup("AIGC")]
+    [CeresGroup("AIGC")]
     [ModuleOf(typeof(Dialogue))]
     public class VITSResolverModule : CustomModule
     {

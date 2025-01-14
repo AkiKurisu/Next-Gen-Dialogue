@@ -7,7 +7,7 @@ namespace Kurisu.NGDT.Behavior
     [Serializable]
     [NodeInfo("Action: Play audioClip on target audioSource")]
     [CeresLabel("Audio: PlayAudioClip")]
-    [NodeGroup("Audio")]
+    [CeresGroup("Audio")]
     public class PlayAudioClip : Action
     {
         public SharedUObject<AudioClip> audioClip;

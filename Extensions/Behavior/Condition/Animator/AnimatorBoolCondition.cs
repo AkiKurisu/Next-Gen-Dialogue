@@ -7,7 +7,7 @@ namespace Kurisu.NGDT.Behavior
     [Serializable]
     [NodeInfo("Condition: Get the Bool parameter of Animator, if it is consistent with the status, return Status.Success, otherwise return Status.Failure")]
     [CeresLabel("Animator: BoolCondition")]
-    [NodeGroup("Animator")]
+    [CeresGroup("Animator")]
     public class AnimatorBoolCondition : AnimatorCondition
     {
         public SharedString parameter;

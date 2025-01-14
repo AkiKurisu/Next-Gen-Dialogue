@@ -3,7 +3,7 @@ using UnityEngine;
 namespace Kurisu.NGDT.VITS
 {
     [NodeInfo("Editor Module : Use VITS Editor Module to attach VITS module easily and generate audio for each module.")]
-    [NodeGroup("Editor/AIGC")]
+    [CeresGroup("Editor/AIGC")]
     [ModuleOf(typeof(Dialogue))]
     public class VITSEditorModule : EditorModule
     {

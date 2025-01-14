@@ -5,7 +5,7 @@ namespace Kurisu.NGDT.Behavior
 {
     [NodeInfo("Action: Convert int type to float type")]
     [CeresLabel("Math: Int2Float")]
-    [NodeGroup("Math")]
+    [CeresGroup("Math")]
     public class Int2Float : Action
     {
         [SerializeField]

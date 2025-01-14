@@ -7,7 +7,7 @@ namespace Kurisu.NGDT.Behavior
     [Serializable]
     [NodeInfo("Action: Set trigger parameter of the Animator")]
     [CeresLabel("Animator: SetTrigger")]
-    [NodeGroup("Animator")]
+    [CeresGroup("Animator")]
     public class AnimatorSetTrigger : AnimatorAction
     {
         public SharedString parameter;

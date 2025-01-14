@@ -8,7 +8,7 @@ namespace Kurisu.NGDT.Behavior
     [Serializable]
     [NodeInfo("Action: Set string value")]
     [CeresLabel("String: Set")]
-    [NodeGroup("String")]
+    [CeresGroup("String")]
     public class SetString : Action
     {
         [Multiline, TranslateEntry, FormerlySerializedAs("value")]

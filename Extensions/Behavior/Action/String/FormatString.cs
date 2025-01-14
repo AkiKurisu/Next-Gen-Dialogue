@@ -5,7 +5,7 @@ using Ceres.Annotations;
 using UnityEngine;
 namespace Kurisu.NGDT.Behavior
 {
-    [Serializable, NodeInfo("Action: Format value of string"), CeresLabel("String: Format"), NodeGroup("String")]
+    [Serializable, NodeInfo("Action: Format value of string"), CeresLabel("String: Format"), CeresGroup("String")]
     public class FormatString : Action
     {
         public SharedString format;

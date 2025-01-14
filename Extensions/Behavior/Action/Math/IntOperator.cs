@@ -5,7 +5,7 @@ namespace Kurisu.NGDT.Behavior
 {
     [NodeInfo("Action: Operate int value")]
     [CeresLabel("Math: IntOperator")]
-    [NodeGroup("Math")]
+    [CeresGroup("Math")]
     public class IntOperator : Action
     {
         private enum Operation

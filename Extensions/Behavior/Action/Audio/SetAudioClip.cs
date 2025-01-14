@@ -7,7 +7,7 @@ namespace Kurisu.NGDT.Behavior
     [Serializable]
     [NodeInfo("Action: Set Shared AudioClip Value")]
     [CeresLabel("Audio: SetAudioClip")]
-    [NodeGroup("Audio")]
+    [CeresGroup("Audio")]
     public class SetAudioClip : Action
     {
         public SharedUObject<AudioClip> source;

@@ -7,7 +7,7 @@ namespace Kurisu.NGDT.Behavior
     [Serializable]
     [NodeInfo("Action : Calculate the distance between two Vector3")]
     [CeresLabel("Vector3 : Distance")]
-    [NodeGroup("Vector3")]
+    [CeresGroup("Vector3")]
     public class Vector3Distance : Action
     {
         public SharedVector3 firstVector3;

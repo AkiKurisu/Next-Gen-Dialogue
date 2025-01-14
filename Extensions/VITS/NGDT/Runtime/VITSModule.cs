@@ -5,7 +5,7 @@ using UnityEngine;
 namespace Kurisu.NGDT.VITS
 {
     [NodeInfo("Module : VITS Module is used to generate audio for dialogue using VITS model.")]
-    [NodeGroup("AIGC")]
+    [CeresGroup("AIGC")]
     [ModuleOf(typeof(Piece), true)]
     [ModuleOf(typeof(Option))]
     public class VITSModule : CustomModule

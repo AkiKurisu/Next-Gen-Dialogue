@@ -5,7 +5,7 @@ namespace Kurisu.NGDT.Behavior
 {
     [NodeInfo("Action: Int type takes absolute value")]
     [CeresLabel("Math: IntAbs")]
-    [NodeGroup("Math")]
+    [CeresGroup("Math")]
     public class IntAbs : Action
     {
         [SerializeField, ForceShared]

@@ -32,7 +32,7 @@ namespace Kurisu.NGDT.Editor
         {
             if (variable is PieceID)
             {
-                GetOrAddSection("Piece IDs").Add(blackboardRow);
+                GetOrAddSection("Dialogue Pieces").Add(blackboardRow);
                 return;
             }
             base.AddVariableRow(variable, blackboardRow);

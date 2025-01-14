@@ -8,7 +8,7 @@ namespace Kurisu.NGDT.Behavior
     [Serializable]
     [NodeInfo("Action: Set the destination of NavmeshAgent")]
     [CeresLabel("Navmesh: SetDestination")]
-    [NodeGroup("Navmesh")]
+    [CeresGroup("Navmesh")]
     public class NavmeshSetDestination : Action
     {
         [SerializeField, Tooltip("If not filled in, it will be obtained from the bound gameObject")]

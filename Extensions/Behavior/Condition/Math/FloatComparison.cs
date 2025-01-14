@@ -6,7 +6,7 @@ namespace Kurisu.NGDT.Behavior
     [Serializable]
     [NodeInfo("Condition: Compare Float values, if the condition is met, return Status.Success, otherwise return Status.Failure")]
     [CeresLabel("Math: FloatComparison")]
-    [NodeGroup("Math")]
+    [CeresGroup("Math")]
     public class FloatComparison : Conditional
     {
         public enum Operation

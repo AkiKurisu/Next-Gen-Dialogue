@@ -7,7 +7,7 @@ namespace Kurisu.NGDT.Behavior
     [Serializable]
     [NodeInfo("Action : Operate Vector3 value")]
     [CeresLabel("Vector3 : Operator")]
-    [NodeGroup("Vector3")]
+    [CeresGroup("Vector3")]
     public class Vector3Operator : Action
     {
 

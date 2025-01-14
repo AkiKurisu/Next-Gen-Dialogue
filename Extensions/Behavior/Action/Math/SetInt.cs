@@ -5,7 +5,7 @@ namespace Kurisu.NGDT.Behavior
 {
     [NodeInfo("Action: Set int value")]
     [CeresLabel("Math: SetInt")]
-    [NodeGroup("Math")]
+    [CeresGroup("Math")]
     public class SetInt : Action
     {
         public SharedInt intValue;

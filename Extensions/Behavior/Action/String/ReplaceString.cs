@@ -6,7 +6,7 @@ namespace Kurisu.NGDT.Behavior
     [Serializable]
     [NodeInfo("Action: Replace value of string")]
     [CeresLabel("String: Replace")]
-    [NodeGroup("String")]
+    [CeresGroup("String")]
     public class ReplaceString : Action
     {
         public SharedString target;
