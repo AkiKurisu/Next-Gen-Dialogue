@@ -34,8 +34,6 @@ namespace Kurisu.NGDT.Editor
             public StyleSheet nodeStyleSheet;
         }
         
-        public const string Version = "v2.0.0";
-        
         private const string SettingsPath = "ProjectSettings/NextGenDialogueSetting.asset";
         
         private const string AITurboSettingsPath = "Assets/AI Turbo Setting.asset";

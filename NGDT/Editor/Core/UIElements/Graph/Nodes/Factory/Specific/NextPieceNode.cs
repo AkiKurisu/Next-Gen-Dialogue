@@ -29,7 +29,7 @@ namespace Kurisu.NGDT.Editor
             _childPort.portColor = PortColor;
             outputContainer.Add(_childPort);
         }
-        protected sealed override void OnBehaviorSet()
+        protected sealed override void OnPostSetNodeType()
         {
             _useReferenceField = ((BoolResolver)GetFieldResolver("useReference")).BaseField;
             _nextIDField = ((PieceIDResolver)GetFieldResolver("nextID")).BaseField;
@@ -40,11 +40,11 @@ namespace Kurisu.NGDT.Editor
         {
             //Connect after loaded
             await Task.Delay(1);
-            var node = MapGraphView.FindPiece(_nextIDField.value.Name);
+            var node = GraphView.FindPiece(_nextIDField.value.Name);
             if (node != null)
             {
                 var edge = PortHelper.ConnectPorts(_childPort, node.Parent);
-                MapGraphView.Add(edge);
+                GraphView.Add(edge);
             }
             OnToggle(_useReferenceField.value);
         }

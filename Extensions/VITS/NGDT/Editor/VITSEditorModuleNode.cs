@@ -16,23 +16,23 @@ namespace Kurisu.NGDT.VITS.Editor
             mainContainer.Add(new Button(AttachAllOptions) { text = "Attach VITS Module to All Options" });
             mainContainer.Add(generateAll = new Button(GenerateAll) { text = "Generate All", tooltip = "Generate all VITS Modules with no audio baked" });
         }
-        protected override void OnBehaviorSet()
+        protected override void OnPostSetNodeType()
         {
             skipContainedAudioClip = ((BoolResolver)GetFieldResolver("skipContainedAudioClip")).BaseField;
             skipSharedAudioClip = ((BoolResolver)GetFieldResolver("skipSharedAudioClip")).BaseField;
         }
         private void AttachAllPieces()
         {
-            MapGraphView.CollectNodes<PieceContainer>().ForEach(x => x.AddModuleNode(new VITSModule()));
+            GraphView.CollectNodes<PieceContainer>().ForEach(x => x.AddModuleNode(new VITSModule()));
         }
         private void AttachAllOptions()
         {
-            MapGraphView.CollectNodes<OptionContainer>().ForEach(x => x.AddModuleNode(new VITSModule()));
+            GraphView.CollectNodes<OptionContainer>().ForEach(x => x.AddModuleNode(new VITSModule()));
         }
         private async void GenerateAll()
         {
             generateAll.SetEnabled(false);
-            foreach (var container in MapGraphView.CollectNodes<ContainerNode>())
+            foreach (var container in GraphView.CollectNodes<ContainerNode>())
             {
                 if (container.TryGetModuleNode<VITSModule>(out var node))
                 {

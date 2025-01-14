@@ -12,13 +12,17 @@ namespace Kurisu.NGDT.Editor
         {
             private const string ButtonText = "Open in Dialogue Graph";
             
-            public DialogueGraphButton(IDialogueGraphContainer tree) : base(() => DialogueEditorWindow.Show(tree))
+            public IDialogueGraphContainer Container { get; set; }
+            
+            public DialogueGraphButton(IDialogueGraphContainer container) 
             {
                 style.fontSize = 15;
                 style.unityFontStyleAndWeight = FontStyle.Bold;
                 style.color = Color.white;
                 style.backgroundColor = new StyleColor(new Color(85 / 255f, 205 / 255f, 115 / 255f));
                 text = ButtonText;
+                Container = container;
+                clickable = new Clickable(() => DialogueEditorWindow.Show(Container));
             }
         }
         
@@ -38,12 +42,13 @@ namespace Kurisu.NGDT.Editor
         
         protected IDialogueGraphContainer Target => (IDialogueGraphContainer)target;
         
-        protected static readonly string LabelText = $"Next-Gen Dialogue <size=12>{NextGenDialogueSettings.Version}</size>";
+        protected static readonly string LabelText = $"Next-Gen Dialogue";
     }
 
     [CustomEditor(typeof(NextGenDialogueComponent))]
     public class NextGenDialogueComponentEditor : NextGenDialogueEditor
     {
+        private DialogueGraphButton _dialogueGraphButton;
         public override VisualElement CreateInspectorGUI()
         {
             var myInspector = new VisualElement();
@@ -55,24 +60,38 @@ namespace Kurisu.NGDT.Editor
                     unityTextAlign = TextAnchor.MiddleCenter
                 }
             };
+            var component = (NextGenDialogueComponent)Target;
             myInspector.Add(label);
             myInspector.styleSheets.Add(NextGenDialogueSettings.GetInspectorStyle());
-            var field = new PropertyField(serializedObject.FindProperty("externalAsset"), "External Asset");
-            myInspector.Add(field);
-            // create instance for edit
-            var instance = (DialogueGraph)Target.GetGraph();
-            if (instance.variables.Count(x => x.IsExposed) != 0)
+            var assetField = new PropertyField(serializedObject.FindProperty("externalAsset"), "External Asset");
+            myInspector.Add(assetField);
+            
+            if(!component.Asset)
             {
-                myInspector.Add(new SharedVariablesFoldout(instance.BlackBoard, () =>
+                // create instance for edit
+                var instance = Target.GetDialogueGraph();
+                if (instance.variables.Count(x => x.IsExposed) != 0)
                 {
-                    // Not serialize data in playing mode
-                    if (Application.isPlaying) return;
-                    Target.SetGraphData(instance.GetData());
-                    EditorUtility.SetDirty(target);
-                }));
+                    myInspector.Add(new SharedVariablesFoldout(instance.BlackBoard, () =>
+                    {
+                        // Not serialize data in playing mode
+                        if (Application.isPlaying) return;
+                        Target.SetGraphData(instance.GetData());
+                        EditorUtility.SetDirty(target);
+                    }));
+                }
             }
-            myInspector.Add(new DialogueGraphButton(Target));
-            var playButton = new DialogueGraphPlayDialogueButton((NextGenDialogueComponent)Target);
+            
+            assetField.RegisterValueChangeCallback(evt =>
+            {
+                var externalAsset = evt.changedProperty.objectReferenceValue as NextGenDialogueGraphAsset;
+                _dialogueGraphButton.Container = (bool)externalAsset ? externalAsset : Target;
+            });
+
+            _dialogueGraphButton = new DialogueGraphButton((bool)component.Asset ? component.Asset : Target);
+            myInspector.Add(_dialogueGraphButton);
+            
+            var playButton = new DialogueGraphPlayDialogueButton(component);
             playButton.SetEnabled(Application.isPlaying);
             myInspector.Add(playButton);
             return myInspector;
@@ -107,7 +126,7 @@ namespace Kurisu.NGDT.Editor
             description.BindProperty(serializedObject.FindProperty("description"));
             myInspector.Add(description);
             // create instance for edit
-            var instance = (DialogueGraph)Target.GetGraph();
+            var instance = Target.GetDialogueGraph();
             if (instance.variables.Count(x => x.IsExposed) != 0)
             {
                 myInspector.Add(new SharedVariablesFoldout(instance.BlackBoard, () =>

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Ceres;
 using Ceres.Graph;
+using Ceres.Graph.Flow;
 using Kurisu.NGDS;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -53,8 +54,9 @@ namespace Kurisu.NGDT
             
         }
 
-        public DialogueGraph(DialogueGraphData graphData): base(graphData)
+        public DialogueGraph(DialogueGraphData graphData, IFlowGraphContainer flowGraphContainer): base(graphData)
         {
+            FlowGraph = flowGraphContainer.GetFlowGraph();
         }
         
 #if UNITY_EDITOR
@@ -64,10 +66,14 @@ namespace Kurisu.NGDT
             variables = new List<SharedVariable>();
             foreach (var variable in asset.sharedVariables)
             {
-                variables.Add(variable.Clone());
+                if (variable != null)
+                {
+                    variables.Add(variable.Clone());
+                }
             }
             TraverseAppend(asset.root);
             nodeGroups = new List<NodeGroup>();
+            FlowGraph = asset.GetFlowGraph();
         }
         
         internal DialogueGraph(NextGenDialogueComponent component)
@@ -76,10 +82,14 @@ namespace Kurisu.NGDT
             variables = new List<SharedVariable>();
             foreach (var variable in component.sharedVariables)
             {
-                variables.Add(variable.Clone());
+                if(variable != null)
+                {
+                    variables.Add(variable.Clone());
+                }
             }
             TraverseAppend(component.root);
             nodeGroups = new List<NodeGroup>();
+            FlowGraph = component.GetFlowGraph();
         }
 #endif
 
@@ -102,6 +112,8 @@ namespace Kurisu.NGDT
             }
         }
         
+        public FlowGraph FlowGraph { get; private set; }
+        
         /// <summary>
         /// Traverse dialogue graph from root and append node instances
         /// </summary>
@@ -123,12 +135,14 @@ namespace Kurisu.NGDT
             }
             InitVariables_Imp(this);
             BlackBoard.MapGlobal();
+            FlowGraph?.Compile();
         }
 
         public override void Dispose()
         {
             base.Dispose();
             Root?.Dispose();
+            FlowGraph?.Dispose();
         }
         
         /// <summary>

@@ -81,7 +81,7 @@ namespace Kurisu.NGDT.Editor
                 break;
             }
             if (!find) node = new ActionNode();
-            node.SetBehavior(behaviorType, graphView);
+            node.SetNodeType(behaviorType, graphView);
             if (_styleSheetCache == null) _styleSheetCache = NextGenDialogueSettings.GetNodeStyle();
             ((Node)node).styleSheets.Add(_styleSheetCache);
             return node;

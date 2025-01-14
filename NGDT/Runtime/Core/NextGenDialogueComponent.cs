@@ -2,18 +2,22 @@ using System;
 using System.Collections.Generic;
 using Ceres;
 using Ceres.Graph;
+using Ceres.Graph.Flow;
 using UnityEngine;
 using UObject = UnityEngine.Object;
 namespace Kurisu.NGDT
 {
     [DisallowMultipleComponent]
-    public class NextGenDialogueComponent : MonoBehaviour, IDialogueGraphContainer
+    public class NextGenDialogueComponent : MonoBehaviour, IDialogueGraphContainer, IFlowGraphContainer
     {
         [NonSerialized]
         private DialogueGraph _dialogueGraph;
         
         [HideInInspector, SerializeField]
-        private DialogueGraphData graphData;
+        private DialogueGraphData dialogueGraphData;
+        
+        [HideInInspector, SerializeField]
+        private FlowGraphData flowGraphData;
         
         public UObject Object => gameObject;
         
@@ -58,11 +62,6 @@ namespace Kurisu.NGDT
             _dialogueGraph?.Dispose();
         }
 
-        public CeresGraph GetGraph()
-        {
-            return GetDialogueGraph();
-        }
-
         /// <summary>
         /// Get or create dialogue graph instance from this component
         /// </summary>
@@ -89,11 +88,7 @@ namespace Kurisu.NGDT
             Asset = asset;
             PlayDialogue();
         }
-
-        /// <summary>
-        /// Create new dialogue graph from this component
-        /// </summary>
-        /// <returns></returns>
+        
         public DialogueGraph GetDialogueGraph()
         {
             if (Asset)
@@ -101,19 +96,27 @@ namespace Kurisu.NGDT
                 return Asset.GetDialogueGraph();
             }
             
-            graphData ??= new DialogueGraphData();
+            dialogueGraphData ??= new DialogueGraphData();
 #if UNITY_EDITOR
-            if (!graphData.IsValid())
+            if (!dialogueGraphData.IsValid())
             {
                 return new DialogueGraph(this);
             }
 #endif
-            return new DialogueGraph(graphData.CloneT<DialogueGraphData>());
+            return new DialogueGraph(dialogueGraphData.CloneT<DialogueGraphData>(), this);
         }
 
         public void SetGraphData(CeresGraphData graph)
         {
-            graphData = (DialogueGraphData)graph;
+            if(graph is DialogueGraphData dialogue)
+                dialogueGraphData = dialogue;
+            if (graph is FlowGraphData flow)
+                flowGraphData = flow;
+        }
+
+        public FlowGraph GetFlowGraph()
+        {
+            return new FlowGraph(flowGraphData.CloneT<FlowGraphData>());
         }
     }
 }

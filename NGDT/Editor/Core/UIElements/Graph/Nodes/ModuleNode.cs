@@ -36,7 +36,7 @@ namespace Kurisu.NGDT.Editor
             //Remove needless default actions .
             evt.menu.MenuItems().Clear();
             remainTargets.ForEach(evt.menu.MenuItems().Add);
-            MapGraphView.ContextualMenuRegistry.BuildContextualMenu(ContextualMenuType.Node, evt, GetBehavior());
+            GraphView.ContextualMenuRegistry.BuildContextualMenu(ContextualMenuType.Node, evt, GetBehavior());
         }
         protected override void OnGeometryChanged(GeometryChangedEvent evt)
         {

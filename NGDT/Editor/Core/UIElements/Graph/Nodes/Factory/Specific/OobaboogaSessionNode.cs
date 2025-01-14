@@ -25,13 +25,13 @@ namespace Kurisu.NGDT.Editor
         private void OnAttach(AttachToPanelEvent evt)
         {
             //The custom contextual menu builder will only activate when this editor node is attached
-            MapGraphView.ContextualMenuRegistry.Register<OobaboogaSessionNode>(new SessionContextualMenuBuilder(this));
+            GraphView.ContextualMenuRegistry.Register<OobaboogaSessionNode>(new SessionContextualMenuBuilder(this));
         }
 
         private void OnDetach(DetachFromPanelEvent evt)
         {
             //Do not forget to unregister after detach
-            MapGraphView.ContextualMenuRegistry.UnRegister<OobaboogaSessionNode>();
+            GraphView.ContextualMenuRegistry.UnRegister<OobaboogaSessionNode>();
         }
         internal async void LoadSession(Vector2 mousePosition)
         {
@@ -43,23 +43,23 @@ namespace Kurisu.NGDT.Editor
                 var session = JsonConvert.DeserializeObject<OobaboogaSession>(await File.ReadAllTextAsync(path));
                 var internalData = session.history.internalData;
                 //Add first piece
-                var position = MapGraphView.contentViewContainer.WorldToLocal(mousePosition) - new Vector2(400, 300);
-                var firstPiece = MapGraphView.CreateNode(new Piece(), position) as PieceContainer;
+                var position = GraphView.contentViewContainer.WorldToLocal(mousePosition) - new Vector2(400, 300);
+                var firstPiece = GraphView.CreateNode(new Piece(), position) as PieceContainer;
                 firstPiece.GenerateNewPieceID();
                 firstPiece.AddModuleNode(new ContentModule(internalData[0][1]));
                 ContainerNode last = firstPiece;
                 for (int i = 1; i < internalData.Length; ++i)
                 {
                     // Create option
-                    var node = MapGraphView.CreateNextContainer(last);
+                    var node = GraphView.CreateNextContainer(last);
                     // Link to piece
-                    MapGraphView.ConnectContainerNodes(last, node);
+                    GraphView.ConnectContainerNodes(last, node);
                     node.AddModuleNode(new ContentModule(internalData[i][0]));
                     last = node;
                     // Create next container
-                    node = MapGraphView.CreateNextContainer(last);
+                    node = GraphView.CreateNextContainer(last);
                     // Link to option
-                    MapGraphView.ConnectContainerNodes(last, node);
+                    GraphView.ConnectContainerNodes(last, node);
                     node.AddModuleNode(new ContentModule(internalData[i][1]));
                     last = node;
                 }
@@ -68,7 +68,7 @@ namespace Kurisu.NGDT.Editor
                     .AddModuleNode(new SystemPromptModule(session.context));
                 await Task.Delay(2);
                 //Auto layout
-                NodeAutoLayoutHelper.Layout(new DialogueTreeLayoutConvertor(MapGraphView, firstPiece));
+                NodeAutoLayoutHelper.Layout(new DialogueTreeLayoutConvertor(GraphView, firstPiece));
             }
             catch (Exception e)
             {

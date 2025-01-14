@@ -210,7 +210,7 @@ namespace Kurisu.NGDT.Editor
                             EditorUtility.SetDirty(_setting);
                             AssetDatabase.SaveAssets();
                             ShowNotification(new GUIContent("Data dropped succeed !"));
-                            graphView.DeserializeGraph((DialogueGraph)data.GetGraph(), new Vector3(400, 300));
+                            graphView.DeserializeGraph(data.GetDialogueGraph(), new Vector3(400, 300));
                         }
                     }
                     GUILayout.FlexibleSpace();

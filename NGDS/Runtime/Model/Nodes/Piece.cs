@@ -6,34 +6,47 @@ namespace Kurisu.NGDS
     public class Piece : Node, IContentModule, IDialogueModule
     {
         private static readonly ObjectPool<Piece> pool = new(() => new Piece(), (p) => p.IsPooled = true, (p) => p.Reset());
+        
         private const string DefaultID = "00";
-        public string PieceID { get; set; } = DefaultID;
+        
+        public string Name { get; set; } = string.Empty;
+        
+        public string ID { get; set; } = DefaultID;
+        
         public string[] Contents { get; set; } = EmptyContents;
-        private static readonly string[] EmptyContents = new string[0];
-        private readonly List<Option> options = new();
-        public IReadOnlyList<Option> Options => options;
+        
+        private static readonly string[] EmptyContents = Array.Empty<string>();
+        
+        private readonly List<Option> _options = new();
+        
+        public IReadOnlyList<Option> Options => _options;
+        
         private Piece Reset()
         {
             IsPooled = false;
-            PieceID = DefaultID;
+            ID = DefaultID;
             Contents = EmptyContents;
-            options.Clear();
+            _options.Clear();
             ClearModules();
             return this;
         }
+        
         public void AddOption(Option option)
         {
-            if (options.Contains(option)) return;
-            options.Add(option);
+            if (_options.Contains(option)) return;
+            _options.Add(option);
         }
+        
         public static Piece GetPooled()
         {
             return pool.Get();
         }
+        
         protected override void OnModuleAdd(IDialogueModule module)
         {
             if (module is Option option) AddOption(option);
         }
+        
         protected override void OnDispose()
         {
             if (IsPooled)

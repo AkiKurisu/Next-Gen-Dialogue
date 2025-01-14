@@ -137,7 +137,7 @@ namespace Kurisu.NGDT.Editor
         {
             var entryData = (CeresNodeSearchEntryData)searchTreeEntry.userData;
             var type = entryData.NodeType;
-            _node.SetBehavior(type);
+            _node.SetNodeType(type);
             return true;
         }
     }

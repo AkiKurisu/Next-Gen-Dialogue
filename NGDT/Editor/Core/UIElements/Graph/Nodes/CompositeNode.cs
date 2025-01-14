@@ -42,7 +42,7 @@ namespace Kurisu.NGDT.Editor
             outputContainer.Add(child);
         }
         
-        protected override void OnBehaviorSet()
+        protected override void OnPostSetNodeType()
         {
             NoValidate = GetBehavior().GetCustomAttribute(typeof(NoValidateAttribute), false) != null;
         }

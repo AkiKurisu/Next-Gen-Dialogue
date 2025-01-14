@@ -53,7 +53,7 @@ namespace Kurisu.NGDT.VITS.Editor
             }));
         }
         
-        protected override void OnBehaviorSet()
+        protected override void OnPostSetNodeType()
         {
             _audioClipField = ((SharedTObjectResolver<AudioClip>)GetFieldResolver("audioClip")).BaseField;
         }
@@ -84,7 +84,7 @@ namespace Kurisu.NGDT.VITS.Editor
             float startVal = (float)EditorApplication.timeSinceStartup;
             const float maxValue = 60.0f;
             
-            var ct = MapGraphView.GetCancellationTokenSource();
+            var ct = GraphView.GetCancellationTokenSource();
             VITSResponse response = default;
             var task = UniTask.Create(async () =>
             {
@@ -106,7 +106,7 @@ namespace Kurisu.NGDT.VITS.Editor
                 EditorUtility.DisplayProgressBar("Wait to bake audio", "Waiting for a few seconds", slider);
                 if (slider > 1)
                 {
-                    MapGraphView.EditorWindow.ShowNotification(new GUIContent($"Audio baking is out of time, please check your internet!"));
+                    GraphView.EditorWindow.ShowNotification(new GUIContent($"Audio baking is out of time, please check your internet!"));
                     ct.Cancel();
                     break;
                 }
@@ -121,7 +121,7 @@ namespace Kurisu.NGDT.VITS.Editor
             }
             else
             {
-                MapGraphView.EditorWindow.ShowNotification(new GUIContent($"Audio baked failed!"));
+                GraphView.EditorWindow.ShowNotification(new GUIContent($"Audio baked failed!"));
             }
             
             EditorUtility.ClearProgressBar();

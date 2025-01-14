@@ -21,7 +21,7 @@ namespace Kurisu.NGDT.Editor
             textField.style.whiteSpace = WhiteSpace.Normal;
             textField.AddToClassList("Multiline");
         }
-        protected override void OnBehaviorSet()
+        protected override void OnPostSetNodeType()
         {
             promptField = ((SharedTObjectResolver<TextAsset>)GetFieldResolver("prompt")).BaseField;
             promptField.RegisterValueChangedCallback(x => UpdateTextField());

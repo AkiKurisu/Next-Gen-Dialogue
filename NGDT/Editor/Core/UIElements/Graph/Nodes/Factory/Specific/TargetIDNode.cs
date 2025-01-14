@@ -41,7 +41,7 @@ namespace Kurisu.NGDT.Editor
             return pieceContainer != null;
         }
         
-        protected sealed override void OnBehaviorSet()
+        protected sealed override void OnPostSetNodeType()
         {
             _useReferenceField = ((BoolResolver)GetFieldResolver("useReference")).BaseField;
             _targetIDField = ((PieceIDResolver)GetFieldResolver("targetID")).BaseField;
@@ -53,11 +53,11 @@ namespace Kurisu.NGDT.Editor
         {
             // Connect after loaded
             await Task.Delay(1);
-            var node = MapGraphView.FindPiece(_targetIDField.value.Name);
+            var node = GraphView.FindPiece(_targetIDField.value.Name);
             if (node != null)
             {
                 var edge = PortHelper.ConnectPorts(_childPort, node.Parent);
-                MapGraphView.Add(edge);
+                GraphView.Add(edge);
             }
             OnToggle(_useReferenceField.value);
         }

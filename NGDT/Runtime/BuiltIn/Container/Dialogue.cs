@@ -26,7 +26,7 @@ namespace Kurisu.NGDT
             foreach (var piece in allPieces)
             {
                 var dialoguePiece = piece.EmitPiece();
-                _pieceMap[dialoguePiece.PieceID] = piece;
+                _pieceMap[dialoguePiece.ID] = piece;
                 //Assert PieceID should be unique
                 _dialogueCache.AddModule(dialoguePiece);
             }
@@ -67,7 +67,7 @@ namespace Kurisu.NGDT
                 _dialogueCache[id] = _pieceMap[id].EmitPiece();
             }
             var newPiece = _dialogueCache.GetPiece(id);
-            _visitedPieceID.Add(newPiece.PieceID);
+            _visitedPieceID.Add(newPiece.ID);
             _pieceMap[id].Update();
             return newPiece;
         }
@@ -81,8 +81,8 @@ namespace Kurisu.NGDT
             {
                 if (Children[i] is not Piece piece) continue;
                 var dialoguePiece = piece.EmitPiece();
-                _visitedPieceID.Add(dialoguePiece.PieceID);
-                var status = _pieceMap[dialoguePiece.PieceID].Update();
+                _visitedPieceID.Add(dialoguePiece.ID);
+                var status = _pieceMap[dialoguePiece.ID].Update();
                 if (status == Status.Success) return dialoguePiece;
             }
             return null;

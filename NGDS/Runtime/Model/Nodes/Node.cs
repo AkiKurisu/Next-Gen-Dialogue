@@ -10,8 +10,6 @@ namespace Kurisu.NGDS
         
         private readonly List<IDialogueModule> _modules = new();
         
-        public IReadOnlyList<IDialogueModule> Modules => _modules;
-        
         public void AddModule(IDialogueModule module)
         {
             _modules.Add(module);
@@ -54,6 +52,11 @@ namespace Kurisu.NGDS
                     inModules.Add(target);
                 }
             }
+        }
+
+        public IReadOnlyList<IDialogueModule> GetAllModules()
+        {
+            return _modules;
         }
 
         public async UniTask ProcessModules(IObjectResolver resolver)

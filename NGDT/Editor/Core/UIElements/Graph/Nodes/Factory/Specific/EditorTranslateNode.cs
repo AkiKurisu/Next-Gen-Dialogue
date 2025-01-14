@@ -26,13 +26,13 @@ namespace Kurisu.NGDT.Editor
         private void OnAttach(AttachToPanelEvent evt)
         {
             //The custom contextual menu builder will only activate when this editor node is attached
-            MapGraphView.ContextualMenuRegistry.Register<EditorTranslateNode>(new TranslateContextualMenuBuilder(this, CanTranslate));
+            GraphView.ContextualMenuRegistry.Register<EditorTranslateNode>(new TranslateContextualMenuBuilder(this, CanTranslate));
         }
 
         private void OnDetach(DetachFromPanelEvent evt)
         {
             //Do not forget to unregister after detach
-            MapGraphView.ContextualMenuRegistry.UnRegister<EditorTranslateNode>();
+            GraphView.ContextualMenuRegistry.UnRegister<EditorTranslateNode>();
         }
 
         public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
@@ -53,7 +53,7 @@ namespace Kurisu.NGDT.Editor
             IsPending = true;
             string sourceLanguageCode = this.GetFieldValue<string>("sourceLanguageCode");
             string targetLanguageCode = this.GetFieldValue<string>("targetLanguageCode");
-            var containerNodes = MapGraphView.nodes
+            var containerNodes = GraphView.nodes
                 .OfType<ContainerNode>()
                 .Where(x => x is not DialogueContainer)
                 .ToArray();
@@ -73,7 +73,7 @@ namespace Kurisu.NGDT.Editor
             }
             if (tasks.Count != 0)
                 await UniTask.WhenAll(tasks);
-            MapGraphView.EditorWindow.ShowNotification(new GUIContent("Translation Complete !"));
+            GraphView.EditorWindow.ShowNotification(new GUIContent("Translation Complete !"));
             IsPending = false;
             async UniTask TranslateContentsAsync(ContainerNode containerNode, ModuleNode moduleNode, CancellationToken ct)
             {
@@ -109,7 +109,7 @@ namespace Kurisu.NGDT.Editor
             }
             if (tasks.Count != 0)
                 await UniTask.WhenAll(tasks);
-            MapGraphView.EditorWindow.ShowNotification(new GUIContent("Translation Complete !"));
+            GraphView.EditorWindow.ShowNotification(new GUIContent("Translation Complete !"));
             IsPending = false;
             async UniTask TranslateContentsAsync(FieldInfo fieldInfo, CancellationToken ct)
             {

@@ -17,7 +17,7 @@ namespace Kurisu.NGDT.Editor
 
         public RootNode()
         {
-            SetBehavior(typeof(Root));
+            SetNodeType(typeof(Root), null);
             title = nameof(Root);
             Child = Port.Create<Edge>(Orientation.Horizontal, Direction.Output, Port.Capacity.Single, typeof(DialoguePort));
             Child.portName = "Child";
@@ -42,8 +42,8 @@ namespace Kurisu.NGDT.Editor
         protected override bool OnValidate(Stack<IDialogueNode> stack)
         {
             // Validate All Pieces and Dialogues
-            MapGraphView.CollectNodes<PieceContainer>().ForEach(stack.Push);
-            var allDialogues = MapGraphView.CollectNodes<DialogueContainer>();
+            GraphView.CollectNodes<PieceContainer>().ForEach(stack.Push);
+            var allDialogues = GraphView.CollectNodes<DialogueContainer>();
             allDialogues.ForEach(stack.Push);
             return true;
         }
@@ -66,7 +66,7 @@ namespace Kurisu.NGDT.Editor
             }
             
             // Commit all pieces
-            MapGraphView.CollectNodes<PieceContainer>()
+            GraphView.CollectNodes<PieceContainer>()
             .ForEach(x =>
             {
                 newRoot.AddChild(x.Compile());
@@ -74,7 +74,7 @@ namespace Kurisu.NGDT.Editor
             });
             
             // Commit left inactive dialogues
-            var allDialogues = MapGraphView.CollectNodes<DialogueContainer>();
+            var allDialogues = GraphView.CollectNodes<DialogueContainer>();
             if (child != null)
             {
                 allDialogues.Remove(child);
@@ -100,7 +100,7 @@ namespace Kurisu.NGDT.Editor
         {
             _cache?.ClearStyle();
             // Clear all dialogue piece
-            MapGraphView.CollectNodes<PieceContainer>().ForEach(x => x.ClearStyle());
+            GraphView.CollectNodes<PieceContainer>().ForEach(x => x.ClearStyle());
             if (Child.connected)
             {
                 // Clear child dialogue

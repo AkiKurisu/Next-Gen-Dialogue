@@ -46,7 +46,7 @@ namespace Kurisu.NGDT.Editor
             {
                 return default;
             }
-            return dialogueTreeNode.MapGraphView.GetSharedVariable<T>(sharedVariable.Name).Value;
+            return dialogueTreeNode.GraphView.GetSharedVariable<T>(sharedVariable.Name).Value;
         }
         
         public static T GetSharedVariable<T>(this IDialogueNode dialogueTreeNode, string fieldName) where T : SharedVariable

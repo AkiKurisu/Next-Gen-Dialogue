@@ -25,8 +25,8 @@ namespace Kurisu.NGDT.Editor
                 var lastSelections = JsonConvert.DeserializeObject<string[]>(lastSelection);
                 foreach (var selection in lastSelections)
                 {
-                    var node = MapGraphView.Query<Node>().ToList().OfType<IDialogueNode>().FirstOrDefault(x => x.Guid == selection);
-                    if (node != null) MapGraphView.AddToSelection(node.NodeElement);
+                    var node = GraphView.Query<Node>().ToList().OfType<IDialogueNode>().FirstOrDefault(x => x.Guid == selection);
+                    if (node != null) GraphView.AddToSelection(node.NodeElement);
                 }
             }
         }
@@ -34,12 +34,12 @@ namespace Kurisu.NGDT.Editor
         {
             autoGenerate.SetEnabled(false);
             SaveCurrentSelection();
-            await NovelBaker.AutoGenerateNovel(MapGraphView);
+            await NovelBaker.AutoGenerateNovel(GraphView);
             autoGenerate.SetEnabled(true);
         }
         private void SaveCurrentSelection()
         {
-            var containers = MapGraphView.selection.OfType<ContainerNode>();
+            var containers = GraphView.selection.OfType<ContainerNode>();
             lastSelection = JsonConvert.SerializeObject(containers.Select(x => x.Guid).ToArray());
             loadLast.SetEnabled(true);
         }

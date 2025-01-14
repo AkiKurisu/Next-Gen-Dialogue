@@ -14,7 +14,7 @@ namespace Kurisu.NGDT.Editor
     {
         Port Parent { get; }
         
-        DialogueGraphView MapGraphView { get; }
+        DialogueGraphView GraphView { get; }
         
         void Restore(NodeBehavior behavior);
         
@@ -24,7 +24,7 @@ namespace Kurisu.NGDT.Editor
         
         Type GetBehavior();
         
-        void SetBehavior(Type nodeBehavior, DialogueGraphView ownerGraphView = null);
+        void SetNodeType(Type nodeType, DialogueGraphView ownerGraphView = null);
         
         void CopyFrom(IDialogueNode copyNode);
         
@@ -57,7 +57,7 @@ namespace Kurisu.NGDT.Editor
 
         private readonly List<FieldInfo> _fieldInfos = new();
         
-        public DialogueGraphView MapGraphView { get; private set; }
+        public DialogueGraphView GraphView { get; private set; }
         
         //Setting
         private VisualElement _settings;
@@ -258,13 +258,13 @@ namespace Kurisu.NGDT.Editor
 
         protected abstract bool OnValidate(Stack<IDialogueNode> stack);
         
-        public void SetBehavior(Type nodeBehavior, DialogueGraphView ownerGraphView = null)
+        public void SetNodeType(Type nodeType, DialogueGraphView ownerGraphView)
         {
             if (ownerGraphView != null)
             {
-                MapGraphView = ownerGraphView;
+                GraphView = ownerGraphView;
             }
-            //Clean up
+            // Clean up
             if (_dirtyNodeBehaviorType != null)
             {
                 _dirtyNodeBehaviorType = null;
@@ -273,32 +273,33 @@ namespace Kurisu.NGDT.Editor
                 _resolvers.Clear();
                 _fieldInfos.Clear();
             }
-            _dirtyNodeBehaviorType = nodeBehavior ?? throw new ArgumentNullException(nameof(nodeBehavior));
+            _dirtyNodeBehaviorType = nodeType ?? throw new ArgumentNullException(nameof(nodeType));
 
-            var defaultValue = Activator.CreateInstance(nodeBehavior) as NodeBehavior;
+            var defaultValue = Activator.CreateInstance(nodeType) as NodeBehavior;
             bool haveSetting = false;
-            nodeBehavior.GetGraphEditorPropertyFields()
+            nodeType.GetGraphEditorPropertyFields()
                 .ForEach((p) =>
                 {
                     var fieldResolver = _fieldResolverFactory.Create(p);
                     fieldResolver.Restore(defaultValue);
                     if (p.GetCustomAttribute<SettingAttribute>() != null)
                     {
-                        SettingsContainer.Add(fieldResolver.GetField(MapGraphView));
+                        SettingsContainer.Add(fieldResolver.GetField(GraphView));
                         haveSetting = true;
                     }
                     else
                     {
-                        _fieldContainer.Add(fieldResolver.GetField(MapGraphView));
+                        _fieldContainer.Add(fieldResolver.GetField(GraphView));
                     }
                     _resolvers.Add(fieldResolver);
                     _fieldInfos.Add(p);
                 });
-            title = CeresLabel.GetLabel(nodeBehavior);
+            title = CeresLabel.GetLabel(nodeType);
             if (!haveSetting) SettingButton.visible = false;
-            OnBehaviorSet();
+            OnPostSetNodeType();
         }
-        protected virtual void OnBehaviorSet() { }
+        
+        protected virtual void OnPostSetNodeType() { }
 
         private void MarkAsExecuted(Status status)
         {
@@ -329,9 +330,9 @@ namespace Kurisu.NGDT.Editor
         {
             evt.menu.MenuItems().Add(new CeresDropdownMenuAction("Duplicate", (a) =>
             {
-                MapGraphView.DuplicateNode(this);
+                GraphView.DuplicateNode(this);
             }));
-            MapGraphView.ContextualMenuRegistry.BuildContextualMenu(ContextualMenuType.Node, evt, GetBehavior());
+            GraphView.ContextualMenuRegistry.BuildContextualMenu(ContextualMenuType.Node, evt, GetBehavior());
         }
         
         public virtual Rect GetWorldPosition()

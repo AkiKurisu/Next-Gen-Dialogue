@@ -79,7 +79,7 @@ namespace Kurisu.NGDT.Editor
         
         private readonly List<FieldInfo> _fieldInfos = new();
 
-        public DialogueGraphView MapGraphView { get; private set; }
+        public DialogueGraphView GraphView { get; private set; }
         
         VisualElement ILayoutNode.View => this;
         
@@ -125,7 +125,7 @@ namespace Kurisu.NGDT.Editor
                 x =>
                 {
                     //Copy child module
-                    var newNode = _copyMap[x.GetHashCode()] = MapGraphView.DuplicateNode(x) as ModuleNode;
+                    var newNode = _copyMap[x.GetHashCode()] = GraphView.DuplicateNode(x) as ModuleNode;
                     AddElement(newNode);
                 }
             );
@@ -203,9 +203,9 @@ namespace Kurisu.NGDT.Editor
             return valid;
         }
         
-        public void SetBehavior(Type nodeBehavior, DialogueGraphView ownerGraphView = null)
+        public void SetNodeType(Type nodeType, DialogueGraphView ownerGraphView)
         {
-            if (ownerGraphView != null) MapGraphView = ownerGraphView;
+            if (ownerGraphView != null) GraphView = ownerGraphView;
             if (_dirtyNodeBehaviorType != null)
             {
                 _dirtyNodeBehaviorType = null;
@@ -213,18 +213,18 @@ namespace Kurisu.NGDT.Editor
                 _resolvers.Clear();
                 _fieldInfos.Clear();
             }
-            _dirtyNodeBehaviorType = nodeBehavior;
+            _dirtyNodeBehaviorType = nodeType;
 
-            var defaultValue = (NodeBehavior)Activator.CreateInstance(nodeBehavior);
-            nodeBehavior.GetGraphEditorPropertyFields().ForEach((p) =>
+            var defaultValue = (NodeBehavior)Activator.CreateInstance(nodeType);
+            nodeType.GetGraphEditorPropertyFields().ForEach((p) =>
                 {
                     var fieldResolver = _fieldResolverFactory.Create(p);
                     fieldResolver.Restore(defaultValue);
-                    _fieldContainer.Add(fieldResolver.GetField(MapGraphView));
+                    _fieldContainer.Add(fieldResolver.GetField(GraphView));
                     _resolvers.Add(fieldResolver);
                     _fieldInfos.Add(p);
                 });
-            _titleLabel.text = CeresLabel.GetLabel(nodeBehavior);
+            _titleLabel.text = CeresLabel.GetLabel(nodeType);
         }
         
         private void MarkAsExecuted(Status status)
@@ -259,7 +259,7 @@ namespace Kurisu.NGDT.Editor
             evt.menu.MenuItems().Add(new CeresDropdownMenuAction("Add Module", (a) =>
             {
                 var provider = ScriptableObject.CreateInstance<ModuleSearchWindowProvider>();
-                provider.Init(this, MapGraphView, NextGenDialogueSettings.GetNodeSearchContext(), GetExceptModuleTypes());
+                provider.Init(this, GraphView, NextGenDialogueSettings.GetNodeSearchContext(), GetExceptModuleTypes());
                 SearchWindow.Open(new SearchWindowContext(a.eventInfo.localMousePosition), provider);
             }));
         }
@@ -300,9 +300,9 @@ namespace Kurisu.NGDT.Editor
         public ModuleNode AddModuleNode<T>(T module) where T : Module, new()
         {
             var type = typeof(T);
-            var moduleNode = DialogueNodeFactory.Get().Create(type, MapGraphView) as ModuleNode;
+            var moduleNode = DialogueNodeFactory.Get().Create(type, GraphView) as ModuleNode;
             moduleNode!.Restore(module);
-            MapGraphView.AddNodeView(moduleNode);
+            GraphView.AddNodeView(moduleNode);
             AddElement(moduleNode);
             return moduleNode;
         }
@@ -311,9 +311,9 @@ namespace Kurisu.NGDT.Editor
         {
             evt.menu.MenuItems().Add(new CeresDropdownMenuAction("Duplicate", (a) =>
             {
-                MapGraphView.DuplicateNode(this);
+                GraphView.DuplicateNode(this);
             }));
-            MapGraphView.ContextualMenuRegistry.BuildContextualMenu(ContextualMenuType.Node, evt, GetBehavior());
+            GraphView.ContextualMenuRegistry.BuildContextualMenu(ContextualMenuType.Node, evt, GetBehavior());
         }
         
         public Rect GetWorldPosition()
@@ -354,7 +354,7 @@ namespace Kurisu.NGDT.Editor
             base.OnSeparatorContextualMenuEvent(evt, separatorIndex);
             evt.menu.MenuItems().Add(new CeresDropdownMenuAction("Add Piece", (a) =>
             {
-                var bridge = new PieceBridge(MapGraphView, PortColor, string.Empty);
+                var bridge = new PieceBridge(GraphView, PortColor, string.Empty);
                 AddElement(bridge);
             }));
         }
@@ -392,17 +392,17 @@ namespace Kurisu.NGDT.Editor
         {
             evt.menu.MenuItems().Add(new CeresDropdownMenuAction("Collect All Pieces", (a) =>
             {
-                var pieces = MapGraphView.CollectNodes<PieceContainer>();
+                var pieces = GraphView.CollectNodes<PieceContainer>();
                 var currentPieces = this.Query<PieceBridge>().ToList();
                 var addPieces = pieces.Where(x => !currentPieces.Any(p => !string.IsNullOrEmpty(p.PieceID) && p.PieceID == x.GetPieceID()));
                 foreach (var piece in addPieces)
                 {
-                    AddElement(new PieceBridge(MapGraphView, PortColor, piece.GetPieceID()));
+                    AddElement(new PieceBridge(GraphView, PortColor, piece.GetPieceID()));
                 }
             }));
             evt.menu.MenuItems().Add(new CeresDropdownMenuAction("Auto Layout", (a) =>
             {
-                NodeAutoLayoutHelper.Layout(new DialogueTreeLayoutConvertor(MapGraphView, this));
+                NodeAutoLayoutHelper.Layout(new DialogueTreeLayoutConvertor(GraphView, this));
             }));
             base.BuildContextualMenu(evt);
         }
@@ -442,7 +442,7 @@ namespace Kurisu.NGDT.Editor
 
         private void OnDetachFromPanel(DetachFromPanelEvent evt)
         {
-            MapGraphView.Blackboard.RemoveVariable(mainContainer.Q<PieceIDField>().BindVariable, true);
+            GraphView.Blackboard.RemoveVariable(mainContainer.Q<PieceIDField>().BindVariable, true);
         }
 
         protected override void OnSeparatorContextualMenuEvent(ContextualMenuPopulateEvent evt, int separatorIndex)
@@ -458,17 +458,17 @@ namespace Kurisu.NGDT.Editor
         {
             evt.menu.MenuItems().Add(new CeresDropdownMenuAction("Edit PieceID", (a) =>
             {
-                MapGraphView.Blackboard.EditVariable(GetPieceID());
+                GraphView.Blackboard.EditVariable(GetPieceID());
             }));
             evt.menu.MenuItems().Add(new CeresDropdownMenuAction("Auto Layout", (a) =>
             {
-                NodeAutoLayoutHelper.Layout(new DialogueTreeLayoutConvertor(MapGraphView, this));
+                NodeAutoLayoutHelper.Layout(new DialogueTreeLayoutConvertor(GraphView, this));
             }));
             if (Application.isPlaying)
             {
                 evt.menu.MenuItems().Add(new CeresDropdownMenuAction("Jump to this Piece", (a) =>
                 {
-                    DialogueSystem.Get().PlayDialoguePiece(GetPiece().CastPiece().PieceID);
+                    DialogueSystem.Get().PlayDialoguePiece(GetPiece().CastPiece().ID);
                 },
                 _ =>
                 {
@@ -476,7 +476,7 @@ namespace Kurisu.NGDT.Editor
                     if (!ds.IsPlaying) return DropdownMenuAction.Status.Disabled;
                     // Whether is the container of this piece
                     var piece = GetPiece().CastPiece();
-                    if (ds.GetCurrentDialogue()?.GetPiece(piece.PieceID) != piece) return DropdownMenuAction.Status.Disabled;
+                    if (ds.GetCurrentDialogue()?.GetPiece(piece.ID) != piece) return DropdownMenuAction.Status.Disabled;
                     return DropdownMenuAction.Status.Normal;
                 }));
             }
@@ -507,7 +507,7 @@ namespace Kurisu.NGDT.Editor
         public void GenerateNewPieceID()
         {
             var variable = new PieceID() { Name = "New Piece" };
-            MapGraphView.Blackboard.AddVariable(variable, false);
+            GraphView.Blackboard.AddVariable(variable, false);
             mainContainer.Q<PieceIDField>().value = new PieceID() { Name = variable.Name };
         }
         
@@ -533,7 +533,7 @@ namespace Kurisu.NGDT.Editor
         {
             evt.menu.MenuItems().Add(new CeresDropdownMenuAction("Auto Layout", (a) =>
             {
-                NodeAutoLayoutHelper.Layout(new DialogueTreeLayoutConvertor(MapGraphView, this));
+                NodeAutoLayoutHelper.Layout(new DialogueTreeLayoutConvertor(GraphView, this));
             }));
             base.BuildContextualMenu(evt);
         }

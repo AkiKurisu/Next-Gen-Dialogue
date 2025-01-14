@@ -21,11 +21,7 @@ namespace Kurisu.NGDS
         
         public Piece GetPiece(string id)
         {
-            if (_dialoguePieceMap.TryGetValue(id, out var piece))
-            {
-                return piece;
-            }
-            return null;
+            return _dialoguePieceMap.GetValueOrDefault(id);
         }
         
         private Dialogue Reset()
@@ -40,13 +36,9 @@ namespace Kurisu.NGDS
         public void AddPiece(Piece piece)
         {
             _dialoguePieces.Add(piece);
-            if (_dialoguePieceMap.ContainsKey(piece.PieceID))
+            if (!_dialoguePieceMap.TryAdd(piece.ID, piece))
             {
-                Debug.LogWarning($"Dialogue already contain Piece with PieceID {piece.PieceID} !");
-            }
-            else
-            {
-                _dialoguePieceMap.Add(piece.PieceID, piece);
+                Debug.LogWarning($"Dialogue already contain Piece with PieceID {piece.ID} !");
             }
         }
         

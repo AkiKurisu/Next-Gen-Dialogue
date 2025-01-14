@@ -6,6 +6,10 @@ namespace Kurisu.NGDT
     /// </summary>
     public interface IDialogueGraphContainer : ICeresGraphContainer
     {
-
+        /// <summary>
+        /// Get dialogue graph instance
+        /// </summary>
+        /// <returns></returns>
+        DialogueGraph GetDialogueGraph();
     }
 }

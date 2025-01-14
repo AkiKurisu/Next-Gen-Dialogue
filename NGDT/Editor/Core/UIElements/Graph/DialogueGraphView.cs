@@ -33,7 +33,7 @@ namespace Kurisu.NGDT.Editor
         public DialogueGraphView(CeresGraphEditorWindow editorWindow) : base(editorWindow)
         {
             DialogueGraphContainer = (IDialogueGraphContainer)editorWindow.Container;
-            Instance = (DialogueGraph)DialogueGraphContainer.GetGraph();
+            Instance = DialogueGraphContainer.GetDialogueGraph();
             styleSheets.Add(NextGenDialogueSettings.GetGraphStyle());
             AddBlackboard(new DialogueBlackboard(this));
             Add(_infoContainer = new CeresInfoContainer(InfoText));
@@ -141,7 +141,7 @@ namespace Kurisu.NGDT.Editor
                 if (gameObject.TryGetComponent(out IDialogueGraphContainer tree))
                 {
                     EditorWindow.ShowNotification(new GUIContent("GameObject Dropped Succeed"));
-                    DeserializeGraph((DialogueGraph)tree.GetGraph(), mousePosition);
+                    DeserializeGraph(tree.GetDialogueGraph(), mousePosition);
                     return;
                 }
                 EditorWindow.ShowNotification(new GUIContent("Invalid Drag GameObject!"));
@@ -161,7 +161,7 @@ namespace Kurisu.NGDT.Editor
                 return;
             }
             EditorWindow.ShowNotification(new GUIContent("Data Dropped Succeed"));
-            DeserializeGraph((DialogueGraph)container.GetGraph(), mousePosition);
+            DeserializeGraph(container.GetDialogueGraph(), mousePosition);
         }
         
         public void DeserializeGraph(DialogueGraph graph, Vector2 mousePosition)

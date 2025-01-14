@@ -37,7 +37,8 @@ namespace Kurisu.NGDT
         public NGDS.Piece EmitPiece()
         {
             _pieceCache = NGDS.Piece.GetPooled();
-            _pieceCache.PieceID = pieceID.Value;
+            _pieceCache.ID = pieceID.Value;
+            _pieceCache.Name = pieceID.Name;
             return _pieceCache;
         }
         
