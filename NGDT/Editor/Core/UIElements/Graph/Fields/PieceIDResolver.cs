@@ -49,7 +49,7 @@ namespace Kurisu.NGDT.Editor
             _graphView = graph;
             _graphView.Blackboard.RegisterCallback<VariableChangeEvent>(evt =>
             {
-                if (evt.ChangeType != VariableChangeType.NameChange) return;
+                if (evt.ChangeType != VariableChangeType.Name) return;
                 if (evt.Variable != BindVariable) return;
                 UpdateID(evt.Variable);
             });
