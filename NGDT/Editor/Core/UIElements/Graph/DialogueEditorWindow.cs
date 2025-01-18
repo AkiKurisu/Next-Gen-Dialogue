@@ -56,29 +56,28 @@ namespace Kurisu.NGDT.Editor
             Show(asset);
         }
 
-        public static void Show(IDialogueGraphContainer graphContainer)
-        {
-            var window = GetOrCreateEditorWindow(graphContainer);
-            window.Show();
-            window.Focus();
-        }
-
         protected override void OnInitialize()
         {
-            DisplayProgressBar("Initialize field factory",0f);
+            try
             {
-                FieldResolverFactory.Get();
+                DisplayProgressBar("Initialize field factory", 0f);
+                {
+                    FieldResolverFactory.Get();
+                }
+                DisplayProgressBar("Initialize node view factory", 0.3f);
+                {
+                    DialogueNodeFactory.Get();
+                }
+                DisplayProgressBar("Construct graph view", 0.6f);
+                {
+                    StructGraphView();
+                    titleContent = new GUIContent($"NGDT ({Identifier.boundObject.name})");
+                }
             }
-            DisplayProgressBar("Initialize node view factory",0.3f);
+            finally
             {
-                DialogueNodeFactory.Get();
+                ClearProgressBar();
             }
-            DisplayProgressBar("Construct graph view", 0.6f);
-            {
-                StructGraphView();
-                titleContent = new GUIContent($"NGDT ({Identifier.boundObject.name})");
-            }
-            ClearProgressBar();
         }
         
         private static void DisplayProgressBar(string stepTitle, float progress)

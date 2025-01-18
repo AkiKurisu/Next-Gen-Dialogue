@@ -17,10 +17,8 @@ namespace Kurisu.NGDT.Editor
         {
             if (GraphView.DialogueGraphContainer is not IFlowGraphContainer flowGraphContainer) return;
             
-            var window = FlowGraphEditorWindow.EditorWindowRegistry.GetOrCreateEditorWindow(flowGraphContainer);
+            var window = FlowGraphEditorWindow.Show(flowGraphContainer);
             window.SetContainerType(typeof(NextGenDialogueComponent));
-            window.Show();
-            window.Focus();
             var graphView = window.GetGraphView(); 
             var container = GetFirstAncestorOfType<PieceContainer>();
             if (container == null) return;
