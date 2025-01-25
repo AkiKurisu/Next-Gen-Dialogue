@@ -12,8 +12,9 @@
   ],
   "category": "Visual Scripting",
   "dependencies": {
-    "com.kurisu.chris": "1.2.1",
-    "com.kurisu.ceres": "0.1.1",
+    "com.kurisu.chris": "1.2.2",
+    "com.kurisu.chris-modules": "1.2.2",
+    "com.kurisu.ceres": "0.1.5",
     "com.unity.nuget.newtonsoft-json": "3.2.1"
   },
   "author": {
