@@ -106,7 +106,7 @@ namespace Kurisu.NGDT.Editor
             return new NodeSearchContext()
             {
                 ShowGroups = editorSetting.showGroups,
-                HideGroups = editorSetting.notShowGroups.Concat(new[]{ NodeGroup.Hidden }).ToArray()
+                HideGroups = editorSetting.notShowGroups.Concat(new[]{ CeresGroup.Hidden }).ToArray()
             };
         }
         

@@ -3,7 +3,6 @@ using System.Linq;
 using System.Reflection;
 using Ceres;
 using Ceres.Editor.Graph;
-using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -101,7 +100,7 @@ namespace Kurisu.NGDT.Editor
                         onUpdate();
                     })
                     {
-                        text = "Delate",
+                        text = "Delete",
                         style =
                         {
                             width = Length.Percent(10f),

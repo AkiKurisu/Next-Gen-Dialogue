@@ -62,7 +62,7 @@ namespace Kurisu.NGDT
 #if UNITY_EDITOR
         internal DialogueGraph(NextGenDialogueGraphAsset asset)
         {
-            LogWarning($"Dialogue graph asset {asset.name} version is outdated, please re-save asset before build.");
+            CeresAPI.LogWarning($"Dialogue graph asset {asset.name} version is outdated, please re-save asset before build.");
             variables = new List<SharedVariable>();
             foreach (var variable in asset.sharedVariables)
             {
@@ -78,7 +78,7 @@ namespace Kurisu.NGDT
         
         internal DialogueGraph(NextGenDialogueComponent component)
         {
-            LogWarning($"Dialogue graph component {component.name} version is outdated, please re-save component before build.");
+            CeresAPI.LogWarning($"Dialogue graph component {component.name} version is outdated, please re-save component before build.");
             variables = new List<SharedVariable>();
             foreach (var variable in component.sharedVariables)
             {
