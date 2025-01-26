@@ -16,7 +16,7 @@ namespace Kurisu.NGDT.VITS.Editor
             {
                 if (GUILayout.Button("Use Editor Setting"))
                 {
-                    settingProperty.objectReferenceValue = NextGenDialogueSettings.GetOrCreateSettings().AITurboSetting;
+                    settingProperty.objectReferenceValue = NextGenDialogueSettings.Get().AITurboSetting;
                 }
             }
             EditorGUILayout.PropertyField(serializedObject.FindProperty("audioSource"), new GUIContent("VITS Audio Source"));

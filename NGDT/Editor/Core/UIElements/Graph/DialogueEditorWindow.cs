@@ -5,7 +5,6 @@ using UnityEngine.UIElements;
 using System.Linq;
 using System.IO;
 using Ceres.Editor.Graph;
-using Ceres.Editor.Graph.Flow;
 using UnityEditor.Callbacks;
 namespace Kurisu.NGDT.Editor
 {
@@ -25,7 +24,7 @@ namespace Kurisu.NGDT.Editor
         {
             get
             {
-                if (!_setting) _setting = NextGenDialogueSettings.GetOrCreateSettings();
+                if (!_setting) _setting = NextGenDialogueSettings.Get();
                 return _setting;
             }
         }
@@ -66,7 +65,7 @@ namespace Kurisu.NGDT.Editor
                 }
                 DisplayProgressBar("Initialize node view factory", 0.3f);
                 {
-                    DialogueNodeFactory.Get();
+                    NodeViewFactory.Get();
                 }
                 DisplayProgressBar("Construct graph view", 0.6f);
                 {
@@ -306,7 +305,7 @@ namespace Kurisu.NGDT.Editor
             }
         }
         
-        private void OnNodeSelectionChange(IDialogueNode node)
+        private void OnNodeSelectionChange(IDialogueNodeView node)
         {
             _bakeGenerateText = TryBake(out var content) ? content : null;
         }

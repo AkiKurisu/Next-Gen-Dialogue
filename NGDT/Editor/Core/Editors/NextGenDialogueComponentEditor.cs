@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEditor.UIElements;
 using System.Linq;
+using Ceres.Editor.Graph;
 using UEditor = UnityEditor.Editor;
 namespace Kurisu.NGDT.Editor
 {
@@ -62,7 +63,7 @@ namespace Kurisu.NGDT.Editor
             };
             var component = (NextGenDialogueComponent)Target;
             myInspector.Add(label);
-            myInspector.styleSheets.Add(NextGenDialogueSettings.GetInspectorStyle());
+            myInspector.styleSheets.Add(CeresGraphView.GetOrLoadStyleSheet(NextGenDialogueSettings.InspectorStylePath));
             var assetField = new PropertyField(serializedObject.FindProperty("externalAsset"), "External Asset");
             myInspector.Add(assetField);
             
@@ -113,7 +114,7 @@ namespace Kurisu.NGDT.Editor
                 }
             };
             myInspector.Add(label);
-            myInspector.styleSheets.Add(NextGenDialogueSettings.GetInspectorStyle());
+            myInspector.styleSheets.Add(CeresGraphView.GetOrLoadStyleSheet(NextGenDialogueSettings.InspectorStylePath));
             myInspector.Add(new Label("Description"));
             var description = new TextField(string.Empty)
             {

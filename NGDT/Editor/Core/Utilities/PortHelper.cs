@@ -17,7 +17,7 @@ namespace Kurisu.NGDT.Editor
             return tempEdge;
         }
         
-        public static IDialogueNode FindChildNode(Port port)
+        public static IDialogueNodeView FindChildNode(Port port)
         {
             if (port.childCount == 0) return null;
             var child = port.connections.FirstOrDefault()?.input?.node;

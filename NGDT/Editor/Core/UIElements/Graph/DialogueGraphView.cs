@@ -15,14 +15,13 @@ namespace Kurisu.NGDT.Editor
 {
     public class DialogueGraphView : CeresGraphView
     {
-        public DialogueGraph Instance { get; }
-        
+        private readonly DialogueGraph _graphInstance;
         public IDialogueGraphContainer DialogueGraphContainer { get; }
 
         private RootNode _root;
         
         // ReSharper disable once InconsistentNaming
-        internal Action<IDialogueNode> OnSelectNode;
+        internal Action<IDialogueNodeView> OnSelectNode;
         
         private readonly NodeConvertor _converter = new();
         
@@ -33,8 +32,8 @@ namespace Kurisu.NGDT.Editor
         public DialogueGraphView(CeresGraphEditorWindow editorWindow) : base(editorWindow)
         {
             DialogueGraphContainer = (IDialogueGraphContainer)editorWindow.Container;
-            Instance = DialogueGraphContainer.GetDialogueGraph();
-            styleSheets.Add(NextGenDialogueSettings.GetGraphStyle());
+            _graphInstance = DialogueGraphContainer.GetDialogueGraph();
+            styleSheets.Add(GetOrLoadStyleSheet(NextGenDialogueSettings.GraphStylePath));
             AddBlackboard(new DialogueBlackboard(this));
             Add(_infoContainer = new CeresInfoContainer(InfoText));
             AddSearchWindow<DialogueNodeSearchWindow>();
@@ -78,9 +77,9 @@ namespace Kurisu.NGDT.Editor
             }
         }
         
-        public IDialogueNode DuplicateNode(IDialogueNode node)
+        public IDialogueNodeView DuplicateNode(IDialogueNodeView node)
         {
-            var newNode = DialogueNodeFactory.Get().Create(node.GetBehavior(), this);
+            var newNode = (IDialogueNodeView)NodeViewFactory.Get().CreateInstance(node.GetBehavior(), this);
             if (newNode is PieceContainer pieceContainer)
             {
                 pieceContainer.GenerateNewPieceID();
@@ -96,12 +95,12 @@ namespace Kurisu.NGDT.Editor
 
         public override void AddNodeView(ICeresNodeView nodeView)
         {
-            var dialogueNode = (IDialogueNode)nodeView;
+            var dialogueNode = (IDialogueNodeView)nodeView;
             base.AddNodeView(dialogueNode);
             nodeView.NodeElement.RegisterCallback<MouseDownEvent>(_ => OnNodeClick(dialogueNode));
         }
         
-        private void OnNodeClick(IDialogueNode nodeView)
+        private void OnNodeClick(IDialogueNodeView nodeView)
         {
             _infoContainer.DisplayNodeInfo(nodeView.GetBehavior());
             OnSelectNode(nodeView);
@@ -183,21 +182,21 @@ namespace Kurisu.NGDT.Editor
         public void Restore()
         {
             // Add default dialogue
-            if (Instance.Root == null)
+            if (_graphInstance.Root == null)
             {
-                Instance.nodes.Add(new Root());
+                _graphInstance.nodes.Add(new Root());
             }
-            if (Instance.Root!.Child == null)
+            if (_graphInstance.Root!.Child == null)
             {
-                Instance.Root.Child = new Dialogue();
-                var pos = Instance.Root.NodeData.graphPosition;
+                _graphInstance.Root.Child = new Dialogue();
+                var pos = _graphInstance.Root.NodeData.graphPosition;
                 pos.x += 200;
-                Instance.Root.Child.NodeData.graphPosition = pos;
+                _graphInstance.Root.Child.NodeData.graphPosition = pos;
             }
-            AddSharedVariables(Instance.variables,true);
-            _root = _converter.ConvertToNode(Instance, this, Vector2.zero);
+            AddSharedVariables(_graphInstance.variables,true);
+            _root = _converter.ConvertToNode(_graphInstance, this, Vector2.zero);
             // Restore node groups
-            NodeGroupHandler.RestoreGroups(Instance.nodeGroups);
+            NodeGroupHandler.RestoreGroups(_graphInstance.nodeGroups);
         }
 
         public bool Save()
@@ -213,7 +212,7 @@ namespace Kurisu.NGDT.Editor
         public bool Validate()
         {
             // validate nodes by DFS.
-            var stack = new Stack<IDialogueNode>();
+            var stack = new Stack<IDialogueNodeView>();
             stack.Push(_root);
             while (stack.Count > 0)
             {
@@ -229,7 +228,7 @@ namespace Kurisu.NGDT.Editor
         public void Commit(IDialogueGraphContainer container)
         {
             Undo.RecordObject(container.Object, "Commit dialogue graph change");
-            var stack = new Stack<IDialogueNode>();
+            var stack = new Stack<IDialogueNodeView>();
             var graph = new DialogueGraph();
             
             // Commit node instances
@@ -264,7 +263,7 @@ namespace Kurisu.NGDT.Editor
 
         public string SerializeGraph()
         {
-            return Instance.GetData().ToJson(true);
+            return _graphInstance.GetData().ToJson(true);
         }
         
         public bool DeserializeGraph(string serializedData, Vector3 mousePosition)

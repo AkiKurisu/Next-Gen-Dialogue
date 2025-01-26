@@ -13,7 +13,7 @@ namespace Kurisu.NGDT.Editor
         
         private readonly Dictionary<Port, Port> portCopyDict;
         
-        private readonly Dictionary<IDialogueNode, IDialogueNode> nodeCopyDict;
+        private readonly Dictionary<IDialogueNodeView, IDialogueNodeView> nodeCopyDict;
         
         private readonly List<GraphElement> sourceElements;
         
@@ -24,7 +24,7 @@ namespace Kurisu.NGDT.Editor
             this.sourceElements = sourceElements;
             copyElements = new List<ISelectable>();
             portCopyDict = new Dictionary<Port, Port>();
-            nodeCopyDict = new Dictionary<IDialogueNode, IDialogueNode>();
+            nodeCopyDict = new Dictionary<IDialogueNodeView, IDialogueNodeView>();
             sourceEdges = sourceElements.OfType<Edge>().ToHashSet();
             DistinctNodes();
             CopyNodes();
@@ -51,7 +51,7 @@ namespace Kurisu.NGDT.Editor
         
         private void CopyNodes()
         {
-            foreach (var selectNode in sourceElements.OfType<IDialogueNode>())
+            foreach (var selectNode in sourceElements.OfType<IDialogueNodeView>())
             {
                 var node = sourceView.DuplicateNode(selectNode);
                 copyElements.Add(node as Node);
@@ -60,7 +60,7 @@ namespace Kurisu.NGDT.Editor
             }
         }
         
-        private void CopyPort(IDialogueNode sourceNode, IDialogueNode pasteNode)
+        private void CopyPort(IDialogueNodeView sourceNode, IDialogueNodeView pasteNode)
         {
             var behaviorType = sourceNode.GetBehavior();
             if (behaviorType.IsSubclassOf(typeof(Container)))
@@ -141,7 +141,7 @@ namespace Kurisu.NGDT.Editor
         {
             foreach (var selectBlock in sourceElements.OfType<DialogueNodeGroup>())
             {
-                var nodes = selectBlock.containedElements.Cast<IDialogueNode>();
+                var nodes = selectBlock.containedElements.Cast<IDialogueNodeView>();
                 Rect newRect = selectBlock.GetPosition();
                 newRect.position += new Vector2(50, 50);
                 var block = sourceView.NodeGroupHandler.CreateGroup(newRect);

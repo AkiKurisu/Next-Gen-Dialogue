@@ -1,3 +1,4 @@
+using System;
 using Ceres.Editor;
 using Ceres.Editor.Graph;
 using Kurisu.NGDT.Editor;
@@ -7,42 +8,50 @@ namespace Kurisu.NGDT.VITS.Editor
     [CustomNodeView(typeof(VITSEditorModule))]
     public class VITSEditorModuleNode : EditorModuleNode
     {
-        private readonly Button generateAll;
-        private Toggle skipContainedAudioClip;
-        private Toggle skipSharedAudioClip;
-        public VITSEditorModuleNode()
+        private readonly Button _generateAll;
+        
+        private Toggle _skipContainedAudioClip;
+        
+        private Toggle _skipSharedAudioClip;
+        
+        public VITSEditorModuleNode(Type type, CeresGraphView graphView): base(type, graphView)
         {
             mainContainer.Add(new Button(AttachAllPieces) { text = "Attach VITS Module to All Pieces" });
             mainContainer.Add(new Button(AttachAllOptions) { text = "Attach VITS Module to All Options" });
-            mainContainer.Add(generateAll = new Button(GenerateAll) { text = "Generate All", tooltip = "Generate all VITS Modules with no audio baked" });
+            mainContainer.Add(_generateAll = new Button(GenerateAll) { text = "Generate All", tooltip = "Generate all VITS Modules with no audio baked" });
         }
-        protected override void OnPostSetNodeType()
+        
+        protected override void Initialize(Type nodeType, DialogueGraphView graphView)
         {
-            skipContainedAudioClip = ((BoolResolver)GetFieldResolver("skipContainedAudioClip")).BaseField;
-            skipSharedAudioClip = ((BoolResolver)GetFieldResolver("skipSharedAudioClip")).BaseField;
+            base.Initialize(nodeType, graphView);
+            _skipContainedAudioClip = ((BoolResolver)GetFieldResolver("skipContainedAudioClip")).BaseField;
+            _skipSharedAudioClip = ((BoolResolver)GetFieldResolver("skipSharedAudioClip")).BaseField;
         }
+        
         private void AttachAllPieces()
         {
-            GraphView.CollectNodes<PieceContainer>().ForEach(x => x.AddModuleNode(new VITSModule()));
+            Graph.CollectNodes<PieceContainer>().ForEach(x => x.AddModuleNode(new VITSModule()));
         }
+        
         private void AttachAllOptions()
         {
-            GraphView.CollectNodes<OptionContainer>().ForEach(x => x.AddModuleNode(new VITSModule()));
+            Graph.CollectNodes<OptionContainer>().ForEach(x => x.AddModuleNode(new VITSModule()));
         }
+        
         private async void GenerateAll()
         {
-            generateAll.SetEnabled(false);
-            foreach (var container in GraphView.CollectNodes<ContainerNode>())
+            _generateAll.SetEnabled(false);
+            foreach (var container in Graph.CollectNodes<ContainerNode>())
             {
                 if (container.TryGetModuleNode<VITSModule>(out var node))
                 {
-                    var vitsModule = node as VITSModuleNode;
-                    if (skipContainedAudioClip.value && vitsModule.ContainsAudioClip()) continue;
-                    if (skipSharedAudioClip.value && vitsModule.IsSharedMode()) continue;
+                    var vitsModule = (VITSModuleNode)node;
+                    if (_skipContainedAudioClip.value && vitsModule.ContainsAudioClip()) continue;
+                    if (_skipSharedAudioClip.value && vitsModule.IsSharedMode()) continue;
                     if (!await vitsModule.BakeAudio()) break;
                 }
             }
-            generateAll.SetEnabled(true);
+            _generateAll.SetEnabled(true);
         }
     }
 }

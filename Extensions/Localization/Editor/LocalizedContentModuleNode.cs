@@ -1,3 +1,4 @@
+using System;
 using Ceres;
 using Ceres.Editor;
 using Ceres.Editor.Graph;
@@ -12,13 +13,18 @@ namespace Kurisu.NGDT.Localization.Editor
     {
         private LocalizedStringEditorField _editorField;
         
+        public LocalizedContentModuleNode(Type type, CeresGraphView graphView) : base(type, graphView)
+        {
+        }
+        
         protected override void OnRestore()
         {
             UpdateEditor();
         }
         
-        protected override void OnPostSetNodeType()
+        protected override void Initialize(Type nodeType, DialogueGraphView graphView)
         {
+            base.Initialize(nodeType, graphView);
             var tableEntryField = (GetFieldResolver("tableEntry") as FieldResolver<SharedStringResolver.SharedStringField, SharedString>)?.BaseField;
             var stringEntryField = (GetFieldResolver("stringEntry") as FieldResolver<SharedStringResolver.SharedStringField, SharedString>)?.BaseField;
             tableEntryField.RegisterValueChangedCallback(x => UpdateEditor());
@@ -48,7 +54,7 @@ namespace Kurisu.NGDT.Localization.Editor
                 var tables = collection.Tables;
                 for (int i = 0; i < tables.Count; i++)
                 {
-                    var table = tables[i].asset as StringTable;
+                    var table = (StringTable)tables[i].asset;
                     table.SharedData.GetId(stringEntry, true);
                 }
             }));

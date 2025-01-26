@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -27,9 +26,9 @@ namespace Kurisu.NGDT.Editor
         /// <param name="position"></param>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        public static IDialogueNode CreateNode<T>(this DialogueGraphView graphView, Vector2 position) where T : NodeBehavior
+        public static IDialogueNodeView CreateNode<T>(this DialogueGraphView graphView, Vector2 position) where T : NodeBehavior
         {
-            var node = DialogueNodeFactory.Get().Create(typeof(T), graphView);
+            var node = (IDialogueNodeView)NodeViewFactory.Get().CreateInstance(typeof(T), graphView);
             graphView.AddNodeView(node, new Rect(0, 0, position.x, position.y));
             return node;
         }
@@ -42,22 +41,24 @@ namespace Kurisu.NGDT.Editor
         /// <param name="position"></param>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        public static IDialogueNode CreateNode<T>(this DialogueGraphView graphView, T behavior, Vector2 position) where T : NodeBehavior
+        public static IDialogueNodeView CreateNode<T>(this DialogueGraphView graphView, T behavior, Vector2 position) where T : NodeBehavior
         {
-            var node = DialogueNodeFactory.Get().Create(typeof(T), graphView);
+            var node = (IDialogueNodeView)NodeViewFactory.Get().CreateInstance(typeof(T), graphView);
             node.Restore(behavior);
             graphView.AddNodeView(node, new Rect(0, 0, position.x, position.y));
             return node;
         }
+        
         public static ContainerNode CreateNextContainer(this DialogueGraphView graphView, ContainerNode first)
         {
-            Type nextNodeType = first is PieceContainer ? typeof(Option) : typeof(Piece);
-            var node = DialogueNodeFactory.Get().Create(nextNodeType, graphView) as ContainerNode;
+            var nextNodeType = first is PieceContainer ? typeof(Option) : typeof(Piece);
+            var node = (ContainerNode)NodeViewFactory.Get().CreateInstance(nextNodeType, graphView);
             var rect = first.GetPosition();
             rect.x += rect.width + 300;
             graphView.AddNodeView(node, rect);
             return node;
         }
+        
         /// <summary>
         /// Get cancellation token source attached to tree view for preventing threads from running in the background
         /// when tree view is already detached
@@ -67,9 +68,10 @@ namespace Kurisu.NGDT.Editor
         public static CancellationTokenSource GetCancellationTokenSource(this DialogueGraphView graphView)
         {
             var ct = new CancellationTokenSource();
-            graphView.RegisterCallback<DetachFromPanelEvent>((evt) => ct.Cancel());
+            graphView.RegisterCallback<DetachFromPanelEvent>(_ => ct.Cancel());
             return ct;
         }
+        
         public static void ConnectContainerNodes(this DialogueGraphView graphView, ContainerNode first, ContainerNode second)
         {
             if (first is PieceContainer pieceContainer)

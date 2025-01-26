@@ -18,6 +18,11 @@ namespace Kurisu.NGDT.VITS.Editor
         private AudioPreviewField _audioPreviewField;
         
         private bool _isBaking;
+
+        public VITSModuleNode(Type type, CeresGraphView graphView) : base(type, graphView)
+        {
+        }
+        
         public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
         {
             base.BuildContextualMenu(evt);
@@ -33,28 +38,21 @@ namespace Kurisu.NGDT.VITS.Editor
             {
                 _audioClipField.value.Value = null;
                 _audioClipField.Repaint();
-            }, _ =>
-            {
-                if (ContainsAudioClip()) return DropdownMenuAction.Status.Normal;
-                return DropdownMenuAction.Status.Disabled;
-            }));
+            }, _ => ContainsAudioClip() ? DropdownMenuAction.Status.Normal : DropdownMenuAction.Status.Disabled));
             evt.menu.MenuItems().Add(new CeresDropdownMenuAction("Delete Audio", (a) =>
            {
-               if (EditorUtility.DisplayDialog("Warning", $"Delete audioClip {_audioClipField.value.Value.name}? This operation cannot be undone.", "Delate", "Cancel"))
+               if (EditorUtility.DisplayDialog("Warning", $"Delete audioClip {_audioClipField.value.Value.name}? This operation cannot be undone.", "Delete", "Cancel"))
                {
                    AssetDatabase.DeleteAsset(AssetDatabase.GetAssetPath(_audioClipField.value.Value));
                    _audioClipField.value.Value = null;
                    _audioClipField.Repaint();
                }
-           }, _ =>
-            {
-                if (ContainsAudioClip()) return DropdownMenuAction.Status.Normal;
-                return DropdownMenuAction.Status.Disabled;
-            }));
+           }, _ => ContainsAudioClip() ? DropdownMenuAction.Status.Normal : DropdownMenuAction.Status.Disabled));
         }
         
-        protected override void OnPostSetNodeType()
+        protected override void Initialize(Type nodeType, DialogueGraphView graphView)
         {
+            base.Initialize(nodeType, graphView);
             _audioClipField = ((SharedTObjectResolver<AudioClip>)GetFieldResolver("audioClip")).BaseField;
         }
         
@@ -75,7 +73,7 @@ namespace Kurisu.NGDT.VITS.Editor
             int index = Array.IndexOf(parentNode.GetModuleNodes<VITSModule>(), this);
             var contentModule = parentNode.GetModuleNode<ContentModule>(index);
             string content = contentModule.GetSharedStringValue("content");
-            var turboSetting = NextGenDialogueSettings.GetOrCreateSettings().AITurboSetting;
+            var turboSetting = NextGenDialogueSettings.Get().AITurboSetting;
             var vitsTurbo = new VITSTurbo(turboSetting)
             {
                 Translator = LLMFactory.CreateTranslator(turboSetting.TranslatorType, turboSetting, turboSetting.LLM_Language, turboSetting.VITS_Language)
@@ -84,7 +82,7 @@ namespace Kurisu.NGDT.VITS.Editor
             float startVal = (float)EditorApplication.timeSinceStartup;
             const float maxValue = 60.0f;
             
-            var ct = GraphView.GetCancellationTokenSource();
+            var ct = Graph.GetCancellationTokenSource();
             VITSResponse response = default;
             var task = UniTask.Create(async () =>
             {
@@ -106,7 +104,7 @@ namespace Kurisu.NGDT.VITS.Editor
                 EditorUtility.DisplayProgressBar("Wait to bake audio", "Waiting for a few seconds", slider);
                 if (slider > 1)
                 {
-                    GraphView.EditorWindow.ShowNotification(new GUIContent($"Audio baking is out of time, please check your internet!"));
+                    Graph.EditorWindow.ShowNotification(new GUIContent($"Audio baking is out of time, please check your internet!"));
                     ct.Cancel();
                     break;
                 }
@@ -121,7 +119,7 @@ namespace Kurisu.NGDT.VITS.Editor
             }
             else
             {
-                GraphView.EditorWindow.ShowNotification(new GUIContent($"Audio baked failed!"));
+                Graph.EditorWindow.ShowNotification(new GUIContent($"Audio baked failed!"));
             }
             
             EditorUtility.ClearProgressBar();
@@ -144,8 +142,7 @@ namespace Kurisu.NGDT.VITS.Editor
         
         public bool IsSharedMode()
         {
-            if (_audioClipField == null) return false;
-            return _audioClipField.value.IsShared;
+            return _audioClipField != null && _audioClipField.value.IsShared;
         }
     }
 }

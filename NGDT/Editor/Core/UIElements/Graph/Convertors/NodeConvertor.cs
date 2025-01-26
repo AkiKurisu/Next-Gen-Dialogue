@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Ceres.Editor.Graph;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 namespace Kurisu.NGDT.Editor
@@ -7,7 +8,7 @@ namespace Kurisu.NGDT.Editor
     {
         private interface IParentAdapter
         {
-            void Connect(DialogueGraphView graphView, IDialogueNode nodeToConnect);
+            void Connect(DialogueGraphView graphView, IDialogueNodeView nodeToConnect);
         }
         
         private class PortAdapter : IParentAdapter
@@ -19,7 +20,7 @@ namespace Kurisu.NGDT.Editor
                 _port = port;
             }
             
-            public void Connect(DialogueGraphView graphView, IDialogueNode nodeToConnect)
+            public void Connect(DialogueGraphView graphView, IDialogueNodeView nodeToConnect)
             {
                 var edge = PortHelper.ConnectPorts(_port, nodeToConnect.Parent);
                 graphView.Add(edge);
@@ -35,7 +36,7 @@ namespace Kurisu.NGDT.Editor
                 _container = container;
             }
             
-            public void Connect(DialogueGraphView graphView, IDialogueNode nodeToConnect)
+            public void Connect(DialogueGraphView graphView, IDialogueNodeView nodeToConnect)
             {
                 if (nodeToConnect is ModuleNode moduleNode)
                     _container.AddElement(moduleNode);
@@ -60,7 +61,7 @@ namespace Kurisu.NGDT.Editor
         public RootNode ConvertToNode(DialogueGraph graph, DialogueGraphView graphView, Vector2 initPos)
         {
             var stack = new Stack<EdgePair>();
-            var alreadyCreateNodes = new Dictionary<NodeBehavior, IDialogueNode>();
+            var alreadyCreateNodes = new Dictionary<NodeBehavior, IDialogueNodeView>();
             RootNode root = null;
             stack.Push(new EdgePair(graph.Root, null));
             while (stack.Count > 0)
@@ -78,7 +79,7 @@ namespace Kurisu.NGDT.Editor
                     continue;
                 }
                 
-                nodeView = DialogueNodeFactory.Get().Create(edgePair.NodeBehavior.GetType(), graphView);
+                nodeView = (IDialogueNodeView)NodeViewFactory.Get().CreateInstance(edgePair.NodeBehavior.GetType(), graphView);
                 nodeView.Restore(edgePair.NodeBehavior);
                 graphView.AddNodeView(nodeView);
                 var rect = edgePair.NodeBehavior.NodeData.graphPosition;
