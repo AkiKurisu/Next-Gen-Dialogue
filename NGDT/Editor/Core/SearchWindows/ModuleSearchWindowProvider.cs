@@ -43,7 +43,7 @@ namespace Kurisu.NGDT.Editor
                                     return validTypes.Length != 0 && validTypes.Any(attribute => attribute.ContainerType == _containerType);
                                 })
                                 .ToList();
-            var list = subClasses.GroupsByNodeGroup().ToList(); ;
+            var list = subClasses.GroupByFirstGroup().ToList(); ;
             var nodeTypes = subClasses.Except(list.SelectMany(x => x)).ToList();
             var groups = list.SelectGroup(_context.ShowGroups).ExceptGroup(_context.HideGroups).ToList();
             var builder = new CeresNodeSearchEntryBuilder(_indentationIcon);
