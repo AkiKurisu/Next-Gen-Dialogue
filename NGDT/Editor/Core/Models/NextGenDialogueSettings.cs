@@ -15,11 +15,11 @@ namespace Kurisu.NGDT.Editor
         [Serializable]
         public class GraphEditorSetting
         {
-            [NodeGroupSelector(typeof(NodeBehavior))]
+            [CeresGroupSelector(typeof(NodeBehavior))]
             [Tooltip("Display type, filter NodeGroup according to this list, nodes without category will always be displayed")]
             public string[] showGroups = Array.Empty<string>();
         
-            [NodeGroupSelector(typeof(NodeBehavior))]
+            [CeresGroupSelector(typeof(NodeBehavior))]
             [Tooltip("The type that is not displayed, filter NodeGroup according to this list, and the nodes without categories will always be displayed")]
             public string[] notShowGroups = Array.Empty<string>();
         }
