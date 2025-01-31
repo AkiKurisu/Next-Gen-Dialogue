@@ -35,7 +35,7 @@ namespace Kurisu.NGDT.Editor
             }
             graphView.ClearSelection();
             graphView.AddToSelection(eventNodeView.NodeElement);
-            graphView.FrameSelection();
+            graphView.schedule.Execute(() => graphView.FrameSelection()).ExecuteLater(10);
         }
     }
 }
