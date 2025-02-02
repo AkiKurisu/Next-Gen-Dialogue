@@ -69,6 +69,7 @@ Using git URL to download package by Unity PackageManager ```https://github.com/
 ```json
 "dependencies": {
   "com.kurisu.chris": "1.2.2",
+  "com.kurisu.chris-modules": "1.2.2",
   "com.kurisu.ceres": "0.2.0",
   "com.unity.nuget.newtonsoft-json": "3.2.1"
 }
