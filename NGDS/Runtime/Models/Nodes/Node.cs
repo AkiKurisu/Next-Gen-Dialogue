@@ -6,7 +6,7 @@ namespace Kurisu.NGDS
 {
     public abstract class Node : IDisposable
     {
-        protected internal bool IsPooled { get; set; }
+        protected bool IsPooled { get; set; }
         
         public List<IDialogueModule> Modules { get; } = new();
         

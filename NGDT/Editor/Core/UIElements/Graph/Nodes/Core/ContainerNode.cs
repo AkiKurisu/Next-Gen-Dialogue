@@ -179,8 +179,8 @@ namespace Kurisu.NGDT.Editor
             var bridges = contentContainer.Query<ChildBridge>().ToList();
             // Manually commit bridge node
             // Do not duplicate commit dialogue piece
-            bridges.ForEach(x => x.Commit(NodeBehavior as Container, stack));
-            _resolvers.ForEach(r => r.Commit(NodeBehavior));
+            bridges.ForEach(bridge => bridge.Commit((Container)NodeBehavior, stack));
+            _resolvers.ForEach(resolver => resolver.Commit(NodeBehavior));
             NodeBehavior.NodeData.description = _description.value;
             NodeBehavior.NodeData.graphPosition = GetPosition();
             NodeBehavior.NotifyEditor = MarkAsExecuted;
@@ -519,6 +519,12 @@ namespace Kurisu.NGDT.Editor
                 return !define.AllowMulti;
             });
         }
+
+        public OptionContainer[] GetConnectedOptionContainers()
+        {
+            var bridges = contentContainer.Query<ChildBridge>().ToList();
+            return bridges.Select(bridge => PortHelper.FindChildNode(bridge.Child)).OfType<OptionContainer>().ToArray();
+        }
     }
     
     [CustomNodeView(typeof(Option))]
@@ -544,13 +550,10 @@ namespace Kurisu.NGDT.Editor
         
         protected override bool AcceptsElement(GraphElement element, ref int proposedIndex, int maxIndex)
         {
-            if (element is ModuleNode moduleNode)
-            {
-                var behaviorType = moduleNode.GetBehavior();
-                if (behaviorType.GetCustomAttributes<ModuleOfAttribute>().All(x => x.ContainerType != typeof(Option))) return false;
-                return !TryGetModuleNode(behaviorType, out _);
-            }
-            return element is ParentBridge;
+            if (element is not ModuleNode moduleNode) return element is ParentBridge;
+            var behaviorType = moduleNode.GetBehavior();
+            if (behaviorType.GetCustomAttributes<ModuleOfAttribute>().All(x => x.ContainerType != typeof(Option))) return false;
+            return !TryGetModuleNode(behaviorType, out _);
         }
         
         protected override IEnumerable<Type> GetExceptModuleTypes()
@@ -560,6 +563,11 @@ namespace Kurisu.NGDT.Editor
                 var define = x.GetCustomAttributes<ModuleOfAttribute>().First(attribute => attribute.ContainerType == typeof(Option));
                 return !define.AllowMulti;
             });
+        }
+
+        public PieceContainer GetConnectedPieceContainer()
+        {
+            return PortHelper.FindParentNode(Parent) as PieceContainer;
         }
     }
 }

@@ -14,12 +14,19 @@ namespace Kurisu.NGDT
         
         protected override Status OnUpdate()
         {
+            int optionIndex = 0;
             Builder.StartWriteNode(_pieceCache);
             for (var i = 0; i < Children.Count; i++)
             {
                 var target = Children[i];
+                if (target is Option option)
+                {
+                    option.OptionIndex = optionIndex++;
+                    option.Update();
+                    continue;
+                }
                 var childStatus = target.Update();
-                if (childStatus == Status.Success || target is Option)
+                if (childStatus == Status.Success)
                 {
                     continue;
                 }

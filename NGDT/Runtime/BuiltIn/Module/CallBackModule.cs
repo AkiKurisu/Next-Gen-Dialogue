@@ -1,6 +1,9 @@
+using System;
 using Ceres.Annotations;
 namespace Kurisu.NGDT
 {
+    [Serializable]
+    [CeresLabel("Callback")]
     [NodeInfo("Module: CallBack Module is used to add callBack for dialogue option")]
     [ModuleOf(typeof(Option))]
     public class CallBackModule : BehaviorModule

@@ -1,7 +1,10 @@
+using System;
 using Ceres.Annotations;
 namespace Kurisu.NGDT
 {
-    [NodeInfo("Module: PreUpdate Module is used to add action for dialogue container or dialogue piece when being generated.")]
+    [Serializable]
+    [CeresLabel("PreUpdate")]
+    [NodeInfo("Module: PreUpdate is used to add action for dialogue container or dialogue piece when being generated.")]
     [ModuleOf(typeof(Dialogue))]
     [ModuleOf(typeof(Piece))]
     public class PreUpdateModule : BehaviorModule

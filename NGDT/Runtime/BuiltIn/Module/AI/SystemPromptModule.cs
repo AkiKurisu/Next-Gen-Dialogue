@@ -1,5 +1,4 @@
 using System;
-using Ceres;
 using Ceres.Annotations;
 using Ceres.Graph;
 using Kurisu.NGDS;
@@ -7,7 +6,8 @@ using UnityEngine;
 namespace Kurisu.NGDT
 {
     [Serializable]
-    [NodeInfo("Module: Prompt Module is used to set up AI dialogue system prompt.")]
+    [CeresLabel("System Prompt")]
+    [NodeInfo("Module: System Prompt is used to set up AI dialogue system prompt.")]
     [CeresGroup("AIGC")]
     [ModuleOf(typeof(Dialogue))]
     public class SystemPromptModule : CustomModule

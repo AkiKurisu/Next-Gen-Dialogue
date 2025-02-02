@@ -4,6 +4,7 @@ using UnityEngine;
 namespace Kurisu.NGDT
 {
     [Serializable]
+    [CeresLabel("AI Baker")]
     [NodeInfo("Editor Module: Use AI dialogue baker in Editor, should be added to last select node that needs to generate dialogue.")]
     [CeresGroup("Editor/AIGC")]
     [ModuleOf(typeof(Piece))]

@@ -4,13 +4,16 @@ namespace Kurisu.NGDT
     [NodeInfo("Option is the container of user option")]
     public class Option : Container
     {
+        internal int OptionIndex { get; set; }
+        
         protected override Status OnUpdate()
         {
-            Builder.StartWriteNode(NGDS.Option.GetPooled());
-            for (var i = 0; i < Children.Count; i++)
+            var node = NGDS.Option.GetPooled();
+            node.Index = OptionIndex;
+            Builder.StartWriteNode(node);
+            foreach (var childNode in Children)
             {
-                var target = Children[i];
-                var childStatus = target.Update();
+                var childStatus = childNode.Update();
                 if (childStatus == Status.Success)
                 {
                     continue;

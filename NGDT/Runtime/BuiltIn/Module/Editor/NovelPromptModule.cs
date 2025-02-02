@@ -5,7 +5,8 @@ using UnityEngine;
 namespace Kurisu.NGDT
 {
     [Serializable]
-    [NodeInfo("Editor Module: Novel Prompt Module is used to set up novel prompt.")]
+    [CeresLabel("Novel Prompt")]
+    [NodeInfo("Editor Module: Novel Prompt is used to set up novel prompt.")]
     [CeresGroup("Editor/AIGC")]
     [ModuleOf(typeof(Dialogue))]
     public class NovelPromptModule : EditorModule

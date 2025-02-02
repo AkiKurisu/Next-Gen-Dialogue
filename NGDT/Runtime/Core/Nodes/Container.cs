@@ -10,7 +10,7 @@ namespace Kurisu.NGDT
         [SerializeReference]
         private List<DialogueNode> children = new();
         
-        protected IDialogueBuilder Builder { get; private set; }
+        protected DialogueBuilder Builder { get; private set; }
         
         public List<DialogueNode> Children => children;
 
@@ -18,9 +18,9 @@ namespace Kurisu.NGDT
         {
             Builder = Graph.Builder;
             OnAwake();
-            for (int i = 0; i < children.Count; i++)
+            foreach (var childNode in children)
             {
-                children[i].Awake();
+                childNode.Awake();
             }
         }
 
@@ -31,9 +31,9 @@ namespace Kurisu.NGDT
         public sealed override void Start()
         {
             OnStart();
-            for (int i = 0; i < children.Count; i++)
+            foreach (var childNode in children)
             {
-                children[i].Start();
+                childNode.Start();
             }
         }
         
@@ -48,7 +48,7 @@ namespace Kurisu.NGDT
 
         public sealed override void AddChild(CeresNode child)
         {
-            children.Add(child as DialogueNode);
+            children.Add((DialogueNode)child);
         }
         
         public sealed override CeresNode GetChildAt(int index)

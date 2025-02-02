@@ -6,6 +6,8 @@ using Ceres.Graph.Flow;
 using Kurisu.NGDS;
 using UnityEngine;
 using UnityEngine.Assertions;
+using UnityEngine.Pool;
+
 namespace Kurisu.NGDT
 {
     [Serializable]
@@ -70,7 +72,7 @@ namespace Kurisu.NGDT
         
         private DialogueBuilder _builder;
 
-        public IDialogueBuilder Builder 
+        public DialogueBuilder Builder 
         {
             get
             {
@@ -141,44 +143,68 @@ namespace Kurisu.NGDT
             // use clone to prevent modify source tree
             return new DialogueGraphData(this).CloneT<DialogueGraphData>();
         }
+    }
+    
+    public class DialogueBuilder
+    {
+        private readonly Stack<Node> _nodesBuffer = new();
         
-        private class DialogueBuilder : IDialogueBuilder
+        public void StartWriteNode(Node node)
         {
-            private readonly Stack<Node> _nodesBuffer = new();
-            
-            public void StartWriteNode(Node node)
+            _nodesBuffer.Push(node);
+        }
+        
+        public void DisposeWriteNode()
+        {
+            _nodesBuffer.Pop().Dispose();
+        }
+        
+        public Node GetNode()
+        {
+            return _nodesBuffer.Peek();
+        }
+
+        public TNode GetFirstAncestorOfType<TNode>() where TNode : Node
+        {
+            TNode result = null;
+            using (ListPool<Node>.Get(out var list))
             {
-                _nodesBuffer.Push(node);
-            }
-            
-            public void DisposeWriteNode()
-            {
-                _nodesBuffer.Pop().Dispose();
-            }
-            
-            public Node GetNode()
-            {
-                return _nodesBuffer.Peek();
-            }
-            
-            public void EndWriteNode()
-            {
-                var node = _nodesBuffer.Pop();
-                if (_nodesBuffer.TryPeek(out var parentNode) && node is IDialogueModule module)
+                while (_nodesBuffer.TryPop(out var node))
                 {
-                    parentNode.AddModule(module);
+                    list.Add(node);
+                    if (node is TNode tNode)
+                    {
+                        result = tNode;
+                        break;
+                    }
+                }
+
+                for (int i = list.Count - 1; i >= 0; i--)
+                {
+                    _nodesBuffer.Push(list[i]);
                 }
             }
             
-            public void Clear()
+            return result;
+        }
+        
+        public void EndWriteNode()
+        {
+            var node = _nodesBuffer.Pop();
+            if (_nodesBuffer.TryPeek(out var parentNode) && node is IDialogueModule module)
             {
-                _nodesBuffer.Clear();
+                parentNode.AddModule(module);
             }
-            
-            public void EndBuildDialogue(IDialogueLookup dialogue)
-            {
-                DialogueSystem.Get().StartDialogue(dialogue);
-            }
+        }
+        
+        public void Clear()
+        {
+            _nodesBuffer.Clear();
+        }
+        
+        public void EndBuildDialogue(IDialogueLookup dialogue)
+        {
+            DialogueSystem.Get().StartDialogue(dialogue);
         }
     }
 }

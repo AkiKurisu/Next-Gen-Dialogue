@@ -4,7 +4,8 @@ using UnityEngine;
 namespace Kurisu.NGDT
 {
     [Serializable]
-    [NodeInfo("Editor Module: Use Google Translate to translate all valid contents.")]
+    [CeresLabel("Editor Translator")]
+    [NodeInfo("Editor Module: Use Google Translator to translate all valid contents.")]
     [CeresGroup("Editor")]
     [ModuleOf(typeof(Dialogue))]
     public class EditorTranslateModule : EditorModule

@@ -22,20 +22,48 @@ namespace Kurisu.NGDT.Editor
             var window = FlowGraphEditorWindow.Show(flowGraphContainer);
             window.SetContainerType(typeof(NextGenDialogueComponent));
             var graphView = window.GetGraphView(); 
-            var container = GetFirstAncestorOfType<PieceContainer>();
-            if (container == null) return;
-            var eventNodeView =  graphView.NodeViews
-                .OfType<ExecutionEventNodeView>()
-                .FirstOrDefault(x => x.GetEventName() == $"Flow_{container.GetPieceID()}");
-            if (eventNodeView == null)
+            
+            /* Container is Piece */
+            var parentPiece = GetFirstAncestorOfType<PieceContainer>();
+            if (parentPiece != null)
             {
-                eventNodeView = new ExecutionEventNodeView(typeof(ExecutionEvent), graphView);
-                graphView.AddNodeView(eventNodeView);
-                eventNodeView.SetEventName( $"Flow_{container.GetPieceID()}");
+                var eventNodeView = graphView.NodeViews
+                    .OfType<ExecutionEventNodeView>()
+                    .FirstOrDefault(x => x.GetEventName() == $"Flow_{parentPiece.GetPieceID()}");
+                if (eventNodeView == null)
+                {
+                    eventNodeView = new ExecutionEventNodeView(typeof(ExecutionEvent), graphView);
+                    graphView.AddNodeView(eventNodeView);
+                    eventNodeView.SetEventName($"Flow_{parentPiece.GetPieceID()}");
+                }
+
+                graphView.ClearSelection();
+                graphView.AddToSelection(eventNodeView.NodeElement);
+                graphView.schedule.Execute(() => graphView.FrameSelection()).ExecuteLater(10);
             }
-            graphView.ClearSelection();
-            graphView.AddToSelection(eventNodeView.NodeElement);
-            graphView.schedule.Execute(() => graphView.FrameSelection()).ExecuteLater(10);
+            
+            /* Container is Option */
+            var parentOption = GetFirstAncestorOfType<OptionContainer>();
+            if (parentOption != null)
+            {
+                parentPiece = parentOption.GetConnectedPieceContainer();
+                var options = parentPiece.GetConnectedOptionContainers();
+                int index = Array.IndexOf(options, parentOption);
+                string eventName = $"Flow_{parentPiece.GetPieceID()}_Option{index}";
+                var eventNodeView = graphView.NodeViews
+                    .OfType<ExecutionEventNodeView>()
+                    .FirstOrDefault(x => x.GetEventName() == eventName);
+                if (eventNodeView == null)
+                {
+                    eventNodeView = new ExecutionEventNodeView(typeof(ExecutionEvent), graphView);
+                    graphView.AddNodeView(eventNodeView);
+                    eventNodeView.SetEventName(eventName);
+                }
+
+                graphView.ClearSelection();
+                graphView.AddToSelection(eventNodeView.NodeElement);
+                graphView.schedule.Execute(() => graphView.FrameSelection()).ExecuteLater(10);
+            }
         }
     }
 }

@@ -5,7 +5,8 @@ using UnityEngine;
 namespace Kurisu.NGDT
 {
     [Serializable]
-    [NodeInfo("Module: Next Piece Module is used to play target dialogue piece automatically" +
+    [CeresLabel("Next Piece")]
+    [NodeInfo("Module: Next Piece is used to play target dialogue piece automatically" +
     " when parent piece is completed and have no option.")]
     [ModuleOf(typeof(Piece))]
     public class NextPieceModule : CustomModule

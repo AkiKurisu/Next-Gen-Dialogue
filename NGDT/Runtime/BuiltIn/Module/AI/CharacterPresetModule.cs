@@ -1,5 +1,4 @@
 using System;
-using Ceres;
 using Ceres.Annotations;
 using Ceres.Graph;
 using Kurisu.NGDS;
@@ -8,7 +7,8 @@ using UnityEngine;
 namespace Kurisu.NGDT
 {
     [Serializable]
-    [NodeInfo("Module: Character Preset Module is used to set up AI prompt, used for chat dialogue.")]
+    [CeresLabel("Character Preset")]
+    [NodeInfo("Module: Character Preset is used to set up AI prompt, used for chat dialogue.")]
     [CeresGroup("AIGC")]
     [ModuleOf(typeof(Dialogue))]
     public class CharacterPresetModule : CustomModule

@@ -4,7 +4,9 @@ namespace Kurisu.NGDS
 {
     public class Option : Node, IContentModule, IDialogueModule
     {
-        private static readonly ObjectPool<Option> Pool = new(() => new Option(), (o) => o.IsPooled = true, (o) => o.Reset());
+        private static readonly ObjectPool<Option> Pool = new(() => new Option(), o => o.IsPooled = true, (o) => o.Reset());
+        
+        public int Index { get; set; }
         
         public string Content { get; set; } = string.Empty;
         
@@ -44,10 +46,7 @@ namespace Kurisu.NGDS
         
         public void SetContents(List<string> contents)
         {
-            if (contents.Count > 0)
-                Content = contents[0];
-            else
-                Content = string.Empty;
+            Content = contents.Count > 0 ? contents[0] : string.Empty;
         }
     }
 }

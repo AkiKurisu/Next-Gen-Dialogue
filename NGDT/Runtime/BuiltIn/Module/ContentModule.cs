@@ -6,7 +6,8 @@ using UnityEngine;
 namespace Kurisu.NGDT
 {
     [Serializable]
-    [NodeInfo("Module: Content Module is used to modify dialogue content such as piece and option.")]
+    [CeresLabel("Content")]
+    [NodeInfo("Module: Content is used to modify piece and option context.")]
     [ModuleOf(typeof(Piece), true)]
     [ModuleOf(typeof(Option))]
     public class ContentModule : CustomModule

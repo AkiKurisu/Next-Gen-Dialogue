@@ -21,12 +21,26 @@ namespace Kurisu.NGDT.Editor
         {
             if (port.childCount == 0) return null;
             var child = port.connections.FirstOrDefault()?.input?.node;
-            if (child == null) return null;
-            if (child is DialogueNode node)
+            if (child is IDialogueNodeView nodeView)
             {
-                return node;
+                return nodeView;
             }
             if (child is ParentBridge bridge)
+            {
+                return bridge.GetFirstAncestorOfType<ContainerNode>();
+            }
+            return null;
+        }
+        
+        public static IDialogueNodeView FindParentNode(Port port)
+        {
+            if (port.childCount == 0) return null;
+            var parent = port.connections.FirstOrDefault()?.output?.node;
+            if (parent is IDialogueNodeView nodeView)
+            {
+                return nodeView;
+            }
+            if (parent is ChildBridge bridge)
             {
                 return bridge.GetFirstAncestorOfType<ContainerNode>();
             }

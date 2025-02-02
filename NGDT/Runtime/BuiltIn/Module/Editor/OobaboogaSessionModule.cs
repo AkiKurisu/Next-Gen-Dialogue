@@ -5,6 +5,7 @@ namespace Kurisu.NGDT
 {
     //Dummy editor module
     [Serializable]
+    [CeresLabel("Load Oobabooga Session")]
     [ModuleOf(typeof(Dialogue))]
     [CeresGroup("Editor/AIGC")]
     [NodeInfo("Load Oobabooga session to graph")]

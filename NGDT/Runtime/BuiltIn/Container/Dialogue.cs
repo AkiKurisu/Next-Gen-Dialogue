@@ -10,7 +10,7 @@ namespace Kurisu.NGDT
     public class Dialogue : Container, IDialogueLookup
     {
 #if UNITY_EDITOR
-        //Just to know which is referenced in graph, should have better solution
+        // Just to know which is referenced in graph, should have better solution
         [HideInGraphEditor, SerializeField]
         internal List<string> referencePieces;
 #endif

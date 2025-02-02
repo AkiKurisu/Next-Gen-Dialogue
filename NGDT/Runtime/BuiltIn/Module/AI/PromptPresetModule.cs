@@ -6,7 +6,8 @@ using UnityEngine;
 namespace Kurisu.NGDT
 {
     [Serializable]
-    [NodeInfo("Module: Prompt Preset Module is used to set up AI dialogue always included prompt using external text file.")]
+    [CeresLabel("Prompt Preset")]
+    [NodeInfo("Module: Prompt Preset is used to set up AI dialogue always included prompt using external text file.")]
     [CeresGroup("AIGC")]
     [ModuleOf(typeof(Dialogue))]
     public class PromptPresetModule : CustomModule

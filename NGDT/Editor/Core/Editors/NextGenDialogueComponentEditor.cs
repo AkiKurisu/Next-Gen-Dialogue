@@ -93,7 +93,7 @@ namespace Kurisu.NGDT.Editor
 
             _dialogueGraphButton = new DialogueGraphButton((bool)component.Asset ? component.Asset : Target);
             myInspector.Add(_dialogueGraphButton);
-            
+            myInspector.Add(new OpenFlowGraphButton((bool)component.Asset ? component.Asset : component));
             var playButton = new DialogueGraphPlayDialogueButton(component);
             playButton.SetEnabled(Application.isPlaying);
             myInspector.Add(playButton);
@@ -143,7 +143,7 @@ namespace Kurisu.NGDT.Editor
             myInspector.Add(new PropertyField(serializedObject.FindProperty("flowGraphAsset")));
             myInspector.Add(new DialogueGraphButton(Target));
             var asset = (NextGenDialogueGraphAsset)Target;
-            myInspector.Add(new FlowGraphDebugButton(asset));
+            myInspector.Add(new OpenFlowGraphButton(asset));
             return myInspector;
         }
     }

@@ -5,7 +5,8 @@ using UnityEngine;
 namespace Kurisu.NGDT
 {
     [Serializable]
-    [NodeInfo("Module: TargetID Module is used to definite option's target dialogue piece id.")]
+    [CeresLabel("TargetID")]
+    [NodeInfo("Module: TargetID is used to definite option's target dialogue piece id.")]
     [ModuleOf(typeof(Option))]
     public class TargetIDModule : CustomModule
     {
