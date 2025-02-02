@@ -1,5 +1,7 @@
 using System;
 using Ceres;
+using Ceres.Graph;
+
 namespace Kurisu.NGDT
 {
     [Serializable]

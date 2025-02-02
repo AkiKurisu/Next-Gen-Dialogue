@@ -9,6 +9,7 @@ using Ceres.Utilities;
 using Kurisu.NGDS;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
+using UnityEngine.Assertions;
 using UnityEngine.UIElements;
 using Node = UnityEditor.Experimental.GraphView.Node;
 namespace Kurisu.NGDT.Editor
@@ -44,7 +45,7 @@ namespace Kurisu.NGDT.Editor
             Parent = bridge.Parent;
             Parent.portColor = PortColor;
             AddElement(bridge);
-            SetNodeType(type, (DialogueGraphView)graphView);
+            Initialize(type, (DialogueGraphView)graphView);
             styleSheets.Add(CeresGraphView.GetOrLoadStyleSheet(NextGenDialogueSettings.NodeStylePath));
         }
         
@@ -60,13 +61,13 @@ namespace Kurisu.NGDT.Editor
         
         public string Guid { get; private set; }
         
-        protected NodeBehavior NodeBehavior { get; private set;  }
+        protected NGDT.DialogueNode NodeBehavior { get; private set;  }
         
         
         private readonly Label _titleLabel;
         
         
-        private Type _dirtyNodeBehaviorType;
+        private Type _nodeType;
         
         public Port Parent { get; }
         
@@ -105,13 +106,13 @@ namespace Kurisu.NGDT.Editor
             headerContainer.Add(_description);
         }
         
-        public void Restore(NodeBehavior behavior)
+        public void Restore(NGDT.DialogueNode dialogueNode)
         {
-            NodeBehavior = behavior;
+            NodeBehavior = dialogueNode;
             _resolvers.ForEach(e => e.Restore(NodeBehavior));
             NodeBehavior.NotifyEditor = MarkAsExecuted;
             _description.value = NodeBehavior.NodeData.description;
-            Guid = string.IsNullOrEmpty(behavior.Guid) ? System.Guid.NewGuid().ToString() : behavior.Guid;
+            Guid = string.IsNullOrEmpty(dialogueNode.Guid) ? System.Guid.NewGuid().ToString() : dialogueNode.Guid;
         }
         
         public void CopyFrom(IDialogueNodeView copyNode)
@@ -143,7 +144,7 @@ namespace Kurisu.NGDT.Editor
                 }
             );
             _description.value = node._description.value;
-            NodeBehavior = (NodeBehavior)Activator.CreateInstance(copyNode.GetBehavior());
+            NodeBehavior = (NGDT.DialogueNode)Activator.CreateInstance(copyNode.GetBehavior());
             NodeBehavior.NotifyEditor = MarkAsExecuted;
             Guid = System.Guid.NewGuid().ToString();
         }
@@ -155,15 +156,15 @@ namespace Kurisu.NGDT.Editor
             return _copyMap;
         }
         
-        public NodeBehavior Compile()
+        public NGDT.DialogueNode Compile()
         {
-            NodeBehavior = (NodeBehavior)Activator.CreateInstance(GetBehavior());
+            NodeBehavior = (NGDT.DialogueNode)Activator.CreateInstance(GetBehavior());
             return NodeBehavior;
         }
         
         public Type GetBehavior()
         {
-            return _dirtyNodeBehaviorType;
+            return _nodeType;
         }
 
         public void Commit(Stack<IDialogueNodeView> stack)
@@ -206,19 +207,14 @@ namespace Kurisu.NGDT.Editor
             return valid;
         }
         
-        public void SetNodeType(Type nodeType, DialogueGraphView ownerGraphView)
+        protected virtual void Initialize(Type nodeType, DialogueGraphView graphView)
         {
-            if (ownerGraphView != null) Graph = ownerGraphView;
-            if (_dirtyNodeBehaviorType != null)
-            {
-                _dirtyNodeBehaviorType = null;
-                _fieldContainer.Clear();
-                _resolvers.Clear();
-                _fieldInfos.Clear();
-            }
-            _dirtyNodeBehaviorType = nodeType;
+            Assert.IsNotNull(nodeType);
+            Assert.IsNotNull(graphView);
+            Graph = graphView;
+            _nodeType = nodeType;
 
-            var defaultValue = (NodeBehavior)Activator.CreateInstance(nodeType);
+            var defaultValue = (NGDT.DialogueNode)Activator.CreateInstance(nodeType);
             nodeType.GetGraphEditorPropertyFields().ForEach(p =>
                 {
                     var fieldResolver = _fieldResolverFactory.Create(p);
@@ -356,6 +352,7 @@ namespace Kurisu.NGDT.Editor
                 AddElement(bridge);
             }));
         }
+        
         public void AddChildElement(IDialogueNodeView node, DialogueGraphView graphView)
         {
             string pieceID = ((PieceContainer)node).GetPieceID();
@@ -370,10 +367,12 @@ namespace Kurisu.NGDT.Editor
             var edge = PortHelper.ConnectPorts(bridge.Child, node.Parent);
             graphView.Add(edge);
         }
+        
         protected override void OnCommit(Stack<IDialogueNodeView> stack)
         {
             ((Dialogue)NodeBehavior).referencePieces = new List<string>();
         }
+        
         protected override bool AcceptsElement(GraphElement element, ref int proposedIndex, int maxIndex)
         {
             if (element is ModuleNode moduleNode)
@@ -386,6 +385,7 @@ namespace Kurisu.NGDT.Editor
             }
             return element is PieceBridge or ParentBridge;
         }
+        
         public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
         {
             evt.menu.MenuItems().Add(new CeresDropdownMenuAction("Collect All Pieces", a =>
@@ -409,8 +409,9 @@ namespace Kurisu.NGDT.Editor
         {
             return contentContainer.Query<ModuleNode>().ToList().Select(x => x.GetBehavior()).Where(x =>
             {
-                var define = x.GetCustomAttributes<ModuleOfAttribute>().FirstOrDefault(x => x.ContainerType == typeof(Dialogue));
-                return !define.AllowMulti;
+                var define = x.GetCustomAttributes<ModuleOfAttribute>()
+                    .FirstOrDefault(moduleOfAttribute => moduleOfAttribute.ContainerType == typeof(Dialogue));
+                return define!.AllowMulti;
             });
         }
     }
@@ -454,6 +455,7 @@ namespace Kurisu.NGDT.Editor
                 AddElement(bridge);
             }));
         }
+        
         public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
         {
             evt.menu.MenuItems().Add(new CeresDropdownMenuAction("Edit PieceID", a =>
@@ -493,15 +495,12 @@ namespace Kurisu.NGDT.Editor
         
         protected override bool AcceptsElement(GraphElement element, ref int proposedIndex, int maxIndex)
         {
-            if (element is ModuleNode moduleNode)
-            {
-                var behaviorType = moduleNode.GetBehavior();
-                var define = behaviorType.GetCustomAttributes<ModuleOfAttribute>().FirstOrDefault(x => x.ContainerType == typeof(Piece));
-                if (define == null) return false;
-                if (define.AllowMulti) return true;
-                return !TryGetModuleNode(behaviorType, out _);
-            }
-            return element is OptionBridge or ParentBridge;
+            if (element is not ModuleNode moduleNode) return element is OptionBridge or ParentBridge;
+            var behaviorType = moduleNode.GetBehavior();
+            var define = behaviorType.GetCustomAttributes<ModuleOfAttribute>().FirstOrDefault(x => x.ContainerType == typeof(Piece));
+            if (define == null) return false;
+            if (define.AllowMulti) return true;
+            return !TryGetModuleNode(behaviorType, out _);
         }
         
         public void GenerateNewPieceID()

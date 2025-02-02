@@ -17,7 +17,7 @@ namespace Kurisu.NGDT.Editor
         
         DialogueGraphView Graph { get; }
         
-        void Restore(NodeBehavior behavior);
+        void Restore(NGDT.DialogueNode dialogueNode);
         
         void Commit(Stack<IDialogueNodeView> stack);
         
@@ -27,7 +27,7 @@ namespace Kurisu.NGDT.Editor
         
         void CopyFrom(IDialogueNodeView copyNode);
         
-        NodeBehavior Compile();
+        NGDT.DialogueNode Compile();
         
         void ClearStyle();
         
@@ -44,7 +44,7 @@ namespace Kurisu.NGDT.Editor
         
         public Port Parent { private set; get; }
         
-        protected NodeBehavior NodeBehavior { set; get; }
+        protected NGDT.DialogueNode NodeBehavior { set; get; }
         
         private Type _nodeType;
         
@@ -178,13 +178,13 @@ namespace Kurisu.NGDT.Editor
             }
         }
         
-        public void Restore(NodeBehavior behavior)
+        public void Restore(NGDT.DialogueNode dialogueNode)
         {
-            NodeBehavior = behavior;
+            NodeBehavior = dialogueNode;
             _resolvers.ForEach(e => e.Restore(NodeBehavior));
             NodeBehavior.NotifyEditor = MarkAsExecuted;
             DescriptionText.value = NodeBehavior.NodeData.description;
-            Guid = string.IsNullOrEmpty(behavior.Guid) ? System.Guid.NewGuid().ToString() : behavior.Guid;
+            Guid = string.IsNullOrEmpty(dialogueNode.Guid) ? System.Guid.NewGuid().ToString() : dialogueNode.Guid;
             OnRestore();
         }
         
@@ -196,7 +196,7 @@ namespace Kurisu.NGDT.Editor
                 _resolvers[i].Copy(node._resolvers[i]);
             }
             DescriptionText.value = node.DescriptionText.value;
-            NodeBehavior = (NodeBehavior)Activator.CreateInstance(copyNode.GetBehavior());
+            NodeBehavior = (NGDT.DialogueNode)Activator.CreateInstance(copyNode.GetBehavior());
             NodeBehavior.NotifyEditor = MarkAsExecuted;
             Guid = System.Guid.NewGuid().ToString();
             OnRestore();
@@ -207,9 +207,9 @@ namespace Kurisu.NGDT.Editor
 
         }
 
-        public NodeBehavior Compile()
+        public NGDT.DialogueNode Compile()
         {
-            NodeBehavior = Activator.CreateInstance(GetBehavior()) as NodeBehavior;
+            NodeBehavior = Activator.CreateInstance(GetBehavior()) as NGDT.DialogueNode;
             return NodeBehavior;
         }
 
@@ -271,7 +271,7 @@ namespace Kurisu.NGDT.Editor
             Graph = graphView;
             _nodeType = nodeType;
             Guid = System.Guid.NewGuid().ToString();
-            var defaultValue = (NodeBehavior)Activator.CreateInstance(nodeType);
+            var defaultValue = (NGDT.DialogueNode)Activator.CreateInstance(nodeType);
             var haveSetting = false;
             nodeType.GetGraphEditorPropertyFields()
                 .ForEach((p) =>

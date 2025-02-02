@@ -1,9 +1,6 @@
 namespace Kurisu.NGDT
 {
-    public abstract class Action : NodeBehavior
+    public abstract class Action : DialogueNode
     {
-        protected sealed override void OnRun()
-        {
-        }
     }
 }

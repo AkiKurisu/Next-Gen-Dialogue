@@ -5,20 +5,12 @@ using UnityEngine;
 namespace Kurisu.NGDT
 {
     [Serializable]
-    public abstract class Composite : NodeBehavior
+    public abstract class Composite : DialogueNode
     {
         [SerializeReference]
-        private List<NodeBehavior> children = new();
+        private List<DialogueNode> children = new();
 
-        public List<NodeBehavior> Children => children;
-
-        protected sealed override void OnRun()
-        {
-            foreach (var node in children)
-            {
-                node.Run(GameObject, Graph);
-            }
-        }
+        public List<DialogueNode> Children => children;
 
         public sealed override void Awake()
         {
@@ -48,7 +40,7 @@ namespace Kurisu.NGDT
 
         public sealed override void AddChild(CeresNode child)
         {
-            children.Add((NodeBehavior)child);
+            children.Add((DialogueNode)child);
         }
         
         public sealed override CeresNode GetChildAt(int index)

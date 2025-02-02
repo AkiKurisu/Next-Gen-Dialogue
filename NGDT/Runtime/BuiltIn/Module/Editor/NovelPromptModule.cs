@@ -1,5 +1,6 @@
 using System;
 using Ceres.Annotations;
+using Ceres.Graph;
 using UnityEngine;
 namespace Kurisu.NGDT
 {
@@ -11,21 +12,21 @@ namespace Kurisu.NGDT
     {
 #pragma warning disable IDE0052
         [SerializeField, Multiline, TranslateEntry]
-        private Ceres.SharedString pieceSystemPrompt;
+        private SharedString pieceSystemPrompt;
         
         [SerializeField, Multiline, TranslateEntry]
-        private Ceres.SharedString optionSystemPrompt;
+        private SharedString optionSystemPrompt;
         
         [SerializeField, Multiline, TranslateEntry]
-        private Ceres.SharedString storySummary;
+        private SharedString storySummary;
         
         public NovelPromptModule() { }
         
         public NovelPromptModule(string pieceSystemPrompt, string optionSystemPrompt, string storySummary)
         {
-            this.pieceSystemPrompt = new(pieceSystemPrompt);
-            this.optionSystemPrompt = new(optionSystemPrompt);
-            this.storySummary = new(storySummary);
+            this.pieceSystemPrompt = new SharedString(pieceSystemPrompt);
+            this.optionSystemPrompt = new SharedString(optionSystemPrompt);
+            this.storySummary = new SharedString(storySummary);
         }
 #pragma warning restore IDE0052
     }

@@ -5,7 +5,6 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using System.Linq;
 using System;
-using Ceres;
 using Ceres.Editor;
 using Ceres.Editor.Graph;
 using Ceres.Graph;
@@ -22,8 +21,6 @@ namespace Kurisu.NGDT.Editor
         
         // ReSharper disable once InconsistentNaming
         internal Action<IDialogueNodeView> OnSelectNode;
-        
-        private readonly NodeConvertor _converter = new();
         
         private const string InfoText = "Next-Gen Dialogue Graph Editor";
 
@@ -71,7 +68,7 @@ namespace Kurisu.NGDT.Editor
         {
             ClearSelection();
             // Add paste elements to selection
-            foreach (var element in new CopyPasteGraphConvertor(this, CopyPasteGraph.Paste(), positionOffSet).GetCopyElements())
+            foreach (var element in new CopyPasteGraph(this, CopyPasteGraph.Paste(), positionOffSet).GetCopyElements())
             {
                 element.Select(this, true);
             }
@@ -170,7 +167,7 @@ namespace Kurisu.NGDT.Editor
             {
                 Blackboard.AddVariable(variable.Clone(), false);
             }
-            var rootNode = _converter.ConvertToNode(graph, this, localMousePosition);
+            var rootNode = DeserializeGraph(graph, this, localMousePosition);
             // Remove root from external graph
             var edge = rootNode.Child.connections.First();
             RemoveElement(edge);
@@ -194,7 +191,7 @@ namespace Kurisu.NGDT.Editor
                 _graphInstance.Root.Child.NodeData.graphPosition = pos;
             }
             AddSharedVariables(_graphInstance.variables,true);
-            _root = _converter.ConvertToNode(_graphInstance, this, Vector2.zero);
+            _root = DeserializeGraph(_graphInstance, this, Vector2.zero);
             // Restore node groups
             NodeGroupHandler.RestoreGroups(_graphInstance.nodeGroups);
         }
@@ -240,7 +237,7 @@ namespace Kurisu.NGDT.Editor
             _root.PostCommit(graph);
 
             // Commit variables
-            graph.variables = new List<SharedVariable>(SharedVariables);
+            graph.variables = SharedVariables.Where(x=>x != null).ToList();
             
             // Commit blocks
             graph.nodeGroups = new List<NodeGroup>();
@@ -280,6 +277,146 @@ namespace Kurisu.NGDT.Editor
                 Debug.LogError(e);
                 return false;
             }
+        }
+        
+        private interface IParentAdapter
+        {
+            void Connect(DialogueGraphView graphView, IDialogueNodeView nodeToConnect);
+        }
+        
+        private class PortAdapter : IParentAdapter
+        {
+            private readonly Port _port;
+            
+            public PortAdapter(Port port)
+            {
+                _port = port;
+            }
+            
+            public void Connect(DialogueGraphView graphView, IDialogueNodeView nodeToConnect)
+            {
+                var edge = PortHelper.ConnectPorts(_port, nodeToConnect.Parent);
+                graphView.Add(edge);
+            }
+        }
+        
+        private class ContainerAdapter : IParentAdapter
+        {
+            private readonly ContainerNode _container;
+            
+            public ContainerAdapter(ContainerNode container)
+            {
+                _container = container;
+            }
+            
+            public void Connect(DialogueGraphView graphView, IDialogueNodeView nodeToConnect)
+            {
+                if (nodeToConnect is ModuleNode moduleNode)
+                    _container.AddElement(moduleNode);
+                else if (_container is IContainChild childContainer)
+                    childContainer.AddChildElement(nodeToConnect, graphView);
+            }
+        }
+        
+        private readonly struct EdgePair
+        {
+            public readonly NGDT.DialogueNode NodeBehavior;
+            
+            public readonly IParentAdapter Adapter;
+
+            public EdgePair(NGDT.DialogueNode nodeBehavior, IParentAdapter adapter)
+            {
+                NodeBehavior = nodeBehavior;
+                Adapter = adapter;
+            }
+        }
+        
+        private static RootNode DeserializeGraph(DialogueGraph graph, DialogueGraphView graphView, Vector2 initPos)
+        {
+            var stack = new Stack<EdgePair>();
+            var alreadyCreateNodes = new Dictionary<NGDT.DialogueNode, IDialogueNodeView>();
+            RootNode root = null;
+            stack.Push(new EdgePair(graph.Root, null));
+            while (stack.Count > 0)
+            {
+                // create node
+                var edgePair = stack.Pop();
+                if (edgePair.NodeBehavior == null)
+                {
+                    continue;
+                }
+                // Prevent duplicating instance
+                if (alreadyCreateNodes.TryGetValue(edgePair.NodeBehavior, out var nodeView))
+                {
+                    edgePair.Adapter?.Connect(graphView, nodeView);
+                    continue;
+                }
+                
+                nodeView = (IDialogueNodeView)NodeViewFactory.Get().CreateInstance(edgePair.NodeBehavior.GetType(), graphView);
+                nodeView.Restore(edgePair.NodeBehavior);
+                graphView.AddNodeView(nodeView);
+                var rect = edgePair.NodeBehavior.NodeData.graphPosition;
+                rect.position += initPos;
+                nodeView.NodeElement.SetPosition(rect);
+                alreadyCreateNodes.Add(edgePair.NodeBehavior, nodeView);
+                
+                // connect parent
+                edgePair.Adapter?.Connect(graphView, nodeView);
+
+                // seek child
+                switch (edgePair.NodeBehavior)
+                {
+                    case Container nb:
+                        {
+                            var containerNode = (ContainerNode)nodeView;
+                            for (var i = nb.Children.Count - 1; i >= 0; i--)
+                            {
+                                stack.Push(new EdgePair(nb.Children[i], new ContainerAdapter(containerNode)));
+                            }
+                            break;
+                        }
+                    case BehaviorModule nb:
+                        {
+                            var module = (BehaviorModuleNode)nodeView;
+                            stack.Push(new EdgePair(nb.Child, new PortAdapter(module.Child)));
+                            break;
+                        }
+                    case Composite nb:
+                        {
+                            var compositeNode = (CompositeNode)nodeView;
+                            var addable = nb.Children.Count - compositeNode.ChildPorts.Count;
+                            if (compositeNode.NoValidate && nb.Children.Count == 0)
+                            {
+                                compositeNode.RemoveUnnecessaryChildren();
+                                break;
+                            }
+                            for (var i = 0; i < addable; i++)
+                            {
+                                compositeNode.AddChild();
+                            }
+
+                            for (var i = 0; i < nb.Children.Count; i++)
+                            {
+                                stack.Push(new EdgePair(nb.Children[i], new PortAdapter(compositeNode.ChildPorts[i])));
+                            }
+                            break;
+                        }
+                    case Root nb:
+                        {
+                            root = (RootNode)nodeView;
+                            if (nb.Child != null)
+                            {
+                                stack.Push(new EdgePair(nb.Child, new PortAdapter(root.Child)));
+                            }
+                            foreach (var childNode in nb.Children)
+                            {
+                                stack.Push(new EdgePair(childNode, null));
+                            }
+                            break;
+                        }
+                }
+            }
+            return root;
         }
     }
 }

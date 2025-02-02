@@ -2,6 +2,7 @@
 using System;
 using Ceres;
 using Ceres.Annotations;
+using Ceres.Graph;
 using Kurisu.NGDS;
 namespace Kurisu.NGDT
 {

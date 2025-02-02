@@ -5,26 +5,21 @@ using UnityEngine;
 namespace Kurisu.NGDT
 {
     [Serializable]
-    public abstract class Module : NodeBehavior
+    public abstract class Module : DialogueNode
     {
-        protected override void OnRun() { }
+        
     }
     
     [Serializable]
     public abstract class BehaviorModule : Module
     {
         [SerializeReference]
-        private NodeBehavior child;
+        private DialogueNode child;
         
-        public NodeBehavior Child
+        public DialogueNode Child
         {
             get => child;
             set => child = value;
-        }
-
-        protected sealed override void OnRun()
-        {
-            child?.Run(GameObject, Graph);
         }
 
         public override void Awake()
@@ -54,17 +49,13 @@ namespace Kurisu.NGDT
         
         public sealed override void AddChild(CeresNode nodeBehavior)
         {
-            child = nodeBehavior as NodeBehavior;
+            child = nodeBehavior as DialogueNode;
         }
     }
     
     [Serializable]
     public abstract class CustomModule : Module
     {
-        protected sealed override void OnRun()
-        {
-        }
-        
         protected sealed override Status OnUpdate()
         {
             Graph.Builder.GetNode().AddModule(GetModule());

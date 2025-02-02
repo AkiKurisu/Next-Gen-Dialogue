@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-using Ceres;
 using UnityEngine;
 using Ceres.Graph;
 using Ceres.Graph.Flow;
@@ -7,7 +5,7 @@ using UnityEngine.Serialization;
 using UObject = UnityEngine.Object;
 namespace Kurisu.NGDT
 {
-    [CreateAssetMenu(fileName = "New Dialogue", menuName = "Next Gen Dialogue/Dialogue Asset")]
+    [CreateAssetMenu(fileName = "New Dialogue", menuName = "Next Gen Dialogue/Dialogue Graph Asset")]
     public class NextGenDialogueGraphAsset : ScriptableObject, IDialogueGraphContainer, IFlowGraphContainer
     {
         [FormerlySerializedAs("graphData")] 
@@ -22,14 +20,8 @@ namespace Kurisu.NGDT
         [Multiline, SerializeField]
         private string description;
 
-        /* Migration from v1 */
-#if UNITY_EDITOR
-        [SerializeReference, HideInInspector]
-        internal Root root = new();
-        
-        [SerializeReference, HideInInspector]
-        internal List<SharedVariable> sharedVariables = new();
-#endif
+        [SerializeField] 
+        private FlowGraphAsset flowGraphAsset;
         
         public void Deserialize(string serializedData)
         {
@@ -44,25 +36,27 @@ namespace Kurisu.NGDT
         public DialogueGraph GetDialogueGraph()
         {
             dialogueGraphData ??= new DialogueGraphData();
-#if UNITY_EDITOR
-            if (!dialogueGraphData.IsValid())
-            {
-                return new DialogueGraph(this);
-            }
-#endif
             return new DialogueGraph(dialogueGraphData.CloneT<DialogueGraphData>(), this);
         }
 
         public void SetGraphData(CeresGraphData graph)
         {
-            if(graph is DialogueGraphData dialogue)
+            if (graph is DialogueGraphData dialogue)
+            {
                 dialogueGraphData = dialogue;
-            if (graph is FlowGraphData flow)
+            }
+            else if (graph is FlowGraphData flow)
+            {
                 flowGraphData = flow;
+            }
         }
 
         public FlowGraph GetFlowGraph()
         {
+            if (flowGraphAsset)
+            {
+                return flowGraphAsset.GetFlowGraph();
+            }
             flowGraphData ??= new FlowGraphData();
             return new FlowGraph(flowGraphData.CloneT<FlowGraphData>());
         }

@@ -58,40 +58,6 @@ namespace Kurisu.NGDT
         {
             FlowGraph = flowGraphContainer.GetFlowGraph();
         }
-        
-#if UNITY_EDITOR
-        internal DialogueGraph(NextGenDialogueGraphAsset asset)
-        {
-            CeresAPI.LogWarning($"Dialogue graph asset {asset.name} version is outdated, please re-save asset before build.");
-            variables = new List<SharedVariable>();
-            foreach (var variable in asset.sharedVariables)
-            {
-                if (variable != null)
-                {
-                    variables.Add(variable.Clone());
-                }
-            }
-            TraverseAppend(asset.root);
-            nodeGroups = new List<NodeGroup>();
-            FlowGraph = asset.GetFlowGraph();
-        }
-        
-        internal DialogueGraph(NextGenDialogueComponent component)
-        {
-            CeresAPI.LogWarning($"Dialogue graph component {component.name} version is outdated, please re-save component before build.");
-            variables = new List<SharedVariable>();
-            foreach (var variable in component.sharedVariables)
-            {
-                if(variable != null)
-                {
-                    variables.Add(variable.Clone());
-                }
-            }
-            TraverseAppend(component.root);
-            nodeGroups = new List<NodeGroup>();
-            FlowGraph = component.GetFlowGraph();
-        }
-#endif
 
         public Root Root
         {
@@ -148,11 +114,14 @@ namespace Kurisu.NGDT
         /// <summary>
         /// Play the dialogue graph
         /// </summary>
-        public void PlayDialogue(GameObject gameObject)
+        public void PlayDialogue(NextGenDialogueComponent component)
         {
             ((DialogueBuilder)Builder).Clear();
             Root.Abort();
-            Root.Run(gameObject, this);
+            foreach (var node in nodes)
+            {
+                ((DialogueNode)node).Initialize(component, this);
+            }
             Root.Awake();
             Root.Start();
             Root.Update();

@@ -4,14 +4,16 @@ using UnityEngine.UIElements;
 using UnityEditor.UIElements;
 using System.Linq;
 using Ceres.Editor.Graph;
+using Ceres.Editor.Graph.Flow;
 using UEditor = UnityEditor.Editor;
+
 namespace Kurisu.NGDT.Editor
 {
     public class NextGenDialogueEditor: UEditor
     {
         internal class DialogueGraphButton : Button
         {
-            private const string ButtonText = "Open in Dialogue Graph";
+            private const string ButtonText = "Open Dialogue Graph";
             
             public IDialogueGraphContainer Container { get; set; }
             
@@ -128,7 +130,7 @@ namespace Kurisu.NGDT.Editor
             myInspector.Add(description);
             // create instance for edit
             var instance = Target.GetDialogueGraph();
-            if (instance.variables.Count(x => x.IsExposed) != 0)
+            if (instance.variables.Count(x => x?.IsExposed ?? false) != 0)
             {
                 myInspector.Add(new SharedVariablesFoldout(instance.BlackBoard, () =>
                 {
@@ -138,7 +140,10 @@ namespace Kurisu.NGDT.Editor
                     EditorUtility.SetDirty(target);
                 }));
             }
+            myInspector.Add(new PropertyField(serializedObject.FindProperty("flowGraphAsset")));
             myInspector.Add(new DialogueGraphButton(Target));
+            var asset = (NextGenDialogueGraphAsset)Target;
+            myInspector.Add(new FlowGraphDebugButton(asset));
             return myInspector;
         }
     }

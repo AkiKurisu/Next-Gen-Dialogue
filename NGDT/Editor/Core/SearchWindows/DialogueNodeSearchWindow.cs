@@ -23,16 +23,14 @@ namespace Kurisu.NGDT.Editor
         private static readonly Type[] FilteredTypes = {
             typeof(Container),
             typeof(Action),
-            typeof(Conditional),
-            typeof(Composite),
-            typeof(Decorator)
+            typeof(Composite)
         };
         
         public override List<SearchTreeEntry> CreateSearchTree(SearchWindowContext context)
         {
             var entries = new List<SearchTreeEntry>
             {
-                new SearchTreeGroupEntry(new GUIContent("Create Node"), 0)
+                new SearchTreeGroupEntry(new GUIContent("Create Node"))
             };
             
             var (groups, nodeTypes) = SearchTypes(FilteredTypes, Context);
@@ -52,14 +50,6 @@ namespace Kurisu.NGDT.Editor
                 }
             }
             entries.AddRange(builder.GetEntries());
-            entries.Add(new SearchTreeEntry(new GUIContent("Create Group Block", _indentationIcon))
-            { 
-                level = 1, 
-                userData = new CeresNodeSearchEntryData()
-                {
-                    NodeType = typeof(DialogueNodeGroup)
-                } 
-            });
             return entries;
         }
         public override bool OnSelectEntry(SearchTreeEntry searchTreeEntry, SearchWindowContext context)
@@ -67,25 +57,6 @@ namespace Kurisu.NGDT.Editor
             Rect newRect = new(GraphView.Screen2GraphPosition(context.screenMousePosition), new Vector2(100, 100));
             var entryData = (CeresNodeSearchEntryData)searchTreeEntry.userData;
             var type = entryData.NodeType;
-            if (type == typeof(DialogueNodeGroup))
-            {
-                GraphView.NodeGroupHandler.CreateGroup(newRect);
-                return true;
-            }
-            if (type.IsSubclassOf(typeof(Container)))
-            {
-                var templateNode = DialogueView.CollectNodes<ContainerNode>()
-                                                .Where(x => x.GetBehavior() == type)
-                                                .FirstOrDefault(x => x.TryGetModuleNode<TemplateModule>(out _));
-                if (templateNode != null)
-                {
-                    // Use template instead
-                    var instance = (ContainerNode)DialogueView.DuplicateNode(templateNode);
-                    instance!.SetPosition(newRect);
-                    instance.RemoveModule<TemplateModule>();
-                    return true;
-                }
-            }
             var node = NodeViewFactory.Get().CreateInstance(type, DialogueView);
             if (node is PieceContainer pieceContainer)
             {

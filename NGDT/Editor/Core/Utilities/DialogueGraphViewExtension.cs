@@ -26,7 +26,7 @@ namespace Kurisu.NGDT.Editor
         /// <param name="position"></param>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        public static IDialogueNodeView CreateNode<T>(this DialogueGraphView graphView, Vector2 position) where T : NodeBehavior
+        public static IDialogueNodeView CreateNode<T>(this DialogueGraphView graphView, Vector2 position) where T : NGDT.DialogueNode
         {
             var node = (IDialogueNodeView)NodeViewFactory.Get().CreateInstance(typeof(T), graphView);
             graphView.AddNodeView(node, new Rect(0, 0, position.x, position.y));
@@ -41,7 +41,7 @@ namespace Kurisu.NGDT.Editor
         /// <param name="position"></param>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        public static IDialogueNodeView CreateNode<T>(this DialogueGraphView graphView, T behavior, Vector2 position) where T : NodeBehavior
+        public static IDialogueNodeView CreateNode<T>(this DialogueGraphView graphView, T behavior, Vector2 position) where T : NGDT.DialogueNode
         {
             var node = (IDialogueNodeView)NodeViewFactory.Get().CreateInstance(typeof(T), graphView);
             node.Restore(behavior);

@@ -1,6 +1,6 @@
 using System;
-using Ceres;
 using Ceres.Annotations;
+using Ceres.Graph;
 using Kurisu.NGDS;
 using UnityEngine;
 using UnityEngine.Localization;

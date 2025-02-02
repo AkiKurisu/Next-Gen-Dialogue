@@ -1,7 +1,7 @@
 using System;
-using Ceres;
 using Ceres.Editor;
 using Ceres.Editor.Graph;
+using Ceres.Graph;
 using Kurisu.NGDT.Editor;
 using UnityEditor.Localization;
 using UnityEngine.Localization.Tables;

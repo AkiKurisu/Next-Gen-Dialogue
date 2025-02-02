@@ -1,5 +1,6 @@
 using System;
 using Ceres.Annotations;
+using Ceres.Graph;
 using Kurisu.NGDS;
 using UnityEngine;
 namespace Kurisu.NGDT
@@ -11,7 +12,7 @@ namespace Kurisu.NGDT
     public class PromptPresetModule : CustomModule
     {
         [Multiline]
-        public Ceres.SharedUObject<TextAsset> prompt;
+        public SharedUObject<TextAsset> prompt;
         protected sealed override IDialogueModule GetModule()
         {
             return new NGDS.SystemPromptModule(prompt.Value.text);

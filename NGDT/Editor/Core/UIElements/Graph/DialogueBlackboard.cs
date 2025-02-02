@@ -1,6 +1,7 @@
 using System.Linq;
 using Ceres;
 using Ceres.Editor.Graph;
+using Ceres.Graph;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine.UIElements;
 namespace Kurisu.NGDT.Editor

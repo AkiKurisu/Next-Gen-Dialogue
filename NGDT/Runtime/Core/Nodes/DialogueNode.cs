@@ -14,7 +14,7 @@ namespace Kurisu.NGDT
     /// Base class for dialogue graph node
     /// </summary>
     [Serializable]
-    public abstract class NodeBehavior: CeresNode, ILinkedNode, ISerializationCallbackReceiver
+    public abstract class DialogueNode: CeresNode, ILinkedNode, ISerializationCallbackReceiver
     {
 #if UNITY_EDITOR
         [HideInGraphEditor, NonSerialized]
@@ -25,15 +25,17 @@ namespace Kurisu.NGDT
         internal CeresNodeData nodeData;
         
         protected GameObject GameObject { private set; get; }
+        
+        protected NextGenDialogueComponent Component { private set; get; }
+        
         protected DialogueGraph Graph { private set; get; }
-        public void Run(GameObject attachedObject, DialogueGraph graph)
+        
+        public void Initialize(NextGenDialogueComponent component, DialogueGraph graph)
         {
-            GameObject = attachedObject;
+            GameObject = component.gameObject;
+            Component = component;
             Graph = graph;
-            OnRun();
         }
-
-        protected abstract void OnRun();
 
         public virtual void Awake() { }
 

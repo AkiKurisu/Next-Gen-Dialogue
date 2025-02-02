@@ -10,7 +10,7 @@ namespace Kurisu.NGDT
         protected override Status OnUpdate()
         {
             var piece = (NGDS.Piece)Graph.Builder.GetNode();
-            Graph.FlowGraph.TryExecuteEvent(GameObject, $"Flow_{piece.Name}");
+            Graph.FlowGraph.TryExecuteEvent(Component, $"Flow_{piece.Name}");
             return Status.Success;
         }
     }

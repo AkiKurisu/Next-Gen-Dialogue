@@ -1,14 +1,15 @@
 using System;
-using System.Collections.Generic;
-using Ceres;
+using Ceres.Annotations;
 using Ceres.Graph;
 using Ceres.Graph.Flow;
+using Ceres.Graph.Flow.Annotations;
 using UnityEngine;
 using UObject = UnityEngine.Object;
+
 namespace Kurisu.NGDT
 {
     [DisallowMultipleComponent]
-    public class NextGenDialogueComponent : MonoBehaviour, IDialogueGraphContainer, IFlowGraphContainer
+    public class NextGenDialogueComponent : MonoBehaviour, IDialogueGraphContainer, IFlowGraphContainer, IFlowGraphRuntime
     {
         [NonSerialized]
         private DialogueGraph _dialogueGraph;
@@ -20,7 +21,7 @@ namespace Kurisu.NGDT
         private FlowGraphData flowGraphData;
         
         public UObject Object => gameObject;
-        
+
         [SerializeField, Tooltip("Create dialogue graph from external asset at runtime")]
         private NextGenDialogueGraphAsset externalAsset;
         
@@ -42,15 +43,10 @@ namespace Kurisu.NGDT
                 (_dialogueGraph = GetDialogueGraph()).Compile();
             } 
         }
-        
-        /* Migration from v1 */
-#if UNITY_EDITOR
-        [SerializeReference, HideInInspector]
-        internal Root root = new();
-        
-        [SerializeReference, HideInInspector]
-        internal List<SharedVariable> sharedVariables = new();
-#endif
+
+        // ============= Implementation for IFlowGraphRuntime =================== //
+        FlowGraph IFlowGraphRuntime.Graph => GetDialogueGraphInstance().FlowGraph;
+        // ============= Implementation for IFlowGraphRuntime =================== //
 
         private void Awake()
         {
@@ -74,15 +70,17 @@ namespace Kurisu.NGDT
         /// <summary>
         /// Play dialogue
         /// </summary>
+        [ExecutableFunction, CeresLabel("Play Dialogue")]
         public void PlayDialogue()
         {
-            GetDialogueGraphInstance().PlayDialogue(gameObject);
+            GetDialogueGraphInstance().PlayDialogue(this);
         }
 
         /// <summary>
         /// Play dialogue from <see cref="NextGenDialogueGraphAsset"/>
         /// </summary>
         /// <param name="asset"></param>
+        [ExecutableFunction, CeresLabel("Play Dialogue from Asset")]
         public void PlayDialogue(NextGenDialogueGraphAsset asset)
         {
             Asset = asset;
@@ -97,12 +95,6 @@ namespace Kurisu.NGDT
             }
             
             dialogueGraphData ??= new DialogueGraphData();
-#if UNITY_EDITOR
-            if (!dialogueGraphData.IsValid())
-            {
-                return new DialogueGraph(this);
-            }
-#endif
             return new DialogueGraph(dialogueGraphData.CloneT<DialogueGraphData>(), this);
         }
 

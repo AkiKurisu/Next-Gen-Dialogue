@@ -11,42 +11,29 @@ namespace Kurisu.NGDT
     /// </summary>
     [Serializable]
     [NodeInfo("Root : The root of dialogue tree, you can not delete it.")]
-    public class Root : NodeBehavior
+    public class Root : DialogueNode
     {
         /* Main dialogue */
         [SerializeReference]
-        private NodeBehavior child;
+        private DialogueNode child;
         
         /* Unused dialogues */
         [SerializeReference]
-        private List<NodeBehavior> children = new();
+        private List<DialogueNode> children = new();
         
-        public List<NodeBehavior> Children => children;
+        public List<DialogueNode> Children => children;
         
 #if UNITY_EDITOR
         [HideInGraphEditor]
         public System.Action UpdateEditor;
 #endif
         
-        public NodeBehavior Child
+        public DialogueNode Child
         {
             get => child;
             set => child = value;
         }
-
-        protected sealed override void OnRun()
-        {
-            child?.Run(GameObject, Graph);
-            foreach (var node in children)
-            {
-                // Skip inactive dialogue
-                if (node is not Dialogue)
-                {
-                    node.Run(GameObject, Graph);
-                }
-            }
-        }
-
+        
         public override void Awake()
         {
             child?.Awake();
@@ -113,10 +100,10 @@ namespace Kurisu.NGDT
         {
             if (child == null)
             {
-                child = (NodeBehavior)inChild;
+                child = (DialogueNode)inChild;
                 return;
             }
-            children.Add((NodeBehavior)inChild);
+            children.Add((DialogueNode)inChild);
         }
         
         public sealed override CeresNode GetChildAt(int index)

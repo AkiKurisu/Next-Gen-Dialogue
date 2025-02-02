@@ -1,6 +1,7 @@
 using System;
 using Ceres;
 using Ceres.Annotations;
+using Ceres.Graph;
 using Kurisu.NGDS;
 using UnityEngine;
 namespace Kurisu.NGDT
