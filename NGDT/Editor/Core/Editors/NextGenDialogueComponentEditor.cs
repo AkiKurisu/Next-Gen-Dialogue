@@ -73,7 +73,7 @@ namespace Kurisu.NGDT.Editor
             {
                 // create instance for edit
                 var instance = Target.GetDialogueGraph();
-                if (instance.variables.Count(x => x.IsExposed) != 0)
+                if (instance.variables.Count(x => x?.IsExposed ?? false) != 0)
                 {
                     myInspector.Add(new SharedVariablesFoldout(instance.BlackBoard, () =>
                     {

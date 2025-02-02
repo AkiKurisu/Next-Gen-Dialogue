@@ -12,7 +12,7 @@ namespace Kurisu.NGDT.Editor
     [CustomNodeView(typeof(NextPieceModule))]
     public class NextPieceNode : ModuleNode, ILayoutNode
     {
-        private readonly Port _childPort;
+        private Port _childPort;
         
         private static readonly Color PortColor = new(97 / 255f, 95 / 255f, 212 / 255f, 0.91f);
         
@@ -24,10 +24,7 @@ namespace Kurisu.NGDT.Editor
 
         public NextPieceNode(Type type, CeresGraphView graphView): base(type, graphView)
         {
-            _childPort = Port.Create<Edge>(Orientation.Horizontal, Direction.Output, Port.Capacity.Single, typeof(PiecePort));
-            _childPort.portName = string.Empty;
-            _childPort.portColor = PortColor;
-            outputContainer.Add(_childPort);
+
         }
         
         protected override void Initialize(Type nodeType, DialogueGraphView graphView)
@@ -36,6 +33,10 @@ namespace Kurisu.NGDT.Editor
             _useReferenceField = ((BoolResolver)GetFieldResolver("useReference")).BaseField;
             _nextIDField = ((PieceIDResolver)GetFieldResolver("nextID")).BaseField;
             _useReferenceField.RegisterValueChangedCallback(x => OnToggle(x.newValue));
+            _childPort = Port.Create<Edge>(Orientation.Horizontal, Direction.Output, Port.Capacity.Single, typeof(PiecePort));
+            _childPort.portName = string.Empty;
+            _childPort.portColor = PortColor;
+            outputContainer.Add(_childPort);
             OnToggle(_useReferenceField.value);
         }
         
@@ -51,6 +52,7 @@ namespace Kurisu.NGDT.Editor
             }
             OnToggle(_useReferenceField.value);
         }
+        
         private void OnToggle(bool useReference)
         {
             if (useReference && _childPort.connected)
@@ -63,6 +65,7 @@ namespace Kurisu.NGDT.Editor
             _childPort.SetEnabled(!useReference);
             _nextIDField.SetEnabled(useReference);
         }
+        
         protected sealed override bool OnValidate(Stack<IDialogueNodeView> stack)
         {
             //Prevent circle validation
