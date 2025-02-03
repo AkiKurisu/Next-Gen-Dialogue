@@ -6,13 +6,13 @@ using UnityEngine.UIElements;
 namespace Kurisu.NGDT.Editor
 {
     [CustomNodeView(typeof(ActionNode), true)]
-    public class ActionNodeViewView : DialogueNodeView, ILayoutNode
+    public class ActionNodeView : DialogueNodeView, ILayoutNode
     {
         VisualElement ILayoutNode.View => this;
 
-        public ActionNodeViewView(Type type, CeresGraphView graphView): base(type, graphView)
+        public ActionNodeView(Type type, CeresGraphView graphView): base(type, graphView)
         {
-            AddToClassList(nameof(ActionNodeViewView));
+            AddToClassList(nameof(ActionNodeView));
         }
 
         protected override bool OnValidate(Stack<IDialogueNodeView> stack) => true;

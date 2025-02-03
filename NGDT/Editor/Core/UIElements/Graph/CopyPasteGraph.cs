@@ -163,8 +163,8 @@ namespace Kurisu.NGDT.Editor
             }
             else if (behaviorType.IsSubclassOf(typeof(NGDT.ActionNode)))
             {
-                var actionNode = (ActionNodeViewView)sourceNode;
-                _portCopyDict.Add(actionNode.Parent, ((ActionNodeViewView)pasteNode).Parent);
+                var actionNode = (ActionNodeView)sourceNode;
+                _portCopyDict.Add(actionNode.Parent, ((ActionNodeView)pasteNode).Parent);
             }
             else if (behaviorType.IsSubclassOf(typeof(NGDT.CompositeNode)))
             {

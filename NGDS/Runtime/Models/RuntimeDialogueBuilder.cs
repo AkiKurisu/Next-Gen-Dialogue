@@ -3,15 +3,10 @@ namespace Kurisu.NGDS
     /// <summary>
     /// Runtime dialogue builder using code
     /// </summary>
-    public class DialogueBuilder : IDialogueLookup
+    public class RuntimeDialogueBuilder : IDialogueLookup
     {
-        private Dialogue _dialogueCache;
-        
-        public DialogueBuilder()
-        {
-            _dialogueCache = Dialogue.GetPooled();
-        }
-        
+        private Dialogue _dialogueCache = Dialogue.GetPooled();
+
         public void Clear()
         {
             _dialogueCache.Dispose();

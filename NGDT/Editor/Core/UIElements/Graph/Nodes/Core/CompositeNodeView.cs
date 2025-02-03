@@ -9,7 +9,7 @@ using UnityEngine;
 using UnityEngine.UIElements;
 namespace Kurisu.NGDT.Editor
 {
-    [CustomNodeView(typeof(NGDT.CompositeNode), true)]
+    [CustomNodeView(typeof(CompositeNode), true)]
     public class CompositeNodeView : DialogueNodeView, ILayoutNode
     {
         public bool NoValidate { get; private set; }
@@ -27,7 +27,7 @@ namespace Kurisu.NGDT.Editor
 
         public CompositeNodeView(Type type, CeresGraphView graphView): base(type, graphView)
         {
-            AddToClassList("CompositeNode");
+            AddToClassList(nameof(CompositeNodeView));
             AddChild();
         }
         

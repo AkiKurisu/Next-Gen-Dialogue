@@ -3,7 +3,6 @@ using Ceres.Editor;
 using Ceres.Editor.Graph;
 using Kurisu.NGDT.Editor;
 using UnityEditor.Localization;
-using UnityEngine;
 using UnityEngine.Localization.Tables;
 using UnityEngine.UIElements;
 namespace Kurisu.NGDT.Localization.Editor
