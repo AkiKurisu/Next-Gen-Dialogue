@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Threading;
 using Chris.Gameplay;
 using Cysharp.Threading.Tasks;
+using R3;
+
 namespace Kurisu.NGDS
 {
     /// <summary>
@@ -10,7 +12,7 @@ namespace Kurisu.NGDS
     /// </summary>
     public class DialogueSystem : WorldSubsystem
     {
-        public class DialogueResolverContainer
+        private class DialogueResolverContainer
         {
             private readonly IDialogueResolver _dialogueResolver;
             
@@ -44,21 +46,21 @@ namespace Kurisu.NGDS
             }
         }
         
-        private IDialogueLookup _dialogueLookup;
+        private IDialogueContainer _dialogueContainer;
         
-        public bool IsPlaying => _dialogueLookup != null;
+        public bool IsPlaying => _dialogueContainer != null;
         
-        public event Action<IDialogueResolver> OnDialogueStart;
+        public readonly Subject<IDialogueResolver> OnDialogueStart = new();
         
-        public event Action<IPieceResolver> OnPiecePlay;
+        public readonly Subject<IPieceResolver> OnPiecePlay = new();
         
-        public event Action<IOptionResolver> OnOptionCreate;
+        public readonly Subject<IOptionResolver> OnOptionCreate = new();
         
-        public event Action OnDialogueOver;
+        public readonly Subject<Unit> OnDialogueOver = new();
         
         private DialogueResolverContainer _resolverContainer;
         
-        protected DialogueResolverContainer ResolverContainer
+        private DialogueResolverContainer ResolverContainer
         {
             get
             {
@@ -78,21 +80,25 @@ namespace Kurisu.NGDS
             _cts.Cancel();
             _cts.Dispose();
             _cts = null;
+            OnDialogueStart.Dispose();
+            OnOptionCreate.Dispose();
+            OnPiecePlay.Dispose();
+            OnDialogueOver.Dispose();
         }
         
-        public IDialogueLookup GetCurrentLookup()
+        public IDialogueContainer GetCurrentContainer()
         {
-            return _dialogueLookup;
+            return _dialogueContainer;
         }
         
         public Dialogue GetCurrentDialogue()
         {
-            return _dialogueLookup?.ToDialogue();
+            return _dialogueContainer?.ToDialogue();
         }
         
-        public void StartDialogue(IDialogueLookup dialogueProvider)
+        public void StartDialogue(IDialogueContainer dialogueProvider)
         {
-            _dialogueLookup = dialogueProvider;
+            _dialogueContainer = dialogueProvider;
             var dialogueData = dialogueProvider.ToDialogue();
             ResolverContainer.Install(dialogueData);
             ResolverContainer.DialogueResolver.Inject(dialogueData, this);
@@ -102,8 +108,8 @@ namespace Kurisu.NGDS
         private async UniTask DialogueEnterAsync()
         {
             await ResolverContainer.DialogueResolver.EnterDialogue().AttachExternalCancellation(_cts.Token);
-            OnDialogueStart?.Invoke(ResolverContainer.DialogueResolver);
-            PlayDialoguePiece(_dialogueLookup.GetFirst());
+            OnDialogueStart.OnNext(ResolverContainer.DialogueResolver);
+            PlayDialoguePiece(_dialogueContainer.GetFirst());
         }
         
         private void PlayDialoguePiece(Piece piece)
@@ -115,12 +121,12 @@ namespace Kurisu.NGDS
         private async UniTask PieceEnterAsync()
         {
             await ResolverContainer.PieceResolver.EnterPiece().AttachExternalCancellation(_cts.Token);
-            OnPiecePlay?.Invoke(ResolverContainer.PieceResolver);
+            OnPiecePlay.OnNext(ResolverContainer.PieceResolver);
         }
         
         public void PlayDialoguePiece(string targetID)
         {
-            PlayDialoguePiece(_dialogueLookup.GetNext(targetID));
+            PlayDialoguePiece(_dialogueContainer.GetNext(targetID));
         }
         
         public void CreateOption(IReadOnlyList<Option> options)
@@ -132,7 +138,7 @@ namespace Kurisu.NGDS
         private async UniTask OptionEnterAsync()
         {
             await ResolverContainer.OptionResolver.EnterOption().AttachExternalCancellation(_cts.Token);
-            OnOptionCreate?.Invoke(ResolverContainer.OptionResolver);
+            OnOptionCreate.OnNext(ResolverContainer.OptionResolver);
         }
 
         public void EndDialogue(bool forceEnd)
@@ -143,8 +149,8 @@ namespace Kurisu.NGDS
                 _cts = new CancellationTokenSource();
             }
             ResolverContainer.DialogueResolver.ExitDialogue();
-            OnDialogueOver?.Invoke();
-            _dialogueLookup = null;
+            OnDialogueOver.OnNext(Unit.Default);
+            _dialogueContainer = null;
         }
     }
 }

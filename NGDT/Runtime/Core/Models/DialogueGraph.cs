@@ -243,7 +243,7 @@ namespace Kurisu.NGDT
             _nodesBuffer.Clear();
         }
         
-        public void EndBuildDialogue(IDialogueLookup dialogue)
+        public void EndBuildDialogue(IDialogueContainer dialogue)
         {
             DialogueSystem.Get().StartDialogue(dialogue);
         }

@@ -1,8 +1,8 @@
 using System;
 using Kurisu.NGDS;
+using R3;
 using UnityEngine;
 using UnityEngine.Playables;
-using UnityEngine.Serialization;
 namespace Kurisu.NGDT.Timeline
 {
     public class TimelineDialogue : MonoBehaviour, INotificationReceiver
@@ -34,11 +34,6 @@ namespace Kurisu.NGDT.Timeline
             _dialogueSystem = DialogueSystem.Get();
         }
         
-        private void OnDestroy()
-        {
-            _dialogueSystem.OnDialogueOver -= ContinueDialogue;
-        }
-        
         public void OnNotify(Playable origin, INotification notification, object context)
         {
             if (notification is not DialogueSignal dialogueSignal) return;
@@ -62,13 +57,12 @@ namespace Kurisu.NGDT.Timeline
             if (dialogueSignal.pausePlayable)
             {
                 _director.playableGraph.GetRootPlayable(0).SetSpeed(0d);
-                _dialogueSystem.OnDialogueOver += ContinueDialogue;
+                _dialogueSystem.OnDialogueOver.Take(1).Subscribe(ContinueDialogue).AddTo(this);
             }
         }
         
-        private void ContinueDialogue()
+        private void ContinueDialogue(Unit _)
         {
-            _dialogueSystem.OnDialogueOver -= ContinueDialogue;
             _director.playableGraph.GetRootPlayable(0).SetSpeed(1d);
         }
         

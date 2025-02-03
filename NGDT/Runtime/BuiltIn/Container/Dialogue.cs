@@ -7,7 +7,7 @@ namespace Kurisu.NGDT
 {
     [Serializable]
     [NodeInfo("Dialogue is the main container of dialogue pieces")]
-    public class Dialogue : ContainerNode, IDialogueLookup
+    public class Dialogue : ContainerNode, IDialogueContainer
     {
 #if UNITY_EDITOR
         // Just to know which is referenced in graph, should have better solution
@@ -56,7 +56,7 @@ namespace Kurisu.NGDT
             _pieceMap.Clear();
         }
         
-        NGDS.Piece IDialogueLookup.GetNext(string id)
+        NGDS.Piece IDialogueContainer.GetNext(string id)
         {
 #if UNITY_EDITOR
             Graph.Root.UpdateEditor?.Invoke();
@@ -72,7 +72,7 @@ namespace Kurisu.NGDT
             return newPiece;
         }
         
-        NGDS.Piece IDialogueLookup.GetFirst()
+        NGDS.Piece IDialogueContainer.GetFirst()
         {
 #if UNITY_EDITOR
             Graph.Root.UpdateEditor?.Invoke();

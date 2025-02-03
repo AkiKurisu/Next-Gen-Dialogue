@@ -3,7 +3,7 @@ namespace Kurisu.NGDS
     /// <summary>
     /// Runtime dialogue builder using code
     /// </summary>
-    public class RuntimeDialogueBuilder : IDialogueLookup
+    public class RuntimeDialogueBuilder : IDialogueContainer
     {
         private Dialogue _dialogueCache = Dialogue.GetPooled();
 
@@ -13,13 +13,13 @@ namespace Kurisu.NGDS
             _dialogueCache = Dialogue.GetPooled();
         }
         
-        Piece IDialogueLookup.GetNext(string id)
+        Piece IDialogueContainer.GetNext(string id)
         {
             var newPiece = _dialogueCache.GetPiece(id);
             return newPiece;
         }
         
-        Piece IDialogueLookup.GetFirst()
+        Piece IDialogueContainer.GetFirst()
         {
             var piece = _dialogueCache.Pieces[0];
             return piece;

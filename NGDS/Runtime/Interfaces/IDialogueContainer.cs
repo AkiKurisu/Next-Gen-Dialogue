@@ -1,6 +1,6 @@
 namespace Kurisu.NGDS
 {
-    public interface IDialogueLookup
+    public interface IDialogueContainer
     {
         /// <summary>
         /// Get the next dialogue piece according to the index
