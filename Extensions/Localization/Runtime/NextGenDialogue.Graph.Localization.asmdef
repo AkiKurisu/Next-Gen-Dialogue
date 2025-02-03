@@ -1,0 +1,29 @@
+{
+    "name": "NextGenDialogue.Graph.Localization",
+    "rootNamespace": "NextGenDialogue.Graph.Localization",
+    "references": [
+        "GUID:4a9214fa9d60c4c92bfc3c635010f27f",
+        "GUID:84651a3751eca9349aac36a66bba901b",
+        "GUID:a3641cccf50efcd4cafc57a3120fb40e",
+        "GUID:7dddf801c0fab33408b06985cd6a607e",
+        "GUID:e61a2a07ba2680848ad23eef5b7c024b",
+        "GUID:eec0964c48f6f4e40bc3ec2257ccf8c5"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [
+        "LOCALIZATION_INSTALL"
+    ],
+    "versionDefines": [
+        {
+            "name": "com.unity.localization",
+            "expression": "1.4.0",
+            "define": "LOCALIZATION_INSTALL"
+        }
+    ],
+    "noEngineReferences": false
+}

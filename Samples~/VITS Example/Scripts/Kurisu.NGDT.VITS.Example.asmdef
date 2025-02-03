@@ -1,0 +1,19 @@
+{
+    "name": "Kurisu.NGDT.VITS.Example",
+    "rootNamespace": "Kurisu.NGDT.VITS.Example",
+    "references": [
+        "GUID:a3641cccf50efcd4cafc57a3120fb40e",
+        "GUID:b81d7f3fee7e06444b67ba0de5b3651b",
+        "GUID:f51ebe6a0ceec4240a699833d6309b23",
+        "GUID:a1522487bb381474896580435573c012"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

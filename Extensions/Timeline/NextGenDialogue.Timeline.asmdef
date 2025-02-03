@@ -1,0 +1,30 @@
+{
+    "name": "NextGenDialogue.Timeline",
+    "rootNamespace": "NextGenDialogue.Timeline",
+    "references": [
+        "GUID:4a9214fa9d60c4c92bfc3c635010f27f",
+        "GUID:a3641cccf50efcd4cafc57a3120fb40e",
+        "GUID:f06555f75b070af458a003d92f9efb00",
+        "GUID:7dddf801c0fab33408b06985cd6a607e",
+        "GUID:e61a2a07ba2680848ad23eef5b7c024b",
+        "GUID:a1522487bb381474896580435573c012",
+        "GUID:77221876cc6b8244180b96e320b1bcd4"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [
+        "TIMELINE_INSTALL"
+    ],
+    "versionDefines": [
+        {
+            "name": "com.unity.timeline",
+            "expression": "1.6.0",
+            "define": "TIMELINE_INSTALL"
+        }
+    ],
+    "noEngineReferences": false
+}

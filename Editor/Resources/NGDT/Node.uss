@@ -1,0 +1,135 @@
+#title-label
+{
+    color:black;
+    font-size: 15px;
+}
+
+.unity-base-field__label
+{
+    min-width:20px;
+}
+
+.unity-base-field
+{
+    flex-basis:auto;
+    min-width:80px;
+}
+
+#unity-text-input
+{
+    min-width:50px;
+}
+
+.SharedVariableField
+{
+    flex-direction:column
+}
+
+.CompositeNodeView #title 
+{
+    background-color: rgba(76, 255, 85, 0.91);
+    color: white;
+}
+
+.ActionNodeView #title 
+{
+    background-color: rgba(251, 114, 153, 0.91);
+}
+
+.ModuleNodeView #title {
+    background-color: rgba(0, 255, 168, 0.91);
+}
+
+.EditorModuleNodeView #title {
+    background-color: rgba(255, 239, 86, 0.91);
+}
+
+.BehaviorModuleNodeView #title {
+    background-color: rgba(0, 255, 220, 0.91);
+}
+
+.DialogueStack {
+    color: white;
+}
+
+#DialogueContainerView {
+   background-color: rgba(97, 95, 212, 0.91);
+}
+
+#PieceContainerView {
+   background-color: rgba(80, 146, 150, 0.91);
+}
+
+PieceContainerView  .PieceIDField .unity-base-field__label
+{
+    color: white;
+    font-size: 20px;
+    -unity-text-align : middle-center;
+}
+
+#PieceContainerView:selected>#borderItem
+{
+    border-color:rgba(0, 255, 139, 0.91);
+    border-left-width:5px;
+    border-top-width:5px;
+    border-right-width:5px;
+    border-bottom-width:5px;
+}
+
+#OptionContainerView
+{
+    background-color: rgba(57, 98, 147, 0.91);
+}
+
+#DialoguePort 
+{
+   background-color: rgba(97, 95, 212, 0.91);
+}
+
+#PiecePort 
+{
+   background-color:  rgba(80, 146, 150, 0.91);
+}
+
+#OptionPort
+{
+    background-color: rgba(57, 98, 147, 0.91);
+}
+
+.multiline
+{
+    white-space : normal;
+}
+
+#stack-node-placeholder
+{
+    color: white;
+}
+
+RootNodeView #title 
+{
+    background-color: rgba(191, 117, 255, 0.91);
+}
+
+Foldout:hover
+{
+   background-color: rgba(77, 77, 77, 0.91);
+}
+
+#settings-button {
+    border-width: 0px;
+    width: 28px;
+    height: 28px;
+    background-color: rgba(63, 63, 63, 0);
+    border-radius: 0px;
+}
+
+#settings-button > #icon {
+    -unity-background-scale-mode: scale-to-fit;
+    background-image: resource("NGDT/SettingIcon");
+    flex-grow: 1;
+}
+
+#settings-button:hover {
+    background-color: rgba(127, 127, 127 0.2);
+}

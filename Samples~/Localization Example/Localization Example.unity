@@ -1,0 +1,1697 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!29 &1
+OcclusionCullingSettings:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_OcclusionBakeSettings:
+    smallestOccluder: 5
+    smallestHole: 0.25
+    backfaceThreshold: 100
+  m_SceneGUID: 00000000000000000000000000000000
+  m_OcclusionCullingData: {fileID: 0}
+--- !u!104 &2
+RenderSettings:
+  m_ObjectHideFlags: 0
+  serializedVersion: 9
+  m_Fog: 0
+  m_FogColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  m_FogMode: 3
+  m_FogDensity: 0.01
+  m_LinearFogStart: 0
+  m_LinearFogEnd: 300
+  m_AmbientSkyColor: {r: 0.212, g: 0.227, b: 0.259, a: 1}
+  m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
+  m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
+  m_AmbientIntensity: 1
+  m_AmbientMode: 0
+  m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
+  m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
+  m_HaloStrength: 0.5
+  m_FlareStrength: 1
+  m_FlareFadeSpeed: 3
+  m_HaloTexture: {fileID: 0}
+  m_SpotCookie: {fileID: 10001, guid: 0000000000000000e000000000000000, type: 0}
+  m_DefaultReflectionMode: 0
+  m_DefaultReflectionResolution: 128
+  m_ReflectionBounces: 1
+  m_ReflectionIntensity: 1
+  m_CustomReflection: {fileID: 0}
+  m_Sun: {fileID: 0}
+  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_UseRadianceAmbientProbe: 0
+--- !u!157 &3
+LightmapSettings:
+  m_ObjectHideFlags: 0
+  serializedVersion: 12
+  m_GIWorkflowMode: 1
+  m_GISettings:
+    serializedVersion: 2
+    m_BounceScale: 1
+    m_IndirectOutputScale: 1
+    m_AlbedoBoost: 1
+    m_EnvironmentLightingMode: 0
+    m_EnableBakedLightmaps: 1
+    m_EnableRealtimeLightmaps: 0
+  m_LightmapEditorSettings:
+    serializedVersion: 12
+    m_Resolution: 2
+    m_BakeResolution: 40
+    m_AtlasSize: 1024
+    m_AO: 0
+    m_AOMaxDistance: 1
+    m_CompAOExponent: 1
+    m_CompAOExponentDirect: 0
+    m_ExtractAmbientOcclusion: 0
+    m_Padding: 2
+    m_LightmapParameters: {fileID: 0}
+    m_LightmapsBakeMode: 1
+    m_TextureCompression: 1
+    m_FinalGather: 0
+    m_FinalGatherFiltering: 1
+    m_FinalGatherRayCount: 256
+    m_ReflectionCompression: 2
+    m_MixedBakeMode: 2
+    m_BakeBackend: 1
+    m_PVRSampling: 1
+    m_PVRDirectSampleCount: 32
+    m_PVRSampleCount: 500
+    m_PVRBounces: 2
+    m_PVREnvironmentSampleCount: 500
+    m_PVREnvironmentReferencePointCount: 2048
+    m_PVRFilteringMode: 2
+    m_PVRDenoiserTypeDirect: 0
+    m_PVRDenoiserTypeIndirect: 0
+    m_PVRDenoiserTypeAO: 0
+    m_PVRFilterTypeDirect: 0
+    m_PVRFilterTypeIndirect: 0
+    m_PVRFilterTypeAO: 0
+    m_PVREnvironmentMIS: 0
+    m_PVRCulling: 1
+    m_PVRFilteringGaussRadiusDirect: 1
+    m_PVRFilteringGaussRadiusIndirect: 5
+    m_PVRFilteringGaussRadiusAO: 2
+    m_PVRFilteringAtrousPositionSigmaDirect: 0.5
+    m_PVRFilteringAtrousPositionSigmaIndirect: 2
+    m_PVRFilteringAtrousPositionSigmaAO: 1
+    m_ExportTrainingData: 0
+    m_TrainingDataDestination: TrainingData
+    m_LightProbeSampleCountMultiplier: 4
+  m_LightingDataAsset: {fileID: 0}
+  m_LightingSettings: {fileID: 0}
+--- !u!196 &4
+NavMeshSettings:
+  serializedVersion: 2
+  m_ObjectHideFlags: 0
+  m_BuildSettings:
+    serializedVersion: 3
+    agentTypeID: 0
+    agentRadius: 0.5
+    agentHeight: 2
+    agentSlope: 45
+    agentClimb: 0.4
+    ledgeDropHeight: 0
+    maxJumpAcrossDistance: 0
+    minRegionArea: 2
+    manualCellSize: 0
+    cellSize: 0.16666667
+    manualTileSize: 0
+    tileSize: 256
+    buildHeightMesh: 0
+    maxJobWorkers: 0
+    preserveTilesOutsideBounds: 0
+    debug:
+      m_Flags: 0
+  m_NavMeshData: {fileID: 23800000, guid: 8a76606974ddf9e4a8f50878f772bd92, type: 2}
+--- !u!1001 &165804552
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 697532185179617100, guid: ecd532ca1871ce645aa75901cc037511, type: 3}
+      propertyPath: m_Pivot.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 697532185179617100, guid: ecd532ca1871ce645aa75901cc037511, type: 3}
+      propertyPath: m_Pivot.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 697532185179617100, guid: ecd532ca1871ce645aa75901cc037511, type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 697532185179617100, guid: ecd532ca1871ce645aa75901cc037511, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 697532185179617100, guid: ecd532ca1871ce645aa75901cc037511, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 697532185179617100, guid: ecd532ca1871ce645aa75901cc037511, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 697532185179617100, guid: ecd532ca1871ce645aa75901cc037511, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 697532185179617100, guid: ecd532ca1871ce645aa75901cc037511, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 697532185179617100, guid: ecd532ca1871ce645aa75901cc037511, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 697532185179617100, guid: ecd532ca1871ce645aa75901cc037511, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 697532185179617100, guid: ecd532ca1871ce645aa75901cc037511, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 697532185179617100, guid: ecd532ca1871ce645aa75901cc037511, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 697532185179617100, guid: ecd532ca1871ce645aa75901cc037511, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 697532185179617100, guid: ecd532ca1871ce645aa75901cc037511, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 697532185179617100, guid: ecd532ca1871ce645aa75901cc037511, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 697532185179617100, guid: ecd532ca1871ce645aa75901cc037511, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 697532185179617100, guid: ecd532ca1871ce645aa75901cc037511, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 697532185179617100, guid: ecd532ca1871ce645aa75901cc037511, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 697532185179617100, guid: ecd532ca1871ce645aa75901cc037511, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 697532185179617100, guid: ecd532ca1871ce645aa75901cc037511, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 697532185179617100, guid: ecd532ca1871ce645aa75901cc037511, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 697532185179617105, guid: ecd532ca1871ce645aa75901cc037511, type: 3}
+      propertyPath: m_Name
+      value: DialogueUI
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: ecd532ca1871ce645aa75901cc037511, type: 3}
+--- !u!1 &250742056
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 250742057}
+  - component: {fileID: 250742059}
+  - component: {fileID: 250742058}
+  m_Layer: 0
+  m_Name: Main Camera
+  m_TagString: MainCamera
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &250742057
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 250742056}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: -2, z: -10}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1190634932}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!81 &250742058
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 250742056}
+  m_Enabled: 1
+--- !u!20 &250742059
+Camera:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 250742056}
+  m_Enabled: 1
+  serializedVersion: 2
+  m_ClearFlags: 2
+  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_projectionMatrixMode: 1
+  m_GateFitMode: 2
+  m_FOVAxisMode: 0
+  m_Iso: 200
+  m_ShutterSpeed: 0.005
+  m_Aperture: 16
+  m_FocusDistance: 10
+  m_FocalLength: 50
+  m_BladeCount: 5
+  m_Curvature: {x: 2, y: 11}
+  m_BarrelClipping: 0.25
+  m_Anamorphism: 0
+  m_SensorSize: {x: 36, y: 24}
+  m_LensShift: {x: 0, y: 0}
+  m_NormalizedViewPortRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
+  near clip plane: 0.3
+  far clip plane: 1000
+  field of view: 60
+  orthographic: 0
+  orthographic size: 5
+  m_Depth: -1
+  m_CullingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_RenderingPath: -1
+  m_TargetTexture: {fileID: 0}
+  m_TargetDisplay: 0
+  m_TargetEye: 3
+  m_HDR: 1
+  m_AllowMSAA: 1
+  m_AllowDynamicResolution: 0
+  m_ForceIntoRT: 0
+  m_OcclusionCulling: 1
+  m_StereoConvergence: 10
+  m_StereoSeparation: 0.022
+--- !u!1 &1190634931
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1190634932}
+  m_Layer: 0
+  m_Name: NotImportant
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1190634932
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1190634931}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 3, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 250742057}
+  - {fileID: 1593538471}
+  - {fileID: 1481434910}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1331404402
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1331404404}
+  - component: {fileID: 1331404403}
+  m_Layer: 0
+  m_Name: 'Example: Use Localization Entry'
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1331404403
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1331404402}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e290e3e9d5caab4ea26d1a4879ba82f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialogueGraphData:
+    variables:
+    - rid: 1770628312074289152
+    - rid: 1770628312074289153
+    - rid: 1770628312074289154
+    nodes:
+    - rid: 1770628312074289155
+    - rid: 1770628312074289155
+    - rid: 1770628312074289156
+    - rid: 1770628312074289157
+    - rid: 1770628312074289158
+    - rid: 1770628312074289159
+    - rid: 1770628312074289160
+    - rid: 1770628312074289161
+    - rid: 1770628312074289157
+    - rid: 1770628312074289158
+    - rid: 1770628312074289159
+    - rid: 1770628312074289160
+    - rid: 1770628312074289161
+    - rid: 1770628312074289162
+    - rid: 1770628312074289163
+    - rid: 1770628312074289164
+    - rid: 1770628312074289165
+    - rid: 1770628312074289166
+    variableData:
+    - variableType:
+        _class: PieceID
+        _ns: NextGenDialogue.Graph
+        _asm: NextGenDialogue.Graph
+      serializedData: '{"isShared":true,"isGlobal":false,"isExposed":false,"mName":"Dialog1","value":""}'
+      uobjectLinks: []
+    - variableType:
+        _class: PieceID
+        _ns: NextGenDialogue.Graph
+        _asm: NextGenDialogue.Graph
+      serializedData: '{"isShared":true,"isGlobal":false,"isExposed":false,"mName":"Dialog2","value":""}'
+      uobjectLinks: []
+    - variableType:
+        _class: PieceID
+        _ns: NextGenDialogue.Graph
+        _asm: NextGenDialogue.Graph
+      serializedData: '{"isShared":true,"isGlobal":false,"isExposed":false,"mName":"Dialog3","value":""}'
+      uobjectLinks: []
+    nodeData:
+    - graphPosition:
+        serializedVersion: 2
+        x: 400
+        y: 300
+        width: 115
+        height: 77
+      description: 
+      guid: aeb937a8-9ca8-4b81-934c-a59807246ec1
+      nodeType:
+        _class: Root
+        _ns: NextGenDialogue.Graph
+        _asm: NextGenDialogue.Graph
+      genericParameters: []
+      serializedData: '{"nodeData":{"graphPosition":{"serializedVersion":"2","x":400.0,"y":300.0,"width":115.0,"height":77.0},"description":"","guid":"aeb937a8-9ca8-4b81-934c-a59807246ec1","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"child":{"rid":-2},"children":[],"references":{"version":2,"RefIds":[{"rid":-2,"type":{"class":"","ns":"","asm":""},"data":{}}]}}'
+      executionPath: 0
+      portData: []
+      uobjectLinks: []
+    - graphPosition:
+        serializedVersion: 2
+        x: 400
+        y: 300
+        width: 115
+        height: 77
+      description: 
+      guid: aeb937a8-9ca8-4b81-934c-a59807246ec1
+      nodeType:
+        _class: Root
+        _ns: NextGenDialogue.Graph
+        _asm: NextGenDialogue.Graph
+      genericParameters: []
+      serializedData: '{"nodeData":{"graphPosition":{"serializedVersion":"2","x":400.0,"y":300.0,"width":115.0,"height":77.0},"description":"","guid":"aeb937a8-9ca8-4b81-934c-a59807246ec1","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"child":{"rid":-2},"children":[],"references":{"version":2,"RefIds":[{"rid":-2,"type":{"class":"","ns":"","asm":""},"data":{}}]}}'
+      executionPath: 0
+      portData: []
+      uobjectLinks: []
+    - graphPosition:
+        serializedVersion: 2
+        x: 578
+        y: 265
+        width: 150
+        height: 276
+      description: 
+      guid: 278de3d4-67ca-47c2-bc2e-cb430b79ffad
+      nodeType:
+        _class: Dialogue
+        _ns: NextGenDialogue.Graph
+        _asm: NextGenDialogue.Graph
+      genericParameters: []
+      serializedData: '{"nodeData":{"graphPosition":{"serializedVersion":"2","x":578.0,"y":265.0,"width":150.0,"height":276.0},"description":"","guid":"278de3d4-67ca-47c2-bc2e-cb430b79ffad","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"children":[],"referencePieces":[""],"references":{"version":2,"RefIds":[]}}'
+      executionPath: 0
+      portData: []
+      uobjectLinks: []
+    - graphPosition:
+        serializedVersion: 2
+        x: 790
+        y: 240
+        width: 400
+        height: 351
+      description: 
+      guid: 4d6ffd6c-d36a-4cb0-9a62-43c5cfd4530f
+      nodeType:
+        _class: Piece
+        _ns: NextGenDialogue.Graph
+        _asm: NextGenDialogue.Graph
+      genericParameters: []
+      serializedData: '{"nodeData":{"graphPosition":{"serializedVersion":"2","x":790.0,"y":240.0,"width":400.0,"height":351.0},"description":"","guid":"4d6ffd6c-d36a-4cb0-9a62-43c5cfd4530f","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"children":[],"pieceID":{"isShared":true,"isGlobal":false,"isExposed":false,"mName":"Dialog1","value":""},"references":{"version":2,"RefIds":[]}}'
+      executionPath: 0
+      portData: []
+      uobjectLinks: []
+    - graphPosition:
+        serializedVersion: 2
+        x: 0
+        y: 108
+        width: 376
+        height: 100
+      description: 
+      guid: 41d97edb-987b-49dc-a1e8-d737d0f3468d
+      nodeType:
+        _class: LocalizedContentModule
+        _ns: NextGenDialogue.Graph.Localization
+        _asm: NextGenDialogue.Graph.Localization
+      genericParameters: []
+      serializedData: '{"nodeData":{"graphPosition":{"serializedVersion":"2","x":0.0,"y":108.0,"width":376.0,"height":100.0},"description":"","guid":"41d97edb-987b-49dc-a1e8-d737d0f3468d","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"tableEntry":{"isShared":false,"isGlobal":false,"isExposed":false,"mName":"","value":"Dialogue"},"stringEntry":{"isShared":false,"isGlobal":false,"isExposed":false,"mName":"","value":"Dialogue-Piece-0000"}}'
+      executionPath: 0
+      portData: []
+      uobjectLinks: []
+    - graphPosition:
+        serializedVersion: 2
+        x: 1240
+        y: 226
+        width: 235
+        height: 378
+      description: 
+      guid: ac7d76f8-13fa-4341-b433-6ed1d77a9575
+      nodeType:
+        _class: Option
+        _ns: NextGenDialogue.Graph
+        _asm: NextGenDialogue.Graph
+      genericParameters: []
+      serializedData: '{"nodeData":{"graphPosition":{"serializedVersion":"2","x":1240.0,"y":226.0,"width":235.0,"height":378.0},"description":"","guid":"ac7d76f8-13fa-4341-b433-6ed1d77a9575","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"children":[],"references":{"version":2,"RefIds":[]}}'
+      executionPath: 0
+      portData: []
+      uobjectLinks: []
+    - graphPosition:
+        serializedVersion: 2
+        x: 0
+        y: 79
+        width: 211
+        height: 100
+      description: 
+      guid: 6bee565f-85b6-4b60-828f-765949b0169f
+      nodeType:
+        _class: LocalizedContentModule
+        _ns: NextGenDialogue.Graph.Localization
+        _asm: NextGenDialogue.Graph.Localization
+      genericParameters: []
+      serializedData: '{"nodeData":{"graphPosition":{"serializedVersion":"2","x":0.0,"y":79.0,"width":211.0,"height":100.0},"description":"","guid":"6bee565f-85b6-4b60-828f-765949b0169f","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"tableEntry":{"isShared":false,"isGlobal":false,"isExposed":false,"mName":"","value":"Dialogue"},"stringEntry":{"isShared":false,"isGlobal":false,"isExposed":false,"mName":"","value":"Dialogue-Option-0000"}}'
+      executionPath: 0
+      portData: []
+      uobjectLinks: []
+    - graphPosition:
+        serializedVersion: 2
+        x: 0
+        y: 179
+        width: 211
+        height: 133
+      description: 
+      guid: 7ffb01a3-a5ba-4889-afda-758a99aed870
+      nodeType:
+        _class: TargetIDModule
+        _ns: NextGenDialogue.Graph
+        _asm: NextGenDialogue.Graph
+      genericParameters: []
+      serializedData: '{"nodeData":{"graphPosition":{"serializedVersion":"2","x":0.0,"y":179.0,"width":211.0,"height":133.0},"description":"","guid":"7ffb01a3-a5ba-4889-afda-758a99aed870","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"useReference":false,"targetID":{"isShared":true,"isGlobal":false,"isExposed":false,"mName":"Dialog2","value":""}}'
+      executionPath: 0
+      portData: []
+      uobjectLinks: []
+    - graphPosition:
+        serializedVersion: 2
+        x: 790
+        y: 240
+        width: 400
+        height: 351
+      description: 
+      guid: 4d6ffd6c-d36a-4cb0-9a62-43c5cfd4530f
+      nodeType:
+        _class: Piece
+        _ns: NextGenDialogue.Graph
+        _asm: NextGenDialogue.Graph
+      genericParameters: []
+      serializedData: '{"nodeData":{"graphPosition":{"serializedVersion":"2","x":790.0,"y":240.0,"width":400.0,"height":351.0},"description":"","guid":"4d6ffd6c-d36a-4cb0-9a62-43c5cfd4530f","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"children":[],"pieceID":{"isShared":true,"isGlobal":false,"isExposed":false,"mName":"Dialog1","value":""},"references":{"version":2,"RefIds":[]}}'
+      executionPath: 0
+      portData: []
+      uobjectLinks: []
+    - graphPosition:
+        serializedVersion: 2
+        x: 0
+        y: 108
+        width: 376
+        height: 100
+      description: 
+      guid: 41d97edb-987b-49dc-a1e8-d737d0f3468d
+      nodeType:
+        _class: LocalizedContentModule
+        _ns: NextGenDialogue.Graph.Localization
+        _asm: NextGenDialogue.Graph.Localization
+      genericParameters: []
+      serializedData: '{"nodeData":{"graphPosition":{"serializedVersion":"2","x":0.0,"y":108.0,"width":376.0,"height":100.0},"description":"","guid":"41d97edb-987b-49dc-a1e8-d737d0f3468d","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"tableEntry":{"isShared":false,"isGlobal":false,"isExposed":false,"mName":"","value":"Dialogue"},"stringEntry":{"isShared":false,"isGlobal":false,"isExposed":false,"mName":"","value":"Dialogue-Piece-0000"}}'
+      executionPath: 0
+      portData: []
+      uobjectLinks: []
+    - graphPosition:
+        serializedVersion: 2
+        x: 1240
+        y: 226
+        width: 235
+        height: 378
+      description: 
+      guid: ac7d76f8-13fa-4341-b433-6ed1d77a9575
+      nodeType:
+        _class: Option
+        _ns: NextGenDialogue.Graph
+        _asm: NextGenDialogue.Graph
+      genericParameters: []
+      serializedData: '{"nodeData":{"graphPosition":{"serializedVersion":"2","x":1240.0,"y":226.0,"width":235.0,"height":378.0},"description":"","guid":"ac7d76f8-13fa-4341-b433-6ed1d77a9575","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"children":[],"references":{"version":2,"RefIds":[]}}'
+      executionPath: 0
+      portData: []
+      uobjectLinks: []
+    - graphPosition:
+        serializedVersion: 2
+        x: 0
+        y: 79
+        width: 211
+        height: 100
+      description: 
+      guid: 6bee565f-85b6-4b60-828f-765949b0169f
+      nodeType:
+        _class: LocalizedContentModule
+        _ns: NextGenDialogue.Graph.Localization
+        _asm: NextGenDialogue.Graph.Localization
+      genericParameters: []
+      serializedData: '{"nodeData":{"graphPosition":{"serializedVersion":"2","x":0.0,"y":79.0,"width":211.0,"height":100.0},"description":"","guid":"6bee565f-85b6-4b60-828f-765949b0169f","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"tableEntry":{"isShared":false,"isGlobal":false,"isExposed":false,"mName":"","value":"Dialogue"},"stringEntry":{"isShared":false,"isGlobal":false,"isExposed":false,"mName":"","value":"Dialogue-Option-0000"}}'
+      executionPath: 0
+      portData: []
+      uobjectLinks: []
+    - graphPosition:
+        serializedVersion: 2
+        x: 0
+        y: 179
+        width: 211
+        height: 133
+      description: 
+      guid: 7ffb01a3-a5ba-4889-afda-758a99aed870
+      nodeType:
+        _class: TargetIDModule
+        _ns: NextGenDialogue.Graph
+        _asm: NextGenDialogue.Graph
+      genericParameters: []
+      serializedData: '{"nodeData":{"graphPosition":{"serializedVersion":"2","x":0.0,"y":179.0,"width":211.0,"height":133.0},"description":"","guid":"7ffb01a3-a5ba-4889-afda-758a99aed870","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"useReference":false,"targetID":{"isShared":true,"isGlobal":false,"isExposed":false,"mName":"Dialog2","value":""}}'
+      executionPath: 0
+      portData: []
+      uobjectLinks: []
+    - graphPosition:
+        serializedVersion: 2
+        x: 1525
+        y: 212
+        width: 400
+        height: 407
+      description: 
+      guid: 0063af5f-12ed-4c08-8fdc-57b36285658f
+      nodeType:
+        _class: Piece
+        _ns: NextGenDialogue.Graph
+        _asm: NextGenDialogue.Graph
+      genericParameters: []
+      serializedData: '{"nodeData":{"graphPosition":{"serializedVersion":"2","x":1525.0,"y":212.0,"width":400.0,"height":407.0},"description":"","guid":"0063af5f-12ed-4c08-8fdc-57b36285658f","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"children":[],"pieceID":{"isShared":true,"isGlobal":false,"isExposed":false,"mName":"Dialog2","value":""},"references":{"version":2,"RefIds":[]}}'
+      executionPath: 0
+      portData: []
+      uobjectLinks: []
+    - graphPosition:
+        serializedVersion: 2
+        x: 0
+        y: 108
+        width: 376
+        height: 100
+      description: 
+      guid: c1216012-412e-4c17-bb6b-d5e8413ba8b8
+      nodeType:
+        _class: LocalizedContentModule
+        _ns: NextGenDialogue.Graph.Localization
+        _asm: NextGenDialogue.Graph.Localization
+      genericParameters: []
+      serializedData: '{"nodeData":{"graphPosition":{"serializedVersion":"2","x":0.0,"y":108.0,"width":376.0,"height":100.0},"description":"","guid":"c1216012-412e-4c17-bb6b-d5e8413ba8b8","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"tableEntry":{"isShared":false,"isGlobal":false,"isExposed":false,"mName":"","value":"Dialogue"},"stringEntry":{"isShared":false,"isGlobal":false,"isExposed":false,"mName":"","value":"Dialogue-Piece-0001"}}'
+      executionPath: 0
+      portData: []
+      uobjectLinks: []
+    - graphPosition:
+        serializedVersion: 2
+        x: 0
+        y: 208
+        width: 376
+        height: 133
+      description: 
+      guid: bfcd250a-5415-4944-a035-2d42d3718ee9
+      nodeType:
+        _class: NextPieceModule
+        _ns: NextGenDialogue.Graph
+        _asm: NextGenDialogue.Graph
+      genericParameters: []
+      serializedData: '{"nodeData":{"graphPosition":{"serializedVersion":"2","x":0.0,"y":208.0,"width":376.0,"height":133.0},"description":"","guid":"bfcd250a-5415-4944-a035-2d42d3718ee9","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"useReference":false,"nextID":{"isShared":true,"isGlobal":false,"isExposed":false,"mName":"Dialog3","value":""}}'
+      executionPath: 0
+      portData: []
+      uobjectLinks: []
+    - graphPosition:
+        serializedVersion: 2
+        x: 1975
+        y: 278
+        width: 400
+        height: 274
+      description: 
+      guid: 15575011-9fd7-40b3-bd2c-f12d26bfec87
+      nodeType:
+        _class: Piece
+        _ns: NextGenDialogue.Graph
+        _asm: NextGenDialogue.Graph
+      genericParameters: []
+      serializedData: '{"nodeData":{"graphPosition":{"serializedVersion":"2","x":1975.0,"y":278.0,"width":400.0,"height":274.0},"description":"","guid":"15575011-9fd7-40b3-bd2c-f12d26bfec87","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"children":[],"pieceID":{"isShared":true,"isGlobal":false,"isExposed":false,"mName":"Dialog3","value":""},"references":{"version":2,"RefIds":[]}}'
+      executionPath: 0
+      portData: []
+      uobjectLinks: []
+    - graphPosition:
+        serializedVersion: 2
+        x: 0
+        y: 108
+        width: 376
+        height: 100
+      description: 
+      guid: 3fa034aa-9994-4bc8-88bf-a2ea4de4d363
+      nodeType:
+        _class: LocalizedContentModule
+        _ns: NextGenDialogue.Graph.Localization
+        _asm: NextGenDialogue.Graph.Localization
+      genericParameters: []
+      serializedData: '{"nodeData":{"graphPosition":{"serializedVersion":"2","x":0.0,"y":108.0,"width":376.0,"height":100.0},"description":"","guid":"3fa034aa-9994-4bc8-88bf-a2ea4de4d363","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"tableEntry":{"isShared":false,"isGlobal":false,"isExposed":false,"mName":"","value":"Dialogue"},"stringEntry":{"isShared":false,"isGlobal":false,"isExposed":false,"mName":"","value":"Dialogue-Piece-0002"}}'
+      executionPath: 0
+      portData: []
+      uobjectLinks: []
+    nodeGroups: []
+    edges:
+    - children: 02000000030000000d00000010000000
+    - children: 
+    - children: 03000000
+    - children: 0400000005000000
+    - children: 
+    - children: 0600000007000000
+    - children: 
+    - children: 
+    - children: 
+    - children: 
+    - children: 
+    - children: 
+    - children: 
+    - children: 0e0000000f000000
+    - children: 
+    - children: 
+    - children: 11000000
+    - children: 
+  flowGraphData:
+    variables: []
+    nodes: []
+    variableData: []
+    nodeData: []
+    nodeGroups: []
+    nodeDependencyPath: []
+  externalAsset: {fileID: 0}
+  root:
+    rid: 8821145986260009022
+  sharedVariables:
+  - rid: 8821145986260009023
+  - rid: 8821145986260009024
+  - rid: 8821145986260009025
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
+    - rid: 1770628312074289152
+      type: {class: PieceID, ns: NextGenDialogue.Graph, asm: NextGenDialogue.Graph}
+      data:
+        isShared: 1
+        isGlobal: 0
+        isExposed: 0
+        mName: Dialog1
+        value: 
+    - rid: 1770628312074289153
+      type: {class: PieceID, ns: NextGenDialogue.Graph, asm: NextGenDialogue.Graph}
+      data:
+        isShared: 1
+        isGlobal: 0
+        isExposed: 0
+        mName: Dialog2
+        value: 
+    - rid: 1770628312074289154
+      type: {class: PieceID, ns: NextGenDialogue.Graph, asm: NextGenDialogue.Graph}
+      data:
+        isShared: 1
+        isGlobal: 0
+        isExposed: 0
+        mName: Dialog3
+        value: 
+    - rid: 1770628312074289155
+      type: {class: Root, ns: NextGenDialogue.Graph, asm: NextGenDialogue.Graph}
+      data:
+        nodeData:
+          graphPosition:
+            serializedVersion: 2
+            x: 400
+            y: 300
+            width: 115
+            height: 77
+          description: 
+          guid: aeb937a8-9ca8-4b81-934c-a59807246ec1
+          nodeType:
+            _class: 
+            _ns: 
+            _asm: 
+          genericParameters: []
+          serializedData: 
+          executionPath: 0
+          portData: []
+          uobjectLinks: []
+        child:
+          rid: -2
+        children: []
+    - rid: 1770628312074289156
+      type: {class: Dialogue, ns: NextGenDialogue.Graph, asm: NextGenDialogue.Graph}
+      data:
+        nodeData:
+          graphPosition:
+            serializedVersion: 2
+            x: 578
+            y: 265
+            width: 150
+            height: 276
+          description: 
+          guid: 278de3d4-67ca-47c2-bc2e-cb430b79ffad
+          nodeType:
+            _class: 
+            _ns: 
+            _asm: 
+          genericParameters: []
+          serializedData: 
+          executionPath: 0
+          portData: []
+          uobjectLinks: []
+        children: []
+        referencePieces:
+        - 
+    - rid: 1770628312074289157
+      type: {class: Piece, ns: NextGenDialogue.Graph, asm: NextGenDialogue.Graph}
+      data:
+        nodeData:
+          graphPosition:
+            serializedVersion: 2
+            x: 790
+            y: 240
+            width: 400
+            height: 351
+          description: 
+          guid: 4d6ffd6c-d36a-4cb0-9a62-43c5cfd4530f
+          nodeType:
+            _class: 
+            _ns: 
+            _asm: 
+          genericParameters: []
+          serializedData: 
+          executionPath: 0
+          portData: []
+          uobjectLinks: []
+        children: []
+        pieceID:
+          isShared: 1
+          isGlobal: 0
+          isExposed: 0
+          mName: Dialog1
+          value: 
+    - rid: 1770628312074289158
+      type: {class: LocalizedContentModule, ns: NextGenDialogue.Graph.Localization, asm: NextGenDialogue.Graph.Localization}
+      data:
+        nodeData:
+          graphPosition:
+            serializedVersion: 2
+            x: 0
+            y: 108
+            width: 376
+            height: 100
+          description: 
+          guid: 41d97edb-987b-49dc-a1e8-d737d0f3468d
+          nodeType:
+            _class: 
+            _ns: 
+            _asm: 
+          genericParameters: []
+          serializedData: 
+          executionPath: 0
+          portData: []
+          uobjectLinks: []
+        tableEntry:
+          isShared: 0
+          isGlobal: 0
+          isExposed: 0
+          mName: 
+          value: Dialogue
+        stringEntry:
+          isShared: 0
+          isGlobal: 0
+          isExposed: 0
+          mName: 
+          value: Dialogue-Piece-0000
+    - rid: 1770628312074289159
+      type: {class: Option, ns: NextGenDialogue.Graph, asm: NextGenDialogue.Graph}
+      data:
+        nodeData:
+          graphPosition:
+            serializedVersion: 2
+            x: 1240
+            y: 226
+            width: 235
+            height: 378
+          description: 
+          guid: ac7d76f8-13fa-4341-b433-6ed1d77a9575
+          nodeType:
+            _class: 
+            _ns: 
+            _asm: 
+          genericParameters: []
+          serializedData: 
+          executionPath: 0
+          portData: []
+          uobjectLinks: []
+        children: []
+    - rid: 1770628312074289160
+      type: {class: LocalizedContentModule, ns: NextGenDialogue.Graph.Localization, asm: NextGenDialogue.Graph.Localization}
+      data:
+        nodeData:
+          graphPosition:
+            serializedVersion: 2
+            x: 0
+            y: 79
+            width: 211
+            height: 100
+          description: 
+          guid: 6bee565f-85b6-4b60-828f-765949b0169f
+          nodeType:
+            _class: 
+            _ns: 
+            _asm: 
+          genericParameters: []
+          serializedData: 
+          executionPath: 0
+          portData: []
+          uobjectLinks: []
+        tableEntry:
+          isShared: 0
+          isGlobal: 0
+          isExposed: 0
+          mName: 
+          value: Dialogue
+        stringEntry:
+          isShared: 0
+          isGlobal: 0
+          isExposed: 0
+          mName: 
+          value: Dialogue-Option-0000
+    - rid: 1770628312074289161
+      type: {class: TargetIDModule, ns: NextGenDialogue.Graph, asm: NextGenDialogue.Graph}
+      data:
+        nodeData:
+          graphPosition:
+            serializedVersion: 2
+            x: 0
+            y: 179
+            width: 211
+            height: 133
+          description: 
+          guid: 7ffb01a3-a5ba-4889-afda-758a99aed870
+          nodeType:
+            _class: 
+            _ns: 
+            _asm: 
+          genericParameters: []
+          serializedData: 
+          executionPath: 0
+          portData: []
+          uobjectLinks: []
+        useReference: 0
+        targetID:
+          isShared: 1
+          isGlobal: 0
+          isExposed: 0
+          mName: Dialog2
+          value: 
+    - rid: 1770628312074289162
+      type: {class: Piece, ns: NextGenDialogue.Graph, asm: NextGenDialogue.Graph}
+      data:
+        nodeData:
+          graphPosition:
+            serializedVersion: 2
+            x: 1525
+            y: 212
+            width: 400
+            height: 407
+          description: 
+          guid: 0063af5f-12ed-4c08-8fdc-57b36285658f
+          nodeType:
+            _class: 
+            _ns: 
+            _asm: 
+          genericParameters: []
+          serializedData: 
+          executionPath: 0
+          portData: []
+          uobjectLinks: []
+        children: []
+        pieceID:
+          isShared: 1
+          isGlobal: 0
+          isExposed: 0
+          mName: Dialog2
+          value: 
+    - rid: 1770628312074289163
+      type: {class: LocalizedContentModule, ns: NextGenDialogue.Graph.Localization, asm: NextGenDialogue.Graph.Localization}
+      data:
+        nodeData:
+          graphPosition:
+            serializedVersion: 2
+            x: 0
+            y: 108
+            width: 376
+            height: 100
+          description: 
+          guid: c1216012-412e-4c17-bb6b-d5e8413ba8b8
+          nodeType:
+            _class: 
+            _ns: 
+            _asm: 
+          genericParameters: []
+          serializedData: 
+          executionPath: 0
+          portData: []
+          uobjectLinks: []
+        tableEntry:
+          isShared: 0
+          isGlobal: 0
+          isExposed: 0
+          mName: 
+          value: Dialogue
+        stringEntry:
+          isShared: 0
+          isGlobal: 0
+          isExposed: 0
+          mName: 
+          value: Dialogue-Piece-0001
+    - rid: 1770628312074289164
+      type: {class: NextPieceModule, ns: NextGenDialogue.Graph, asm: NextGenDialogue.Graph}
+      data:
+        nodeData:
+          graphPosition:
+            serializedVersion: 2
+            x: 0
+            y: 208
+            width: 376
+            height: 133
+          description: 
+          guid: bfcd250a-5415-4944-a035-2d42d3718ee9
+          nodeType:
+            _class: 
+            _ns: 
+            _asm: 
+          genericParameters: []
+          serializedData: 
+          executionPath: 0
+          portData: []
+          uobjectLinks: []
+        useReference: 0
+        nextID:
+          isShared: 1
+          isGlobal: 0
+          isExposed: 0
+          mName: Dialog3
+          value: 
+    - rid: 1770628312074289165
+      type: {class: Piece, ns: NextGenDialogue.Graph, asm: NextGenDialogue.Graph}
+      data:
+        nodeData:
+          graphPosition:
+            serializedVersion: 2
+            x: 1975
+            y: 278
+            width: 400
+            height: 274
+          description: 
+          guid: 15575011-9fd7-40b3-bd2c-f12d26bfec87
+          nodeType:
+            _class: 
+            _ns: 
+            _asm: 
+          genericParameters: []
+          serializedData: 
+          executionPath: 0
+          portData: []
+          uobjectLinks: []
+        children: []
+        pieceID:
+          isShared: 1
+          isGlobal: 0
+          isExposed: 0
+          mName: Dialog3
+          value: 
+    - rid: 1770628312074289166
+      type: {class: LocalizedContentModule, ns: NextGenDialogue.Graph.Localization, asm: NextGenDialogue.Graph.Localization}
+      data:
+        nodeData:
+          graphPosition:
+            serializedVersion: 2
+            x: 0
+            y: 108
+            width: 376
+            height: 100
+          description: 
+          guid: 3fa034aa-9994-4bc8-88bf-a2ea4de4d363
+          nodeType:
+            _class: 
+            _ns: 
+            _asm: 
+          genericParameters: []
+          serializedData: 
+          executionPath: 0
+          portData: []
+          uobjectLinks: []
+        tableEntry:
+          isShared: 0
+          isGlobal: 0
+          isExposed: 0
+          mName: 
+          value: Dialogue
+        stringEntry:
+          isShared: 0
+          isGlobal: 0
+          isExposed: 0
+          mName: 
+          value: Dialogue-Piece-0002
+    - rid: 8821145986260009022
+      type: {class: Root, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
+      data:
+        nodeData:
+          graphPosition:
+            serializedVersion: 2
+            x: 400
+            y: 300
+            width: 100
+            height: 100
+          description: 
+          guid: 
+          nodeType:
+            _class: 
+            _ns: 
+            _asm: 
+          genericParameters: []
+          serializedData: 
+          executionPath: 0
+          portData: []
+          uobjectLinks: []
+        child:
+          rid: 8821145986260009026
+        children:
+        - rid: 8821145986260009027
+        - rid: 8821145986260009028
+        - rid: 8821145986260009029
+    - rid: 8821145986260009023
+      type: {class: PieceID, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
+      data:
+        isShared: 1
+        isGlobal: 0
+        isExposed: 0
+        mName: Dialog1
+        value: 
+    - rid: 8821145986260009024
+      type: {class: PieceID, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
+      data:
+        isShared: 1
+        isGlobal: 0
+        isExposed: 0
+        mName: Dialog2
+        value: 
+    - rid: 8821145986260009025
+      type: {class: PieceID, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
+      data:
+        isShared: 1
+        isGlobal: 0
+        isExposed: 0
+        mName: Dialog3
+        value: 
+    - rid: 8821145986260009026
+      type: {class: Dialogue, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
+      data:
+        nodeData:
+          graphPosition:
+            serializedVersion: 2
+            x: 400
+            y: 300
+            width: 100
+            height: 100
+          description: 
+          guid: 
+          nodeType:
+            _class: 
+            _ns: 
+            _asm: 
+          genericParameters: []
+          serializedData: 
+          executionPath: 0
+          portData: []
+          uobjectLinks: []
+        children:
+        - rid: 8821145986260009029
+        referencePieces:
+        - 
+    - rid: 8821145986260009027
+      type: {class: Piece, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
+      data:
+        nodeData:
+          graphPosition:
+            serializedVersion: 2
+            x: 400
+            y: 300
+            width: 100
+            height: 100
+          description: 
+          guid: 
+          nodeType:
+            _class: 
+            _ns: 
+            _asm: 
+          genericParameters: []
+          serializedData: 
+          executionPath: 0
+          portData: []
+          uobjectLinks: []
+        children:
+        - rid: 8821145986260009030
+        pieceID:
+          isShared: 1
+          isGlobal: 0
+          isExposed: 0
+          mName: Dialog3
+          value: 
+    - rid: 8821145986260009028
+      type: {class: Piece, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
+      data:
+        nodeData:
+          graphPosition:
+            serializedVersion: 2
+            x: 400
+            y: 300
+            width: 100
+            height: 100
+          description: 
+          guid: 
+          nodeType:
+            _class: 
+            _ns: 
+            _asm: 
+          genericParameters: []
+          serializedData: 
+          executionPath: 0
+          portData: []
+          uobjectLinks: []
+        children:
+        - rid: 8821145986260009031
+        - rid: 8821145986260009032
+        pieceID:
+          isShared: 1
+          isGlobal: 0
+          isExposed: 0
+          mName: Dialog2
+          value: 
+    - rid: 8821145986260009029
+      type: {class: Piece, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
+      data:
+        nodeData:
+          graphPosition:
+            serializedVersion: 2
+            x: 400
+            y: 300
+            width: 100
+            height: 100
+          description: 
+          guid: 
+          nodeType:
+            _class: 
+            _ns: 
+            _asm: 
+          genericParameters: []
+          serializedData: 
+          executionPath: 0
+          portData: []
+          uobjectLinks: []
+        children:
+        - rid: 8821145986260009033
+        - rid: 8821145986260009034
+        pieceID:
+          isShared: 1
+          isGlobal: 0
+          isExposed: 0
+          mName: Dialog1
+          value: 
+    - rid: 8821145986260009030
+      type: {class: LocalizedContentModule, ns: Kurisu.NGDT.Localization, asm: Kurisu.NGDT.Localization}
+      data:
+        nodeData:
+          graphPosition:
+            serializedVersion: 2
+            x: 400
+            y: 300
+            width: 100
+            height: 100
+          description: 
+          guid: 
+          nodeType:
+            _class: 
+            _ns: 
+            _asm: 
+          genericParameters: []
+          serializedData: 
+          executionPath: 0
+          portData: []
+          uobjectLinks: []
+        tableEntry:
+          isShared: 0
+          isGlobal: 0
+          isExposed: 0
+          mName: 
+          value: Dialogue
+        stringEntry:
+          isShared: 0
+          isGlobal: 0
+          isExposed: 0
+          mName: 
+          value: Dialogue-Piece-0002
+    - rid: 8821145986260009031
+      type: {class: LocalizedContentModule, ns: Kurisu.NGDT.Localization, asm: Kurisu.NGDT.Localization}
+      data:
+        nodeData:
+          graphPosition:
+            serializedVersion: 2
+            x: 400
+            y: 300
+            width: 100
+            height: 100
+          description: 
+          guid: 
+          nodeType:
+            _class: 
+            _ns: 
+            _asm: 
+          genericParameters: []
+          serializedData: 
+          executionPath: 0
+          portData: []
+          uobjectLinks: []
+        tableEntry:
+          isShared: 0
+          isGlobal: 0
+          isExposed: 0
+          mName: 
+          value: Dialogue
+        stringEntry:
+          isShared: 0
+          isGlobal: 0
+          isExposed: 0
+          mName: 
+          value: Dialogue-Piece-0001
+    - rid: 8821145986260009032
+      type: {class: NextPieceModule, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
+      data:
+        nodeData:
+          graphPosition:
+            serializedVersion: 2
+            x: 400
+            y: 300
+            width: 100
+            height: 100
+          description: 
+          guid: 
+          nodeType:
+            _class: 
+            _ns: 
+            _asm: 
+          genericParameters: []
+          serializedData: 
+          executionPath: 0
+          portData: []
+          uobjectLinks: []
+        useReference: 0
+        nextID:
+          isShared: 1
+          isGlobal: 0
+          isExposed: 0
+          mName: Dialog3
+          value: 
+    - rid: 8821145986260009033
+      type: {class: LocalizedContentModule, ns: Kurisu.NGDT.Localization, asm: Kurisu.NGDT.Localization}
+      data:
+        nodeData:
+          graphPosition:
+            serializedVersion: 2
+            x: 400
+            y: 300
+            width: 100
+            height: 100
+          description: 
+          guid: 
+          nodeType:
+            _class: 
+            _ns: 
+            _asm: 
+          genericParameters: []
+          serializedData: 
+          executionPath: 0
+          portData: []
+          uobjectLinks: []
+        tableEntry:
+          isShared: 0
+          isGlobal: 0
+          isExposed: 0
+          mName: 
+          value: Dialogue
+        stringEntry:
+          isShared: 0
+          isGlobal: 0
+          isExposed: 0
+          mName: 
+          value: Dialogue-Piece-0000
+    - rid: 8821145986260009034
+      type: {class: Option, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
+      data:
+        nodeData:
+          graphPosition:
+            serializedVersion: 2
+            x: 400
+            y: 300
+            width: 100
+            height: 100
+          description: 
+          guid: 
+          nodeType:
+            _class: 
+            _ns: 
+            _asm: 
+          genericParameters: []
+          serializedData: 
+          executionPath: 0
+          portData: []
+          uobjectLinks: []
+        children:
+        - rid: 8821145986260009035
+        - rid: 8821145986260009036
+    - rid: 8821145986260009035
+      type: {class: LocalizedContentModule, ns: Kurisu.NGDT.Localization, asm: Kurisu.NGDT.Localization}
+      data:
+        nodeData:
+          graphPosition:
+            serializedVersion: 2
+            x: 400
+            y: 300
+            width: 100
+            height: 100
+          description: 
+          guid: 
+          nodeType:
+            _class: 
+            _ns: 
+            _asm: 
+          genericParameters: []
+          serializedData: 
+          executionPath: 0
+          portData: []
+          uobjectLinks: []
+        tableEntry:
+          isShared: 0
+          isGlobal: 0
+          isExposed: 0
+          mName: 
+          value: Dialogue
+        stringEntry:
+          isShared: 0
+          isGlobal: 0
+          isExposed: 0
+          mName: 
+          value: Dialogue-Option-0000
+    - rid: 8821145986260009036
+      type: {class: TargetIDModule, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
+      data:
+        nodeData:
+          graphPosition:
+            serializedVersion: 2
+            x: 400
+            y: 300
+            width: 100
+            height: 100
+          description: 
+          guid: 
+          nodeType:
+            _class: 
+            _ns: 
+            _asm: 
+          genericParameters: []
+          serializedData: 
+          executionPath: 0
+          portData: []
+          uobjectLinks: []
+        useReference: 0
+        targetID:
+          isShared: 1
+          isGlobal: 0
+          isExposed: 0
+          mName: Dialog2
+          value: 
+--- !u!4 &1331404404
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1331404402}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.37676835, y: 1.5045398, z: 0.600879}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1481434909
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1481434910}
+  - component: {fileID: 1481434912}
+  - component: {fileID: 1481434911}
+  m_Layer: 0
+  m_Name: EventSystem
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1481434910
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1481434909}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: -3, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1190634932}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1481434911
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1481434909}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f231c4fb786f3946a6b90b886c48677, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SendPointerHoverToParent: 1
+  m_HorizontalAxis: Horizontal
+  m_VerticalAxis: Vertical
+  m_SubmitButton: Submit
+  m_CancelButton: Cancel
+  m_InputActionsPerSecond: 10
+  m_RepeatDelay: 0.5
+  m_ForceModuleActive: 0
+--- !u!114 &1481434912
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1481434909}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76c392e42b5098c458856cdf6ecaaaa1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_FirstSelected: {fileID: 0}
+  m_sendNavigationEvents: 1
+  m_DragThreshold: 10
+--- !u!1 &1593538470
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1593538471}
+  - component: {fileID: 1593538473}
+  m_Layer: 0
+  m_Name: Directional Light
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1593538471
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1593538470}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0.40821788, y: -0.23456968, z: 0.10938163, w: 0.8754261}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1190634932}
+  m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!108 &1593538473
+Light:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1593538470}
+  m_Enabled: 1
+  serializedVersion: 10
+  m_Type: 1
+  m_Shape: 0
+  m_Color: {r: 1, g: 0.95686275, b: 0.8392157, a: 1}
+  m_Intensity: 1
+  m_Range: 10
+  m_SpotAngle: 30
+  m_InnerSpotAngle: 21.80208
+  m_CookieSize: 10
+  m_Shadows:
+    m_Type: 2
+    m_Resolution: -1
+    m_CustomResolution: -1
+    m_Strength: 1
+    m_Bias: 0.05
+    m_NormalBias: 0.4
+    m_NearPlane: 0.2
+    m_CullingMatrixOverride:
+      e00: 1
+      e01: 0
+      e02: 0
+      e03: 0
+      e10: 0
+      e11: 1
+      e12: 0
+      e13: 0
+      e20: 0
+      e21: 0
+      e22: 1
+      e23: 0
+      e30: 0
+      e31: 0
+      e32: 0
+      e33: 1
+    m_UseCullingMatrixOverride: 0
+  m_Cookie: {fileID: 0}
+  m_DrawHalo: 0
+  m_Flare: {fileID: 0}
+  m_RenderMode: 0
+  m_CullingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_RenderingLayerMask: 1
+  m_Lightmapping: 1
+  m_LightShadowCasterMode: 0
+  m_AreaSize: {x: 1, y: 1}
+  m_BounceIntensity: 1
+  m_ColorTemperature: 6570
+  m_UseColorTemperature: 0
+  m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
+  m_UseBoundingSphereOverride: 0
+  m_UseViewFrustumForShadowCasterCull: 1
+  m_ShadowRadius: 0
+  m_ShadowAngle: 0
+--- !u!1660057539 &9223372036854775807
+SceneRoots:
+  m_ObjectHideFlags: 0
+  m_Roots:
+  - {fileID: 1331404404}
+  - {fileID: 165804552}
+  - {fileID: 1190634932}

@@ -1,8 +1,8 @@
 {
   "name": "com.kurisu.next-gen-dialogue",
   "displayName": "Next Gen Dialogue",
-  "version": "1.0.3",
-  "unity": "2021.3",
+  "version": "2.0.0",
+  "unity": "2022.3",
   "description": "Node based Dialogue Editor.\nSupports generating dialogue content and voice powered by AI.",
   "keywords": [
     "Graph",
@@ -12,6 +12,9 @@
   ],
   "category": "Visual Scripting",
   "dependencies": {
+    "com.kurisu.chris": "1.2.2",
+    "com.kurisu.chris-modules": "1.2.2",
+    "com.kurisu.ceres": "0.2.0",
     "com.unity.nuget.newtonsoft-json": "3.2.1"
   },
   "author": {
@@ -21,18 +24,18 @@
   "samples": [
     {
       "displayName": "Basic Example",
-      "description": "Basic usage of Dialogue System and AIGC",
-      "path": "Samples~/Basic"
+      "description": "Basic usage of dialogue graph and AIGC",
+      "path": "Samples~/Basic Example"
     },
     {
       "displayName": "VITS Example",
-      "description": "Sample of using VITS to generate audio clip for your dialogue",
-      "path": "Samples~/VITS"
+      "description": "Sample of using VITS to generate voice for your dialogue",
+      "path": "Samples~/VITS Example"
     },
     {
       "displayName": "Localization Example",
       "description": "Sample of supporting localization for your dialogue",
-      "path": "Samples~/Localization"
+      "path": "Samples~/Localization Example"
     }
   ]
 }

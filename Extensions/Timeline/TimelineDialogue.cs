@@ -1,8 +1,9 @@
 using System;
-using Kurisu.NGDS;
+using NextGenDialogue.Graph;
+using R3;
 using UnityEngine;
 using UnityEngine.Playables;
-namespace Kurisu.NGDT.Timeline
+namespace NextGenDialogue.Timeline
 {
     public class TimelineDialogue : MonoBehaviour, INotificationReceiver
     {
@@ -10,58 +11,61 @@ namespace Kurisu.NGDT.Timeline
         private class DialogueReceiver
         {
             public string dialogueName;
-            public NextGenDialogueTree dialogueTree;
+            
+            public NextGenDialogueComponent dialogueComponent;
         }
+        
         [SerializeField]
         private DialogueReceiver[] receivers;
-        private NextGenDialogueTree dialogueTree;
-        private PlayableDirector director;
-        private IDialogueSystem dialogueSystem;
+        
+        private NextGenDialogueComponent _dialogueComponent;
+        
+        private PlayableDirector _director;
+        
+        private DialogueSystem _dialogueSystem;
+        
         private void Awake()
         {
-            director = GetComponent<PlayableDirector>();
+            _director = GetComponent<PlayableDirector>();
         }
+        
         private void Start()
         {
-            dialogueSystem = IOCContainer.Resolve<IDialogueSystem>();
+            _dialogueSystem = DialogueSystem.Get();
         }
-        private void OnDestroy()
-        {
-            dialogueSystem.OnDialogueOver -= ContinueDialogue;
-        }
+        
         public void OnNotify(Playable origin, INotification notification, object context)
         {
-            if (notification is DialogueSignal dialogueSignal)
+            if (notification is not DialogueSignal dialogueSignal) return;
+            
+            if (dialogueSignal.dialogueGraphAsset != null)
             {
-                if (dialogueSignal.dialogueAsset != null)
+                if (_dialogueComponent == null) _dialogueComponent = gameObject.AddComponent<NextGenDialogueComponent>();
+                _dialogueComponent.PlayDialogue(dialogueSignal.dialogueGraphAsset);
+            }
+            else
+            {
+                if (TryFindReceiver(dialogueSignal.dialogueName, out var receiver))
                 {
-                    if (dialogueTree == null) dialogueTree = gameObject.AddComponent<NextGenDialogueTree>();
-                    dialogueTree.ExternalData = dialogueSignal.dialogueAsset;
-                    dialogueTree.PlayDialogue();
+                    receiver.dialogueComponent.PlayDialogue();
                 }
                 else
                 {
-                    if (TryFindReceiver(dialogueSignal.dialogueName, out var receiver))
-                    {
-                        receiver.dialogueTree.PlayDialogue();
-                    }
-                    else
-                    {
-                        Debug.LogError($"Can not find dialogue receiver for {dialogueSignal.dialogueName}");
-                    }
-                }
-                if (dialogueSignal.pausePlayable)
-                {
-                    director.playableGraph.GetRootPlayable(0).SetSpeed(0d);
-                    dialogueSystem.OnDialogueOver += ContinueDialogue;
+                    Debug.LogError($"Can not find dialogue receiver for {dialogueSignal.dialogueName}");
                 }
             }
+            if (dialogueSignal.pausePlayable)
+            {
+                _director.playableGraph.GetRootPlayable(0).SetSpeed(0d);
+                _dialogueSystem.OnDialogueOver.Take(1).Subscribe(ContinueDialogue).AddTo(this);
+            }
         }
-        private void ContinueDialogue()
+        
+        private void ContinueDialogue(Unit _)
         {
-            dialogueSystem.OnDialogueOver -= ContinueDialogue;
-            director.playableGraph.GetRootPlayable(0).SetSpeed(1d);
+            _director.playableGraph.GetRootPlayable(0).SetSpeed(1d);
         }
+        
         private bool TryFindReceiver(string dialogueName, out DialogueReceiver dialogueReceiver)
         {
             foreach (var receiver in receivers)
