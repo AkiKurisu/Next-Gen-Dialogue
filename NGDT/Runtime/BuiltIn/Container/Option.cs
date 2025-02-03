@@ -2,7 +2,7 @@ using Ceres.Annotations;
 namespace Kurisu.NGDT
 {
     [NodeInfo("Option is the container of user option")]
-    public class Option : Container
+    public class Option : ContainerNode
     {
         internal int OptionIndex { get; set; }
         

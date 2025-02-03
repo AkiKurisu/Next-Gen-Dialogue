@@ -41,7 +41,7 @@ namespace Kurisu.NGDT.Editor
 
         private void FindRelatedPiece(SharedVariable variable)
         {
-            var piece = graphView.nodes.OfType<PieceContainer>().FirstOrDefault(x => x.GetPieceID() == variable.Name);
+            var piece = graphView.nodes.OfType<PieceContainerView>().FirstOrDefault(x => x.GetPieceID() == variable.Name);
             if (piece != null)
             {
                 graphView.AddToSelection(piece);

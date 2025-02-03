@@ -1,5 +1,4 @@
 using System;
-using Ceres;
 using Ceres.Annotations;
 using Ceres.Graph;
 using Kurisu.NGDS;
@@ -9,6 +8,7 @@ using UnityEngine;
 namespace Kurisu.NGDT.VITS
 {
     [Serializable]
+    [CeresLabel("VITS Resolver")]
     [NodeInfo("Module : Specify VITS dialogue resolver for this dialogue tree.")]
     [CeresGroup("AIGC")]
     [ModuleOf(typeof(Dialogue))]

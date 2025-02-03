@@ -21,9 +21,9 @@ namespace Kurisu.NGDT.Editor
         }
 
         private static readonly Type[] FilteredTypes = {
-            typeof(Container),
-            typeof(Action),
-            typeof(Composite)
+            typeof(NGDT.ContainerNode),
+            typeof(NGDT.ActionNode),
+            typeof(NGDT.CompositeNode)
         };
         
         public override List<SearchTreeEntry> CreateSearchTree(SearchWindowContext context)
@@ -58,7 +58,7 @@ namespace Kurisu.NGDT.Editor
             var entryData = (CeresNodeSearchEntryData)searchTreeEntry.userData;
             var type = entryData.NodeType;
             var node = NodeViewFactory.Get().CreateInstance(type, DialogueView);
-            if (node is PieceContainer pieceContainer)
+            if (node is PieceContainerView pieceContainer)
             {
                 pieceContainer.GenerateNewPieceID();
             }

@@ -17,7 +17,7 @@ namespace Kurisu.NGDT.Editor
         private readonly DialogueGraph _graphInstance;
         public IDialogueGraphContainer DialogueGraphContainer { get; }
 
-        private RootNode _root;
+        private RootNodeView _root;
         
         // ReSharper disable once InconsistentNaming
         internal Action<IDialogueNodeView> OnSelectNode;
@@ -77,7 +77,7 @@ namespace Kurisu.NGDT.Editor
         public IDialogueNodeView DuplicateNode(IDialogueNodeView node)
         {
             var newNode = (IDialogueNodeView)NodeViewFactory.Get().CreateInstance(node.GetBehavior(), this);
-            if (newNode is PieceContainer pieceContainer)
+            if (newNode is PieceContainerView pieceContainer)
             {
                 pieceContainer.GenerateNewPieceID();
             }
@@ -302,16 +302,16 @@ namespace Kurisu.NGDT.Editor
         
         private class ContainerAdapter : IParentAdapter
         {
-            private readonly ContainerNode _container;
+            private readonly ContainerNodeView _container;
             
-            public ContainerAdapter(ContainerNode container)
+            public ContainerAdapter(ContainerNodeView container)
             {
                 _container = container;
             }
             
             public void Connect(DialogueGraphView graphView, IDialogueNodeView nodeToConnect)
             {
-                if (nodeToConnect is ModuleNode moduleNode)
+                if (nodeToConnect is ModuleNodeView moduleNode)
                     _container.AddElement(moduleNode);
                 else if (_container is IContainChild childContainer)
                     childContainer.AddChildElement(nodeToConnect, graphView);
@@ -331,11 +331,11 @@ namespace Kurisu.NGDT.Editor
             }
         }
         
-        private static RootNode DeserializeGraph(DialogueGraph graph, DialogueGraphView graphView, Vector2 initPos)
+        private static RootNodeView DeserializeGraph(DialogueGraph graph, DialogueGraphView graphView, Vector2 initPos)
         {
             var stack = new Stack<EdgePair>();
             var alreadyCreateNodes = new Dictionary<NGDT.DialogueNode, IDialogueNodeView>();
-            RootNode root = null;
+            RootNodeView root = null;
             stack.Push(new EdgePair(graph.Root, null));
             while (stack.Count > 0)
             {
@@ -353,7 +353,7 @@ namespace Kurisu.NGDT.Editor
                 }
                 
                 nodeView = (IDialogueNodeView)NodeViewFactory.Get().CreateInstance(edgePair.NodeBehavior.GetType(), graphView);
-                nodeView.Restore(edgePair.NodeBehavior);
+                nodeView.SetNodeInstance(edgePair.NodeBehavior);
                 graphView.AddNodeView(nodeView);
                 var rect = edgePair.NodeBehavior.NodeData.graphPosition;
                 rect.position += initPos;
@@ -366,9 +366,9 @@ namespace Kurisu.NGDT.Editor
                 // seek child
                 switch (edgePair.NodeBehavior)
                 {
-                    case Container nb:
+                    case NGDT.ContainerNode nb:
                         {
-                            var containerNode = (ContainerNode)nodeView;
+                            var containerNode = (ContainerNodeView)nodeView;
                             for (var i = nb.Children.Count - 1; i >= 0; i--)
                             {
                                 stack.Push(new EdgePair(nb.Children[i], new ContainerAdapter(containerNode)));
@@ -377,13 +377,13 @@ namespace Kurisu.NGDT.Editor
                         }
                     case BehaviorModule nb:
                         {
-                            var module = (BehaviorModuleNode)nodeView;
+                            var module = (BehaviorModuleNodeView)nodeView;
                             stack.Push(new EdgePair(nb.Child, new PortAdapter(module.Child)));
                             break;
                         }
-                    case Composite nb:
+                    case NGDT.CompositeNode nb:
                         {
-                            var compositeNode = (CompositeNode)nodeView;
+                            var compositeNode = (CompositeNodeView)nodeView;
                             var addable = nb.Children.Count - compositeNode.ChildPorts.Count;
                             if (compositeNode.NoValidate && nb.Children.Count == 0)
                             {
@@ -403,7 +403,7 @@ namespace Kurisu.NGDT.Editor
                         }
                     case Root nb:
                         {
-                            root = (RootNode)nodeView;
+                            root = (RootNodeView)nodeView;
                             if (nb.Child != null)
                             {
                                 stack.Push(new EdgePair(nb.Child, new PortAdapter(root.Child)));

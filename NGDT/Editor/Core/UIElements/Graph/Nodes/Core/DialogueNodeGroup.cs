@@ -14,14 +14,14 @@ namespace Kurisu.NGDT.Editor
         
         public override bool AcceptsElement(GraphElement element, ref string reasonWhyNotAccepted)
         {
-            return element is not ModuleNode;
+            return element is not ModuleNodeView;
         }
         
         public override void Commit(List<NodeGroup> nodeGroups)
         {
             var nodes = containedElements
                                 .OfType<IDialogueNodeView>()
-                                .Where(x => x is not ModuleNode)
+                                .Where(x => x is not ModuleNodeView)
                                 .Select(x => x.Guid)
                                 .ToList();
             nodeGroups.Add(new NodeGroup

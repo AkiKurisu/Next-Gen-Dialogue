@@ -3,6 +3,7 @@ using Ceres.Graph;
 using Ceres.Graph.Flow;
 using UnityEngine.Serialization;
 using UObject = UnityEngine.Object;
+
 namespace Kurisu.NGDT
 {
     [CreateAssetMenu(fileName = "New Dialogue", menuName = "Next Gen Dialogue/Dialogue Graph Asset")]
@@ -23,6 +24,15 @@ namespace Kurisu.NGDT
         [SerializeField] 
         private FlowGraphAsset flowGraphAsset;
         
+        /* Migration from v1 */
+#if UNITY_EDITOR
+        [SerializeReference, HideInInspector]
+        internal Root root = new();
+        
+        [SerializeReference, HideInInspector]
+        internal SharedVariable[] sharedVariables;
+#endif
+        
         public void Deserialize(string serializedData)
         {
             var data = CeresGraphData.FromJson<DialogueGraphData>(serializedData);
@@ -36,6 +46,12 @@ namespace Kurisu.NGDT
         public DialogueGraph GetDialogueGraph()
         {
             dialogueGraphData ??= new DialogueGraphData();
+#if UNITY_EDITOR
+            if (!dialogueGraphData.IsValid())
+            {
+                return new DialogueGraph(this);
+            }
+#endif
             return new DialogueGraph(dialogueGraphData.CloneT<DialogueGraphData>(), this);
         }
 
@@ -44,6 +60,10 @@ namespace Kurisu.NGDT
             if (graph is DialogueGraphData dialogue)
             {
                 dialogueGraphData = dialogue;
+#if UNITY_EDITOR
+                root = null;
+                sharedVariables = null;
+#endif
             }
             else if (graph is FlowGraphData flow)
             {

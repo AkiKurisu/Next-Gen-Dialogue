@@ -1,5 +1,4 @@
 using System;
-using Ceres;
 using Ceres.Annotations;
 using Ceres.Graph;
 using Kurisu.NGDS;
@@ -7,7 +6,8 @@ using UnityEngine;
 namespace Kurisu.NGDT.VITS
 {
     [Serializable]
-    [NodeInfo("Module : VITS Module is used to generate audio for dialogue using VITS model.")]
+    [CeresLabel("VITS Voice")]
+    [NodeInfo("Module : VITS is used to generate audio for dialogue using VITS model.")]
     [CeresGroup("AIGC")]
     [ModuleOf(typeof(Piece), true)]
     [ModuleOf(typeof(Option))]

@@ -9,7 +9,7 @@ namespace Kurisu.NGDT.Editor
 {
     public class ModuleSearchWindowProvider : ScriptableObject, ISearchWindowProvider
     {
-        private ContainerNode _node;
+        private ContainerNodeView _nodeView;
         
         private Type _containerType;
         
@@ -21,13 +21,13 @@ namespace Kurisu.NGDT.Editor
         
         private IEnumerable<Type> _exceptTypes;
         
-        public void Init(ContainerNode node, DialogueGraphView graphView, NodeSearchContext context, IEnumerable<Type> exceptTypes)
+        public void Init(ContainerNodeView nodeView, DialogueGraphView graphView, NodeSearchContext context, IEnumerable<Type> exceptTypes)
         {
             _exceptTypes = exceptTypes;
             _graphView = graphView;
-            _node = node;
+            _nodeView = nodeView;
             _context = context;
-            _containerType = node.GetBehavior();
+            _containerType = nodeView.GetBehavior();
             _indentationIcon = new Texture2D(1, 1);
             _indentationIcon.SetPixel(0, 0, new Color(0, 0, 0, 0));
             _indentationIcon.Apply();
@@ -63,9 +63,9 @@ namespace Kurisu.NGDT.Editor
         {
             var entryData = (CeresNodeSearchEntryData)searchTreeEntry.userData;
             var type = entryData.NodeType;
-            var moduleNode = (ModuleNode)NodeViewFactory.Get().CreateInstance(type, _graphView);
+            var moduleNode = (ModuleNodeView)NodeViewFactory.Get().CreateInstance(type, _graphView);
             _graphView.AddNodeView(moduleNode);
-            _node.AddElement(moduleNode);
+            _nodeView.AddElement(moduleNode);
             return true;
         }
     }

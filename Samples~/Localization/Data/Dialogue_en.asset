@@ -19,11 +19,11 @@ MonoBehaviour:
     m_Items: []
   m_TableData:
   - m_Id: 1015413473280
-    m_Localized: This is an example using DialogueTree to create a dialogue
+    m_Localized: This is an example using DialogueGraph to create a dialogue
     m_Metadata:
       m_Items: []
   - m_Id: 13931097358336
-    m_Localized: You can click "Edit DialogueTree" to see how it does
+    m_Localized: "You can click \u2018Open Dialogue Graph\u2019 to see how it does"
     m_Metadata:
       m_Items: []
   - m_Id: 14208617676800

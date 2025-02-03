@@ -509,19 +509,364 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e290e3e9d5caab4ea26d1a4879ba82f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  root:
-    rid: 5974865124870062156
-  sharedVariables:
-  - rid: 5974865124870062122
-  - rid: 5974865124870062125
-  - rid: 5974865124870062126
-  - rid: 5974865124870062127
-  externalDialogueTree: {fileID: 0}
-  blockData: []
+  dialogueGraphData:
+    variables:
+    - rid: 1770628296118370331
+    - rid: 1770628296118370332
+    nodes:
+    - rid: 1770628296118370333
+    - rid: 1770628296118370333
+    - rid: 1770628296118370334
+    - rid: 1770628296118370335
+    - rid: 1770628296118370336
+    - rid: 1770628296118370337
+    - rid: 1770628296118370338
+    - rid: 1770628296118370339
+    - rid: 1770628296118370340
+    - rid: 1770628296118370341
+    - rid: 1770628296118370342
+    - rid: 1770628296118370343
+    - rid: 1770628296118370336
+    - rid: 1770628296118370337
+    - rid: 1770628296118370338
+    - rid: 1770628296118370339
+    - rid: 1770628296118370340
+    variableData:
+    - variableType:
+        _class: PieceID
+        _ns: Kurisu.NGDT
+        _asm: Kurisu.NGDT
+      serializedData: '{"isShared":true,"isGlobal":false,"isExposed":false,"mName":"Dialog1","value":""}'
+      uobjectLinks: []
+    - variableType:
+        _class: PieceID
+        _ns: Kurisu.NGDT
+        _asm: Kurisu.NGDT
+      serializedData: '{"isShared":true,"isGlobal":false,"isExposed":false,"mName":"Dialog2","value":""}'
+      uobjectLinks: []
+    nodeData:
+    - graphPosition:
+        serializedVersion: 2
+        x: 400
+        y: 300
+        width: 115
+        height: 77
+      description: 
+      guid: 18bce7f6-4acc-4be2-b400-02fc9f76fccc
+      nodeType:
+        _class: Root
+        _ns: Kurisu.NGDT
+        _asm: Kurisu.NGDT
+      genericParameters: []
+      serializedData: "{\"nodeData\":{\"graphPosition\":{\"serializedVersion\":\"2\",\"x\":400.0,\"y\":300.0,\"width\":115.0,\"height\":77.0},\"description\":\"\",\"guid\":\"18bce7f6-4acc-4be2-b400-02fc9f76fccc\",\"nodeType\":{\"_class\":\"\",\"_ns\":\"\",\"_asm\":\"\"},\"genericParameters\":[],\"serializedData\":\"\",\"executionPath\":0,\"portData\":[],\"uobjectLinks\":[]},\"child\":{\"rid\":1000},\"children\":[{\"rid\":1001},{\"rid\":1002}],\"references\":{\"version\":2,\"RefIds\":[{\"rid\":1000,\"type\":{\"class\":\"Dialogue\",\"ns\":\"Kurisu.NGDT\",\"asm\":\"Kurisu.NGDT\"},\"data\":{\"nodeData\":{\"graphPosition\":{\"serializedVersion\":\"2\",\"x\":592.0,\"y\":255.0,\"width\":380.0,\"height\":561.0},\"description\":\"\",\"guid\":\"f6bc15cc-8ecc-4db0-9a3f-16785e4e6da6\",\"nodeType\":{\"_class\":\"\",\"_ns\":\"\",\"_asm\":\"\"},\"genericParameters\":[],\"serializedData\":\"\",\"executionPath\":0,\"portData\":[],\"uobjectLinks\":[]},\"children\":[{\"rid\":1003},{\"rid\":1002}],\"referencePieces\":[\"\"]}},{\"rid\":1001,\"type\":{\"class\":\"Piece\",\"ns\":\"Kurisu.NGDT\",\"asm\":\"Kurisu.NGDT\"},\"data\":{\"nodeData\":{\"graphPosition\":{\"serializedVersion\":\"2\",\"x\":1909.0,\"y\":340.0,\"width\":380.0,\"height\":421.0},\"description\":\"\",\"guid\":\"552b6096-f1ba-49c8-bd46-2a8d98c8576d\",\"nodeType\":{\"_class\":\"\",\"_ns\":\"\",\"_asm\":\"\"},\"genericParameters\":[],\"serializedData\":\"\",\"executionPath\":0,\"portData\":[],\"uobjectLinks\":[]},\"children\":[{\"rid\":1004},{\"rid\":1005}],\"pieceID\":{\"isShared\":true,\"isGlobal\":false,\"isExposed\":false,\"mName\":\"Dialog2\",\"value\":\"\"}}},{\"rid\":1002,\"type\":{\"class\":\"Piece\",\"ns\":\"Kurisu.NGDT\",\"asm\":\"Kurisu.NGDT\"},\"data\":{\"nodeData\":{\"graphPosition\":{\"serializedVersion\":\"2\",\"x\":1037.0,\"y\":379.0,\"width\":380.0,\"height\":342.0},\"description\":\"\",\"guid\":\"0d39a5fe-00ae-4617-943c-6f4f304a323e\",\"nodeType\":{\"_class\":\"\",\"_ns\":\"\",\"_asm\":\"\"},\"genericParameters\":[],\"serializedData\":\"\",\"executionPath\":0,\"portData\":[],\"uobjectLinks\":[]},\"children\":[{\"rid\":1006},{\"rid\":1007}],\"pieceID\":{\"isShared\":true,\"isGlobal\":false,\"isExposed\":false,\"mName\":\"Dialog1\",\"value\":\"\"}}},{\"rid\":1003,\"type\":{\"class\":\"NovelPromptModule\",\"ns\":\"Kurisu.NGDT\",\"asm\":\"Kurisu.NGDT\"},\"data\":{\"nodeData\":{\"graphPosition\":{\"serializedVersion\":\"2\",\"x\":0.0,\"y\":79.0,\"width\":356.0,\"height\":285.0},\"description\":\"\",\"guid\":\"514e033e-c801-440b-aaba-dcc954e7bdea\",\"nodeType\":{\"_class\":\"\",\"_ns\":\"\",\"_asm\":\"\"},\"genericParameters\":[],\"serializedData\":\"\",\"executionPath\":0,\"portData\":[],\"uobjectLinks\":[]},\"pieceSystemPrompt\":{\"isShared\":false,\"isGlobal\":false,\"isExposed\":false,\"mName\":\"\",\"value\":\"\u4F60\u662F\u4E00\u4E2A\u604B\u7231\u517B\u6210\u6E38\u620F\u7684\u5267\u60C5\u7F16\u8F91\uFF0C\u4F60\u6B63\u5728\u5199\u6E38\u620F\u89D2\u8272\u7231\u4E3D\u4E1D\u548C\u73A9\u5BB6\u4E4B\u95F4\u7684\u5BF9\u8BDD\uFF0C\u4F60\u9700\u8981\u6839\u636E\u5F53\u524D\u7684\u5BF9\u8BDD\u7F16\u5199\u7231\u4E3D\u4E1D\u7684\u8BDD\uFF0C\u5B57\u6570\u4E0D\u8D85\u8FC750\u5B57\"},\"optionSystemPrompt\":{\"isShared\":false,\"isGlobal\":false,\"isExposed\":false,\"mName\":\"\",\"value\":\"\u4F60\u662F\u4E00\u4E2A\u604B\u7231\u517B\u6210\u6E38\u620F\u7684\u5267\u60C5\u7F16\u8F91\uFF0C\u4F60\u6B63\u5728\u5199\u6E38\u620F\u89D2\u8272\u7231\u4E3D\u4E1D\u548C\u73A9\u5BB6\u4E4B\u95F4\u7684\u5BF9\u8BDD\uFF0C\u73B0\u5728\u73A9\u5BB6\u6B63\u9700\u8981\u505A\u51FA\u9009\u62E9\"},\"storySummary\":{\"isShared\":false,\"isGlobal\":false,\"isExposed\":false,\"mName\":\"\",\"value\":\"\u7231\u4E3D\u4E1D\u662F\u4E00\u4E2A\u5973\u9AD8\u4E2D\u5973\u751F\uFF0C\u662F\u73A9\u5BB6\u7684\u5973\u670B\u53CB\uFF0C\u7231\u4E3D\u4E1D\u548C\u73A9\u5BB6\u5728\u5B66\u6821\u89C1\u9762\uFF0C\u8FD9\u5468\u662F\u5B83\u4EEC\u4EA4\u5F80\u7684\u7B2C\u4E00\u5468\uFF0C\u7231\u4E3D\u4E1D\u60F3\u8BA9\u73A9\u5BB6\u5230\u5979\u5BB6\u91CC\u505A\u5BA2\u3002\"}}},{\"rid\":1004,\"type\":{\"class\":\"ContentModule\",\"ns\":\"Kurisu.NGDT\",\"asm\":\"Kurisu.NGDT\"},\"data\":{\"nodeData\":{\"graphPosition\":{\"serializedVersion\":\"2\",\"x\":0.0,\"y\":108.0,\"width\":356.0,\"height\":106.0},\"description\":\"\",\"guid\":\"24db5959-c0b7-4b24-9474-100c30070d3a\",\"nodeType\":{\"_class\":\"\",\"_ns\":\"\",\"_asm\":\"\"},\"genericParameters\":[],\"serializedData\":\"\",\"executionPath\":0,\"portData\":[],\"uobjectLinks\":[]},\"content\":{\"isShared\":false,\"isGlobal\":false,\"isExposed\":false,\"mName\":\"\",\"value\":\"\u554A\uFF0C\u4E0D\u662F\uFF0C\u4E5F\u7B97\u662F\u5427\uFF0C\u8FD9\u5468\u672B\u6211\u5BB6\u91CC\u6CA1\u6709\u4EBA\uFF0C\u6240\u4EE5...\"}}},{\"rid\":1005,\"type\":{\"class\":\"NovelBakeModule\",\"ns\":\"Kurisu.NGDT\",\"asm\":\"Kurisu.NGDT\"},\"data\":{\"nodeData\":{\"graphPosition\":{\"serializedVersion\":\"2\",\"x\":0.0,\"y\":214.0,\"width\":356.0,\"height\":141.0},\"description\":\"\",\"guid\":\"34b669bd-fb41-46c0-9dbe-93c55818f75d\",\"nodeType\":{\"_class\":\"\",\"_ns\":\"\",\"_asm\":\"\"},\"genericParameters\":[],\"serializedData\":\"\",\"executionPath\":0,\"portData\":[],\"uobjectLinks\":[]},\"generateDepth\":3,\"optionCount\":2,\"overridePiecePrompt\":{\"instanceID\":0},\"overrideOptionPrompt\":{\"instanceID\":0},\"lastSelection\":\"[\\\"1253cb15-ce0c-46a4-9c98-fc14b3265295\\\",\\\"87ad95d9-81fc-4d39-a073-b318ec0c0ae9\\\",\\\"8714e8ac-b310-4da1-9217-12ca1c02f8b7\\\",\\\"330155c3-c014-4e7b-8468-13cebf5bbcc9\\\"]\"}},{\"rid\":1006,\"type\":{\"class\":\"ContentModule\",\"ns\":\"Kurisu.NGDT\",\"asm\":\"Kurisu.NGDT\"},\"data\":{\"nodeData\":{\"graphPosition\":{\"serializedVersion\":\"2\",\"x\":0.0,\"y\":108.0,\"width\":356.0,\"height\":91.0},\"description\":\"\",\"guid\":\"3ff8576c-927a-480d-8f47-de0fef86ce28\",\"nodeType\":{\"_class\":\"\",\"_ns\":\"\",\"_asm\":\"\"},\"genericParameters\":[],\"serializedData\":\"\",\"executionPath\":0,\"portData\":[],\"uobjectLinks\":[]},\"content\":{\"isShared\":false,\"isGlobal\":false,\"isExposed\":false,\"mName\":\"\",\"value\":\"\u90A3\u4E2A\uFF0C\u5468\u672B\u4F60\u6709\u65F6\u95F4\u5417\uFF1F\"}}},{\"rid\":1007,\"type\":{\"class\":\"Option\",\"ns\":\"Kurisu.NGDT\",\"asm\":\"Kurisu.NGDT\"},\"data\":{\"nodeData\":{\"graphPosition\":{\"serializedVersion\":\"2\",\"x\":1471.0,\"y\":365.0,\"width\":380.0,\"height\":369.0},\"description\":\"\",\"guid\":\"1eb0d71d-5249-48f6-8772-1032fac1517a\",\"nodeType\":{\"_class\":\"\",\"_ns\":\"\",\"_asm\":\"\"},\"genericParameters\":[],\"serializedData\":\"\",\"executionPath\":0,\"portData\":[],\"uobjectLinks\":[]},\"children\":[{\"rid\":1008},{\"rid\":1009}]}},{\"rid\":1008,\"type\":{\"class\":\"ContentModule\",\"ns\":\"Kurisu.NGDT\",\"asm\":\"Kurisu.NGDT\"},\"data\":{\"nodeData\":{\"graphPosition\":{\"serializedVersion\":\"2\",\"x\":0.0,\"y\":79.0,\"width\":356.0,\"height\":91.0},\"description\":\"\",\"guid\":\"8a89312a-1de9-43aa-9b0e-85c569ffad20\",\"nodeType\":{\"_class\":\"\",\"_ns\":\"\",\"_asm\":\"\"},\"genericParameters\":[],\"serializedData\":\"\",\"executionPath\":0,\"portData\":[],\"uobjectLinks\":[]},\"content\":{\"isShared\":false,\"isGlobal\":false,\"isExposed\":false,\"mName\":\"\",\"value\":\"\u600E\u4E48\u4E86\uFF0C\u662F\u7EA6\u4F1A\u5417\uFF1F\"}}},{\"rid\":1009,\"type\":{\"class\":\"TargetIDModule\",\"ns\":\"Kurisu.NGDT\",\"asm\":\"Kurisu.NGDT\"},\"data\":{\"nodeData\":{\"graphPosition\":{\"serializedVersion\":\"2\",\"x\":0.0,\"y\":170.0,\"width\":356.0,\"height\":133.0},\"description\":\"\",\"guid\":\"16d8fa65-24b5-4dab-9662-c317c76360c3\",\"nodeType\":{\"_class\":\"\",\"_ns\":\"\",\"_asm\":\"\"},\"genericParameters\":[],\"serializedData\":\"\",\"executionPath\":0,\"portData\":[],\"uobjectLinks\":[]},\"useReference\":false,\"targetID\":{\"isShared\":true,\"isGlobal\":false,\"isExposed\":false,\"mName\":\"Dialog2\",\"value\":\"\"}}}]}}"
+      executionPath: 0
+      portData: []
+      uobjectLinks: []
+    - graphPosition:
+        serializedVersion: 2
+        x: 400
+        y: 300
+        width: 115
+        height: 77
+      description: 
+      guid: 18bce7f6-4acc-4be2-b400-02fc9f76fccc
+      nodeType:
+        _class: Root
+        _ns: Kurisu.NGDT
+        _asm: Kurisu.NGDT
+      genericParameters: []
+      serializedData: "{\"nodeData\":{\"graphPosition\":{\"serializedVersion\":\"2\",\"x\":400.0,\"y\":300.0,\"width\":115.0,\"height\":77.0},\"description\":\"\",\"guid\":\"18bce7f6-4acc-4be2-b400-02fc9f76fccc\",\"nodeType\":{\"_class\":\"\",\"_ns\":\"\",\"_asm\":\"\"},\"genericParameters\":[],\"serializedData\":\"\",\"executionPath\":0,\"portData\":[],\"uobjectLinks\":[]},\"child\":{\"rid\":1000},\"children\":[{\"rid\":1001},{\"rid\":1002}],\"references\":{\"version\":2,\"RefIds\":[{\"rid\":1000,\"type\":{\"class\":\"Dialogue\",\"ns\":\"Kurisu.NGDT\",\"asm\":\"Kurisu.NGDT\"},\"data\":{\"nodeData\":{\"graphPosition\":{\"serializedVersion\":\"2\",\"x\":592.0,\"y\":255.0,\"width\":380.0,\"height\":561.0},\"description\":\"\",\"guid\":\"f6bc15cc-8ecc-4db0-9a3f-16785e4e6da6\",\"nodeType\":{\"_class\":\"\",\"_ns\":\"\",\"_asm\":\"\"},\"genericParameters\":[],\"serializedData\":\"\",\"executionPath\":0,\"portData\":[],\"uobjectLinks\":[]},\"children\":[{\"rid\":1003},{\"rid\":1002}],\"referencePieces\":[\"\"]}},{\"rid\":1001,\"type\":{\"class\":\"Piece\",\"ns\":\"Kurisu.NGDT\",\"asm\":\"Kurisu.NGDT\"},\"data\":{\"nodeData\":{\"graphPosition\":{\"serializedVersion\":\"2\",\"x\":1909.0,\"y\":340.0,\"width\":380.0,\"height\":421.0},\"description\":\"\",\"guid\":\"552b6096-f1ba-49c8-bd46-2a8d98c8576d\",\"nodeType\":{\"_class\":\"\",\"_ns\":\"\",\"_asm\":\"\"},\"genericParameters\":[],\"serializedData\":\"\",\"executionPath\":0,\"portData\":[],\"uobjectLinks\":[]},\"children\":[{\"rid\":1004},{\"rid\":1005}],\"pieceID\":{\"isShared\":true,\"isGlobal\":false,\"isExposed\":false,\"mName\":\"Dialog2\",\"value\":\"\"}}},{\"rid\":1002,\"type\":{\"class\":\"Piece\",\"ns\":\"Kurisu.NGDT\",\"asm\":\"Kurisu.NGDT\"},\"data\":{\"nodeData\":{\"graphPosition\":{\"serializedVersion\":\"2\",\"x\":1037.0,\"y\":379.0,\"width\":380.0,\"height\":342.0},\"description\":\"\",\"guid\":\"0d39a5fe-00ae-4617-943c-6f4f304a323e\",\"nodeType\":{\"_class\":\"\",\"_ns\":\"\",\"_asm\":\"\"},\"genericParameters\":[],\"serializedData\":\"\",\"executionPath\":0,\"portData\":[],\"uobjectLinks\":[]},\"children\":[{\"rid\":1006},{\"rid\":1007}],\"pieceID\":{\"isShared\":true,\"isGlobal\":false,\"isExposed\":false,\"mName\":\"Dialog1\",\"value\":\"\"}}},{\"rid\":1003,\"type\":{\"class\":\"NovelPromptModule\",\"ns\":\"Kurisu.NGDT\",\"asm\":\"Kurisu.NGDT\"},\"data\":{\"nodeData\":{\"graphPosition\":{\"serializedVersion\":\"2\",\"x\":0.0,\"y\":79.0,\"width\":356.0,\"height\":285.0},\"description\":\"\",\"guid\":\"514e033e-c801-440b-aaba-dcc954e7bdea\",\"nodeType\":{\"_class\":\"\",\"_ns\":\"\",\"_asm\":\"\"},\"genericParameters\":[],\"serializedData\":\"\",\"executionPath\":0,\"portData\":[],\"uobjectLinks\":[]},\"pieceSystemPrompt\":{\"isShared\":false,\"isGlobal\":false,\"isExposed\":false,\"mName\":\"\",\"value\":\"\u4F60\u662F\u4E00\u4E2A\u604B\u7231\u517B\u6210\u6E38\u620F\u7684\u5267\u60C5\u7F16\u8F91\uFF0C\u4F60\u6B63\u5728\u5199\u6E38\u620F\u89D2\u8272\u7231\u4E3D\u4E1D\u548C\u73A9\u5BB6\u4E4B\u95F4\u7684\u5BF9\u8BDD\uFF0C\u4F60\u9700\u8981\u6839\u636E\u5F53\u524D\u7684\u5BF9\u8BDD\u7F16\u5199\u7231\u4E3D\u4E1D\u7684\u8BDD\uFF0C\u5B57\u6570\u4E0D\u8D85\u8FC750\u5B57\"},\"optionSystemPrompt\":{\"isShared\":false,\"isGlobal\":false,\"isExposed\":false,\"mName\":\"\",\"value\":\"\u4F60\u662F\u4E00\u4E2A\u604B\u7231\u517B\u6210\u6E38\u620F\u7684\u5267\u60C5\u7F16\u8F91\uFF0C\u4F60\u6B63\u5728\u5199\u6E38\u620F\u89D2\u8272\u7231\u4E3D\u4E1D\u548C\u73A9\u5BB6\u4E4B\u95F4\u7684\u5BF9\u8BDD\uFF0C\u73B0\u5728\u73A9\u5BB6\u6B63\u9700\u8981\u505A\u51FA\u9009\u62E9\"},\"storySummary\":{\"isShared\":false,\"isGlobal\":false,\"isExposed\":false,\"mName\":\"\",\"value\":\"\u7231\u4E3D\u4E1D\u662F\u4E00\u4E2A\u5973\u9AD8\u4E2D\u5973\u751F\uFF0C\u662F\u73A9\u5BB6\u7684\u5973\u670B\u53CB\uFF0C\u7231\u4E3D\u4E1D\u548C\u73A9\u5BB6\u5728\u5B66\u6821\u89C1\u9762\uFF0C\u8FD9\u5468\u662F\u5B83\u4EEC\u4EA4\u5F80\u7684\u7B2C\u4E00\u5468\uFF0C\u7231\u4E3D\u4E1D\u60F3\u8BA9\u73A9\u5BB6\u5230\u5979\u5BB6\u91CC\u505A\u5BA2\u3002\"}}},{\"rid\":1004,\"type\":{\"class\":\"ContentModule\",\"ns\":\"Kurisu.NGDT\",\"asm\":\"Kurisu.NGDT\"},\"data\":{\"nodeData\":{\"graphPosition\":{\"serializedVersion\":\"2\",\"x\":0.0,\"y\":108.0,\"width\":356.0,\"height\":106.0},\"description\":\"\",\"guid\":\"24db5959-c0b7-4b24-9474-100c30070d3a\",\"nodeType\":{\"_class\":\"\",\"_ns\":\"\",\"_asm\":\"\"},\"genericParameters\":[],\"serializedData\":\"\",\"executionPath\":0,\"portData\":[],\"uobjectLinks\":[]},\"content\":{\"isShared\":false,\"isGlobal\":false,\"isExposed\":false,\"mName\":\"\",\"value\":\"\u554A\uFF0C\u4E0D\u662F\uFF0C\u4E5F\u7B97\u662F\u5427\uFF0C\u8FD9\u5468\u672B\u6211\u5BB6\u91CC\u6CA1\u6709\u4EBA\uFF0C\u6240\u4EE5...\"}}},{\"rid\":1005,\"type\":{\"class\":\"NovelBakeModule\",\"ns\":\"Kurisu.NGDT\",\"asm\":\"Kurisu.NGDT\"},\"data\":{\"nodeData\":{\"graphPosition\":{\"serializedVersion\":\"2\",\"x\":0.0,\"y\":214.0,\"width\":356.0,\"height\":141.0},\"description\":\"\",\"guid\":\"34b669bd-fb41-46c0-9dbe-93c55818f75d\",\"nodeType\":{\"_class\":\"\",\"_ns\":\"\",\"_asm\":\"\"},\"genericParameters\":[],\"serializedData\":\"\",\"executionPath\":0,\"portData\":[],\"uobjectLinks\":[]},\"generateDepth\":3,\"optionCount\":2,\"overridePiecePrompt\":{\"instanceID\":0},\"overrideOptionPrompt\":{\"instanceID\":0},\"lastSelection\":\"[\\\"1253cb15-ce0c-46a4-9c98-fc14b3265295\\\",\\\"87ad95d9-81fc-4d39-a073-b318ec0c0ae9\\\",\\\"8714e8ac-b310-4da1-9217-12ca1c02f8b7\\\",\\\"330155c3-c014-4e7b-8468-13cebf5bbcc9\\\"]\"}},{\"rid\":1006,\"type\":{\"class\":\"ContentModule\",\"ns\":\"Kurisu.NGDT\",\"asm\":\"Kurisu.NGDT\"},\"data\":{\"nodeData\":{\"graphPosition\":{\"serializedVersion\":\"2\",\"x\":0.0,\"y\":108.0,\"width\":356.0,\"height\":91.0},\"description\":\"\",\"guid\":\"3ff8576c-927a-480d-8f47-de0fef86ce28\",\"nodeType\":{\"_class\":\"\",\"_ns\":\"\",\"_asm\":\"\"},\"genericParameters\":[],\"serializedData\":\"\",\"executionPath\":0,\"portData\":[],\"uobjectLinks\":[]},\"content\":{\"isShared\":false,\"isGlobal\":false,\"isExposed\":false,\"mName\":\"\",\"value\":\"\u90A3\u4E2A\uFF0C\u5468\u672B\u4F60\u6709\u65F6\u95F4\u5417\uFF1F\"}}},{\"rid\":1007,\"type\":{\"class\":\"Option\",\"ns\":\"Kurisu.NGDT\",\"asm\":\"Kurisu.NGDT\"},\"data\":{\"nodeData\":{\"graphPosition\":{\"serializedVersion\":\"2\",\"x\":1471.0,\"y\":365.0,\"width\":380.0,\"height\":369.0},\"description\":\"\",\"guid\":\"1eb0d71d-5249-48f6-8772-1032fac1517a\",\"nodeType\":{\"_class\":\"\",\"_ns\":\"\",\"_asm\":\"\"},\"genericParameters\":[],\"serializedData\":\"\",\"executionPath\":0,\"portData\":[],\"uobjectLinks\":[]},\"children\":[{\"rid\":1008},{\"rid\":1009}]}},{\"rid\":1008,\"type\":{\"class\":\"ContentModule\",\"ns\":\"Kurisu.NGDT\",\"asm\":\"Kurisu.NGDT\"},\"data\":{\"nodeData\":{\"graphPosition\":{\"serializedVersion\":\"2\",\"x\":0.0,\"y\":79.0,\"width\":356.0,\"height\":91.0},\"description\":\"\",\"guid\":\"8a89312a-1de9-43aa-9b0e-85c569ffad20\",\"nodeType\":{\"_class\":\"\",\"_ns\":\"\",\"_asm\":\"\"},\"genericParameters\":[],\"serializedData\":\"\",\"executionPath\":0,\"portData\":[],\"uobjectLinks\":[]},\"content\":{\"isShared\":false,\"isGlobal\":false,\"isExposed\":false,\"mName\":\"\",\"value\":\"\u600E\u4E48\u4E86\uFF0C\u662F\u7EA6\u4F1A\u5417\uFF1F\"}}},{\"rid\":1009,\"type\":{\"class\":\"TargetIDModule\",\"ns\":\"Kurisu.NGDT\",\"asm\":\"Kurisu.NGDT\"},\"data\":{\"nodeData\":{\"graphPosition\":{\"serializedVersion\":\"2\",\"x\":0.0,\"y\":170.0,\"width\":356.0,\"height\":133.0},\"description\":\"\",\"guid\":\"16d8fa65-24b5-4dab-9662-c317c76360c3\",\"nodeType\":{\"_class\":\"\",\"_ns\":\"\",\"_asm\":\"\"},\"genericParameters\":[],\"serializedData\":\"\",\"executionPath\":0,\"portData\":[],\"uobjectLinks\":[]},\"useReference\":false,\"targetID\":{\"isShared\":true,\"isGlobal\":false,\"isExposed\":false,\"mName\":\"Dialog2\",\"value\":\"\"}}}]}}"
+      executionPath: 0
+      portData: []
+      uobjectLinks: []
+    - graphPosition:
+        serializedVersion: 2
+        x: 592
+        y: 255
+        width: 380
+        height: 561
+      description: 
+      guid: f6bc15cc-8ecc-4db0-9a3f-16785e4e6da6
+      nodeType:
+        _class: Dialogue
+        _ns: Kurisu.NGDT
+        _asm: Kurisu.NGDT
+      genericParameters: []
+      serializedData: "{\"nodeData\":{\"graphPosition\":{\"serializedVersion\":\"2\",\"x\":592.0,\"y\":255.0,\"width\":380.0,\"height\":561.0},\"description\":\"\",\"guid\":\"f6bc15cc-8ecc-4db0-9a3f-16785e4e6da6\",\"nodeType\":{\"_class\":\"\",\"_ns\":\"\",\"_asm\":\"\"},\"genericParameters\":[],\"serializedData\":\"\",\"executionPath\":0,\"portData\":[],\"uobjectLinks\":[]},\"children\":[{\"rid\":1000},{\"rid\":1001}],\"referencePieces\":[\"\"],\"references\":{\"version\":2,\"RefIds\":[{\"rid\":1000,\"type\":{\"class\":\"NovelPromptModule\",\"ns\":\"Kurisu.NGDT\",\"asm\":\"Kurisu.NGDT\"},\"data\":{\"nodeData\":{\"graphPosition\":{\"serializedVersion\":\"2\",\"x\":0.0,\"y\":79.0,\"width\":356.0,\"height\":285.0},\"description\":\"\",\"guid\":\"514e033e-c801-440b-aaba-dcc954e7bdea\",\"nodeType\":{\"_class\":\"\",\"_ns\":\"\",\"_asm\":\"\"},\"genericParameters\":[],\"serializedData\":\"\",\"executionPath\":0,\"portData\":[],\"uobjectLinks\":[]},\"pieceSystemPrompt\":{\"isShared\":false,\"isGlobal\":false,\"isExposed\":false,\"mName\":\"\",\"value\":\"\u4F60\u662F\u4E00\u4E2A\u604B\u7231\u517B\u6210\u6E38\u620F\u7684\u5267\u60C5\u7F16\u8F91\uFF0C\u4F60\u6B63\u5728\u5199\u6E38\u620F\u89D2\u8272\u7231\u4E3D\u4E1D\u548C\u73A9\u5BB6\u4E4B\u95F4\u7684\u5BF9\u8BDD\uFF0C\u4F60\u9700\u8981\u6839\u636E\u5F53\u524D\u7684\u5BF9\u8BDD\u7F16\u5199\u7231\u4E3D\u4E1D\u7684\u8BDD\uFF0C\u5B57\u6570\u4E0D\u8D85\u8FC750\u5B57\"},\"optionSystemPrompt\":{\"isShared\":false,\"isGlobal\":false,\"isExposed\":false,\"mName\":\"\",\"value\":\"\u4F60\u662F\u4E00\u4E2A\u604B\u7231\u517B\u6210\u6E38\u620F\u7684\u5267\u60C5\u7F16\u8F91\uFF0C\u4F60\u6B63\u5728\u5199\u6E38\u620F\u89D2\u8272\u7231\u4E3D\u4E1D\u548C\u73A9\u5BB6\u4E4B\u95F4\u7684\u5BF9\u8BDD\uFF0C\u73B0\u5728\u73A9\u5BB6\u6B63\u9700\u8981\u505A\u51FA\u9009\u62E9\"},\"storySummary\":{\"isShared\":false,\"isGlobal\":false,\"isExposed\":false,\"mName\":\"\",\"value\":\"\u7231\u4E3D\u4E1D\u662F\u4E00\u4E2A\u5973\u9AD8\u4E2D\u5973\u751F\uFF0C\u662F\u73A9\u5BB6\u7684\u5973\u670B\u53CB\uFF0C\u7231\u4E3D\u4E1D\u548C\u73A9\u5BB6\u5728\u5B66\u6821\u89C1\u9762\uFF0C\u8FD9\u5468\u662F\u5B83\u4EEC\u4EA4\u5F80\u7684\u7B2C\u4E00\u5468\uFF0C\u7231\u4E3D\u4E1D\u60F3\u8BA9\u73A9\u5BB6\u5230\u5979\u5BB6\u91CC\u505A\u5BA2\u3002\"}}},{\"rid\":1001,\"type\":{\"class\":\"Piece\",\"ns\":\"Kurisu.NGDT\",\"asm\":\"Kurisu.NGDT\"},\"data\":{\"nodeData\":{\"graphPosition\":{\"serializedVersion\":\"2\",\"x\":1037.0,\"y\":379.0,\"width\":380.0,\"height\":342.0},\"description\":\"\",\"guid\":\"0d39a5fe-00ae-4617-943c-6f4f304a323e\",\"nodeType\":{\"_class\":\"\",\"_ns\":\"\",\"_asm\":\"\"},\"genericParameters\":[],\"serializedData\":\"\",\"executionPath\":0,\"portData\":[],\"uobjectLinks\":[]},\"children\":[{\"rid\":1002},{\"rid\":1003}],\"pieceID\":{\"isShared\":true,\"isGlobal\":false,\"isExposed\":false,\"mName\":\"Dialog1\",\"value\":\"\"}}},{\"rid\":1002,\"type\":{\"class\":\"ContentModule\",\"ns\":\"Kurisu.NGDT\",\"asm\":\"Kurisu.NGDT\"},\"data\":{\"nodeData\":{\"graphPosition\":{\"serializedVersion\":\"2\",\"x\":0.0,\"y\":108.0,\"width\":356.0,\"height\":91.0},\"description\":\"\",\"guid\":\"3ff8576c-927a-480d-8f47-de0fef86ce28\",\"nodeType\":{\"_class\":\"\",\"_ns\":\"\",\"_asm\":\"\"},\"genericParameters\":[],\"serializedData\":\"\",\"executionPath\":0,\"portData\":[],\"uobjectLinks\":[]},\"content\":{\"isShared\":false,\"isGlobal\":false,\"isExposed\":false,\"mName\":\"\",\"value\":\"\u90A3\u4E2A\uFF0C\u5468\u672B\u4F60\u6709\u65F6\u95F4\u5417\uFF1F\"}}},{\"rid\":1003,\"type\":{\"class\":\"Option\",\"ns\":\"Kurisu.NGDT\",\"asm\":\"Kurisu.NGDT\"},\"data\":{\"nodeData\":{\"graphPosition\":{\"serializedVersion\":\"2\",\"x\":1471.0,\"y\":365.0,\"width\":380.0,\"height\":369.0},\"description\":\"\",\"guid\":\"1eb0d71d-5249-48f6-8772-1032fac1517a\",\"nodeType\":{\"_class\":\"\",\"_ns\":\"\",\"_asm\":\"\"},\"genericParameters\":[],\"serializedData\":\"\",\"executionPath\":0,\"portData\":[],\"uobjectLinks\":[]},\"children\":[{\"rid\":1004},{\"rid\":1005}]}},{\"rid\":1004,\"type\":{\"class\":\"ContentModule\",\"ns\":\"Kurisu.NGDT\",\"asm\":\"Kurisu.NGDT\"},\"data\":{\"nodeData\":{\"graphPosition\":{\"serializedVersion\":\"2\",\"x\":0.0,\"y\":79.0,\"width\":356.0,\"height\":91.0},\"description\":\"\",\"guid\":\"8a89312a-1de9-43aa-9b0e-85c569ffad20\",\"nodeType\":{\"_class\":\"\",\"_ns\":\"\",\"_asm\":\"\"},\"genericParameters\":[],\"serializedData\":\"\",\"executionPath\":0,\"portData\":[],\"uobjectLinks\":[]},\"content\":{\"isShared\":false,\"isGlobal\":false,\"isExposed\":false,\"mName\":\"\",\"value\":\"\u600E\u4E48\u4E86\uFF0C\u662F\u7EA6\u4F1A\u5417\uFF1F\"}}},{\"rid\":1005,\"type\":{\"class\":\"TargetIDModule\",\"ns\":\"Kurisu.NGDT\",\"asm\":\"Kurisu.NGDT\"},\"data\":{\"nodeData\":{\"graphPosition\":{\"serializedVersion\":\"2\",\"x\":0.0,\"y\":170.0,\"width\":356.0,\"height\":133.0},\"description\":\"\",\"guid\":\"16d8fa65-24b5-4dab-9662-c317c76360c3\",\"nodeType\":{\"_class\":\"\",\"_ns\":\"\",\"_asm\":\"\"},\"genericParameters\":[],\"serializedData\":\"\",\"executionPath\":0,\"portData\":[],\"uobjectLinks\":[]},\"useReference\":false,\"targetID\":{\"isShared\":true,\"isGlobal\":false,\"isExposed\":false,\"mName\":\"Dialog2\",\"value\":\"\"}}}]}}"
+      executionPath: 0
+      portData: []
+      uobjectLinks: []
+    - graphPosition:
+        serializedVersion: 2
+        x: 0
+        y: 79
+        width: 356
+        height: 285
+      description: 
+      guid: 514e033e-c801-440b-aaba-dcc954e7bdea
+      nodeType:
+        _class: NovelPromptModule
+        _ns: Kurisu.NGDT
+        _asm: Kurisu.NGDT
+      genericParameters: []
+      serializedData: "{\"nodeData\":{\"graphPosition\":{\"serializedVersion\":\"2\",\"x\":0.0,\"y\":79.0,\"width\":356.0,\"height\":285.0},\"description\":\"\",\"guid\":\"514e033e-c801-440b-aaba-dcc954e7bdea\",\"nodeType\":{\"_class\":\"\",\"_ns\":\"\",\"_asm\":\"\"},\"genericParameters\":[],\"serializedData\":\"\",\"executionPath\":0,\"portData\":[],\"uobjectLinks\":[]},\"pieceSystemPrompt\":{\"isShared\":false,\"isGlobal\":false,\"isExposed\":false,\"mName\":\"\",\"value\":\"\u4F60\u662F\u4E00\u4E2A\u604B\u7231\u517B\u6210\u6E38\u620F\u7684\u5267\u60C5\u7F16\u8F91\uFF0C\u4F60\u6B63\u5728\u5199\u6E38\u620F\u89D2\u8272\u7231\u4E3D\u4E1D\u548C\u73A9\u5BB6\u4E4B\u95F4\u7684\u5BF9\u8BDD\uFF0C\u4F60\u9700\u8981\u6839\u636E\u5F53\u524D\u7684\u5BF9\u8BDD\u7F16\u5199\u7231\u4E3D\u4E1D\u7684\u8BDD\uFF0C\u5B57\u6570\u4E0D\u8D85\u8FC750\u5B57\"},\"optionSystemPrompt\":{\"isShared\":false,\"isGlobal\":false,\"isExposed\":false,\"mName\":\"\",\"value\":\"\u4F60\u662F\u4E00\u4E2A\u604B\u7231\u517B\u6210\u6E38\u620F\u7684\u5267\u60C5\u7F16\u8F91\uFF0C\u4F60\u6B63\u5728\u5199\u6E38\u620F\u89D2\u8272\u7231\u4E3D\u4E1D\u548C\u73A9\u5BB6\u4E4B\u95F4\u7684\u5BF9\u8BDD\uFF0C\u73B0\u5728\u73A9\u5BB6\u6B63\u9700\u8981\u505A\u51FA\u9009\u62E9\"},\"storySummary\":{\"isShared\":false,\"isGlobal\":false,\"isExposed\":false,\"mName\":\"\",\"value\":\"\u7231\u4E3D\u4E1D\u662F\u4E00\u4E2A\u5973\u9AD8\u4E2D\u5973\u751F\uFF0C\u662F\u73A9\u5BB6\u7684\u5973\u670B\u53CB\uFF0C\u7231\u4E3D\u4E1D\u548C\u73A9\u5BB6\u5728\u5B66\u6821\u89C1\u9762\uFF0C\u8FD9\u5468\u662F\u5B83\u4EEC\u4EA4\u5F80\u7684\u7B2C\u4E00\u5468\uFF0C\u7231\u4E3D\u4E1D\u60F3\u8BA9\u73A9\u5BB6\u5230\u5979\u5BB6\u91CC\u505A\u5BA2\u3002\"}}"
+      executionPath: 0
+      portData: []
+      uobjectLinks: []
+    - graphPosition:
+        serializedVersion: 2
+        x: 1037
+        y: 379
+        width: 380
+        height: 342
+      description: 
+      guid: 0d39a5fe-00ae-4617-943c-6f4f304a323e
+      nodeType:
+        _class: Piece
+        _ns: Kurisu.NGDT
+        _asm: Kurisu.NGDT
+      genericParameters: []
+      serializedData: "{\"nodeData\":{\"graphPosition\":{\"serializedVersion\":\"2\",\"x\":1037.0,\"y\":379.0,\"width\":380.0,\"height\":342.0},\"description\":\"\",\"guid\":\"0d39a5fe-00ae-4617-943c-6f4f304a323e\",\"nodeType\":{\"_class\":\"\",\"_ns\":\"\",\"_asm\":\"\"},\"genericParameters\":[],\"serializedData\":\"\",\"executionPath\":0,\"portData\":[],\"uobjectLinks\":[]},\"children\":[{\"rid\":1000},{\"rid\":1001}],\"pieceID\":{\"isShared\":true,\"isGlobal\":false,\"isExposed\":false,\"mName\":\"Dialog1\",\"value\":\"\"},\"references\":{\"version\":2,\"RefIds\":[{\"rid\":1000,\"type\":{\"class\":\"ContentModule\",\"ns\":\"Kurisu.NGDT\",\"asm\":\"Kurisu.NGDT\"},\"data\":{\"nodeData\":{\"graphPosition\":{\"serializedVersion\":\"2\",\"x\":0.0,\"y\":108.0,\"width\":356.0,\"height\":91.0},\"description\":\"\",\"guid\":\"3ff8576c-927a-480d-8f47-de0fef86ce28\",\"nodeType\":{\"_class\":\"\",\"_ns\":\"\",\"_asm\":\"\"},\"genericParameters\":[],\"serializedData\":\"\",\"executionPath\":0,\"portData\":[],\"uobjectLinks\":[]},\"content\":{\"isShared\":false,\"isGlobal\":false,\"isExposed\":false,\"mName\":\"\",\"value\":\"\u90A3\u4E2A\uFF0C\u5468\u672B\u4F60\u6709\u65F6\u95F4\u5417\uFF1F\"}}},{\"rid\":1001,\"type\":{\"class\":\"Option\",\"ns\":\"Kurisu.NGDT\",\"asm\":\"Kurisu.NGDT\"},\"data\":{\"nodeData\":{\"graphPosition\":{\"serializedVersion\":\"2\",\"x\":1471.0,\"y\":365.0,\"width\":380.0,\"height\":369.0},\"description\":\"\",\"guid\":\"1eb0d71d-5249-48f6-8772-1032fac1517a\",\"nodeType\":{\"_class\":\"\",\"_ns\":\"\",\"_asm\":\"\"},\"genericParameters\":[],\"serializedData\":\"\",\"executionPath\":0,\"portData\":[],\"uobjectLinks\":[]},\"children\":[{\"rid\":1002},{\"rid\":1003}]}},{\"rid\":1002,\"type\":{\"class\":\"ContentModule\",\"ns\":\"Kurisu.NGDT\",\"asm\":\"Kurisu.NGDT\"},\"data\":{\"nodeData\":{\"graphPosition\":{\"serializedVersion\":\"2\",\"x\":0.0,\"y\":79.0,\"width\":356.0,\"height\":91.0},\"description\":\"\",\"guid\":\"8a89312a-1de9-43aa-9b0e-85c569ffad20\",\"nodeType\":{\"_class\":\"\",\"_ns\":\"\",\"_asm\":\"\"},\"genericParameters\":[],\"serializedData\":\"\",\"executionPath\":0,\"portData\":[],\"uobjectLinks\":[]},\"content\":{\"isShared\":false,\"isGlobal\":false,\"isExposed\":false,\"mName\":\"\",\"value\":\"\u600E\u4E48\u4E86\uFF0C\u662F\u7EA6\u4F1A\u5417\uFF1F\"}}},{\"rid\":1003,\"type\":{\"class\":\"TargetIDModule\",\"ns\":\"Kurisu.NGDT\",\"asm\":\"Kurisu.NGDT\"},\"data\":{\"nodeData\":{\"graphPosition\":{\"serializedVersion\":\"2\",\"x\":0.0,\"y\":170.0,\"width\":356.0,\"height\":133.0},\"description\":\"\",\"guid\":\"16d8fa65-24b5-4dab-9662-c317c76360c3\",\"nodeType\":{\"_class\":\"\",\"_ns\":\"\",\"_asm\":\"\"},\"genericParameters\":[],\"serializedData\":\"\",\"executionPath\":0,\"portData\":[],\"uobjectLinks\":[]},\"useReference\":false,\"targetID\":{\"isShared\":true,\"isGlobal\":false,\"isExposed\":false,\"mName\":\"Dialog2\",\"value\":\"\"}}}]}}"
+      executionPath: 0
+      portData: []
+      uobjectLinks: []
+    - graphPosition:
+        serializedVersion: 2
+        x: 0
+        y: 108
+        width: 356
+        height: 91
+      description: 
+      guid: 3ff8576c-927a-480d-8f47-de0fef86ce28
+      nodeType:
+        _class: ContentModule
+        _ns: Kurisu.NGDT
+        _asm: Kurisu.NGDT
+      genericParameters: []
+      serializedData: "{\"nodeData\":{\"graphPosition\":{\"serializedVersion\":\"2\",\"x\":0.0,\"y\":108.0,\"width\":356.0,\"height\":91.0},\"description\":\"\",\"guid\":\"3ff8576c-927a-480d-8f47-de0fef86ce28\",\"nodeType\":{\"_class\":\"\",\"_ns\":\"\",\"_asm\":\"\"},\"genericParameters\":[],\"serializedData\":\"\",\"executionPath\":0,\"portData\":[],\"uobjectLinks\":[]},\"content\":{\"isShared\":false,\"isGlobal\":false,\"isExposed\":false,\"mName\":\"\",\"value\":\"\u90A3\u4E2A\uFF0C\u5468\u672B\u4F60\u6709\u65F6\u95F4\u5417\uFF1F\"}}"
+      executionPath: 0
+      portData: []
+      uobjectLinks: []
+    - graphPosition:
+        serializedVersion: 2
+        x: 1471
+        y: 365
+        width: 380
+        height: 369
+      description: 
+      guid: 1eb0d71d-5249-48f6-8772-1032fac1517a
+      nodeType:
+        _class: Option
+        _ns: Kurisu.NGDT
+        _asm: Kurisu.NGDT
+      genericParameters: []
+      serializedData: "{\"nodeData\":{\"graphPosition\":{\"serializedVersion\":\"2\",\"x\":1471.0,\"y\":365.0,\"width\":380.0,\"height\":369.0},\"description\":\"\",\"guid\":\"1eb0d71d-5249-48f6-8772-1032fac1517a\",\"nodeType\":{\"_class\":\"\",\"_ns\":\"\",\"_asm\":\"\"},\"genericParameters\":[],\"serializedData\":\"\",\"executionPath\":0,\"portData\":[],\"uobjectLinks\":[]},\"children\":[{\"rid\":1000},{\"rid\":1001}],\"references\":{\"version\":2,\"RefIds\":[{\"rid\":1000,\"type\":{\"class\":\"ContentModule\",\"ns\":\"Kurisu.NGDT\",\"asm\":\"Kurisu.NGDT\"},\"data\":{\"nodeData\":{\"graphPosition\":{\"serializedVersion\":\"2\",\"x\":0.0,\"y\":79.0,\"width\":356.0,\"height\":91.0},\"description\":\"\",\"guid\":\"8a89312a-1de9-43aa-9b0e-85c569ffad20\",\"nodeType\":{\"_class\":\"\",\"_ns\":\"\",\"_asm\":\"\"},\"genericParameters\":[],\"serializedData\":\"\",\"executionPath\":0,\"portData\":[],\"uobjectLinks\":[]},\"content\":{\"isShared\":false,\"isGlobal\":false,\"isExposed\":false,\"mName\":\"\",\"value\":\"\u600E\u4E48\u4E86\uFF0C\u662F\u7EA6\u4F1A\u5417\uFF1F\"}}},{\"rid\":1001,\"type\":{\"class\":\"TargetIDModule\",\"ns\":\"Kurisu.NGDT\",\"asm\":\"Kurisu.NGDT\"},\"data\":{\"nodeData\":{\"graphPosition\":{\"serializedVersion\":\"2\",\"x\":0.0,\"y\":170.0,\"width\":356.0,\"height\":133.0},\"description\":\"\",\"guid\":\"16d8fa65-24b5-4dab-9662-c317c76360c3\",\"nodeType\":{\"_class\":\"\",\"_ns\":\"\",\"_asm\":\"\"},\"genericParameters\":[],\"serializedData\":\"\",\"executionPath\":0,\"portData\":[],\"uobjectLinks\":[]},\"useReference\":false,\"targetID\":{\"isShared\":true,\"isGlobal\":false,\"isExposed\":false,\"mName\":\"Dialog2\",\"value\":\"\"}}}]}}"
+      executionPath: 0
+      portData: []
+      uobjectLinks: []
+    - graphPosition:
+        serializedVersion: 2
+        x: 0
+        y: 79
+        width: 356
+        height: 91
+      description: 
+      guid: 8a89312a-1de9-43aa-9b0e-85c569ffad20
+      nodeType:
+        _class: ContentModule
+        _ns: Kurisu.NGDT
+        _asm: Kurisu.NGDT
+      genericParameters: []
+      serializedData: "{\"nodeData\":{\"graphPosition\":{\"serializedVersion\":\"2\",\"x\":0.0,\"y\":79.0,\"width\":356.0,\"height\":91.0},\"description\":\"\",\"guid\":\"8a89312a-1de9-43aa-9b0e-85c569ffad20\",\"nodeType\":{\"_class\":\"\",\"_ns\":\"\",\"_asm\":\"\"},\"genericParameters\":[],\"serializedData\":\"\",\"executionPath\":0,\"portData\":[],\"uobjectLinks\":[]},\"content\":{\"isShared\":false,\"isGlobal\":false,\"isExposed\":false,\"mName\":\"\",\"value\":\"\u600E\u4E48\u4E86\uFF0C\u662F\u7EA6\u4F1A\u5417\uFF1F\"}}"
+      executionPath: 0
+      portData: []
+      uobjectLinks: []
+    - graphPosition:
+        serializedVersion: 2
+        x: 0
+        y: 170
+        width: 356
+        height: 133
+      description: 
+      guid: 16d8fa65-24b5-4dab-9662-c317c76360c3
+      nodeType:
+        _class: TargetIDModule
+        _ns: Kurisu.NGDT
+        _asm: Kurisu.NGDT
+      genericParameters: []
+      serializedData: '{"nodeData":{"graphPosition":{"serializedVersion":"2","x":0.0,"y":170.0,"width":356.0,"height":133.0},"description":"","guid":"16d8fa65-24b5-4dab-9662-c317c76360c3","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"useReference":false,"targetID":{"isShared":true,"isGlobal":false,"isExposed":false,"mName":"Dialog2","value":""}}'
+      executionPath: 0
+      portData: []
+      uobjectLinks: []
+    - graphPosition:
+        serializedVersion: 2
+        x: 1909
+        y: 340
+        width: 380
+        height: 421
+      description: 
+      guid: 552b6096-f1ba-49c8-bd46-2a8d98c8576d
+      nodeType:
+        _class: Piece
+        _ns: Kurisu.NGDT
+        _asm: Kurisu.NGDT
+      genericParameters: []
+      serializedData: "{\"nodeData\":{\"graphPosition\":{\"serializedVersion\":\"2\",\"x\":1909.0,\"y\":340.0,\"width\":380.0,\"height\":421.0},\"description\":\"\",\"guid\":\"552b6096-f1ba-49c8-bd46-2a8d98c8576d\",\"nodeType\":{\"_class\":\"\",\"_ns\":\"\",\"_asm\":\"\"},\"genericParameters\":[],\"serializedData\":\"\",\"executionPath\":0,\"portData\":[],\"uobjectLinks\":[]},\"children\":[{\"rid\":1000},{\"rid\":1001}],\"pieceID\":{\"isShared\":true,\"isGlobal\":false,\"isExposed\":false,\"mName\":\"Dialog2\",\"value\":\"\"},\"references\":{\"version\":2,\"RefIds\":[{\"rid\":1000,\"type\":{\"class\":\"ContentModule\",\"ns\":\"Kurisu.NGDT\",\"asm\":\"Kurisu.NGDT\"},\"data\":{\"nodeData\":{\"graphPosition\":{\"serializedVersion\":\"2\",\"x\":0.0,\"y\":108.0,\"width\":356.0,\"height\":106.0},\"description\":\"\",\"guid\":\"24db5959-c0b7-4b24-9474-100c30070d3a\",\"nodeType\":{\"_class\":\"\",\"_ns\":\"\",\"_asm\":\"\"},\"genericParameters\":[],\"serializedData\":\"\",\"executionPath\":0,\"portData\":[],\"uobjectLinks\":[]},\"content\":{\"isShared\":false,\"isGlobal\":false,\"isExposed\":false,\"mName\":\"\",\"value\":\"\u554A\uFF0C\u4E0D\u662F\uFF0C\u4E5F\u7B97\u662F\u5427\uFF0C\u8FD9\u5468\u672B\u6211\u5BB6\u91CC\u6CA1\u6709\u4EBA\uFF0C\u6240\u4EE5...\"}}},{\"rid\":1001,\"type\":{\"class\":\"NovelBakeModule\",\"ns\":\"Kurisu.NGDT\",\"asm\":\"Kurisu.NGDT\"},\"data\":{\"nodeData\":{\"graphPosition\":{\"serializedVersion\":\"2\",\"x\":0.0,\"y\":214.0,\"width\":356.0,\"height\":141.0},\"description\":\"\",\"guid\":\"34b669bd-fb41-46c0-9dbe-93c55818f75d\",\"nodeType\":{\"_class\":\"\",\"_ns\":\"\",\"_asm\":\"\"},\"genericParameters\":[],\"serializedData\":\"\",\"executionPath\":0,\"portData\":[],\"uobjectLinks\":[]},\"generateDepth\":3,\"optionCount\":2,\"overridePiecePrompt\":{\"instanceID\":0},\"overrideOptionPrompt\":{\"instanceID\":0},\"lastSelection\":\"[\\\"1253cb15-ce0c-46a4-9c98-fc14b3265295\\\",\\\"87ad95d9-81fc-4d39-a073-b318ec0c0ae9\\\",\\\"8714e8ac-b310-4da1-9217-12ca1c02f8b7\\\",\\\"330155c3-c014-4e7b-8468-13cebf5bbcc9\\\"]\"}}]}}"
+      executionPath: 0
+      portData: []
+      uobjectLinks: []
+    - graphPosition:
+        serializedVersion: 2
+        x: 0
+        y: 108
+        width: 356
+        height: 106
+      description: 
+      guid: 24db5959-c0b7-4b24-9474-100c30070d3a
+      nodeType:
+        _class: ContentModule
+        _ns: Kurisu.NGDT
+        _asm: Kurisu.NGDT
+      genericParameters: []
+      serializedData: "{\"nodeData\":{\"graphPosition\":{\"serializedVersion\":\"2\",\"x\":0.0,\"y\":108.0,\"width\":356.0,\"height\":106.0},\"description\":\"\",\"guid\":\"24db5959-c0b7-4b24-9474-100c30070d3a\",\"nodeType\":{\"_class\":\"\",\"_ns\":\"\",\"_asm\":\"\"},\"genericParameters\":[],\"serializedData\":\"\",\"executionPath\":0,\"portData\":[],\"uobjectLinks\":[]},\"content\":{\"isShared\":false,\"isGlobal\":false,\"isExposed\":false,\"mName\":\"\",\"value\":\"\u554A\uFF0C\u4E0D\u662F\uFF0C\u4E5F\u7B97\u662F\u5427\uFF0C\u8FD9\u5468\u672B\u6211\u5BB6\u91CC\u6CA1\u6709\u4EBA\uFF0C\u6240\u4EE5...\"}}"
+      executionPath: 0
+      portData: []
+      uobjectLinks: []
+    - graphPosition:
+        serializedVersion: 2
+        x: 0
+        y: 214
+        width: 356
+        height: 141
+      description: 
+      guid: 34b669bd-fb41-46c0-9dbe-93c55818f75d
+      nodeType:
+        _class: NovelBakeModule
+        _ns: Kurisu.NGDT
+        _asm: Kurisu.NGDT
+      genericParameters: []
+      serializedData: '{"nodeData":{"graphPosition":{"serializedVersion":"2","x":0.0,"y":214.0,"width":356.0,"height":141.0},"description":"","guid":"34b669bd-fb41-46c0-9dbe-93c55818f75d","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"generateDepth":3,"optionCount":2,"overridePiecePrompt":{"instanceID":0},"overrideOptionPrompt":{"instanceID":0},"lastSelection":"[\"1253cb15-ce0c-46a4-9c98-fc14b3265295\",\"87ad95d9-81fc-4d39-a073-b318ec0c0ae9\",\"8714e8ac-b310-4da1-9217-12ca1c02f8b7\",\"330155c3-c014-4e7b-8468-13cebf5bbcc9\"]"}'
+      executionPath: 0
+      portData: []
+      uobjectLinks: []
+    - graphPosition:
+        serializedVersion: 2
+        x: 1037
+        y: 379
+        width: 380
+        height: 342
+      description: 
+      guid: 0d39a5fe-00ae-4617-943c-6f4f304a323e
+      nodeType:
+        _class: Piece
+        _ns: Kurisu.NGDT
+        _asm: Kurisu.NGDT
+      genericParameters: []
+      serializedData: "{\"nodeData\":{\"graphPosition\":{\"serializedVersion\":\"2\",\"x\":1037.0,\"y\":379.0,\"width\":380.0,\"height\":342.0},\"description\":\"\",\"guid\":\"0d39a5fe-00ae-4617-943c-6f4f304a323e\",\"nodeType\":{\"_class\":\"\",\"_ns\":\"\",\"_asm\":\"\"},\"genericParameters\":[],\"serializedData\":\"\",\"executionPath\":0,\"portData\":[],\"uobjectLinks\":[]},\"children\":[{\"rid\":1000},{\"rid\":1001}],\"pieceID\":{\"isShared\":true,\"isGlobal\":false,\"isExposed\":false,\"mName\":\"Dialog1\",\"value\":\"\"},\"references\":{\"version\":2,\"RefIds\":[{\"rid\":1000,\"type\":{\"class\":\"ContentModule\",\"ns\":\"Kurisu.NGDT\",\"asm\":\"Kurisu.NGDT\"},\"data\":{\"nodeData\":{\"graphPosition\":{\"serializedVersion\":\"2\",\"x\":0.0,\"y\":108.0,\"width\":356.0,\"height\":91.0},\"description\":\"\",\"guid\":\"3ff8576c-927a-480d-8f47-de0fef86ce28\",\"nodeType\":{\"_class\":\"\",\"_ns\":\"\",\"_asm\":\"\"},\"genericParameters\":[],\"serializedData\":\"\",\"executionPath\":0,\"portData\":[],\"uobjectLinks\":[]},\"content\":{\"isShared\":false,\"isGlobal\":false,\"isExposed\":false,\"mName\":\"\",\"value\":\"\u90A3\u4E2A\uFF0C\u5468\u672B\u4F60\u6709\u65F6\u95F4\u5417\uFF1F\"}}},{\"rid\":1001,\"type\":{\"class\":\"Option\",\"ns\":\"Kurisu.NGDT\",\"asm\":\"Kurisu.NGDT\"},\"data\":{\"nodeData\":{\"graphPosition\":{\"serializedVersion\":\"2\",\"x\":1471.0,\"y\":365.0,\"width\":380.0,\"height\":369.0},\"description\":\"\",\"guid\":\"1eb0d71d-5249-48f6-8772-1032fac1517a\",\"nodeType\":{\"_class\":\"\",\"_ns\":\"\",\"_asm\":\"\"},\"genericParameters\":[],\"serializedData\":\"\",\"executionPath\":0,\"portData\":[],\"uobjectLinks\":[]},\"children\":[{\"rid\":1002},{\"rid\":1003}]}},{\"rid\":1002,\"type\":{\"class\":\"ContentModule\",\"ns\":\"Kurisu.NGDT\",\"asm\":\"Kurisu.NGDT\"},\"data\":{\"nodeData\":{\"graphPosition\":{\"serializedVersion\":\"2\",\"x\":0.0,\"y\":79.0,\"width\":356.0,\"height\":91.0},\"description\":\"\",\"guid\":\"8a89312a-1de9-43aa-9b0e-85c569ffad20\",\"nodeType\":{\"_class\":\"\",\"_ns\":\"\",\"_asm\":\"\"},\"genericParameters\":[],\"serializedData\":\"\",\"executionPath\":0,\"portData\":[],\"uobjectLinks\":[]},\"content\":{\"isShared\":false,\"isGlobal\":false,\"isExposed\":false,\"mName\":\"\",\"value\":\"\u600E\u4E48\u4E86\uFF0C\u662F\u7EA6\u4F1A\u5417\uFF1F\"}}},{\"rid\":1003,\"type\":{\"class\":\"TargetIDModule\",\"ns\":\"Kurisu.NGDT\",\"asm\":\"Kurisu.NGDT\"},\"data\":{\"nodeData\":{\"graphPosition\":{\"serializedVersion\":\"2\",\"x\":0.0,\"y\":170.0,\"width\":356.0,\"height\":133.0},\"description\":\"\",\"guid\":\"16d8fa65-24b5-4dab-9662-c317c76360c3\",\"nodeType\":{\"_class\":\"\",\"_ns\":\"\",\"_asm\":\"\"},\"genericParameters\":[],\"serializedData\":\"\",\"executionPath\":0,\"portData\":[],\"uobjectLinks\":[]},\"useReference\":false,\"targetID\":{\"isShared\":true,\"isGlobal\":false,\"isExposed\":false,\"mName\":\"Dialog2\",\"value\":\"\"}}}]}}"
+      executionPath: 0
+      portData: []
+      uobjectLinks: []
+    - graphPosition:
+        serializedVersion: 2
+        x: 0
+        y: 108
+        width: 356
+        height: 91
+      description: 
+      guid: 3ff8576c-927a-480d-8f47-de0fef86ce28
+      nodeType:
+        _class: ContentModule
+        _ns: Kurisu.NGDT
+        _asm: Kurisu.NGDT
+      genericParameters: []
+      serializedData: "{\"nodeData\":{\"graphPosition\":{\"serializedVersion\":\"2\",\"x\":0.0,\"y\":108.0,\"width\":356.0,\"height\":91.0},\"description\":\"\",\"guid\":\"3ff8576c-927a-480d-8f47-de0fef86ce28\",\"nodeType\":{\"_class\":\"\",\"_ns\":\"\",\"_asm\":\"\"},\"genericParameters\":[],\"serializedData\":\"\",\"executionPath\":0,\"portData\":[],\"uobjectLinks\":[]},\"content\":{\"isShared\":false,\"isGlobal\":false,\"isExposed\":false,\"mName\":\"\",\"value\":\"\u90A3\u4E2A\uFF0C\u5468\u672B\u4F60\u6709\u65F6\u95F4\u5417\uFF1F\"}}"
+      executionPath: 0
+      portData: []
+      uobjectLinks: []
+    - graphPosition:
+        serializedVersion: 2
+        x: 1471
+        y: 365
+        width: 380
+        height: 369
+      description: 
+      guid: 1eb0d71d-5249-48f6-8772-1032fac1517a
+      nodeType:
+        _class: Option
+        _ns: Kurisu.NGDT
+        _asm: Kurisu.NGDT
+      genericParameters: []
+      serializedData: "{\"nodeData\":{\"graphPosition\":{\"serializedVersion\":\"2\",\"x\":1471.0,\"y\":365.0,\"width\":380.0,\"height\":369.0},\"description\":\"\",\"guid\":\"1eb0d71d-5249-48f6-8772-1032fac1517a\",\"nodeType\":{\"_class\":\"\",\"_ns\":\"\",\"_asm\":\"\"},\"genericParameters\":[],\"serializedData\":\"\",\"executionPath\":0,\"portData\":[],\"uobjectLinks\":[]},\"children\":[{\"rid\":1000},{\"rid\":1001}],\"references\":{\"version\":2,\"RefIds\":[{\"rid\":1000,\"type\":{\"class\":\"ContentModule\",\"ns\":\"Kurisu.NGDT\",\"asm\":\"Kurisu.NGDT\"},\"data\":{\"nodeData\":{\"graphPosition\":{\"serializedVersion\":\"2\",\"x\":0.0,\"y\":79.0,\"width\":356.0,\"height\":91.0},\"description\":\"\",\"guid\":\"8a89312a-1de9-43aa-9b0e-85c569ffad20\",\"nodeType\":{\"_class\":\"\",\"_ns\":\"\",\"_asm\":\"\"},\"genericParameters\":[],\"serializedData\":\"\",\"executionPath\":0,\"portData\":[],\"uobjectLinks\":[]},\"content\":{\"isShared\":false,\"isGlobal\":false,\"isExposed\":false,\"mName\":\"\",\"value\":\"\u600E\u4E48\u4E86\uFF0C\u662F\u7EA6\u4F1A\u5417\uFF1F\"}}},{\"rid\":1001,\"type\":{\"class\":\"TargetIDModule\",\"ns\":\"Kurisu.NGDT\",\"asm\":\"Kurisu.NGDT\"},\"data\":{\"nodeData\":{\"graphPosition\":{\"serializedVersion\":\"2\",\"x\":0.0,\"y\":170.0,\"width\":356.0,\"height\":133.0},\"description\":\"\",\"guid\":\"16d8fa65-24b5-4dab-9662-c317c76360c3\",\"nodeType\":{\"_class\":\"\",\"_ns\":\"\",\"_asm\":\"\"},\"genericParameters\":[],\"serializedData\":\"\",\"executionPath\":0,\"portData\":[],\"uobjectLinks\":[]},\"useReference\":false,\"targetID\":{\"isShared\":true,\"isGlobal\":false,\"isExposed\":false,\"mName\":\"Dialog2\",\"value\":\"\"}}}]}}"
+      executionPath: 0
+      portData: []
+      uobjectLinks: []
+    - graphPosition:
+        serializedVersion: 2
+        x: 0
+        y: 79
+        width: 356
+        height: 91
+      description: 
+      guid: 8a89312a-1de9-43aa-9b0e-85c569ffad20
+      nodeType:
+        _class: ContentModule
+        _ns: Kurisu.NGDT
+        _asm: Kurisu.NGDT
+      genericParameters: []
+      serializedData: "{\"nodeData\":{\"graphPosition\":{\"serializedVersion\":\"2\",\"x\":0.0,\"y\":79.0,\"width\":356.0,\"height\":91.0},\"description\":\"\",\"guid\":\"8a89312a-1de9-43aa-9b0e-85c569ffad20\",\"nodeType\":{\"_class\":\"\",\"_ns\":\"\",\"_asm\":\"\"},\"genericParameters\":[],\"serializedData\":\"\",\"executionPath\":0,\"portData\":[],\"uobjectLinks\":[]},\"content\":{\"isShared\":false,\"isGlobal\":false,\"isExposed\":false,\"mName\":\"\",\"value\":\"\u600E\u4E48\u4E86\uFF0C\u662F\u7EA6\u4F1A\u5417\uFF1F\"}}"
+      executionPath: 0
+      portData: []
+      uobjectLinks: []
+    - graphPosition:
+        serializedVersion: 2
+        x: 0
+        y: 170
+        width: 356
+        height: 133
+      description: 
+      guid: 16d8fa65-24b5-4dab-9662-c317c76360c3
+      nodeType:
+        _class: TargetIDModule
+        _ns: Kurisu.NGDT
+        _asm: Kurisu.NGDT
+      genericParameters: []
+      serializedData: '{"nodeData":{"graphPosition":{"serializedVersion":"2","x":0.0,"y":170.0,"width":356.0,"height":133.0},"description":"","guid":"16d8fa65-24b5-4dab-9662-c317c76360c3","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"useReference":false,"targetID":{"isShared":true,"isGlobal":false,"isExposed":false,"mName":"Dialog2","value":""}}'
+      executionPath: 0
+      portData: []
+      uobjectLinks: []
+    nodeGroups: []
+    edges:
+    - children: 020000000900000004000000
+    - children: 
+    - children: 0300000004000000
+    - children: 
+    - children: 0500000006000000
+    - children: 
+    - children: 0700000008000000
+    - children: 
+    - children: 
+    - children: 0a0000000b000000
+    - children: 
+    - children: 
+    - children: 
+    - children: 
+    - children: 
+    - children: 
+    - children: 
+  flowGraphData:
+    variables: []
+    nodes: []
+    variableData: []
+    nodeData: []
+    nodeGroups: []
+    nodeDependencyPath: []
+  externalAsset: {fileID: 0}
   references:
     version: 2
     RefIds:
-    - rid: 5974865124870062122
+    - rid: -2
+      type: {class: , ns: , asm: }
+    - rid: 1770628296118370331
       type: {class: PieceID, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
       data:
         isShared: 1
@@ -529,7 +874,7 @@ MonoBehaviour:
         isExposed: 0
         mName: Dialog1
         value: 
-    - rid: 5974865124870062125
+    - rid: 1770628296118370332
       type: {class: PieceID, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
       data:
         isShared: 1
@@ -537,151 +882,75 @@ MonoBehaviour:
         isExposed: 0
         mName: Dialog2
         value: 
-    - rid: 5974865124870062126
-      type: {class: PieceID, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
-      data:
-        isShared: 1
-        isGlobal: 0
-        isExposed: 0
-        mName: New Piece
-        value: 
-    - rid: 5974865124870062127
-      type: {class: PieceID, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
-      data:
-        isShared: 1
-        isGlobal: 0
-        isExposed: 0
-        mName: New Piece1
-        value: 
-    - rid: 5974865124870062156
+    - rid: 1770628296118370333
       type: {class: Root, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
       data:
-        graphPosition:
-          serializedVersion: 2
-          x: 400
-          y: 300
-          width: 115
-          height: 77
-        description: 
-        guid: 17b30093-3fb4-4a02-8b26-64c8cb6854ea
+        nodeData:
+          graphPosition:
+            serializedVersion: 2
+            x: 400
+            y: 300
+            width: 115
+            height: 77
+          description: 
+          guid: 18bce7f6-4acc-4be2-b400-02fc9f76fccc
+          nodeType:
+            _class: 
+            _ns: 
+            _asm: 
+          genericParameters: []
+          serializedData: 
+          executionPath: 0
+          portData: []
+          uobjectLinks: []
         child:
-          rid: 5974865124870062157
-        children:
-        - rid: 5974865124870062158
-        - rid: 5974865124870062159
-        - rid: 5974865124870062160
-        - rid: 5974865124870062161
-    - rid: 5974865124870062157
+          rid: -2
+        children: []
+    - rid: 1770628296118370334
       type: {class: Dialogue, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
       data:
-        graphPosition:
-          serializedVersion: 2
-          x: 582
-          y: 190
-          width: 374
-          height: 535
-        description: 
-        guid: 1253cb15-ce0c-46a4-9c98-fc14b3265295
-        children:
-        - rid: 5974865124870062162
-        - rid: 5974865124870062160
+        nodeData:
+          graphPosition:
+            serializedVersion: 2
+            x: 592
+            y: 255
+            width: 380
+            height: 561
+          description: 
+          guid: f6bc15cc-8ecc-4db0-9a3f-16785e4e6da6
+          nodeType:
+            _class: 
+            _ns: 
+            _asm: 
+          genericParameters: []
+          serializedData: 
+          executionPath: 0
+          portData: []
+          uobjectLinks: []
+        children: []
         referencePieces:
-        - Dialog1
-    - rid: 5974865124870062158
-      type: {class: Piece, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
-      data:
-        graphPosition:
-          serializedVersion: 2
-          x: 2813
-          y: 100
-          width: 374
-          height: 419
-        description: 
-        guid: 905da0b5-e97b-4267-b934-23875f1b098c
-        children:
-        - rid: 5974865124870062163
-        - rid: 5974865124870062164
-        - rid: 5974865124870062165
-        pieceID:
-          isShared: 1
-          isGlobal: 0
-          isExposed: 0
-          mName: New Piece1
-          value: 
-    - rid: 5974865124870062159
-      type: {class: Piece, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
-      data:
-        graphPosition:
-          serializedVersion: 2
-          x: 2813
-          y: -472
-          width: 374
-          height: 419
-        description: 
-        guid: 36c7c451-087f-4bb3-8de1-b3a23f8a1e59
-        children:
-        - rid: 5974865124870062166
-        - rid: 5974865124870062167
-        - rid: 5974865124870062168
-        pieceID:
-          isShared: 1
-          isGlobal: 0
-          isExposed: 0
-          mName: New Piece
-          value: 
-    - rid: 5974865124870062160
-      type: {class: Piece, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
-      data:
-        graphPosition:
-          serializedVersion: 2
-          x: 1105
-          y: -160
-          width: 374
-          height: 342
-        description: 
-        guid: 87ad95d9-81fc-4d39-a073-b318ec0c0ae9
-        children:
-        - rid: 5974865124870062169
-        - rid: 5974865124870062170
-        pieceID:
-          isShared: 1
-          isGlobal: 0
-          isExposed: 0
-          mName: Dialog1
-          value: 
-    - rid: 5974865124870062161
-      type: {class: Piece, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
-      data:
-        graphPosition:
-          serializedVersion: 2
-          x: 1965
-          y: -264
-          width: 374
-          height: 575
-        description: 
-        guid: 330155c3-c014-4e7b-8468-13cebf5bbcc9
-        children:
-        - rid: 5974865124870062171
-        - rid: 5974865124870062172
-        - rid: 5974865124870062173
-        - rid: 5974865124870062174
-        pieceID:
-          isShared: 1
-          isGlobal: 0
-          isExposed: 0
-          mName: Dialog2
-          value: 
-    - rid: 5974865124870062162
+        - 
+    - rid: 1770628296118370335
       type: {class: NovelPromptModule, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
       data:
-        graphPosition:
-          serializedVersion: 2
-          x: 0
-          y: 79
-          width: 350
-          height: 257
-        description: 
-        guid: 9cc7d880-1e1a-41c9-b2e8-9a2c5a61079b
+        nodeData:
+          graphPosition:
+            serializedVersion: 2
+            x: 0
+            y: 79
+            width: 356
+            height: 285
+          description: 
+          guid: 514e033e-c801-440b-aaba-dcc954e7bdea
+          nodeType:
+            _class: 
+            _ns: 
+            _asm: 
+          genericParameters: []
+          serializedData: 
+          executionPath: 0
+          portData: []
+          uobjectLinks: []
         pieceSystemPrompt:
           isShared: 0
           isGlobal: 0
@@ -700,280 +969,131 @@ MonoBehaviour:
           isExposed: 0
           mName: 
           value: "\u7231\u4E3D\u4E1D\u662F\u4E00\u4E2A\u5973\u9AD8\u4E2D\u5973\u751F\uFF0C\u662F\u73A9\u5BB6\u7684\u5973\u670B\u53CB\uFF0C\u7231\u4E3D\u4E1D\u548C\u73A9\u5BB6\u5728\u5B66\u6821\u89C1\u9762\uFF0C\u8FD9\u5468\u662F\u5B83\u4EEC\u4EA4\u5F80\u7684\u7B2C\u4E00\u5468\uFF0C\u7231\u4E3D\u4E1D\u60F3\u8BA9\u73A9\u5BB6\u5230\u5979\u5BB6\u91CC\u505A\u5BA2\u3002"
-    - rid: 5974865124870062163
-      type: {class: ContentModule, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
+    - rid: 1770628296118370336
+      type: {class: Piece, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
       data:
-        graphPosition:
-          serializedVersion: 2
-          x: 0
-          y: 108
-          width: 350
-          height: 91
-        description: 
-        guid: 94a78eef-982e-4864-a5df-27aa0c43e82b
-        content:
-          isShared: 0
+        nodeData:
+          graphPosition:
+            serializedVersion: 2
+            x: 1037
+            y: 379
+            width: 380
+            height: 342
+          description: 
+          guid: 0d39a5fe-00ae-4617-943c-6f4f304a323e
+          nodeType:
+            _class: 
+            _ns: 
+            _asm: 
+          genericParameters: []
+          serializedData: 
+          executionPath: 0
+          portData: []
+          uobjectLinks: []
+        children: []
+        pieceID:
+          isShared: 1
           isGlobal: 0
           isExposed: 0
-          mName: 
-          value: "\u90A3\u6CA1\u5173\u7CFB\uFF0C\u6211\u60F3\u8BA9\u4F60\u89C1\u89C1\u5988\u5988\uFF0C\u4E0B\u6B21\u5427\u3002"
-    - rid: 5974865124870062164
-      type: {class: Option, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
-      data:
-        graphPosition:
-          serializedVersion: 2
-          x: 3237
-          y: 48
-          width: 374
-          height: 236
-        description: 
-        guid: 025d8eab-0d12-445d-8a82-61d1d18ca0c7
-        children:
-        - rid: 5974865124870062175
-    - rid: 5974865124870062165
-      type: {class: Option, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
-      data:
-        graphPosition:
-          serializedVersion: 2
-          x: 3237
-          y: 334
-          width: 374
-          height: 236
-        description: 
-        guid: bbbebaae-8def-4aff-8a6a-583e90d8cf23
-        children:
-        - rid: 5974865124870062176
-    - rid: 5974865124870062166
+          mName: Dialog1
+          value: 
+    - rid: 1770628296118370337
       type: {class: ContentModule, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
       data:
-        graphPosition:
-          serializedVersion: 2
-          x: 0
-          y: 108
-          width: 350
-          height: 91
-        description: 
-        guid: 8796f73a-e7a9-4806-9046-cd895468ca20
-        content:
-          isShared: 0
-          isGlobal: 0
-          isExposed: 0
-          mName: 
-          value: "\u771F\u7684\uFF1F\u90A3\u592A\u68D2\u4E86\uFF0C\u6211\u4F1A\u51C6\u5907\u4E00\u4E9B\u5403\u7684\uFF0C\u7B49\u4F60\u54E6\u3002"
-    - rid: 5974865124870062167
-      type: {class: Option, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
-      data:
-        graphPosition:
-          serializedVersion: 2
-          x: 3237
-          y: -524
-          width: 374
-          height: 236
-        description: 
-        guid: 395dc9b1-3b33-4988-8454-457270f0edae
-        children:
-        - rid: 5974865124870062177
-    - rid: 5974865124870062168
-      type: {class: Option, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
-      data:
-        graphPosition:
-          serializedVersion: 2
-          x: 3237
-          y: -238
-          width: 374
-          height: 236
-        description: 
-        guid: 2b466355-54a1-474b-a440-b6736a1ccc5a
-        children:
-        - rid: 5974865124870062178
-    - rid: 5974865124870062169
-      type: {class: ContentModule, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
-      data:
-        graphPosition:
-          serializedVersion: 2
-          x: 0
-          y: 108
-          width: 350
-          height: 91
-        description: 
-        guid: a0145877-2528-4c17-b689-3aa5d6dacb98
+        nodeData:
+          graphPosition:
+            serializedVersion: 2
+            x: 0
+            y: 108
+            width: 356
+            height: 91
+          description: 
+          guid: 3ff8576c-927a-480d-8f47-de0fef86ce28
+          nodeType:
+            _class: 
+            _ns: 
+            _asm: 
+          genericParameters: []
+          serializedData: 
+          executionPath: 0
+          portData: []
+          uobjectLinks: []
         content:
           isShared: 0
           isGlobal: 0
           isExposed: 0
           mName: 
           value: "\u90A3\u4E2A\uFF0C\u5468\u672B\u4F60\u6709\u65F6\u95F4\u5417\uFF1F"
-    - rid: 5974865124870062170
+    - rid: 1770628296118370338
       type: {class: Option, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
       data:
-        graphPosition:
-          serializedVersion: 2
-          x: 1541
-          y: -161
-          width: 374
-          height: 369
-        description: 
-        guid: 8714e8ac-b310-4da1-9217-12ca1c02f8b7
-        children:
-        - rid: 5974865124870062179
-        - rid: 5974865124870062180
-    - rid: 5974865124870062171
+        nodeData:
+          graphPosition:
+            serializedVersion: 2
+            x: 1471
+            y: 365
+            width: 380
+            height: 369
+          description: 
+          guid: 1eb0d71d-5249-48f6-8772-1032fac1517a
+          nodeType:
+            _class: 
+            _ns: 
+            _asm: 
+          genericParameters: []
+          serializedData: 
+          executionPath: 0
+          portData: []
+          uobjectLinks: []
+        children: []
+    - rid: 1770628296118370339
       type: {class: ContentModule, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
       data:
-        graphPosition:
-          serializedVersion: 2
-          x: 0
-          y: 108
-          width: 350
-          height: 106
-        description: 
-        guid: 67d34e6e-b1c6-4883-b3c4-3ca6d8997819
-        content:
-          isShared: 0
-          isGlobal: 0
-          isExposed: 0
-          mName: 
-          value: "\u554A\uFF0C\u4E0D\u662F\uFF0C\u4E5F\u7B97\u662F\u5427\uFF0C\u8FD9\u5468\u672B\u6211\u5BB6\u91CC\u6CA1\u6709\u4EBA\uFF0C\u6240\u4EE5..."
-    - rid: 5974865124870062172
-      type: {class: NovelBakeModule, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
-      data:
-        graphPosition:
-          serializedVersion: 2
-          x: 0
-          y: 214
-          width: 350
-          height: 141
-        description: 
-        guid: 8f75a169-1cf6-45ae-b0f9-492f6be071dd
-        generateDepth: 3
-        optionCount: 2
-        overridePiecePrompt: {fileID: 0}
-        overrideOptionPrompt: {fileID: 0}
-        lastSelection: '["1253cb15-ce0c-46a4-9c98-fc14b3265295","87ad95d9-81fc-4d39-a073-b318ec0c0ae9","8714e8ac-b310-4da1-9217-12ca1c02f8b7","330155c3-c014-4e7b-8468-13cebf5bbcc9"]'
-    - rid: 5974865124870062173
-      type: {class: Option, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
-      data:
-        graphPosition:
-          serializedVersion: 2
-          x: 2389
-          y: -447
-          width: 374
-          height: 369
-        description: 
-        guid: 7bcd0b27-f426-4d5a-9bed-bea9475f0b3c
-        children:
-        - rid: 5974865124870062181
-        - rid: 5974865124870062182
-    - rid: 5974865124870062174
-      type: {class: Option, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
-      data:
-        graphPosition:
-          serializedVersion: 2
-          x: 2389
-          y: 125
-          width: 374
-          height: 369
-        description: 
-        guid: 3a3bdab9-333d-4d97-ae49-84a6c6836ef6
-        children:
-        - rid: 5974865124870062183
-        - rid: 5974865124870062184
-    - rid: 5974865124870062175
-      type: {class: ContentModule, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
-      data:
-        graphPosition:
-          serializedVersion: 2
-          x: 0
-          y: 79
-          width: 350
-          height: 91
-        description: 
-        guid: edf916d7-063a-4c59-9a7f-306e440034ff
-        content:
-          isShared: 0
-          isGlobal: 0
-          isExposed: 0
-          mName: 
-          value: "\u597D\u554A\uFF0C\u6211\u5F88\u4E50\u610F\u53BB"
-    - rid: 5974865124870062176
-      type: {class: ContentModule, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
-      data:
-        graphPosition:
-          serializedVersion: 2
-          x: 0
-          y: 79
-          width: 350
-          height: 91
-        description: 
-        guid: cc5c5dfa-ac2f-4645-9ddc-a54d37a431e7
-        content:
-          isShared: 0
-          isGlobal: 0
-          isExposed: 0
-          mName: 
-          value: "\u62B1\u6B49\uFF0C\u8FD9\u5468\u672B\u6211\u6709\u5176\u4ED6\u5B89\u6392"
-    - rid: 5974865124870062177
-      type: {class: ContentModule, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
-      data:
-        graphPosition:
-          serializedVersion: 2
-          x: 0
-          y: 79
-          width: 350
-          height: 91
-        description: 
-        guid: 47b533b8-1573-4145-9000-467513d82031
-        content:
-          isShared: 0
-          isGlobal: 0
-          isExposed: 0
-          mName: 
-          value: "\u8C22\u8C22\uFF0C\u6211\u671F\u5F85\u80FD\u54C1\u5C1D\u5230\u4F60\u7684\u624B\u827A\u3002"
-    - rid: 5974865124870062178
-      type: {class: ContentModule, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
-      data:
-        graphPosition:
-          serializedVersion: 2
-          x: 0
-          y: 79
-          width: 350
-          height: 91
-        description: 
-        guid: 11c67acf-e2ac-4704-90fd-b5b9e9f27a54
-        content:
-          isShared: 0
-          isGlobal: 0
-          isExposed: 0
-          mName: 
-          value: "\u62B1\u6B49\uFF0C\u6211\u8FD9\u5468\u672B\u6709\u5B89\u6392\uFF0C\u4E0B\u6B21\u5427\u3002"
-    - rid: 5974865124870062179
-      type: {class: ContentModule, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
-      data:
-        graphPosition:
-          serializedVersion: 2
-          x: 0
-          y: 79
-          width: 350
-          height: 91
-        description: 
-        guid: 15be957b-3161-4786-92ab-827fe1a2775c
+        nodeData:
+          graphPosition:
+            serializedVersion: 2
+            x: 0
+            y: 79
+            width: 356
+            height: 91
+          description: 
+          guid: 8a89312a-1de9-43aa-9b0e-85c569ffad20
+          nodeType:
+            _class: 
+            _ns: 
+            _asm: 
+          genericParameters: []
+          serializedData: 
+          executionPath: 0
+          portData: []
+          uobjectLinks: []
         content:
           isShared: 0
           isGlobal: 0
           isExposed: 0
           mName: 
           value: "\u600E\u4E48\u4E86\uFF0C\u662F\u7EA6\u4F1A\u5417\uFF1F"
-    - rid: 5974865124870062180
+    - rid: 1770628296118370340
       type: {class: TargetIDModule, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
       data:
-        graphPosition:
-          serializedVersion: 2
-          x: 0
-          y: 170
-          width: 350
-          height: 133
-        description: 
-        guid: e0be40a5-38f1-4e15-9223-48a2e29abb3a
+        nodeData:
+          graphPosition:
+            serializedVersion: 2
+            x: 0
+            y: 170
+            width: 356
+            height: 133
+          description: 
+          guid: 16d8fa65-24b5-4dab-9662-c317c76360c3
+          nodeType:
+            _class: 
+            _ns: 
+            _asm: 
+          genericParameters: []
+          serializedData: 
+          executionPath: 0
+          portData: []
+          uobjectLinks: []
         useReference: 0
         targetID:
           isShared: 1
@@ -981,76 +1101,87 @@ MonoBehaviour:
           isExposed: 0
           mName: Dialog2
           value: 
-    - rid: 5974865124870062181
+    - rid: 1770628296118370341
+      type: {class: Piece, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
+      data:
+        nodeData:
+          graphPosition:
+            serializedVersion: 2
+            x: 1909
+            y: 340
+            width: 380
+            height: 421
+          description: 
+          guid: 552b6096-f1ba-49c8-bd46-2a8d98c8576d
+          nodeType:
+            _class: 
+            _ns: 
+            _asm: 
+          genericParameters: []
+          serializedData: 
+          executionPath: 0
+          portData: []
+          uobjectLinks: []
+        children: []
+        pieceID:
+          isShared: 1
+          isGlobal: 0
+          isExposed: 0
+          mName: Dialog2
+          value: 
+    - rid: 1770628296118370342
       type: {class: ContentModule, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
       data:
-        graphPosition:
-          serializedVersion: 2
-          x: 0
-          y: 79
-          width: 350
-          height: 91
-        description: 
-        guid: b0016d67-1a52-4598-a42f-44ff5826c086
+        nodeData:
+          graphPosition:
+            serializedVersion: 2
+            x: 0
+            y: 108
+            width: 356
+            height: 106
+          description: 
+          guid: 24db5959-c0b7-4b24-9474-100c30070d3a
+          nodeType:
+            _class: 
+            _ns: 
+            _asm: 
+          genericParameters: []
+          serializedData: 
+          executionPath: 0
+          portData: []
+          uobjectLinks: []
         content:
           isShared: 0
           isGlobal: 0
           isExposed: 0
           mName: 
-          value: "\u597D\u554A\uFF0C\u6211\u5F88\u4E50\u610F\u53BB"
-    - rid: 5974865124870062182
-      type: {class: TargetIDModule, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
+          value: "\u554A\uFF0C\u4E0D\u662F\uFF0C\u4E5F\u7B97\u662F\u5427\uFF0C\u8FD9\u5468\u672B\u6211\u5BB6\u91CC\u6CA1\u6709\u4EBA\uFF0C\u6240\u4EE5..."
+    - rid: 1770628296118370343
+      type: {class: NovelBakeModule, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
       data:
-        graphPosition:
-          serializedVersion: 2
-          x: 0
-          y: 170
-          width: 350
-          height: 133
-        description: 
-        guid: 4dc4221d-e9ff-40be-b3f4-e04ab6fddfe2
-        useReference: 0
-        targetID:
-          isShared: 1
-          isGlobal: 0
-          isExposed: 0
-          mName: New Piece
-          value: 
-    - rid: 5974865124870062183
-      type: {class: ContentModule, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
-      data:
-        graphPosition:
-          serializedVersion: 2
-          x: 0
-          y: 79
-          width: 350
-          height: 91
-        description: 
-        guid: e3e141c6-e51a-4a48-a209-74652e2b9045
-        content:
-          isShared: 0
-          isGlobal: 0
-          isExposed: 0
-          mName: 
-          value: "\u62B1\u6B49\uFF0C\u8FD9\u5468\u672B\u6211\u6709\u5176\u4ED6\u5B89\u6392"
-    - rid: 5974865124870062184
-      type: {class: TargetIDModule, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
-      data:
-        graphPosition:
-          serializedVersion: 2
-          x: 0
-          y: 170
-          width: 350
-          height: 133
-        description: 
-        guid: 282ea1b0-b99f-42e6-8623-0876c645cd03
-        useReference: 0
-        targetID:
-          isShared: 1
-          isGlobal: 0
-          isExposed: 0
-          mName: New Piece1
-          value: 
+        nodeData:
+          graphPosition:
+            serializedVersion: 2
+            x: 0
+            y: 214
+            width: 356
+            height: 141
+          description: 
+          guid: 34b669bd-fb41-46c0-9dbe-93c55818f75d
+          nodeType:
+            _class: 
+            _ns: 
+            _asm: 
+          genericParameters: []
+          serializedData: 
+          executionPath: 0
+          portData: []
+          uobjectLinks: []
+        generateDepth: 3
+        optionCount: 2
+        overridePiecePrompt: {fileID: 0}
+        overrideOptionPrompt: {fileID: 0}
+        lastSelection: '["1253cb15-ce0c-46a4-9c98-fc14b3265295","87ad95d9-81fc-4d39-a073-b318ec0c0ae9","8714e8ac-b310-4da1-9217-12ca1c02f8b7","330155c3-c014-4e7b-8468-13cebf5bbcc9"]'
 --- !u!4 &1936579797
 Transform:
   m_ObjectHideFlags: 0

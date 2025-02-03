@@ -3,7 +3,7 @@ namespace Kurisu.NGDT
 {
     [NodeInfo("Composite : Select, traverse the child nodes in turn," +
     " if it returns Failure, continue to update the next one, otherwise return Success")]
-    public class Selector : Composite
+    public class Selector : CompositeNode
     {
         protected override Status OnUpdate()
         {

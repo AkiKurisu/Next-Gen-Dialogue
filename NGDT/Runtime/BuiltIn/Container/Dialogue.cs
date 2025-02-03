@@ -7,7 +7,7 @@ namespace Kurisu.NGDT
 {
     [Serializable]
     [NodeInfo("Dialogue is the main container of dialogue pieces")]
-    public class Dialogue : Container, IDialogueLookup
+    public class Dialogue : ContainerNode, IDialogueLookup
     {
 #if UNITY_EDITOR
         // Just to know which is referenced in graph, should have better solution

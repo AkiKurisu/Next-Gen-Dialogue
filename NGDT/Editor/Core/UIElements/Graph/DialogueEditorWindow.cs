@@ -273,17 +273,17 @@ namespace Kurisu.NGDT.Editor
         
         private bool TryBake(out string generateText)
         {
-            var containers = _graphView.selection.OfType<ContainerNode>().ToList();
+            var containers = _graphView.selection.OfType<ContainerNodeView>().ToList();
             generateText = null;
             if (containers.Count < 2) return false;
             var bakeContainer = containers.Last();
-            if (bakeContainer.TryGetModuleNode<AIBakeModule>(out ModuleNode _))
+            if (bakeContainer.TryGetModuleNode<AIBakeModule>(out ModuleNodeView _))
             {
                 containers.Remove(bakeContainer);
                 generateText = new DialogueBaker().Preview(containers, bakeContainer);
                 return true;
             }
-            if (bakeContainer.TryGetModuleNode<NovelBakeModule>(out ModuleNode novelBakeModule))
+            if (bakeContainer.TryGetModuleNode<NovelBakeModule>(out ModuleNodeView novelBakeModule))
             {
                 generateText = new NovelBaker().Preview(containers, novelBakeModule, bakeContainer);
                 return true;

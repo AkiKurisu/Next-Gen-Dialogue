@@ -48,6 +48,15 @@ namespace Kurisu.NGDT
         FlowGraph IFlowGraphRuntime.Graph => GetDialogueGraphInstance().FlowGraph;
         // ============= Implementation for IFlowGraphRuntime =================== //
 
+        /* Migration from v1 */
+#if UNITY_EDITOR
+        [SerializeReference, HideInInspector]
+        internal Root root = new();
+        
+        [SerializeReference, HideInInspector]
+        internal SharedVariable[] sharedVariables;
+#endif
+        
         private void Awake()
         {
             (_dialogueGraph = GetDialogueGraph()).Compile();
@@ -95,6 +104,12 @@ namespace Kurisu.NGDT
             }
             
             dialogueGraphData ??= new DialogueGraphData();
+#if UNITY_EDITOR
+            if (!dialogueGraphData.IsValid())
+            {
+                return new DialogueGraph(this);
+            }
+#endif
             return new DialogueGraph(dialogueGraphData.CloneT<DialogueGraphData>(), this);
         }
 

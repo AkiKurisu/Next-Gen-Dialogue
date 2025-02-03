@@ -5,7 +5,7 @@ namespace Kurisu.NGDT
 {
     [Serializable]
     [NodeInfo("Piece is the container of single dialogue fragment")]
-    public class Piece : Container
+    public class Piece : ContainerNode
     {
         [SerializeField, DisableCopyValue, CeresLabel("Piece ID"), Tooltip("You don't need to fill in this shared variable because its value will be automatically generated at runtime")]
         private PieceID pieceID;

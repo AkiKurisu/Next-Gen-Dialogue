@@ -201,6 +201,7 @@ GameObject:
   m_Component:
   - component: {fileID: 705507995}
   - component: {fileID: 705507994}
+  - component: {fileID: 705507996}
   m_Layer: 0
   m_Name: Directional Light
   m_TagString: Untagged
@@ -285,6 +286,29 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1376820639}
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!114 &705507996
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 705507993}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Version: 3
+  m_UsePipelineSettings: 1
+  m_AdditionalLightsShadowResolutionTier: 2
+  m_LightLayerMask: 1
+  m_RenderingLayers: 1
+  m_CustomShadowLayers: 0
+  m_ShadowLayerMask: 1
+  m_ShadowRenderingLayers: 1
+  m_LightCookieSize: {x: 1, y: 1}
+  m_LightCookieOffset: {x: 0, y: 0}
+  m_SoftShadowQuality: 0
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0
@@ -440,18 +464,484 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e290e3e9d5caab4ea26d1a4879ba82f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  root:
-    rid: 5974865124870062106
-  sharedVariables:
-  - rid: 5974865124870062087
-  - rid: 5974865124870062088
-  - rid: 5974865124870062089
-  externalDialogueTree: {fileID: 0}
-  blockData: []
+  dialogueGraphData:
+    variables:
+    - rid: 1770628296118370313
+    - rid: 1770628296118370314
+    - rid: 1770628296118370315
+    nodes:
+    - rid: 1770628296118370316
+    - rid: 1770628296118370316
+    - rid: 1770628296118370317
+    - rid: 1770628296118370318
+    - rid: 1770628296118370319
+    - rid: 1770628296118370320
+    - rid: 1770628296118370321
+    - rid: 1770628296118370322
+    - rid: 1770628296118370323
+    - rid: 1770628296118370324
+    - rid: 1770628296118370325
+    - rid: 1770628296118370318
+    - rid: 1770628296118370319
+    - rid: 1770628296118370320
+    - rid: 1770628296118370321
+    - rid: 1770628296118370322
+    - rid: 1770628296118370326
+    - rid: 1770628296118370327
+    - rid: 1770628296118370328
+    - rid: 1770628296118370329
+    - rid: 1770628296118370330
+    variableData:
+    - variableType:
+        _class: PieceID
+        _ns: Kurisu.NGDT
+        _asm: Kurisu.NGDT
+      serializedData: '{"isShared":true,"isGlobal":false,"isExposed":false,"mName":"Dialog1","value":""}'
+      uobjectLinks: []
+    - variableType:
+        _class: PieceID
+        _ns: Kurisu.NGDT
+        _asm: Kurisu.NGDT
+      serializedData: '{"isShared":true,"isGlobal":false,"isExposed":false,"mName":"Dialog2","value":""}'
+      uobjectLinks: []
+    - variableType:
+        _class: PieceID
+        _ns: Kurisu.NGDT
+        _asm: Kurisu.NGDT
+      serializedData: '{"isShared":true,"isGlobal":false,"isExposed":false,"mName":"Dialog3","value":""}'
+      uobjectLinks: []
+    nodeData:
+    - graphPosition:
+        serializedVersion: 2
+        x: 400
+        y: 300
+        width: 115
+        height: 77
+      description: 
+      guid: 89a6af78-54b0-4a75-9aa5-cc403acdd5c6
+      nodeType:
+        _class: Root
+        _ns: Kurisu.NGDT
+        _asm: Kurisu.NGDT
+      genericParameters: []
+      serializedData: '{"nodeData":{"graphPosition":{"serializedVersion":"2","x":400.0,"y":300.0,"width":115.0,"height":77.0},"description":"","guid":"89a6af78-54b0-4a75-9aa5-cc403acdd5c6","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"child":{"rid":1000},"children":[{"rid":1001},{"rid":1002},{"rid":1003}],"references":{"version":2,"RefIds":[{"rid":1000,"type":{"class":"Dialogue","ns":"Kurisu.NGDT","asm":"Kurisu.NGDT"},"data":{"nodeData":{"graphPosition":{"serializedVersion":"2","x":629.0,"y":236.0,"width":150.0,"height":278.0},"description":"","guid":"2d98f1e2-f289-4a67-827c-ab5c20ba7146","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"children":[{"rid":1002}],"referencePieces":["Dialog1"]}},{"rid":1001,"type":{"class":"Piece","ns":"Kurisu.NGDT","asm":"Kurisu.NGDT"},"data":{"nodeData":{"graphPosition":{"serializedVersion":"2","x":915.0,"y":521.0,"width":380.0,"height":455.0},"description":"","guid":"fdd23140-7393-41de-af91-4d221ed0797a","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"children":[{"rid":1004},{"rid":1005}],"pieceID":{"isShared":true,"isGlobal":false,"isExposed":false,"mName":"Dialog3","value":""}}},{"rid":1002,"type":{"class":"Piece","ns":"Kurisu.NGDT","asm":"Kurisu.NGDT"},"data":{"nodeData":{"graphPosition":{"serializedVersion":"2","x":915.0,"y":30.0,"width":380.0,"height":341.0},"description":"","guid":"0026eda1-b4ad-4545-ad40-15735ebf5efc","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"children":[{"rid":1006},{"rid":1007}],"pieceID":{"isShared":true,"isGlobal":false,"isExposed":false,"mName":"Dialog1","value":""}}},{"rid":1003,"type":{"class":"Piece","ns":"Kurisu.NGDT","asm":"Kurisu.NGDT"},"data":{"nodeData":{"graphPosition":{"serializedVersion":"2","x":1793.0,"y":42.0,"width":380.0,"height":341.0},"description":"","guid":"c23ff55f-7a32-444b-81c0-24cf4101197e","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"children":[{"rid":1008},{"rid":1009}],"pieceID":{"isShared":true,"isGlobal":false,"isExposed":false,"mName":"Dialog2","value":""}}},{"rid":1004,"type":{"class":"AIBakeModule","ns":"Kurisu.NGDT","asm":"Kurisu.NGDT"},"data":{"nodeData":{"graphPosition":{"serializedVersion":"2","x":0.0,"y":108.0,"width":356.0,"height":125.0},"description":"","guid":"fa1d2837-9844-424c-8923-d6356dab02f3","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"generateDepth":3,"optionCount":2,"lastSelection":""}},{"rid":1005,"type":{"class":"ContentModule","ns":"Kurisu.NGDT","asm":"Kurisu.NGDT"},"data":{"nodeData":{"graphPosition":{"serializedVersion":"2","x":0.0,"y":233.0,"width":356.0,"height":156.0},"description":"","guid":"030b4a53-b3aa-40a8-a784-6ff1321dd4fd","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"content":{"isShared":false,"isGlobal":false,"isExposed":false,"mName":"","value":"That''s
+        awesome! Game development is a fun and creative field. What aspects of game
+        development do you enjoy the most? Do you have any specific game projects
+        in mind that you''d like to work on?"}}},{"rid":1006,"type":{"class":"ContentModule","ns":"Kurisu.NGDT","asm":"Kurisu.NGDT"},"data":{"nodeData":{"graphPosition":{"serializedVersion":"2","x":0.0,"y":108.0,"width":356.0,"height":90.0},"description":"","guid":"c749df11-c187-4516-af1c-e3997481bd17","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"content":{"isShared":false,"isGlobal":false,"isExposed":false,"mName":"","value":"Hello,
+        nice to meet you!"}}},{"rid":1007,"type":{"class":"Option","ns":"Kurisu.NGDT","asm":"Kurisu.NGDT"},"data":{"nodeData":{"graphPosition":{"serializedVersion":"2","x":1360.0,"y":27.0,"width":380.0,"height":368.0},"description":"","guid":"46688df7-9d50-45f6-8f33-16d77ca3c3d7","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"children":[{"rid":1010},{"rid":1011}]}},{"rid":1008,"type":{"class":"ContentModule","ns":"Kurisu.NGDT","asm":"Kurisu.NGDT"},"data":{"nodeData":{"graphPosition":{"serializedVersion":"2","x":0.0,"y":108.0,"width":356.0,"height":90.0},"description":"","guid":"7551d92d-3bf0-4650-aa35-000283d511df","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"content":{"isShared":false,"isGlobal":false,"isExposed":false,"mName":"","value":"Do
+        you like making game?"}}},{"rid":1009,"type":{"class":"Option","ns":"Kurisu.NGDT","asm":"Kurisu.NGDT"},"data":{"nodeData":{"graphPosition":{"serializedVersion":"2","x":2227.0,"y":27.0,"width":380.0,"height":368.0},"description":"","guid":"5b5d284d-148d-43c2-9a00-906e19196176","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"children":[{"rid":1012},{"rid":1013}]}},{"rid":1010,"type":{"class":"ContentModule","ns":"Kurisu.NGDT","asm":"Kurisu.NGDT"},"data":{"nodeData":{"graphPosition":{"serializedVersion":"2","x":0.0,"y":79.0,"width":356.0,"height":90.0},"description":"","guid":"13935c15-bc8e-475d-a172-4bca35abd4a2","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"content":{"isShared":false,"isGlobal":false,"isExposed":false,"mName":"","value":"Nice
+        to meet you too!"}}},{"rid":1011,"type":{"class":"TargetIDModule","ns":"Kurisu.NGDT","asm":"Kurisu.NGDT"},"data":{"nodeData":{"graphPosition":{"serializedVersion":"2","x":0.0,"y":169.0,"width":356.0,"height":133.0},"description":"","guid":"83fb0747-36e4-4149-a5a9-3a9b5cbb782d","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"useReference":false,"targetID":{"isShared":true,"isGlobal":false,"isExposed":false,"mName":"Dialog2","value":""}}},{"rid":1012,"type":{"class":"ContentModule","ns":"Kurisu.NGDT","asm":"Kurisu.NGDT"},"data":{"nodeData":{"graphPosition":{"serializedVersion":"2","x":0.0,"y":79.0,"width":356.0,"height":90.0},"description":"","guid":"5f43125f-1f4f-47d8-932c-b9f236525a20","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"content":{"isShared":false,"isGlobal":false,"isExposed":false,"mName":"","value":"Making
+        game is so cool, i like it!"}}},{"rid":1013,"type":{"class":"TargetIDModule","ns":"Kurisu.NGDT","asm":"Kurisu.NGDT"},"data":{"nodeData":{"graphPosition":{"serializedVersion":"2","x":0.0,"y":169.0,"width":356.0,"height":133.0},"description":"","guid":"4738b6d6-c1ff-483f-99be-22e51efb4d78","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"useReference":true,"targetID":{"isShared":true,"isGlobal":false,"isExposed":false,"mName":"Dialog3","value":""}}}]}}'
+      executionPath: 0
+      portData: []
+      uobjectLinks: []
+    - graphPosition:
+        serializedVersion: 2
+        x: 400
+        y: 300
+        width: 115
+        height: 77
+      description: 
+      guid: 89a6af78-54b0-4a75-9aa5-cc403acdd5c6
+      nodeType:
+        _class: Root
+        _ns: Kurisu.NGDT
+        _asm: Kurisu.NGDT
+      genericParameters: []
+      serializedData: '{"nodeData":{"graphPosition":{"serializedVersion":"2","x":400.0,"y":300.0,"width":115.0,"height":77.0},"description":"","guid":"89a6af78-54b0-4a75-9aa5-cc403acdd5c6","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"child":{"rid":1000},"children":[{"rid":1001},{"rid":1002},{"rid":1003}],"references":{"version":2,"RefIds":[{"rid":1000,"type":{"class":"Dialogue","ns":"Kurisu.NGDT","asm":"Kurisu.NGDT"},"data":{"nodeData":{"graphPosition":{"serializedVersion":"2","x":629.0,"y":236.0,"width":150.0,"height":278.0},"description":"","guid":"2d98f1e2-f289-4a67-827c-ab5c20ba7146","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"children":[{"rid":1002}],"referencePieces":["Dialog1"]}},{"rid":1001,"type":{"class":"Piece","ns":"Kurisu.NGDT","asm":"Kurisu.NGDT"},"data":{"nodeData":{"graphPosition":{"serializedVersion":"2","x":915.0,"y":521.0,"width":380.0,"height":455.0},"description":"","guid":"fdd23140-7393-41de-af91-4d221ed0797a","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"children":[{"rid":1004},{"rid":1005}],"pieceID":{"isShared":true,"isGlobal":false,"isExposed":false,"mName":"Dialog3","value":""}}},{"rid":1002,"type":{"class":"Piece","ns":"Kurisu.NGDT","asm":"Kurisu.NGDT"},"data":{"nodeData":{"graphPosition":{"serializedVersion":"2","x":915.0,"y":30.0,"width":380.0,"height":341.0},"description":"","guid":"0026eda1-b4ad-4545-ad40-15735ebf5efc","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"children":[{"rid":1006},{"rid":1007}],"pieceID":{"isShared":true,"isGlobal":false,"isExposed":false,"mName":"Dialog1","value":""}}},{"rid":1003,"type":{"class":"Piece","ns":"Kurisu.NGDT","asm":"Kurisu.NGDT"},"data":{"nodeData":{"graphPosition":{"serializedVersion":"2","x":1793.0,"y":42.0,"width":380.0,"height":341.0},"description":"","guid":"c23ff55f-7a32-444b-81c0-24cf4101197e","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"children":[{"rid":1008},{"rid":1009}],"pieceID":{"isShared":true,"isGlobal":false,"isExposed":false,"mName":"Dialog2","value":""}}},{"rid":1004,"type":{"class":"AIBakeModule","ns":"Kurisu.NGDT","asm":"Kurisu.NGDT"},"data":{"nodeData":{"graphPosition":{"serializedVersion":"2","x":0.0,"y":108.0,"width":356.0,"height":125.0},"description":"","guid":"fa1d2837-9844-424c-8923-d6356dab02f3","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"generateDepth":3,"optionCount":2,"lastSelection":""}},{"rid":1005,"type":{"class":"ContentModule","ns":"Kurisu.NGDT","asm":"Kurisu.NGDT"},"data":{"nodeData":{"graphPosition":{"serializedVersion":"2","x":0.0,"y":233.0,"width":356.0,"height":156.0},"description":"","guid":"030b4a53-b3aa-40a8-a784-6ff1321dd4fd","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"content":{"isShared":false,"isGlobal":false,"isExposed":false,"mName":"","value":"That''s
+        awesome! Game development is a fun and creative field. What aspects of game
+        development do you enjoy the most? Do you have any specific game projects
+        in mind that you''d like to work on?"}}},{"rid":1006,"type":{"class":"ContentModule","ns":"Kurisu.NGDT","asm":"Kurisu.NGDT"},"data":{"nodeData":{"graphPosition":{"serializedVersion":"2","x":0.0,"y":108.0,"width":356.0,"height":90.0},"description":"","guid":"c749df11-c187-4516-af1c-e3997481bd17","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"content":{"isShared":false,"isGlobal":false,"isExposed":false,"mName":"","value":"Hello,
+        nice to meet you!"}}},{"rid":1007,"type":{"class":"Option","ns":"Kurisu.NGDT","asm":"Kurisu.NGDT"},"data":{"nodeData":{"graphPosition":{"serializedVersion":"2","x":1360.0,"y":27.0,"width":380.0,"height":368.0},"description":"","guid":"46688df7-9d50-45f6-8f33-16d77ca3c3d7","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"children":[{"rid":1010},{"rid":1011}]}},{"rid":1008,"type":{"class":"ContentModule","ns":"Kurisu.NGDT","asm":"Kurisu.NGDT"},"data":{"nodeData":{"graphPosition":{"serializedVersion":"2","x":0.0,"y":108.0,"width":356.0,"height":90.0},"description":"","guid":"7551d92d-3bf0-4650-aa35-000283d511df","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"content":{"isShared":false,"isGlobal":false,"isExposed":false,"mName":"","value":"Do
+        you like making game?"}}},{"rid":1009,"type":{"class":"Option","ns":"Kurisu.NGDT","asm":"Kurisu.NGDT"},"data":{"nodeData":{"graphPosition":{"serializedVersion":"2","x":2227.0,"y":27.0,"width":380.0,"height":368.0},"description":"","guid":"5b5d284d-148d-43c2-9a00-906e19196176","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"children":[{"rid":1012},{"rid":1013}]}},{"rid":1010,"type":{"class":"ContentModule","ns":"Kurisu.NGDT","asm":"Kurisu.NGDT"},"data":{"nodeData":{"graphPosition":{"serializedVersion":"2","x":0.0,"y":79.0,"width":356.0,"height":90.0},"description":"","guid":"13935c15-bc8e-475d-a172-4bca35abd4a2","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"content":{"isShared":false,"isGlobal":false,"isExposed":false,"mName":"","value":"Nice
+        to meet you too!"}}},{"rid":1011,"type":{"class":"TargetIDModule","ns":"Kurisu.NGDT","asm":"Kurisu.NGDT"},"data":{"nodeData":{"graphPosition":{"serializedVersion":"2","x":0.0,"y":169.0,"width":356.0,"height":133.0},"description":"","guid":"83fb0747-36e4-4149-a5a9-3a9b5cbb782d","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"useReference":false,"targetID":{"isShared":true,"isGlobal":false,"isExposed":false,"mName":"Dialog2","value":""}}},{"rid":1012,"type":{"class":"ContentModule","ns":"Kurisu.NGDT","asm":"Kurisu.NGDT"},"data":{"nodeData":{"graphPosition":{"serializedVersion":"2","x":0.0,"y":79.0,"width":356.0,"height":90.0},"description":"","guid":"5f43125f-1f4f-47d8-932c-b9f236525a20","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"content":{"isShared":false,"isGlobal":false,"isExposed":false,"mName":"","value":"Making
+        game is so cool, i like it!"}}},{"rid":1013,"type":{"class":"TargetIDModule","ns":"Kurisu.NGDT","asm":"Kurisu.NGDT"},"data":{"nodeData":{"graphPosition":{"serializedVersion":"2","x":0.0,"y":169.0,"width":356.0,"height":133.0},"description":"","guid":"4738b6d6-c1ff-483f-99be-22e51efb4d78","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"useReference":true,"targetID":{"isShared":true,"isGlobal":false,"isExposed":false,"mName":"Dialog3","value":""}}}]}}'
+      executionPath: 0
+      portData: []
+      uobjectLinks: []
+    - graphPosition:
+        serializedVersion: 2
+        x: 629
+        y: 236
+        width: 150
+        height: 278
+      description: 
+      guid: 2d98f1e2-f289-4a67-827c-ab5c20ba7146
+      nodeType:
+        _class: Dialogue
+        _ns: Kurisu.NGDT
+        _asm: Kurisu.NGDT
+      genericParameters: []
+      serializedData: '{"nodeData":{"graphPosition":{"serializedVersion":"2","x":629.0,"y":236.0,"width":150.0,"height":278.0},"description":"","guid":"2d98f1e2-f289-4a67-827c-ab5c20ba7146","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"children":[{"rid":1000}],"referencePieces":["Dialog1"],"references":{"version":2,"RefIds":[{"rid":1000,"type":{"class":"Piece","ns":"Kurisu.NGDT","asm":"Kurisu.NGDT"},"data":{"nodeData":{"graphPosition":{"serializedVersion":"2","x":915.0,"y":30.0,"width":380.0,"height":341.0},"description":"","guid":"0026eda1-b4ad-4545-ad40-15735ebf5efc","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"children":[{"rid":1001},{"rid":1002}],"pieceID":{"isShared":true,"isGlobal":false,"isExposed":false,"mName":"Dialog1","value":""}}},{"rid":1001,"type":{"class":"ContentModule","ns":"Kurisu.NGDT","asm":"Kurisu.NGDT"},"data":{"nodeData":{"graphPosition":{"serializedVersion":"2","x":0.0,"y":108.0,"width":356.0,"height":90.0},"description":"","guid":"c749df11-c187-4516-af1c-e3997481bd17","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"content":{"isShared":false,"isGlobal":false,"isExposed":false,"mName":"","value":"Hello,
+        nice to meet you!"}}},{"rid":1002,"type":{"class":"Option","ns":"Kurisu.NGDT","asm":"Kurisu.NGDT"},"data":{"nodeData":{"graphPosition":{"serializedVersion":"2","x":1360.0,"y":27.0,"width":380.0,"height":368.0},"description":"","guid":"46688df7-9d50-45f6-8f33-16d77ca3c3d7","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"children":[{"rid":1003},{"rid":1004}]}},{"rid":1003,"type":{"class":"ContentModule","ns":"Kurisu.NGDT","asm":"Kurisu.NGDT"},"data":{"nodeData":{"graphPosition":{"serializedVersion":"2","x":0.0,"y":79.0,"width":356.0,"height":90.0},"description":"","guid":"13935c15-bc8e-475d-a172-4bca35abd4a2","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"content":{"isShared":false,"isGlobal":false,"isExposed":false,"mName":"","value":"Nice
+        to meet you too!"}}},{"rid":1004,"type":{"class":"TargetIDModule","ns":"Kurisu.NGDT","asm":"Kurisu.NGDT"},"data":{"nodeData":{"graphPosition":{"serializedVersion":"2","x":0.0,"y":169.0,"width":356.0,"height":133.0},"description":"","guid":"83fb0747-36e4-4149-a5a9-3a9b5cbb782d","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"useReference":false,"targetID":{"isShared":true,"isGlobal":false,"isExposed":false,"mName":"Dialog2","value":""}}}]}}'
+      executionPath: 0
+      portData: []
+      uobjectLinks: []
+    - graphPosition:
+        serializedVersion: 2
+        x: 915
+        y: 30
+        width: 380
+        height: 341
+      description: 
+      guid: 0026eda1-b4ad-4545-ad40-15735ebf5efc
+      nodeType:
+        _class: Piece
+        _ns: Kurisu.NGDT
+        _asm: Kurisu.NGDT
+      genericParameters: []
+      serializedData: '{"nodeData":{"graphPosition":{"serializedVersion":"2","x":915.0,"y":30.0,"width":380.0,"height":341.0},"description":"","guid":"0026eda1-b4ad-4545-ad40-15735ebf5efc","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"children":[{"rid":1000},{"rid":1001}],"pieceID":{"isShared":true,"isGlobal":false,"isExposed":false,"mName":"Dialog1","value":""},"references":{"version":2,"RefIds":[{"rid":1000,"type":{"class":"ContentModule","ns":"Kurisu.NGDT","asm":"Kurisu.NGDT"},"data":{"nodeData":{"graphPosition":{"serializedVersion":"2","x":0.0,"y":108.0,"width":356.0,"height":90.0},"description":"","guid":"c749df11-c187-4516-af1c-e3997481bd17","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"content":{"isShared":false,"isGlobal":false,"isExposed":false,"mName":"","value":"Hello,
+        nice to meet you!"}}},{"rid":1001,"type":{"class":"Option","ns":"Kurisu.NGDT","asm":"Kurisu.NGDT"},"data":{"nodeData":{"graphPosition":{"serializedVersion":"2","x":1360.0,"y":27.0,"width":380.0,"height":368.0},"description":"","guid":"46688df7-9d50-45f6-8f33-16d77ca3c3d7","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"children":[{"rid":1002},{"rid":1003}]}},{"rid":1002,"type":{"class":"ContentModule","ns":"Kurisu.NGDT","asm":"Kurisu.NGDT"},"data":{"nodeData":{"graphPosition":{"serializedVersion":"2","x":0.0,"y":79.0,"width":356.0,"height":90.0},"description":"","guid":"13935c15-bc8e-475d-a172-4bca35abd4a2","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"content":{"isShared":false,"isGlobal":false,"isExposed":false,"mName":"","value":"Nice
+        to meet you too!"}}},{"rid":1003,"type":{"class":"TargetIDModule","ns":"Kurisu.NGDT","asm":"Kurisu.NGDT"},"data":{"nodeData":{"graphPosition":{"serializedVersion":"2","x":0.0,"y":169.0,"width":356.0,"height":133.0},"description":"","guid":"83fb0747-36e4-4149-a5a9-3a9b5cbb782d","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"useReference":false,"targetID":{"isShared":true,"isGlobal":false,"isExposed":false,"mName":"Dialog2","value":""}}}]}}'
+      executionPath: 0
+      portData: []
+      uobjectLinks: []
+    - graphPosition:
+        serializedVersion: 2
+        x: 0
+        y: 108
+        width: 356
+        height: 90
+      description: 
+      guid: c749df11-c187-4516-af1c-e3997481bd17
+      nodeType:
+        _class: ContentModule
+        _ns: Kurisu.NGDT
+        _asm: Kurisu.NGDT
+      genericParameters: []
+      serializedData: '{"nodeData":{"graphPosition":{"serializedVersion":"2","x":0.0,"y":108.0,"width":356.0,"height":90.0},"description":"","guid":"c749df11-c187-4516-af1c-e3997481bd17","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"content":{"isShared":false,"isGlobal":false,"isExposed":false,"mName":"","value":"Hello,
+        nice to meet you!"}}'
+      executionPath: 0
+      portData: []
+      uobjectLinks: []
+    - graphPosition:
+        serializedVersion: 2
+        x: 1360
+        y: 27
+        width: 380
+        height: 368
+      description: 
+      guid: 46688df7-9d50-45f6-8f33-16d77ca3c3d7
+      nodeType:
+        _class: Option
+        _ns: Kurisu.NGDT
+        _asm: Kurisu.NGDT
+      genericParameters: []
+      serializedData: '{"nodeData":{"graphPosition":{"serializedVersion":"2","x":1360.0,"y":27.0,"width":380.0,"height":368.0},"description":"","guid":"46688df7-9d50-45f6-8f33-16d77ca3c3d7","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"children":[{"rid":1000},{"rid":1001}],"references":{"version":2,"RefIds":[{"rid":1000,"type":{"class":"ContentModule","ns":"Kurisu.NGDT","asm":"Kurisu.NGDT"},"data":{"nodeData":{"graphPosition":{"serializedVersion":"2","x":0.0,"y":79.0,"width":356.0,"height":90.0},"description":"","guid":"13935c15-bc8e-475d-a172-4bca35abd4a2","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"content":{"isShared":false,"isGlobal":false,"isExposed":false,"mName":"","value":"Nice
+        to meet you too!"}}},{"rid":1001,"type":{"class":"TargetIDModule","ns":"Kurisu.NGDT","asm":"Kurisu.NGDT"},"data":{"nodeData":{"graphPosition":{"serializedVersion":"2","x":0.0,"y":169.0,"width":356.0,"height":133.0},"description":"","guid":"83fb0747-36e4-4149-a5a9-3a9b5cbb782d","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"useReference":false,"targetID":{"isShared":true,"isGlobal":false,"isExposed":false,"mName":"Dialog2","value":""}}}]}}'
+      executionPath: 0
+      portData: []
+      uobjectLinks: []
+    - graphPosition:
+        serializedVersion: 2
+        x: 0
+        y: 79
+        width: 356
+        height: 90
+      description: 
+      guid: 13935c15-bc8e-475d-a172-4bca35abd4a2
+      nodeType:
+        _class: ContentModule
+        _ns: Kurisu.NGDT
+        _asm: Kurisu.NGDT
+      genericParameters: []
+      serializedData: '{"nodeData":{"graphPosition":{"serializedVersion":"2","x":0.0,"y":79.0,"width":356.0,"height":90.0},"description":"","guid":"13935c15-bc8e-475d-a172-4bca35abd4a2","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"content":{"isShared":false,"isGlobal":false,"isExposed":false,"mName":"","value":"Nice
+        to meet you too!"}}'
+      executionPath: 0
+      portData: []
+      uobjectLinks: []
+    - graphPosition:
+        serializedVersion: 2
+        x: 0
+        y: 169
+        width: 356
+        height: 133
+      description: 
+      guid: 83fb0747-36e4-4149-a5a9-3a9b5cbb782d
+      nodeType:
+        _class: TargetIDModule
+        _ns: Kurisu.NGDT
+        _asm: Kurisu.NGDT
+      genericParameters: []
+      serializedData: '{"nodeData":{"graphPosition":{"serializedVersion":"2","x":0.0,"y":169.0,"width":356.0,"height":133.0},"description":"","guid":"83fb0747-36e4-4149-a5a9-3a9b5cbb782d","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"useReference":false,"targetID":{"isShared":true,"isGlobal":false,"isExposed":false,"mName":"Dialog2","value":""}}'
+      executionPath: 0
+      portData: []
+      uobjectLinks: []
+    - graphPosition:
+        serializedVersion: 2
+        x: 915
+        y: 521
+        width: 380
+        height: 455
+      description: 
+      guid: fdd23140-7393-41de-af91-4d221ed0797a
+      nodeType:
+        _class: Piece
+        _ns: Kurisu.NGDT
+        _asm: Kurisu.NGDT
+      genericParameters: []
+      serializedData: '{"nodeData":{"graphPosition":{"serializedVersion":"2","x":915.0,"y":521.0,"width":380.0,"height":455.0},"description":"","guid":"fdd23140-7393-41de-af91-4d221ed0797a","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"children":[{"rid":1000},{"rid":1001}],"pieceID":{"isShared":true,"isGlobal":false,"isExposed":false,"mName":"Dialog3","value":""},"references":{"version":2,"RefIds":[{"rid":1000,"type":{"class":"AIBakeModule","ns":"Kurisu.NGDT","asm":"Kurisu.NGDT"},"data":{"nodeData":{"graphPosition":{"serializedVersion":"2","x":0.0,"y":108.0,"width":356.0,"height":125.0},"description":"","guid":"fa1d2837-9844-424c-8923-d6356dab02f3","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"generateDepth":3,"optionCount":2,"lastSelection":""}},{"rid":1001,"type":{"class":"ContentModule","ns":"Kurisu.NGDT","asm":"Kurisu.NGDT"},"data":{"nodeData":{"graphPosition":{"serializedVersion":"2","x":0.0,"y":233.0,"width":356.0,"height":156.0},"description":"","guid":"030b4a53-b3aa-40a8-a784-6ff1321dd4fd","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"content":{"isShared":false,"isGlobal":false,"isExposed":false,"mName":"","value":"That''s
+        awesome! Game development is a fun and creative field. What aspects of game
+        development do you enjoy the most? Do you have any specific game projects
+        in mind that you''d like to work on?"}}}]}}'
+      executionPath: 0
+      portData: []
+      uobjectLinks: []
+    - graphPosition:
+        serializedVersion: 2
+        x: 0
+        y: 108
+        width: 356
+        height: 125
+      description: 
+      guid: fa1d2837-9844-424c-8923-d6356dab02f3
+      nodeType:
+        _class: AIBakeModule
+        _ns: Kurisu.NGDT
+        _asm: Kurisu.NGDT
+      genericParameters: []
+      serializedData: '{"nodeData":{"graphPosition":{"serializedVersion":"2","x":0.0,"y":108.0,"width":356.0,"height":125.0},"description":"","guid":"fa1d2837-9844-424c-8923-d6356dab02f3","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"generateDepth":3,"optionCount":2,"lastSelection":""}'
+      executionPath: 0
+      portData: []
+      uobjectLinks: []
+    - graphPosition:
+        serializedVersion: 2
+        x: 0
+        y: 233
+        width: 356
+        height: 156
+      description: 
+      guid: 030b4a53-b3aa-40a8-a784-6ff1321dd4fd
+      nodeType:
+        _class: ContentModule
+        _ns: Kurisu.NGDT
+        _asm: Kurisu.NGDT
+      genericParameters: []
+      serializedData: '{"nodeData":{"graphPosition":{"serializedVersion":"2","x":0.0,"y":233.0,"width":356.0,"height":156.0},"description":"","guid":"030b4a53-b3aa-40a8-a784-6ff1321dd4fd","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"content":{"isShared":false,"isGlobal":false,"isExposed":false,"mName":"","value":"That''s
+        awesome! Game development is a fun and creative field. What aspects of game
+        development do you enjoy the most? Do you have any specific game projects
+        in mind that you''d like to work on?"}}'
+      executionPath: 0
+      portData: []
+      uobjectLinks: []
+    - graphPosition:
+        serializedVersion: 2
+        x: 915
+        y: 30
+        width: 380
+        height: 341
+      description: 
+      guid: 0026eda1-b4ad-4545-ad40-15735ebf5efc
+      nodeType:
+        _class: Piece
+        _ns: Kurisu.NGDT
+        _asm: Kurisu.NGDT
+      genericParameters: []
+      serializedData: '{"nodeData":{"graphPosition":{"serializedVersion":"2","x":915.0,"y":30.0,"width":380.0,"height":341.0},"description":"","guid":"0026eda1-b4ad-4545-ad40-15735ebf5efc","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"children":[{"rid":1000},{"rid":1001}],"pieceID":{"isShared":true,"isGlobal":false,"isExposed":false,"mName":"Dialog1","value":""},"references":{"version":2,"RefIds":[{"rid":1000,"type":{"class":"ContentModule","ns":"Kurisu.NGDT","asm":"Kurisu.NGDT"},"data":{"nodeData":{"graphPosition":{"serializedVersion":"2","x":0.0,"y":108.0,"width":356.0,"height":90.0},"description":"","guid":"c749df11-c187-4516-af1c-e3997481bd17","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"content":{"isShared":false,"isGlobal":false,"isExposed":false,"mName":"","value":"Hello,
+        nice to meet you!"}}},{"rid":1001,"type":{"class":"Option","ns":"Kurisu.NGDT","asm":"Kurisu.NGDT"},"data":{"nodeData":{"graphPosition":{"serializedVersion":"2","x":1360.0,"y":27.0,"width":380.0,"height":368.0},"description":"","guid":"46688df7-9d50-45f6-8f33-16d77ca3c3d7","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"children":[{"rid":1002},{"rid":1003}]}},{"rid":1002,"type":{"class":"ContentModule","ns":"Kurisu.NGDT","asm":"Kurisu.NGDT"},"data":{"nodeData":{"graphPosition":{"serializedVersion":"2","x":0.0,"y":79.0,"width":356.0,"height":90.0},"description":"","guid":"13935c15-bc8e-475d-a172-4bca35abd4a2","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"content":{"isShared":false,"isGlobal":false,"isExposed":false,"mName":"","value":"Nice
+        to meet you too!"}}},{"rid":1003,"type":{"class":"TargetIDModule","ns":"Kurisu.NGDT","asm":"Kurisu.NGDT"},"data":{"nodeData":{"graphPosition":{"serializedVersion":"2","x":0.0,"y":169.0,"width":356.0,"height":133.0},"description":"","guid":"83fb0747-36e4-4149-a5a9-3a9b5cbb782d","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"useReference":false,"targetID":{"isShared":true,"isGlobal":false,"isExposed":false,"mName":"Dialog2","value":""}}}]}}'
+      executionPath: 0
+      portData: []
+      uobjectLinks: []
+    - graphPosition:
+        serializedVersion: 2
+        x: 0
+        y: 108
+        width: 356
+        height: 90
+      description: 
+      guid: c749df11-c187-4516-af1c-e3997481bd17
+      nodeType:
+        _class: ContentModule
+        _ns: Kurisu.NGDT
+        _asm: Kurisu.NGDT
+      genericParameters: []
+      serializedData: '{"nodeData":{"graphPosition":{"serializedVersion":"2","x":0.0,"y":108.0,"width":356.0,"height":90.0},"description":"","guid":"c749df11-c187-4516-af1c-e3997481bd17","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"content":{"isShared":false,"isGlobal":false,"isExposed":false,"mName":"","value":"Hello,
+        nice to meet you!"}}'
+      executionPath: 0
+      portData: []
+      uobjectLinks: []
+    - graphPosition:
+        serializedVersion: 2
+        x: 1360
+        y: 27
+        width: 380
+        height: 368
+      description: 
+      guid: 46688df7-9d50-45f6-8f33-16d77ca3c3d7
+      nodeType:
+        _class: Option
+        _ns: Kurisu.NGDT
+        _asm: Kurisu.NGDT
+      genericParameters: []
+      serializedData: '{"nodeData":{"graphPosition":{"serializedVersion":"2","x":1360.0,"y":27.0,"width":380.0,"height":368.0},"description":"","guid":"46688df7-9d50-45f6-8f33-16d77ca3c3d7","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"children":[{"rid":1000},{"rid":1001}],"references":{"version":2,"RefIds":[{"rid":1000,"type":{"class":"ContentModule","ns":"Kurisu.NGDT","asm":"Kurisu.NGDT"},"data":{"nodeData":{"graphPosition":{"serializedVersion":"2","x":0.0,"y":79.0,"width":356.0,"height":90.0},"description":"","guid":"13935c15-bc8e-475d-a172-4bca35abd4a2","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"content":{"isShared":false,"isGlobal":false,"isExposed":false,"mName":"","value":"Nice
+        to meet you too!"}}},{"rid":1001,"type":{"class":"TargetIDModule","ns":"Kurisu.NGDT","asm":"Kurisu.NGDT"},"data":{"nodeData":{"graphPosition":{"serializedVersion":"2","x":0.0,"y":169.0,"width":356.0,"height":133.0},"description":"","guid":"83fb0747-36e4-4149-a5a9-3a9b5cbb782d","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"useReference":false,"targetID":{"isShared":true,"isGlobal":false,"isExposed":false,"mName":"Dialog2","value":""}}}]}}'
+      executionPath: 0
+      portData: []
+      uobjectLinks: []
+    - graphPosition:
+        serializedVersion: 2
+        x: 0
+        y: 79
+        width: 356
+        height: 90
+      description: 
+      guid: 13935c15-bc8e-475d-a172-4bca35abd4a2
+      nodeType:
+        _class: ContentModule
+        _ns: Kurisu.NGDT
+        _asm: Kurisu.NGDT
+      genericParameters: []
+      serializedData: '{"nodeData":{"graphPosition":{"serializedVersion":"2","x":0.0,"y":79.0,"width":356.0,"height":90.0},"description":"","guid":"13935c15-bc8e-475d-a172-4bca35abd4a2","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"content":{"isShared":false,"isGlobal":false,"isExposed":false,"mName":"","value":"Nice
+        to meet you too!"}}'
+      executionPath: 0
+      portData: []
+      uobjectLinks: []
+    - graphPosition:
+        serializedVersion: 2
+        x: 0
+        y: 169
+        width: 356
+        height: 133
+      description: 
+      guid: 83fb0747-36e4-4149-a5a9-3a9b5cbb782d
+      nodeType:
+        _class: TargetIDModule
+        _ns: Kurisu.NGDT
+        _asm: Kurisu.NGDT
+      genericParameters: []
+      serializedData: '{"nodeData":{"graphPosition":{"serializedVersion":"2","x":0.0,"y":169.0,"width":356.0,"height":133.0},"description":"","guid":"83fb0747-36e4-4149-a5a9-3a9b5cbb782d","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"useReference":false,"targetID":{"isShared":true,"isGlobal":false,"isExposed":false,"mName":"Dialog2","value":""}}'
+      executionPath: 0
+      portData: []
+      uobjectLinks: []
+    - graphPosition:
+        serializedVersion: 2
+        x: 1793
+        y: 42
+        width: 380
+        height: 341
+      description: 
+      guid: c23ff55f-7a32-444b-81c0-24cf4101197e
+      nodeType:
+        _class: Piece
+        _ns: Kurisu.NGDT
+        _asm: Kurisu.NGDT
+      genericParameters: []
+      serializedData: '{"nodeData":{"graphPosition":{"serializedVersion":"2","x":1793.0,"y":42.0,"width":380.0,"height":341.0},"description":"","guid":"c23ff55f-7a32-444b-81c0-24cf4101197e","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"children":[{"rid":1000},{"rid":1001}],"pieceID":{"isShared":true,"isGlobal":false,"isExposed":false,"mName":"Dialog2","value":""},"references":{"version":2,"RefIds":[{"rid":1000,"type":{"class":"ContentModule","ns":"Kurisu.NGDT","asm":"Kurisu.NGDT"},"data":{"nodeData":{"graphPosition":{"serializedVersion":"2","x":0.0,"y":108.0,"width":356.0,"height":90.0},"description":"","guid":"7551d92d-3bf0-4650-aa35-000283d511df","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"content":{"isShared":false,"isGlobal":false,"isExposed":false,"mName":"","value":"Do
+        you like making game?"}}},{"rid":1001,"type":{"class":"Option","ns":"Kurisu.NGDT","asm":"Kurisu.NGDT"},"data":{"nodeData":{"graphPosition":{"serializedVersion":"2","x":2227.0,"y":27.0,"width":380.0,"height":368.0},"description":"","guid":"5b5d284d-148d-43c2-9a00-906e19196176","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"children":[{"rid":1002},{"rid":1003}]}},{"rid":1002,"type":{"class":"ContentModule","ns":"Kurisu.NGDT","asm":"Kurisu.NGDT"},"data":{"nodeData":{"graphPosition":{"serializedVersion":"2","x":0.0,"y":79.0,"width":356.0,"height":90.0},"description":"","guid":"5f43125f-1f4f-47d8-932c-b9f236525a20","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"content":{"isShared":false,"isGlobal":false,"isExposed":false,"mName":"","value":"Making
+        game is so cool, i like it!"}}},{"rid":1003,"type":{"class":"TargetIDModule","ns":"Kurisu.NGDT","asm":"Kurisu.NGDT"},"data":{"nodeData":{"graphPosition":{"serializedVersion":"2","x":0.0,"y":169.0,"width":356.0,"height":133.0},"description":"","guid":"4738b6d6-c1ff-483f-99be-22e51efb4d78","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"useReference":true,"targetID":{"isShared":true,"isGlobal":false,"isExposed":false,"mName":"Dialog3","value":""}}}]}}'
+      executionPath: 0
+      portData: []
+      uobjectLinks: []
+    - graphPosition:
+        serializedVersion: 2
+        x: 0
+        y: 108
+        width: 356
+        height: 90
+      description: 
+      guid: 7551d92d-3bf0-4650-aa35-000283d511df
+      nodeType:
+        _class: ContentModule
+        _ns: Kurisu.NGDT
+        _asm: Kurisu.NGDT
+      genericParameters: []
+      serializedData: '{"nodeData":{"graphPosition":{"serializedVersion":"2","x":0.0,"y":108.0,"width":356.0,"height":90.0},"description":"","guid":"7551d92d-3bf0-4650-aa35-000283d511df","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"content":{"isShared":false,"isGlobal":false,"isExposed":false,"mName":"","value":"Do
+        you like making game?"}}'
+      executionPath: 0
+      portData: []
+      uobjectLinks: []
+    - graphPosition:
+        serializedVersion: 2
+        x: 2227
+        y: 27
+        width: 380
+        height: 368
+      description: 
+      guid: 5b5d284d-148d-43c2-9a00-906e19196176
+      nodeType:
+        _class: Option
+        _ns: Kurisu.NGDT
+        _asm: Kurisu.NGDT
+      genericParameters: []
+      serializedData: '{"nodeData":{"graphPosition":{"serializedVersion":"2","x":2227.0,"y":27.0,"width":380.0,"height":368.0},"description":"","guid":"5b5d284d-148d-43c2-9a00-906e19196176","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"children":[{"rid":1000},{"rid":1001}],"references":{"version":2,"RefIds":[{"rid":1000,"type":{"class":"ContentModule","ns":"Kurisu.NGDT","asm":"Kurisu.NGDT"},"data":{"nodeData":{"graphPosition":{"serializedVersion":"2","x":0.0,"y":79.0,"width":356.0,"height":90.0},"description":"","guid":"5f43125f-1f4f-47d8-932c-b9f236525a20","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"content":{"isShared":false,"isGlobal":false,"isExposed":false,"mName":"","value":"Making
+        game is so cool, i like it!"}}},{"rid":1001,"type":{"class":"TargetIDModule","ns":"Kurisu.NGDT","asm":"Kurisu.NGDT"},"data":{"nodeData":{"graphPosition":{"serializedVersion":"2","x":0.0,"y":169.0,"width":356.0,"height":133.0},"description":"","guid":"4738b6d6-c1ff-483f-99be-22e51efb4d78","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"useReference":true,"targetID":{"isShared":true,"isGlobal":false,"isExposed":false,"mName":"Dialog3","value":""}}}]}}'
+      executionPath: 0
+      portData: []
+      uobjectLinks: []
+    - graphPosition:
+        serializedVersion: 2
+        x: 0
+        y: 79
+        width: 356
+        height: 90
+      description: 
+      guid: 5f43125f-1f4f-47d8-932c-b9f236525a20
+      nodeType:
+        _class: ContentModule
+        _ns: Kurisu.NGDT
+        _asm: Kurisu.NGDT
+      genericParameters: []
+      serializedData: '{"nodeData":{"graphPosition":{"serializedVersion":"2","x":0.0,"y":79.0,"width":356.0,"height":90.0},"description":"","guid":"5f43125f-1f4f-47d8-932c-b9f236525a20","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"content":{"isShared":false,"isGlobal":false,"isExposed":false,"mName":"","value":"Making
+        game is so cool, i like it!"}}'
+      executionPath: 0
+      portData: []
+      uobjectLinks: []
+    - graphPosition:
+        serializedVersion: 2
+        x: 0
+        y: 169
+        width: 356
+        height: 133
+      description: 
+      guid: 4738b6d6-c1ff-483f-99be-22e51efb4d78
+      nodeType:
+        _class: TargetIDModule
+        _ns: Kurisu.NGDT
+        _asm: Kurisu.NGDT
+      genericParameters: []
+      serializedData: '{"nodeData":{"graphPosition":{"serializedVersion":"2","x":0.0,"y":169.0,"width":356.0,"height":133.0},"description":"","guid":"4738b6d6-c1ff-483f-99be-22e51efb4d78","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"useReference":true,"targetID":{"isShared":true,"isGlobal":false,"isExposed":false,"mName":"Dialog3","value":""}}'
+      executionPath: 0
+      portData: []
+      uobjectLinks: []
+    nodeGroups: []
+    edges:
+    - children: 02000000080000000300000010000000
+    - children: 
+    - children: 03000000
+    - children: 0400000005000000
+    - children: 
+    - children: 0600000007000000
+    - children: 
+    - children: 
+    - children: 090000000a000000
+    - children: 
+    - children: 
+    - children: 
+    - children: 
+    - children: 
+    - children: 
+    - children: 
+    - children: 1100000012000000
+    - children: 
+    - children: 1300000014000000
+    - children: 
+    - children: 
+  flowGraphData:
+    variables: []
+    nodes: []
+    variableData: []
+    nodeData: []
+    nodeGroups: []
+    nodeDependencyPath: []
+  externalAsset: {fileID: 0}
   references:
     version: 2
     RefIds:
-    - rid: 5974865124870062087
+    - rid: -2
+      type: {class: , ns: , asm: }
+    - rid: 1770628296118370313
       type: {class: PieceID, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
       data:
         isShared: 1
@@ -459,7 +949,7 @@ MonoBehaviour:
         isExposed: 0
         mName: Dialog1
         value: 
-    - rid: 5974865124870062088
+    - rid: 1770628296118370314
       type: {class: PieceID, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
       data:
         isShared: 1
@@ -467,7 +957,7 @@ MonoBehaviour:
         isExposed: 0
         mName: Dialog2
         value: 
-    - rid: 5974865124870062089
+    - rid: 1770628296118370315
       type: {class: PieceID, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
       data:
         isShared: 1
@@ -475,124 +965,259 @@ MonoBehaviour:
         isExposed: 0
         mName: Dialog3
         value: 
-    - rid: 5974865124870062106
+    - rid: 1770628296118370316
       type: {class: Root, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
       data:
-        graphPosition:
-          serializedVersion: 2
-          x: 400
-          y: 300
-          width: 115
-          height: 77
-        description: 
-        guid: 17b30093-3fb4-4a02-8b26-64c8cb6854ea
+        nodeData:
+          graphPosition:
+            serializedVersion: 2
+            x: 400
+            y: 300
+            width: 115
+            height: 77
+          description: 
+          guid: 89a6af78-54b0-4a75-9aa5-cc403acdd5c6
+          nodeType:
+            _class: 
+            _ns: 
+            _asm: 
+          genericParameters: []
+          serializedData: 
+          executionPath: 0
+          portData: []
+          uobjectLinks: []
         child:
-          rid: 5974865124870062107
-        children:
-        - rid: 5974865124870062108
-        - rid: 5974865124870062109
-        - rid: 5974865124870062110
-    - rid: 5974865124870062107
+          rid: -2
+        children: []
+    - rid: 1770628296118370317
       type: {class: Dialogue, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
       data:
-        graphPosition:
-          serializedVersion: 2
-          x: 582
-          y: 190
-          width: 150
-          height: 278
-        description: 
-        guid: 1253cb15-ce0c-46a4-9c98-fc14b3265295
-        children:
-        - rid: 5974865124870062109
+        nodeData:
+          graphPosition:
+            serializedVersion: 2
+            x: 629
+            y: 236
+            width: 150
+            height: 278
+          description: 
+          guid: 2d98f1e2-f289-4a67-827c-ab5c20ba7146
+          nodeType:
+            _class: 
+            _ns: 
+            _asm: 
+          genericParameters: []
+          serializedData: 
+          executionPath: 0
+          portData: []
+          uobjectLinks: []
+        children: []
         referencePieces:
         - Dialog1
-    - rid: 5974865124870062108
+    - rid: 1770628296118370318
       type: {class: Piece, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
       data:
-        graphPosition:
-          serializedVersion: 2
-          x: 1105
-          y: 579
-          width: 400
-          height: 462
-        description: Right Click AIBakeModule or this Piece to bake Dialogue
-        guid: 4a4555a7-4fbb-4722-863d-8f8b9eca9f5b
-        children:
-        - rid: 5974865124870062111
-        - rid: 5974865124870062112
-        pieceID:
-          isShared: 1
-          isGlobal: 0
-          isExposed: 0
-          mName: Dialog3
-          value: 
-    - rid: 5974865124870062109
-      type: {class: Piece, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
-      data:
-        graphPosition:
-          serializedVersion: 2
-          x: 1105
-          y: -160
-          width: 374
-          height: 341
-        description: 
-        guid: 87ad95d9-81fc-4d39-a073-b318ec0c0ae9
-        children:
-        - rid: 5974865124870062113
-        - rid: 5974865124870062114
+        nodeData:
+          graphPosition:
+            serializedVersion: 2
+            x: 915
+            y: 30
+            width: 380
+            height: 341
+          description: 
+          guid: 0026eda1-b4ad-4545-ad40-15735ebf5efc
+          nodeType:
+            _class: 
+            _ns: 
+            _asm: 
+          genericParameters: []
+          serializedData: 
+          executionPath: 0
+          portData: []
+          uobjectLinks: []
+        children: []
         pieceID:
           isShared: 1
           isGlobal: 0
           isExposed: 0
           mName: Dialog1
           value: 
-    - rid: 5974865124870062110
-      type: {class: Piece, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
+    - rid: 1770628296118370319
+      type: {class: ContentModule, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
       data:
-        graphPosition:
-          serializedVersion: 2
-          x: 2037
-          y: -160
-          width: 374
-          height: 341
-        description: 
-        guid: 4361244c-a6bc-4383-9d28-f70f4006a0ac
-        children:
-        - rid: 5974865124870062115
-        - rid: 5974865124870062116
-        pieceID:
+        nodeData:
+          graphPosition:
+            serializedVersion: 2
+            x: 0
+            y: 108
+            width: 356
+            height: 90
+          description: 
+          guid: c749df11-c187-4516-af1c-e3997481bd17
+          nodeType:
+            _class: 
+            _ns: 
+            _asm: 
+          genericParameters: []
+          serializedData: 
+          executionPath: 0
+          portData: []
+          uobjectLinks: []
+        content:
+          isShared: 0
+          isGlobal: 0
+          isExposed: 0
+          mName: 
+          value: Hello, nice to meet you!
+    - rid: 1770628296118370320
+      type: {class: Option, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
+      data:
+        nodeData:
+          graphPosition:
+            serializedVersion: 2
+            x: 1360
+            y: 27
+            width: 380
+            height: 368
+          description: 
+          guid: 46688df7-9d50-45f6-8f33-16d77ca3c3d7
+          nodeType:
+            _class: 
+            _ns: 
+            _asm: 
+          genericParameters: []
+          serializedData: 
+          executionPath: 0
+          portData: []
+          uobjectLinks: []
+        children: []
+    - rid: 1770628296118370321
+      type: {class: ContentModule, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
+      data:
+        nodeData:
+          graphPosition:
+            serializedVersion: 2
+            x: 0
+            y: 79
+            width: 356
+            height: 90
+          description: 
+          guid: 13935c15-bc8e-475d-a172-4bca35abd4a2
+          nodeType:
+            _class: 
+            _ns: 
+            _asm: 
+          genericParameters: []
+          serializedData: 
+          executionPath: 0
+          portData: []
+          uobjectLinks: []
+        content:
+          isShared: 0
+          isGlobal: 0
+          isExposed: 0
+          mName: 
+          value: Nice to meet you too!
+    - rid: 1770628296118370322
+      type: {class: TargetIDModule, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
+      data:
+        nodeData:
+          graphPosition:
+            serializedVersion: 2
+            x: 0
+            y: 169
+            width: 356
+            height: 133
+          description: 
+          guid: 83fb0747-36e4-4149-a5a9-3a9b5cbb782d
+          nodeType:
+            _class: 
+            _ns: 
+            _asm: 
+          genericParameters: []
+          serializedData: 
+          executionPath: 0
+          portData: []
+          uobjectLinks: []
+        useReference: 0
+        targetID:
           isShared: 1
           isGlobal: 0
           isExposed: 0
           mName: Dialog2
           value: 
-    - rid: 5974865124870062111
+    - rid: 1770628296118370323
+      type: {class: Piece, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
+      data:
+        nodeData:
+          graphPosition:
+            serializedVersion: 2
+            x: 915
+            y: 521
+            width: 380
+            height: 455
+          description: 
+          guid: fdd23140-7393-41de-af91-4d221ed0797a
+          nodeType:
+            _class: 
+            _ns: 
+            _asm: 
+          genericParameters: []
+          serializedData: 
+          executionPath: 0
+          portData: []
+          uobjectLinks: []
+        children: []
+        pieceID:
+          isShared: 1
+          isGlobal: 0
+          isExposed: 0
+          mName: Dialog3
+          value: 
+    - rid: 1770628296118370324
       type: {class: AIBakeModule, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
       data:
-        graphPosition:
-          serializedVersion: 2
-          x: 0
-          y: 108
-          width: 376
-          height: 145
-        description: 
-        guid: 51ecb463-8a6f-4c03-8bb7-44bc875d0fa8
-        role: 0
+        nodeData:
+          graphPosition:
+            serializedVersion: 2
+            x: 0
+            y: 108
+            width: 356
+            height: 125
+          description: 
+          guid: fa1d2837-9844-424c-8923-d6356dab02f3
+          nodeType:
+            _class: 
+            _ns: 
+            _asm: 
+          genericParameters: []
+          serializedData: 
+          executionPath: 0
+          portData: []
+          uobjectLinks: []
         generateDepth: 3
         optionCount: 2
         lastSelection: 
-    - rid: 5974865124870062112
+    - rid: 1770628296118370325
       type: {class: ContentModule, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
       data:
-        graphPosition:
-          serializedVersion: 2
-          x: 0
-          y: 253
-          width: 376
-          height: 143
-        description: 
-        guid: 1537f127-1265-4018-aca7-30b9775867a8
+        nodeData:
+          graphPosition:
+            serializedVersion: 2
+            x: 0
+            y: 233
+            width: 356
+            height: 156
+          description: 
+          guid: 030b4a53-b3aa-40a8-a784-6ff1321dd4fd
+          nodeType:
+            _class: 
+            _ns: 
+            _asm: 
+          genericParameters: []
+          serializedData: 
+          executionPath: 0
+          portData: []
+          uobjectLinks: []
         content:
           isShared: 0
           isGlobal: 0
@@ -601,131 +1226,131 @@ MonoBehaviour:
           value: That's awesome! Game development is a fun and creative field. What
             aspects of game development do you enjoy the most? Do you have any specific
             game projects in mind that you'd like to work on?
-    - rid: 5974865124870062113
-      type: {class: ContentModule, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
+    - rid: 1770628296118370326
+      type: {class: Piece, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
       data:
-        graphPosition:
-          serializedVersion: 2
-          x: 0
-          y: 108
-          width: 350
-          height: 90
-        description: 
-        guid: a0145877-2528-4c17-b689-3aa5d6dacb98
-        content:
-          isShared: 0
+        nodeData:
+          graphPosition:
+            serializedVersion: 2
+            x: 1793
+            y: 42
+            width: 380
+            height: 341
+          description: 
+          guid: c23ff55f-7a32-444b-81c0-24cf4101197e
+          nodeType:
+            _class: 
+            _ns: 
+            _asm: 
+          genericParameters: []
+          serializedData: 
+          executionPath: 0
+          portData: []
+          uobjectLinks: []
+        children: []
+        pieceID:
+          isShared: 1
           isGlobal: 0
           isExposed: 0
-          mName: 
-          value: Hello, nice to meet you!
-    - rid: 5974865124870062114
-      type: {class: Option, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
-      data:
-        graphPosition:
-          serializedVersion: 2
-          x: 1554
-          y: 116
-          width: 374
-          height: 368
-        description: 
-        guid: bc03ffd9-1c42-44e9-90fa-9c205f42ab7a
-        children:
-        - rid: 5974865124870062117
-        - rid: 5974865124870062118
-    - rid: 5974865124870062115
+          mName: Dialog2
+          value: 
+    - rid: 1770628296118370327
       type: {class: ContentModule, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
       data:
-        graphPosition:
-          serializedVersion: 2
-          x: 0
-          y: 108
-          width: 350
-          height: 90
-        description: 
-        guid: 909aa1b4-f907-4724-8380-af535e90939d
+        nodeData:
+          graphPosition:
+            serializedVersion: 2
+            x: 0
+            y: 108
+            width: 356
+            height: 90
+          description: 
+          guid: 7551d92d-3bf0-4650-aa35-000283d511df
+          nodeType:
+            _class: 
+            _ns: 
+            _asm: 
+          genericParameters: []
+          serializedData: 
+          executionPath: 0
+          portData: []
+          uobjectLinks: []
         content:
           isShared: 0
           isGlobal: 0
           isExposed: 0
           mName: 
           value: Do you like making game?
-    - rid: 5974865124870062116
+    - rid: 1770628296118370328
       type: {class: Option, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
       data:
-        graphPosition:
-          serializedVersion: 2
-          x: 2472
-          y: 116
-          width: 374
-          height: 368
-        description: 
-        guid: ab2eac7c-d013-4599-a971-02cdf3c473fa
-        children:
-        - rid: 5974865124870062119
-        - rid: 5974865124870062120
-    - rid: 5974865124870062117
+        nodeData:
+          graphPosition:
+            serializedVersion: 2
+            x: 2227
+            y: 27
+            width: 380
+            height: 368
+          description: 
+          guid: 5b5d284d-148d-43c2-9a00-906e19196176
+          nodeType:
+            _class: 
+            _ns: 
+            _asm: 
+          genericParameters: []
+          serializedData: 
+          executionPath: 0
+          portData: []
+          uobjectLinks: []
+        children: []
+    - rid: 1770628296118370329
       type: {class: ContentModule, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
       data:
-        graphPosition:
-          serializedVersion: 2
-          x: 0
-          y: 79
-          width: 350
-          height: 90
-        description: 
-        guid: 7aa74c7d-6484-46ec-acef-e7c6b1aad867
-        content:
-          isShared: 0
-          isGlobal: 0
-          isExposed: 0
-          mName: 
-          value: Nice to meet you too!
-    - rid: 5974865124870062118
-      type: {class: TargetIDModule, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
-      data:
-        graphPosition:
-          serializedVersion: 2
-          x: 0
-          y: 169
-          width: 350
-          height: 133
-        description: 
-        guid: 0cf3f8d3-2e36-4826-abb6-5dd1cc9cfe29
-        useReference: 0
-        targetID:
-          isShared: 1
-          isGlobal: 0
-          isExposed: 0
-          mName: Dialog2
-          value: 
-    - rid: 5974865124870062119
-      type: {class: ContentModule, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
-      data:
-        graphPosition:
-          serializedVersion: 2
-          x: 0
-          y: 79
-          width: 350
-          height: 90
-        description: 
-        guid: 8e20bb60-0b8d-4558-91ed-2daa34ae1b5b
+        nodeData:
+          graphPosition:
+            serializedVersion: 2
+            x: 0
+            y: 79
+            width: 356
+            height: 90
+          description: 
+          guid: 5f43125f-1f4f-47d8-932c-b9f236525a20
+          nodeType:
+            _class: 
+            _ns: 
+            _asm: 
+          genericParameters: []
+          serializedData: 
+          executionPath: 0
+          portData: []
+          uobjectLinks: []
         content:
           isShared: 0
           isGlobal: 0
           isExposed: 0
           mName: 
           value: Making game is so cool, i like it!
-    - rid: 5974865124870062120
+    - rid: 1770628296118370330
       type: {class: TargetIDModule, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
       data:
-        graphPosition:
-          serializedVersion: 2
-          x: 0
-          y: 169
-          width: 350
-          height: 133
-        description: 
-        guid: 79157453-805e-4b06-a41b-33cead0c7863
+        nodeData:
+          graphPosition:
+            serializedVersion: 2
+            x: 0
+            y: 169
+            width: 356
+            height: 133
+          description: 
+          guid: 4738b6d6-c1ff-483f-99be-22e51efb4d78
+          nodeType:
+            _class: 
+            _ns: 
+            _asm: 
+          genericParameters: []
+          serializedData: 
+          executionPath: 0
+          portData: []
+          uobjectLinks: []
         useReference: 1
         targetID:
           isShared: 1

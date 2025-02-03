@@ -104,7 +104,7 @@ NavMeshSettings:
   serializedVersion: 2
   m_ObjectHideFlags: 0
   m_BuildSettings:
-    serializedVersion: 2
+    serializedVersion: 3
     agentTypeID: 0
     agentRadius: 0.5
     agentHeight: 2
@@ -117,7 +117,7 @@ NavMeshSettings:
     cellSize: 0.16666667
     manualTileSize: 0
     tileSize: 256
-    accuratePlacement: 0
+    buildHeightMesh: 0
     maxJobWorkers: 0
     preserveTilesOutsideBounds: 0
     debug:
@@ -128,6 +128,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 697532185179617100, guid: ecd532ca1871ce645aa75901cc037511, type: 3}
@@ -219,6 +220,9 @@ PrefabInstance:
       value: DialogueUI
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ecd532ca1871ce645aa75901cc037511, type: 3}
 --- !u!1 &250742056
 GameObject:
@@ -245,13 +249,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 250742056}
+  serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: -2, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1190634932}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!81 &250742058
 AudioListener:
@@ -275,9 +279,17 @@ Camera:
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
+  m_Iso: 200
+  m_ShutterSpeed: 0.005
+  m_Aperture: 16
+  m_FocusDistance: 10
+  m_FocalLength: 50
+  m_BladeCount: 5
+  m_Curvature: {x: 2, y: 11}
+  m_BarrelClipping: 0.25
+  m_Anamorphism: 0
   m_SensorSize: {x: 36, y: 24}
   m_LensShift: {x: 0, y: 0}
-  m_FocalLength: 50
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
@@ -327,6 +339,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1190634931}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -336,7 +349,6 @@ Transform:
   - {fileID: 1593538471}
   - {fileID: 1481434910}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1331404402
 GameObject:
@@ -367,28 +379,782 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e290e3e9d5caab4ea26d1a4879ba82f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dialogueGraphData:
+    variables:
+    - rid: 1770628309375778835
+    - rid: 1770628309375778836
+    - rid: 1770628309375778837
+    nodes:
+    - rid: 1770628309375778838
+    - rid: 1770628309375778838
+    - rid: 1770628309375778839
+    - rid: 1770628309375778840
+    - rid: 1770628309375778841
+    - rid: 1770628309375778842
+    - rid: 1770628309375778843
+    - rid: 1770628309375778844
+    - rid: 1770628309375778845
+    - rid: 1770628309375778846
+    - rid: 1770628309375778847
+    - rid: 1770628309375778848
+    - rid: 1770628309375778849
+    - rid: 1770628309375778840
+    - rid: 1770628309375778841
+    - rid: 1770628309375778842
+    - rid: 1770628309375778843
+    - rid: 1770628309375778844
+    variableData:
+    - variableType:
+        _class: PieceID
+        _ns: Kurisu.NGDT
+        _asm: Kurisu.NGDT
+      serializedData: '{"isShared":true,"isGlobal":false,"isExposed":false,"mName":"Dialog1","value":""}'
+      uobjectLinks: []
+    - variableType:
+        _class: PieceID
+        _ns: Kurisu.NGDT
+        _asm: Kurisu.NGDT
+      serializedData: '{"isShared":true,"isGlobal":false,"isExposed":false,"mName":"Dialog2","value":""}'
+      uobjectLinks: []
+    - variableType:
+        _class: PieceID
+        _ns: Kurisu.NGDT
+        _asm: Kurisu.NGDT
+      serializedData: '{"isShared":true,"isGlobal":false,"isExposed":false,"mName":"Dialog3","value":""}'
+      uobjectLinks: []
+    nodeData:
+    - graphPosition:
+        serializedVersion: 2
+        x: 400
+        y: 300
+        width: 115
+        height: 77
+      description: 
+      guid: aeb937a8-9ca8-4b81-934c-a59807246ec1
+      nodeType:
+        _class: Root
+        _ns: Kurisu.NGDT
+        _asm: Kurisu.NGDT
+      genericParameters: []
+      serializedData: '{"nodeData":{"graphPosition":{"serializedVersion":"2","x":400.0,"y":300.0,"width":115.0,"height":77.0},"description":"","guid":"aeb937a8-9ca8-4b81-934c-a59807246ec1","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"child":{"rid":1000},"children":[{"rid":1001},{"rid":1002},{"rid":1003}],"references":{"version":2,"RefIds":[{"rid":1000,"type":{"class":"Dialogue","ns":"Kurisu.NGDT","asm":"Kurisu.NGDT"},"data":{"nodeData":{"graphPosition":{"serializedVersion":"2","x":578.0,"y":265.0,"width":150.0,"height":276.0},"description":"","guid":"278de3d4-67ca-47c2-bc2e-cb430b79ffad","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"children":[{"rid":1003}],"referencePieces":[""]}},{"rid":1001,"type":{"class":"Piece","ns":"Kurisu.NGDT","asm":"Kurisu.NGDT"},"data":{"nodeData":{"graphPosition":{"serializedVersion":"2","x":1975.0,"y":278.0,"width":400.0,"height":274.0},"description":"","guid":"15575011-9fd7-40b3-bd2c-f12d26bfec87","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"children":[{"rid":1004}],"pieceID":{"isShared":true,"isGlobal":false,"isExposed":false,"mName":"Dialog3","value":""}}},{"rid":1002,"type":{"class":"Piece","ns":"Kurisu.NGDT","asm":"Kurisu.NGDT"},"data":{"nodeData":{"graphPosition":{"serializedVersion":"2","x":1525.0,"y":212.0,"width":400.0,"height":407.0},"description":"","guid":"0063af5f-12ed-4c08-8fdc-57b36285658f","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"children":[{"rid":1005},{"rid":1006}],"pieceID":{"isShared":true,"isGlobal":false,"isExposed":false,"mName":"Dialog2","value":""}}},{"rid":1003,"type":{"class":"Piece","ns":"Kurisu.NGDT","asm":"Kurisu.NGDT"},"data":{"nodeData":{"graphPosition":{"serializedVersion":"2","x":790.0,"y":240.0,"width":400.0,"height":351.0},"description":"","guid":"4d6ffd6c-d36a-4cb0-9a62-43c5cfd4530f","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"children":[{"rid":1007},{"rid":1008}],"pieceID":{"isShared":true,"isGlobal":false,"isExposed":false,"mName":"Dialog1","value":""}}},{"rid":1004,"type":{"class":"LocalizedContentModule","ns":"Kurisu.NGDT.Localization","asm":"Kurisu.NGDT.Localization"},"data":{"nodeData":{"graphPosition":{"serializedVersion":"2","x":0.0,"y":108.0,"width":376.0,"height":100.0},"description":"","guid":"3fa034aa-9994-4bc8-88bf-a2ea4de4d363","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"tableEntry":{"isShared":false,"isGlobal":false,"isExposed":false,"mName":"","value":"Dialogue"},"stringEntry":{"isShared":false,"isGlobal":false,"isExposed":false,"mName":"","value":"Dialogue-Piece-0002"}}},{"rid":1005,"type":{"class":"LocalizedContentModule","ns":"Kurisu.NGDT.Localization","asm":"Kurisu.NGDT.Localization"},"data":{"nodeData":{"graphPosition":{"serializedVersion":"2","x":0.0,"y":108.0,"width":376.0,"height":100.0},"description":"","guid":"c1216012-412e-4c17-bb6b-d5e8413ba8b8","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"tableEntry":{"isShared":false,"isGlobal":false,"isExposed":false,"mName":"","value":"Dialogue"},"stringEntry":{"isShared":false,"isGlobal":false,"isExposed":false,"mName":"","value":"Dialogue-Piece-0001"}}},{"rid":1006,"type":{"class":"NextPieceModule","ns":"Kurisu.NGDT","asm":"Kurisu.NGDT"},"data":{"nodeData":{"graphPosition":{"serializedVersion":"2","x":0.0,"y":208.0,"width":376.0,"height":133.0},"description":"","guid":"bfcd250a-5415-4944-a035-2d42d3718ee9","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"useReference":false,"nextID":{"isShared":true,"isGlobal":false,"isExposed":false,"mName":"Dialog3","value":""}}},{"rid":1007,"type":{"class":"LocalizedContentModule","ns":"Kurisu.NGDT.Localization","asm":"Kurisu.NGDT.Localization"},"data":{"nodeData":{"graphPosition":{"serializedVersion":"2","x":0.0,"y":108.0,"width":376.0,"height":100.0},"description":"","guid":"41d97edb-987b-49dc-a1e8-d737d0f3468d","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"tableEntry":{"isShared":false,"isGlobal":false,"isExposed":false,"mName":"","value":"Dialogue"},"stringEntry":{"isShared":false,"isGlobal":false,"isExposed":false,"mName":"","value":"Dialogue-Piece-0000"}}},{"rid":1008,"type":{"class":"Option","ns":"Kurisu.NGDT","asm":"Kurisu.NGDT"},"data":{"nodeData":{"graphPosition":{"serializedVersion":"2","x":1240.0,"y":226.0,"width":235.0,"height":378.0},"description":"","guid":"ac7d76f8-13fa-4341-b433-6ed1d77a9575","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"children":[{"rid":1009},{"rid":1010}]}},{"rid":1009,"type":{"class":"LocalizedContentModule","ns":"Kurisu.NGDT.Localization","asm":"Kurisu.NGDT.Localization"},"data":{"nodeData":{"graphPosition":{"serializedVersion":"2","x":0.0,"y":79.0,"width":211.0,"height":100.0},"description":"","guid":"6bee565f-85b6-4b60-828f-765949b0169f","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"tableEntry":{"isShared":false,"isGlobal":false,"isExposed":false,"mName":"","value":"Dialogue"},"stringEntry":{"isShared":false,"isGlobal":false,"isExposed":false,"mName":"","value":"Dialogue-Option-0000"}}},{"rid":1010,"type":{"class":"TargetIDModule","ns":"Kurisu.NGDT","asm":"Kurisu.NGDT"},"data":{"nodeData":{"graphPosition":{"serializedVersion":"2","x":0.0,"y":179.0,"width":211.0,"height":133.0},"description":"","guid":"7ffb01a3-a5ba-4889-afda-758a99aed870","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"useReference":false,"targetID":{"isShared":true,"isGlobal":false,"isExposed":false,"mName":"Dialog2","value":""}}}]}}'
+      executionPath: 0
+      portData: []
+      uobjectLinks: []
+    - graphPosition:
+        serializedVersion: 2
+        x: 400
+        y: 300
+        width: 115
+        height: 77
+      description: 
+      guid: aeb937a8-9ca8-4b81-934c-a59807246ec1
+      nodeType:
+        _class: Root
+        _ns: Kurisu.NGDT
+        _asm: Kurisu.NGDT
+      genericParameters: []
+      serializedData: '{"nodeData":{"graphPosition":{"serializedVersion":"2","x":400.0,"y":300.0,"width":115.0,"height":77.0},"description":"","guid":"aeb937a8-9ca8-4b81-934c-a59807246ec1","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"child":{"rid":1000},"children":[{"rid":1001},{"rid":1002},{"rid":1003}],"references":{"version":2,"RefIds":[{"rid":1000,"type":{"class":"Dialogue","ns":"Kurisu.NGDT","asm":"Kurisu.NGDT"},"data":{"nodeData":{"graphPosition":{"serializedVersion":"2","x":578.0,"y":265.0,"width":150.0,"height":276.0},"description":"","guid":"278de3d4-67ca-47c2-bc2e-cb430b79ffad","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"children":[{"rid":1003}],"referencePieces":[""]}},{"rid":1001,"type":{"class":"Piece","ns":"Kurisu.NGDT","asm":"Kurisu.NGDT"},"data":{"nodeData":{"graphPosition":{"serializedVersion":"2","x":1975.0,"y":278.0,"width":400.0,"height":274.0},"description":"","guid":"15575011-9fd7-40b3-bd2c-f12d26bfec87","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"children":[{"rid":1004}],"pieceID":{"isShared":true,"isGlobal":false,"isExposed":false,"mName":"Dialog3","value":""}}},{"rid":1002,"type":{"class":"Piece","ns":"Kurisu.NGDT","asm":"Kurisu.NGDT"},"data":{"nodeData":{"graphPosition":{"serializedVersion":"2","x":1525.0,"y":212.0,"width":400.0,"height":407.0},"description":"","guid":"0063af5f-12ed-4c08-8fdc-57b36285658f","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"children":[{"rid":1005},{"rid":1006}],"pieceID":{"isShared":true,"isGlobal":false,"isExposed":false,"mName":"Dialog2","value":""}}},{"rid":1003,"type":{"class":"Piece","ns":"Kurisu.NGDT","asm":"Kurisu.NGDT"},"data":{"nodeData":{"graphPosition":{"serializedVersion":"2","x":790.0,"y":240.0,"width":400.0,"height":351.0},"description":"","guid":"4d6ffd6c-d36a-4cb0-9a62-43c5cfd4530f","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"children":[{"rid":1007},{"rid":1008}],"pieceID":{"isShared":true,"isGlobal":false,"isExposed":false,"mName":"Dialog1","value":""}}},{"rid":1004,"type":{"class":"LocalizedContentModule","ns":"Kurisu.NGDT.Localization","asm":"Kurisu.NGDT.Localization"},"data":{"nodeData":{"graphPosition":{"serializedVersion":"2","x":0.0,"y":108.0,"width":376.0,"height":100.0},"description":"","guid":"3fa034aa-9994-4bc8-88bf-a2ea4de4d363","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"tableEntry":{"isShared":false,"isGlobal":false,"isExposed":false,"mName":"","value":"Dialogue"},"stringEntry":{"isShared":false,"isGlobal":false,"isExposed":false,"mName":"","value":"Dialogue-Piece-0002"}}},{"rid":1005,"type":{"class":"LocalizedContentModule","ns":"Kurisu.NGDT.Localization","asm":"Kurisu.NGDT.Localization"},"data":{"nodeData":{"graphPosition":{"serializedVersion":"2","x":0.0,"y":108.0,"width":376.0,"height":100.0},"description":"","guid":"c1216012-412e-4c17-bb6b-d5e8413ba8b8","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"tableEntry":{"isShared":false,"isGlobal":false,"isExposed":false,"mName":"","value":"Dialogue"},"stringEntry":{"isShared":false,"isGlobal":false,"isExposed":false,"mName":"","value":"Dialogue-Piece-0001"}}},{"rid":1006,"type":{"class":"NextPieceModule","ns":"Kurisu.NGDT","asm":"Kurisu.NGDT"},"data":{"nodeData":{"graphPosition":{"serializedVersion":"2","x":0.0,"y":208.0,"width":376.0,"height":133.0},"description":"","guid":"bfcd250a-5415-4944-a035-2d42d3718ee9","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"useReference":false,"nextID":{"isShared":true,"isGlobal":false,"isExposed":false,"mName":"Dialog3","value":""}}},{"rid":1007,"type":{"class":"LocalizedContentModule","ns":"Kurisu.NGDT.Localization","asm":"Kurisu.NGDT.Localization"},"data":{"nodeData":{"graphPosition":{"serializedVersion":"2","x":0.0,"y":108.0,"width":376.0,"height":100.0},"description":"","guid":"41d97edb-987b-49dc-a1e8-d737d0f3468d","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"tableEntry":{"isShared":false,"isGlobal":false,"isExposed":false,"mName":"","value":"Dialogue"},"stringEntry":{"isShared":false,"isGlobal":false,"isExposed":false,"mName":"","value":"Dialogue-Piece-0000"}}},{"rid":1008,"type":{"class":"Option","ns":"Kurisu.NGDT","asm":"Kurisu.NGDT"},"data":{"nodeData":{"graphPosition":{"serializedVersion":"2","x":1240.0,"y":226.0,"width":235.0,"height":378.0},"description":"","guid":"ac7d76f8-13fa-4341-b433-6ed1d77a9575","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"children":[{"rid":1009},{"rid":1010}]}},{"rid":1009,"type":{"class":"LocalizedContentModule","ns":"Kurisu.NGDT.Localization","asm":"Kurisu.NGDT.Localization"},"data":{"nodeData":{"graphPosition":{"serializedVersion":"2","x":0.0,"y":79.0,"width":211.0,"height":100.0},"description":"","guid":"6bee565f-85b6-4b60-828f-765949b0169f","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"tableEntry":{"isShared":false,"isGlobal":false,"isExposed":false,"mName":"","value":"Dialogue"},"stringEntry":{"isShared":false,"isGlobal":false,"isExposed":false,"mName":"","value":"Dialogue-Option-0000"}}},{"rid":1010,"type":{"class":"TargetIDModule","ns":"Kurisu.NGDT","asm":"Kurisu.NGDT"},"data":{"nodeData":{"graphPosition":{"serializedVersion":"2","x":0.0,"y":179.0,"width":211.0,"height":133.0},"description":"","guid":"7ffb01a3-a5ba-4889-afda-758a99aed870","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"useReference":false,"targetID":{"isShared":true,"isGlobal":false,"isExposed":false,"mName":"Dialog2","value":""}}}]}}'
+      executionPath: 0
+      portData: []
+      uobjectLinks: []
+    - graphPosition:
+        serializedVersion: 2
+        x: 578
+        y: 265
+        width: 150
+        height: 276
+      description: 
+      guid: 278de3d4-67ca-47c2-bc2e-cb430b79ffad
+      nodeType:
+        _class: Dialogue
+        _ns: Kurisu.NGDT
+        _asm: Kurisu.NGDT
+      genericParameters: []
+      serializedData: '{"nodeData":{"graphPosition":{"serializedVersion":"2","x":578.0,"y":265.0,"width":150.0,"height":276.0},"description":"","guid":"278de3d4-67ca-47c2-bc2e-cb430b79ffad","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"children":[{"rid":1000}],"referencePieces":[""],"references":{"version":2,"RefIds":[{"rid":1000,"type":{"class":"Piece","ns":"Kurisu.NGDT","asm":"Kurisu.NGDT"},"data":{"nodeData":{"graphPosition":{"serializedVersion":"2","x":790.0,"y":240.0,"width":400.0,"height":351.0},"description":"","guid":"4d6ffd6c-d36a-4cb0-9a62-43c5cfd4530f","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"children":[{"rid":1001},{"rid":1002}],"pieceID":{"isShared":true,"isGlobal":false,"isExposed":false,"mName":"Dialog1","value":""}}},{"rid":1001,"type":{"class":"LocalizedContentModule","ns":"Kurisu.NGDT.Localization","asm":"Kurisu.NGDT.Localization"},"data":{"nodeData":{"graphPosition":{"serializedVersion":"2","x":0.0,"y":108.0,"width":376.0,"height":100.0},"description":"","guid":"41d97edb-987b-49dc-a1e8-d737d0f3468d","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"tableEntry":{"isShared":false,"isGlobal":false,"isExposed":false,"mName":"","value":"Dialogue"},"stringEntry":{"isShared":false,"isGlobal":false,"isExposed":false,"mName":"","value":"Dialogue-Piece-0000"}}},{"rid":1002,"type":{"class":"Option","ns":"Kurisu.NGDT","asm":"Kurisu.NGDT"},"data":{"nodeData":{"graphPosition":{"serializedVersion":"2","x":1240.0,"y":226.0,"width":235.0,"height":378.0},"description":"","guid":"ac7d76f8-13fa-4341-b433-6ed1d77a9575","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"children":[{"rid":1003},{"rid":1004}]}},{"rid":1003,"type":{"class":"LocalizedContentModule","ns":"Kurisu.NGDT.Localization","asm":"Kurisu.NGDT.Localization"},"data":{"nodeData":{"graphPosition":{"serializedVersion":"2","x":0.0,"y":79.0,"width":211.0,"height":100.0},"description":"","guid":"6bee565f-85b6-4b60-828f-765949b0169f","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"tableEntry":{"isShared":false,"isGlobal":false,"isExposed":false,"mName":"","value":"Dialogue"},"stringEntry":{"isShared":false,"isGlobal":false,"isExposed":false,"mName":"","value":"Dialogue-Option-0000"}}},{"rid":1004,"type":{"class":"TargetIDModule","ns":"Kurisu.NGDT","asm":"Kurisu.NGDT"},"data":{"nodeData":{"graphPosition":{"serializedVersion":"2","x":0.0,"y":179.0,"width":211.0,"height":133.0},"description":"","guid":"7ffb01a3-a5ba-4889-afda-758a99aed870","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"useReference":false,"targetID":{"isShared":true,"isGlobal":false,"isExposed":false,"mName":"Dialog2","value":""}}}]}}'
+      executionPath: 0
+      portData: []
+      uobjectLinks: []
+    - graphPosition:
+        serializedVersion: 2
+        x: 790
+        y: 240
+        width: 400
+        height: 351
+      description: 
+      guid: 4d6ffd6c-d36a-4cb0-9a62-43c5cfd4530f
+      nodeType:
+        _class: Piece
+        _ns: Kurisu.NGDT
+        _asm: Kurisu.NGDT
+      genericParameters: []
+      serializedData: '{"nodeData":{"graphPosition":{"serializedVersion":"2","x":790.0,"y":240.0,"width":400.0,"height":351.0},"description":"","guid":"4d6ffd6c-d36a-4cb0-9a62-43c5cfd4530f","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"children":[{"rid":1000},{"rid":1001}],"pieceID":{"isShared":true,"isGlobal":false,"isExposed":false,"mName":"Dialog1","value":""},"references":{"version":2,"RefIds":[{"rid":1000,"type":{"class":"LocalizedContentModule","ns":"Kurisu.NGDT.Localization","asm":"Kurisu.NGDT.Localization"},"data":{"nodeData":{"graphPosition":{"serializedVersion":"2","x":0.0,"y":108.0,"width":376.0,"height":100.0},"description":"","guid":"41d97edb-987b-49dc-a1e8-d737d0f3468d","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"tableEntry":{"isShared":false,"isGlobal":false,"isExposed":false,"mName":"","value":"Dialogue"},"stringEntry":{"isShared":false,"isGlobal":false,"isExposed":false,"mName":"","value":"Dialogue-Piece-0000"}}},{"rid":1001,"type":{"class":"Option","ns":"Kurisu.NGDT","asm":"Kurisu.NGDT"},"data":{"nodeData":{"graphPosition":{"serializedVersion":"2","x":1240.0,"y":226.0,"width":235.0,"height":378.0},"description":"","guid":"ac7d76f8-13fa-4341-b433-6ed1d77a9575","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"children":[{"rid":1002},{"rid":1003}]}},{"rid":1002,"type":{"class":"LocalizedContentModule","ns":"Kurisu.NGDT.Localization","asm":"Kurisu.NGDT.Localization"},"data":{"nodeData":{"graphPosition":{"serializedVersion":"2","x":0.0,"y":79.0,"width":211.0,"height":100.0},"description":"","guid":"6bee565f-85b6-4b60-828f-765949b0169f","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"tableEntry":{"isShared":false,"isGlobal":false,"isExposed":false,"mName":"","value":"Dialogue"},"stringEntry":{"isShared":false,"isGlobal":false,"isExposed":false,"mName":"","value":"Dialogue-Option-0000"}}},{"rid":1003,"type":{"class":"TargetIDModule","ns":"Kurisu.NGDT","asm":"Kurisu.NGDT"},"data":{"nodeData":{"graphPosition":{"serializedVersion":"2","x":0.0,"y":179.0,"width":211.0,"height":133.0},"description":"","guid":"7ffb01a3-a5ba-4889-afda-758a99aed870","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"useReference":false,"targetID":{"isShared":true,"isGlobal":false,"isExposed":false,"mName":"Dialog2","value":""}}}]}}'
+      executionPath: 0
+      portData: []
+      uobjectLinks: []
+    - graphPosition:
+        serializedVersion: 2
+        x: 0
+        y: 108
+        width: 376
+        height: 100
+      description: 
+      guid: 41d97edb-987b-49dc-a1e8-d737d0f3468d
+      nodeType:
+        _class: LocalizedContentModule
+        _ns: Kurisu.NGDT.Localization
+        _asm: Kurisu.NGDT.Localization
+      genericParameters: []
+      serializedData: '{"nodeData":{"graphPosition":{"serializedVersion":"2","x":0.0,"y":108.0,"width":376.0,"height":100.0},"description":"","guid":"41d97edb-987b-49dc-a1e8-d737d0f3468d","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"tableEntry":{"isShared":false,"isGlobal":false,"isExposed":false,"mName":"","value":"Dialogue"},"stringEntry":{"isShared":false,"isGlobal":false,"isExposed":false,"mName":"","value":"Dialogue-Piece-0000"}}'
+      executionPath: 0
+      portData: []
+      uobjectLinks: []
+    - graphPosition:
+        serializedVersion: 2
+        x: 1240
+        y: 226
+        width: 235
+        height: 378
+      description: 
+      guid: ac7d76f8-13fa-4341-b433-6ed1d77a9575
+      nodeType:
+        _class: Option
+        _ns: Kurisu.NGDT
+        _asm: Kurisu.NGDT
+      genericParameters: []
+      serializedData: '{"nodeData":{"graphPosition":{"serializedVersion":"2","x":1240.0,"y":226.0,"width":235.0,"height":378.0},"description":"","guid":"ac7d76f8-13fa-4341-b433-6ed1d77a9575","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"children":[{"rid":1000},{"rid":1001}],"references":{"version":2,"RefIds":[{"rid":1000,"type":{"class":"LocalizedContentModule","ns":"Kurisu.NGDT.Localization","asm":"Kurisu.NGDT.Localization"},"data":{"nodeData":{"graphPosition":{"serializedVersion":"2","x":0.0,"y":79.0,"width":211.0,"height":100.0},"description":"","guid":"6bee565f-85b6-4b60-828f-765949b0169f","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"tableEntry":{"isShared":false,"isGlobal":false,"isExposed":false,"mName":"","value":"Dialogue"},"stringEntry":{"isShared":false,"isGlobal":false,"isExposed":false,"mName":"","value":"Dialogue-Option-0000"}}},{"rid":1001,"type":{"class":"TargetIDModule","ns":"Kurisu.NGDT","asm":"Kurisu.NGDT"},"data":{"nodeData":{"graphPosition":{"serializedVersion":"2","x":0.0,"y":179.0,"width":211.0,"height":133.0},"description":"","guid":"7ffb01a3-a5ba-4889-afda-758a99aed870","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"useReference":false,"targetID":{"isShared":true,"isGlobal":false,"isExposed":false,"mName":"Dialog2","value":""}}}]}}'
+      executionPath: 0
+      portData: []
+      uobjectLinks: []
+    - graphPosition:
+        serializedVersion: 2
+        x: 0
+        y: 79
+        width: 211
+        height: 100
+      description: 
+      guid: 6bee565f-85b6-4b60-828f-765949b0169f
+      nodeType:
+        _class: LocalizedContentModule
+        _ns: Kurisu.NGDT.Localization
+        _asm: Kurisu.NGDT.Localization
+      genericParameters: []
+      serializedData: '{"nodeData":{"graphPosition":{"serializedVersion":"2","x":0.0,"y":79.0,"width":211.0,"height":100.0},"description":"","guid":"6bee565f-85b6-4b60-828f-765949b0169f","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"tableEntry":{"isShared":false,"isGlobal":false,"isExposed":false,"mName":"","value":"Dialogue"},"stringEntry":{"isShared":false,"isGlobal":false,"isExposed":false,"mName":"","value":"Dialogue-Option-0000"}}'
+      executionPath: 0
+      portData: []
+      uobjectLinks: []
+    - graphPosition:
+        serializedVersion: 2
+        x: 0
+        y: 179
+        width: 211
+        height: 133
+      description: 
+      guid: 7ffb01a3-a5ba-4889-afda-758a99aed870
+      nodeType:
+        _class: TargetIDModule
+        _ns: Kurisu.NGDT
+        _asm: Kurisu.NGDT
+      genericParameters: []
+      serializedData: '{"nodeData":{"graphPosition":{"serializedVersion":"2","x":0.0,"y":179.0,"width":211.0,"height":133.0},"description":"","guid":"7ffb01a3-a5ba-4889-afda-758a99aed870","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"useReference":false,"targetID":{"isShared":true,"isGlobal":false,"isExposed":false,"mName":"Dialog2","value":""}}'
+      executionPath: 0
+      portData: []
+      uobjectLinks: []
+    - graphPosition:
+        serializedVersion: 2
+        x: 1975
+        y: 278
+        width: 400
+        height: 274
+      description: 
+      guid: 15575011-9fd7-40b3-bd2c-f12d26bfec87
+      nodeType:
+        _class: Piece
+        _ns: Kurisu.NGDT
+        _asm: Kurisu.NGDT
+      genericParameters: []
+      serializedData: '{"nodeData":{"graphPosition":{"serializedVersion":"2","x":1975.0,"y":278.0,"width":400.0,"height":274.0},"description":"","guid":"15575011-9fd7-40b3-bd2c-f12d26bfec87","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"children":[{"rid":1000}],"pieceID":{"isShared":true,"isGlobal":false,"isExposed":false,"mName":"Dialog3","value":""},"references":{"version":2,"RefIds":[{"rid":1000,"type":{"class":"LocalizedContentModule","ns":"Kurisu.NGDT.Localization","asm":"Kurisu.NGDT.Localization"},"data":{"nodeData":{"graphPosition":{"serializedVersion":"2","x":0.0,"y":108.0,"width":376.0,"height":100.0},"description":"","guid":"3fa034aa-9994-4bc8-88bf-a2ea4de4d363","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"tableEntry":{"isShared":false,"isGlobal":false,"isExposed":false,"mName":"","value":"Dialogue"},"stringEntry":{"isShared":false,"isGlobal":false,"isExposed":false,"mName":"","value":"Dialogue-Piece-0002"}}}]}}'
+      executionPath: 0
+      portData: []
+      uobjectLinks: []
+    - graphPosition:
+        serializedVersion: 2
+        x: 0
+        y: 108
+        width: 376
+        height: 100
+      description: 
+      guid: 3fa034aa-9994-4bc8-88bf-a2ea4de4d363
+      nodeType:
+        _class: LocalizedContentModule
+        _ns: Kurisu.NGDT.Localization
+        _asm: Kurisu.NGDT.Localization
+      genericParameters: []
+      serializedData: '{"nodeData":{"graphPosition":{"serializedVersion":"2","x":0.0,"y":108.0,"width":376.0,"height":100.0},"description":"","guid":"3fa034aa-9994-4bc8-88bf-a2ea4de4d363","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"tableEntry":{"isShared":false,"isGlobal":false,"isExposed":false,"mName":"","value":"Dialogue"},"stringEntry":{"isShared":false,"isGlobal":false,"isExposed":false,"mName":"","value":"Dialogue-Piece-0002"}}'
+      executionPath: 0
+      portData: []
+      uobjectLinks: []
+    - graphPosition:
+        serializedVersion: 2
+        x: 1525
+        y: 212
+        width: 400
+        height: 407
+      description: 
+      guid: 0063af5f-12ed-4c08-8fdc-57b36285658f
+      nodeType:
+        _class: Piece
+        _ns: Kurisu.NGDT
+        _asm: Kurisu.NGDT
+      genericParameters: []
+      serializedData: '{"nodeData":{"graphPosition":{"serializedVersion":"2","x":1525.0,"y":212.0,"width":400.0,"height":407.0},"description":"","guid":"0063af5f-12ed-4c08-8fdc-57b36285658f","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"children":[{"rid":1000},{"rid":1001}],"pieceID":{"isShared":true,"isGlobal":false,"isExposed":false,"mName":"Dialog2","value":""},"references":{"version":2,"RefIds":[{"rid":1000,"type":{"class":"LocalizedContentModule","ns":"Kurisu.NGDT.Localization","asm":"Kurisu.NGDT.Localization"},"data":{"nodeData":{"graphPosition":{"serializedVersion":"2","x":0.0,"y":108.0,"width":376.0,"height":100.0},"description":"","guid":"c1216012-412e-4c17-bb6b-d5e8413ba8b8","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"tableEntry":{"isShared":false,"isGlobal":false,"isExposed":false,"mName":"","value":"Dialogue"},"stringEntry":{"isShared":false,"isGlobal":false,"isExposed":false,"mName":"","value":"Dialogue-Piece-0001"}}},{"rid":1001,"type":{"class":"NextPieceModule","ns":"Kurisu.NGDT","asm":"Kurisu.NGDT"},"data":{"nodeData":{"graphPosition":{"serializedVersion":"2","x":0.0,"y":208.0,"width":376.0,"height":133.0},"description":"","guid":"bfcd250a-5415-4944-a035-2d42d3718ee9","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"useReference":false,"nextID":{"isShared":true,"isGlobal":false,"isExposed":false,"mName":"Dialog3","value":""}}}]}}'
+      executionPath: 0
+      portData: []
+      uobjectLinks: []
+    - graphPosition:
+        serializedVersion: 2
+        x: 0
+        y: 108
+        width: 376
+        height: 100
+      description: 
+      guid: c1216012-412e-4c17-bb6b-d5e8413ba8b8
+      nodeType:
+        _class: LocalizedContentModule
+        _ns: Kurisu.NGDT.Localization
+        _asm: Kurisu.NGDT.Localization
+      genericParameters: []
+      serializedData: '{"nodeData":{"graphPosition":{"serializedVersion":"2","x":0.0,"y":108.0,"width":376.0,"height":100.0},"description":"","guid":"c1216012-412e-4c17-bb6b-d5e8413ba8b8","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"tableEntry":{"isShared":false,"isGlobal":false,"isExposed":false,"mName":"","value":"Dialogue"},"stringEntry":{"isShared":false,"isGlobal":false,"isExposed":false,"mName":"","value":"Dialogue-Piece-0001"}}'
+      executionPath: 0
+      portData: []
+      uobjectLinks: []
+    - graphPosition:
+        serializedVersion: 2
+        x: 0
+        y: 208
+        width: 376
+        height: 133
+      description: 
+      guid: bfcd250a-5415-4944-a035-2d42d3718ee9
+      nodeType:
+        _class: NextPieceModule
+        _ns: Kurisu.NGDT
+        _asm: Kurisu.NGDT
+      genericParameters: []
+      serializedData: '{"nodeData":{"graphPosition":{"serializedVersion":"2","x":0.0,"y":208.0,"width":376.0,"height":133.0},"description":"","guid":"bfcd250a-5415-4944-a035-2d42d3718ee9","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"useReference":false,"nextID":{"isShared":true,"isGlobal":false,"isExposed":false,"mName":"Dialog3","value":""}}'
+      executionPath: 0
+      portData: []
+      uobjectLinks: []
+    - graphPosition:
+        serializedVersion: 2
+        x: 790
+        y: 240
+        width: 400
+        height: 351
+      description: 
+      guid: 4d6ffd6c-d36a-4cb0-9a62-43c5cfd4530f
+      nodeType:
+        _class: Piece
+        _ns: Kurisu.NGDT
+        _asm: Kurisu.NGDT
+      genericParameters: []
+      serializedData: '{"nodeData":{"graphPosition":{"serializedVersion":"2","x":790.0,"y":240.0,"width":400.0,"height":351.0},"description":"","guid":"4d6ffd6c-d36a-4cb0-9a62-43c5cfd4530f","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"children":[{"rid":1000},{"rid":1001}],"pieceID":{"isShared":true,"isGlobal":false,"isExposed":false,"mName":"Dialog1","value":""},"references":{"version":2,"RefIds":[{"rid":1000,"type":{"class":"LocalizedContentModule","ns":"Kurisu.NGDT.Localization","asm":"Kurisu.NGDT.Localization"},"data":{"nodeData":{"graphPosition":{"serializedVersion":"2","x":0.0,"y":108.0,"width":376.0,"height":100.0},"description":"","guid":"41d97edb-987b-49dc-a1e8-d737d0f3468d","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"tableEntry":{"isShared":false,"isGlobal":false,"isExposed":false,"mName":"","value":"Dialogue"},"stringEntry":{"isShared":false,"isGlobal":false,"isExposed":false,"mName":"","value":"Dialogue-Piece-0000"}}},{"rid":1001,"type":{"class":"Option","ns":"Kurisu.NGDT","asm":"Kurisu.NGDT"},"data":{"nodeData":{"graphPosition":{"serializedVersion":"2","x":1240.0,"y":226.0,"width":235.0,"height":378.0},"description":"","guid":"ac7d76f8-13fa-4341-b433-6ed1d77a9575","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"children":[{"rid":1002},{"rid":1003}]}},{"rid":1002,"type":{"class":"LocalizedContentModule","ns":"Kurisu.NGDT.Localization","asm":"Kurisu.NGDT.Localization"},"data":{"nodeData":{"graphPosition":{"serializedVersion":"2","x":0.0,"y":79.0,"width":211.0,"height":100.0},"description":"","guid":"6bee565f-85b6-4b60-828f-765949b0169f","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"tableEntry":{"isShared":false,"isGlobal":false,"isExposed":false,"mName":"","value":"Dialogue"},"stringEntry":{"isShared":false,"isGlobal":false,"isExposed":false,"mName":"","value":"Dialogue-Option-0000"}}},{"rid":1003,"type":{"class":"TargetIDModule","ns":"Kurisu.NGDT","asm":"Kurisu.NGDT"},"data":{"nodeData":{"graphPosition":{"serializedVersion":"2","x":0.0,"y":179.0,"width":211.0,"height":133.0},"description":"","guid":"7ffb01a3-a5ba-4889-afda-758a99aed870","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"useReference":false,"targetID":{"isShared":true,"isGlobal":false,"isExposed":false,"mName":"Dialog2","value":""}}}]}}'
+      executionPath: 0
+      portData: []
+      uobjectLinks: []
+    - graphPosition:
+        serializedVersion: 2
+        x: 0
+        y: 108
+        width: 376
+        height: 100
+      description: 
+      guid: 41d97edb-987b-49dc-a1e8-d737d0f3468d
+      nodeType:
+        _class: LocalizedContentModule
+        _ns: Kurisu.NGDT.Localization
+        _asm: Kurisu.NGDT.Localization
+      genericParameters: []
+      serializedData: '{"nodeData":{"graphPosition":{"serializedVersion":"2","x":0.0,"y":108.0,"width":376.0,"height":100.0},"description":"","guid":"41d97edb-987b-49dc-a1e8-d737d0f3468d","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"tableEntry":{"isShared":false,"isGlobal":false,"isExposed":false,"mName":"","value":"Dialogue"},"stringEntry":{"isShared":false,"isGlobal":false,"isExposed":false,"mName":"","value":"Dialogue-Piece-0000"}}'
+      executionPath: 0
+      portData: []
+      uobjectLinks: []
+    - graphPosition:
+        serializedVersion: 2
+        x: 1240
+        y: 226
+        width: 235
+        height: 378
+      description: 
+      guid: ac7d76f8-13fa-4341-b433-6ed1d77a9575
+      nodeType:
+        _class: Option
+        _ns: Kurisu.NGDT
+        _asm: Kurisu.NGDT
+      genericParameters: []
+      serializedData: '{"nodeData":{"graphPosition":{"serializedVersion":"2","x":1240.0,"y":226.0,"width":235.0,"height":378.0},"description":"","guid":"ac7d76f8-13fa-4341-b433-6ed1d77a9575","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"children":[{"rid":1000},{"rid":1001}],"references":{"version":2,"RefIds":[{"rid":1000,"type":{"class":"LocalizedContentModule","ns":"Kurisu.NGDT.Localization","asm":"Kurisu.NGDT.Localization"},"data":{"nodeData":{"graphPosition":{"serializedVersion":"2","x":0.0,"y":79.0,"width":211.0,"height":100.0},"description":"","guid":"6bee565f-85b6-4b60-828f-765949b0169f","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"tableEntry":{"isShared":false,"isGlobal":false,"isExposed":false,"mName":"","value":"Dialogue"},"stringEntry":{"isShared":false,"isGlobal":false,"isExposed":false,"mName":"","value":"Dialogue-Option-0000"}}},{"rid":1001,"type":{"class":"TargetIDModule","ns":"Kurisu.NGDT","asm":"Kurisu.NGDT"},"data":{"nodeData":{"graphPosition":{"serializedVersion":"2","x":0.0,"y":179.0,"width":211.0,"height":133.0},"description":"","guid":"7ffb01a3-a5ba-4889-afda-758a99aed870","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"useReference":false,"targetID":{"isShared":true,"isGlobal":false,"isExposed":false,"mName":"Dialog2","value":""}}}]}}'
+      executionPath: 0
+      portData: []
+      uobjectLinks: []
+    - graphPosition:
+        serializedVersion: 2
+        x: 0
+        y: 79
+        width: 211
+        height: 100
+      description: 
+      guid: 6bee565f-85b6-4b60-828f-765949b0169f
+      nodeType:
+        _class: LocalizedContentModule
+        _ns: Kurisu.NGDT.Localization
+        _asm: Kurisu.NGDT.Localization
+      genericParameters: []
+      serializedData: '{"nodeData":{"graphPosition":{"serializedVersion":"2","x":0.0,"y":79.0,"width":211.0,"height":100.0},"description":"","guid":"6bee565f-85b6-4b60-828f-765949b0169f","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"tableEntry":{"isShared":false,"isGlobal":false,"isExposed":false,"mName":"","value":"Dialogue"},"stringEntry":{"isShared":false,"isGlobal":false,"isExposed":false,"mName":"","value":"Dialogue-Option-0000"}}'
+      executionPath: 0
+      portData: []
+      uobjectLinks: []
+    - graphPosition:
+        serializedVersion: 2
+        x: 0
+        y: 179
+        width: 211
+        height: 133
+      description: 
+      guid: 7ffb01a3-a5ba-4889-afda-758a99aed870
+      nodeType:
+        _class: TargetIDModule
+        _ns: Kurisu.NGDT
+        _asm: Kurisu.NGDT
+      genericParameters: []
+      serializedData: '{"nodeData":{"graphPosition":{"serializedVersion":"2","x":0.0,"y":179.0,"width":211.0,"height":133.0},"description":"","guid":"7ffb01a3-a5ba-4889-afda-758a99aed870","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"useReference":false,"targetID":{"isShared":true,"isGlobal":false,"isExposed":false,"mName":"Dialog2","value":""}}'
+      executionPath: 0
+      portData: []
+      uobjectLinks: []
+    nodeGroups: []
+    edges:
+    - children: 02000000080000000a00000003000000
+    - children: 
+    - children: 03000000
+    - children: 0400000005000000
+    - children: 
+    - children: 0600000007000000
+    - children: 
+    - children: 
+    - children: 09000000
+    - children: 
+    - children: 0b0000000c000000
+    - children: 
+    - children: 
+    - children: 
+    - children: 
+    - children: 
+    - children: 
+    - children: 
+  flowGraphData:
+    variables: []
+    nodes: []
+    variableData: []
+    nodeData: []
+    nodeGroups: []
+    nodeDependencyPath: []
+  externalAsset: {fileID: 0}
   root:
     rid: 8821145986260009022
   sharedVariables:
   - rid: 8821145986260009023
   - rid: 8821145986260009024
   - rid: 8821145986260009025
-  externalDialogueTree: {fileID: 0}
-  blockData: []
   references:
     version: 2
     RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
+    - rid: 1770628309375778835
+      type: {class: PieceID, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
+      data:
+        isShared: 1
+        isGlobal: 0
+        isExposed: 0
+        mName: Dialog1
+        value: 
+    - rid: 1770628309375778836
+      type: {class: PieceID, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
+      data:
+        isShared: 1
+        isGlobal: 0
+        isExposed: 0
+        mName: Dialog2
+        value: 
+    - rid: 1770628309375778837
+      type: {class: PieceID, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
+      data:
+        isShared: 1
+        isGlobal: 0
+        isExposed: 0
+        mName: Dialog3
+        value: 
+    - rid: 1770628309375778838
+      type: {class: Root, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
+      data:
+        nodeData:
+          graphPosition:
+            serializedVersion: 2
+            x: 400
+            y: 300
+            width: 115
+            height: 77
+          description: 
+          guid: aeb937a8-9ca8-4b81-934c-a59807246ec1
+          nodeType:
+            _class: 
+            _ns: 
+            _asm: 
+          genericParameters: []
+          serializedData: 
+          executionPath: 0
+          portData: []
+          uobjectLinks: []
+        child:
+          rid: -2
+        children: []
+    - rid: 1770628309375778839
+      type: {class: Dialogue, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
+      data:
+        nodeData:
+          graphPosition:
+            serializedVersion: 2
+            x: 578
+            y: 265
+            width: 150
+            height: 276
+          description: 
+          guid: 278de3d4-67ca-47c2-bc2e-cb430b79ffad
+          nodeType:
+            _class: 
+            _ns: 
+            _asm: 
+          genericParameters: []
+          serializedData: 
+          executionPath: 0
+          portData: []
+          uobjectLinks: []
+        children: []
+        referencePieces:
+        - 
+    - rid: 1770628309375778840
+      type: {class: Piece, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
+      data:
+        nodeData:
+          graphPosition:
+            serializedVersion: 2
+            x: 790
+            y: 240
+            width: 400
+            height: 351
+          description: 
+          guid: 4d6ffd6c-d36a-4cb0-9a62-43c5cfd4530f
+          nodeType:
+            _class: 
+            _ns: 
+            _asm: 
+          genericParameters: []
+          serializedData: 
+          executionPath: 0
+          portData: []
+          uobjectLinks: []
+        children: []
+        pieceID:
+          isShared: 1
+          isGlobal: 0
+          isExposed: 0
+          mName: Dialog1
+          value: 
+    - rid: 1770628309375778841
+      type: {class: LocalizedContentModule, ns: Kurisu.NGDT.Localization, asm: Kurisu.NGDT.Localization}
+      data:
+        nodeData:
+          graphPosition:
+            serializedVersion: 2
+            x: 0
+            y: 108
+            width: 376
+            height: 100
+          description: 
+          guid: 41d97edb-987b-49dc-a1e8-d737d0f3468d
+          nodeType:
+            _class: 
+            _ns: 
+            _asm: 
+          genericParameters: []
+          serializedData: 
+          executionPath: 0
+          portData: []
+          uobjectLinks: []
+        tableEntry:
+          isShared: 0
+          isGlobal: 0
+          isExposed: 0
+          mName: 
+          value: Dialogue
+        stringEntry:
+          isShared: 0
+          isGlobal: 0
+          isExposed: 0
+          mName: 
+          value: Dialogue-Piece-0000
+    - rid: 1770628309375778842
+      type: {class: Option, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
+      data:
+        nodeData:
+          graphPosition:
+            serializedVersion: 2
+            x: 1240
+            y: 226
+            width: 235
+            height: 378
+          description: 
+          guid: ac7d76f8-13fa-4341-b433-6ed1d77a9575
+          nodeType:
+            _class: 
+            _ns: 
+            _asm: 
+          genericParameters: []
+          serializedData: 
+          executionPath: 0
+          portData: []
+          uobjectLinks: []
+        children: []
+    - rid: 1770628309375778843
+      type: {class: LocalizedContentModule, ns: Kurisu.NGDT.Localization, asm: Kurisu.NGDT.Localization}
+      data:
+        nodeData:
+          graphPosition:
+            serializedVersion: 2
+            x: 0
+            y: 79
+            width: 211
+            height: 100
+          description: 
+          guid: 6bee565f-85b6-4b60-828f-765949b0169f
+          nodeType:
+            _class: 
+            _ns: 
+            _asm: 
+          genericParameters: []
+          serializedData: 
+          executionPath: 0
+          portData: []
+          uobjectLinks: []
+        tableEntry:
+          isShared: 0
+          isGlobal: 0
+          isExposed: 0
+          mName: 
+          value: Dialogue
+        stringEntry:
+          isShared: 0
+          isGlobal: 0
+          isExposed: 0
+          mName: 
+          value: Dialogue-Option-0000
+    - rid: 1770628309375778844
+      type: {class: TargetIDModule, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
+      data:
+        nodeData:
+          graphPosition:
+            serializedVersion: 2
+            x: 0
+            y: 179
+            width: 211
+            height: 133
+          description: 
+          guid: 7ffb01a3-a5ba-4889-afda-758a99aed870
+          nodeType:
+            _class: 
+            _ns: 
+            _asm: 
+          genericParameters: []
+          serializedData: 
+          executionPath: 0
+          portData: []
+          uobjectLinks: []
+        useReference: 0
+        targetID:
+          isShared: 1
+          isGlobal: 0
+          isExposed: 0
+          mName: Dialog2
+          value: 
+    - rid: 1770628309375778845
+      type: {class: Piece, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
+      data:
+        nodeData:
+          graphPosition:
+            serializedVersion: 2
+            x: 1975
+            y: 278
+            width: 400
+            height: 274
+          description: 
+          guid: 15575011-9fd7-40b3-bd2c-f12d26bfec87
+          nodeType:
+            _class: 
+            _ns: 
+            _asm: 
+          genericParameters: []
+          serializedData: 
+          executionPath: 0
+          portData: []
+          uobjectLinks: []
+        children: []
+        pieceID:
+          isShared: 1
+          isGlobal: 0
+          isExposed: 0
+          mName: Dialog3
+          value: 
+    - rid: 1770628309375778846
+      type: {class: LocalizedContentModule, ns: Kurisu.NGDT.Localization, asm: Kurisu.NGDT.Localization}
+      data:
+        nodeData:
+          graphPosition:
+            serializedVersion: 2
+            x: 0
+            y: 108
+            width: 376
+            height: 100
+          description: 
+          guid: 3fa034aa-9994-4bc8-88bf-a2ea4de4d363
+          nodeType:
+            _class: 
+            _ns: 
+            _asm: 
+          genericParameters: []
+          serializedData: 
+          executionPath: 0
+          portData: []
+          uobjectLinks: []
+        tableEntry:
+          isShared: 0
+          isGlobal: 0
+          isExposed: 0
+          mName: 
+          value: Dialogue
+        stringEntry:
+          isShared: 0
+          isGlobal: 0
+          isExposed: 0
+          mName: 
+          value: Dialogue-Piece-0002
+    - rid: 1770628309375778847
+      type: {class: Piece, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
+      data:
+        nodeData:
+          graphPosition:
+            serializedVersion: 2
+            x: 1525
+            y: 212
+            width: 400
+            height: 407
+          description: 
+          guid: 0063af5f-12ed-4c08-8fdc-57b36285658f
+          nodeType:
+            _class: 
+            _ns: 
+            _asm: 
+          genericParameters: []
+          serializedData: 
+          executionPath: 0
+          portData: []
+          uobjectLinks: []
+        children: []
+        pieceID:
+          isShared: 1
+          isGlobal: 0
+          isExposed: 0
+          mName: Dialog2
+          value: 
+    - rid: 1770628309375778848
+      type: {class: LocalizedContentModule, ns: Kurisu.NGDT.Localization, asm: Kurisu.NGDT.Localization}
+      data:
+        nodeData:
+          graphPosition:
+            serializedVersion: 2
+            x: 0
+            y: 108
+            width: 376
+            height: 100
+          description: 
+          guid: c1216012-412e-4c17-bb6b-d5e8413ba8b8
+          nodeType:
+            _class: 
+            _ns: 
+            _asm: 
+          genericParameters: []
+          serializedData: 
+          executionPath: 0
+          portData: []
+          uobjectLinks: []
+        tableEntry:
+          isShared: 0
+          isGlobal: 0
+          isExposed: 0
+          mName: 
+          value: Dialogue
+        stringEntry:
+          isShared: 0
+          isGlobal: 0
+          isExposed: 0
+          mName: 
+          value: Dialogue-Piece-0001
+    - rid: 1770628309375778849
+      type: {class: NextPieceModule, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
+      data:
+        nodeData:
+          graphPosition:
+            serializedVersion: 2
+            x: 0
+            y: 208
+            width: 376
+            height: 133
+          description: 
+          guid: bfcd250a-5415-4944-a035-2d42d3718ee9
+          nodeType:
+            _class: 
+            _ns: 
+            _asm: 
+          genericParameters: []
+          serializedData: 
+          executionPath: 0
+          portData: []
+          uobjectLinks: []
+        useReference: 0
+        nextID:
+          isShared: 1
+          isGlobal: 0
+          isExposed: 0
+          mName: Dialog3
+          value: 
     - rid: 8821145986260009022
       type: {class: Root, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
       data:
-        graphPosition:
-          serializedVersion: 2
-          x: 400
-          y: 300
-          width: 115
-          height: 77
-        description: 
-        guid: 17b30093-3fb4-4a02-8b26-64c8cb6854ea
+        nodeData:
+          graphPosition:
+            serializedVersion: 2
+            x: 400
+            y: 300
+            width: 100
+            height: 100
+          description: 
+          guid: 
+          nodeType:
+            _class: 
+            _ns: 
+            _asm: 
+          genericParameters: []
+          serializedData: 
+          executionPath: 0
+          portData: []
+          uobjectLinks: []
         child:
           rid: 8821145986260009026
         children:
@@ -400,6 +1166,7 @@ MonoBehaviour:
       data:
         isShared: 1
         isGlobal: 0
+        isExposed: 0
         mName: Dialog1
         value: 
     - rid: 8821145986260009024
@@ -407,6 +1174,7 @@ MonoBehaviour:
       data:
         isShared: 1
         isGlobal: 0
+        isExposed: 0
         mName: Dialog2
         value: 
     - rid: 8821145986260009025
@@ -414,19 +1182,30 @@ MonoBehaviour:
       data:
         isShared: 1
         isGlobal: 0
+        isExposed: 0
         mName: Dialog3
         value: 
     - rid: 8821145986260009026
       type: {class: Dialogue, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
       data:
-        graphPosition:
-          serializedVersion: 2
-          x: 539
-          y: 238
-          width: 150
-          height: 278
-        description: 
-        guid: 1253cb15-ce0c-46a4-9c98-fc14b3265295
+        nodeData:
+          graphPosition:
+            serializedVersion: 2
+            x: 400
+            y: 300
+            width: 100
+            height: 100
+          description: 
+          guid: 
+          nodeType:
+            _class: 
+            _ns: 
+            _asm: 
+          genericParameters: []
+          serializedData: 
+          executionPath: 0
+          portData: []
+          uobjectLinks: []
         children:
         - rid: 8821145986260009029
         referencePieces:
@@ -434,189 +1213,302 @@ MonoBehaviour:
     - rid: 8821145986260009027
       type: {class: Piece, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
       data:
-        graphPosition:
-          serializedVersion: 2
-          x: 2317
-          y: 786
-          width: 284
-          height: 350
-        description: 
-        guid: 4a4555a7-4fbb-4722-863d-8f8b9eca9f5b
+        nodeData:
+          graphPosition:
+            serializedVersion: 2
+            x: 400
+            y: 300
+            width: 100
+            height: 100
+          description: 
+          guid: 
+          nodeType:
+            _class: 
+            _ns: 
+            _asm: 
+          genericParameters: []
+          serializedData: 
+          executionPath: 0
+          portData: []
+          uobjectLinks: []
         children:
         - rid: 8821145986260009030
         pieceID:
           isShared: 1
           isGlobal: 0
+          isExposed: 0
           mName: Dialog3
           value: 
     - rid: 8821145986260009028
       type: {class: Piece, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
       data:
-        graphPosition:
-          serializedVersion: 2
-          x: 1839
-          y: 516
-          width: 286
-          height: 483
-        description: 
-        guid: 4361244c-a6bc-4383-9d28-f70f4006a0ac
+        nodeData:
+          graphPosition:
+            serializedVersion: 2
+            x: 400
+            y: 300
+            width: 100
+            height: 100
+          description: 
+          guid: 
+          nodeType:
+            _class: 
+            _ns: 
+            _asm: 
+          genericParameters: []
+          serializedData: 
+          executionPath: 0
+          portData: []
+          uobjectLinks: []
         children:
         - rid: 8821145986260009031
         - rid: 8821145986260009032
         pieceID:
           isShared: 1
           isGlobal: 0
+          isExposed: 0
           mName: Dialog2
           value: 
     - rid: 8821145986260009029
       type: {class: Piece, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
       data:
-        graphPosition:
-          serializedVersion: 2
-          x: 832
-          y: 80
-          width: 284
-          height: 427
-        description: 
-        guid: 87ad95d9-81fc-4d39-a073-b318ec0c0ae9
+        nodeData:
+          graphPosition:
+            serializedVersion: 2
+            x: 400
+            y: 300
+            width: 100
+            height: 100
+          description: 
+          guid: 
+          nodeType:
+            _class: 
+            _ns: 
+            _asm: 
+          genericParameters: []
+          serializedData: 
+          executionPath: 0
+          portData: []
+          uobjectLinks: []
         children:
         - rid: 8821145986260009033
         - rid: 8821145986260009034
         pieceID:
           isShared: 1
           isGlobal: 0
+          isExposed: 0
           mName: Dialog1
           value: 
     - rid: 8821145986260009030
       type: {class: LocalizedContentModule, ns: Kurisu.NGDT.Localization, asm: Kurisu.NGDT.Localization}
       data:
-        graphPosition:
-          serializedVersion: 2
-          x: 0
-          y: 108
-          width: 260
-          height: 176
-        description: 
-        guid: a6ca2885-95e0-4a99-b0b9-0457743ac7e1
+        nodeData:
+          graphPosition:
+            serializedVersion: 2
+            x: 400
+            y: 300
+            width: 100
+            height: 100
+          description: 
+          guid: 
+          nodeType:
+            _class: 
+            _ns: 
+            _asm: 
+          genericParameters: []
+          serializedData: 
+          executionPath: 0
+          portData: []
+          uobjectLinks: []
         tableEntry:
           isShared: 0
           isGlobal: 0
+          isExposed: 0
           mName: 
           value: Dialogue
         stringEntry:
           isShared: 0
           isGlobal: 0
+          isExposed: 0
           mName: 
           value: Dialogue-Piece-0002
     - rid: 8821145986260009031
       type: {class: LocalizedContentModule, ns: Kurisu.NGDT.Localization, asm: Kurisu.NGDT.Localization}
       data:
-        graphPosition:
-          serializedVersion: 2
-          x: 0
-          y: 108
-          width: 262
-          height: 176
-        description: 
-        guid: 46601c49-38d1-4e46-be4b-c0a20fe8635f
+        nodeData:
+          graphPosition:
+            serializedVersion: 2
+            x: 400
+            y: 300
+            width: 100
+            height: 100
+          description: 
+          guid: 
+          nodeType:
+            _class: 
+            _ns: 
+            _asm: 
+          genericParameters: []
+          serializedData: 
+          executionPath: 0
+          portData: []
+          uobjectLinks: []
         tableEntry:
           isShared: 0
           isGlobal: 0
+          isExposed: 0
           mName: 
           value: Dialogue
         stringEntry:
           isShared: 0
           isGlobal: 0
+          isExposed: 0
           mName: 
           value: Dialogue-Piece-0001
     - rid: 8821145986260009032
       type: {class: NextPieceModule, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
       data:
-        graphPosition:
-          serializedVersion: 2
-          x: 0
-          y: 284
-          width: 262
-          height: 133
-        description: 
-        guid: 821b4369-7eeb-46ca-863e-a606d8d72f41
+        nodeData:
+          graphPosition:
+            serializedVersion: 2
+            x: 400
+            y: 300
+            width: 100
+            height: 100
+          description: 
+          guid: 
+          nodeType:
+            _class: 
+            _ns: 
+            _asm: 
+          genericParameters: []
+          serializedData: 
+          executionPath: 0
+          portData: []
+          uobjectLinks: []
         useReference: 0
         nextID:
           isShared: 1
           isGlobal: 0
+          isExposed: 0
           mName: Dialog3
           value: 
     - rid: 8821145986260009033
       type: {class: LocalizedContentModule, ns: Kurisu.NGDT.Localization, asm: Kurisu.NGDT.Localization}
       data:
-        graphPosition:
-          serializedVersion: 2
-          x: 0
-          y: 108
-          width: 260
-          height: 176
-        description: 
-        guid: 6f0438c3-ab6a-4975-9b71-3b22ae7e0416
+        nodeData:
+          graphPosition:
+            serializedVersion: 2
+            x: 400
+            y: 300
+            width: 100
+            height: 100
+          description: 
+          guid: 
+          nodeType:
+            _class: 
+            _ns: 
+            _asm: 
+          genericParameters: []
+          serializedData: 
+          executionPath: 0
+          portData: []
+          uobjectLinks: []
         tableEntry:
           isShared: 0
           isGlobal: 0
+          isExposed: 0
           mName: 
           value: Dialogue
         stringEntry:
           isShared: 0
           isGlobal: 0
+          isExposed: 0
           mName: 
           value: Dialogue-Piece-0000
     - rid: 8821145986260009034
       type: {class: Option, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
       data:
-        graphPosition:
-          serializedVersion: 2
-          x: 1277
-          y: 409
-          width: 284
-          height: 454
-        description: 
-        guid: bc03ffd9-1c42-44e9-90fa-9c205f42ab7a
+        nodeData:
+          graphPosition:
+            serializedVersion: 2
+            x: 400
+            y: 300
+            width: 100
+            height: 100
+          description: 
+          guid: 
+          nodeType:
+            _class: 
+            _ns: 
+            _asm: 
+          genericParameters: []
+          serializedData: 
+          executionPath: 0
+          portData: []
+          uobjectLinks: []
         children:
         - rid: 8821145986260009035
         - rid: 8821145986260009036
     - rid: 8821145986260009035
       type: {class: LocalizedContentModule, ns: Kurisu.NGDT.Localization, asm: Kurisu.NGDT.Localization}
       data:
-        graphPosition:
-          serializedVersion: 2
-          x: 0
-          y: 79
-          width: 260
-          height: 176
-        description: 
-        guid: 2309ed47-d2e3-471f-a98f-73b667e4fb7f
+        nodeData:
+          graphPosition:
+            serializedVersion: 2
+            x: 400
+            y: 300
+            width: 100
+            height: 100
+          description: 
+          guid: 
+          nodeType:
+            _class: 
+            _ns: 
+            _asm: 
+          genericParameters: []
+          serializedData: 
+          executionPath: 0
+          portData: []
+          uobjectLinks: []
         tableEntry:
           isShared: 0
           isGlobal: 0
+          isExposed: 0
           mName: 
           value: Dialogue
         stringEntry:
           isShared: 0
           isGlobal: 0
+          isExposed: 0
           mName: 
           value: Dialogue-Option-0000
     - rid: 8821145986260009036
       type: {class: TargetIDModule, ns: Kurisu.NGDT, asm: Kurisu.NGDT}
       data:
-        graphPosition:
-          serializedVersion: 2
-          x: 0
-          y: 255
-          width: 260
-          height: 133
-        description: 
-        guid: 0cf3f8d3-2e36-4826-abb6-5dd1cc9cfe29
+        nodeData:
+          graphPosition:
+            serializedVersion: 2
+            x: 400
+            y: 300
+            width: 100
+            height: 100
+          description: 
+          guid: 
+          nodeType:
+            _class: 
+            _ns: 
+            _asm: 
+          genericParameters: []
+          serializedData: 
+          executionPath: 0
+          portData: []
+          uobjectLinks: []
         useReference: 0
         targetID:
           isShared: 1
           isGlobal: 0
+          isExposed: 0
           mName: Dialog2
           value: 
 --- !u!4 &1331404404
@@ -626,13 +1518,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1331404402}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.37676835, y: 1.5045398, z: 0.600879}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1481434909
 GameObject:
@@ -659,13 +1551,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1481434909}
+  serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: -3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1190634932}
-  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1481434911
 MonoBehaviour:
@@ -726,13 +1618,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1593538470}
+  serializedVersion: 2
   m_LocalRotation: {x: 0.40821788, y: -0.23456968, z: 0.10938163, w: 0.8754261}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1190634932}
-  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
 --- !u!108 &1593538473
 Light:
@@ -796,3 +1688,10 @@ Light:
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
   m_ShadowAngle: 0
+--- !u!1660057539 &9223372036854775807
+SceneRoots:
+  m_ObjectHideFlags: 0
+  m_Roots:
+  - {fileID: 1331404404}
+  - {fileID: 165804552}
+  - {fileID: 1190634932}

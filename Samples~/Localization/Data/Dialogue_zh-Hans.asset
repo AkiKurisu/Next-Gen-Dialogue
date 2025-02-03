@@ -19,11 +19,11 @@ MonoBehaviour:
     m_Items: []
   m_TableData:
   - m_Id: 1015413473280
-    m_Localized: "\u8FD9\u662F\u4F7F\u7528 DialogueTree \u521B\u5EFA\u5BF9\u8BDD\u7684\u793A\u4F8B"
+    m_Localized: "\u8FD9\u662F\u4F7F\u7528 DialogueGraph \u521B\u5EFA\u5BF9\u8BDD\u7684\u793A\u4F8B"
     m_Metadata:
       m_Items: []
   - m_Id: 13931097358336
-    m_Localized: "\u4F60\u53EF\u4EE5\u70B9\u51FB\u201CEdit DialogueTree\u201D\u770B\u770B\u6548\u679C\u5982\u4F55"
+    m_Localized: "\u4F60\u53EF\u4EE5\u70B9\u51FB\u201COpen Dialogue Graph\u201D\u770B\u770B\u6548\u679C\u5982\u4F55"
     m_Metadata:
       m_Items: []
   - m_Id: 14208617676800

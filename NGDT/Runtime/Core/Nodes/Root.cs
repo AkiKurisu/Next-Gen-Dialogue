@@ -76,7 +76,7 @@ namespace Kurisu.NGDT
             foreach (var node in children)
             {
                 // Skip inactive dialogue
-                if (node is Container container and not Dialogue)
+                if (node is ContainerNode container and not Dialogue)
                 {
                     container.Abort();
                 }

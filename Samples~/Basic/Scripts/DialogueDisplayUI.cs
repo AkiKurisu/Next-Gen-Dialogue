@@ -3,81 +3,96 @@ using UnityEngine.UI;
 using System.Collections.Generic;
 using System.Text;
 using System.Collections;
+using Cysharp.Threading.Tasks;
 namespace Kurisu.NGDS.Example
 {
     public class DialogueDisplayUI : MonoBehaviour
     {
         [SerializeField]
         private Text mainText;
+        
         [SerializeField]
         private Transform optionPanel;
+        
         private readonly List<OptionUI> optionSlots = new();
+        
         [SerializeField]
         private OptionUI optionPrefab;
-        private IDialogueSystem dialogueSystem;
+        
+        private DialogueSystem dialogueSystem;
+        
         [SerializeField]
         private float delayForWord = 0.05f;
+        
+        private readonly StringBuilder _stringBuilder = new();
+        
         private void Start()
         {
-            dialogueSystem = IOCContainer.Resolve<IDialogueSystem>();
+            dialogueSystem = DialogueSystem.Get();
             dialogueSystem.OnDialogueOver += DialogueOverHandler;
             dialogueSystem.OnPiecePlay += PlayDialoguePiece;
             dialogueSystem.OnOptionCreate += CreateOption;
         }
+        
         private void DialogueOverHandler()
         {
             StopCoroutine(nameof(WaitOver));
             StartCoroutine(nameof(WaitOver));
         }
+        
         private IEnumerator WaitOver()
         {
             yield return new WaitForSeconds(1f);
             CleanUp();
         }
+        
         private void OnDestroy()
         {
             dialogueSystem.OnDialogueOver -= DialogueOverHandler;
             dialogueSystem.OnPiecePlay -= PlayDialoguePiece;
             dialogueSystem.OnOptionCreate -= CreateOption;
         }
+        
         private void PlayDialoguePiece(IPieceResolver resolver)
         {
             StopCoroutine(nameof(WaitOver));
             CleanUp();
-            StartCoroutine(PlayText(resolver.DialoguePiece.Contents, () => StartCoroutine(resolver.ExitPiece())));
+            PlayText(resolver.DialoguePiece.Contents, () => resolver.ExitPiece().Forget()).Forget();
         }
-        private readonly StringBuilder stringBuilder = new();
-        private IEnumerator PlayText(string[] contents, System.Action callBack)
+        
+        private async UniTask PlayText(string[] contents, System.Action callBack)
         {
-            WaitForSeconds seconds = new(delayForWord);
             foreach (var text in contents)
             {
                 int count = text.Length;
                 mainText.text = string.Empty;
-                stringBuilder.Clear();
+                _stringBuilder.Clear();
                 for (int i = 0; i < count; i++)
                 {
-                    stringBuilder.Append(text[i]);
-                    mainText.text = stringBuilder.ToString();
-                    yield return seconds;
+                    _stringBuilder.Append(text[i]);
+                    mainText.text = _stringBuilder.ToString();
+                    await UniTask.WaitForSeconds(delayForWord);
                 }
             }
             callBack?.Invoke();
         }
+        
         private void CreateOption(IOptionResolver resolver)
         {
             foreach (var option in resolver.DialogueOptions)
             {
-                OptionUI optionSlot = Instantiate(optionPrefab, optionPanel);
+                var optionSlot = Instantiate(optionPrefab, optionPanel);
                 optionSlots.Add(optionSlot);
-                optionSlot.UpdateOption(option, (opt) => StartCoroutine(ClickOptionCoroutine(resolver, opt)));
+                optionSlot.UpdateOption(option, selectOption => ClickOptionAsync(resolver, selectOption).Forget());
             }
         }
-        private IEnumerator ClickOptionCoroutine(IOptionResolver resolver, Option opt)
+        
+        private async UniTask ClickOptionAsync(IOptionResolver resolver, Option opt)
         {
-            yield return resolver.ClickOption(opt);
+            await resolver.ClickOption(opt);
             CleanUp();
         }
+        
         private void CleanUp()
         {
             mainText.text = string.Empty;

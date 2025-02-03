@@ -13,7 +13,7 @@ namespace Kurisu.NGDT.Editor
         public override void DoGroup()
         {
             var nodes = GraphView.selection.OfType<Node>()
-                                        .Where(x=>x is IDialogueNodeView and not RootNode)
+                                        .Where(x=>x is IDialogueNodeView and not RootNodeView)
                                         .ToArray();
             if(!nodes.Any()) return;
             var block = CreateGroup(new Rect(nodes[0].transform.position, new Vector2(100, 100)));

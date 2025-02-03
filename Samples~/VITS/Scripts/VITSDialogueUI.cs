@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
+using Cysharp.Threading.Tasks;
 using Kurisu.NGDS;
 using Kurisu.NGDS.VITS;
 using UnityEngine;
@@ -11,46 +12,59 @@ namespace Kurisu.NGDT.VITS.Example
     {
         [SerializeField]
         private Text mainText;
+        
         [SerializeField]
         private Transform optionPanel;
-        private readonly List<VITSOptionUI> optionSlots = new();
+        
+        private readonly List<VITSOptionUI> _optionSlots = new();
+        
         [SerializeField]
         private VITSOptionUI optionPrefab;
-        private IDialogueSystem dialogueSystem;
+        
+        private DialogueSystem _dialogueSystem;
+        
         [SerializeField]
         private AudioSource audioSource;
+        
         [SerializeField, Header("FallBack")]
         private float delayForWord = 0.05f;
+        
         private void Start()
         {
-            dialogueSystem = IOCContainer.Resolve<IDialogueSystem>();
-            dialogueSystem.OnDialogueOver += DialogueOverHandler;
-            dialogueSystem.OnPiecePlay += PlayDialoguePiece;
-            dialogueSystem.OnOptionCreate += CreateOption;
+            _dialogueSystem = DialogueSystem.Get();
+            _dialogueSystem.OnDialogueOver += DialogueOverHandler;
+            _dialogueSystem.OnPiecePlay += PlayDialoguePiece;
+            _dialogueSystem.OnOptionCreate += CreateOption;
         }
+        
         private void DialogueOverHandler()
         {
             StopCoroutine(nameof(WaitOver));
             StartCoroutine(nameof(WaitOver));
         }
+        
         private IEnumerator WaitOver()
         {
             yield return new WaitForSeconds(1f);
             CleanUp();
         }
+        
         private void OnDestroy()
         {
-            dialogueSystem.OnDialogueOver -= DialogueOverHandler;
-            dialogueSystem.OnPiecePlay -= PlayDialoguePiece;
-            dialogueSystem.OnOptionCreate -= CreateOption;
+            _dialogueSystem.OnDialogueOver -= DialogueOverHandler;
+            _dialogueSystem.OnPiecePlay -= PlayDialoguePiece;
+            _dialogueSystem.OnOptionCreate -= CreateOption;
         }
+        
         private void PlayDialoguePiece(IPieceResolver resolver)
         {
             StopCoroutine(nameof(WaitOver));
             CleanUp();
-            StartCoroutine(PlayText(resolver.DialoguePiece.Contents, (resolver as VITSPieceResolver).AudioClips, () => StartCoroutine(resolver.ExitPiece())));
+            StartCoroutine(PlayText(resolver.DialoguePiece.Contents, ((VITSPieceResolver)resolver).AudioClips, () => resolver.ExitPiece().Forget()));
         }
-        private readonly StringBuilder stringBuilder = new();
+        
+        private readonly StringBuilder _stringBuilder = new();
+        
         private IEnumerator PlayText(string[] contents, AudioClip[] audioClips, System.Action callBack)
         {
             for (int i = 0; i < contents.Length; ++i)
@@ -62,44 +76,48 @@ namespace Kurisu.NGDT.VITS.Example
                 {
                     audioSource.clip = clip;
                     audioSource.Play();
-                    seconds = new(clip.length / text.Length);
+                    seconds = new WaitForSeconds(clip.length / text.Length);
                 }
                 else
                 {
-                    seconds = new(delayForWord);
+                    seconds = new WaitForSeconds(delayForWord);
                 }
                 int count = text.Length;
                 mainText.text = string.Empty;
-                stringBuilder.Clear();
+                _stringBuilder.Clear();
                 for (int n = 0; n < count; n++)
                 {
-                    stringBuilder.Append(text[n]);
-                    mainText.text = stringBuilder.ToString();
+                    _stringBuilder.Append(text[n]);
+                    mainText.text = _stringBuilder.ToString();
                     yield return seconds;
                 }
             }
             callBack?.Invoke();
         }
+        
         private void CreateOption(IOptionResolver resolver)
         {
             foreach (var option in resolver.DialogueOptions)
             {
                 VITSOptionUI optionSlot = GetOption();
-                optionSlots.Add(optionSlot);
-                optionSlot.UpdateOption(option, (opt) => StartCoroutine(ClickOptionCoroutine(resolver, opt)));
+                _optionSlots.Add(optionSlot);
+                optionSlot.UpdateOption(option, (opt) => ClickOptionCoroutine(resolver, opt).Forget());
             }
         }
-        private IEnumerator ClickOptionCoroutine(IOptionResolver resolver, Option opt)
+        
+        private async UniTask ClickOptionCoroutine(IOptionResolver resolver, Option opt)
         {
-            yield return resolver.ClickOption(opt);
+            await resolver.ClickOption(opt);
             CleanUp();
         }
+        
         private void CleanUp()
         {
             mainText.text = string.Empty;
-            foreach (var slot in optionSlots) Destroy(slot.gameObject);
-            optionSlots.Clear();
+            foreach (var slot in _optionSlots) Destroy(slot.gameObject);
+            _optionSlots.Clear();
         }
+        
         private VITSOptionUI GetOption()
         {
             return Instantiate(optionPrefab, optionPanel);

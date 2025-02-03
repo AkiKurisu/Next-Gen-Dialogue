@@ -7,7 +7,8 @@ using UnityEngine.Localization;
 namespace Kurisu.NGDT.Localization
 {
     [Serializable]
-    [NodeInfo("Module : Localized Content Module is used to modify dialogue content such as piece and option using Unity.Localization.")]
+    [CeresLabel("Localized Content")]
+    [NodeInfo("Module: Localized Content is used to modify dialogue content such as piece and option using Unity.Localization.")]
     [ModuleOf(typeof(Piece))]
     [ModuleOf(typeof(Option))]
     public class LocalizedContentModule : CustomModule

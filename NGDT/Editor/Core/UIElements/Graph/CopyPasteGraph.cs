@@ -47,9 +47,9 @@ namespace Kurisu.NGDT.Editor
                 int count = 0;
                 foreach (var node in _graphStructure.Nodes)
                 {
-                    if (node is ChildBridge or ParentBridge) continue;
+                    if (node is ChildBridgeView or ParentBridgeView) continue;
                     count++;
-                    if (node is ModuleNode moduleNode)
+                    if (node is ModuleNodeView moduleNode)
                     {
                         average += moduleNode.GetWorldPosition().position;
                     }
@@ -112,10 +112,10 @@ namespace Kurisu.NGDT.Editor
         
         private void DistinctNodes()
         {
-            var containerNodes = _sourceElements.OfType<ContainerNode>().ToArray();
+            var containerNodes = _sourceElements.OfType<ContainerNodeView>().ToArray();
             foreach (var containerNode in containerNodes)
             {
-                containerNode.contentContainer.Query<ModuleNode>().ForEach(x => _sourceElements.Remove(x));
+                containerNode.contentContainer.Query<ModuleNodeView>().ForEach(x => _sourceElements.Remove(x));
             }
         }
         
@@ -133,19 +133,19 @@ namespace Kurisu.NGDT.Editor
         private void CopyPort(IDialogueNodeView sourceNode, IDialogueNodeView pasteNode)
         {
             var behaviorType = sourceNode.GetBehavior();
-            if (behaviorType.IsSubclassOf(typeof(Container)))
+            if (behaviorType.IsSubclassOf(typeof(NGDT.ContainerNode)))
             {
-                var sourceContainer = (ContainerNode)sourceNode;
-                var pasteContainer = (ContainerNode)pasteNode;
+                var sourceContainer = (ContainerNodeView)sourceNode;
+                var pasteContainer = (ContainerNodeView)pasteNode;
                 var copyMap = pasteContainer.GetCopyMap();
                 sourceContainer.contentContainer.Query<Node>()
                 .ToList()
                 .ForEach(x =>
                 {
-                    if (x is BehaviorModuleNode behaviorModuleNode)
-                        _portCopyDict.Add(behaviorModuleNode.Child, ((BehaviorModuleNode)copyMap[x.GetHashCode()]).Child);
-                    else if (x is ChildBridge childBridge)
-                        _portCopyDict.Add(childBridge.Child, ((ChildBridge)copyMap[x.GetHashCode()]).Child);
+                    if (x is BehaviorModuleNodeView behaviorModuleNode)
+                        _portCopyDict.Add(behaviorModuleNode.Child, ((BehaviorModuleNodeView)copyMap[x.GetHashCode()]).Child);
+                    else if (x is ChildBridgeView childBridge)
+                        _portCopyDict.Add(childBridge.Child, ((ChildBridgeView)copyMap[x.GetHashCode()]).Child);
                 });
                 //For some reason edges connected to bridge's ports are not selected by graph view
                 //Add edge manually
@@ -158,18 +158,18 @@ namespace Kurisu.NGDT.Editor
             }
             else if (behaviorType.IsSubclassOf(typeof(BehaviorModule)))
             {
-                var behaviorModuleNode = (BehaviorModuleNode)sourceNode;
-                _portCopyDict.Add(behaviorModuleNode.Child, ((BehaviorModuleNode)pasteNode).Child);
+                var behaviorModuleNode = (BehaviorModuleNodeView)sourceNode;
+                _portCopyDict.Add(behaviorModuleNode.Child, ((BehaviorModuleNodeView)pasteNode).Child);
             }
-            else if (behaviorType.IsSubclassOf(typeof(Action)))
+            else if (behaviorType.IsSubclassOf(typeof(NGDT.ActionNode)))
             {
-                var actionNode = (ActionNode)sourceNode;
-                _portCopyDict.Add(actionNode.Parent, ((ActionNode)pasteNode).Parent);
+                var actionNode = (ActionNodeViewView)sourceNode;
+                _portCopyDict.Add(actionNode.Parent, ((ActionNodeViewView)pasteNode).Parent);
             }
-            else if (behaviorType.IsSubclassOf(typeof(Composite)))
+            else if (behaviorType.IsSubclassOf(typeof(NGDT.CompositeNode)))
             {
-                var compositeNode = (CompositeNode)sourceNode;
-                var copy = (CompositeNode)pasteNode;
+                var compositeNode = (CompositeNodeView)sourceNode;
+                var copy = (CompositeNodeView)pasteNode;
                 int count = compositeNode.ChildPorts.Count - copy.ChildPorts.Count;
                 for (int i = 0; i < count; i++)
                 {

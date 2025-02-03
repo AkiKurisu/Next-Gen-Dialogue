@@ -8,6 +8,7 @@ namespace Kurisu.NGDT.Localization.Editor
     public class LocalizedStringEditorField : VisualElement
     {
         private static readonly Color ButtonColor = new(140 / 255f, 160 / 255f, 250 / 255f);
+        
         public LocalizedStringEditorField(string tableEntry, string keyEntry, bool autoAddNewEntry = false)
         {
             var toggleGroup = new ToggleGroup();
@@ -25,8 +26,8 @@ namespace Kurisu.NGDT.Localization.Editor
             var tables = collection.Tables;
             for (int i = 0; i < tables.Count; i++)
             {
-                var table = tables[i].asset as StringTable;
-                //If autoAddNewEntry is true, it will automatically generate entry id for new content
+                var table = (StringTable)tables[i].asset;
+                // If autoAddNewEntry is true, it will automatically generate entry id for new content
                 var id = table.SharedData.GetId(keyEntry, autoAddNewEntry);
                 if (id == SharedTableData.EmptyId) continue;
                 var editorField = new TextField
@@ -51,11 +52,10 @@ namespace Kurisu.NGDT.Localization.Editor
                     EditorUtility.SetDirty(table.SharedData);
                     EditorUtility.SetDirty(collection);
                 });
-                editorField.multiline = true;
                 toggleGroup.AddToggleElement(editorField);
                 int k = i;
                 var button = GetButton(table.LocaleIdentifier.Code, () => toggleGroup.Toggle(k), Color.grey);
-                toggleGroup.OnToggle += (index) => { button.style.backgroundColor = index == k ? ButtonColor : Color.grey; };
+                toggleGroup.OnToggle += index => button.style.backgroundColor = index == k ? ButtonColor : Color.grey;
                 buttonGroup.Add(button);
             }
             toggleGroup.Toggle(0);

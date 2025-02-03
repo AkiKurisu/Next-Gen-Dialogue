@@ -25,35 +25,26 @@
     flex-direction:column
 }
 
-.CompositeNode #title 
+.CompositeNodeView #title 
 {
     background-color: rgba(76, 255, 85, 0.91);
     color: white;
 }
 
-.ActionNode #title 
+.ActionNodeView #title 
 {
     background-color: rgba(251, 114, 153, 0.91);
 }
 
-.ConditionalNode #title 
-{
-    background-color: rgba(0, 255, 255, 0.91);
-}
-
-.DecoratorNode #title {
-    background-color: rgba(14, 240, 180, 0.91);
-}
-
-.ModuleNode #title {
+.ModuleNodeView #title {
     background-color: rgba(0, 255, 168, 0.91);
 }
 
-.EditorModuleNode #title {
+.EditorModuleNodeView #title {
     background-color: rgba(255, 239, 86, 0.91);
 }
 
-.BehaviorModuleNode #title {
+.BehaviorModuleNodeView #title {
     background-color: rgba(0, 255, 220, 0.91);
 }
 
@@ -61,22 +52,22 @@
     color: white;
 }
 
-#DialogueContainer {
+#DialogueContainerView {
    background-color: rgba(97, 95, 212, 0.91);
 }
 
-#PieceContainer {
+#PieceContainerView {
    background-color: rgba(80, 146, 150, 0.91);
 }
 
-PieceContainer  .PieceIDField .unity-base-field__label
+PieceContainerView  .PieceIDField .unity-base-field__label
 {
     color: white;
     font-size: 20px;
     -unity-text-align : middle-center;
 }
 
-#PieceContainer:selected>#borderItem
+#PieceContainerView:selected>#borderItem
 {
     border-color:rgba(0, 255, 139, 0.91);
     border-left-width:5px;
@@ -85,7 +76,7 @@ PieceContainer  .PieceIDField .unity-base-field__label
     border-bottom-width:5px;
 }
 
-#OptionContainer
+#OptionContainerView
 {
     background-color: rgba(57, 98, 147, 0.91);
 }
@@ -115,7 +106,7 @@ PieceContainer  .PieceIDField .unity-base-field__label
     color: white;
 }
 
-RootNode #title 
+RootNodeView #title 
 {
     background-color: rgba(191, 117, 255, 0.91);
 }

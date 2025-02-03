@@ -30,13 +30,13 @@ namespace Kurisu.NGDT.Editor
         /// <param name="containerNodes"></param>
         /// <param name="ct"></param>
         /// <returns></returns>
-        public async Task<string> Bake(IReadOnlyList<ContainerNode> containerNodes, ModuleNode novelModule, CancellationToken ct)
+        public async Task<string> Bake(IReadOnlyList<ContainerNodeView> containerNodes, ModuleNodeView novelModule, CancellationToken ct)
         {
             stringBuilder.Clear();
             var bakeContainerNode = containerNodes.Last();
             MessageRole role;
             //Add prompt
-            if (bakeContainerNode is OptionContainer)
+            if (bakeContainerNode is OptionContainerView)
             {
                 role = MessageRole.Bot;
                 var overrideTemplate = novelModule.GetFieldValue<TextAsset>("overridePiecePrompt");
@@ -51,7 +51,7 @@ namespace Kurisu.NGDT.Editor
                 else currentTemplate = new PromptTemplate("OptionPrompt_Template");
             }
             var first = containerNodes.First();
-            if (first is DialogueContainer dialogueContainer && dialogueContainer.TryGetModuleNode<NovelPromptModule>(out var promptModule))
+            if (first is DialogueContainerView dialogueContainer && dialogueContainer.TryGetModuleNode<NovelPromptModule>(out var promptModule))
             {
                 stringBuilder.AppendLine(currentTemplate.Get(new Dictionary<string, object>()
                 {
@@ -93,14 +93,14 @@ namespace Kurisu.NGDT.Editor
         /// Generate a preview bake content for editor test purpose
         /// </summary>
         /// <param name="containerNodes"></param>
-        /// <param name="bakeContainerNode"></param>
+        /// <param name="bakeContainerNodeView"></param>
         /// <returns></returns> <summary>
-        public string Preview(IReadOnlyList<ContainerNode> containerNodes, ModuleNode novelModule, ContainerNode bakeContainerNode)
+        public string Preview(IReadOnlyList<ContainerNodeView> containerNodes, ModuleNodeView novelModule, ContainerNodeView bakeContainerNodeView)
         {
             StringBuilder stringBuilder = new();
             //Add prompt
             MessageRole role;
-            if (bakeContainerNode is OptionContainer)
+            if (bakeContainerNodeView is OptionContainerView)
             {
                 role = MessageRole.Bot;
                 var overrideTemplate = novelModule.GetFieldValue<TextAsset>("overridePiecePrompt");
@@ -115,7 +115,7 @@ namespace Kurisu.NGDT.Editor
                 else currentTemplate = new PromptTemplate("OptionPrompt_Template");
             }
             var first = containerNodes.First();
-            if (first is DialogueContainer dialogueContainer && dialogueContainer.TryGetModuleNode<NovelPromptModule>(out var promptModule))
+            if (first is DialogueContainerView dialogueContainer && dialogueContainer.TryGetModuleNode<NovelPromptModule>(out var promptModule))
             {
                 stringBuilder.AppendLine(currentTemplate.Get(new Dictionary<string, object>()
                 {
@@ -146,10 +146,10 @@ namespace Kurisu.NGDT.Editor
             var result = (await llm.GenerateAsync(stringBuilder.ToString(), ct)).Response;
             return result.Replace("```json", string.Empty).Replace("```", string.Empty);
         }
-        private void AppendDialogue(ContainerNode containerNode, StringBuilder builder)
+        private void AppendDialogue(ContainerNodeView containerNodeView, StringBuilder builder)
         {
-            MessageRole role = containerNode is OptionContainer ? MessageRole.User : MessageRole.Bot;
-            if (!containerNode.TryGetModuleNode<ContentModule>(out ModuleNode contentModule)) return;
+            MessageRole role = containerNodeView is OptionContainerView ? MessageRole.User : MessageRole.Bot;
+            if (!containerNodeView.TryGetModuleNode<ContentModule>(out ModuleNodeView contentModule)) return;
             string content = contentModule.GetSharedStringValue("content");
             builder.Append(GetName(role));
             builder.Append(':');
@@ -161,10 +161,10 @@ namespace Kurisu.NGDT.Editor
         }
         public static async Task AutoGenerateNovel(DialogueGraphView graphView)
         {
-            var containers = graphView.selection.OfType<ContainerNode>().ToList();
+            var containers = graphView.selection.OfType<ContainerNodeView>().ToList();
             if (containers.Count == 0) return;
             var bakeContainer = containers.Last();
-            bakeContainer.TryGetModuleNode<NovelBakeModule>(out ModuleNode novelModule);
+            bakeContainer.TryGetModuleNode<NovelBakeModule>(out ModuleNodeView novelModule);
             NovelBaker baker = new();
             int depth = (int)novelModule.GetFieldResolver("generateDepth").Value;
             float startVal = (float)EditorApplication.timeSinceStartup;
@@ -194,7 +194,7 @@ namespace Kurisu.NGDT.Editor
             NodeAutoLayoutHelper.Layout(new DialogueTreeLayoutConvertor(graphView, bakeContainer));
 
             //Start from Piece
-            async Task<bool> Generate(IReadOnlyList<ContainerNode> containers, ContainerNode bakeContainer, CancellationToken ct, int currentDepth, int maxDepth)
+            async Task<bool> Generate(IReadOnlyList<ContainerNodeView> containers, ContainerNodeView bakeContainer, CancellationToken ct, int currentDepth, int maxDepth)
             {
                 step++;
                 if (currentDepth >= maxDepth) return true;
@@ -220,7 +220,7 @@ namespace Kurisu.NGDT.Editor
                     // Add bake module from script
                     node.AddModuleNode(new ContentModule(pair.Value));
                     // Append current bake to last
-                    containers = new List<ContainerNode>(containers)
+                    containers = new List<ContainerNodeView>(containers)
                     {
                         node
                     };

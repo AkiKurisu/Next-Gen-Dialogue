@@ -28,14 +28,14 @@ namespace Kurisu.NGDT
             /* Variants for fallback nodes */
             if (edges[index].children.Length > 0)
             {
-                return new InvalidComposite
+                return new InvalidCompositeNode
                 {
                     nodeType = fallbackNodeData.nodeType.ToString(),
                     serializedData = fallbackNodeData.serializedData
                 };
             }
             
-            return new InvalidAction
+            return new InvalidActionNode
             {
                 nodeType = fallbackNodeData.nodeType.ToString(),
                 serializedData = fallbackNodeData.serializedData
@@ -60,6 +60,47 @@ namespace Kurisu.NGDT
         {
             FlowGraph = flowGraphContainer.GetFlowGraph();
         }
+        
+#if UNITY_EDITOR
+        internal DialogueGraph(NextGenDialogueGraphAsset asset)
+        {
+            CeresAPI.LogWarning($"Dialogue graph asset {asset.name} version is outdated, please re-save asset before build.");
+            variables = new List<SharedVariable>();
+            if (asset.sharedVariables != null)
+            {
+                foreach (var variable in asset.sharedVariables)
+                {
+                    if (variable != null)
+                    {
+                        variables.Add(variable.Clone());
+                    }
+                }
+            }
+            TraverseAppend(asset.root);
+            nodeGroups = new List<NodeGroup>();
+            FlowGraph = asset.GetFlowGraph();
+        }
+        
+        internal DialogueGraph(NextGenDialogueComponent component)
+        {
+            CeresAPI.LogWarning($"Dialogue graph component {component.name} version is outdated, please re-save component before build.");
+            variables = new List<SharedVariable>();
+            if (component.sharedVariables != null)
+            {
+                foreach (var variable in component.sharedVariables)
+                {
+                    if (variable != null)
+                    {
+                        variables.Add(variable.Clone());
+                    }
+                }
+            }
+
+            TraverseAppend(component.root);
+            nodeGroups = new List<NodeGroup>();
+            FlowGraph = component.GetFlowGraph();
+        }
+#endif
 
         public Root Root
         {

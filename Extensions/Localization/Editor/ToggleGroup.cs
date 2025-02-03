@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine.UIElements;
 namespace Kurisu.NGDT.Localization.Editor
@@ -9,7 +10,7 @@ namespace Kurisu.NGDT.Localization.Editor
     {
         private int _currentIndex;
         
-        public event System.Action<int> OnToggle;
+        public Action<int> OnToggle;
         
         private readonly List<VisualElement> _elements = new();
         
@@ -35,7 +36,7 @@ namespace Kurisu.NGDT.Localization.Editor
                 if (isCurrent) Insert(0, _elements[i]);
                 else if (!DoNotRemove && Contains(_elements[i])) Remove(_elements[i]);
             }
-            OnToggle?.Invoke(index);
+            OnToggle(index);
         }
     }
 }

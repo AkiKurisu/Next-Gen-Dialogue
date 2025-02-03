@@ -1,7 +1,10 @@
+using System;
 using Ceres.Annotations;
 using UnityEngine;
 namespace Kurisu.NGDT.VITS
 {
+    [Serializable]
+    [CeresLabel("VITS Baker")]
     [NodeInfo("Editor Module : Use VITS Editor Module to attach VITS module easily and generate audio for each module.")]
     [CeresGroup("Editor/AIGC")]
     [ModuleOf(typeof(Dialogue))]
@@ -11,9 +14,12 @@ namespace Kurisu.NGDT.VITS
 #pragma warning disable IDE0052
         [SerializeField, Tooltip("Skip vits modules contained audioClip"), Setting]
         private bool skipContainedAudioClip = true;
+        
         [SerializeField, Tooltip("Skip vits modules used shared audioClip"), Setting]
         private bool skipSharedAudioClip = true;
+        
         public VITSEditorModule() { }
+        
         public VITSEditorModule(bool skipContainedAudioClip, bool skipSharedAudioClip)
         {
             this.skipContainedAudioClip = skipContainedAudioClip;

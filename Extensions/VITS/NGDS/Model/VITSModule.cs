@@ -1,26 +1,30 @@
 using System.Threading;
-using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 namespace Kurisu.NGDS.VITS
 {
-    public readonly struct VITSModule : IDialogueModule
+    public class VITSModule : IDialogueModule
     {
-        public readonly int CharacterID { get; }
-        public readonly bool NoTranslation { get; }
+        public int CharacterID { get; }
+        
+        public bool NoTranslation { get; }
+        
         public AudioClip AudioClip { get; }
+        
         public VITSModule(int characterID, bool noTranslation)
         {
             CharacterID = characterID;
             NoTranslation = noTranslation;
             AudioClip = null;
         }
+        
         public VITSModule(AudioClip audioClip)
         {
             AudioClip = audioClip;
             CharacterID = 0;
             NoTranslation = false;
         }
+        
         public async UniTask RequestOrLoadAudioClipParallel(int i, VITSTurbo vitsTurbo, string[] contents, AudioClip[] results, CancellationToken token)
         {
             if (AudioClip)
@@ -38,6 +42,7 @@ namespace Kurisu.NGDS.VITS
                 results[i] = response.Result;
             }
         }
+        
         public async UniTask<AudioClip> RequestOrLoadAudioClip(VITSTurbo vitsTurbo, string content, CancellationToken token)
         {
             if (AudioClip)
