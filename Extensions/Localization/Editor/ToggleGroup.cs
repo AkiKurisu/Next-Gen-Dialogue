@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine.UIElements;
-namespace Kurisu.NGDT.Localization.Editor
+namespace NextGenDialogue.Graph.Localization.Editor
 {
     /// <summary>
     /// Toggle Group that can hide and show elements by toggle index

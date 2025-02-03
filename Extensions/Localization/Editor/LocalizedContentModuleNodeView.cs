@@ -1,11 +1,11 @@
 using System;
 using Ceres.Editor;
 using Ceres.Editor.Graph;
-using Kurisu.NGDT.Editor;
 using UnityEditor.Localization;
 using UnityEngine.Localization.Tables;
 using UnityEngine.UIElements;
-namespace Kurisu.NGDT.Localization.Editor
+using NextGenDialogue.Graph.Editor;
+namespace NextGenDialogue.Graph.Localization.Editor
 {
     [CustomNodeView(typeof(LocalizedContentModule))]
     public class LocalizedContentModuleNodeView : ModuleNodeView

@@ -4,7 +4,7 @@ using Ceres.Editor;
 using Ceres.Editor.Graph;
 using UnityEngine.Localization;
 using UnityEngine.UIElements;
-namespace Kurisu.NGDT.Localization.Editor
+namespace NextGenDialogue.Graph.Localization.Editor
 {
     [Ordered]
     public class LocalizedStringResolver : FieldResolver<LocalizedStringField, LocalizedString>

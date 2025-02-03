@@ -1,10 +1,9 @@
 using System;
 using Ceres.Annotations;
 using Ceres.Graph;
-using Kurisu.NGDS;
 using UnityEngine;
 using UnityEngine.Localization;
-namespace Kurisu.NGDT.Localization
+namespace NextGenDialogue.Graph.Localization
 {
     [Serializable]
     [CeresLabel("Localized Content")]
@@ -21,7 +20,7 @@ namespace Kurisu.NGDT.Localization
 
         protected sealed override IDialogueModule GetModule()
         {
-            return new NGDS.ContentModule(new LocalizedString(tableEntry.Value, stringEntry.Value).GetLocalizedString());
+            return new NextGenDialogue.ContentModule(new LocalizedString(tableEntry.Value, stringEntry.Value).GetLocalizedString());
         }
     }
 }

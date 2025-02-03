@@ -1,18 +1,17 @@
+using NextGenDialogue.Graph;
 using UnityEngine;
 using UnityEngine.Playables;
-using UnityEngine.Serialization;
 using UnityEngine.Timeline;
-namespace Kurisu.NGDT.Timeline
+namespace NextGenDialogue.Timeline
 {
     public class DialogueSignal : Marker, INotification
     {
         public string dialogueName;
         
-        [FormerlySerializedAs("dialogueAsset")]
         public NextGenDialogueGraphAsset dialogueGraphAsset;
         
         public bool pausePlayable;
-        
-        public PropertyName id { get; }
+
+        public PropertyName id => dialogueName;
     }
 }

@@ -23,19 +23,19 @@
   },
   "samples": [
     {
-      "displayName": "Basic",
+      "displayName": "Basic Example",
       "description": "Basic usage of dialogue graph and AIGC",
-      "path": "Samples~/Basic"
+      "path": "Samples~/Basic Example"
     },
     {
-      "displayName": "VITS",
+      "displayName": "VITS Example",
       "description": "Sample of using VITS to generate voice for your dialogue",
-      "path": "Samples~/VITS"
+      "path": "Samples~/VITS Example"
     },
     {
-      "displayName": "Localization",
+      "displayName": "Localization Example",
       "description": "Sample of supporting localization for your dialogue",
-      "path": "Samples~/Localization"
+      "path": "Samples~/Localization Example"
     }
   ]
 }

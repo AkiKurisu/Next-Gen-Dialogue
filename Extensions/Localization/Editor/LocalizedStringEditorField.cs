@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.Localization.Tables;
 using UnityEngine.UIElements;
 using UnityEditor;
-namespace Kurisu.NGDT.Localization.Editor
+namespace NextGenDialogue.Graph.Localization.Editor
 {
     public class LocalizedStringEditorField : VisualElement
     {
