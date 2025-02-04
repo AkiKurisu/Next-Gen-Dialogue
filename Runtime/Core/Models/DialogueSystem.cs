@@ -49,13 +49,13 @@ namespace NextGenDialogue
         
         public bool IsPlaying => _dialogueContainer != null;
         
-        public readonly Subject<IDialogueResolver> OnDialogueStart = new();
+        public Subject<IDialogueResolver> OnDialogueStart { get; } = new();
         
-        public readonly Subject<IPieceResolver> OnPiecePlay = new();
+        public Subject<IPieceResolver> OnPiecePlay { get; } = new();
         
-        public readonly Subject<IOptionResolver> OnOptionCreate = new();
+        public Subject<IOptionResolver> OnOptionCreate { get; } = new();
         
-        public readonly Subject<Unit> OnDialogueOver = new();
+        public Subject<Unit> OnDialogueOver { get; } = new();
         
         private DialogueResolverContainer _resolverContainer;
         
