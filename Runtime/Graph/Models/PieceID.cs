@@ -1,10 +1,11 @@
 using System;
 using Ceres.Graph;
+using R3;
 
 namespace NextGenDialogue.Graph
 {
     [Serializable]
-    public class PieceID : SharedVariable<string>
+    public class PieceID : SharedVariable<Unit>
     {
         public PieceID()
         {
@@ -12,7 +13,7 @@ namespace NextGenDialogue.Graph
             IsExposed = false;
         }
         
-        protected override SharedVariable<string> CloneT()
+        protected override SharedVariable<Unit> CloneT()
         {
             return new PieceID { Value = value };
         }

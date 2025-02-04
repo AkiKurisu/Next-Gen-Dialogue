@@ -1,7 +1,7 @@
 using System;
 using Ceres.Annotations;
-using NextGenDialogue;
 using UnityEngine;
+
 namespace NextGenDialogue.Graph
 {
     [Serializable]
@@ -21,7 +21,7 @@ namespace NextGenDialogue.Graph
         
         protected sealed override IDialogueModule GetModule()
         {
-            return new NextGenDialogue.NextPieceModule(nextID.Value);
+            return new NextGenDialogue.NextPieceModule(nextID.Name);
         }
     }
 }

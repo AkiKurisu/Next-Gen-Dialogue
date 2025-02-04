@@ -44,8 +44,7 @@ namespace NextGenDialogue.Graph
         public NextGenDialogue.Piece EmitPiece()
         {
             _pieceCache = NextGenDialogue.Piece.GetPooled();
-            _pieceCache.ID = pieceID.Value;
-            _pieceCache.Name = pieceID.Name;
+            _pieceCache.ID = pieceID.Name;
             return _pieceCache;
         }
         

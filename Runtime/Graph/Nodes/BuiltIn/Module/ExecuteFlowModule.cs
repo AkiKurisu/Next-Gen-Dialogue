@@ -13,14 +13,14 @@ namespace NextGenDialogue.Graph
         {
             if (Graph.Builder.GetNode() is NextGenDialogue.Piece piece)
             {
-                Graph.FlowGraph.TryExecuteEvent(Component, $"Flow_{piece.Name}");
+                Graph.FlowGraph.TryExecuteEvent(Component, $"Flow_{piece.ID}");
             }
             else if (Graph.Builder.GetNode() is NextGenDialogue.Option option)
             {
                 var parent = Graph.Builder.GetFirstAncestorOfType<NextGenDialogue.Piece>();
                 Graph.Builder.GetNode().AddModule(new NextGenDialogue.CallBackModule(() =>
                 {
-                    Graph.FlowGraph.TryExecuteEvent(Component, $"Flow_{parent.Name}_Option{option.Index}");
+                    Graph.FlowGraph.TryExecuteEvent(Component, $"Flow_{parent.ID}_Option{option.Index}");
                 }));
             }
 
