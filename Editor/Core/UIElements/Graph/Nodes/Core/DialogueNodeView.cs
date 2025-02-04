@@ -15,15 +15,15 @@ namespace NextGenDialogue.Graph.Editor
     {
         Port Parent { get; }
         
-        DialogueGraphView Graph { get; }
+        DialogueGraphView GraphView { get; }
+        
+        Type NodeType { get; }
         
         void SetNodeInstance(DialogueNode dialogueNode);
         
         void Commit(Stack<IDialogueNodeView> stack);
         
         bool Validate(Stack<IDialogueNodeView> stack);
-        
-        Type GetBehavior();
         
         void CopyFrom(IDialogueNodeView copyNode);
         
@@ -40,13 +40,13 @@ namespace NextGenDialogue.Graph.Editor
     {
         public string Guid { get; private set; }
         
-        public DialogueGraphView Graph { get; private set; }
+        public DialogueGraphView GraphView { get; private set; }
         
         public Port Parent { private set; get; }
         
-        protected DialogueNode NodeBehavior { set; get; }
+        public Type NodeType { get; private set; }
         
-        private Type _nodeType;
+        protected DialogueNode NodeBehavior { set; get; }
         
         private VisualElement _fieldContainer;
 
@@ -196,7 +196,7 @@ namespace NextGenDialogue.Graph.Editor
                 _resolvers[i].Copy(node._resolvers[i]);
             }
             DescriptionText.value = node.DescriptionText.value;
-            NodeBehavior = (DialogueNode)Activator.CreateInstance(copyNode.GetBehavior());
+            NodeBehavior = (DialogueNode)Activator.CreateInstance(copyNode.NodeType);
             NodeBehavior.NotifyEditor = MarkAsExecuted;
             Guid = System.Guid.NewGuid().ToString();
             OnRestore();
@@ -209,7 +209,7 @@ namespace NextGenDialogue.Graph.Editor
 
         public DialogueNode Compile()
         {
-            NodeBehavior = Activator.CreateInstance(GetBehavior()) as DialogueNode;
+            NodeBehavior = (DialogueNode)Activator.CreateInstance(NodeType);
             return NodeBehavior;
         }
 
@@ -232,11 +232,6 @@ namespace NextGenDialogue.Graph.Editor
             return port;
         }
 
-        public Type GetBehavior()
-        {
-            return _nodeType;
-        }
-
         public void Commit(Stack<IDialogueNodeView> stack)
         {
             OnCommit(stack);
@@ -250,7 +245,7 @@ namespace NextGenDialogue.Graph.Editor
 
         public bool Validate(Stack<IDialogueNodeView> stack)
         {
-            var valid = GetBehavior() != null && OnValidate(stack);
+            var valid = NodeType != null && OnValidate(stack);
             if (valid)
             {
                 style.backgroundColor = new StyleColor(StyleKeyword.Null);
@@ -268,8 +263,8 @@ namespace NextGenDialogue.Graph.Editor
         {
             Assert.IsNotNull(nodeType);
             Assert.IsNotNull(graphView);
-            Graph = graphView;
-            _nodeType = nodeType;
+            GraphView = graphView;
+            NodeType = nodeType;
             Guid = System.Guid.NewGuid().ToString();
             var defaultValue = (DialogueNode)Activator.CreateInstance(nodeType);
             var haveSetting = false;
@@ -280,12 +275,12 @@ namespace NextGenDialogue.Graph.Editor
                     fieldResolver.Restore(defaultValue);
                     if (p.GetCustomAttribute<SettingAttribute>() != null)
                     {
-                        SettingsContainer.Add(fieldResolver.GetField(Graph));
+                        SettingsContainer.Add(fieldResolver.GetField(GraphView));
                         haveSetting = true;
                     }
                     else
                     {
-                        _fieldContainer.Add(fieldResolver.GetField(Graph));
+                        _fieldContainer.Add(fieldResolver.GetField(GraphView));
                     }
                     _resolvers.Add(fieldResolver);
                     _fieldInfos.Add(p);
@@ -323,9 +318,9 @@ namespace NextGenDialogue.Graph.Editor
         {
             evt.menu.MenuItems().Add(new CeresDropdownMenuAction("Duplicate", (a) =>
             {
-                Graph.DuplicateNode(this);
+                GraphView.DuplicateNode(this);
             }));
-            Graph.ContextualMenuRegistry.BuildContextualMenu(ContextualMenuType.Node, evt, GetBehavior());
+            GraphView.ContextualMenuRegistry.BuildContextualMenu(ContextualMenuType.Node, evt, NodeType);
         }
         
         public virtual Rect GetWorldPosition()

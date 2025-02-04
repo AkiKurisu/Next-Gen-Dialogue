@@ -1,8 +1,8 @@
 using System;
 using Ceres.Annotations;
 using Ceres.Graph;
-using NextGenDialogue;
 using UnityEngine;
+
 namespace NextGenDialogue.Graph
 {
     [Serializable]
@@ -14,6 +14,7 @@ namespace NextGenDialogue.Graph
     {
         [Multiline]
         public SharedUObject<TextAsset> prompt;
+        
         protected sealed override IDialogueModule GetModule()
         {
             return new NextGenDialogue.SystemPromptModule(prompt.Value.text);

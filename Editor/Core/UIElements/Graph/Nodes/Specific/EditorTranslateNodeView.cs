@@ -27,13 +27,13 @@ namespace NextGenDialogue.Graph.Editor
         private void OnAttach(AttachToPanelEvent evt)
         {
             //The custom contextual menu builder will only activate when this editor node is attached
-            Graph.ContextualMenuRegistry.Register<EditorTranslateNodeView>(new TranslateContextualMenuBuilder(this, CanTranslate));
+            GraphView.ContextualMenuRegistry.Register<EditorTranslateNodeView>(new TranslateContextualMenuBuilder(this, CanTranslate));
         }
 
         private void OnDetach(DetachFromPanelEvent evt)
         {
             //Do not forget to unregister after detach
-            Graph.ContextualMenuRegistry.UnRegister<EditorTranslateNodeView>();
+            GraphView.ContextualMenuRegistry.UnRegister<EditorTranslateNodeView>();
         }
 
         public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
@@ -54,7 +54,7 @@ namespace NextGenDialogue.Graph.Editor
             IsPending = true;
             string sourceLanguageCode = this.GetFieldValue<string>("sourceLanguageCode");
             string targetLanguageCode = this.GetFieldValue<string>("targetLanguageCode");
-            var containerNodes = Graph.nodes
+            var containerNodes = GraphView.nodes
                 .OfType<ContainerNodeView>()
                 .Where(x => x is not DialogueContainerView)
                 .ToArray();
@@ -74,7 +74,7 @@ namespace NextGenDialogue.Graph.Editor
             }
             if (tasks.Count != 0)
                 await UniTask.WhenAll(tasks);
-            Graph.EditorWindow.ShowNotification(new GUIContent("Translation Complete !"));
+            GraphView.EditorWindow.ShowNotification(new GUIContent("Translation Complete !"));
             IsPending = false;
             async UniTask TranslateContentsAsync(ContainerNodeView containerNode, ModuleNodeView moduleNode, CancellationToken ct)
             {
@@ -86,13 +86,14 @@ namespace NextGenDialogue.Graph.Editor
                 }
             }
         }
-        internal async void TranslateNodeAsync(IDialogueNodeView node)
+
+        private async void TranslateNodeAsync(IDialogueNodeView node)
         {
             IsPending = true;
             string sourceLanguageCode = this.GetFieldValue<string>("sourceLanguageCode");
             string targetLanguageCode = this.GetFieldValue<string>("targetLanguageCode");
 
-            var fieldsToTranslate = node.GetBehavior()
+            var fieldsToTranslate = node.NodeType
                 .GetAllFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)
                 .Where(x => x.GetCustomAttribute(typeof(TranslateEntryAttribute)) != null)
                 .ToArray();
@@ -110,7 +111,7 @@ namespace NextGenDialogue.Graph.Editor
             }
             if (tasks.Count != 0)
                 await UniTask.WhenAll(tasks);
-            Graph.EditorWindow.ShowNotification(new GUIContent("Translation Complete !"));
+            GraphView.EditorWindow.ShowNotification(new GUIContent("Translation Complete !"));
             IsPending = false;
             async UniTask TranslateContentsAsync(FieldInfo fieldInfo, CancellationToken ct)
             {

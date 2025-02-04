@@ -25,7 +25,7 @@ namespace NextGenDialogue.Graph
         
 #if UNITY_EDITOR
         [HideInGraphEditor]
-        public System.Action UpdateEditor;
+        public Action UpdateEditor;
 #endif
         
         public DialogueNode Child

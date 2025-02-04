@@ -31,13 +31,13 @@ namespace NextGenDialogue.Graph.Editor
         private void OnAttach(AttachToPanelEvent evt)
         {
             //The custom contextual menu builder will only activate when this editor node is attached
-            Graph.ContextualMenuRegistry.Register<OobaboogaSessionNodeView>(new SessionContextualMenuBuilder(this));
+            GraphView.ContextualMenuRegistry.Register<OobaboogaSessionNodeView>(new SessionContextualMenuBuilder(this));
         }
 
         private void OnDetach(DetachFromPanelEvent evt)
         {
             //Do not forget to unregister after detach
-            Graph.ContextualMenuRegistry.UnRegister<OobaboogaSessionNodeView>();
+            GraphView.ContextualMenuRegistry.UnRegister<OobaboogaSessionNodeView>();
         }
 
         private async void LoadSession(Vector2 mousePosition)
@@ -50,23 +50,23 @@ namespace NextGenDialogue.Graph.Editor
                 var session = JsonConvert.DeserializeObject<OobaboogaSession>(await File.ReadAllTextAsync(path));
                 var internalData = session.history.internalData;
                 //Add first piece
-                var position = Graph.contentViewContainer.WorldToLocal(mousePosition) - new Vector2(400, 300);
-                var firstPiece = (PieceContainerView)Graph.CreateNode(new Piece(), position);
+                var position = GraphView.contentViewContainer.WorldToLocal(mousePosition) - new Vector2(400, 300);
+                var firstPiece = (PieceContainerView)GraphView.CreateNode(new Piece(), position);
                 firstPiece.GenerateNewPieceID();
                 firstPiece.AddModuleNode(new ContentModule(internalData[0][1]));
                 ContainerNodeView last = firstPiece;
                 for (int i = 1; i < internalData.Length; ++i)
                 {
                     // Create option
-                    var node = Graph.CreateNextContainer(last);
+                    var node = GraphView.CreateNextContainer(last);
                     // Link to piece
-                    Graph.ConnectContainerNodes(last, node);
+                    last.ConnectContainerNodes(last);
                     node.AddModuleNode(new ContentModule(internalData[i][0]));
                     last = node;
                     // Create next container
-                    node = Graph.CreateNextContainer(last);
+                    node = GraphView.CreateNextContainer(last);
                     // Link to option
-                    Graph.ConnectContainerNodes(last, node);
+                    last.ConnectContainerNodes(last);
                     node.AddModuleNode(new ContentModule(internalData[i][1]));
                     last = node;
                 }
@@ -75,7 +75,7 @@ namespace NextGenDialogue.Graph.Editor
                     .AddModuleNode(new SystemPromptModule(session.context));
                 await Task.Delay(2);
                 //Auto layout
-                NodeAutoLayoutHelper.Layout(new DialogueTreeLayoutConvertor(Graph, firstPiece));
+                new DialogueTreeLayoutConvertor(GraphView, firstPiece).Layout();
             }
             catch (Exception e)
             {

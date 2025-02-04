@@ -5,30 +5,25 @@ namespace NextGenDialogue
 {
     public class Piece : Node, IContentModule, IDialogueModule
     {
-        private static readonly ObjectPool<Piece> pool = new(() => new Piece(), (p) => p.IsPooled = true, (p) => p.Reset());
+        private static readonly ObjectPool<Piece> Pool = new(() => new Piece(), p => p.IsPooled = true, (p) => p.Reset());
         
         private const string DefaultID = "00";
         
-        public string Name { get; set; } = string.Empty;
-        
         public string ID { get; set; } = DefaultID;
         
-        public string[] Contents { get; set; } = EmptyContents;
-        
-        private static readonly string[] EmptyContents = Array.Empty<string>();
+        public string[] Contents { get; private set; } = Array.Empty<string>();
         
         private readonly List<Option> _options = new();
         
         public IReadOnlyList<Option> Options => _options;
         
-        private Piece Reset()
+        private void Reset()
         {
             IsPooled = false;
             ID = DefaultID;
-            Contents = EmptyContents;
+            Contents = Array.Empty<string>();
             _options.Clear();
             ClearModules();
-            return this;
         }
         
         public void AddOption(Option option)
@@ -39,7 +34,7 @@ namespace NextGenDialogue
         
         public static Piece GetPooled()
         {
-            return pool.Get();
+            return Pool.Get();
         }
         
         protected override void OnModuleAdd(IDialogueModule module)
@@ -51,7 +46,7 @@ namespace NextGenDialogue
         {
             if (IsPooled)
             {
-                pool.Release(this);
+                Pool.Release(this);
             }
         }
 

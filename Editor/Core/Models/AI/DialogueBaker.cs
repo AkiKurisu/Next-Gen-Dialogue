@@ -103,7 +103,7 @@ namespace NextGenDialogue.Graph.Editor
                     // Create next container
                     var node = graphView.CreateNextContainer(inBakeContainer);
                     // Link nodes
-                    graphView.ConnectContainerNodes(inBakeContainer, node);
+                    inBakeContainer.ConnectContainerNodes(node);
                     // Add bake module from script
                     // Random character
                     node.AddModuleNode(new AIBakeModule(depth, option));

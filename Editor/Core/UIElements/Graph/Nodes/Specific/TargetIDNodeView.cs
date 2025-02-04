@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Ceres.Editor;
 using Ceres.Editor.Graph;
-using Cysharp.Threading.Tasks;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -25,8 +24,8 @@ namespace NextGenDialogue.Graph.Editor
         public TargetIDNodeView(Type type, CeresGraphView graphView): base(type, graphView)
         {
         }
-        
-        public bool TryGetPiece(out PieceContainerView pieceContainerView)
+
+        private bool TryGetPiece(out PieceContainerView pieceContainerView)
         {
             if (_useReferenceField.value || !_childPort.connected)
             {
@@ -50,17 +49,21 @@ namespace NextGenDialogue.Graph.Editor
             OnToggle(_useReferenceField.value);
         }
         
-        protected sealed override async void OnRestore()
+        protected sealed override void OnRestore()
         {
+            if (_useReferenceField.value) return;
+            _childPort.SetEnabled(true);
+            _targetIDField.SetEnabled(false);
             // Connect after loaded
-            await UniTask.Delay(1);
-            var node = Graph.FindPiece(_targetIDField.value.Name);
-            if (node != null)
-            {
-                var edge = PortHelper.ConnectPorts(_childPort, node.Parent);
-                Graph.Add(edge);
-            }
-            OnToggle(_useReferenceField.value);
+            schedule.Execute(FindTargetPieceAndConnect).ExecuteLater(100);
+        }
+
+        private void FindTargetPieceAndConnect()
+        {
+            var node = GraphView.FindPiece(_targetIDField.value.Name);
+            if (node == null) return;
+            var edge = PortHelper.ConnectPorts(_childPort, node.Parent);
+            GraphView.Add(edge);
         }
         
         private void OnToggle(bool useReference)

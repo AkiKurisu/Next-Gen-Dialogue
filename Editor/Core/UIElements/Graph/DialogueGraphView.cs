@@ -76,7 +76,7 @@ namespace NextGenDialogue.Graph.Editor
         
         public IDialogueNodeView DuplicateNode(IDialogueNodeView node)
         {
-            var newNode = (IDialogueNodeView)NodeViewFactory.Get().CreateInstance(node.GetBehavior(), this);
+            var newNode = (IDialogueNodeView)NodeViewFactory.Get().CreateInstance(node.NodeType, this);
             if (newNode is PieceContainerView pieceContainer)
             {
                 pieceContainer.GenerateNewPieceID();
@@ -99,7 +99,7 @@ namespace NextGenDialogue.Graph.Editor
         
         private void OnNodeClick(IDialogueNodeView nodeView)
         {
-            _infoContainer.DisplayNodeInfo(nodeView.GetBehavior());
+            _infoContainer.DisplayNodeInfo(nodeView.NodeType);
             OnSelectNode(nodeView);
         }
         
@@ -313,8 +313,8 @@ namespace NextGenDialogue.Graph.Editor
             {
                 if (nodeToConnect is ModuleNodeView moduleNode)
                     _container.AddElement(moduleNode);
-                else if (_container is IContainChild childContainer)
-                    childContainer.AddChildElement(nodeToConnect, graphView);
+                else if (_container is IContainChildNode childContainer)
+                    childContainer.AddChildElement(nodeToConnect);
             }
         }
         

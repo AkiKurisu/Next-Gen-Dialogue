@@ -2,9 +2,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using Ceres.Editor.Graph;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
+
 namespace NextGenDialogue.Graph.Editor
 {
     public static class DialogueGraphViewExtension
@@ -72,11 +72,11 @@ namespace NextGenDialogue.Graph.Editor
             return ct;
         }
         
-        public static void ConnectContainerNodes(this DialogueGraphView graphView, ContainerNodeView first, ContainerNodeView second)
+        public static void ConnectContainerNodes(this ContainerNodeView first, ContainerNodeView second)
         {
             if (first is PieceContainerView pieceContainer)
             {
-                pieceContainer.AddChildElement(second, graphView);
+                pieceContainer.AddChildElement(second);
             }
             else
             {
