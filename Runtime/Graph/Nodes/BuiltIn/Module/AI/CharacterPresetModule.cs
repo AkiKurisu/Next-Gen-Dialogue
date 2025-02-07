@@ -1,9 +1,9 @@
 using System;
 using Ceres.Annotations;
 using Ceres.Graph;
-using NextGenDialogue;
 using NextGenDialogue.AI;
 using UnityEngine;
+
 namespace NextGenDialogue.Graph
 {
     [Serializable]
@@ -37,12 +37,12 @@ namespace NextGenDialogue.Graph
         
         public CharacterPresetModule() { }
         
-        public CharacterPresetModule(string user_Name, string char_name, string char_persona, string world_scenario)
+        public CharacterPresetModule(string userName, string charName, string charPersona, string worldScenario)
         {
-            this.user_Name = new SharedString(user_Name);
-            this.char_name = new SharedString(char_name);
-            this.char_persona = new SharedString(char_persona);
-            this.world_scenario = new SharedString(world_scenario);
+            user_Name = new SharedString(userName);
+            char_name = new SharedString(charName);
+            char_persona = new SharedString(charPersona);
+            world_scenario = new SharedString(worldScenario);
         }
     }
 }

@@ -14,9 +14,7 @@ namespace NextGenDialogue.Graph.Editor
         internal class DialogueGraphButton : Button
         {
             private const string ButtonText = "Open Dialogue Graph";
-            
-            public IDialogueGraphContainer Container { get; set; }
-            
+
             public DialogueGraphButton(IDialogueGraphContainer container) 
             {
                 style.fontSize = 15;
@@ -24,8 +22,7 @@ namespace NextGenDialogue.Graph.Editor
                 style.color = Color.white;
                 style.backgroundColor = new StyleColor(new Color(85 / 255f, 205 / 255f, 115 / 255f));
                 text = ButtonText;
-                Container = container;
-                clickable = new Clickable(() => DialogueEditorWindow.Show(Container));
+                clickable = new Clickable(() => DialogueEditorWindow.Show(container));
             }
         }
         
@@ -69,7 +66,7 @@ namespace NextGenDialogue.Graph.Editor
             var assetField = new PropertyField(serializedObject.FindProperty("externalAsset"), "External Asset");
             myInspector.Add(assetField);
             
-            if(!component.Asset)
+            if (!component.Asset)
             {
                 // create instance for edit
                 var instance = Target.GetDialogueGraph();
@@ -84,16 +81,10 @@ namespace NextGenDialogue.Graph.Editor
                     }));
                 }
             }
-            
-            assetField.RegisterValueChangeCallback(evt =>
-            {
-                var externalAsset = evt.changedProperty.objectReferenceValue as NextGenDialogueGraphAsset;
-                _dialogueGraphButton.Container = (bool)externalAsset ? externalAsset : Target;
-            });
 
-            _dialogueGraphButton = new DialogueGraphButton((bool)component.Asset ? component.Asset : Target);
+            _dialogueGraphButton = new DialogueGraphButton(component);
             myInspector.Add(_dialogueGraphButton);
-            myInspector.Add(new OpenFlowGraphButton((bool)component.Asset ? component.Asset : component));
+            myInspector.Add(new OpenFlowGraphButton(component));
             var playButton = new DialogueGraphPlayDialogueButton(component);
             playButton.SetEnabled(Application.isPlaying);
             myInspector.Add(playButton);
@@ -141,8 +132,8 @@ namespace NextGenDialogue.Graph.Editor
                 }));
             }
             myInspector.Add(new PropertyField(serializedObject.FindProperty("flowGraphAsset")));
-            myInspector.Add(new DialogueGraphButton(Target));
             var asset = (NextGenDialogueGraphAsset)Target;
+            myInspector.Add(new DialogueGraphButton(asset));
             myInspector.Add(new OpenFlowGraphButton(asset));
             return myInspector;
         }

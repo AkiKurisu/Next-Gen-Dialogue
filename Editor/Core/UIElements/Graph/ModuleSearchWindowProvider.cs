@@ -27,7 +27,7 @@ namespace NextGenDialogue.Graph.Editor
             _graphView = graphView;
             _nodeView = nodeView;
             _context = context;
-            _containerType = nodeView.GetBehavior();
+            _containerType = nodeView.NodeType;
             _indentationIcon = new Texture2D(1, 1);
             _indentationIcon.SetPixel(0, 0, new Color(0, 0, 0, 0));
             _indentationIcon.Apply();

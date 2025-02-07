@@ -49,8 +49,8 @@ namespace NextGenDialogue.Graph.Editor
         protected override bool OnValidate(Stack<IDialogueNodeView> stack)
         {
             // Validate All Pieces and Dialogues
-            Graph.CollectNodes<PieceContainerView>().ForEach(stack.Push);
-            var allDialogues = Graph.CollectNodes<DialogueContainerView>();
+            GraphView.CollectNodes<PieceContainerView>().ForEach(stack.Push);
+            var allDialogues = GraphView.CollectNodes<DialogueContainerView>();
             allDialogues.ForEach(stack.Push);
             return true;
         }
@@ -73,7 +73,7 @@ namespace NextGenDialogue.Graph.Editor
             }
             
             // Commit all pieces
-            Graph.CollectNodes<PieceContainerView>()
+            GraphView.CollectNodes<PieceContainerView>()
             .ForEach(x =>
             {
                 newRoot.AddChild(x.Compile());
@@ -81,7 +81,7 @@ namespace NextGenDialogue.Graph.Editor
             });
             
             // Commit left inactive dialogues
-            var allDialogues = Graph.CollectNodes<DialogueContainerView>();
+            var allDialogues = GraphView.CollectNodes<DialogueContainerView>();
             if (child != null)
             {
                 allDialogues.Remove(child);
@@ -107,7 +107,7 @@ namespace NextGenDialogue.Graph.Editor
         {
             _cache?.ClearStyle();
             // Clear all dialogue piece
-            Graph.CollectNodes<PieceContainerView>().ForEach(x => x.ClearStyle());
+            GraphView.CollectNodes<PieceContainerView>().ForEach(x => x.ClearStyle());
             if (Child.connected)
             {
                 // Clear child dialogue

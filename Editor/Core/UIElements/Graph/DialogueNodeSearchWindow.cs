@@ -35,9 +35,10 @@ namespace NextGenDialogue.Graph.Editor
             
             var (groups, nodeTypes) = SearchTypes(FilteredTypes, Context);
             var builder = new CeresNodeSearchEntryBuilder(_indentationIcon, Context.AllowGeneric, Context.ParameterType);
+            
             foreach (var filteredType in FilteredTypes)
             {
-                builder.AddEntry(new SearchTreeGroupEntry(new GUIContent($"Select {filteredType.Name}"), 1));
+                builder.AddEntry(new SearchTreeGroupEntry(new GUIContent($"Select {filteredType.Name.Replace("Node", string.Empty)}"), 1));
                 var subGroups = groups.SelectSubclass(filteredType);
                 foreach (var subGroup in subGroups)
                 {
@@ -61,6 +62,11 @@ namespace NextGenDialogue.Graph.Editor
             if (node is PieceContainerView pieceContainer)
             {
                 pieceContainer.GenerateNewPieceID();
+                pieceContainer.AddModuleNode(new ContentModule());
+            }
+            else if (node is OptionContainerView optionContainer)
+            {
+                optionContainer.AddModuleNode(new ContentModule());
             }
             DialogueView.AddNodeView(node, newRect);
             return true;

@@ -82,7 +82,7 @@ namespace NextGenDialogue.Graph.VITS.Editor
             float startVal = (float)EditorApplication.timeSinceStartup;
             const float maxValue = 60.0f;
             
-            var ct = Graph.GetCancellationTokenSource();
+            var ct = GraphView.GetCancellationTokenSource();
             VITSResponse response = default;
             var task = UniTask.Create(async () =>
             {
@@ -96,7 +96,6 @@ namespace NextGenDialogue.Graph.VITS.Editor
                 }
                 return response;
             });
-            task.Forget();
             
             while (task.Status == UniTaskStatus.Pending)
             {
@@ -104,7 +103,7 @@ namespace NextGenDialogue.Graph.VITS.Editor
                 EditorUtility.DisplayProgressBar("Wait to bake audio", "Waiting for a few seconds", slider);
                 if (slider > 1)
                 {
-                    Graph.EditorWindow.ShowNotification(new GUIContent($"Audio baking is out of time, please check your internet!"));
+                    GraphView.EditorWindow.ShowNotification(new GUIContent($"Audio baking is out of time, please check your internet!"));
                     ct.Cancel();
                     break;
                 }
@@ -119,7 +118,7 @@ namespace NextGenDialogue.Graph.VITS.Editor
             }
             else
             {
-                Graph.EditorWindow.ShowNotification(new GUIContent($"Audio baked failed!"));
+                GraphView.EditorWindow.ShowNotification(new GUIContent($"Audio baked failed!"));
             }
             
             EditorUtility.ClearProgressBar();

@@ -41,7 +41,7 @@ namespace NextGenDialogue.Graph.Editor
         protected override void Initialize(Type nodeType, DialogueGraphView graphView)
         {
             base.Initialize(nodeType, graphView);
-            NoValidate = GetBehavior().GetCustomAttribute(typeof(NoValidateAttribute), false) != null;
+            NoValidate = NodeType.GetCustomAttribute(typeof(NoValidateAttribute), false) != null;
         }
         
         public void RemoveUnnecessaryChildren()

@@ -216,7 +216,7 @@ namespace NextGenDialogue.Graph.Editor
                     // Create next container
                     var node = graphView.CreateNextContainer(bakeContainer);
                     // Link nodes
-                    graphView.ConnectContainerNodes(bakeContainer, node);
+                    bakeContainer.ConnectContainerNodes(node);
                     // Add bake module from script
                     node.AddModuleNode(new ContentModule(pair.Value));
                     // Append current bake to last

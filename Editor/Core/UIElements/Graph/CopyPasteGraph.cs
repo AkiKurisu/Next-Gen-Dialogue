@@ -132,8 +132,8 @@ namespace NextGenDialogue.Graph.Editor
         
         private void CopyPort(IDialogueNodeView sourceNode, IDialogueNodeView pasteNode)
         {
-            var behaviorType = sourceNode.GetBehavior();
-            if (behaviorType.IsSubclassOf(typeof(ContainerNode)))
+            var nodeType = sourceNode.NodeType;
+            if (nodeType.IsSubclassOf(typeof(ContainerNode)))
             {
                 var sourceContainer = (ContainerNodeView)sourceNode;
                 var pasteContainer = (ContainerNodeView)pasteNode;
@@ -147,8 +147,8 @@ namespace NextGenDialogue.Graph.Editor
                     else if (x is ChildBridgeView childBridge)
                         _portCopyDict.Add(childBridge.Child, ((ChildBridgeView)copyMap[x.GetHashCode()]).Child);
                 });
-                //For some reason edges connected to bridge's ports are not selected by graph view
-                //Add edge manually
+                // For some reason edges connected to bridge's ports are not selected by graph view
+                // Add edge manually
                 _portCopyDict.Add(sourceContainer.Parent, pasteContainer.Parent);
                 if (sourceContainer.Parent.connected)
                 {
@@ -156,17 +156,17 @@ namespace NextGenDialogue.Graph.Editor
                     _sourceEdges.Add(edge);
                 }
             }
-            else if (behaviorType.IsSubclassOf(typeof(BehaviorModule)))
+            else if (nodeType.IsSubclassOf(typeof(BehaviorModule)))
             {
                 var behaviorModuleNode = (BehaviorModuleNodeView)sourceNode;
                 _portCopyDict.Add(behaviorModuleNode.Child, ((BehaviorModuleNodeView)pasteNode).Child);
             }
-            else if (behaviorType.IsSubclassOf(typeof(ActionNode)))
+            else if (nodeType.IsSubclassOf(typeof(ActionNode)))
             {
                 var actionNode = (ActionNodeView)sourceNode;
                 _portCopyDict.Add(actionNode.Parent, ((ActionNodeView)pasteNode).Parent);
             }
-            else if (behaviorType.IsSubclassOf(typeof(CompositeNode)))
+            else if (nodeType.IsSubclassOf(typeof(CompositeNode)))
             {
                 var compositeNode = (CompositeNodeView)sourceNode;
                 var copy = (CompositeNodeView)pasteNode;

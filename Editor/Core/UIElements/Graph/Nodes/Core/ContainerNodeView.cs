@@ -6,12 +6,10 @@ using Ceres.Annotations;
 using Ceres.Editor;
 using Ceres.Editor.Graph;
 using Ceres.Utilities;
-using NextGenDialogue;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.UIElements;
-using Node = UnityEditor.Experimental.GraphView.Node;
 namespace NextGenDialogue.Graph.Editor
 {
     public abstract class ContainerNodeView : StackNode, IDialogueNodeView, ILayoutNode
@@ -65,9 +63,8 @@ namespace NextGenDialogue.Graph.Editor
         
         
         private readonly Label _titleLabel;
-        
-        
-        private Type _nodeType;
+
+        public Type NodeType { get; private set; }
         
         public Port Parent { get; }
         
@@ -83,7 +80,7 @@ namespace NextGenDialogue.Graph.Editor
         
         private readonly List<FieldInfo> _fieldInfos = new();
 
-        public DialogueGraphView Graph { get; private set; }
+        public DialogueGraphView GraphView { get; private set; }
         
         VisualElement ILayoutNode.View => this;
         
@@ -128,8 +125,8 @@ namespace NextGenDialogue.Graph.Editor
             .ForEach(
                 x =>
                 {
-                    //Copy child module
-                    var newNode = _copyMap[x.GetHashCode()] = Graph.DuplicateNode(x) as ModuleNodeView;
+                    // Copy child module
+                    var newNode = _copyMap[x.GetHashCode()] = GraphView.DuplicateNode(x) as ModuleNodeView;
                     AddElement(newNode);
                 }
             );
@@ -138,13 +135,13 @@ namespace NextGenDialogue.Graph.Editor
             .ForEach(
                 x =>
                 {
-                    //Copy child bridge
+                    // Copy child bridge
                     var newNode = _copyMap[x.GetHashCode()] = x.Clone();
                     AddElement(newNode);
                 }
             );
             _description.value = node._description.value;
-            NodeBehavior = (DialogueNode)Activator.CreateInstance(copyNode.GetBehavior());
+            NodeBehavior = (DialogueNode)Activator.CreateInstance(copyNode.NodeType);
             NodeBehavior.NotifyEditor = MarkAsExecuted;
             Guid = System.Guid.NewGuid().ToString();
         }
@@ -158,13 +155,8 @@ namespace NextGenDialogue.Graph.Editor
         
         public DialogueNode Compile()
         {
-            NodeBehavior = (DialogueNode)Activator.CreateInstance(GetBehavior());
+            NodeBehavior = (DialogueNode)Activator.CreateInstance(NodeType);
             return NodeBehavior;
-        }
-        
-        public Type GetBehavior()
-        {
-            return _nodeType;
         }
 
         public void Commit(Stack<IDialogueNodeView> stack)
@@ -195,7 +187,7 @@ namespace NextGenDialogue.Graph.Editor
                             .ForEach(x => stack.Push(x));
             contentContainer.Query<ChildBridgeView>()
                             .ForEach(x => x.Validate(stack));
-            var valid = GetBehavior() != null;
+            var valid = NodeType != null;
             if (valid)
             {
                 style.backgroundColor = new StyleColor(StyleKeyword.Null);
@@ -211,15 +203,15 @@ namespace NextGenDialogue.Graph.Editor
         {
             Assert.IsNotNull(nodeType);
             Assert.IsNotNull(graphView);
-            Graph = graphView;
-            _nodeType = nodeType;
+            GraphView = graphView;
+            NodeType = nodeType;
 
             var defaultValue = (DialogueNode)Activator.CreateInstance(nodeType);
             nodeType.GetGraphEditorPropertyFields().ForEach(p =>
                 {
                     var fieldResolver = _fieldResolverFactory.Create(p);
                     fieldResolver.Restore(defaultValue);
-                    _fieldContainer.Add(fieldResolver.GetField(Graph));
+                    _fieldContainer.Add(fieldResolver.GetField(GraphView));
                     _resolvers.Add(fieldResolver);
                     _fieldInfos.Add(p);
                 });
@@ -251,7 +243,7 @@ namespace NextGenDialogue.Graph.Editor
             evt.menu.MenuItems().Add(new CeresDropdownMenuAction("Add Module", a =>
             {
                 var provider = ScriptableObject.CreateInstance<ModuleSearchWindowProvider>();
-                provider.Init(this, Graph, NextGenDialogueSettings.GetNodeSearchContext(), GetExceptModuleTypes());
+                provider.Init(this, GraphView, NextGenDialogueSettings.GetNodeSearchContext(), GetExceptModuleTypes());
                 SearchWindow.Open(new SearchWindowContext(a.eventInfo.localMousePosition), provider);
             }));
         }
@@ -268,13 +260,13 @@ namespace NextGenDialogue.Graph.Editor
         
         public bool TryGetModuleNode<T>(out ModuleNodeView moduleNodeView) where T : Module
         {
-            moduleNodeView = contentContainer.Query<ModuleNodeView>().ToList().FirstOrDefault(x => x.GetBehavior() == typeof(T));
+            moduleNodeView = contentContainer.Query<ModuleNodeView>().ToList().FirstOrDefault(x => x.NodeType == typeof(T));
             return moduleNodeView != null;
         }
         
         public bool TryGetModuleNode(Type type, out ModuleNodeView moduleNodeView)
         {
-            moduleNodeView = contentContainer.Query<ModuleNodeView>().ToList().FirstOrDefault(x => x.GetBehavior() == type);
+            moduleNodeView = contentContainer.Query<ModuleNodeView>().ToList().FirstOrDefault(x => x.NodeType == type);
             return moduleNodeView != null;
         }
         
@@ -286,14 +278,14 @@ namespace NextGenDialogue.Graph.Editor
         
         public ModuleNodeView[] GetModuleNodes<T>() where T : Module
         {
-            return contentContainer.Query<ModuleNodeView>().ToList().Where(x => x.GetBehavior() == typeof(T)).ToArray();
+            return contentContainer.Query<ModuleNodeView>().ToList().Where(x => x.NodeType == typeof(T)).ToArray();
         }
         
         public ModuleNodeView AddModuleNode<T>(T module) where T : Module, new()
         {
-            var moduleNode = (ModuleNodeView)NodeViewFactory.Get().CreateInstance(typeof(T), Graph);
+            var moduleNode = (ModuleNodeView)NodeViewFactory.Get().CreateInstance(typeof(T), GraphView);
             moduleNode.SetNodeInstance(module);
-            Graph.AddNodeView(moduleNode);
+            GraphView.AddNodeView(moduleNode);
             AddElement(moduleNode);
             return moduleNode;
         }
@@ -302,9 +294,9 @@ namespace NextGenDialogue.Graph.Editor
         {
             evt.menu.MenuItems().Add(new CeresDropdownMenuAction("Duplicate", a =>
             {
-                Graph.DuplicateNode(this);
+                GraphView.DuplicateNode(this);
             }));
-            Graph.ContextualMenuRegistry.BuildContextualMenu(ContextualMenuType.Node, evt, GetBehavior());
+            GraphView.ContextualMenuRegistry.BuildContextualMenu(ContextualMenuType.Node, evt, NodeType);
         }
         
         public Rect GetWorldPosition()
@@ -327,247 +319,6 @@ namespace NextGenDialogue.Graph.Editor
                 }
             }
             return list;
-        }
-    }
-    
-    [CustomNodeView(typeof(Dialogue))]
-    public sealed class DialogueContainerView : ContainerNodeView, IContainChild, ILayoutNode
-    {
-        protected override Type ParentPortType => typeof(DialoguePort);
-        protected override Color PortColor => new(97 / 255f, 95 / 255f, 212 / 255f, 0.91f);
-
-        VisualElement ILayoutNode.View => this;
-        
-        public DialogueContainerView(Type type, CeresGraphView graphView): base(type, graphView)
-        {
-            name = nameof(DialogueContainerView);
-        }
-
-        protected override void OnSeparatorContextualMenuEvent(ContextualMenuPopulateEvent evt, int separatorIndex)
-        {
-            base.OnSeparatorContextualMenuEvent(evt, separatorIndex);
-            evt.menu.MenuItems().Add(new CeresDropdownMenuAction("Add Piece", a =>
-            {
-                var bridge = new PieceBridgeView(Graph, PortColor, string.Empty);
-                AddElement(bridge);
-            }));
-        }
-        
-        public void AddChildElement(IDialogueNodeView node, DialogueGraphView graphView)
-        {
-            string pieceID = ((PieceContainerView)node).GetPieceID();
-            var count = this.Query<PieceBridgeView>().ToList().Count;
-            if (!string.IsNullOrEmpty(pieceID) && ((Dialogue)NodeBehavior).ResolvePieceID(count) == pieceID)
-            {
-                AddElement(new PieceBridgeView(graphView, PortColor, pieceID));
-                return;
-            }
-            var bridge = new PieceBridgeView(graphView, PortColor, string.Empty);
-            AddElement(bridge);
-            var edge = PortHelper.ConnectPorts(bridge.Child, node.Parent);
-            graphView.Add(edge);
-        }
-        
-        protected override void OnCommit(Stack<IDialogueNodeView> stack)
-        {
-            ((Dialogue)NodeBehavior).referencePieces = new List<string>();
-        }
-        
-        protected override bool AcceptsElement(GraphElement element, ref int proposedIndex, int maxIndex)
-        {
-            if (element is ModuleNodeView moduleNode)
-            {
-                var behaviorType = moduleNode.GetBehavior();
-                var define = behaviorType.GetCustomAttributes<ModuleOfAttribute>().FirstOrDefault(x => x.ContainerType == typeof(Dialogue));
-                if (define == null) return false;
-                if (define.AllowMulti) return true;
-                return !TryGetModuleNode(behaviorType, out _);
-            }
-            return element is PieceBridgeView or ParentBridgeView;
-        }
-        
-        public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
-        {
-            evt.menu.MenuItems().Add(new CeresDropdownMenuAction("Collect All Pieces", a =>
-            {
-                var pieces = Graph.CollectNodes<PieceContainerView>();
-                var currentPieces = this.Query<PieceBridgeView>().ToList();
-                var addPieces = pieces.Where(x => !currentPieces.Any(p => !string.IsNullOrEmpty(p.PieceID) && p.PieceID == x.GetPieceID()));
-                foreach (var piece in addPieces)
-                {
-                    AddElement(new PieceBridgeView(Graph, PortColor, piece.GetPieceID()));
-                }
-            }));
-            evt.menu.MenuItems().Add(new CeresDropdownMenuAction("Auto Layout", a =>
-            {
-                new DialogueTreeLayoutConvertor(Graph, this).Layout();
-            }));
-            base.BuildContextualMenu(evt);
-        }
-
-        protected override IEnumerable<Type> GetExceptModuleTypes()
-        {
-            return contentContainer.Query<ModuleNodeView>().ToList().Select(x => x.GetBehavior()).Where(x =>
-            {
-                var define = x.GetCustomAttributes<ModuleOfAttribute>()
-                    .FirstOrDefault(moduleOfAttribute => moduleOfAttribute.ContainerType == typeof(Dialogue));
-                return define!.AllowMulti;
-            });
-        }
-    }
-    
-    [CustomNodeView(typeof(Piece))]
-    public sealed class PieceContainerView : ContainerNodeView, IContainChild
-    {
-        public string GetPieceID()
-        {
-            return mainContainer.Q<PieceIDField>().value.Name;
-        }
-        
-        public Piece GetPiece()
-        {
-            return (Piece)NodeBehavior;
-        }
-
-        protected override Port.Capacity PortCapacity => Port.Capacity.Multi;
-
-        protected override Type ParentPortType => typeof(PiecePort);
-
-        protected override Color PortColor => new(60 / 255f, 140 / 255f, 171 / 255f, 0.91f);
-        
-        public PieceContainerView(Type type, CeresGraphView graphView): base(type, graphView)
-        {
-            name = nameof(PieceContainerView);
-            RegisterCallback<DetachFromPanelEvent>(OnDetachFromPanel);
-        }
-
-        private void OnDetachFromPanel(DetachFromPanelEvent evt)
-        {
-            Graph.Blackboard.RemoveVariable(mainContainer.Q<PieceIDField>().BindVariable, true);
-        }
-
-        protected override void OnSeparatorContextualMenuEvent(ContextualMenuPopulateEvent evt, int separatorIndex)
-        {
-            base.OnSeparatorContextualMenuEvent(evt, separatorIndex);
-            evt.menu.MenuItems().Add(new CeresDropdownMenuAction("Add Option", a =>
-            {
-                var bridge = new OptionBridgeView("Option", PortColor);
-                AddElement(bridge);
-            }));
-        }
-        
-        public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
-        {
-            evt.menu.MenuItems().Add(new CeresDropdownMenuAction("Edit PieceID", a =>
-            {
-                Graph.Blackboard.EditVariable(GetPieceID());
-            }));
-            evt.menu.MenuItems().Add(new CeresDropdownMenuAction("Auto Layout", a =>
-            {
-                new DialogueTreeLayoutConvertor(Graph, this).Layout();
-            }));
-            if (Application.isPlaying)
-            {
-                evt.menu.MenuItems().Add(new CeresDropdownMenuAction("Jump to this Piece", a =>
-                {
-                    DialogueSystem.Get().PlayDialoguePiece(GetPiece().CastPiece().ID);
-                },
-                _ =>
-                {
-                    var ds = DialogueSystem.Get();
-                    if (!ds.IsPlaying) return DropdownMenuAction.Status.Disabled;
-                    // Whether is the container of this piece
-                    var piece = GetPiece().CastPiece();
-                    if (ds.GetCurrentDialogue()?.GetPiece(piece.ID) != piece) return DropdownMenuAction.Status.Disabled;
-                    return DropdownMenuAction.Status.Normal;
-                }));
-            }
-            base.BuildContextualMenu(evt);
-        }
-        
-        public void AddChildElement(IDialogueNodeView node, DialogueGraphView graphView)
-        {
-            var bridge = new OptionBridgeView("Option", PortColor);
-            AddElement(bridge);
-            var edge = PortHelper.ConnectPorts(bridge.Child, node.Parent);
-            graphView.Add(edge);
-        }
-        
-        protected override bool AcceptsElement(GraphElement element, ref int proposedIndex, int maxIndex)
-        {
-            if (element is not ModuleNodeView moduleNode) return element is OptionBridgeView or ParentBridgeView;
-            var behaviorType = moduleNode.GetBehavior();
-            var define = behaviorType.GetCustomAttributes<ModuleOfAttribute>().FirstOrDefault(x => x.ContainerType == typeof(Piece));
-            if (define == null) return false;
-            if (define.AllowMulti) return true;
-            return !TryGetModuleNode(behaviorType, out _);
-        }
-        
-        public void GenerateNewPieceID()
-        {
-            var variable = new PieceID { Name = "New Piece" };
-            Graph.Blackboard.AddVariable(variable, false);
-            mainContainer.Q<PieceIDField>().value = new PieceID { Name = variable.Name };
-        }
-        
-        protected override IEnumerable<Type> GetExceptModuleTypes()
-        {
-            return contentContainer.Query<ModuleNodeView>().ToList().Select(x => x.GetBehavior()).Where(x =>
-            {
-                var define = x.GetCustomAttributes<ModuleOfAttribute>()
-                                            .First(attribute => attribute.ContainerType == typeof(Piece));
-                return !define.AllowMulti;
-            });
-        }
-
-        public OptionContainerView[] GetConnectedOptionContainers()
-        {
-            var bridges = contentContainer.Query<ChildBridgeView>().ToList();
-            return bridges.Select(bridge => PortHelper.FindChildNode(bridge.Child)).OfType<OptionContainerView>().ToArray();
-        }
-    }
-    
-    [CustomNodeView(typeof(Option))]
-    public sealed class OptionContainerView : ContainerNodeView
-    {
-        protected override Type ParentPortType => typeof(OptionPort);
-
-        protected override Color PortColor => new(57 / 255f, 98 / 255f, 147 / 255f, 0.91f);
-        
-        public OptionContainerView(Type type, CeresGraphView graphView): base(type, graphView)
-        {
-            name = nameof(OptionContainerView);
-        }
-        
-        public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
-        {
-            evt.menu.MenuItems().Add(new CeresDropdownMenuAction("Auto Layout", a =>
-            {
-                new DialogueTreeLayoutConvertor(Graph, this).Layout();
-            }));
-            base.BuildContextualMenu(evt);
-        }
-        
-        protected override bool AcceptsElement(GraphElement element, ref int proposedIndex, int maxIndex)
-        {
-            if (element is not ModuleNodeView moduleNode) return element is ParentBridgeView;
-            var behaviorType = moduleNode.GetBehavior();
-            if (behaviorType.GetCustomAttributes<ModuleOfAttribute>().All(x => x.ContainerType != typeof(Option))) return false;
-            return !TryGetModuleNode(behaviorType, out _);
-        }
-        
-        protected override IEnumerable<Type> GetExceptModuleTypes()
-        {
-            return contentContainer.Query<ModuleNodeView>().ToList().Select(x => x.GetBehavior()).Where(x =>
-            {
-                var define = x.GetCustomAttributes<ModuleOfAttribute>().First(attribute => attribute.ContainerType == typeof(Option));
-                return !define.AllowMulti;
-            });
-        }
-
-        public PieceContainerView GetConnectedPieceContainer()
-        {
-            return PortHelper.FindParentNode(Parent) as PieceContainerView;
         }
     }
 }

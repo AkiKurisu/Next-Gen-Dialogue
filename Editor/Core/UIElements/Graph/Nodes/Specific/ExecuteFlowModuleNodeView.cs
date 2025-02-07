@@ -17,7 +17,7 @@ namespace NextGenDialogue.Graph.Editor
 
         private void EditFlowEvent()
         {
-            if (Graph.DialogueGraphContainer is not IFlowGraphContainer flowGraphContainer) return;
+            if (GraphView.DialogueGraphContainer is not IFlowGraphContainer flowGraphContainer) return;
             
             var window = FlowGraphEditorWindow.Show(flowGraphContainer);
             window.SetContainerType(typeof(NextGenDialogueComponent));

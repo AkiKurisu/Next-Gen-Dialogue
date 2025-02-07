@@ -30,18 +30,18 @@ namespace NextGenDialogue.Graph.VITS.Editor
         
         private void AttachAllPieces()
         {
-            Graph.CollectNodes<PieceContainerView>().ForEach(x => x.AddModuleNode(new VITSModule()));
+            GraphView.CollectNodes<PieceContainerView>().ForEach(x => x.AddModuleNode(new VITSModule()));
         }
         
         private void AttachAllOptions()
         {
-            Graph.CollectNodes<OptionContainerView>().ForEach(x => x.AddModuleNode(new VITSModule()));
+            GraphView.CollectNodes<OptionContainerView>().ForEach(x => x.AddModuleNode(new VITSModule()));
         }
         
         private async void GenerateAll()
         {
             _generateAll.SetEnabled(false);
-            foreach (var container in Graph.CollectNodes<ContainerNodeView>())
+            foreach (var container in GraphView.CollectNodes<ContainerNodeView>())
             {
                 if (container.TryGetModuleNode<VITSModule>(out var node))
                 {

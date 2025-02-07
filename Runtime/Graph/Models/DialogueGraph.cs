@@ -92,13 +92,6 @@ namespace NextGenDialogue.Graph
 
         public override void Compile()
         {
-            foreach (var variable in variables)
-            {
-                if (variable is PieceID pieceID)
-                {
-                    pieceID.Value = Guid.NewGuid().ToString();
-                }
-            }
             InitVariables_Imp(this);
             BlackBoard.MapGlobal();
             FlowGraph?.Compile();

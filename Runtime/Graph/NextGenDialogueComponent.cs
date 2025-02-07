@@ -9,7 +9,9 @@ using UObject = UnityEngine.Object;
 namespace NextGenDialogue.Graph
 {
     [DisallowMultipleComponent]
-    public class NextGenDialogueComponent : MonoBehaviour, IDialogueGraphContainer, IFlowGraphContainer, IFlowGraphRuntime
+    public class NextGenDialogueComponent : MonoBehaviour, 
+        IDialogueGraphContainer,
+        IFlowGraphContainer, IFlowGraphRuntime
     {
         [NonSerialized]
         private DialogueGraph _dialogueGraph;
@@ -44,10 +46,16 @@ namespace NextGenDialogue.Graph
             } 
         }
 
-        // ============= Implementation for IFlowGraphRuntime =================== //
-        FlowGraph IFlowGraphRuntime.Graph => GetDialogueGraphInstance().FlowGraph;
-        // ============= Implementation for IFlowGraphRuntime =================== //
+        /// <summary>
+        /// Get runtime dialogue graph instance
+        /// </summary>
+        public DialogueGraph DialogueGraph => _dialogueGraph ?? GetDialogueGraph();
         
+
+        // ============= Implementation for IFlowGraphRuntime =================== //
+        FlowGraph IFlowGraphRuntime.Graph => DialogueGraph.FlowGraph;
+        // ============= Implementation for IFlowGraphRuntime =================== //
+
         private void Awake()
         {
             (_dialogueGraph = GetDialogueGraph()).Compile();
@@ -59,21 +67,12 @@ namespace NextGenDialogue.Graph
         }
 
         /// <summary>
-        /// Get or create dialogue graph instance from this component
-        /// </summary>
-        /// <returns></returns>
-        public DialogueGraph GetDialogueGraphInstance()
-        {
-            return _dialogueGraph ?? GetDialogueGraph();
-        }
-
-        /// <summary>
         /// Play dialogue
         /// </summary>
         [ExecutableFunction, CeresLabel("Play Dialogue")]
         public void PlayDialogue()
         {
-            GetDialogueGraphInstance().PlayDialogue(this);
+            DialogueGraph.PlayDialogue(this);
         }
 
         /// <summary>
@@ -89,6 +88,11 @@ namespace NextGenDialogue.Graph
         
         public DialogueGraph GetDialogueGraph()
         {
+            if (_dialogueGraph != null)
+            {
+                return _dialogueGraph;
+            }
+            
             if (Asset)
             {
                 return Asset.GetDialogueGraph();
@@ -100,7 +104,7 @@ namespace NextGenDialogue.Graph
 
         public void SetGraphData(CeresGraphData graph)
         {
-            if(graph is DialogueGraphData dialogue)
+            if (graph is DialogueGraphData dialogue)
                 dialogueGraphData = dialogue;
             if (graph is FlowGraphData flow)
                 flowGraphData = flow;

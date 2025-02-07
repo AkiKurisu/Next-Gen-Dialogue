@@ -44,11 +44,11 @@ namespace NextGenDialogue.Graph.Editor
         {
             //Connect after loaded
             await Task.Delay(1);
-            var node = Graph.FindPiece(_nextIDField.value.Name);
+            var node = GraphView.FindPiece(_nextIDField.value.Name);
             if (node != null)
             {
                 var edge = PortHelper.ConnectPorts(_childPort, node.Parent);
-                Graph.Add(edge);
+                GraphView.Add(edge);
             }
             OnToggle(_useReferenceField.value);
         }

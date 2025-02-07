@@ -30,8 +30,8 @@ namespace NextGenDialogue.Graph.Editor
                 var lastSelections = JsonConvert.DeserializeObject<string[]>(_lastSelection);
                 foreach (var selection in lastSelections)
                 {
-                    var node = Graph.Query<UnityEditor.Experimental.GraphView.Node>().ToList().OfType<IDialogueNodeView>().FirstOrDefault(x => x.Guid == selection);
-                    if (node != null) Graph.AddToSelection(node.NodeElement);
+                    var node = GraphView.Query<UnityEditor.Experimental.GraphView.Node>().ToList().OfType<IDialogueNodeView>().FirstOrDefault(x => x.Guid == selection);
+                    if (node != null) GraphView.AddToSelection(node.NodeElement);
                 }
             }
         }
@@ -39,12 +39,12 @@ namespace NextGenDialogue.Graph.Editor
         {
             _autoGenerate.SetEnabled(false);
             SaveCurrentSelection();
-            await NovelBaker.AutoGenerateNovel(Graph);
+            await NovelBaker.AutoGenerateNovel(GraphView);
             _autoGenerate.SetEnabled(true);
         }
         private void SaveCurrentSelection()
         {
-            var containers = Graph.selection.OfType<ContainerNodeView>();
+            var containers = GraphView.selection.OfType<ContainerNodeView>();
             _lastSelection = JsonConvert.SerializeObject(containers.Select(x => x.Guid).ToArray());
             _loadLast.SetEnabled(true);
         }

@@ -61,7 +61,7 @@ namespace NextGenDialogue.Graph.Editor
                 return sharedVariable.Value;
             }
 
-            var variable = dialogueNodeView.Graph.GetSharedVariable<T>(sharedVariable.Name);
+            var variable = dialogueNodeView.GraphView.GetSharedVariable<T>(sharedVariable.Name);
             if (variable == null)
             {
                 return default;

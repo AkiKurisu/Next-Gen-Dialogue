@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using Ceres.Annotations;
-using NextGenDialogue;
 using UnityEngine;
 namespace NextGenDialogue.Graph
 {
@@ -27,7 +26,7 @@ namespace NextGenDialogue.Graph
             {
                 var dialoguePiece = piece.EmitPiece();
                 _pieceMap[dialoguePiece.ID] = piece;
-                //Assert PieceID should be unique
+                // Assert PieceID should be unique
                 _dialogueCache.AddModule(dialoguePiece);
             }
             return Update();

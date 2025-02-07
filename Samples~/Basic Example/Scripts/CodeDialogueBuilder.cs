@@ -24,9 +24,9 @@ namespace NextGenDialogue.Example
         private static Piece GetFirstPiece()
         {
             var piece = Piece.GetPooled();
-            piece.Contents = new string[1] { "This is the first dialogue piece" };
+            piece.AddContent("This is the first dialogue piece");
             piece.ID = "01";
-            piece.AddOption(new Option()
+            piece.AddOption(new Option
             {
                 Content = "Jump to Next",
                 TargetID = "02"
@@ -37,7 +37,7 @@ namespace NextGenDialogue.Example
         private static Piece GetSecondPiece()
         {
             var piece = Piece.GetPooled();
-            piece.Contents = new string[1] { "This is the second dialogue piece" };
+            piece.AddContent("This is the second dialogue piece");
             piece.ID = "02";
             piece.AddOption(GetFirstOption());
             piece.AddOption(GetSecondOption());
