@@ -42,7 +42,7 @@ namespace NextGenDialogue.Graph
         
         public bool IsValid()
         {
-            return nodes != null && nodes.Length > 0;
+            return Nodes != null && Nodes.Length > 0;
         }
     }
 

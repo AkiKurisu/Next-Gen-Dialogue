@@ -113,7 +113,7 @@ namespace NextGenDialogue.Graph
         public FlowGraph GetFlowGraph()
         {
             flowGraphData ??= new FlowGraphData();
-            return new FlowGraph(flowGraphData.CloneT<FlowGraphData>());
+            return new FlowUberGraph(flowGraphData.CloneT<FlowGraphData>());
         }
     }
 }
