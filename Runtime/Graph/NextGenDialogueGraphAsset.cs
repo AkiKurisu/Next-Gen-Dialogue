@@ -59,5 +59,10 @@ namespace NextGenDialogue.Graph
             flowGraphData ??= new FlowGraphData();
             return new FlowUberGraph(flowGraphData.CloneT<FlowGraphData>());
         }
+        
+        FlowGraphData IFlowGraphContainer.GetFlowGraphData()
+        {
+            return flowGraphData;
+        }
     }
 }

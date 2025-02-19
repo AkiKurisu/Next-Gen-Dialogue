@@ -79,6 +79,19 @@ namespace NextGenDialogue.Graph.Editor
             }
         }
         
+        private void OnGUI()
+        {
+            if (_graphView == null) return;
+            if (_graphView.IsDirty())
+            {
+                titleContent.text = $"NGDT ({Identifier.boundObject.name})*";
+            }
+            else
+            {
+                titleContent.text = $"NGDT ({Identifier.boundObject.name})";
+            }
+        }
+        
         private static void DisplayProgressBar(string stepTitle, float progress)
         {
             EditorUtility.DisplayProgressBar("Initialize Dialogue Graph Editor", stepTitle, progress);
@@ -119,7 +132,7 @@ namespace NextGenDialogue.Graph.Editor
         {
             if (!Identifier.IsValid()) return;
             
-            if (Setting.AutoSave && !Application.isPlaying)
+            if (Setting.AutoSave && !Application.isPlaying && _graphView.IsDirty())
             {
                 if (!_graphView.Save())
                 {
@@ -171,6 +184,7 @@ namespace NextGenDialogue.Graph.Editor
                         var guiContent = new GUIContent();
                         if (graphView.Save())
                         {
+                            _graphView.ClearDirty();
                             guiContent.text = $"Update {Identifier.boundObject.name} succeed !";
                             ShowNotification(guiContent);
                         }

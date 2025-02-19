@@ -39,11 +39,6 @@ namespace NextGenDialogue.Graph
                 serializedData = fallbackNodeData.serializedData
             };
         }
-        
-        public bool IsValid()
-        {
-            return Nodes != null && Nodes.Length > 0;
-        }
     }
 
     [Serializable]

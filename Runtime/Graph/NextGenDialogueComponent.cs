@@ -109,6 +109,11 @@ namespace NextGenDialogue.Graph
             if (graph is FlowGraphData flow)
                 flowGraphData = flow;
         }
+        
+        FlowGraphData IFlowGraphContainer.GetFlowGraphData()
+        {
+            return flowGraphData;
+        }
 
         public FlowGraph GetFlowGraph()
         {
