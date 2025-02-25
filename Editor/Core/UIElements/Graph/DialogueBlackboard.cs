@@ -23,7 +23,7 @@ namespace NextGenDialogue.Graph.Editor
             var propertyView = base.CreateVariableBlackboardRow(variable, blackboardField, valueField);
             if (variable is not PieceID) return propertyView;
             
-            blackboardField.RegisterCallback<ClickEvent>((evt) => FindRelatedPiece(variable));
+            blackboardField.RegisterCallback<ClickEvent>(_ => FindRelatedPiece(variable));
             propertyView.Q<Button>("expandButton").RemoveFromHierarchy();
             propertyView.AddToClassList("pieceId-blackboard");
             return propertyView;
