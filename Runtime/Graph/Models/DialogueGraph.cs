@@ -48,6 +48,11 @@ namespace NextGenDialogue.Graph
         {
             
         }
+        
+        public DialogueGraph(DialogueGraphData graphData): base(graphData)
+        {
+            FlowGraph = new FlowUberGraph(new FlowGraphData());
+        }
 
         public DialogueGraph(DialogueGraphData graphData, IFlowGraphContainer flowGraphContainer): base(graphData)
         {

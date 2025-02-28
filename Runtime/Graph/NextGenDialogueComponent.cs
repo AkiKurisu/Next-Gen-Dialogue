@@ -99,7 +99,7 @@ namespace NextGenDialogue.Graph
             }
             
             dialogueGraphData ??= new DialogueGraphData();
-            return new DialogueGraph(dialogueGraphData.CloneT<DialogueGraphData>(), this);
+            return new DialogueGraph(dialogueGraphData, this);
         }
 
         public void SetGraphData(CeresGraphData graph)
@@ -118,7 +118,7 @@ namespace NextGenDialogue.Graph
         public FlowGraph GetFlowGraph()
         {
             flowGraphData ??= new FlowGraphData();
-            return new FlowUberGraph(flowGraphData.CloneT<FlowGraphData>());
+            return flowGraphData.CreateFlowGraphInstance();
         }
     }
 }

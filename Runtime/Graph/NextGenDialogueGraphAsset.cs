@@ -22,20 +22,10 @@ namespace NextGenDialogue.Graph
         [SerializeField] 
         private FlowGraphAsset flowGraphAsset;
         
-        public void Deserialize(string serializedData)
-        {
-            var data = CeresGraphData.FromJson<DialogueGraphData>(serializedData);
-            if (data == null)
-            {
-                return;
-            }
-            SetGraphData(data);
-        }
-        
         public DialogueGraph GetDialogueGraph()
         {
             dialogueGraphData ??= new DialogueGraphData();
-            return new DialogueGraph(dialogueGraphData.CloneT<DialogueGraphData>(), this);
+            return new DialogueGraph(dialogueGraphData, this);
         }
 
         public void SetGraphData(CeresGraphData graph)
@@ -57,7 +47,7 @@ namespace NextGenDialogue.Graph
                 return flowGraphAsset.GetFlowGraph();
             }
             flowGraphData ??= new FlowGraphData();
-            return new FlowUberGraph(flowGraphData.CloneT<FlowGraphData>());
+            return flowGraphData.CreateFlowGraphInstance();
         }
         
         FlowGraphData IFlowGraphContainer.GetFlowGraphData()

@@ -34,12 +34,12 @@ namespace NextGenDialogue.Graph.VITS.Editor
                 if (_isBaking) return DropdownMenuAction.Status.Disabled;
                 return DropdownMenuAction.Status.Normal;
             }));
-            evt.menu.MenuItems().Add(new CeresDropdownMenuAction("Clean Audio", (a) =>
+            evt.menu.MenuItems().Add(new CeresDropdownMenuAction("Clean Audio", _ =>
             {
                 _audioClipField.value.Value = null;
                 _audioClipField.Repaint();
             }, _ => ContainsAudioClip() ? DropdownMenuAction.Status.Normal : DropdownMenuAction.Status.Disabled));
-            evt.menu.MenuItems().Add(new CeresDropdownMenuAction("Delete Audio", (a) =>
+            evt.menu.MenuItems().Add(new CeresDropdownMenuAction("Delete Audio", _ =>
            {
                if (EditorUtility.DisplayDialog("Warning", $"Delete audioClip {_audioClipField.value.Value.name}? This operation cannot be undone.", "Delete", "Cancel"))
                {

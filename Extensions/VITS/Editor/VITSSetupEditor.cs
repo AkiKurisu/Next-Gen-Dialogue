@@ -26,6 +26,7 @@ namespace NextGenDialogue.Graph.VITS.Editor
             }
             DrawAudio();
         }
+        
         private void DrawAudio()
         {
             var clip = ((VITSSetup)target).AudioClipCache;
@@ -60,6 +61,7 @@ namespace NextGenDialogue.Graph.VITS.Editor
             GUI.backgroundColor = orgColor;
             GUI.enabled = true;
         }
+        
         private void Save(AudioClip audioClip)
         {
             string folderPath = EditorPrefs.GetString(AudioUtil.PrefKey, Application.dataPath);
