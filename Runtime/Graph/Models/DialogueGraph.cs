@@ -90,11 +90,12 @@ namespace NextGenDialogue.Graph
             nodes.AddRange(root);
         }
 
-        public override void Compile()
+        public override void Compile(CeresGraphCompiler compiler)
         {
-            InitVariables_Imp(this);
-            BlackBoard.MapGlobal();
-            FlowGraph?.Compile();
+            SetCompilerTarget(compiler);
+            InitVariables(this);
+            BlackBoard.LinkToGlobal();
+            FlowGraph?.Compile(compiler);
         }
 
         public override void Dispose()

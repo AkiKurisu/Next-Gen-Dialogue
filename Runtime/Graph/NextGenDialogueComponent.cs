@@ -41,8 +41,10 @@ namespace NextGenDialogue.Graph
                 if (_dialogueGraph == null) return;
                 
                 _dialogueGraph.Dispose();
-                _dialogueGraph = null;
-                (_dialogueGraph = GetDialogueGraph()).Compile();
+                _dialogueGraph = GetDialogueGraph();
+                using var context = FlowGraphCompilationContext.GetPooled();
+                using var compiler = CeresGraphCompiler.GetPooled(_dialogueGraph, context);
+                _dialogueGraph.Compile(compiler);
             } 
         }
 
@@ -58,7 +60,10 @@ namespace NextGenDialogue.Graph
 
         private void Awake()
         {
-            (_dialogueGraph = GetDialogueGraph()).Compile();
+            _dialogueGraph = GetDialogueGraph();
+            using var context = FlowGraphCompilationContext.GetPooled();
+            using var compiler = CeresGraphCompiler.GetPooled(_dialogueGraph, context);
+            _dialogueGraph.Compile(compiler);
         }
 
         private void OnDestroy()
