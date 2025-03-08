@@ -243,7 +243,7 @@ namespace NextGenDialogue.Graph.Editor
             evt.menu.MenuItems().Add(new CeresDropdownMenuAction("Add Module", a =>
             {
                 var provider = ScriptableObject.CreateInstance<ModuleSearchWindowProvider>();
-                provider.Init(this, GraphView, NextGenDialogueSettings.GetNodeSearchContext(), GetExceptModuleTypes());
+                provider.Init(this, GraphView, NodeSearchContext.Default, GetExceptModuleTypes());
                 SearchWindow.Open(new SearchWindowContext(a.eventInfo.localMousePosition), provider);
             }));
         }

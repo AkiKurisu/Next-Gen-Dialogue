@@ -39,8 +39,7 @@ namespace NextGenDialogue.Graph.Editor
 
         public override void OpenSearch(Vector2 screenPosition)
         {
-            /* Override context from settings */
-            SearchWindow.Initialize(this, NextGenDialogueSettings.GetNodeSearchContext());
+            SearchWindow.Initialize(this, NodeSearchContext.Default);
             USearchWindow.Open(new SearchWindowContext(screenPosition), SearchWindow);
         }
 

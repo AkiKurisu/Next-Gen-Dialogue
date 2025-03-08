@@ -1,29 +1,13 @@
-using System;
-using System.Linq;
-using Ceres.Annotations;
-using Ceres.Editor;
-using Ceres.Editor.Graph;
 using NextGenDialogue.AI;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
+
 namespace NextGenDialogue.Graph.Editor
 {
     [FilePath("ProjectSettings/NextGenDialogueSettings.asset", FilePathAttribute.Location.ProjectFolder)]
     public class NextGenDialogueSettings : ScriptableSingleton<NextGenDialogueSettings>
     {
-        [Serializable]
-        public class GraphEditorSetting
-        {
-            [CeresGroupSelector(typeof(DialogueNode))]
-            [Tooltip("Display type, filter NodeGroup according to this list, nodes without category will always be displayed")]
-            public string[] showGroups = Array.Empty<string>();
-        
-            [CeresGroupSelector(typeof(DialogueNode))]
-            [Tooltip("The type that is not displayed, filter NodeGroup according to this list, and the nodes without categories will always be displayed")]
-            public string[] notShowGroups = Array.Empty<string>();
-        }
-        
         private const string AITurboSettingsPath = "Assets/AI Turbo Setting.asset";
         
         public const string GraphStylePath = "NGDT/Graph";
@@ -33,9 +17,6 @@ namespace NextGenDialogue.Graph.Editor
         public const string NodeStylePath = "NGDT/Node";
 
         private static NextGenDialogueSettings _setting;
-        
-        [SerializeField]
-        private GraphEditorSetting graphEditorSetting;
         
         [SerializeField]
         private AITurboSetting aiTurboSetting;
@@ -66,18 +47,6 @@ namespace NextGenDialogue.Graph.Editor
         {
             get => autoSave;
             set => autoSave = value;
-        }
-        
-        public static NodeSearchContext GetNodeSearchContext()
-        {
-            var dialogueSettings = Get();
-            var editorSetting = dialogueSettings.graphEditorSetting;
-            if (editorSetting == null) return NodeSearchContext.Default;
-            return new NodeSearchContext
-            {
-                ShowGroups = editorSetting.showGroups,
-                HideGroups = editorSetting.notShowGroups.Concat(new[]{ CeresGroup.Hidden }).ToArray()
-            };
         }
         
         public static NextGenDialogueSettings Get()
@@ -111,18 +80,16 @@ namespace NextGenDialogue.Graph.Editor
         }
     }
 
-    internal class NGDTSettingsProvider : SettingsProvider
+    internal class NextGenDialogueSettingsProvider : SettingsProvider
     {
         private SerializedObject _serializedObject;
         
         private class Styles
         {
-            public static readonly GUIContent GraphEditorSettingStyle = new("Graph Editor Setting");
-            
-            public static readonly GUIContent AITurboSettingStyle = new("AI Turbo Setting");
+            public static readonly GUIContent AITurboSettingStyle = new("Current Config");
         }
 
-        private NGDTSettingsProvider(string path, SettingsScope scope = SettingsScope.User) : base(path, scope) { }
+        private NextGenDialogueSettingsProvider(string path, SettingsScope scope = SettingsScope.User) : base(path, scope) { }
         
         public override void OnActivate(string searchContext, VisualElement rootElement)
         {
@@ -131,11 +98,7 @@ namespace NextGenDialogue.Graph.Editor
         
         public override void OnGUI(string searchContext)
         {
-            GUILayout.BeginVertical("Editor Settings", GUI.skin.box);
-            GUILayout.Space(EditorGUIUtility.singleLineHeight);
-            EditorGUILayout.PropertyField(_serializedObject.FindProperty("graphEditorSetting"), Styles.GraphEditorSettingStyle);
-            GUILayout.EndVertical();
-            GUILayout.BeginVertical("Runtime Settings", GUI.skin.box);
+            GUILayout.BeginVertical("Editor AI Settings", GUI.skin.box);
             var turboSetting = _serializedObject.FindProperty("aiTurboSetting");
             GUILayout.Space(EditorGUIUtility.singleLineHeight);
             EditorGUILayout.PropertyField(turboSetting, Styles.AITurboSettingStyle);
@@ -167,7 +130,7 @@ namespace NextGenDialogue.Graph.Editor
         [SettingsProvider]
         public static SettingsProvider CreateMyCustomSettingsProvider()
         {
-            var provider = new NGDTSettingsProvider("Project/Next Gen Dialogue Settings", SettingsScope.Project)
+            var provider = new NextGenDialogueSettingsProvider("Project/Ceres/Next Gen Dialogue Settings", SettingsScope.Project)
             {
                 keywords = GetSearchKeywordsFromGUIContentProperties<Styles>()
             };
