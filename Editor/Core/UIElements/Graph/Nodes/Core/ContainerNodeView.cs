@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Ceres.Annotations;
-using Ceres.Editor;
 using Ceres.Editor.Graph;
 using Ceres.Utilities;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.UIElements;
+
 namespace NextGenDialogue.Graph.Editor
 {
     public abstract class ContainerNodeView : StackNode, IDialogueNodeView, ILayoutNode
@@ -243,7 +243,7 @@ namespace NextGenDialogue.Graph.Editor
             evt.menu.MenuItems().Add(new CeresDropdownMenuAction("Add Module", a =>
             {
                 var provider = ScriptableObject.CreateInstance<ModuleSearchWindowProvider>();
-                provider.Init(this, GraphView, NextGenDialogueSettings.GetNodeSearchContext(), GetExceptModuleTypes());
+                provider.Init(this, GraphView, NodeSearchContext.Default, GetExceptModuleTypes());
                 SearchWindow.Open(new SearchWindowContext(a.eventInfo.localMousePosition), provider);
             }));
         }

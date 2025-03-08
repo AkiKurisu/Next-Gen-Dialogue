@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Reflection;
 using Ceres.Utilities;
 using Ceres.Annotations;
-using Ceres.Editor;
 using Ceres.Editor.Graph;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.UIElements;
+
 namespace NextGenDialogue.Graph.Editor
 {
     public interface IDialogueNodeView: ICeresNodeView
@@ -58,13 +58,7 @@ namespace NextGenDialogue.Graph.Editor
 
         private readonly List<FieldInfo> _fieldInfos = new();
         
-        private VisualElement _settings;
-        
-        protected NodeSettingsView SettingsContainer;
-        
-        protected Button SettingButton;
-        
-        private bool _settingsExpanded;
+        private readonly NodeSettingsView _nodeSettingsView;
         
         public UnityEditor.Experimental.GraphView.Node NodeElement => this;
         
@@ -78,86 +72,10 @@ namespace NextGenDialogue.Graph.Editor
         protected DialogueNodeView(Type type, CeresGraphView graphView)
         {
             InitializeVisualElements();
-            InitializeSettingsElement();
+            _nodeSettingsView = this.CreateSettingsView<NodeSettingsView>();
             Initialize(type, (DialogueGraphView)graphView);
         }
-
-
-        private void InitializeSettingsElement()
-        {
-            CreateSettingButton();
-            SettingsContainer = new NodeSettingsView(this)
-            {
-                visible = false
-            };
-            _settings = new VisualElement();
-            // Add Node type specific settings
-            _settings.Add(new Label("Advanced Settings")
-            {
-                name = "header"
-            });
-            SettingsContainer.Add(_settings);
-            Add(SettingsContainer);
-            RegisterCallback<GeometryChangedEvent>(OnGeometryChanged);
-            RegisterCallback<DetachFromPanelEvent>(OnDetachFromPanel);
-            OnGeometryChanged(null);
-        }
-
-        private void OnDetachFromPanel(DetachFromPanelEvent evt)
-        {
-            if (SettingsContainer != null && SettingsContainer.parent != null)
-                SettingsContainer.parent.Remove(SettingsContainer);
-        }
-
-        private void CreateSettingButton()
-        {
-            SettingButton = new Button(ToggleSettings) { name = "settings-button" };
-            var image = new Image
-            {
-                name = "icon", scaleMode = ScaleMode.ScaleToFit,
-                style =
-                {
-                    backgroundImage = Resources.Load<Texture2D>("NGDT/SettingIcon")
-                }
-            };
-            SettingButton.Add(image);
-            titleContainer.Add(SettingButton);
-        }
         
-        private void ToggleSettings()
-        {
-            _settingsExpanded = !_settingsExpanded;
-            if (_settingsExpanded)
-                OpenSettings();
-            else
-                CloseSettings();
-        }
-
-        private void OpenSettings()
-        {
-            if (SettingsContainer == null) return;
-            SettingButton.AddToClassList("clicked");
-            SettingsContainer.visible = true;
-            parent.Add(SettingsContainer);
-            OnGeometryChanged(null);
-            _settingsExpanded = true;
-        }
-
-        private void CloseSettings()
-        {
-            if (SettingsContainer == null) return;
-            SettingButton.RemoveFromClassList("clicked");
-            SettingsContainer.visible = false;
-            _settingsExpanded = false;
-        }
-        
-        protected virtual void OnGeometryChanged(GeometryChangedEvent evt)
-        {
-            if (SettingButton == null || SettingsContainer == null || SettingsContainer.parent == null) return;
-            var settingsButtonLayout = SettingButton.ChangeCoordinatesTo(SettingsContainer.parent, SettingButton.layout);
-            SettingsContainer.style.top = settingsButtonLayout.yMax - 20f;
-            SettingsContainer.style.left = settingsButtonLayout.xMin - layout.width + 20;
-        }
         
         /// <summary>
         /// Initialize dialogue node view visual elements
@@ -275,7 +193,7 @@ namespace NextGenDialogue.Graph.Editor
                     fieldResolver.Restore(defaultValue);
                     if (p.GetCustomAttribute<SettingAttribute>() != null)
                     {
-                        SettingsContainer.Add(fieldResolver.GetField(GraphView));
+                        _nodeSettingsView.SettingsElement.Add(fieldResolver.GetField(GraphView));
                         haveSetting = true;
                     }
                     else
@@ -286,7 +204,7 @@ namespace NextGenDialogue.Graph.Editor
                     _fieldInfos.Add(p);
                 });
             title = CeresLabel.GetLabel(nodeType);
-            if (!haveSetting) SettingButton.visible = false;
+            if (!haveSetting) _nodeSettingsView.DisableSettings();
         }
 
         private void MarkAsExecuted(Status status)

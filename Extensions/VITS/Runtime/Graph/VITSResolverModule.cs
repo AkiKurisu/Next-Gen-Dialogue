@@ -1,10 +1,10 @@
 using System;
 using Ceres.Annotations;
 using Ceres.Graph;
-using NextGenDialogue;
 using NextGenDialogue.AI;
 using NextGenDialogue.VITS;
 using UnityEngine;
+
 namespace NextGenDialogue.Graph.VITS
 {
     [Serializable]

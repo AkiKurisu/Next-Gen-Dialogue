@@ -5,11 +5,11 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using System.Linq;
 using System;
-using Ceres.Editor;
 using Ceres.Editor.Graph;
 using Ceres.Graph;
 using USearchWindow = UnityEditor.Experimental.GraphView.SearchWindow;
 using UObject = UnityEngine.Object;
+
 namespace NextGenDialogue.Graph.Editor
 {
     public class DialogueGraphView : CeresGraphView
@@ -39,8 +39,7 @@ namespace NextGenDialogue.Graph.Editor
 
         public override void OpenSearch(Vector2 screenPosition)
         {
-            /* Override context from settings */
-            SearchWindow.Initialize(this, NextGenDialogueSettings.GetNodeSearchContext());
+            SearchWindow.Initialize(this, NodeSearchContext.Default);
             USearchWindow.Open(new SearchWindowContext(screenPosition), SearchWindow);
         }
 
@@ -265,11 +264,14 @@ namespace NextGenDialogue.Graph.Editor
         
         public bool DeserializeGraph(string serializedData, Vector3 mousePosition)
         {
-            var temp = ScriptableObject.CreateInstance<NextGenDialogueGraphAsset>();
             try
             {
-                temp.Deserialize(serializedData);
-                DeserializeGraph(temp.GetDialogueGraph(), mousePosition);
+                var data = CeresGraphData.FromJson<DialogueGraphData>(serializedData);
+                if (data == null)
+                {
+                    return false;
+                }
+                DeserializeGraph(new DialogueGraph(data), mousePosition);
                 return true;
             }
             catch(Exception e)

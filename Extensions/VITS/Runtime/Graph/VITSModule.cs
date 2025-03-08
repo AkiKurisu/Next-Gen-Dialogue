@@ -1,8 +1,9 @@
 using System;
 using Ceres.Annotations;
 using Ceres.Graph;
-using NextGenDialogue;
 using UnityEngine;
+using UnityEngine.Scripting;
+
 namespace NextGenDialogue.Graph.VITS
 {
     [Serializable]

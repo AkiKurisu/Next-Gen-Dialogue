@@ -50,17 +50,6 @@ namespace NextGenDialogue.Graph.Editor
             GraphView.ContextualMenuRegistry.BuildContextualMenu(ContextualMenuType.Node, evt, NodeType);
         }
         
-        protected override void OnGeometryChanged(GeometryChangedEvent evt)
-        {
-            bool isAttached = GetFirstAncestorOfType<ContainerNodeView>() != null;
-            if (SettingButton != null && SettingsContainer != null && SettingsContainer.parent != null)
-            {
-                var settingsButtonLayout = SettingButton.ChangeCoordinatesTo(SettingsContainer.parent, SettingButton.layout);
-                SettingsContainer.style.top = settingsButtonLayout.yMax - (isAttached ? 70f : 20f);
-                SettingsContainer.style.left = settingsButtonLayout.xMin - layout.width + (isAttached ? 10f : 20f);
-            }
-        }
-        
         public sealed override Rect GetWorldPosition()
         {
             ContainerNodeView parentContainer= GetFirstAncestorOfType<ContainerNodeView>();

@@ -39,11 +39,6 @@ namespace NextGenDialogue.Graph
                 serializedData = fallbackNodeData.serializedData
             };
         }
-        
-        public bool IsValid()
-        {
-            return nodes != null && nodes.Length > 0;
-        }
     }
 
     [Serializable]
@@ -52,6 +47,11 @@ namespace NextGenDialogue.Graph
         public DialogueGraph()
         {
             
+        }
+        
+        public DialogueGraph(DialogueGraphData graphData): base(graphData)
+        {
+            FlowGraph = new FlowUberGraph(new FlowGraphData());
         }
 
         public DialogueGraph(DialogueGraphData graphData, IFlowGraphContainer flowGraphContainer): base(graphData)
@@ -90,17 +90,17 @@ namespace NextGenDialogue.Graph
             nodes.AddRange(root);
         }
 
-        public override void Compile()
+        public override void Compile(CeresGraphCompiler compiler)
         {
-            InitVariables_Imp(this);
-            BlackBoard.MapGlobal();
-            FlowGraph?.Compile();
+            SetCompilerTarget(compiler);
+            InitVariables(this);
+            BlackBoard.LinkToGlobal();
+            FlowGraph?.Compile(compiler);
         }
 
         public override void Dispose()
         {
             base.Dispose();
-            Root?.Dispose();
             FlowGraph?.Dispose();
         }
         

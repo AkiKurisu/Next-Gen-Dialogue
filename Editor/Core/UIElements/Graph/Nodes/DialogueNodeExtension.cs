@@ -13,7 +13,7 @@ namespace NextGenDialogue.Graph.Editor
             }
             catch
             {
-                CeresAPI.LogError($"Can not cast field value from {fieldName} of type {typeof(T)} in {dialogueNodeView}");
+                CeresLogger.LogError($"Can not cast field value from {fieldName} of type {typeof(T)} in {dialogueNodeView}");
                 return default;
             }
         }
