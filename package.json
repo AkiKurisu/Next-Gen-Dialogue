@@ -14,7 +14,7 @@
   "dependencies": {
     "com.kurisu.chris": "1.2.4",
     "com.kurisu.chris-modules": "1.2.4",
-    "com.kurisu.ceres": "0.3.1",
+    "com.kurisu.ceres": "0.3.2",
     "com.unity.nuget.newtonsoft-json": "3.2.1"
   },
   "author": {
