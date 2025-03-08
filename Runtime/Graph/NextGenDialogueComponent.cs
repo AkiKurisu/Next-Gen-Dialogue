@@ -22,7 +22,7 @@ namespace NextGenDialogue.Graph
         [HideInInspector, SerializeField]
         private FlowGraphData flowGraphData;
         
-        public UObject Object => gameObject;
+        public UObject Object => this;
 
         [SerializeField, Tooltip("Create dialogue graph from external asset at runtime")]
         private NextGenDialogueGraphAsset externalAsset;
@@ -41,6 +41,8 @@ namespace NextGenDialogue.Graph
                 if (_dialogueGraph == null) return;
                 
                 _dialogueGraph.Dispose();
+                /* Clear cache before get instance */
+                _dialogueGraph = null;
                 _dialogueGraph = GetDialogueGraph();
                 using var context = FlowGraphCompilationContext.GetPooled();
                 using var compiler = CeresGraphCompiler.GetPooled(_dialogueGraph, context);
@@ -51,7 +53,21 @@ namespace NextGenDialogue.Graph
         /// <summary>
         /// Get runtime dialogue graph instance
         /// </summary>
-        public DialogueGraph DialogueGraph => _dialogueGraph ?? GetDialogueGraph();
+        public DialogueGraph DialogueGraph
+        {
+            get
+            {
+                if (_dialogueGraph == null)
+                {
+                    _dialogueGraph = GetDialogueGraph();
+                    using var context = FlowGraphCompilationContext.GetPooled();
+                    using var compiler = CeresGraphCompiler.GetPooled(_dialogueGraph, context);
+                    _dialogueGraph.Compile(compiler);
+                }
+
+                return _dialogueGraph;
+            }
+        }
         
 
         // ============= Implementation for IFlowGraphRuntime =================== //
@@ -93,10 +109,12 @@ namespace NextGenDialogue.Graph
         
         public DialogueGraph GetDialogueGraph()
         {
-            if (_dialogueGraph != null)
+#if UNITY_EDITOR
+            if (Application.isPlaying && _dialogueGraph != null)
             {
                 return _dialogueGraph;
             }
+#endif
             
             if (Asset)
             {
@@ -107,12 +125,17 @@ namespace NextGenDialogue.Graph
             return new DialogueGraph(dialogueGraphData, this);
         }
 
-        public void SetGraphData(CeresGraphData graph)
+        public void SetGraphData(CeresGraphData graphData)
         {
-            if (graph is DialogueGraphData dialogue)
-                dialogueGraphData = dialogue;
-            if (graph is FlowGraphData flow)
-                flowGraphData = flow;
+            switch (graphData)
+            {
+                case DialogueGraphData dialogue:
+                    dialogueGraphData = dialogue;
+                    break;
+                case FlowGraphData flow:
+                    flowGraphData = flow;
+                    break;
+            }
         }
         
         FlowGraphData IFlowGraphContainer.GetFlowGraphData()

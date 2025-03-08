@@ -28,15 +28,16 @@ namespace NextGenDialogue.Graph
             return new DialogueGraph(dialogueGraphData, this);
         }
 
-        public void SetGraphData(CeresGraphData graph)
+        public void SetGraphData(CeresGraphData graphData)
         {
-            if (graph is DialogueGraphData dialogue)
+            switch (graphData)
             {
-                dialogueGraphData = dialogue;
-            }
-            else if (graph is FlowGraphData flow)
-            {
-                flowGraphData = flow;
+                case DialogueGraphData dialogue:
+                    dialogueGraphData = dialogue;
+                    break;
+                case FlowGraphData flow:
+                    flowGraphData = flow;
+                    break;
             }
         }
 

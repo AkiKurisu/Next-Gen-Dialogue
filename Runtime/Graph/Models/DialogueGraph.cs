@@ -101,7 +101,6 @@ namespace NextGenDialogue.Graph
         public override void Dispose()
         {
             base.Dispose();
-            Root?.Dispose();
             FlowGraph?.Dispose();
         }
         
