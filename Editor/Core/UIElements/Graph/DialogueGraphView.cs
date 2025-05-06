@@ -18,14 +18,13 @@ namespace NextGenDialogue.Graph.Editor
         public IDialogueGraphContainer DialogueGraphContainer { get; }
 
         private RootNodeView _root;
-        
-        // ReSharper disable once InconsistentNaming
+
         internal Action<IDialogueNodeView> OnSelectNode;
-        
+
         private const string InfoText = "Next-Gen Dialogue Graph Editor";
 
         private readonly CeresInfoContainer _infoContainer;
-        
+
         public DialogueGraphView(CeresGraphEditorWindow editorWindow) : base(editorWindow)
         {
             DialogueGraphContainer = (IDialogueGraphContainer)editorWindow.Container;
@@ -62,7 +61,7 @@ namespace NextGenDialogue.Graph.Editor
                 Paste(new Vector2(50, 50));
             }
         }
-        
+
         private void Paste(Vector2 positionOffSet)
         {
             ClearSelection();
@@ -72,7 +71,7 @@ namespace NextGenDialogue.Graph.Editor
                 element.Select(this, true);
             }
         }
-        
+
         public IDialogueNodeView DuplicateNode(IDialogueNodeView node)
         {
             var newNode = (IDialogueNodeView)NodeViewFactory.Get().CreateInstance(node.NodeType, this);
@@ -95,13 +94,13 @@ namespace NextGenDialogue.Graph.Editor
             base.AddNodeView(dialogueNode);
             nodeView.NodeElement.RegisterCallback<MouseDownEvent>(_ => OnNodeClick(dialogueNode));
         }
-        
+
         private void OnNodeClick(IDialogueNodeView nodeView)
         {
             _infoContainer.DisplayNodeInfo(nodeView.NodeType);
             OnSelectNode(nodeView);
         }
-        
+
         public sealed override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
         {
             base.BuildContextualMenu(evt);
@@ -123,12 +122,12 @@ namespace NextGenDialogue.Graph.Editor
             }, x => CopyPasteGraph.CanPaste ? DropdownMenuAction.Status.Normal : DropdownMenuAction.Status.Disabled));
             ContextualMenuRegistry.BuildContextualMenu(ContextualMenuType.Graph, evt, null);
         }
-        
+
         public sealed override List<Port> GetCompatiblePorts(Port startAnchor, NodeAdapter nodeAdapter)
         {
             return PortHelper.GetCompatiblePorts(this, startAnchor);
         }
-        
+
         protected override void OnDragDropObjectPerform(UObject data, Vector3 mousePosition)
         {
             if (data is GameObject gameObject)
@@ -158,7 +157,7 @@ namespace NextGenDialogue.Graph.Editor
             EditorWindow.ShowNotification(new GUIContent("Data Dropped Succeed"));
             DeserializeGraph(container.GetDialogueGraph(), mousePosition);
         }
-        
+
         public void DeserializeGraph(DialogueGraph graph, Vector2 mousePosition)
         {
             var localMousePosition = contentViewContainer.WorldToLocal(mousePosition) - new Vector2(400, 300);
@@ -174,7 +173,7 @@ namespace NextGenDialogue.Graph.Editor
             // Restore node groups
             NodeGroupHandler.RestoreGroups(graph.nodeGroups);
         }
-        
+
         public void Restore()
         {
             // Add default dialogue
@@ -189,7 +188,7 @@ namespace NextGenDialogue.Graph.Editor
                 pos.x += 200;
                 _graphInstance.Root.Child.NodeData.graphPosition = pos;
             }
-            AddSharedVariables(_graphInstance.variables,true);
+            AddSharedVariables(_graphInstance.variables, true);
             _root = DeserializeGraph(_graphInstance, this, Vector2.zero);
             // Restore node groups
             NodeGroupHandler.RestoreGroups(_graphInstance.nodeGroups);
@@ -199,7 +198,7 @@ namespace NextGenDialogue.Graph.Editor
         {
             if (Application.isPlaying) return false;
             if (!Validate()) return false;
-            
+
             Commit(DialogueGraphContainer);
             AssetDatabase.SaveAssets();
             return true;
@@ -220,13 +219,13 @@ namespace NextGenDialogue.Graph.Editor
             }
             return true;
         }
-        
+
         public void Commit(IDialogueGraphContainer container)
         {
             Undo.RecordObject(container.Object, "Commit dialogue graph change");
             var stack = new Stack<IDialogueNodeView>();
             var graph = new DialogueGraph();
-            
+
             // Commit node instances
             stack.Push(_root);
             while (stack.Count > 0)
@@ -236,8 +235,8 @@ namespace NextGenDialogue.Graph.Editor
             _root.PostCommit(graph);
 
             // Commit variables
-            graph.variables = SharedVariables.Where(x=>x != null).ToList();
-            
+            graph.variables = SharedVariables.Where(x => x != null).ToList();
+
             // Commit blocks
             graph.nodeGroups = new List<NodeGroup>();
             var groupBlocks = graphElements.OfType<DialogueNodeGroup>().ToList();
@@ -245,9 +244,9 @@ namespace NextGenDialogue.Graph.Editor
             {
                 block.Commit(graph.nodeGroups);
             }
-            
+
             container.SetGraphData(graph.GetData());
-            
+
             // Should set component dirty flag if it is in a prefab
             if (container is NextGenDialogueComponent component)
             {
@@ -261,7 +260,7 @@ namespace NextGenDialogue.Graph.Editor
         {
             return _graphInstance.GetData().ToJson(true);
         }
-        
+
         public bool DeserializeGraph(string serializedData, Vector3 mousePosition)
         {
             try
@@ -274,43 +273,43 @@ namespace NextGenDialogue.Graph.Editor
                 DeserializeGraph(new DialogueGraph(data), mousePosition);
                 return true;
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Debug.LogError(e);
                 return false;
             }
         }
-        
+
         private interface IParentAdapter
         {
             void Connect(DialogueGraphView graphView, IDialogueNodeView nodeToConnect);
         }
-        
+
         private class PortAdapter : IParentAdapter
         {
             private readonly Port _port;
-            
+
             public PortAdapter(Port port)
             {
                 _port = port;
             }
-            
+
             public void Connect(DialogueGraphView graphView, IDialogueNodeView nodeToConnect)
             {
                 var edge = PortHelper.ConnectPorts(_port, nodeToConnect.Parent);
                 graphView.Add(edge);
             }
         }
-        
+
         private class ContainerAdapter : IParentAdapter
         {
             private readonly ContainerNodeView _container;
-            
+
             public ContainerAdapter(ContainerNodeView container)
             {
                 _container = container;
             }
-            
+
             public void Connect(DialogueGraphView graphView, IDialogueNodeView nodeToConnect)
             {
                 if (nodeToConnect is ModuleNodeView moduleNode)
@@ -319,11 +318,11 @@ namespace NextGenDialogue.Graph.Editor
                     childContainer.AddChildElement(nodeToConnect);
             }
         }
-        
+
         private readonly struct EdgePair
         {
             public readonly DialogueNode NodeBehavior;
-            
+
             public readonly IParentAdapter Adapter;
 
             public EdgePair(DialogueNode nodeBehavior, IParentAdapter adapter)
@@ -332,7 +331,7 @@ namespace NextGenDialogue.Graph.Editor
                 Adapter = adapter;
             }
         }
-        
+
         private static RootNodeView DeserializeGraph(DialogueGraph graph, DialogueGraphView graphView, Vector2 initPos)
         {
             var stack = new Stack<EdgePair>();
@@ -353,7 +352,7 @@ namespace NextGenDialogue.Graph.Editor
                     edgePair.Adapter?.Connect(graphView, nodeView);
                     continue;
                 }
-                
+
                 nodeView = (IDialogueNodeView)NodeViewFactory.Get().CreateInstance(edgePair.NodeBehavior.GetType(), graphView);
                 nodeView.SetNodeInstance(edgePair.NodeBehavior);
                 graphView.AddNodeView(nodeView);
@@ -361,7 +360,7 @@ namespace NextGenDialogue.Graph.Editor
                 rect.position += initPos;
                 nodeView.NodeElement.SetPosition(rect);
                 alreadyCreateNodes.Add(edgePair.NodeBehavior, nodeView);
-                
+
                 // connect parent
                 edgePair.Adapter?.Connect(graphView, nodeView);
 

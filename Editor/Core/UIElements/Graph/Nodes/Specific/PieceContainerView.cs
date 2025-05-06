@@ -37,7 +37,7 @@ namespace NextGenDialogue.Graph.Editor
 
         private void OnDetachFromPanel(DetachFromPanelEvent evt)
         {
-            GraphView.Blackboard.RemoveVariable(mainContainer.Q<PieceIDField>().BindVariable, true);
+            GraphView?.Blackboard?.RemoveVariable(mainContainer.Q<PieceIDField>().BindVariable, true);
         }
 
         protected override void OnSeparatorContextualMenuEvent(ContextualMenuPopulateEvent evt, int separatorIndex)
