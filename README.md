@@ -17,7 +17,6 @@ Demo video https://www.bilibili.com/video/BV1hg4y1U7FG
 - [Features](#features)
 - [Supported version](#supported-version)
 - [Install](#install)
-  - [Dependencies](#dependencies)
   - [Modules](#modules)
 - [Quick Start](#quick-start)
     - [Create a Dialogue Graph](#create-a-dialogue-graph)
@@ -52,18 +51,19 @@ Demo video https://www.bilibili.com/video/BV1hg4y1U7FG
 
 # Install
 
-Using git URL to download package by Unity PackageManager ```https://github.com/AkiKurisu/Next-Gen-Dialogue.git```
-
-## Dependencies
+Add following dependencies to `manifest.json`.
 
 ```json
-"dependencies": {
-  "com.kurisu.chris": "1.2.4",
-  "com.kurisu.chris-modules": "1.2.4",
-  "com.kurisu.ceres": "0.3.2",
-  "com.unity.nuget.newtonsoft-json": "3.2.1"
-}
+  "dependencies": {
+    "com.kurisu.chris": "https://github.com/AkiKurisu/Chris.git",
+    "com.kurisu.chris.gameplay": "https://github.com/AkiKurisu/Chris.Gameplay.git",
+    "com.kurisu.ceres": "https://github.com/AkiKurisu/Ceres.git",
+    "com.cysharp.unitask":"https://github.com/Cysharp/UniTask.git?path=src/UniTask/Assets/Plugins/UniTask"
+  }
+
 ```
+
+Use git URL to download package by Unity Package Manager ```https://github.com/AkiKurisu/Next-Gen-Dialogue.git```.
 
 ## Modules
 
