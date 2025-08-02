@@ -37,10 +37,10 @@ namespace NextGenDialogue.VITS
         
         private void OnDestroy()
         {
-            ContainerSubsystem.Get()?.Unregister(_vitsTurbo);
-            ContainerSubsystem.Get()?.Unregister(_pieceResolver);
-            ContainerSubsystem.Get()?.Unregister(_optionResolver);
-            ContainerSubsystem.Get()?.Unregister(_dialogueResolver);
+            ContainerSubsystem.Get().Unregister(_vitsTurbo);
+            ContainerSubsystem.Get().Unregister(_pieceResolver);
+            ContainerSubsystem.Get().Unregister(_optionResolver);
+            ContainerSubsystem.Get().Unregister(_dialogueResolver);
         }
     }
 

@@ -27,7 +27,7 @@ namespace NextGenDialogue
             
             public IOptionResolver OptionResolver => _resolverModule.OptionResolver ?? _optionResolver;
             
-            public DialogueResolverContainer(ContainerSubsystem containerSubsystem)
+            public DialogueResolverContainer(IContainerSubsystem containerSubsystem)
             {
                 // Collect global resolver
                 _dialogueResolver = containerSubsystem.Resolve<IDialogueResolver>() ?? new DefaultDialogueResolver();
