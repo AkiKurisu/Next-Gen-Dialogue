@@ -14,7 +14,7 @@
   "dependencies": {
     "com.kurisu.chris": "1.5.0",
     "com.kurisu.chris.gameplay": "1.5.0",
-    "com.kurisu.ceres": "0.4.2",
+    "com.kurisu.ceres": "0.6.0",
     "com.unity.nuget.newtonsoft-json": "3.2.1"
   },
   "author": {
