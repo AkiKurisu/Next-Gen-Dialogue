@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading;
 using Cysharp.Threading.Tasks;
 namespace NextGenDialogue
 {
@@ -23,7 +24,7 @@ namespace NextGenDialogue
     /// </summary>
     public interface IProcessable
     {
-        UniTask Process(IObjectResolver resolver);
+        UniTask Process(IObjectResolver resolver, CancellationToken cancellationToken);
     }
     
     /// <summary>

@@ -75,7 +75,7 @@ namespace NextGenDialogue.Graph.Editor
                     if (!ds.IsPlaying) return DropdownMenuAction.Status.Disabled;
                     // Whether is the container of this piece
                     var piece = GetPiece().CastPiece();
-                    if (ds.GetCurrentDialogue()?.GetPiece(piece.ID) != piece) return DropdownMenuAction.Status.Disabled;
+                    if (ds.GetPlayingDialogue()?.GetPiece(piece.ID) != piece) return DropdownMenuAction.Status.Disabled;
                     return DropdownMenuAction.Status.Normal;
                 }));
             }

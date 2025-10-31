@@ -1,4 +1,6 @@
+using System.Threading;
 using Cysharp.Threading.Tasks;
+
 namespace NextGenDialogue
 {
     public class DefaultDialogueResolver : IDialogueResolver
@@ -12,9 +14,9 @@ namespace NextGenDialogue
             Dialogue = dialogue;
         }
 
-        public UniTask EnterDialogue()
+        public UniTask EnterDialogue(CancellationToken cancellationToken)
         {
-            return Dialogue.ProcessModules(ObjectContainer);
+            return Dialogue.ProcessModules(ObjectContainer, cancellationToken);
         }
         
         public UniTask ExitDialogue()

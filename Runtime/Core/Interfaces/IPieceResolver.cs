@@ -1,9 +1,11 @@
+using System.Threading;
 using Cysharp.Threading.Tasks;
+
 namespace NextGenDialogue
 {
     public interface IPieceResolver
     {
-        UniTask EnterPiece();
+        UniTask EnterPiece(CancellationToken cancellationToken);
         
         UniTask ExitPiece();
         

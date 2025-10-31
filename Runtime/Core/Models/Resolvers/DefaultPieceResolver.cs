@@ -1,3 +1,4 @@
+using System.Threading;
 using Cysharp.Threading.Tasks;
 namespace NextGenDialogue
 {
@@ -16,13 +17,13 @@ namespace NextGenDialogue
             ObjectContainer.Register<IContentModule>(piece);
         }
         
-        public async UniTask EnterPiece()
+        public async UniTask EnterPiece(CancellationToken cancellationToken)
         {
-            await DialoguePiece.ProcessModules(ObjectContainer);
-            await OnPieceResolve(DialoguePiece);
+            await DialoguePiece.ProcessModules(ObjectContainer, cancellationToken);
+            await OnPieceResolve(DialoguePiece, cancellationToken);
         }
         
-        protected virtual UniTask OnPieceResolve(Piece piece)
+        protected virtual UniTask OnPieceResolve(Piece piece, CancellationToken cancellationToken)
         {
             return UniTask.CompletedTask;
         }

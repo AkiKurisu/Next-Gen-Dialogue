@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading;
 using Cysharp.Threading.Tasks;
 namespace NextGenDialogue
 {
@@ -32,17 +33,19 @@ namespace NextGenDialogue
             return UniTask.CompletedTask;
         }
         
-        public async UniTask EnterOption()
+        public async UniTask EnterOption(CancellationToken cancellationToken)
         {
             foreach (var option in DialogueOptions)
             {
+                cancellationToken.ThrowIfCancellationRequested();
+                
                 ObjectContainer.Register<IContentModule>(option);
-                await option.ProcessModules(ObjectContainer);
-                await OnOptionResolve(option);
+                await option.ProcessModules(ObjectContainer, cancellationToken);
+                await OnOptionResolve(option, cancellationToken);
             }
         }
         
-        protected virtual UniTask OnOptionResolve(Option option)
+        protected virtual UniTask OnOptionResolve(Option option, CancellationToken cancellationToken)
         {
             return UniTask.CompletedTask;
         }
