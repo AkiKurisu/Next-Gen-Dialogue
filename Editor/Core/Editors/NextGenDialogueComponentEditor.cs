@@ -5,6 +5,7 @@ using UnityEditor.UIElements;
 using System.Linq;
 using Ceres.Editor.Graph;
 using Ceres.Editor.Graph.Flow;
+using Ceres.Graph.Flow;
 using UEditor = UnityEditor.Editor;
 
 namespace NextGenDialogue.Graph.Editor
@@ -23,6 +24,30 @@ namespace NextGenDialogue.Graph.Editor
                 style.backgroundColor = new StyleColor(new Color(85 / 255f, 205 / 255f, 115 / 255f));
                 text = ButtonText;
                 clickable = new Clickable(() => DialogueEditorWindow.Show(container));
+            }
+        }
+        
+        internal class FlowGraphButton : Button
+        {
+            private const string ButtonText = "Open Flow Graph";
+        
+            public FlowGraphButton(IFlowGraphContainer container) : base(() => FlowGraphEditorWindow.Show(container))
+            {
+                style.fontSize = 15;
+                style.unityFontStyleAndWeight = FontStyle.Bold;
+                style.color = Color.white;
+                style.backgroundColor = new StyleColor(new Color(89 / 255f, 133 / 255f, 141 / 255f));
+                text = ButtonText;
+                Add(new Image
+                {
+                    style =
+                    {
+                        backgroundImage = Resources.Load<Texture2D>("Ceres/editor_icon"),
+                        height = 20,
+                        width = 20
+                    }
+                });
+                style.height = 25;
             }
         }
         
@@ -84,7 +109,7 @@ namespace NextGenDialogue.Graph.Editor
 
             _dialogueGraphButton = new DialogueGraphButton(component);
             myInspector.Add(_dialogueGraphButton);
-            myInspector.Add(new OpenFlowGraphButton(component));
+            myInspector.Add(new FlowGraphButton(component));
             var playButton = new DialogueGraphPlayDialogueButton(component);
             playButton.SetEnabled(Application.isPlaying);
             myInspector.Add(playButton);
@@ -134,7 +159,7 @@ namespace NextGenDialogue.Graph.Editor
             myInspector.Add(new PropertyField(serializedObject.FindProperty("flowGraphAsset")));
             var asset = (NextGenDialogueGraphAsset)Target;
             myInspector.Add(new DialogueGraphButton(asset));
-            myInspector.Add(new OpenFlowGraphButton(asset));
+            myInspector.Add(new FlowGraphButton(asset));
             return myInspector;
         }
     }
