@@ -3,6 +3,7 @@ using Ceres.Annotations;
 using Ceres.Graph;
 using UnityEngine;
 using UnityEngine.Localization;
+
 namespace NextGenDialogue.Graph.Localization
 {
     [Serializable]

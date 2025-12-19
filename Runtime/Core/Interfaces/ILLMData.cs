@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Threading;
-using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
 
 namespace NextGenDialogue
@@ -20,12 +19,14 @@ namespace NextGenDialogue
     public interface IMessage
     {
         public MessageRole Role { get; }
+        
         public string Content { get; }
     }
     
     public interface ILLMRequest
     {
         string Context { get; }
+        
         IEnumerable<IMessage> Messages { get; }
     }
     

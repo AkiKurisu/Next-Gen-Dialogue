@@ -1,4 +1,5 @@
 using Ceres.Annotations;
+
 namespace NextGenDialogue.Graph
 {
     [NodeInfo("Option is the container of user option")]

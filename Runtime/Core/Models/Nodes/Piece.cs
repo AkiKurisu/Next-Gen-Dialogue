@@ -5,7 +5,8 @@ namespace NextGenDialogue
 {
     public class Piece : Node, IContentModule, IDialogueModule
     {
-        private static readonly ObjectPool<Piece> Pool = new(() => new Piece(), p => p.IsPooled = true, (p) => p.Reset());
+        private static readonly ObjectPool<Piece> Pool = new(() => new Piece(),
+            piece => piece.IsPooled = true, piece => piece.Reset());
         
         private const string DefaultID = "00";
         

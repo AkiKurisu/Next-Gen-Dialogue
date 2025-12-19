@@ -1,9 +1,9 @@
 using UnityEngine;
-using System.Threading.Tasks;
 using System;
 using System.Threading;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
+
 namespace NextGenDialogue.Translator
 {
     public class GoogleTranslator : ITranslator

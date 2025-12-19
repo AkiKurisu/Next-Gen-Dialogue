@@ -5,7 +5,7 @@ using UnityEngine.Assertions;
 
 namespace NextGenDialogue
 {
-    public readonly struct SystemPromptModule : IDialogueModule, IProcessable
+    public class SystemPromptModule : IDialogueModule, IProcessable
     {
         public string Prompt { get; }
         

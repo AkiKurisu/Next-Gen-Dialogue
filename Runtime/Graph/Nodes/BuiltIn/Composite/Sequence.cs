@@ -1,4 +1,5 @@
 using Ceres.Annotations;
+
 namespace NextGenDialogue.Graph
 {
     [NodeInfo("Composite: Sequence, traversing the child nodes in turn, if it returns Success" +

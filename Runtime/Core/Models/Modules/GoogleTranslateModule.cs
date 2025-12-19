@@ -6,7 +6,7 @@ using UnityEngine.Pool;
 
 namespace NextGenDialogue
 {
-    public readonly struct GoogleTranslateModule : IDialogueModule, IProcessable
+    public class GoogleTranslateModule : IDialogueModule, IProcessable
     {
         private readonly GoogleTranslator _googleTranslator;
         

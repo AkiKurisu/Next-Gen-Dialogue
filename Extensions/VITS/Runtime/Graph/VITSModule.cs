@@ -2,7 +2,6 @@ using System;
 using Ceres.Annotations;
 using Ceres.Graph;
 using UnityEngine;
-using UnityEngine.Scripting;
 
 namespace NextGenDialogue.Graph.VITS
 {
@@ -23,7 +22,7 @@ namespace NextGenDialogue.Graph.VITS
         
         protected sealed override IDialogueModule GetModule()
         {
-            if (audioClip.Value != null) return new NextGenDialogue.VITS.VITSModule(audioClip.Value);
+            if (audioClip.Value) return new NextGenDialogue.VITS.VITSModule(audioClip.Value);
             return new NextGenDialogue.VITS.VITSModule(characterID.Value, noTranslation);
         }
     }

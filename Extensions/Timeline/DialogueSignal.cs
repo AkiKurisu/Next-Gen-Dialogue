@@ -2,6 +2,7 @@ using NextGenDialogue.Graph;
 using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.Timeline;
+
 namespace NextGenDialogue.Timeline
 {
     public class DialogueSignal : Marker, INotification

@@ -3,6 +3,7 @@ using NextGenDialogue.Graph;
 using R3;
 using UnityEngine;
 using UnityEngine.Playables;
+
 namespace NextGenDialogue.Timeline
 {
     public class TimelineDialogue : MonoBehaviour, INotificationReceiver

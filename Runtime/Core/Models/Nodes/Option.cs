@@ -1,10 +1,12 @@
 using System.Collections.Generic;
 using UnityEngine.Pool;
+
 namespace NextGenDialogue
 {
     public class Option : Node, IContentModule, IDialogueModule
     {
-        private static readonly ObjectPool<Option> Pool = new(() => new Option(), o => o.IsPooled = true, (o) => o.Reset());
+        private static readonly ObjectPool<Option> Pool = new(() => new Option(),
+            option => option.IsPooled = true, option => option.Reset());
         
         public int Index { get; set; }
         
@@ -12,13 +14,12 @@ namespace NextGenDialogue
         
         public string TargetID { get; set; } = string.Empty;
         
-        private Option Reset()
+        private void Reset()
         {
             IsPooled = false;
             Content = string.Empty;
             TargetID = string.Empty;
             ClearModules();
-            return this;
         }
         
         public static Option GetPooled()

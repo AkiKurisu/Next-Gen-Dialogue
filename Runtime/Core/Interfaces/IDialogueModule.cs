@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Threading;
 using Cysharp.Threading.Tasks;
+
 namespace NextGenDialogue
 {
     /// <summary>
@@ -12,11 +13,11 @@ namespace NextGenDialogue
     }
     
     /// <summary>
-    /// Apply data directly after module added
+    /// Modify data directly after module added
     /// </summary>
-    public interface IApplyable
+    public interface IModifyNode
     {
-        void Apply(Node parentNode);
+        void ModifyNode(Node parentNode);
     }
     
     /// <summary>

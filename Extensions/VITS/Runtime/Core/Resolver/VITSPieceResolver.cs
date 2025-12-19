@@ -3,6 +3,7 @@ using System.Threading;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Pool;
+
 namespace NextGenDialogue.VITS
 {
     public class VITSPieceResolver : IPieceResolver
