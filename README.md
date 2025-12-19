@@ -56,7 +56,6 @@ Add following dependencies to `manifest.json`.
 ```json
   "dependencies": {
     "com.kurisu.chris": "https://github.com/AkiKurisu/Chris.git",
-    "com.kurisu.chris.gameplay": "https://github.com/AkiKurisu/Chris.Gameplay.git",
     "com.kurisu.ceres": "https://github.com/AkiKurisu/Ceres.git",
     "com.cysharp.unitask":"https://github.com/Cysharp/UniTask.git?path=src/UniTask/Assets/Plugins/UniTask"
   }
