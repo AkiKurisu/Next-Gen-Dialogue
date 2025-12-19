@@ -79,7 +79,12 @@ namespace NextGenDialogue.Graph
         }
         
         public FlowGraph FlowGraph { get; private set; }
-        
+
+        protected override Blackboard CreateBlackboard(List<SharedVariable> inVariables)
+        {
+            return Blackboard.Create<DialogueGraphBlackboard>(inVariables);
+        }
+
         /// <summary>
         /// Traverse dialogue graph from root and append node instances
         /// </summary>
@@ -94,7 +99,7 @@ namespace NextGenDialogue.Graph
         {
             SetCompilerTarget(compiler);
             InitVariables(this);
-            BlackBoard.LinkToGlobal();
+            Blackboard.LinkToGlobal();
             FlowGraph?.Compile(compiler);
         }
 

@@ -124,6 +124,11 @@ namespace NextGenDialogue.Graph
             dialogueGraphData ??= new DialogueGraphData();
             return new DialogueGraph(dialogueGraphData, this);
         }
+        
+        DialogueGraphData IDialogueGraphContainer.GetDialogueGraphData()
+        {
+            return dialogueGraphData;
+        }
 
         public void SetGraphData(CeresGraphData graphData)
         {

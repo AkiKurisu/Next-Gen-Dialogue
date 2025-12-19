@@ -1,4 +1,5 @@
 using Ceres.Graph;
+
 namespace NextGenDialogue.Graph
 {
     /// <summary>
@@ -11,5 +12,11 @@ namespace NextGenDialogue.Graph
         /// </summary>
         /// <returns></returns>
         DialogueGraph GetDialogueGraph();
+        
+        /// <summary>
+        /// Get persistent <see cref="DialogueGraphData"/> from this container
+        /// </summary>
+        /// <returns></returns>
+        DialogueGraphData GetDialogueGraphData();
     }
 }
