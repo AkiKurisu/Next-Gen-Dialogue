@@ -1,4 +1,5 @@
 using Ceres.Annotations;
+
 namespace NextGenDialogue.Graph
 {
     [NodeInfo("Composite: Rotator, update child nodes in order, each Update will only update the current node" +

@@ -3,6 +3,7 @@ using Ceres.Editor;
 using Ceres.Editor.Graph;
 using NextGenDialogue.Graph.Editor;
 using UnityEngine.UIElements;
+
 namespace NextGenDialogue.Graph.VITS.Editor
 {
     [CustomNodeView(typeof(VITSEditorModule))]

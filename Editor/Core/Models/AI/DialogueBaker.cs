@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Threading.Tasks;
-using NextGenDialogue;
 using System;
 using NextGenDialogue.AI;
 using System.Threading;
@@ -10,6 +9,7 @@ using UnityEditor;
 using System.Text;
 using Ceres.Editor.Graph;
 using Cysharp.Threading.Tasks;
+
 namespace NextGenDialogue.Graph.Editor
 {
     public class DialogueBaker
@@ -39,7 +39,7 @@ namespace NextGenDialogue.Graph.Editor
                 EditorUtility.DisplayProgressBar("Wait to bake dialogue", "Waiting for a few seconds", slider);
                 if (slider > 1)
                 {
-                    graphView.EditorWindow.ShowNotification(new GUIContent($"Dialogue baking is out of time, please check your internet!"));
+                    graphView.EditorWindow.ShowNotification(new GUIContent("Dialogue baking is out of time, please check your internet!"));
                     ct.Cancel();
                     break;
                 }
@@ -47,7 +47,7 @@ namespace NextGenDialogue.Graph.Editor
             }
             if (!task.IsCanceled && !task.Result)
             {
-                graphView.EditorWindow.ShowNotification(new GUIContent($"Dialogue baking failed"));
+                graphView.EditorWindow.ShowNotification(new GUIContent("Dialogue baking failed"));
             }
             EditorUtility.ClearProgressBar();
         }
@@ -71,7 +71,7 @@ namespace NextGenDialogue.Graph.Editor
                 EditorUtility.DisplayProgressBar($"Wait to bake dialogue, step {step}", "Waiting for a few seconds", slider);
                 if (slider > 1)
                 {
-                    graphView.EditorWindow.ShowNotification(new GUIContent($"Dialogue baking is out of time, please check your internet!"));
+                    graphView.EditorWindow.ShowNotification(new GUIContent("Dialogue baking is out of time, please check your internet!"));
                     ct.Cancel();
                     break;
                 }
@@ -79,18 +79,20 @@ namespace NextGenDialogue.Graph.Editor
             }
             if (!task.IsCanceled && !task.Result)
             {
-                graphView.EditorWindow.ShowNotification(new GUIContent($"Dialogue baking failed"));
+                graphView.EditorWindow.ShowNotification(new GUIContent("Dialogue baking failed"));
             }
             EditorUtility.ClearProgressBar();
             await UniTask.WaitForSeconds(2, cancellationToken:ct.Token);
             
             // Auto layout
             new DialogueTreeLayoutConvertor(graphView, bakeContainer).Layout();
+            return;
 
-            async Task<bool> Generate(IReadOnlyList<ContainerNodeView> inContainers, ContainerNodeView inBakeContainer, CancellationToken ct, int currentDepth, int maxDepth)
+            async Task<bool> Generate(IReadOnlyList<ContainerNodeView> inContainers, ContainerNodeView inBakeContainer, 
+                CancellationToken cancellationToken, int currentDepth, int maxDepth)
             {
                 step++;
-                if (!await baker.Bake(inContainers, inBakeContainer, ct)) return false;
+                if (!await baker.Bake(inContainers, inBakeContainer, cancellationToken)) return false;
                 if (currentDepth >= maxDepth) return true;
                 // Append current bake to last
                 inContainers = new List<ContainerNodeView>(inContainers)
@@ -107,7 +109,7 @@ namespace NextGenDialogue.Graph.Editor
                     // Add bake module from script
                     // Random character
                     node.AddModuleNode(new AIBakeModule(depth, option));
-                    if (!await Generate(inContainers, node, ct, currentDepth + 1, maxDepth)) return false;
+                    if (!await Generate(inContainers, node, cancellationToken, currentDepth + 1, maxDepth)) return false;
                     node.RemoveModule<AIBakeModule>();
                 }
                 return true;
@@ -139,7 +141,7 @@ namespace NextGenDialogue.Graph.Editor
             }
             catch (OperationCanceledException)
             {
-                Debug.LogWarning($"[Dialogue Baker] Bake was cancelled");
+                Debug.LogWarning("[Dialogue Baker] Bake was cancelled");
                 return false;
             }
             catch (Exception ex)
@@ -219,13 +221,13 @@ namespace NextGenDialogue.Graph.Editor
             string content = contentModule.GetSharedStringValue("content");
             builder.Append(role, content);
         }
-        
+
         /// <summary>
         /// Generate a test bake content for editor test purpose
         /// </summary>
         /// <param name="containerNodes"></param>
         /// <param name="bakeContainerNodeView"></param>
-        /// <returns></returns> <summary>
+        /// <returns></returns>
         public string Preview(IReadOnlyList<ContainerNodeView> containerNodes, ContainerNodeView bakeContainerNodeView)
         {
             StringBuilder stringBuilder = new();

@@ -4,6 +4,7 @@ using Ceres.Graph;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
+using NodeElement = UnityEditor.Experimental.GraphView.Node;
 
 namespace NextGenDialogue.Graph.Editor
 {
@@ -68,7 +69,7 @@ namespace NextGenDialogue.Graph.Editor
             
             public Edge[] Edges;
             
-            public UnityEditor.Experimental.GraphView.Node[] Nodes;
+            public NodeElement[] Nodes;
 
             public bool IsValid()
             {

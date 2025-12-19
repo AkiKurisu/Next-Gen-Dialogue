@@ -1,6 +1,7 @@
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
+
 namespace NextGenDialogue.VITS
 {
     public class VITSModule : IDialogueModule

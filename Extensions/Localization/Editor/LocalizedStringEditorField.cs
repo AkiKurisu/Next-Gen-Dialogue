@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.Localization.Tables;
 using UnityEngine.UIElements;
 using UnityEditor;
+
 namespace NextGenDialogue.Graph.Localization.Editor
 {
     public class LocalizedStringEditorField : VisualElement
@@ -21,8 +22,10 @@ namespace NextGenDialogue.Graph.Localization.Editor
             };
             Add(buttonGroup);
             Add(toggleGroup);
+            
             var collection = LocalizationEditorSettings.GetStringTableCollection(tableEntry);
             if (collection == null) return;
+            
             var tables = collection.Tables;
             for (int i = 0; i < tables.Count; i++)
             {

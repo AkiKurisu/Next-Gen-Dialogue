@@ -1,21 +1,23 @@
 namespace NextGenDialogue
 {
-    public readonly struct ContentModule : IDialogueModule, IApplyable
+    public class ContentModule : IDialogueModule, IModifyNode
     {
-        private readonly string content;
+        private readonly string _content;
+        
         public ContentModule(string content)
         {
-            this.content = content;
+            _content = content;
         }
-        public void Apply(Node node)
+        
+        public void ModifyNode(Node node)
         {
             if (node is IContentModule contentModule)
             {
-                contentModule.AddContent(content);
+                contentModule.AddContent(_content);
             }
             else
             {
-                NGDSLogger.LogWarning("Target node don't have content to modify !");
+                NextGenDialogueLogger.LogWarning("Target node don't have content to modify!");
             }
         }
     }

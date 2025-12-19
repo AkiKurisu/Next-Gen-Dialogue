@@ -1,7 +1,7 @@
 {
   "name": "com.kurisu.next-gen-dialogue",
   "displayName": "Next Gen Dialogue",
-  "version": "2.0.2",
+  "version": "2.1.0",
   "unity": "2022.3",
   "description": "Node based Dialogue Editor.\nSupports generating dialogue content and voice powered by AI.",
   "keywords": [
@@ -12,9 +12,8 @@
   ],
   "category": "Visual Scripting",
   "dependencies": {
-    "com.kurisu.chris": "1.5.0",
-    "com.kurisu.chris.gameplay": "1.5.0",
-    "com.kurisu.ceres": "0.6.0",
+    "com.kurisu.chris": "1.6.0",
+    "com.kurisu.ceres": "0.6.1",
     "com.unity.nuget.newtonsoft-json": "3.2.1"
   },
   "author": {

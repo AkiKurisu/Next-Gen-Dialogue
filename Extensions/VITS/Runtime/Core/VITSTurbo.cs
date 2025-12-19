@@ -5,11 +5,13 @@ using Cysharp.Threading.Tasks;
 using NextGenDialogue.AI;
 using UnityEngine;
 using UnityEngine.Networking;
+
 namespace NextGenDialogue.VITS
 {
     public struct VITSResponse
     {
         public AudioClip Result { get; internal set; }
+        
         public bool Status { get; internal set; }
     }
     
@@ -17,13 +19,21 @@ namespace NextGenDialogue.VITS
     {
         private const string CallAPIBase = "http://{0}:{1}/voice/{2}?text={3}&id={4}";
         
+        
         private readonly StringBuilder _stringBuilder = new();
+        
         public AudioClip AudioClipCache { get; private set; }
+        
         public ITranslator Translator { get; set; }
+        
         public string Address { get; set; }
+        
         public string Port { get; set; }
+        
         public string Api { get; set; }
+        
         public string Lang { get; set; }
+        
         public string Length { get; set; }
         
         public VITSTurbo(AITurboSetting setting)

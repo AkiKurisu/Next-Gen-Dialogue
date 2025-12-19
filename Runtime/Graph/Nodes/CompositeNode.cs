@@ -2,8 +2,10 @@ using System;
 using System.Collections.Generic;
 using Ceres.Graph;
 using UnityEngine;
+
 namespace NextGenDialogue.Graph
 {
+    [Obsolete("CompositeNode is no longer used, use Flow instead.")]
     [Serializable]
     public abstract class CompositeNode : DialogueNode
     {

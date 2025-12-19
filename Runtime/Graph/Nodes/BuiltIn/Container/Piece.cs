@@ -1,13 +1,16 @@
 using System;
 using Ceres.Annotations;
 using UnityEngine;
+
 namespace NextGenDialogue.Graph
 {
     [Serializable]
     [NodeInfo("Piece is the container of single dialogue fragment")]
     public class Piece : ContainerNode
     {
-        [SerializeField, DisableCopyValue, CeresLabel("Piece ID"), Tooltip("You don't need to fill in this shared variable because its value will be automatically generated at runtime")]
+        [SerializeField, DisableCopyValue]
+        [CeresLabel("Piece ID")]
+        [Tooltip("You don't need to fill in this shared variable because its value will be automatically generated at runtime")]
         private PieceID pieceID;
         
         private NextGenDialogue.Piece _pieceCache;

@@ -1,21 +1,22 @@
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEditor.UIElements;
-using System.Linq;
 using Ceres.Editor.Graph;
 using Ceres.Editor.Graph.Flow;
+using Ceres.Graph.Flow;
 using UEditor = UnityEditor.Editor;
 
 namespace NextGenDialogue.Graph.Editor
 {
-    public class NextGenDialogueEditor: UEditor
+    internal static class Styles
     {
-        internal class DialogueGraphButton : Button
+        public class DialogueGraphOpenButton : Button
         {
             private const string ButtonText = "Open Dialogue Graph";
 
-            public DialogueGraphButton(IDialogueGraphContainer container) 
+            public DialogueGraphOpenButton(IDialogueGraphContainer container) 
             {
                 style.fontSize = 15;
                 style.unityFontStyleAndWeight = FontStyle.Bold;
@@ -26,11 +27,35 @@ namespace NextGenDialogue.Graph.Editor
             }
         }
         
-        internal class DialogueGraphPlayDialogueButton : Button
+        public class FlowGraphButton : Button
+        {
+            private const string ButtonText = "Open Flow Graph";
+        
+            public FlowGraphButton(IFlowGraphContainer container) : base(() => FlowGraphEditorWindow.Show(container))
+            {
+                style.fontSize = 15;
+                style.unityFontStyleAndWeight = FontStyle.Bold;
+                style.color = Color.white;
+                style.backgroundColor = new StyleColor(new Color(89 / 255f, 133 / 255f, 141 / 255f));
+                text = ButtonText;
+                Add(new Image
+                {
+                    style =
+                    {
+                        backgroundImage = Resources.Load<Texture2D>("Ceres/editor_icon"),
+                        height = 20,
+                        width = 20
+                    }
+                });
+                style.height = 25;
+            }
+        }
+        
+        public class DialogueGraphPlayButton : Button
         {
             private const string ButtonText = "Play Dialogue";
             
-            public DialogueGraphPlayDialogueButton(NextGenDialogueComponent component) : base(component.PlayDialogue)
+            public DialogueGraphPlayButton(NextGenDialogueComponent component) : base(component.PlayDialogue)
             {
                 style.fontSize = 15;
                 style.unityFontStyleAndWeight = FontStyle.Bold;
@@ -39,20 +64,26 @@ namespace NextGenDialogue.Graph.Editor
                 text = ButtonText;
             }
         }
-        
-        protected IDialogueGraphContainer Target => (IDialogueGraphContainer)target;
-        
-        protected static readonly string LabelText = $"Next-Gen Dialogue";
+
+        public const string LabelText = "Next-Gen Dialogue";
     }
 
-    [CustomEditor(typeof(NextGenDialogueComponent))]
-    public class NextGenDialogueComponentEditor : NextGenDialogueEditor
+    [CustomEditor(typeof(NextGenDialogueComponent), true)]
+    public class NextGenDialogueComponentEditor : UEditor
     {
-        private DialogueGraphButton _dialogueGraphButton;
+        public NextGenDialogueComponent Target => (NextGenDialogueComponent)target;
+
+        private SerializedProperty _externalAsset;
+
+        public void OnEnable()
+        {
+            _externalAsset = serializedObject.FindProperty("externalAsset");
+        }
+
         public override VisualElement CreateInspectorGUI()
         {
             var myInspector = new VisualElement();
-            var label = new Label(LabelText)
+            var label = new Label(Styles.LabelText)
             {
                 style =
                 {
@@ -60,81 +91,58 @@ namespace NextGenDialogue.Graph.Editor
                     unityTextAlign = TextAnchor.MiddleCenter
                 }
             };
-            var component = (NextGenDialogueComponent)Target;
+            var component = Target;
             myInspector.Add(label);
             myInspector.styleSheets.Add(CeresGraphView.GetOrLoadStyleSheet(NextGenDialogueSettings.InspectorStylePath));
-            var assetField = new PropertyField(serializedObject.FindProperty("externalAsset"), "External Asset");
+            
+            var assetField = new PropertyField(_externalAsset, "External Asset");
+            assetField.Bind(serializedObject);
             myInspector.Add(assetField);
             
             if (!component.Asset)
             {
-                // create instance for edit
-                var instance = Target.GetDialogueGraph();
-                if (instance.variables.Count(x => x?.IsExposed ?? false) != 0)
-                {
-                    myInspector.Add(new SharedVariablesFoldout(instance.BlackBoard, () =>
+                var dialogueBlackboardPanel = new BlackboardInspectorPanel(Target.GetDialogueGraph,
+                    () => ((IDialogueGraphContainer)Target).GetDialogueGraphData().saveTimestamp,
+                    instance =>
                     {
-                        // Not serialize data in playing mode
+                        // Do not serialize data in playing mode
                         if (Application.isPlaying) return;
-                        Target.SetGraphData(instance.GetData());
-                        EditorUtility.SetDirty(target);
-                    }));
-                }
-            }
 
-            _dialogueGraphButton = new DialogueGraphButton(component);
-            myInspector.Add(_dialogueGraphButton);
-            myInspector.Add(new OpenFlowGraphButton(component));
-            var playButton = new DialogueGraphPlayDialogueButton(component);
+                        Target.SetGraphData(((DialogueGraph)instance).GetData());
+                        EditorUtility.SetDirty(target);
+                    })
+                {
+                    Subtitle = "(Dialogue Graph)"
+                };
+                myInspector.Add(dialogueBlackboardPanel);
+            }
+            
+            myInspector.Add(new Styles.DialogueGraphOpenButton(component));
+
+            var flowBlackboardPanel = new BlackboardInspectorPanel(
+                () => Target.GetFlowGraph(),
+                () => ((IFlowGraphContainer)Target).GetFlowGraphData().saveTimestamp,
+                instance =>
+                {
+                    // Do not serialize data in playing mode
+                    if (Application.isPlaying) return;
+
+                    var graphData = ((IFlowGraphContainer)Target).GetFlowGraphData().CloneT<FlowGraphData>();
+                    graphData.variableData = instance.variables.Where(variable => variable is not LocalFunction)
+                        .Select(variable => variable.GetSerializedData())
+                        .ToArray();
+                    Target.SetGraphData(graphData);
+                    EditorUtility.SetDirty(target);
+                })
+            {
+                Subtitle = "(Flow Graph)"
+            };
+            myInspector.Add(flowBlackboardPanel);
+            
+            myInspector.Add(new Styles.FlowGraphButton(component));
+            var playButton = new Styles.DialogueGraphPlayButton(component);
             playButton.SetEnabled(Application.isPlaying);
             myInspector.Add(playButton);
-            return myInspector;
-        }
-    }
-    
-    [CustomEditor(typeof(NextGenDialogueGraphAsset))]
-    public class NextGenDialogueAssetEditor : NextGenDialogueEditor
-    {
-        public override VisualElement CreateInspectorGUI()
-        {
-            var myInspector = new VisualElement();
-            var label = new Label(LabelText)
-            {
-                style =
-                {
-                    fontSize = 20,
-                    unityTextAlign = TextAnchor.MiddleCenter
-                }
-            };
-            myInspector.Add(label);
-            myInspector.styleSheets.Add(CeresGraphView.GetOrLoadStyleSheet(NextGenDialogueSettings.InspectorStylePath));
-            myInspector.Add(new Label("Description"));
-            var description = new TextField(string.Empty)
-            {
-                multiline = true,
-                style =
-                {
-                    minHeight = 60
-                }
-            };
-            description.BindProperty(serializedObject.FindProperty("description"));
-            myInspector.Add(description);
-            // create instance for edit
-            var instance = Target.GetDialogueGraph();
-            if (instance.variables.Count(x => x?.IsExposed ?? false) != 0)
-            {
-                myInspector.Add(new SharedVariablesFoldout(instance.BlackBoard, () =>
-                {
-                    // Not serialize data in playing mode
-                    if (Application.isPlaying) return;
-                    Target.SetGraphData(instance.GetData());
-                    EditorUtility.SetDirty(target);
-                }));
-            }
-            myInspector.Add(new PropertyField(serializedObject.FindProperty("flowGraphAsset")));
-            var asset = (NextGenDialogueGraphAsset)Target;
-            myInspector.Add(new DialogueGraphButton(asset));
-            myInspector.Add(new OpenFlowGraphButton(asset));
             return myInspector;
         }
     }

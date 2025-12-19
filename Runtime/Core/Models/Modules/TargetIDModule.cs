@@ -1,21 +1,23 @@
 namespace NextGenDialogue
 {
-    public readonly struct TargetIDModule : IDialogueModule, IApplyable
+    public class TargetIDModule : IDialogueModule, IModifyNode
     {
-        private readonly string targetID;
+        private readonly string _targetID;
+        
         public TargetIDModule(string targetID)
         {
-            this.targetID = targetID;
+            _targetID = targetID;
         }
-        public void Apply(Node node)
+        
+        public void ModifyNode(Node node)
         {
             if (node is Option option)
             {
-                option.TargetID = targetID;
+                option.TargetID = _targetID;
             }
             else
             {
-                NGDSLogger.LogWarning("Target node is not a dialogue option !");
+                NextGenDialogueLogger.LogWarning("Target node is not a dialogue option!");
             }
         }
     }

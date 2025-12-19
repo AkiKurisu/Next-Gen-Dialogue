@@ -3,6 +3,7 @@ using System.Threading;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Pool;
+
 namespace NextGenDialogue.VITS
 {
     public class VITSPieceResolver : IPieceResolver
@@ -17,8 +18,6 @@ namespace NextGenDialogue.VITS
         private readonly AudioSource _audioSource;
         
         private DialogueSystem _system;
-        
-        private readonly CancellationTokenSource _ct = new();
         
         private readonly ObjectContainer _objectContainer = new();
         
@@ -35,16 +34,18 @@ namespace NextGenDialogue.VITS
             _objectContainer.Register<IContentModule>(piece);
         }
         
-        public async UniTask EnterPiece()
+        public async UniTask EnterPiece(CancellationToken cancellationToken)
         {
-            await DialoguePiece.ProcessModules(_objectContainer);
+            await DialoguePiece.ProcessModules(_objectContainer, cancellationToken);
             AudioClips = new AudioClip[DialoguePiece.Contents.Length];
             var modules = ListPool<VITSModule>.Get();
             DialoguePiece.CollectModules(modules);
-            await UniTask.WhenAll(modules.Select((x, idx) => x.RequestOrLoadAudioClipParallel(idx, _vitsTurbo, DialoguePiece.Contents, AudioClips, _ct.Token)))
+            await UniTask.WhenAll(modules.Select((x, idx) =>
+                            x.RequestOrLoadAudioClipParallel(idx, _vitsTurbo, DialoguePiece.Contents, AudioClips,
+                                cancellationToken)))
                         .Timeout(TimeSpan.FromSeconds(MaxWaitTime));
             ListPool<VITSModule>.Release(modules);
-            await UniTask.WaitUntil(() => !_audioSource.isPlaying);
+            await UniTask.WaitUntil(() => !_audioSource.isPlaying, cancellationToken: cancellationToken);
         }
         
         public UniTask ExitPiece()

@@ -4,6 +4,7 @@ using System.Threading;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Networking;
+
 namespace NextGenDialogue.AI
 {
     public class OpenAIClient : ILargeLanguageModel
@@ -98,6 +99,7 @@ namespace NextGenDialogue.AI
             else
                 Api = url;
         }
+        
         public async UniTask<ILLMResponse> GenerateAsync(ILLMRequest request, CancellationToken ct)
         {
             m_DataList.Clear();

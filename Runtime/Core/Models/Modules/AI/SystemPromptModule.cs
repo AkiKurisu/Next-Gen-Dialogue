@@ -1,9 +1,11 @@
+using System.Threading;
 using Cysharp.Threading.Tasks;
 using NextGenDialogue.AI;
 using UnityEngine.Assertions;
+
 namespace NextGenDialogue
 {
-    public readonly struct SystemPromptModule : IDialogueModule, IProcessable
+    public class SystemPromptModule : IDialogueModule, IProcessable
     {
         public string Prompt { get; }
         
@@ -12,7 +14,7 @@ namespace NextGenDialogue
             Prompt = prompt;
         }
         
-        public UniTask Process(IObjectResolver resolver)
+        public UniTask Process(IObjectResolver resolver, CancellationToken _)
         {
             var builder = resolver.Resolve<AIPromptBuilder>();
             Assert.IsNotNull(builder);

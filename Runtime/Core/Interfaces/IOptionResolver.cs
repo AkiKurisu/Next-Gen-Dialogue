@@ -1,10 +1,11 @@
 using System.Collections.Generic;
+using System.Threading;
 using Cysharp.Threading.Tasks;
 namespace NextGenDialogue
 {
     public interface IOptionResolver
     {
-        UniTask EnterOption();
+        UniTask EnterOption(CancellationToken cancellationToken);
         
         UniTask ClickOption(Option option);
         

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using UnityEditor;
 using UnityEngine;
+
 namespace NextGenDialogue.Graph.VITS.Editor
 {
     public static class AudioUtil
@@ -36,7 +37,7 @@ namespace NextGenDialogue.Graph.VITS.Editor
         {
             if (!clip) return;
 #if UNITY_2020_1_OR_NEWER
-            var method = GetMethod("PlayPreviewClip", new Type[] { typeof(AudioClip), typeof(int), typeof(bool) });
+            var method = GetMethod("PlayPreviewClip", new[] { typeof(AudioClip), typeof(int), typeof(bool) });
             method.Invoke(null, new object[] { clip, 0, false });
 #else
             var method = GetMethod("PlayClip", new Type[] { typeof(AudioClip) });

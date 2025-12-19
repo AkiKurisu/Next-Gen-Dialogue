@@ -3,20 +3,20 @@ namespace NextGenDialogue
     public interface IDialogueContainer
     {
         /// <summary>
-        /// Get the next dialogue piece according to the index
+        /// Get the next <see cref="Piece"/> by id
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
         Piece GetNext(string id);
         
         /// <summary>
-        /// Get the first dialogue piece
+        /// Get the first <see cref="Piece"/>
         /// </summary>
         /// <returns></returns>
         Piece GetFirst();
         
         /// <summary>
-        /// Cast the dialogue
+        /// Cast the <see cref="Dialogue"/>
         /// </summary>
         /// <returns></returns>
         Dialogue ToDialogue();

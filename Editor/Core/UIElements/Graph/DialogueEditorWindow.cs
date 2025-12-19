@@ -140,7 +140,7 @@ namespace NextGenDialogue.Graph.Editor
                     if (EditorUtility.DisplayDialog("Warning", msg, "Cancel", "Discard"))
                     {
                         var newWindow = Clone();
-                        EditorWindowRegistry.Register(GetContainer(), newWindow);
+                        EditorWindowRegistry.Register(Identifier, newWindow);
                         newWindow.Show();
                     }
                     return;

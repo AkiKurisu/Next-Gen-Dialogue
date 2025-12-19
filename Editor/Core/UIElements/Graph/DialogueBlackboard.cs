@@ -1,9 +1,9 @@
 using System.Linq;
-using Ceres;
 using Ceres.Editor.Graph;
 using Ceres.Graph;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine.UIElements;
+
 namespace NextGenDialogue.Graph.Editor
 {
     public class DialogueBlackboard: CeresBlackboard
@@ -41,7 +41,7 @@ namespace NextGenDialogue.Graph.Editor
 
         private void FindRelatedPiece(SharedVariable variable)
         {
-            var piece = graphView.nodes.OfType<PieceContainerView>().FirstOrDefault(x => x.GetPieceID() == variable.Name);
+            var piece = graphView.nodes.OfType<PieceContainerView>().FirstOrDefault(view => view.GetPieceID() == variable.Name);
             if (piece != null)
             {
                 graphView.AddToSelection(piece);

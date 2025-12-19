@@ -2,10 +2,12 @@ using NextGenDialogue.VITS;
 using NextGenDialogue.Graph.Editor;
 using UnityEditor;
 using UnityEngine;
+using UEditor = UnityEditor.Editor;
+
 namespace NextGenDialogue.Graph.VITS.Editor
 {
     [CustomEditor(typeof(VITSSetup))]
-    public class VITSSetupEditor : UnityEditor.Editor
+    public class VITSSetupEditor : UEditor
     {
         public override void OnInspectorGUI()
         {
@@ -56,13 +58,13 @@ namespace NextGenDialogue.Graph.VITS.Editor
             GUI.backgroundColor = new Color(140 / 255f, 160 / 255f, 250 / 255f);
             if (GUILayout.Button("Save Audio", GUILayout.MinHeight(20)))
             {
-                Save(clip);
+                SaveAudioClip(clip);
             }
             GUI.backgroundColor = orgColor;
             GUI.enabled = true;
         }
         
-        private void Save(AudioClip audioClip)
+        private static void SaveAudioClip(AudioClip audioClip)
         {
             string folderPath = EditorPrefs.GetString(AudioUtil.PrefKey, Application.dataPath);
             string path = EditorUtility.OpenFolderPanel("Select save path", folderPath, "");

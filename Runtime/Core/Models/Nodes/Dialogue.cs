@@ -1,11 +1,12 @@
 using System.Collections.Generic;
-using UnityEngine;
 using UnityEngine.Pool;
+
 namespace NextGenDialogue
 {
     public class Dialogue : Node
     {
-        private static readonly ObjectPool<Dialogue> Pool = new(() => new Dialogue(), (d) => d.IsPooled = true, (d) => d.Reset());
+        private static readonly ObjectPool<Dialogue> Pool = new(() => new Dialogue(), 
+            dialogue => dialogue.IsPooled = true, (d) => d.Reset());
         
         private readonly List<Piece> _dialoguePieces = new();
         
@@ -24,13 +25,12 @@ namespace NextGenDialogue
             return _dialoguePieceMap.GetValueOrDefault(id);
         }
         
-        private Dialogue Reset()
+        private void Reset()
         {
             IsPooled = false;
             _dialoguePieces.Clear();
             _dialoguePieceMap.Clear();
             ClearModules();
-            return this;
         }
         
         public void AddPiece(Piece piece)
@@ -38,7 +38,7 @@ namespace NextGenDialogue
             _dialoguePieces.Add(piece);
             if (!_dialoguePieceMap.TryAdd(piece.ID, piece))
             {
-                Debug.LogWarning($"Dialogue already contain Piece with PieceID {piece.ID} !");
+                NextGenDialogueLogger.LogWarning($"Dialogue already contain Piece with PieceID {piece.ID} !");
             }
         }
         

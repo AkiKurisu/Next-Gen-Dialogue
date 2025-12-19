@@ -1,5 +1,6 @@
 using System.Threading;
 using Cysharp.Threading.Tasks;
+
 namespace NextGenDialogue.Translator
 {
     public class LLMTranslator : ITranslator

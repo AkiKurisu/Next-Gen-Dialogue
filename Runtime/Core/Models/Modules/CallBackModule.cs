@@ -1,27 +1,31 @@
 using System;
 using UnityEngine.Pool;
+
 namespace NextGenDialogue
 {
-    public readonly struct CallBackModule : IDialogueModule
+    public class CallBackModule : IDialogueModule
     {
-        private readonly Action callBack;
+        private readonly Action _callBack;
+        
         public CallBackModule(Action callBack)
         {
-            this.callBack = callBack;
+            _callBack = callBack;
         }
+        
         public void InvokeCallBack()
         {
-            callBack?.Invoke();
+            _callBack?.Invoke();
         }
+        
         public static void InvokeCallBack(Node node)
         {
             var moduleCache = ListPool<CallBackModule>.Get();
             try
             {
                 node.CollectModules(moduleCache);
-                for (int i = 0; i < moduleCache.Count; i++)
+                foreach (var callbackModule in moduleCache)
                 {
-                    moduleCache[i].InvokeCallBack();
+                    callbackModule.InvokeCallBack();
                 }
             }
             finally

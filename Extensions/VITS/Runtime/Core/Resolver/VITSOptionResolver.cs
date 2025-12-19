@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
+
 namespace NextGenDialogue.VITS
 {
     public class VITSOptionResolver : IOptionResolver
@@ -27,8 +28,6 @@ namespace NextGenDialogue.VITS
         private readonly Dictionary<Option, AudioClip> _audioCacheMap = new();
         
         private readonly ObjectContainer _objectContainer = new();
-        
-        private readonly CancellationTokenSource _ct = new();
         
         public void Inject(IReadOnlyList<Option> options, DialogueSystem system)
         {
@@ -58,16 +57,18 @@ namespace NextGenDialogue.VITS
             }
         }
 
-        public async UniTask  EnterOption()
+        public async UniTask EnterOption(CancellationToken cancellationToken)
         {
             _audioCacheMap.Clear();
             foreach (var option in DialogueOptions)
             {
+                cancellationToken.ThrowIfCancellationRequested();
+                
                 _objectContainer.Register<IContentModule>(option);
-                await option.ProcessModules(_objectContainer);
+                await option.ProcessModules(_objectContainer, cancellationToken);
                 if (option.TryGetModule(out VITSModule module))
                 {
-                    _audioCacheMap[option] = await module.RequestOrLoadAudioClip(_vitsTurbo, option.Content, _ct.Token).Timeout(TimeSpan.FromSeconds(MaxWaitTime));
+                    _audioCacheMap[option] = await module.RequestOrLoadAudioClip(_vitsTurbo, option.Content, cancellationToken).Timeout(TimeSpan.FromSeconds(MaxWaitTime));
                 }
             }
         }

@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using Cysharp.Threading.Tasks;
+
 namespace NextGenDialogue
 {
     public abstract class Node : IDisposable
@@ -14,7 +16,7 @@ namespace NextGenDialogue
         {
             Modules.Add(module);
             OnModuleAdd(module);
-            if (module is IApplyable applyableModule) applyableModule.Apply(this);
+            if (module is IModifyNode modifyNode) modifyNode.ModifyNode(this);
         }
         
         protected void ClearModules()
@@ -54,13 +56,15 @@ namespace NextGenDialogue
             }
         }
 
-        public async UniTask ProcessModules(IObjectResolver resolver)
+        public async UniTask ProcessModules(IObjectResolver resolver, CancellationToken cancellationToken)
         {
             foreach (var localModule in Modules)
             {
+                cancellationToken.ThrowIfCancellationRequested();
+                
                 if (localModule is IProcessable processable)
                 {
-                    await processable.Process(resolver);
+                    await processable.Process(resolver, cancellationToken);
                 }
             }
         }

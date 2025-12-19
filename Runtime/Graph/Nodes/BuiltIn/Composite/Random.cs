@@ -1,5 +1,6 @@
 using Ceres.Annotations;
 using URandom = UnityEngine.Random;
+
 namespace NextGenDialogue.Graph
 {
     [NodeInfo("Composite: Random, random update a child and reselect the next node")]
