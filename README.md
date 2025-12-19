@@ -193,9 +193,9 @@ Add Editor/EditorTranslateModule in the Dialogue node, set the source language (
 For nodes other than `ContentModule`, if the `TranslateEntryAttribute` is added to the field, you can right-click a single node to translate it.
 
 ```c#
-public class ExampleAction : Action
+public class ExampleModule : CustomModule
 {
-    //Notify field can be translated
+    // Notify field can be translated
     //* Only work for SharedString and string
     [SerializeField, Multiline, TranslateEntry]
     private SharedString value;

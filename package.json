@@ -3,7 +3,7 @@
   "displayName": "Next Gen Dialogue",
   "version": "2.1.0",
   "unity": "2022.3",
-  "description": "Node based Dialogue Editor.\nSupports generating dialogue content and voice powered by AI.",
+  "description": "Node based dialogue visual editor with AIGC support.",
   "keywords": [
     "Graph",
     "GraphView",
@@ -13,7 +13,7 @@
   "category": "Visual Scripting",
   "dependencies": {
     "com.kurisu.chris": "1.6.0",
-    "com.kurisu.ceres": "0.6.1",
+    "com.kurisu.ceres": "0.6.3",
     "com.unity.nuget.newtonsoft-json": "3.2.1"
   },
   "author": {
