@@ -117,7 +117,12 @@ namespace NextGenDialogue.Graph.Editor
                 myInspector.Add(dialogueBlackboardPanel);
             }
             
-            myInspector.Add(new Styles.DialogueGraphOpenButton(component));
+            var graphButton = new Styles.DialogueGraphOpenButton(component);
+            if (component.Asset)
+            {
+                graphButton.SetEnabled(false);
+            }
+            myInspector.Add(graphButton);
 
             var flowBlackboardPanel = new BlackboardInspectorPanel(
                 () => Target.GetFlowGraph(),
@@ -138,8 +143,14 @@ namespace NextGenDialogue.Graph.Editor
                 Subtitle = "(Flow Graph)"
             };
             myInspector.Add(flowBlackboardPanel);
+
+            var flowButton = new Styles.FlowGraphButton(component);
+            if (component.Asset)
+            {
+                flowButton.SetEnabled(false);
+            }
+            myInspector.Add(flowButton);
             
-            myInspector.Add(new Styles.FlowGraphButton(component));
             var playButton = new Styles.DialogueGraphPlayButton(component);
             playButton.SetEnabled(Application.isPlaying);
             myInspector.Add(playButton);

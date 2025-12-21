@@ -62,37 +62,43 @@ namespace NextGenDialogue.Graph.Editor
                 Subtitle = "(Dialogue Graph)"
             };
             myInspector.Add(dialogueBlackboardPanel);
-
+            
+            myInspector.Add(new Styles.DialogueGraphOpenButton(Target));
+            
             var propertyField = new PropertyField(_flowGraphAsset);
             propertyField.Bind(serializedObject);
             myInspector.Add(propertyField);
             
-            myInspector.Add(new Styles.DialogueGraphOpenButton(Target));
-            
-            if (!_flowGraphAsset.objectReferenceValue)
-            {
-                var flowBlackboardPanel = new BlackboardInspectorPanel(
-                    () => Target.GetFlowGraph(),
-                    () => ((IFlowGraphContainer)Target).GetFlowGraphData().saveTimestamp,
-                    instance =>
-                    {
-                        // Do not serialize data in playing mode
-                        if (Application.isPlaying) return;
-
-                        var graphData = ((IFlowGraphContainer)Target).GetFlowGraphData().CloneT<FlowGraphData>();
-                        graphData.variableData = instance.variables.Where(variable => variable is not LocalFunction)
-                            .Select(variable => variable.GetSerializedData())
-                            .ToArray();
-                        Target.SetGraphData(graphData);
-                        EditorUtility.SetDirty(target);
-                    })
+            var flowBlackboardPanel = new BlackboardInspectorPanel(
+                () => Target.GetFlowGraph(),
+                () => ((IFlowGraphContainer)Target).GetFlowGraphData().saveTimestamp,
+                instance =>
                 {
-                    Subtitle = "(Flow Graph)"
-                };
-                myInspector.Add(flowBlackboardPanel);
+                    // Do not serialize data in playing mode
+                    if (Application.isPlaying) return;
+
+                    var graphData = ((IFlowGraphContainer)Target).GetFlowGraphData().CloneT<FlowGraphData>();
+                    graphData.variableData = instance.variables.Where(variable => variable is not LocalFunction)
+                        .Select(variable => variable.GetSerializedData())
+                        .ToArray();
+                    Target.SetGraphData(graphData);
+                    EditorUtility.SetDirty(target);
+                })
+            {
+                Subtitle = "(Flow Graph)"
+            };
+            if (_flowGraphAsset.objectReferenceValue)
+            {
+                flowBlackboardPanel.SetEnabled(false);
             }
-            
-            myInspector.Add(new Styles.FlowGraphButton(Target));
+            myInspector.Add(flowBlackboardPanel);
+
+            var graphButton = new Styles.FlowGraphButton(Target);
+            if (_flowGraphAsset.objectReferenceValue)
+            {
+                graphButton.SetEnabled(false);
+            }
+            myInspector.Add(graphButton);
             return myInspector;
         }
     }
