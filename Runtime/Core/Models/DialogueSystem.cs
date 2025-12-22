@@ -21,11 +21,11 @@ namespace NextGenDialogue
 
             private ResolverModule _resolverModule;
 
-            public IDialogueResolver DialogueResolver => _resolverModule.DialogueResolver ?? _dialogueResolver;
+            public IDialogueResolver DialogueResolver => _resolverModule?.DialogueResolver ?? _dialogueResolver;
 
-            public IPieceResolver PieceResolver => _resolverModule.PieceResolver ?? _pieceResolver;
+            public IPieceResolver PieceResolver => _resolverModule?.PieceResolver ?? _pieceResolver;
 
-            public IOptionResolver OptionResolver => _resolverModule.OptionResolver ?? _optionResolver;
+            public IOptionResolver OptionResolver => _resolverModule?.OptionResolver ?? _optionResolver;
 
             public DialogueResolverContainer(IContainerSubsystem containerSubsystem)
             {
