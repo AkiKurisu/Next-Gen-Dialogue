@@ -5,6 +5,7 @@ using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 using R3;
+
 namespace NextGenDialogue.VITS.Example
 {
     public class VITSDialogueUI : MonoBehaviour
@@ -93,7 +94,7 @@ namespace NextGenDialogue.VITS.Example
             {
                 VITSOptionUI optionSlot = GetOption();
                 _optionSlots.Add(optionSlot);
-                optionSlot.UpdateOption(option, (opt) => ClickOptionCoroutine(resolver, opt).Forget());
+                optionSlot.UpdateOption(option, opt => ClickOptionCoroutine(resolver, opt).Forget());
             }
         }
         

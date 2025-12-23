@@ -1,42 +1,46 @@
 using System;
 using UnityEngine;
 using UnityEngine.UI;
+
 namespace NextGenDialogue.VITS.Example
 {
     public class VITSOptionUI : MonoBehaviour
     {
-        private Text optionText;
+        private Text _optionText;
         
-        private Button button;
+        private Button _button;
         
-        private Option option;
+        private Option _option;
         
-        private Action<Option> onClickCallBack;
+        private Action<Option> _onClickCallBack;
         
-        private RectTransform rectTransform;
+        private RectTransform _rectTransform;
         
         private void Awake()
         {
-            rectTransform = GetComponent<RectTransform>();
-            optionText = GetComponentInChildren<Text>();
-            button = GetComponent<Button>();
-            button.onClick.AddListener(OnOptionClick);
+            _rectTransform = GetComponent<RectTransform>();
+            _optionText = GetComponentInChildren<Text>();
+            _button = GetComponent<Button>();
+            _button.onClick.AddListener(OnOptionClick);
         }
+        
         private void OnDestroy()
         {
-            button.onClick.RemoveAllListeners();
+            _button.onClick.RemoveAllListeners();
         }
+        
         public void UpdateOption(Option option, Action<Option> callBack)
         {
-            this.option = option;
-            optionText.text = option.Content;
-            onClickCallBack = callBack;
-            LayoutRebuilder.ForceRebuildLayoutImmediate(optionText.rectTransform);
-            LayoutRebuilder.ForceRebuildLayoutImmediate(rectTransform);
+            _option = option;
+            _optionText.text = option.Content;
+            _onClickCallBack = callBack;
+            LayoutRebuilder.ForceRebuildLayoutImmediate(_optionText.rectTransform);
+            LayoutRebuilder.ForceRebuildLayoutImmediate(_rectTransform);
         }
+        
         private void OnOptionClick()
         {
-            onClickCallBack?.Invoke(option);
+            _onClickCallBack?.Invoke(_option);
         }
     }
 }

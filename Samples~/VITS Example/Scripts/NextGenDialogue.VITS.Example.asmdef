@@ -1,6 +1,6 @@
 {
-    "name": "Kurisu.NGDT.VITS.Example",
-    "rootNamespace": "Kurisu.NGDT.VITS.Example",
+    "name": "NextGenDialogue.VITS.Example",
+    "rootNamespace": "NextGenDialogue.VITS.Example",
     "references": [
         "GUID:a3641cccf50efcd4cafc57a3120fb40e",
         "GUID:b81d7f3fee7e06444b67ba0de5b3651b",
