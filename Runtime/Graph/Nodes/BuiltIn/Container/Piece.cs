@@ -59,11 +59,6 @@ namespace NextGenDialogue.Graph
         {
             return _pieceCache;
         }
-        
-        public override void Abort()
-        {
-            _pieceCache = null;
-        }
     }
 }
 

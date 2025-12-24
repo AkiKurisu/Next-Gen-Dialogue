@@ -115,7 +115,6 @@ namespace NextGenDialogue.Graph
         public void PlayDialogue(NextGenDialogueComponent component)
         {
             Builder.Clear();
-            Root.Abort();
             foreach (var node in nodes)
             {
                 ((DialogueNode)node).Initialize(component, this);

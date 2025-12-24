@@ -4,6 +4,7 @@ using System.Linq;
 using Ceres.Annotations;
 using Ceres.Graph;
 using UnityEngine;
+
 namespace NextGenDialogue.Graph
 {
     /// <summary>
@@ -68,19 +69,6 @@ namespace NextGenDialogue.Graph
             // Only update main dialogue
             if (child == null) return Status.Failure;
             return GetActiveDialogue().Update(Children.OfType<Piece>());
-        }
-
-        internal void Abort()
-        {
-            GetActiveDialogue().Abort();
-            foreach (var node in children)
-            {
-                // Skip inactive dialogue
-                if (node is ContainerNode container and not Dialogue)
-                {
-                    container.Abort();
-                }
-            }
         }
         
         /// <summary>

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Ceres.Graph;
 using UnityEngine;
+
 namespace NextGenDialogue.Graph
 {
     [Serializable]
@@ -35,11 +36,6 @@ namespace NextGenDialogue.Graph
             {
                 childNode.Start();
             }
-        }
-        
-        public virtual void Abort()
-        {
-
         }
         
         protected virtual void OnStart()

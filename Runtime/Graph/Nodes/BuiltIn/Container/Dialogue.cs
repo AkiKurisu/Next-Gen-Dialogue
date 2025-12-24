@@ -46,16 +46,6 @@ namespace NextGenDialogue.Graph
             return Status.Success;
         }
         
-        public override void Abort()
-        {
-            _dialogueCache = null;
-            foreach (var piece in _pieceMap.Values)
-            {
-                piece.Abort();
-            }
-            _pieceMap.Clear();
-        }
-        
         NextGenDialogue.Piece IDialogueContainer.GetNext(string id)
         {
 #if UNITY_EDITOR
