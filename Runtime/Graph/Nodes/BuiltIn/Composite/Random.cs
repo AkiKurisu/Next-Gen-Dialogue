@@ -1,8 +1,10 @@
+using System;
 using Ceres.Annotations;
 using URandom = UnityEngine.Random;
 
 namespace NextGenDialogue.Graph
 {
+    [Obsolete("Random is no longer used, use Flow instead.")]
     [NodeInfo("Composite: Random, random update a child and reselect the next node")]
     public class Random : CompositeNode
     {

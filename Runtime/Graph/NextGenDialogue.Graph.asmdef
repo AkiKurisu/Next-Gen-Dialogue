@@ -2,11 +2,11 @@
     "name": "NextGenDialogue.Graph",
     "rootNamespace": "NextGenDialogue.Graph",
     "references": [
-        "GUID:a3641cccf50efcd4cafc57a3120fb40e",
-        "GUID:7dddf801c0fab33408b06985cd6a607e",
-        "GUID:e61a2a07ba2680848ad23eef5b7c024b",
         "GUID:f51ebe6a0ceec4240a699833d6309b23",
-        "GUID:a1522487bb381474896580435573c012"
+        "GUID:e61a2a07ba2680848ad23eef5b7c024b",
+        "GUID:a1522487bb381474896580435573c012",
+        "GUID:7dddf801c0fab33408b06985cd6a607e",
+        "GUID:a3641cccf50efcd4cafc57a3120fb40e"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

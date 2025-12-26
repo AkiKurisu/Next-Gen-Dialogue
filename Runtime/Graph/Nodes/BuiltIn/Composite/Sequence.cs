@@ -1,7 +1,9 @@
+using System;
 using Ceres.Annotations;
 
 namespace NextGenDialogue.Graph
 {
+    [Obsolete("Sequence is no longer used, use Flow instead.")]
     [NodeInfo("Composite: Sequence, traversing the child nodes in turn, if it returns Success" +
     ", continue to update the next one, otherwise it returns Failure")]
     public class Sequence : CompositeNode

@@ -1,6 +1,7 @@
 using System;
 using Ceres.Graph;
 using UnityEngine;
+
 namespace NextGenDialogue.Graph
 {
     [Serializable]
@@ -9,6 +10,7 @@ namespace NextGenDialogue.Graph
         
     }
     
+    [Obsolete("BehaviorModule is no longer used, use Flow instead.")]
     [Serializable]
     public abstract class BehaviorModule : Module
     {
