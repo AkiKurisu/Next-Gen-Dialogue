@@ -134,53 +134,25 @@ namespace NextGenDialogue.Graph.Editor
         private void CopyPort(IDialogueNodeView sourceNode, IDialogueNodeView pasteNode)
         {
             var nodeType = sourceNode.NodeType;
-            if (nodeType.IsSubclassOf(typeof(ContainerNode)))
-            {
-                var sourceContainer = (ContainerNodeView)sourceNode;
-                var pasteContainer = (ContainerNodeView)pasteNode;
-                var copyMap = pasteContainer.GetCopyMap();
-                sourceContainer.contentContainer.Query<UnityEditor.Experimental.GraphView.Node>()
+            if (!nodeType.IsSubclassOf(typeof(ContainerNode))) return;
+            
+            var sourceContainer = (ContainerNodeView)sourceNode;
+            var pasteContainer = (ContainerNodeView)pasteNode;
+            var copyMap = pasteContainer.GetCopyMap();
+            sourceContainer.contentContainer.Query<NodeElement>()
                 .ToList()
-                .ForEach(x =>
+                .ForEach(node =>
                 {
-                    if (x is BehaviorModuleNodeView behaviorModuleNode)
-                        _portCopyDict.Add(behaviorModuleNode.Child, ((BehaviorModuleNodeView)copyMap[x.GetHashCode()]).Child);
-                    else if (x is ChildBridgeView childBridge)
-                        _portCopyDict.Add(childBridge.Child, ((ChildBridgeView)copyMap[x.GetHashCode()]).Child);
+                    if (node is ChildBridgeView childBridge)
+                        _portCopyDict.Add(childBridge.Child, ((ChildBridgeView)copyMap[node.GetHashCode()]).Child);
                 });
-                // For some reason edges connected to bridge's ports are not selected by graph view
-                // Add edge manually
-                _portCopyDict.Add(sourceContainer.Parent, pasteContainer.Parent);
-                if (sourceContainer.Parent.connected)
-                {
-                    var edge = sourceContainer.Parent.connections.FirstOrDefault();
-                    _sourceEdges.Add(edge);
-                }
-            }
-            else if (nodeType.IsSubclassOf(typeof(BehaviorModule)))
+            // For some reason edges connected to bridge's ports are not selected by graph view
+            // Add edge manually
+            _portCopyDict.Add(sourceContainer.Parent, pasteContainer.Parent);
+            if (sourceContainer.Parent.connected)
             {
-                var behaviorModuleNode = (BehaviorModuleNodeView)sourceNode;
-                _portCopyDict.Add(behaviorModuleNode.Child, ((BehaviorModuleNodeView)pasteNode).Child);
-            }
-            else if (nodeType.IsSubclassOf(typeof(ActionNode)))
-            {
-                var actionNode = (ActionNodeView)sourceNode;
-                _portCopyDict.Add(actionNode.Parent, ((ActionNodeView)pasteNode).Parent);
-            }
-            else if (nodeType.IsSubclassOf(typeof(CompositeNode)))
-            {
-                var compositeNode = (CompositeNodeView)sourceNode;
-                var copy = (CompositeNodeView)pasteNode;
-                int count = compositeNode.ChildPorts.Count - copy.ChildPorts.Count;
-                for (int i = 0; i < count; i++)
-                {
-                    copy.AddChild();
-                }
-                for (int i = 0; i < compositeNode.ChildPorts.Count; i++)
-                {
-                    _portCopyDict.Add(compositeNode.ChildPorts[i], copy.ChildPorts[i]);
-                }
-                _portCopyDict.Add(compositeNode.Parent, copy.Parent);
+                var edge = sourceContainer.Parent.connections.FirstOrDefault();
+                _sourceEdges.Add(edge);
             }
         }
         

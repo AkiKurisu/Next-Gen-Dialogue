@@ -20,25 +20,6 @@ namespace NextGenDialogue.Graph
         {
         
         }
-
-        protected override CeresNode GetFallbackNode(CeresNodeData fallbackNodeData, int index)
-        {
-            /* Variants for fallback nodes */
-            if (edges[index].children.Length > 0)
-            {
-                return new InvalidCompositeNode
-                {
-                    nodeType = fallbackNodeData.nodeType.ToString(),
-                    serializedData = fallbackNodeData.serializedData
-                };
-            }
-            
-            return new InvalidActionNode
-            {
-                nodeType = fallbackNodeData.nodeType.ToString(),
-                serializedData = fallbackNodeData.serializedData
-            };
-        }
     }
 
     [Serializable]

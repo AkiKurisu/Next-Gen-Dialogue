@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using Ceres.Editor;
 using Ceres.Editor.Graph;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
+
 namespace NextGenDialogue.Graph.Editor
 {
     [CustomNodeView(typeof(Module), true)]
@@ -70,63 +70,6 @@ namespace NextGenDialogue.Graph.Editor
         public EditorModuleNodeView(Type type, CeresGraphView graphView): base(type, graphView)
         {
             AddToClassList(nameof(EditorModuleNodeView));
-        }
-    }
-    
-    [CustomNodeView(typeof(BehaviorModule), true)]
-    public class BehaviorModuleNodeView : ModuleNodeView, ILayoutNode
-    {
-        public Port Child { get; }
-
-        VisualElement ILayoutNode.View => this;
-
-        private IDialogueNodeView _cache;
-        
-        public BehaviorModuleNodeView(Type type, CeresGraphView graphView): base(type, graphView)
-        {
-            AddToClassList(nameof(BehaviorModuleNodeView));
-            Child = CreateChildPort();
-            outputContainer.Add(Child);
-        }
-        
-        protected override bool OnValidate(Stack<IDialogueNodeView> stack)
-        {
-            if (!Child.connected)
-            {
-                return true;
-            }
-            stack.Push(PortHelper.FindChildNode(Child));
-            return true;
-        }
-
-        protected override void OnCommit(Stack<IDialogueNodeView> stack)
-        {
-            if (!Child.connected)
-            {
-                ((BehaviorModule)NodeBehavior).Child = null;
-                _cache = null;
-                return;
-            }
-            var child = PortHelper.FindChildNode(Child);
-            ((BehaviorModule)NodeBehavior).Child = child.Compile();
-            stack.Push(child);
-            _cache = child;
-        }
-
-        protected override void OnClearStyle()
-        {
-            _cache?.ClearStyle();
-            if (Child.connected)
-            {
-                PortHelper.FindChildNode(Child).ClearStyle();
-            }
-        }
-
-        public IReadOnlyList<ILayoutNode> GetLayoutChildren()
-        {
-            var list = new List<ILayoutNode>();
-            if (Child.connected) list.Add((ILayoutNode)PortHelper.FindChildNode(Child));
-            return list;
         }
     }
 }

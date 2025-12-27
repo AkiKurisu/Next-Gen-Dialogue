@@ -5,6 +5,7 @@ using UnityEngine;
 using System.Linq;
 using Ceres.Utilities;
 using Ceres.Editor.Graph;
+
 namespace NextGenDialogue.Graph.Editor
 {
     public class DialogueNodeSearchWindow : CeresNodeSearchWindow
@@ -21,9 +22,7 @@ namespace NextGenDialogue.Graph.Editor
         }
 
         private static readonly Type[] FilteredTypes = {
-            typeof(ContainerNode),
-            typeof(ActionNode),
-            typeof(CompositeNode)
+            typeof(ContainerNode)
         };
         
         public override List<SearchTreeEntry> CreateSearchTree(SearchWindowContext context)
@@ -38,21 +37,21 @@ namespace NextGenDialogue.Graph.Editor
             
             foreach (var filteredType in FilteredTypes)
             {
-                builder.AddEntry(new SearchTreeGroupEntry(new GUIContent($"Select {filteredType.Name.Replace("Node", string.Empty)}"), 1));
                 var subGroups = groups.SelectSubclass(filteredType);
                 foreach (var subGroup in subGroups)
                 {
-                    builder.AddAllEntries(subGroup, 2);
+                    builder.AddAllEntries(subGroup, 1);
                 }
                 var left = nodeTypes.Where(x => x.IsSubclassOf(filteredType));
                 foreach (var type in left)
                 {
-                    builder.AddEntry(type, 2);
+                    builder.AddEntry(type, 1);
                 }
             }
             entries.AddRange(builder.GetEntries());
             return entries;
         }
+        
         public override bool OnSelectEntry(SearchTreeEntry searchTreeEntry, SearchWindowContext context)
         {
             Rect newRect = new(GraphView.Screen2GraphPosition(context.screenMousePosition), new Vector2(100, 100));

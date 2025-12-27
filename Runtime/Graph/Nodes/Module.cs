@@ -1,6 +1,4 @@
 using System;
-using Ceres.Graph;
-using UnityEngine;
 
 namespace NextGenDialogue.Graph
 {
@@ -8,50 +6,6 @@ namespace NextGenDialogue.Graph
     public abstract class Module : DialogueNode
     {
         
-    }
-    
-    [Obsolete("BehaviorModule is no longer used, use Flow instead.")]
-    [Serializable]
-    public abstract class BehaviorModule : Module
-    {
-        [SerializeReference]
-        private DialogueNode child;
-        
-        public DialogueNode Child
-        {
-            get => child;
-            set => child = value;
-        }
-
-        public override void Awake()
-        {
-            child?.Awake();
-        }
-
-        public override void Start()
-        {
-            child?.Start();
-        }
-        
-        public sealed override CeresNode GetChildAt(int index)
-        {
-            return child;
-        }
-        
-        public sealed override int GetChildrenCount()
-        {
-            return child == null ? 0 : 1;
-        }
-        
-        public sealed override void ClearChildren()
-        {
-            child = null;
-        }
-        
-        public sealed override void AddChild(CeresNode nodeBehavior)
-        {
-            child = nodeBehavior as DialogueNode;
-        }
     }
     
     [Serializable]

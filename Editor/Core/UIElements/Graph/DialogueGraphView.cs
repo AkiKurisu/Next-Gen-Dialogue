@@ -120,7 +120,7 @@ namespace NextGenDialogue.Graph.Editor
             {
                 Paste(contentViewContainer.WorldToLocal(action.eventInfo.mousePosition) - CopyPasteGraph.CenterPosition);
             }, x => CopyPasteGraph.CanPaste ? DropdownMenuAction.Status.Normal : DropdownMenuAction.Status.Disabled));
-            ContextualMenuRegistry.BuildContextualMenu(ContextualMenuType.Graph, evt, null);
+            ContextualMenuRegistry.BuildContextualMenu(ContextualMenuType.Graph, evt);
         }
 
         public sealed override List<Port> GetCompatiblePorts(Port startAnchor, NodeAdapter nodeAdapter)
@@ -373,32 +373,6 @@ namespace NextGenDialogue.Graph.Editor
                             for (var i = nb.Children.Count - 1; i >= 0; i--)
                             {
                                 stack.Push(new EdgePair(nb.Children[i], new ContainerAdapter(containerNode)));
-                            }
-                            break;
-                        }
-                    case BehaviorModule nb:
-                        {
-                            var module = (BehaviorModuleNodeView)nodeView;
-                            stack.Push(new EdgePair(nb.Child, new PortAdapter(module.Child)));
-                            break;
-                        }
-                    case CompositeNode nb:
-                        {
-                            var compositeNode = (CompositeNodeView)nodeView;
-                            var addable = nb.Children.Count - compositeNode.ChildPorts.Count;
-                            if (compositeNode.NoValidate && nb.Children.Count == 0)
-                            {
-                                compositeNode.RemoveUnnecessaryChildren();
-                                break;
-                            }
-                            for (var i = 0; i < addable; i++)
-                            {
-                                compositeNode.AddChild();
-                            }
-
-                            for (var i = 0; i < nb.Children.Count; i++)
-                            {
-                                stack.Push(new EdgePair(nb.Children[i], new PortAdapter(compositeNode.ChildPorts[i])));
                             }
                             break;
                         }

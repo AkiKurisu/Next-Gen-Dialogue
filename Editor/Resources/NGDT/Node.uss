@@ -25,17 +25,6 @@
     flex-direction:column
 }
 
-.CompositeNodeView #title 
-{
-    background-color: rgba(76, 255, 85, 0.91);
-    color: white;
-}
-
-.ActionNodeView #title 
-{
-    background-color: rgba(251, 114, 153, 0.91);
-}
-
 .ModuleNodeView #title {
     background-color: rgba(0, 255, 168, 0.91);
 }
