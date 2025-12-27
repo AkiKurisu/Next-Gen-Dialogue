@@ -1,7 +1,7 @@
 {
   "name": "com.kurisu.next-gen-dialogue",
   "displayName": "Next Gen Dialogue",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "unity": "2022.3",
   "description": "Node based dialogue visual editor with AIGC support.",
   "keywords": [
