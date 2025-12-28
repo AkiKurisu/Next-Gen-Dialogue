@@ -6,118 +6,117 @@
 
 # Next Gen Dialogue
 
-Next Gen Dialogue is a Unity dialogue plugin combined with large language model design, won the 2023 Unity AI Plugin Excellence Award from Unity China. 
+AI powered dialogue visual designer for Unity.
 
-It combines the traditional dialogue design pattern with AIGC to simlify your workflow. Hopes you enjoy it. 
-
-<Img src = "Documentation~/Images/BilibiliDemo.png">
-
-Demo video https://www.bilibili.com/video/BV1hg4y1U7FG 
+![Banner](./Documentation~/Images/banner.png)
 
 </div>
 
-# Content
+## Table of Contents
 
-- [Features](#features)
-- [Supported version](#supported-version)
-- [Install](#install)
-  - [Modules](#modules)
-- [Quick Start](#quick-start)
-    - [Create a Dialogue Graph](#create-a-dialogue-graph)
-    - [Add Custom Actions](#add-custom-actions)
-    - [AI Bake Dialogue](#ai-bake-dialogue)
-    - [AI Generate Novel](#ai-generate-novel)
-- [Nodes](#nodes)
-- [Modules](#modules-1)
-  - [General Modules](#general-modules)
-  - [AIGC Modules](#aigc-modules)
-  - [Editor Modules](#editor-modules)
-    - [One-click Translation](#one-click-translation)
+- [Install](#-install)
+- [Highlights](#-highlights)
+- [Platforms](#platforms)
+- [Demo](#demo)
+- [Quick Start Guide](#-quick-start-guide)
+- [Core Concepts](#core-concepts)
+- [Modules](#modules)
 - [Extensions](#extensions)
-  - [Localization Extension](#localization-extension)
-  - [VITS Speech Extension](#vits-speech-extension)
-    - [Bake Voice](#bake-voice)
 - [Resolvers](#resolvers)
-  - [How to Switch Resolver](#how-to-switch-resolver)
 - [Create Dialogue in Script](#create-dialogue-in-script)
 
-
-# Features
-
-- Visual dialogue editor
-- Modular dialogue function
-- AIGC dialogue
-- Custom actions support
-
-# Supported version
-
-* Unity 2022.3 or Later
-
-# Install
+## 📦 Install
 
 Add following dependencies to `manifest.json`.
 
 ```json
-  "dependencies": {
+"dependencies": {
     "com.kurisu.chris": "https://github.com/AkiKurisu/Chris.git",
     "com.kurisu.ceres": "https://github.com/AkiKurisu/Ceres.git",
     "com.cysharp.unitask":"https://github.com/Cysharp/UniTask.git?path=src/UniTask/Assets/Plugins/UniTask"
-  }
-
+}
 ```
 
-Use git URL to download package by Unity Package Manager ```https://github.com/AkiKurisu/Next-Gen-Dialogue.git```.
+Then use git URL to download package by Unity Package Manager ```https://github.com/AkiKurisu/Next-Gen-Dialogue.git```.
 
-## Modules
+> **Note**: Experimental features are placed in the `Modules` folder and require installing corresponding dependencies. Check the `README.md` in each module folder for dependencies.
 
-The experimental features of Next Gen Dialogue are placed in the Modules folder and will not be enabled without installing the corresponding dependencies. 
-You can view the dependencies in the `README.md` document under its folder.
+## ✨ Highlights
 
-# Quick Start
+> **AI powered dialogue visual designer** that combines traditional dialogue design patterns with AIGC to simplify your workflow.
+
+### 🚀 **Core Features**
+
+- **🎨 Visual Dialogue Editor** - Intuitive node-based editor for creating dialogue trees visually
+- **🧩 Modular System** - Flexible module system for extending dialogue functionality
+- **🤖 AIGC Integration** - AI-powered dialogue generation and baking workflow
+- **⚡ Custom Actions** - Seamless integration with Ceres.Flow for custom behaviors
+- **🌍 Localization Support** - Built-in support for multi-language dialogue content
+- **🎙️ Voice Synthesis** - VITS integration for real-time or baked voice generation
+
+### 🎯 **Key Capabilities**
+
+- **AI Bake Dialogue** - Pre-generate AI dialogue content during design time
+- **AI Generate Novel** - Let AI act as copywriter to create dialogue trees
+- **Runtime Debugging** - Visual debugging tools to track dialogue execution
+
+## Platforms
+
+Unity 2022.3 LTS or later, compatible with Unity 6.
+
+## Demo
+
+Sample project for Next-Gen Dialogue v2, see [AkiKurisu/Next-Gen-Dialogue-Demo](https://github.com/AkiKurisu/Next-Gen-Dialogue-Demo) for more details.
+
+![Demo](https://github.com/AkiKurisu/Next-Gen-Dialogue-Demo/raw/main/Documentation/images/showcase.png)
+
+**Demo Video**: [Bilibili](https://www.bilibili.com/video/BV1hg4y1U7FG)
+
+<img src="Documentation~/Images/BilibiliDemo.png">
+
+## 🚀 Quick Start Guide
 
 If you are using this plugin for the first time, it is recommended to play the following example scenes first:
 
-`` 1.Normal Usage.unity `` this scene contains the use of NextGenDialogueComponent and NextGenDialogueGraphAsset;
-
-`` 2.Editor Bake Dialogue.unity``this scene contains the sample of baking conversation conversation in the use of AI dialogue Baker in Editor;
-
-```3.Build Dialogue by Code.unity``` this scene contains the use of Code to generate dialogue.
-
-```4.Bake Novel.unity``` An example of using ChatGPT to infinitely generate dialogue trees.
+- **`1.Normal Usage.unity`** - Basic usage of `NextGenDialogueComponent` and `NextGenDialogueGraphAsset`
+- **`2.Editor Bake Dialogue.unity`** - Sample of baking AI-generated dialogue in Editor
+- **`3.Build Dialogue by Code.unity`** - Example of creating dialogue programmatically
+- **`4.Bake Novel.unity`** - Example of using ChatGPT to generate dialogue trees infinitely
 
 ### Create a Dialogue Graph
 
-`NextGenDialogueComponent` and `NextGenDialogueGraphAsset` are used to store dialogue data. In order to facilitate understanding, it is collectively referred to as dialogue tree.
-The following process is to create a dialogue tree that contains only a single dialogue and a single option:
+`NextGenDialogueComponent` and `NextGenDialogueGraphAsset` are used to store dialogue data. For simplicity, they are collectively referred to as dialogue tree.
 
-1. Mount `NextGenDialogueComponent` on any gameObject
-2. Click ``Open Dialogue Graph`` to enter the editor
-3. Create the Container/dialogue node, the node is the dialogue container used in the game
-4. Connect the Parent port of the dialogue Node to the root node. You can have multiple dialogue in one dialogueTree, but only those connected to the root node will be used.
-5. Create the Container/Piece node and create our first dialogue fragment
-6. Right -click Piece node ``Add Module`` add ``Content Module``, you can fill in the contents of the conversation in ``Content``
-7. Create a Container/Option node and create a dialogue option corresponding to the PIECE node
-8. Right-click Piece node ``Add Option``, connect Piece with Option
-9. <b style = "color:#ee819e"> Very important: </b> At least one Piece node needs to be added to the Dialogue as the first piece of the dialogue. 
-    You can click ``Collect All Pieces`` in context menu to collect all pieces in the Graph to the dialogue and adjust priority of them.
-    * For priority, please refer to [General Module-Condition Module](#general-modules)
+Here's a step-by-step guide to create a dialogue tree with a single dialogue and a single option:
 
-    <Img src = "Documentation~/Images/CreateDialogue.png">
+1. **Mount Component** - Attach `NextGenDialogueComponent` to any GameObject in your scene
+2. **Open Editor** - Click `Open Dialogue Graph` button to enter the visual editor
+3. **Create Dialogue Node** - Right-click and create `Container/Dialogue` node (this is the dialogue container)
+4. **Connect to Root** - Connect the Parent port of the Dialogue node to the root node
+   > You can have multiple dialogues in one dialogue tree, but only those connected to the root node will be used
+5. **Create Piece Node** - Create `Container/Piece` node for your first dialogue fragment
+6. **Add Content Module** - Right-click Piece node → `Add Module` → `Content Module`, fill in the dialogue content
+7. **Create Option Node** - Create `Container/Option` node for dialogue options
+8. **Connect Option** - Right-click Piece node → `Add Option`, then connect Piece with Option
+9. **⚠️ Important** - At least one Piece node must be added to the Dialogue as the first piece
+   - Right-click Dialogue node → `Collect All Pieces` to collect all pieces and adjust their priority
+   - For priority details, refer to [Condition Module](#general-modules)
+
+   <img src="Documentation~/Images/CreateDialogue.png">
   
-10. Click on the upper left of the editor's `` Save`` to save dialogue
-11. Click Play to enter PlayMode
-12. Click on NextGenDialogueComponent ``Play dialogue`` to play conversation
-13. Click `` Open Dialogue Graph `` to enter the debug mode
-    
-<IMG SRC = "Documentation~/Images/RuntimeDebug.png">
+10. **Save** - Click the `Save` button in the upper left corner of the editor
+11. **Test** - Enter Play Mode and click `Play dialogue` on `NextGenDialogueComponent`
+12. **Debug** - Click `Open Dialogue Graph` to enter runtime debug mode
 
-> The playing dialogue piece will be displayed in green
+   <img src="Documentation~/Images/RuntimeDebug.png">
+
+> 💡 **Tip**: The currently playing dialogue piece will be highlighted in green during runtime debugging
 
 ### Add Custom Actions
 
-From V2, Next Gen Dialogue now use `Ceres.Flow` to implement custom action feature.
+Next-Gen Dialogue integrates with `Ceres.Flow` to enable custom action features.
 
-You can now add `ExecuteFlowModule` to fire a flow execution event at runtime.
+Add `ExecuteFlowModule` to any node to fire a flow execution event at runtime.
 
 For more details about `Ceres.Flow`, please refer to [AkiKurisu/Ceres](https://github.com/AkiKurisu/Ceres).
 
@@ -125,150 +124,168 @@ For more details about `Ceres.Flow`, please refer to [AkiKurisu/Ceres](https://g
 
 ### AI Bake Dialogue
 
-You can use AI dialogue Baker to bake the dialogue content generated by AI in advance when designing the dialogue tree, so as to improve the workflow efficiency without affecting your design framework.
+Use AI Dialogue Baker to pre-generate AI dialogue content during design time, improving workflow efficiency without affecting your design framework.
 
 <img src="Documentation~/Images/BakeDialogue.png">
 
-1. The basic dialogue graph design is consistent with the process of [Create a Dialogue Graph](#create-a-dialogue-graph)
-2. Add ```AI Bake Module``` for the fragments or options that need to be baked, and remove the module for nodes that do not need to be baked
-3. Select the type of LLM you are baking with
-4. <b>Select in turn</b> the nodes that AI dialogue Baker needs to recognize, the order of recognition is based on the order selected by the mouse, and finally select the nodes that need to be baked
-5. If the selection is successful, you can see the preview input content at the bottom of the editor
-6. Click the ``Bake Dialogue`` button on the ````AI Bake Module```` and wait for the AI response
-7. After the language model responds, a ```Content Module``` will be automatically added to the node to store the baked dialogue content
-8. You can continuously generate conversations based on your needs
+**Steps:**
+
+1. Follow the basic dialogue graph design process from [Create a Dialogue Graph](#create-a-dialogue-graph)
+2. Add `AI Bake Module` to fragments or options that need AI generation
+3. Select the LLM type you want to use
+4. **Select nodes in order** - The recognition order is based on mouse selection order. Finally select the nodes to be baked
+5. Preview the input content at the bottom of the editor
+6. Click `Bake Dialogue` button on the `AI Bake Module` and wait for AI response
+7. After the language model responds, a `Content Module` will be automatically added to store the baked content
+8. Continue generating conversations as needed
 
 ### AI Generate Novel
 
-Different from talking directly to AI in baking dialogue, novel mode allows AI to play the role of copywriter and planner to write dialogue, so it can control options and fragments more precisely. Please refer to the example: ``4.Bake Novel.unity``
+Novel mode allows AI to act as a copywriter and planner, providing more precise control over options and fragments compared to direct AI dialogue baking.
 
-<img src="Documentation~/Images/BakeNovel.png" >
+Refer to the example scene: `4.Bake Novel.unity`
 
-# Nodes
+<img src="Documentation~/Images/BakeNovel.png">
 
-NGD use node based visual editor framework, most of the features are presented through nodes.
-The construction dialogue are divided into the following parts in NGD:
-  
+## Core Concepts
+
+Understanding the fundamental concepts of Next Gen Dialogue will help you get started quickly.
+
+### Node
+
+Next Gen Dialogue uses a node-based visual editor framework. Most features are presented through nodes. The dialogue structure consists of three main node types:
+
 | Name     | Description                                                                            |
 | -------- | -------------------------------------------------------------------------------------- |
 | Dialogue | Used to define dialogues, such as the first piece of the dialogue and other attributes |
-| Piece    | dialogue piece, usually store the core dialogue content                                |
-| Option   | dialogue options, usually used for interaction and bridging dialogues                  |
+| Piece    | Dialogue piece, usually stores the core dialogue content                               |
+| Option   | Dialogue options, usually used for interaction and bridging dialogues                 |
 
+### Module
 
-# Modules
+In addition to nodes, Next Gen Dialogue uses a flexible **Module** system. Modules allow you to extend dialogue functionality, such as:
+- Google translation
+- Localization
+- Custom callbacks
+- Conditional logic
+- And more...
 
-In addition to the above nodes, a more flexible concept is used in NGD, that is, Module. 
-You can use Module to change the output form of the dialogue, such as Google translation, localization, add callbacks, or be executed as a markup. 
+## Modules 
 
-## General Modules
+### General Modules
 
-The following are built-in general modules:
+Built-in general modules for common dialogue functionality:
 
-| Name             | Description                                                                                                                                                                                                                                                                                                                            |
-| -----------------| -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Content          | Provide text content for Option or Piece                                                                                                                                                                                                                                                                                               |
-| TargetID         | Add jumping target dialogue fragments for Option                                                                                                                                                                                                                                                                                       |
-| PreUpdate        | Add pre-update behavior for Container, it will update when jumping to the Container                                                                                                                                                                                                                                                    |
-| Callback         | Add callback behavior for Option, they will be updated after selection                                                                                                                                                                                                                                                                 |
-| Condition        | Add judgment behavior for Option or Piece, it will be updated when jumping to the Container, if the return value is ``Status.Failure``, the Container will be discarded. If it is the first Piece of the dialogue, the system will try to jump to the next Piece according to the order in which the Pieces are placed in the dialogue |
-| Next Piece       | Add the next dialogue segment after the end of the Piece. If there is no option, it will jump to the specified dialogue segment after playing the content of the Piece                                                                                                                                                                 |
-| Google Translate | Use Google Translate to translate the content of current Option or Piece                                                                                                                                                                                                                                                               |
+| Name             | Description                                                                                                                                    |
+| -----------------| ---------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Content**      | Provide text content for Option or Piece                                                                                                       |
+| **TargetID**     | Add jumping target dialogue fragments for Option                                                                                               |
+| **PreUpdate**    | Add pre-update behavior for Container, executes when jumping to the Container                                                                 |
+| **Callback**     | Add callback behavior for Option, executes after selection                                                                                    |
+| **Condition**    | Add conditional logic for Option or Piece. If returns `Status.Failure`, the Container will be discarded. For the first Piece, the system will try the next Piece based on priority |
+| **Next Piece**   | Specify the next dialogue segment after the Piece ends. If no option exists, jumps to the specified segment after playing the Piece content   |
+| **Google Translate** | Use Google Translate to translate the content of current Option or Piece                                                                  |
 
-## AIGC Modules
+### AIGC Modules
 
-The following are the built-in AIGC modules:
+Built-in AIGC modules for AI-powered features:
 
-| Name                      | Description                                                                  |
-| ------------------------- | ---------------------------------------------------------------------------- |
-| Prompt                    | Prompt words that provide the basis for subsequent dialogue generation       |
+| Name     | Description                                                          |
+| -------- | -------------------------------------------------------------------- |
+| **Prompt** | Prompt words that provide the basis for subsequent dialogue generation |
 
-## Editor Modules
+### Editor Modules
 
-Editor modules are used to provide some useful tools for the editor, such as translation.
+Editor modules provide useful tools for the editor workflow, such as translation.
 
-### One-click Translation
+#### One-click Translation
 
-Add Editor/EditorTranslateModule in the Dialogue node, set the source language (`sourceLanguageCode`) and target language (`targetLanguageCode`) of the translation, right-click and select `Translate All Contents` to perform all Piece and Option with `ContentModule` translate.
+Add `Editor/EditorTranslateModule` to the Dialogue node, set the source language (`sourceLanguageCode`) and target language (`targetLanguageCode`), then right-click and select `Translate All Contents` to translate all Pieces and Options with `ContentModule`.
 
-<img src="Documentation~/Images/FastTranslation.png" >
+<img src="Documentation~/Images/FastTranslation.png">
 
-For nodes other than `ContentModule`, if the `TranslateEntryAttribute` is added to the field, you can right-click a single node to translate it.
+**Custom Module Translation:**
 
-```c#
+For modules other than `ContentModule`, add `TranslateEntryAttribute` to fields that should be translatable. Then right-click a single node to translate it.
+
+```csharp
 public class ExampleModule : CustomModule
 {
     // Notify field can be translated
-    //* Only work for SharedString and string
+    // Only works for SharedString and string
     [SerializeField, Multiline, TranslateEntry]
     private SharedString value;
 }
 ```
-<img src="Documentation~/Images/SingleTranslate.png" >
 
-# Extensions
+## Extensions
 
-The following are extensions, you need to install the corresponding Package or configure the corresponding environment before use:
+Extensions require installing additional packages or configuring environments before use.
 
-## Localization Extension
+### Localization Extension
 
-   Based on the [UnityEngine.Localization](https://docs.unity3d.com/Packages/com.unity.localization@1.4/manual/Installation.html) plugin to support the localization of dialogue
+Based on [UnityEngine.Localization](https://docs.unity3d.com/Packages/com.unity.localization@1.4/manual/Installation.html) plugin to support dialogue localization.
 
 | Name              | Description                                                              |
 | ------------------| ------------------------------------------------------------------------ |
-| Localized Content | Provide content for Option or Piece after getting text from localization |
+| **Localized Content** | Provide content for Option or Piece after getting text from localization |
 
 ![Localization](./Documentation~/Images/localization_support.png)
 
-## VITS Speech Extension
+### VITS Speech Extension
 
-For VITS local deployment, please refer to this repository: [VITS Simple API](https://github.com/Artrajz/vits-simple-api)
+For VITS local deployment, refer to: [VITS Simple API](https://github.com/Artrajz/vits-simple-api)
 
-If you want to use the VITS module, please use it with VITSAIReResolver. For the use of the Resolver, please refer to the following [Resolver](#Resolver)
+> **Note**: Use VITS module with `VITSResolver`. See [Resolvers](#resolvers) section for details.
 
 | Name        | Description                                                                           |
 | ----------- | ------------------------------------------------------------------------------------- |
-| VITS Voice  | Use VITS speech synthesis model to generate language for Piece or Option in real time |
+| **VITS Voice**  | Use VITS speech synthesis model to generate voice for Piece or Option in real time |
 
-### Bake Voice
+#### Bake Voice
 
-Before use, you need to install the corresponding dependencies of `Modules/VITS` and open the local VITS server (refer to `Modules/VITS/README.md`). Add `AIGC/VITSModule` to the node where speech needs to be generated, right-click and select ``Bake Audio ``
+**Setup:**
+1. Install dependencies from `Modules/VITS` (see `Modules/VITS/README.md`)
+2. Start the local VITS server
+3. Add `AIGC/VITSModule` to nodes where speech needs to be generated
+4. Right-click and select `Bake Audio`
 
-<img src="Documentation~/Images/BakeAudio.png" >
+<img src="Documentation~/Images/BakeAudio.png">
 
-If you are satisfied with the generated audio, click `Download` to save it locally to complete the baking, otherwise the audio file will not be retained after exiting the editor.
+**Usage:**
+- If satisfied with generated audio, click `Download` to save locally
+- Audio files are not retained after exiting editor if not downloaded
+- After baking, VITS server is no longer needed at runtime
 
-It is no longer necessary to start the VITS server at runtime after baking is complete.
+> ⚠️ **Important**: If `AudioClip` field is empty, runtime generation mode is enabled by default. If there's no connection, dialogue may not proceed. For baking-only usage, keep the `AudioClip` field filled.
 
-* If the AudioClip field is empty, the run generation mode is enabled by default. If there is no connection, the conversation may not proceed. If you only need to use the baking function, please keep the AudioClip field not empty at all times.
+## Resolvers
 
-# Resolvers
-Resolver is used to detect the Module in the Container at runtime and execute a series of preset logic such as injecting dependencies and executing behaviors, the difference between NGD's built-in Resolver is as follows:
+Resolvers detect Modules in Containers at runtime and execute preset logic such as dependency injection and behavior execution.
 
-| Name                                  | Description                                                                                                         |
-| ------------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
-| Default Resolver                      | The most basic resolver, supporting all built-in common modules                                                     |
-| VITS Resolver                         | Additionally detect VITS modules to generate voice in real time                                                     |
+| Name              | Description                                                              |
+| -----------------| ------------------------------------------------------------------------- |
+| **Default Resolver** | Basic resolver supporting all built-in common modules                   |
+| **VITS Resolver**    | Additionally detects VITS modules to generate voice in real time        |
 
-## How to Switch Resolver
+### How to Switch Resolver
 
-1. In-scene Global Resolver
-    You can mount the ```VITSSetup``` script on any GameObject to enable AIResolver in the scene
+**1. In-Scene Global Resolver**
 
-2. Dialogue specified Resolver
-   
-    You can add  ```VITSResolverModule``` to the dialogue node to specify the resolver used by the dialogue, and you can also click the Setting button in the upper right corner of the module and select which Resolvers to be replaced in ``Advanced Settings``
+Mount `VITSSetup` script on any GameObject to enable VITS Resolver globally in the scene.
+
+**2. Dialogue-Specific Resolver**
+
+Add `VITSResolverModule` to the Dialogue node to specify the resolver for that dialogue. You can also click the Settings button in the module and select which Resolvers to replace in `Advanced Settings`.
 
 
-# Create Dialogue in Script
+## Create Dialogue in Script
 
-NGD is divided into two parts, DialogueSystem and DialogueGraph. 
-The former defines the data structure of the dialogue, which is interpreted by resolver after receiving the data. 
-The latter provides a visual scripting solution and inherits the interface from the former. 
-So you can also use scripts to write dialogues, examples are as follows:
+You can create dialogues programmatically using the scripting API. Here's an example:
 
-```C#
+```csharp
 using UnityEngine;
+
 public class CodeDialogueBuilder : MonoBehaviour
 {
     private RuntimeDialogueBuilder _builder;
@@ -330,3 +347,7 @@ public class CodeDialogueBuilder : MonoBehaviour
     }
 }
 ```
+
+## License
+
+MIT
