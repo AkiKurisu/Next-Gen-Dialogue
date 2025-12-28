@@ -3,9 +3,9 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 using System.Linq;
-using System.IO;
 using Ceres.Editor.Graph;
 using UnityEditor.Callbacks;
+
 namespace NextGenDialogue.Graph.Editor
 {
     public class DialogueEditorWindow : CeresGraphEditorWindow<IDialogueGraphContainer, DialogueEditorWindow>
@@ -70,7 +70,7 @@ namespace NextGenDialogue.Graph.Editor
                 DisplayProgressBar("Construct graph view", 0.6f);
                 {
                     StructGraphView();
-                    titleContent = new GUIContent($"NGDT ({Identifier.boundObject.name})");
+                    titleContent = new GUIContent($"Dialogue ({Identifier.boundObject.name})");
                 }
             }
             finally
@@ -84,11 +84,11 @@ namespace NextGenDialogue.Graph.Editor
             if (_graphView == null) return;
             if (_graphView.IsDirty())
             {
-                titleContent.text = $"NGDT ({Identifier.boundObject.name})*";
+                titleContent.text = $"Dialogue ({Identifier.boundObject.name})*";
             }
             else
             {
-                titleContent.text = $"NGDT ({Identifier.boundObject.name})";
+                titleContent.text = $"Dialogue ({Identifier.boundObject.name})";
             }
         }
         
@@ -114,19 +114,6 @@ namespace NextGenDialogue.Graph.Editor
             rootVisualElement.Add(_graphView);
             rootVisualElement.Add(CreateBakePreview());
         }
-        private void SaveDataToAsset(string path)
-        {
-            var treeAsset = CreateInstance<NextGenDialogueGraphAsset>();
-            if (!_graphView.Validate())
-            {
-                Debug.LogWarning($"<color=#ff2f2f>NGDT</color>: Save failed, ScriptableObject wasn't created!\n{DateTime.Now}");
-                return;
-            }
-            _graphView.Commit(treeAsset);
-            AssetDatabase.CreateAsset(treeAsset, $"Assets/{path}/{Identifier.boundObject.name}.asset");
-            AssetDatabase.SaveAssets();
-            Debug.Log($"<color=#3aff48>NGDT</color>: Save succeed, ScriptableObject created path: {path}/{Identifier.boundObject.name}.asset\n{DateTime.Now}");
-        }
 
         protected override void OnDisable()
         {
@@ -145,7 +132,7 @@ namespace NextGenDialogue.Graph.Editor
                     }
                     return;
                 }
-                Debug.Log($"<color=#3aff48>NGDT</color>[{_graphView.DialogueGraphContainer.Object.name}] saved succeed, {DateTime.Now}");
+                NextGenDialogueLogger.Log($"[{_graphView.DialogueGraphContainer.Object.name}] saved succeed, {DateTime.Now}");
             }
             
             base.OnDisable();
@@ -176,25 +163,29 @@ namespace NextGenDialogue.Graph.Editor
                 () =>
                 {
                     GUILayout.BeginHorizontal(EditorStyles.toolbar);
-
-                    GUI.enabled = !Application.isPlaying;
-                    var image  = EditorGUIUtility.IconContent("SaveAs@2x").image;
-                    if (GUILayout.Button(new GUIContent(image,$"Save {Identifier.boundObject.name}"), EditorStyles.toolbarButton))
+                    
+                    using (new EditorGUI.DisabledScope(Application.isPlaying))
                     {
-                        var guiContent = new GUIContent();
-                        if (graphView.Save())
+                        var image = EditorGUIUtility.IconContent("SaveAs@2x").image;
+                        if (GUILayout.Button(new GUIContent(image, $"Save {Identifier.boundObject.name}"),
+                                EditorStyles.toolbarButton))
                         {
-                            _graphView.ClearDirty();
-                            guiContent.text = $"Update {Identifier.boundObject.name} succeed !";
-                            ShowNotification(guiContent);
-                        }
-                        else
-                        {
-                            guiContent.text = $"Failed to save {Identifier.boundObject.name}, please check the node connection for errors!";
-                            ShowNotification(guiContent);
+                            var guiContent = new GUIContent();
+                            if (graphView.Save())
+                            {
+                                _graphView.ClearDirty();
+                                guiContent.text = $"Update {Identifier.boundObject.name} succeed !";
+                                ShowNotification(guiContent);
+                            }
+                            else
+                            {
+                                guiContent.text =
+                                    $"Failed to save {Identifier.boundObject.name}, please check the node connection for errors!";
+                                ShowNotification(guiContent);
+                            }
                         }
                     }
-                    GUI.enabled = true;
+
                     bool newValue = GUILayout.Toggle(Setting.AutoSave, "Auto Save", EditorStyles.toolbarButton);
                     if (newValue != Setting.AutoSave)
                     {
@@ -202,65 +193,7 @@ namespace NextGenDialogue.Graph.Editor
                         EditorUtility.SetDirty(_setting);
                         AssetDatabase.SaveAssets();
                     }
-                    GUI.enabled = !Application.isPlaying;
-                    if (GUILayout.Button("Save to Asset", EditorStyles.toolbarButton))
-                    {
-                        string path = EditorUtility.OpenFolderPanel("Select ScriptableObject save path", Setting.LastPath, "");
-                        if (!string.IsNullOrEmpty(path))
-                        {
-                            Setting.LastPath = path;
-                            SaveDataToAsset(path.Replace(Application.dataPath, string.Empty));
-                        }
-
-                    }
-                    if (GUILayout.Button("Copy from Asset", EditorStyles.toolbarButton))
-                    {
-                        string path = EditorUtility.OpenFilePanel("Select ScriptableObject to copy", Setting.LastPath, "asset");
-                        var data = LoadDataFromFile(path.Replace(Application.dataPath, string.Empty));
-                        if (data != null)
-                        {
-                            Setting.LastPath = path;
-                            EditorUtility.SetDirty(_setting);
-                            AssetDatabase.SaveAssets();
-                            ShowNotification(new GUIContent("Data dropped succeed !"));
-                            graphView.DeserializeGraph(data.GetDialogueGraph(), new Vector3(400, 300));
-                        }
-                    }
                     GUILayout.FlexibleSpace();
-                    if (GUILayout.Button("Save to Json", EditorStyles.toolbarButton))
-                    {
-                        string path = EditorUtility.SaveFilePanel("Select json file save path", Setting.LastPath, graphView.DialogueGraphContainer.Object.name, "json");
-                        if (!string.IsNullOrEmpty(path))
-                        {
-                            var serializedData = graphView.SerializeGraph();
-                            FileInfo info = new(path);
-                            Setting.LastPath = info.Directory!.FullName;
-                            EditorUtility.SetDirty(_setting);
-                            File.WriteAllText(path, serializedData);
-                            Debug.Log($"<color=#3aff48>NGDT</color>:Save json file succeed !");
-                            AssetDatabase.SaveAssets();
-                            AssetDatabase.Refresh();
-                        }
-                        GUIUtility.ExitGUI();
-                    }
-                    if (GUILayout.Button("Copy from Json", EditorStyles.toolbarButton))
-                    {
-                        string path = EditorUtility.OpenFilePanel("Select json file to copy", Setting.LastPath, "json");
-                        if (!string.IsNullOrEmpty(path))
-                        {
-                            FileInfo info = new(path);
-                            Setting.LastPath = info.Directory!.FullName;
-                            EditorUtility.SetDirty(_setting);
-                            AssetDatabase.SaveAssets();
-                            var data = File.ReadAllText(path);
-                            if (graphView.DeserializeGraph(data, new Vector3(400, 300)))
-                                ShowNotification(new GUIContent("Json file read Succeed !"));
-                            else
-                                ShowNotification(new GUIContent("Json file is in wrong format !"));
-                        }
-                        GUIUtility.ExitGUI();
-                    }
-                    GUI.enabled = true;
                     GUILayout.EndHorizontal();
                 }
             );
@@ -291,32 +224,18 @@ namespace NextGenDialogue.Graph.Editor
             generateText = null;
             if (containers.Count < 2) return false;
             var bakeContainer = containers.Last();
-            if (bakeContainer.TryGetModuleNode<AIBakeModule>(out ModuleNodeView _))
+            if (bakeContainer.TryGetModuleNode<AIBakeModule>(out _))
             {
                 containers.Remove(bakeContainer);
                 generateText = new DialogueBaker().Preview(containers, bakeContainer);
                 return true;
             }
-            if (bakeContainer.TryGetModuleNode<NovelBakeModule>(out ModuleNodeView novelBakeModule))
+            if (bakeContainer.TryGetModuleNode<NovelBakeModule>(out var novelBakeModule))
             {
                 generateText = new NovelBaker().Preview(containers, novelBakeModule, bakeContainer);
                 return true;
             }
             return false;
-        }
-        
-        private IDialogueGraphContainer LoadDataFromFile(string path)
-        {
-            try
-            {
-                return AssetDatabase.LoadAssetAtPath<NextGenDialogueGraphAsset>($"Assets/{path}");
-
-            }
-            catch
-            {
-                ShowNotification(new GUIContent($"Invalid Path: Assets/{path}, asset type must be inherited from NextGenDialogueTreeSO !"));
-                return null;
-            }
         }
         
         private void OnNodeSelectionChange(IDialogueNodeView node)
