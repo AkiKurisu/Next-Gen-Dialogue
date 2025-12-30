@@ -12,18 +12,28 @@ namespace NextGenDialogue.Graph.Editor
 {
     internal static class Styles
     {
-        public class DialogueGraphOpenButton : Button
+        public class OpenDialogueGraphButton : Button
         {
             private const string ButtonText = "Open Dialogue Graph";
 
-            public DialogueGraphOpenButton(IDialogueGraphContainer container) 
+            public OpenDialogueGraphButton(IDialogueGraphContainer container) 
             {
                 style.fontSize = 15;
                 style.unityFontStyleAndWeight = FontStyle.Bold;
                 style.color = Color.white;
-                style.backgroundColor = new StyleColor(new Color(85 / 255f, 205 / 255f, 115 / 255f));
+                style.backgroundColor = new StyleColor(new Color(0.15f, 0.55f, 0.25f));
                 text = ButtonText;
                 clickable = new Clickable(() => DialogueEditorWindow.Show(container));
+                Add(new Image
+                {
+                    style =
+                    {
+                        backgroundImage = Resources.Load<Texture2D>("NGDT/Icon"),
+                        height = 20,
+                        width = 20
+                    }
+                });
+                style.height = 25;
             }
         }
         
@@ -60,7 +70,7 @@ namespace NextGenDialogue.Graph.Editor
                 style.fontSize = 15;
                 style.unityFontStyleAndWeight = FontStyle.Bold;
                 style.color = Color.white;
-                style.backgroundColor = new StyleColor(new Color(85 / 255f, 205 / 255f, 115 / 255f));
+                style.backgroundColor = new StyleColor(new Color(0.15f, 0.55f, 0.25f));
                 text = ButtonText;
             }
         }
@@ -71,7 +81,7 @@ namespace NextGenDialogue.Graph.Editor
     [CustomEditor(typeof(NextGenDialogueComponent), true)]
     public class NextGenDialogueComponentEditor : UEditor
     {
-        public NextGenDialogueComponent Target => (NextGenDialogueComponent)target;
+        private NextGenDialogueComponent Target => (NextGenDialogueComponent)target;
 
         private SerializedProperty _externalAsset;
 
@@ -117,12 +127,16 @@ namespace NextGenDialogue.Graph.Editor
                 myInspector.Add(dialogueBlackboardPanel);
             }
             
-            var graphButton = new Styles.DialogueGraphOpenButton(component);
+            var graphButton = new Styles.OpenDialogueGraphButton(component);
             if (component.Asset)
             {
                 graphButton.SetEnabled(false);
             }
             myInspector.Add(graphButton);
+                        
+            var playButton = new Styles.DialogueGraphPlayButton(component);
+            playButton.SetEnabled(Application.isPlaying);
+            myInspector.Add(playButton);
 
             var flowBlackboardPanel = new BlackboardInspectorPanel(
                 () => Target.GetFlowGraph(),
@@ -150,10 +164,6 @@ namespace NextGenDialogue.Graph.Editor
                 flowButton.SetEnabled(false);
             }
             myInspector.Add(flowButton);
-            
-            var playButton = new Styles.DialogueGraphPlayButton(component);
-            playButton.SetEnabled(Application.isPlaying);
-            myInspector.Add(playButton);
             return myInspector;
         }
     }

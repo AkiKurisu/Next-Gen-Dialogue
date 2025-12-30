@@ -12,7 +12,7 @@ namespace NextGenDialogue.Graph
 #if UNITY_EDITOR
         // Just to know which is referenced in graph, should have better solution
         [HideInGraphEditor, SerializeField]
-        internal List<string> referencePieces;
+        internal List<string> referencePieces = new();
 #endif
         private NextGenDialogue.Dialogue _dialogueCache;
         

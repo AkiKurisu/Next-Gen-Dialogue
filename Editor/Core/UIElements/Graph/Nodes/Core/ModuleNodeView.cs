@@ -1,8 +1,6 @@
 using System;
-using System.Collections.Generic;
 using Ceres.Editor;
 using Ceres.Editor.Graph;
-using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace NextGenDialogue.Graph.Editor
@@ -25,10 +23,6 @@ namespace NextGenDialogue.Graph.Editor
             base.InitializeVisualElements();
             DescriptionText.RemoveFromHierarchy();
         }
-        
-        protected override bool OnValidate(Stack<IDialogueNodeView> stack) => true;
-
-        protected override void OnCommit(Stack<IDialogueNodeView> stack) { }
 
         protected override void OnClearStyle() { }
         
@@ -39,28 +33,25 @@ namespace NextGenDialogue.Graph.Editor
             {
                 return e switch
                 {
-                    CeresDropdownMenuAction a => false,
-                    DropdownMenuAction a => a.name == "Create Node" || a.name == "Delete",
+                    CeresDropdownMenuAction => false,
+                    DropdownMenuAction a => a.name is "Create Node" or "Delete",
                     _ => false,
                 };
             });
-            //Remove needless default actions .
+            // Remove needless default actions .
             evt.menu.MenuItems().Clear();
             remainTargets.ForEach(evt.menu.MenuItems().Add);
             GraphView.ContextualMenuRegistry.BuildContextualMenu(ContextualMenuType.Node, evt, NodeType);
         }
-        
-        public sealed override Rect GetWorldPosition()
+
+        protected override void OnSerialize()
         {
-            ContainerNodeView parentContainer= GetFirstAncestorOfType<ContainerNodeView>();
-            var rect = GetPosition();
-            if (parentContainer != null)
+            var parentNodeView = GetFirstAncestorOfType<ContainerNodeView>();
+            if (parentNodeView != null)
             {
-                var parentRect = parentContainer.GetPosition();
-                rect.x += parentRect.x;
-                rect.y += parentRect.y;
+                // Use parent position instead
+                NodeInstance.NodeData.graphPosition = parentNodeView.GetPosition();
             }
-            return rect;
         }
     }
     

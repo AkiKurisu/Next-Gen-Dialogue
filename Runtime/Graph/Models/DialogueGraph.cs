@@ -66,16 +66,6 @@ namespace NextGenDialogue.Graph
             return Blackboard.Create<DialogueGraphBlackboard>(inVariables);
         }
 
-        /// <summary>
-        /// Traverse dialogue graph from root and append node instances
-        /// </summary>
-        /// <param name="root"></param>
-        public void TraverseAppend(Root root)
-        {
-            nodes = new List<CeresNode> { root };
-            nodes.AddRange(root);
-        }
-
         public override void Compile(CeresGraphCompiler compiler)
         {
             SetCompilerTarget(compiler);
@@ -100,8 +90,6 @@ namespace NextGenDialogue.Graph
             {
                 ((DialogueNode)node).Initialize(component, this);
             }
-            Root.Awake();
-            Root.Start();
             Root.Update();
         }
         

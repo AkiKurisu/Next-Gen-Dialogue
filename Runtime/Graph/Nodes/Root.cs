@@ -14,11 +14,6 @@ namespace NextGenDialogue.Graph
     [NodeInfo("Root : The root of dialogue tree, you can not delete it.")]
     public class Root : DialogueNode
     {
-        /* Main dialogue */
-        [SerializeReference]
-        private DialogueNode child;
-        
-        /* Unused dialogues */
         [SerializeReference]
         private List<DialogueNode> children = new();
         
@@ -29,46 +24,15 @@ namespace NextGenDialogue.Graph
         public Action UpdateEditor;
 #endif
         
-        public DialogueNode Child
-        {
-            get => child;
-            set => child = value;
-        }
-        
-        public override void Awake()
-        {
-            child?.Awake();
-            foreach (var node in children)
-            {
-                // Skip inactive dialogue
-                if (node is not Dialogue)
-                {
-                    node.Awake();
-                }
-            }
-        }
-
-        public override void Start()
-        {
-            child?.Start();
-            foreach (var node in children)
-            {
-                // Skip inactive dialogue
-                if (node is not Dialogue)
-                {
-                    node.Start();
-                }
-            }
-        }
-        
         protected sealed override Status OnUpdate()
         {
 #if UNITY_EDITOR
             UpdateEditor?.Invoke();
 #endif
-            // Only update main dialogue
-            if (child == null) return Status.Failure;
-            return GetActiveDialogue().Update(Children.OfType<Piece>());
+
+            var dialogue = GetActiveDialogue();
+            if (dialogue == null) return Status.Failure;
+            return dialogue.Update(Children.OfType<Piece>());
         }
         
         /// <summary>
@@ -77,36 +41,30 @@ namespace NextGenDialogue.Graph
         /// <returns></returns>
         public Dialogue GetActiveDialogue()
         {
-            return (Dialogue)child;
+            foreach (var child in Children)
+            {
+                if (child is Dialogue dialogue) return dialogue;
+            }
+            return null;
         }
         
-        /// <summary>
-        /// Add child node to root's <see cref="children"/> set main dialogue if <see cref="Child"/> not exist
-        /// </summary>
-        /// <param name="inChild"></param>
         public sealed override void AddChild(CeresNode inChild)
         {
-            if (child == null)
-            {
-                child = (DialogueNode)inChild;
-                return;
-            }
             children.Add((DialogueNode)inChild);
         }
         
         public sealed override CeresNode GetChildAt(int index)
         {
-            return index == 0 ? child : children[index - 1];
+            return children[index];
         }
         
         public sealed override int GetChildrenCount()
         {
-            return children.Count + (child == null ? 0 : 1);
+            return children.Count;
         }
         
         public sealed override void ClearChildren()
         {
-            child = null;
             children.Clear();
         }
     }

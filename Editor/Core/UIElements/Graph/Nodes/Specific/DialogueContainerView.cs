@@ -14,6 +14,7 @@ namespace NextGenDialogue.Graph.Editor
     public sealed class DialogueContainerView : ContainerNodeView, IContainChildNode, ILayoutNode
     {
         protected override Type ParentPortType => typeof(DialoguePort);
+        
         protected override Color PortColor => new(97 / 255f, 95 / 255f, 212 / 255f, 0.91f);
 
         VisualElement ILayoutNode.View => this;
@@ -37,7 +38,7 @@ namespace NextGenDialogue.Graph.Editor
         {
             string pieceID = ((PieceContainerView)node).GetPieceID();
             var count = this.Query<PieceBridgeView>().ToList().Count;
-            if (!string.IsNullOrEmpty(pieceID) && ((Dialogue)NodeBehavior).ResolvePieceID(count) == pieceID)
+            if (!string.IsNullOrEmpty(pieceID) && ((Dialogue)NodeInstance).ResolvePieceID(count) == pieceID)
             {
                 AddElement(new PieceBridgeView(GraphView, PortColor, pieceID));
                 return;
@@ -46,11 +47,6 @@ namespace NextGenDialogue.Graph.Editor
             AddElement(bridge);
             var edge = PortHelper.ConnectPorts(bridge.Child, node.Parent);
             GraphView.Add(edge);
-        }
-        
-        protected override void OnCommit(Stack<IDialogueNodeView> stack)
-        {
-            ((Dialogue)NodeBehavior).referencePieces = new List<string>();
         }
         
         protected override bool AcceptsElement(GraphElement element, ref int proposedIndex, int maxIndex)

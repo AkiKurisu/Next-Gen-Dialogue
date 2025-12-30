@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
+
 namespace NextGenDialogue.Graph.Editor
 {
     [CustomNodeView(typeof(OobaboogaSessionModule))]
@@ -49,8 +50,8 @@ namespace NextGenDialogue.Graph.Editor
             {
                 var session = JsonConvert.DeserializeObject<OobaboogaSession>(await File.ReadAllTextAsync(path));
                 var internalData = session.history.internalData;
-                //Add first piece
-                var position = GraphView.contentViewContainer.WorldToLocal(mousePosition) - new Vector2(400, 300);
+                // Add first piece
+                var position = GraphView.contentViewContainer.WorldToLocal(mousePosition);
                 var firstPiece = (PieceContainerView)GraphView.CreateNode(new Piece(), position);
                 firstPiece.GenerateNewPieceID();
                 firstPiece.AddModuleNode(new ContentModule(internalData[0][1]));

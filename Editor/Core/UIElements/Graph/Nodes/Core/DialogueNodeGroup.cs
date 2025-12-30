@@ -3,6 +3,7 @@ using System.Linq;
 using Ceres.Editor.Graph;
 using Ceres.Graph;
 using UnityEditor.Experimental.GraphView;
+
 namespace NextGenDialogue.Graph.Editor
 {
     public class DialogueNodeGroup : CeresNodeGroup

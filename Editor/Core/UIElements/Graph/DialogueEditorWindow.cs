@@ -109,7 +109,7 @@ namespace NextGenDialogue.Graph.Editor
             {
                 OnSelectNode = OnNodeSelectionChange
             };
-            _graphView.Restore();
+            _graphView.RestoreGraph();
             rootVisualElement.Add(CreateToolBar(_graphView));
             rootVisualElement.Add(_graphView);
             rootVisualElement.Add(CreateBakePreview());
@@ -121,7 +121,7 @@ namespace NextGenDialogue.Graph.Editor
             
             if (Setting.AutoSave && !Application.isPlaying && _graphView.IsDirty())
             {
-                if (!_graphView.Save())
+                if (!_graphView.SerializeGraph())
                 {
                     const string msg = "Auto save failed, do you want to discard change?";
                     if (EditorUtility.DisplayDialog("Warning", msg, "Cancel", "Discard"))
@@ -171,7 +171,7 @@ namespace NextGenDialogue.Graph.Editor
                                 EditorStyles.toolbarButton))
                         {
                             var guiContent = new GUIContent();
-                            if (graphView.Save())
+                            if (graphView.SerializeGraph())
                             {
                                 _graphView.ClearDirty();
                                 guiContent.text = $"Update {Identifier.boundObject.name} succeed !";

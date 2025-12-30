@@ -65,24 +65,19 @@ namespace NextGenDialogue.Graph.Editor
             _childPort.SetEnabled(!useReference);
             _nextIDField.SetEnabled(useReference);
         }
-        
-        protected sealed override bool OnValidate(Stack<IDialogueNodeView> stack)
-        {
-            //Prevent circle validation
-            return true;
-        }
 
-        protected sealed override void OnCommit(Stack<IDialogueNodeView> stack)
+        protected sealed override void OnSerialize()
         {
             if (_useReferenceField.value) return;
             if (_childPort.connected)
             {
                 //Use weak reference instead of serialize reference
-                var node = PortHelper.FindChildNode(_childPort) as PieceContainerView;
+                var node = (PieceContainerView)PortHelper.FindChildNode(_childPort);
                 _nextIDField.value.Name = node.GetPieceID();
             }
         }
-        public bool TryGetPiece(out PieceContainerView pieceContainerView)
+
+        private bool TryGetPiece(out PieceContainerView pieceContainerView)
         {
             if (_useReferenceField.value || !_childPort.connected)
             {

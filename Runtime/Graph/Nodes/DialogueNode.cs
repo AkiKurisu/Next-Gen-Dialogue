@@ -2,6 +2,7 @@ using System;
 using Ceres.Annotations;
 using Ceres.Graph;
 using UnityEngine;
+
 namespace NextGenDialogue.Graph
 {
     public enum Status
@@ -36,10 +37,6 @@ namespace NextGenDialogue.Graph
             Component = component;
             Graph = graph;
         }
-
-        public virtual void Awake() { }
-
-        public virtual void Start() { }
 
         public Status Update()
         {

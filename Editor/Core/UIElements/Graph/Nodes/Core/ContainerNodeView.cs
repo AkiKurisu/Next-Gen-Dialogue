@@ -9,6 +9,7 @@ using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.UIElements;
+using NodeElement = UnityEditor.Experimental.GraphView.Node;
 
 namespace NextGenDialogue.Graph.Editor
 {
@@ -47,7 +48,7 @@ namespace NextGenDialogue.Graph.Editor
             styleSheets.Add(CeresGraphView.GetOrLoadStyleSheet(NextGenDialogueSettings.NodeStylePath));
         }
         
-        public UnityEditor.Experimental.GraphView.Node NodeElement => this;
+        public NodeElement NodeElement => this;
 
         protected virtual Port.Capacity PortCapacity => Port.Capacity.Single;
 
@@ -59,8 +60,7 @@ namespace NextGenDialogue.Graph.Editor
         
         public string Guid { get; private set; }
         
-        protected DialogueNode NodeBehavior { get; private set;  }
-        
+        public DialogueNode NodeInstance { get; private set;}
         
         private readonly Label _titleLabel;
 
@@ -105,101 +105,31 @@ namespace NextGenDialogue.Graph.Editor
         
         public void SetNodeInstance(DialogueNode dialogueNode)
         {
-            NodeBehavior = dialogueNode;
-            _resolvers.ForEach(e => e.Restore(NodeBehavior));
-            NodeBehavior.NotifyEditor = MarkAsExecuted;
-            _description.value = NodeBehavior.NodeData.description;
+            NodeInstance = dialogueNode;
+            _resolvers.ForEach(e => e.Restore(NodeInstance));
+            NodeInstance.NotifyEditor = MarkAsExecuted;
+            _description.value = NodeInstance.NodeData.description;
             Guid = string.IsNullOrEmpty(dialogueNode.Guid) ? System.Guid.NewGuid().ToString() : dialogueNode.Guid;
         }
         
-        public void CopyFrom(IDialogueNodeView copyNode)
+        public DialogueNode CompileNode()
         {
-            var node = (ContainerNodeView)copyNode;
-            for (int i = 0; i < node._resolvers.Count; i++)
-            {
-                _resolvers[i].Copy(node._resolvers[i]);
-            }
-            _copyMap.Clear();
-            node.contentContainer.Query<ModuleNodeView>()
-            .ToList()
-            .ForEach(
-                x =>
-                {
-                    // Copy child module
-                    var newNode = _copyMap[x.GetHashCode()] = GraphView.DuplicateNode(x) as ModuleNodeView;
-                    AddElement(newNode);
-                }
-            );
-            node.contentContainer.Query<ChildBridgeView>()
-            .ToList()
-            .ForEach(
-                x =>
-                {
-                    // Copy child bridge
-                    var newNode = _copyMap[x.GetHashCode()] = x.Clone();
-                    AddElement(newNode);
-                }
-            );
-            _description.value = node._description.value;
-            NodeBehavior = (DialogueNode)Activator.CreateInstance(copyNode.NodeType);
-            NodeBehavior.NotifyEditor = MarkAsExecuted;
-            Guid = System.Guid.NewGuid().ToString();
-        }
-        
-        private readonly Dictionary<int, UnityEditor.Experimental.GraphView.Node> _copyMap = new();
-        
-        internal IReadOnlyDictionary<int, UnityEditor.Experimental.GraphView.Node> GetCopyMap()
-        {
-            return _copyMap;
-        }
-        
-        public DialogueNode Compile()
-        {
-            NodeBehavior = (DialogueNode)Activator.CreateInstance(NodeType);
-            return NodeBehavior;
+            NodeInstance = (DialogueNode)Activator.CreateInstance(NodeType);
+            return NodeInstance;
         }
 
-        public void Commit(Stack<IDialogueNodeView> stack)
+        public void SerializeNode(IDialogueGraphSerializeVisitor visitor, DialogueNode dialogueNode)
         {
-            OnCommit(stack);
-            var nodes = contentContainer.Query<ModuleNodeView>().ToList();
-            nodes.ForEach(x =>
-            {
-                ((ContainerNode)NodeBehavior).AddChild(x.Compile());
-                stack.Push(x);
-            });
-            var bridges = contentContainer.Query<ChildBridgeView>().ToList();
-            // Manually commit bridge node
-            // Do not duplicate commit dialogue piece
-            bridges.ForEach(bridge => bridge.Commit((ContainerNode)NodeBehavior, stack));
-            _resolvers.ForEach(resolver => resolver.Commit(NodeBehavior));
-            NodeBehavior.NodeData.description = _description.value;
-            NodeBehavior.NodeData.graphPosition = GetPosition();
-            NodeBehavior.NotifyEditor = MarkAsExecuted;
-            NodeBehavior.Guid = Guid;
+            NodeInstance = dialogueNode;
+            NodeInstance.NodeData.description = _description.value;
+            NodeInstance.NodeData.graphPosition = GetPosition();
+            NodeInstance.NotifyEditor = MarkAsExecuted;
+            NodeInstance.Guid = Guid;
+            visitor.Visit(this, (ContainerNode)NodeInstance);
+            _resolvers.ForEach(resolver => resolver.Commit(NodeInstance));
         }
-        
-        protected virtual void OnCommit(Stack<IDialogueNodeView> stack) { }
-        
-        public bool Validate(Stack<IDialogueNodeView> stack)
-        {
-            contentContainer.Query<ModuleNodeView>()
-                            .ForEach(x => stack.Push(x));
-            contentContainer.Query<ChildBridgeView>()
-                            .ForEach(x => x.Validate(stack));
-            var valid = NodeType != null;
-            if (valid)
-            {
-                style.backgroundColor = new StyleColor(StyleKeyword.Null);
-            }
-            else
-            {
-                style.backgroundColor = Color.red;
-            }
-            return valid;
-        }
-        
-        protected virtual void Initialize(Type nodeType, DialogueGraphView graphView)
+
+        private void Initialize(Type nodeType, DialogueGraphView graphView)
         {
             Assert.IsNotNull(nodeType);
             Assert.IsNotNull(graphView);
@@ -278,7 +208,10 @@ namespace NextGenDialogue.Graph.Editor
         
         public ModuleNodeView[] GetModuleNodes<T>() where T : Module
         {
-            return contentContainer.Query<ModuleNodeView>().ToList().Where(x => x.NodeType == typeof(T)).ToArray();
+            return contentContainer.Query<ModuleNodeView>()
+                .ToList()
+                .Where(nodeView => nodeView.NodeType == typeof(T))
+                .ToArray();
         }
         
         public ModuleNodeView AddModuleNode<T>(T module) where T : Module, new()
@@ -292,23 +225,14 @@ namespace NextGenDialogue.Graph.Editor
         
         public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
         {
-            evt.menu.MenuItems().Add(new CeresDropdownMenuAction("Duplicate", a =>
-            {
-                GraphView.DuplicateNode(this);
-            }));
             GraphView.ContextualMenuRegistry.BuildContextualMenu(ContextualMenuType.Node, evt, NodeType);
-        }
-        
-        public Rect GetWorldPosition()
-        {
-            return GetPosition();
         }
         
         public IReadOnlyList<ILayoutNode> GetLayoutChildren()
         {
             var list = new List<ILayoutNode>();
             var nodes = contentContainer
-                 .Query<UnityEditor.Experimental.GraphView.Node>()
+                 .Query<NodeElement>()
                  .ToList();
             nodes.Reverse();
             foreach (var node in nodes)

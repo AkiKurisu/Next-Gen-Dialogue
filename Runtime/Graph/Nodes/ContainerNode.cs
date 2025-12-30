@@ -10,37 +10,10 @@ namespace NextGenDialogue.Graph
     {
         [SerializeReference]
         private List<DialogueNode> children = new();
-        
-        protected DialogueBuilder Builder { get; private set; }
+
+        protected DialogueBuilder Builder => Graph.Builder;
         
         public List<DialogueNode> Children => children;
-
-        public sealed override void Awake()
-        {
-            Builder = Graph.Builder;
-            OnAwake();
-            foreach (var childNode in children)
-            {
-                childNode.Awake();
-            }
-        }
-
-        protected virtual void OnAwake()
-        {
-        }
-
-        public sealed override void Start()
-        {
-            OnStart();
-            foreach (var childNode in children)
-            {
-                childNode.Start();
-            }
-        }
-        
-        protected virtual void OnStart()
-        {
-        }
 
         public sealed override void AddChild(CeresNode child)
         {

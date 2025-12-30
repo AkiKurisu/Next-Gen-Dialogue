@@ -8,35 +8,37 @@ using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.UIElements;
+using NodeElement = UnityEditor.Experimental.GraphView.Node;
 
 namespace NextGenDialogue.Graph.Editor
 {
     public interface IDialogueNodeView: ICeresNodeView
     {
+        /// <summary>
+        /// Parent node port
+        /// </summary>
         Port Parent { get; }
         
+        /// <summary>
+        /// Source graph view
+        /// </summary>
         DialogueGraphView GraphView { get; }
         
+        /// <summary>
+        /// Dialogue node type
+        /// </summary>
         Type NodeType { get; }
         
         void SetNodeInstance(DialogueNode dialogueNode);
         
-        void Commit(Stack<IDialogueNodeView> stack);
-        
-        bool Validate(Stack<IDialogueNodeView> stack);
-        
-        void CopyFrom(IDialogueNodeView copyNode);
-        
-        DialogueNode Compile();
+        void SerializeNode(IDialogueGraphSerializeVisitor visitor, DialogueNode dialogueNode);
         
         void ClearStyle();
         
         IFieldResolver GetFieldResolver(string fieldName);
-        
-        Rect GetWorldPosition();
     }
     
-    public abstract class DialogueNodeView : UnityEditor.Experimental.GraphView.Node, IDialogueNodeView
+    public abstract class DialogueNodeView : NodeElement, IDialogueNodeView
     {
         public string Guid { get; private set; }
         
@@ -46,7 +48,10 @@ namespace NextGenDialogue.Graph.Editor
         
         public Type NodeType { get; private set; }
         
-        protected DialogueNode NodeBehavior { set; get; }
+        /// <summary>
+        /// Cached dialogue node instance
+        /// </summary>
+        protected DialogueNode NodeInstance { get; private set;}
         
         private VisualElement _fieldContainer;
 
@@ -60,7 +65,7 @@ namespace NextGenDialogue.Graph.Editor
         
         private readonly NodeSettingsView _nodeSettingsView;
         
-        public UnityEditor.Experimental.GraphView.Node NodeElement => this;
+        public NodeElement NodeElement => this;
         
         public IFieldResolver GetFieldResolver(string fieldName)
         {
@@ -90,7 +95,7 @@ namespace NextGenDialogue.Graph.Editor
             DescriptionText.RegisterCallback<FocusOutEvent>(_ => { Input.imeCompositionMode = IMECompositionMode.Auto; });
             mainContainer.Add(DescriptionText);
             mainContainer.Add(_fieldContainer);
-            if(CanAddParent())
+            if (CanAddParent())
             {
                 AddParent();
             }
@@ -98,25 +103,11 @@ namespace NextGenDialogue.Graph.Editor
         
         public void SetNodeInstance(DialogueNode dialogueNode)
         {
-            NodeBehavior = dialogueNode;
-            _resolvers.ForEach(e => e.Restore(NodeBehavior));
-            NodeBehavior.NotifyEditor = MarkAsExecuted;
-            DescriptionText.value = NodeBehavior.NodeData.description;
+            NodeInstance = dialogueNode;
+            _resolvers.ForEach(e => e.Restore(NodeInstance));
+            NodeInstance.NotifyEditor = MarkAsExecuted;
+            DescriptionText.value = NodeInstance.NodeData.description;
             Guid = string.IsNullOrEmpty(dialogueNode.Guid) ? System.Guid.NewGuid().ToString() : dialogueNode.Guid;
-            OnRestore();
-        }
-        
-        public void CopyFrom(IDialogueNodeView copyNode)
-        {
-            var node = (DialogueNodeView)copyNode;
-            for (int i = 0; i < node._resolvers.Count; i++)
-            {
-                _resolvers[i].Copy(node._resolvers[i]);
-            }
-            DescriptionText.value = node.DescriptionText.value;
-            NodeBehavior = (DialogueNode)Activator.CreateInstance(copyNode.NodeType);
-            NodeBehavior.NotifyEditor = MarkAsExecuted;
-            Guid = System.Guid.NewGuid().ToString();
             OnRestore();
         }
 
@@ -125,10 +116,10 @@ namespace NextGenDialogue.Graph.Editor
 
         }
 
-        public DialogueNode Compile()
+        public DialogueNode CompileNode()
         {
-            NodeBehavior = (DialogueNode)Activator.CreateInstance(NodeType);
-            return NodeBehavior;
+            NodeInstance = (DialogueNode)Activator.CreateInstance(NodeType);
+            return NodeInstance;
         }
 
         protected virtual bool CanAddParent()
@@ -143,39 +134,18 @@ namespace NextGenDialogue.Graph.Editor
             inputContainer.Add(Parent);
         }
 
-        protected static Port CreateChildPort()
+        public void SerializeNode(IDialogueGraphSerializeVisitor visitor, DialogueNode dialogueNode)
         {
-            var port = Port.Create<Edge>(Orientation.Horizontal, Direction.Output, Port.Capacity.Single, typeof(Port));
-            port.portName = "Child";
-            return port;
+            NodeInstance = dialogueNode;
+            NodeInstance.NodeData.description = DescriptionText.value;
+            NodeInstance.NodeData.graphPosition = GetPosition();
+            NodeInstance.NotifyEditor = MarkAsExecuted;
+            NodeInstance.Guid = Guid;
+            OnSerialize();
+            _resolvers.ForEach(r => r.Commit(NodeInstance));
         }
-
-        public void Commit(Stack<IDialogueNodeView> stack)
-        {
-            OnCommit(stack);
-            _resolvers.ForEach(r => r.Commit(NodeBehavior));
-            NodeBehavior.NodeData.description = DescriptionText.value;
-            NodeBehavior.NodeData.graphPosition = GetPosition();
-            NodeBehavior.NotifyEditor = MarkAsExecuted;
-            NodeBehavior.Guid = Guid;
-        }
-        protected abstract void OnCommit(Stack<IDialogueNodeView> stack);
-
-        public bool Validate(Stack<IDialogueNodeView> stack)
-        {
-            var valid = NodeType != null && OnValidate(stack);
-            if (valid)
-            {
-                style.backgroundColor = new StyleColor(StyleKeyword.Null);
-            }
-            else
-            {
-                style.backgroundColor = Color.red;
-            }
-            return valid;
-        }
-
-        protected abstract bool OnValidate(Stack<IDialogueNodeView> stack);
+        
+        protected virtual void OnSerialize() {}
 
         protected virtual void Initialize(Type nodeType, DialogueGraphView graphView)
         {
@@ -209,19 +179,12 @@ namespace NextGenDialogue.Graph.Editor
 
         private void MarkAsExecuted(Status status)
         {
-            switch (status)
+            style.backgroundColor = status switch
             {
-                case Status.Failure:
-                    {
-                        style.backgroundColor = Color.red;
-                        break;
-                    }
-                case Status.Success:
-                    {
-                        style.backgroundColor = Color.green;
-                        break;
-                    }
-            }
+                Status.Failure => Color.red,
+                Status.Success => Color.green,
+                _ => style.backgroundColor
+            };
         }
 
         public void ClearStyle()
@@ -231,19 +194,5 @@ namespace NextGenDialogue.Graph.Editor
         }
 
         protected abstract void OnClearStyle();
-        
-        public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
-        {
-            evt.menu.MenuItems().Add(new CeresDropdownMenuAction("Duplicate", (a) =>
-            {
-                GraphView.DuplicateNode(this);
-            }));
-            GraphView.ContextualMenuRegistry.BuildContextualMenu(ContextualMenuType.Node, evt, NodeType);
-        }
-        
-        public virtual Rect GetWorldPosition()
-        {
-            return GetPosition();
-        }
     }
 }

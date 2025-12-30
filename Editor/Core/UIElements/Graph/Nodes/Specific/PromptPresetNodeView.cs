@@ -6,6 +6,7 @@ using Ceres.Editor.Graph;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
+
 namespace NextGenDialogue.Graph.Editor
 {
     [CustomNodeView(typeof(PromptPresetModule))]
@@ -46,15 +47,15 @@ namespace NextGenDialogue.Graph.Editor
         {
             var textAsset = this.GetSharedVariableValue<TextAsset>("prompt");
             _textField.RemoveFromHierarchy();
-            if (textAsset == null) return;
+            if (!textAsset) return;
             _textField.value = textAsset.text;
             mainContainer.Add(_textField);
         }
         
-        protected override void OnCommit(Stack<IDialogueNodeView> stack)
+        protected override void OnSerialize()
         {
             var textAsset = this.GetSharedVariableValue<TextAsset>("prompt");
-            if (textAsset != null)
+            if (textAsset)
             {
                 string assetPath = AssetDatabase.GetAssetPath(textAsset);
                 string assetFullPath = Application.dataPath + assetPath[6..];

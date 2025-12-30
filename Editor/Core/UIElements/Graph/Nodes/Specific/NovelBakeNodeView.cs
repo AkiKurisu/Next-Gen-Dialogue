@@ -1,11 +1,10 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using Ceres.Editor;
 using Ceres.Editor.Graph;
 using Newtonsoft.Json;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine.UIElements;
+
 namespace NextGenDialogue.Graph.Editor
 {
     [CustomNodeView(typeof(NovelBakeModule))]
@@ -23,6 +22,7 @@ namespace NextGenDialogue.Graph.Editor
             mainContainer.Add(_loadLast = new Button(LoadLastBakeSelections) { text = "Load Last Bake Selections" });
             _loadLast.SetEnabled(false);
         }
+        
         private void LoadLastBakeSelections()
         {
             if (!string.IsNullOrEmpty(_lastSelection))
@@ -35,6 +35,7 @@ namespace NextGenDialogue.Graph.Editor
                 }
             }
         }
+        
         private async void AutoGenerateFromSelection()
         {
             _autoGenerate.SetEnabled(false);
@@ -42,20 +43,23 @@ namespace NextGenDialogue.Graph.Editor
             await NovelBaker.AutoGenerateNovel(GraphView);
             _autoGenerate.SetEnabled(true);
         }
+        
         private void SaveCurrentSelection()
         {
             var containers = GraphView.selection.OfType<ContainerNodeView>();
             _lastSelection = JsonConvert.SerializeObject(containers.Select(x => x.Guid).ToArray());
             _loadLast.SetEnabled(true);
         }
+        
         protected override void OnRestore()
         {
-            _lastSelection = (NodeBehavior as NovelBakeModule).lastSelection;
+            _lastSelection = ((NovelBakeModule)NodeInstance).lastSelection;
             _loadLast.SetEnabled(!string.IsNullOrEmpty(_lastSelection));
         }
-        protected override void OnCommit(Stack<IDialogueNodeView> stack)
+        
+        protected override void OnSerialize()
         {
-            (NodeBehavior as NovelBakeModule).lastSelection = _lastSelection;
+            ((NovelBakeModule)NodeInstance).lastSelection = _lastSelection;
         }
     }
 }

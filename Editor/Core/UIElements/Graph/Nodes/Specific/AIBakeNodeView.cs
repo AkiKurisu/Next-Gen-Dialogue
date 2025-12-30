@@ -69,13 +69,13 @@ namespace NextGenDialogue.Graph.Editor
         
         protected override void OnRestore()
         {
-            _lastSelection = ((AIBakeModule)NodeBehavior).lastSelection;
+            _lastSelection = ((AIBakeModule)NodeInstance).lastSelection;
             _loadLast.SetEnabled(!string.IsNullOrEmpty(_lastSelection));
         }
         
-        protected override void OnCommit(Stack<IDialogueNodeView> stack)
+        protected override void OnSerialize()
         {
-            ((AIBakeModule)NodeBehavior).lastSelection = _lastSelection;
+            ((AIBakeModule)NodeInstance).lastSelection = _lastSelection;
         }
     }
 }

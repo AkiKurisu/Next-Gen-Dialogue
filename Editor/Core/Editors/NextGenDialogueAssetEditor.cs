@@ -63,7 +63,7 @@ namespace NextGenDialogue.Graph.Editor
             };
             myInspector.Add(dialogueBlackboardPanel);
             
-            myInspector.Add(new Styles.DialogueGraphOpenButton(Target));
+            myInspector.Add(new Styles.OpenDialogueGraphButton(Target));
             
             var propertyField = new PropertyField(_flowGraphAsset);
             propertyField.Bind(serializedObject);

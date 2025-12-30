@@ -5,14 +5,13 @@ using Ceres.Editor.Graph;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
+
 namespace NextGenDialogue.Graph.Editor
 {
     [CustomNodeView(typeof(Root))]
     public sealed class RootNodeView : DialogueNodeView, ILayoutNode
     {
         public readonly Port Child;
-
-        private IDialogueNodeView _cache;
         
         public VisualElement View => this;
 
@@ -43,76 +42,17 @@ namespace NextGenDialogue.Graph.Editor
 
         protected override void OnRestore()
         {
-            ((Root)NodeBehavior).UpdateEditor = ClearStyle;
+            ((Root)NodeInstance).UpdateEditor = ClearStyle;
         }
-
-        protected override bool OnValidate(Stack<IDialogueNodeView> stack)
+        
+        protected override void OnSerialize()
         {
-            // Validate All Pieces and Dialogues
-            GraphView.CollectNodes<PieceContainerView>().ForEach(stack.Push);
-            var allDialogues = GraphView.CollectNodes<DialogueContainerView>();
-            allDialogues.ForEach(stack.Push);
-            return true;
-        }
-        protected override void OnCommit(Stack<IDialogueNodeView> stack)
-        {
-            var newRoot = new Root();
-            DialogueContainerView child = null;
-            
-            // Commit main dialogue first
-            if (Child.connected)
-            {
-                child = (DialogueContainerView)PortHelper.FindChildNode(Child);
-                newRoot.AddChild(child.Compile());
-                stack.Push(child);
-            }
-            else
-            {
-                // Add empty dialogue
-                newRoot.AddChild(new Dialogue());
-            }
-            
-            // Commit all pieces
-            GraphView.CollectNodes<PieceContainerView>()
-            .ForEach(x =>
-            {
-                newRoot.AddChild(x.Compile());
-                stack.Push(x);
-            });
-            
-            // Commit left inactive dialogues
-            var allDialogues = GraphView.CollectNodes<DialogueContainerView>();
-            if (child != null)
-            {
-                allDialogues.Remove(child);
-            }
-            
-            allDialogues.ForEach(
-                x =>
-            {
-                newRoot.AddChild(x.Compile());
-                stack.Push(x);
-            });
-            newRoot.UpdateEditor = ClearStyle;
-            NodeBehavior = newRoot;
-            _cache = child;
-        }
-
-        internal void PostCommit(DialogueGraph graph)
-        {
-            graph.TraverseAppend((Root)NodeBehavior);
+            ((Root)NodeInstance).UpdateEditor = ClearStyle;
         }
         
         protected override void OnClearStyle()
         {
-            _cache?.ClearStyle();
-            // Clear all dialogue piece
-            GraphView.CollectNodes<PieceContainerView>().ForEach(x => x.ClearStyle());
-            if (Child.connected)
-            {
-                // Clear child dialogue
-                PortHelper.FindChildNode(Child).ClearStyle();
-            }
+            GraphView.CollectNodes<ContainerNodeView>().ForEach(view => view.ClearStyle());
         }
         
         public override void BuildContextualMenu(ContextualMenuPopulateEvent evt) { }

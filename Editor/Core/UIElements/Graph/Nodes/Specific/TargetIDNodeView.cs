@@ -6,6 +6,7 @@ using Ceres.Editor.Graph;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
+
 namespace NextGenDialogue.Graph.Editor
 {
     [CustomNodeView(typeof(TargetIDModule))]
@@ -78,14 +79,8 @@ namespace NextGenDialogue.Graph.Editor
             _childPort.SetEnabled(!useReference);
             _targetIDField.SetEnabled(useReference);
         }
-        
-        protected sealed override bool OnValidate(Stack<IDialogueNodeView> stack)
-        {
-            // Prevent circle validation
-            return true;
-        }
 
-        protected sealed override void OnCommit(Stack<IDialogueNodeView> stack)
+        protected sealed override void OnSerialize()
         {
             if (_useReferenceField.value) return;
             if (!_childPort.connected) return;

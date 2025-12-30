@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using System.Linq;
 using System;
+using System.Reflection;
 using Ceres.Editor.Graph;
 using Ceres.Graph;
 using USearchWindow = UnityEditor.Experimental.GraphView.SearchWindow;
@@ -12,9 +13,10 @@ using UObject = UnityEngine.Object;
 
 namespace NextGenDialogue.Graph.Editor
 {
-    public class DialogueGraphView : CeresGraphView
+    public partial class DialogueGraphView : CeresGraphView
     {
         private readonly DialogueGraph _graphInstance;
+        
         public IDialogueGraphContainer DialogueGraphContainer { get; }
 
         private RootNodeView _root;
@@ -24,6 +26,11 @@ namespace NextGenDialogue.Graph.Editor
         private const string InfoText = "Next-Gen Dialogue Graph Editor";
 
         private readonly CeresInfoContainer _infoContainer;
+        
+        /// <summary>
+        /// Cached mouse position for paste operations
+        /// </summary>
+        private Vector2 _cachedMousePosition;
 
         public DialogueGraphView(CeresGraphEditorWindow editorWindow) : base(editorWindow)
         {
@@ -34,6 +41,7 @@ namespace NextGenDialogue.Graph.Editor
             Add(_infoContainer = new CeresInfoContainer(InfoText));
             AddSearchWindow<DialogueNodeSearchWindow>();
             AddNodeGroupHandler(new DialogueNodeGroupHandler(this));
+            RegisterCallback<MouseMoveEvent>(OnMouseMoveEvent);
         }
 
         public override void OpenSearch(Vector2 screenPosition)
@@ -50,42 +58,91 @@ namespace NextGenDialogue.Graph.Editor
 
         protected override string OnCopySerializedGraph(IEnumerable<GraphElement> elements)
         {
-            CopyPasteGraph.Copy(EditorWindow.Identifier, elements.ToArray());
-            return string.Empty;
+            // Serialize selected nodes to DialogueGraph model
+            var selectedNodes = elements.OfType<IDialogueNodeView>().ToList();
+            var tempGraph = SerializeNodes(selectedNodes);
+            return tempGraph.GetData().ToJson();
         }
 
         protected override void OnPasteSerializedGraph(string operationName, string serializedData)
         {
-            if (CopyPasteGraph.CanPaste)
-            {
-                Paste(new Vector2(50, 50));
-            }
+            DeserializeGraph(serializedData, _cachedMousePosition);
+        }
+        
+        private void OnMouseMoveEvent(MouseMoveEvent evt)
+        {
+            _cachedMousePosition = evt.mousePosition;
         }
 
-        private void Paste(Vector2 positionOffSet)
+        private DialogueGraph SerializeNodes(List<IDialogueNodeView> selectedNodes)
         {
-            ClearSelection();
-            // Add paste elements to selection
-            foreach (var element in new CopyPasteGraph(this, CopyPasteGraph.Paste(), positionOffSet).GetCopyElements())
+            if (selectedNodes.Count == 0)
             {
-                element.Select(this, true);
+                return new DialogueGraph();
             }
+
+            var root = new Root();
+            var serializeVisitor = new SerializeVisitor(this, root);
+            var graph = serializeVisitor.Serialize(selectedNodes);
+            
+            // Collect variables used by selected nodes
+            var usedVariables = new HashSet<string>();
+            foreach (var nodeView in selectedNodes)
+            {
+                CollectUsedVariables(nodeView, usedVariables);
+            }
+            
+            // Add variables to graph
+            graph.variables = SharedVariables
+                .Where(variable => variable != null && usedVariables.Contains(variable.Name))
+                .Select(variable => variable.Clone())
+                .ToList();
+            
+            // Collect node groups containing selected nodes
+            var nodeGroups = new List<NodeGroup>();
+            var groupBlocks = graphElements.OfType<DialogueNodeGroup>().ToList();
+            foreach (var block in groupBlocks)
+            {
+                var containedSelectedNodes = block.containedElements
+                    .OfType<IDialogueNodeView>()
+                    .Where(selectedNodes.Contains)
+                    .ToList();
+                
+                if (containedSelectedNodes.Count > 0)
+                {
+                    var nodeGroup = new NodeGroup
+                    {
+                        title = block.title,
+                        position = block.GetPosition().position
+                    };
+                    block.Commit(new List<NodeGroup> { nodeGroup });
+                    nodeGroups.Add(nodeGroup);
+                }
+            }
+            graph.nodeGroups = nodeGroups;
+            return graph;
         }
 
-        public IDialogueNodeView DuplicateNode(IDialogueNodeView node)
+        private static void CollectUsedVariables(IDialogueNodeView nodeView, HashSet<string> usedVariables)
         {
-            var newNode = (IDialogueNodeView)NodeViewFactory.Get().CreateInstance(node.NodeType, this);
-            if (newNode is PieceContainerView pieceContainer)
+            // Collect variable names from field resolvers
+            var nodeType = nodeView.NodeType;
+            var fields = nodeType.GetFields(BindingFlags.Public | 
+                                           BindingFlags.NonPublic | 
+                                           BindingFlags.Instance);
+            
+            foreach (var field in fields)
             {
-                pieceContainer.GenerateNewPieceID();
+                var fieldType = field.FieldType;
+                if (fieldType.IsSubclassOf(typeof(SharedVariable)))
+                {
+                    var resolver = nodeView.GetFieldResolver(field.Name);
+                    if (resolver?.Value is SharedVariable sharedVar && !string.IsNullOrEmpty(sharedVar.Name))
+                    {
+                        usedVariables.Add(sharedVar.Name);
+                    }
+                }
             }
-            var nodeElement = newNode as UnityEditor.Experimental.GraphView.Node;
-            var newRect = node.GetWorldPosition();
-            newRect.position += new Vector2(50, 50);
-            nodeElement!.SetPosition(newRect);
-            AddNodeView(newNode);
-            newNode.CopyFrom(node);
-            return newNode;
         }
 
         public override void AddNodeView(ICeresNodeView nodeView)
@@ -116,10 +173,6 @@ namespace NextGenDialogue.Graph.Editor
             // Remove needless default actions
             evt.menu.MenuItems().Clear();
             remainTargets.ForEach(evt.menu.MenuItems().Add);
-            evt.menu.MenuItems().Add(new CeresDropdownMenuAction("Paste", action =>
-            {
-                Paste(contentViewContainer.WorldToLocal(action.eventInfo.mousePosition) - CopyPasteGraph.CenterPosition);
-            }, x => CopyPasteGraph.CanPaste ? DropdownMenuAction.Status.Normal : DropdownMenuAction.Status.Disabled));
             ContextualMenuRegistry.BuildContextualMenu(ContextualMenuType.Graph, evt);
         }
 
@@ -128,7 +181,7 @@ namespace NextGenDialogue.Graph.Editor
             return PortHelper.GetCompatiblePorts(this, startAnchor);
         }
 
-        protected override void OnDragDropObjectPerform(UObject data, Vector3 mousePosition)
+        protected override void OnDragDropObjectPerform(UObject data, Vector2 mousePosition)
         {
             if (data is GameObject gameObject)
             {
@@ -141,109 +194,105 @@ namespace NextGenDialogue.Graph.Editor
                 EditorWindow.ShowNotification(new GUIContent("Invalid Drag GameObject!"));
                 return;
             }
+            
             if (data is TextAsset asset)
             {
-                if (DeserializeGraph(asset.text, mousePosition))
-                    EditorWindow.ShowNotification(new GUIContent("Text Asset Dropped Succeed"));
-                else
-                    EditorWindow.ShowNotification(new GUIContent("Invalid Drag Text Asset!"));
+                EditorWindow.ShowNotification(DeserializeGraph(asset.text, mousePosition)
+                    ? new GUIContent("Text Asset Dropped Succeed")
+                    : new GUIContent("Invalid Drag Text Asset!"));
                 return;
             }
+            
             if (data is not IDialogueGraphContainer container)
             {
                 EditorWindow.ShowNotification(new GUIContent("Invalid Drag Data!"));
                 return;
             }
+            
             EditorWindow.ShowNotification(new GUIContent("Data Dropped Succeed"));
             DeserializeGraph(container.GetDialogueGraph(), mousePosition);
         }
 
-        public void DeserializeGraph(DialogueGraph graph, Vector2 mousePosition)
+        private void DeserializeGraph(DialogueGraph graph, Vector2 mousePosition)
         {
-            var localMousePosition = contentViewContainer.WorldToLocal(mousePosition) - new Vector2(400, 300);
-            foreach (var variable in graph.variables)
-            {
-                Blackboard.AddVariable(variable.Clone(), false);
-            }
-            var rootNode = DeserializeGraph(graph, this, localMousePosition);
-            // Remove root from external graph
-            var edge = rootNode.Child.connections.First();
-            RemoveElement(edge);
-            RemoveElement(rootNode);
-            // Restore node groups
+            var graphMousePosition = contentViewContainer.WorldToLocal(mousePosition);
+            Vector2 offset = CalculatePasteOffset(graph, graphMousePosition);
+            graph.ApplyOffsetToGraph(offset);
+            AddSharedVariables(graph.variables, false);
+            _ = DeserializeGraph(graph, this, true);
             NodeGroupHandler.RestoreGroups(graph.nodeGroups);
         }
+        
+        public static Vector2 CalculatePasteOffset(DialogueGraph graph, Vector2 targetMousePosition)
+        {
+            var centroid = CalculateGraphCentroid(graph);
+            return targetMousePosition - centroid;
+        }
 
-        public void Restore()
+        private static Vector2 CalculateGraphCentroid(DialogueGraph graph)
+        {
+            Vector2 sum = Vector2.zero;
+            int count = 0;
+
+            // Sum up all node positions
+            foreach (var nodeInstance in graph.nodes)
+            {
+                if (nodeInstance is Root) continue;
+                sum += nodeInstance.GraphPosition.position;
+                count++;
+            }
+
+            // Return average position (centroid)
+            return count > 0 ? sum / count : Vector2.zero;
+        }
+
+        public void RestoreGraph()
         {
             // Add default dialogue
             if (_graphInstance.Root == null)
             {
                 _graphInstance.nodes.Add(new Root());
             }
-            if (_graphInstance.Root!.Child == null)
+            if (_graphInstance.Root!.GetActiveDialogue() == null)
             {
-                _graphInstance.Root.Child = new Dialogue();
+                var dialogue = new Dialogue();
                 var pos = _graphInstance.Root.NodeData.graphPosition;
                 pos.x += 200;
-                _graphInstance.Root.Child.NodeData.graphPosition = pos;
+                dialogue.NodeData.graphPosition = pos;
+                _graphInstance.Root.AddChild(dialogue);
             }
+            
             AddSharedVariables(_graphInstance.variables, true);
-            _root = DeserializeGraph(_graphInstance, this, Vector2.zero);
-            // Restore node groups
+            _root = DeserializeGraph(_graphInstance, this, false);
             NodeGroupHandler.RestoreGroups(_graphInstance.nodeGroups);
         }
 
-        public bool Save()
+        public bool SerializeGraph()
         {
-            if (Application.isPlaying) return false;
-            if (!Validate()) return false;
+            if (Application.isPlaying)
+            {
+                return false;
+            }
 
-            Commit(DialogueGraphContainer);
+            SerializeGraph(DialogueGraphContainer);
             AssetDatabase.SaveAssets();
             return true;
         }
 
-        public bool Validate()
-        {
-            // validate nodes by DFS.
-            var stack = new Stack<IDialogueNodeView>();
-            stack.Push(_root);
-            while (stack.Count > 0)
-            {
-                var node = stack.Pop();
-                if (!node.Validate(stack))
-                {
-                    return false;
-                }
-            }
-            return true;
-        }
-
-        public void Commit(IDialogueGraphContainer container)
+        private void SerializeGraph(IDialogueGraphContainer container)
         {
             Undo.RecordObject(container.Object, "Commit dialogue graph change");
-            var stack = new Stack<IDialogueNodeView>();
-            var graph = new DialogueGraph();
-
-            // Commit node instances
-            stack.Push(_root);
-            while (stack.Count > 0)
-            {
-                stack.Pop().Commit(stack);
-            }
-            _root.PostCommit(graph);
+            var serializeVisitor = new SerializeVisitor(this, (Root)_root.CompileNode());
+            var graph = serializeVisitor.Serialize(_root);
 
             // Commit variables
-            graph.variables = SharedVariables.Where(x => x != null).ToList();
+            graph.variables = SharedVariables.Where(variable => variable != null).ToList();
 
             // Commit blocks
             graph.nodeGroups = new List<NodeGroup>();
-            var groupBlocks = graphElements.OfType<DialogueNodeGroup>().ToList();
-            foreach (var block in groupBlocks)
-            {
-                block.Commit(graph.nodeGroups);
-            }
+            graphElements.OfType<DialogueNodeGroup>()
+                .ToList()
+                .ForEach(block => block.Commit(graph.nodeGroups));
 
             container.SetGraphData(graph.GetData());
 
@@ -256,12 +305,7 @@ namespace NextGenDialogue.Graph.Editor
             EditorUtility.SetDirty(container.Object);
         }
 
-        public string SerializeGraph()
-        {
-            return _graphInstance.GetData().ToJson(true);
-        }
-
-        public bool DeserializeGraph(string serializedData, Vector3 mousePosition)
+        private bool DeserializeGraph(string serializedData, Vector2 mouseWorldPosition)
         {
             try
             {
@@ -270,12 +314,13 @@ namespace NextGenDialogue.Graph.Editor
                 {
                     return false;
                 }
-                DeserializeGraph(new DialogueGraph(data), mousePosition);
+                
+                DeserializeGraph(new DialogueGraph(data), mouseWorldPosition);
                 return true;
             }
             catch (Exception e)
             {
-                Debug.LogError(e);
+                Debug.LogException(e);
                 return false;
             }
         }
@@ -321,18 +366,18 @@ namespace NextGenDialogue.Graph.Editor
 
         private readonly struct EdgePair
         {
-            public readonly DialogueNode NodeBehavior;
+            public readonly DialogueNode NodeInstance;
 
             public readonly IParentAdapter Adapter;
 
-            public EdgePair(DialogueNode nodeBehavior, IParentAdapter adapter)
+            public EdgePair(DialogueNode nodeInstance, IParentAdapter adapter)
             {
-                NodeBehavior = nodeBehavior;
+                NodeInstance = nodeInstance;
                 Adapter = adapter;
             }
         }
 
-        private static RootNodeView DeserializeGraph(DialogueGraph graph, DialogueGraphView graphView, Vector2 initPos)
+        private static RootNodeView DeserializeGraph(DialogueGraph graph, DialogueGraphView graphView, bool copyPaste)
         {
             var stack = new Stack<EdgePair>();
             var alreadyCreateNodes = new Dictionary<DialogueNode, IDialogueNodeView>();
@@ -342,30 +387,35 @@ namespace NextGenDialogue.Graph.Editor
             {
                 // create node
                 var edgePair = stack.Pop();
-                if (edgePair.NodeBehavior == null)
+                var instance = edgePair.NodeInstance;
+                if (instance == null)
                 {
                     continue;
                 }
+                
                 // Prevent duplicating instance
-                if (alreadyCreateNodes.TryGetValue(edgePair.NodeBehavior, out var nodeView))
+                if (alreadyCreateNodes.TryGetValue(instance, out var nodeView))
                 {
+                    // connect parent
                     edgePair.Adapter?.Connect(graphView, nodeView);
                     continue;
                 }
 
-                nodeView = (IDialogueNodeView)NodeViewFactory.Get().CreateInstance(edgePair.NodeBehavior.GetType(), graphView);
-                nodeView.SetNodeInstance(edgePair.NodeBehavior);
-                graphView.AddNodeView(nodeView);
-                var rect = edgePair.NodeBehavior.NodeData.graphPosition;
-                rect.position += initPos;
-                nodeView.NodeElement.SetPosition(rect);
-                alreadyCreateNodes.Add(edgePair.NodeBehavior, nodeView);
+                var nodeType = instance.GetType();
+                if (!copyPaste || nodeType != typeof(Root))
+                {
+                    nodeView = (IDialogueNodeView)NodeViewFactory.Get().CreateInstance(nodeType, graphView);
+                    nodeView.SetNodeInstance(instance);
+                    graphView.AddNodeView(nodeView);
+                    nodeView.NodeElement.SetPosition(instance.GraphPosition);
+                    alreadyCreateNodes.Add(instance, nodeView);
 
-                // connect parent
-                edgePair.Adapter?.Connect(graphView, nodeView);
+                    // connect parent
+                    edgePair.Adapter?.Connect(graphView, nodeView);
+                }
 
                 // seek child
-                switch (edgePair.NodeBehavior)
+                switch (instance)
                 {
                     case ContainerNode nb:
                         {
@@ -378,11 +428,28 @@ namespace NextGenDialogue.Graph.Editor
                         }
                     case Root nb:
                         {
-                            root = (RootNodeView)nodeView;
-                            if (nb.Child != null)
+                            if (copyPaste)
                             {
-                                stack.Push(new EdgePair(nb.Child, new PortAdapter(root.Child)));
+                                foreach (var childNode in nb.Children)
+                                {
+                                    stack.Push(new EdgePair(childNode, null));
+                                }
+                                break;
                             }
+                            
+                            root = (RootNodeView)nodeView;
+                            var activeDialogue = nb.GetActiveDialogue();
+                            if (activeDialogue != null)
+                            {
+                                stack.Push(new EdgePair(activeDialogue, new PortAdapter(root.Child)));
+                                foreach (var childNode in nb.Children.Except(new []{ activeDialogue }))
+                                {
+                                    stack.Push(new EdgePair(childNode, null));
+                                }
+                                break;
+                            }
+                            
+                            // No active dialogue
                             foreach (var childNode in nb.Children)
                             {
                                 stack.Push(new EdgePair(childNode, null));

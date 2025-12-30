@@ -5,13 +5,15 @@ using Ceres.Editor.Graph;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
+using NodeElement = UnityEditor.Experimental.GraphView.Node;
+
 namespace NextGenDialogue.Graph.Editor
 {
-    internal class ParentBridgeView : UnityEditor.Experimental.GraphView.Node
+    internal class ParentBridgeView : NodeElement
     {
         public Port Parent { get; }
         
-        public ParentBridgeView(Type portType, Port.Capacity capacity) : base()
+        public ParentBridgeView(Type portType, Port.Capacity capacity)
         {
             AddToClassList("BridgeNode");
             capabilities &= ~Capabilities.Copiable;
@@ -37,25 +39,26 @@ namespace NextGenDialogue.Graph.Editor
             }
         }
 
-        private void OnMouseDown(MouseDownEvent evt)
+        private static void OnMouseDown(MouseDownEvent evt)
         {
             evt.StopPropagation();
         }
 
-        private void OnMouseUp(MouseUpEvent evt)
+        private static void OnMouseUp(MouseUpEvent evt)
         {
             evt.StopPropagation();
         }
     }
-    internal abstract class ChildBridgeView : UnityEditor.Experimental.GraphView.Node
+    
+    internal abstract class ChildBridgeView : NodeElement
     {
         public Port Child { get; private set; }
         
         private readonly Color _portColor;
         
         private readonly Type _portType;
-        
-        public ChildBridgeView(string title, Type portType, Color portColor)
+
+        protected ChildBridgeView(string title, Type portType, Color portColor)
         {
             AddToClassList("BridgeNode");
             capabilities &= ~Capabilities.Copiable;
@@ -64,33 +67,13 @@ namespace NextGenDialogue.Graph.Editor
             this.title = title;
             AddChild();
         }
+        
         private void AddChild()
         {
             Child = Port.Create<Edge>(Orientation.Horizontal, Direction.Output, Port.Capacity.Single, _portType);
             Child.portName = string.Empty;
             Child.portColor = _portColor;
             outputContainer.Add(Child);
-        }
-
-        internal void Validate(Stack<IDialogueNodeView> stack)
-        {
-            OnValidate(stack);
-        }
-
-        internal void Commit(ContainerNode containerNode, Stack<IDialogueNodeView> stack)
-        {
-            OnCommit(containerNode, stack);
-        }
-        protected virtual void OnValidate(Stack<IDialogueNodeView> stack) { }
-
-        protected virtual void OnCommit(ContainerNode containerNode, Stack<IDialogueNodeView> stack)
-        {
-            if (Child.connected)
-            {
-                var node = PortHelper.FindChildNode(Child);
-                stack.Push(node);
-                containerNode.AddChild(node.Compile());
-            }
         }
 
         internal void ClearStyle()
@@ -103,36 +86,33 @@ namespace NextGenDialogue.Graph.Editor
         }
         public abstract ChildBridgeView Clone();
     }
+    
     internal class PieceBridgeView : ChildBridgeView, ILayoutNode
     {
         private readonly PieceIDField _pieceIDField;
         
-        private bool _useReference;
-        
         private readonly DialogueGraphView _graphView;
+        
+        public bool UseReference { get; private set; }
         
         public string PieceID
         {
             get
             {
-                if (_useReference)
+                if (UseReference)
                 {
                     return _pieceIDField.value.Name;
                 }
 
-                if (Child.connected)
-                {
-                    var node = (PieceContainerView)PortHelper.FindChildNode(Child);
-                    return node.GetPieceID();
-                }
-                return string.Empty;
+                if (!Child.connected) return string.Empty;
+                var node = (PieceContainerView)PortHelper.FindChildNode(Child);
+                return node.GetPieceID();
             }
         }
         
         public VisualElement View => this;
         
-        public PieceBridgeView(DialogueGraphView graphView, Color portColor, string pieceIDName)
-        : base("Piece", typeof(PiecePort), portColor)
+        public PieceBridgeView(DialogueGraphView graphView, Color portColor, string pieceIDName) : base("Piece", typeof(PiecePort), portColor)
         {
             _graphView = graphView;
             var toggle = new Toggle("Use Reference");
@@ -140,7 +120,7 @@ namespace NextGenDialogue.Graph.Editor
             mainContainer.Add(toggle);
             _pieceIDField = new PieceIDField("Reference", true);
             _pieceIDField.BindGraph(graphView);
-            _pieceIDField.value = new PieceID() { Name = pieceIDName };
+            _pieceIDField.value = new PieceID { Name = pieceIDName };
             mainContainer.Add(_pieceIDField);
             toggle.value = !string.IsNullOrEmpty(pieceIDName);
             OnToggle(toggle.value);
@@ -148,7 +128,7 @@ namespace NextGenDialogue.Graph.Editor
         
         private void OnToggle(bool useReference)
         {
-            _useReference = useReference;
+            UseReference = useReference;
             if (useReference && Child.connected)
             {
                 var edge = Child.connections.First();
@@ -159,30 +139,15 @@ namespace NextGenDialogue.Graph.Editor
             Child.SetEnabled(!useReference);
             _pieceIDField.SetEnabled(useReference);
         }
-        
-        protected sealed override void OnCommit(ContainerNode containerNode, Stack<IDialogueNodeView> stack)
-        {
-            if (_useReference)
-            {
-                var node = _graphView.FindPiece(_pieceIDField.value.Name);
-                if (node == null) return;
-                ((Dialogue)containerNode).AddPiece(node.GetPiece(), _pieceIDField.value.Name);
-            }
-            else if (Child.connected)
-            {
-                var node = (PieceContainerView)PortHelper.FindChildNode(Child);
-                ((Dialogue)containerNode).AddPiece(node.GetPiece(), string.Empty);
-            }
-        }
 
         public override ChildBridgeView Clone()
         {
-            return new PieceBridgeView(_graphView, Child.portColor, _useReference ? _pieceIDField.value.Name : string.Empty);
+            return new PieceBridgeView(_graphView, Child.portColor, UseReference ? _pieceIDField.value.Name : string.Empty);
         }
 
-        public bool TryGetPiece(out PieceContainerView pieceContainerView)
+        private bool TryGetPiece(out PieceContainerView pieceContainerView)
         {
-            if (_useReference || !Child.connected)
+            if (UseReference || !Child.connected)
             {
                 pieceContainerView = null;
                 return false;
@@ -207,18 +172,13 @@ namespace NextGenDialogue.Graph.Editor
         public OptionBridgeView(string title, Color portColor) : base(title, typeof(OptionPort), portColor)
         {
         }
-        protected override void OnValidate(Stack<IDialogueNodeView> stack)
-        {
-            if (Child.connected)
-            {
-                stack.Push(PortHelper.FindChildNode(Child));
-            }
-        }
-        public bool TryGetOption(out OptionContainerView optionContainerView)
+
+        private bool TryGetOption(out OptionContainerView optionContainerView)
         {
             optionContainerView = PortHelper.FindChildNode(Child) as OptionContainerView;
             return optionContainerView != null;
         }
+        
         public override ChildBridgeView Clone()
         {
             return new OptionBridgeView(title, Child.portColor);

@@ -20,7 +20,7 @@ namespace NextGenDialogue.Graph.Editor
         
         public Piece GetPiece()
         {
-            return (Piece)NodeBehavior;
+            return (Piece)NodeInstance;
         }
 
         protected override Port.Capacity PortCapacity => Port.Capacity.Multi;
