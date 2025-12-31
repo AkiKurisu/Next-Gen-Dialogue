@@ -1,0 +1,21 @@
+{
+    "name": "NextGenDialogue.Tests",
+    "rootNamespace": "NextGenDialogue.Tests",
+    "references": [
+        "GUID:a3641cccf50efcd4cafc57a3120fb40e",
+        "GUID:4a9214fa9d60c4c92bfc3c635010f27f",
+        "GUID:f51ebe6a0ceec4240a699833d6309b23",
+        "GUID:7dddf801c0fab33408b06985cd6a607e"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [
+        "UNITY_INCLUDE_TESTS"
+    ],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

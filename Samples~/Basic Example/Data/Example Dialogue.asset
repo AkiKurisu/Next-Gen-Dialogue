@@ -1,0 +1,748 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f892d31a09245ba4da7011ee71dfc7aa, type: 3}
+  m_Name: Example Dialogue
+  m_EditorClassIdentifier: 
+  dialogueGraphData:
+    variables:
+    - rid: 1770628312074289185
+    - rid: 1770628312074289186
+    - rid: 1770628312074289187
+    nodes:
+    - rid: 1770628312074289188
+    - rid: 1770628312074289188
+    - rid: 1770628312074289189
+    - rid: 1770628312074289190
+    - rid: 1770628312074289191
+    - rid: 1770628312074289192
+    - rid: 1770628312074289193
+    - rid: 1770628312074289194
+    - rid: 1770628312074289190
+    - rid: 1770628312074289191
+    - rid: 1770628312074289192
+    - rid: 1770628312074289193
+    - rid: 1770628312074289194
+    - rid: 1770628312074289195
+    - rid: 1770628312074289196
+    - rid: 1770628312074289197
+    - rid: 1770628312074289198
+    - rid: 1770628312074289199
+    variableData:
+    - variableType:
+        _class: PieceID
+        _ns: NextGenDialogue.Graph
+        _asm: NextGenDialogue.Graph
+      serializedData: '{"isShared":true,"isGlobal":false,"isExposed":false,"mName":"Dialog1","value":"d6fb661c-b9aa-4169-9bfe-5de7bd557691"}'
+      uobjectLinks: []
+    - variableType:
+        _class: PieceID
+        _ns: NextGenDialogue.Graph
+        _asm: NextGenDialogue.Graph
+      serializedData: '{"isShared":true,"isGlobal":false,"isExposed":false,"mName":"Dialog2","value":"adc2b035-7d0c-48eb-a81f-5deceddb13ad"}'
+      uobjectLinks: []
+    - variableType:
+        _class: PieceID
+        _ns: NextGenDialogue.Graph
+        _asm: NextGenDialogue.Graph
+      serializedData: '{"isShared":true,"isGlobal":false,"isExposed":false,"mName":"Dialog3","value":""}'
+      uobjectLinks: []
+    nodeData:
+    - graphPosition:
+        serializedVersion: 2
+        x: 400
+        y: 300
+        width: 115
+        height: 77
+      description: 
+      guid: 643b8ec8-10f4-4e30-ae78-e146bba3c9b5
+      nodeType:
+        _class: Root
+        _ns: NextGenDialogue.Graph
+        _asm: NextGenDialogue.Graph
+      genericParameters: []
+      serializedData: '{"nodeData":{"graphPosition":{"serializedVersion":"2","x":400.0,"y":300.0,"width":115.0,"height":77.0},"description":"","guid":"643b8ec8-10f4-4e30-ae78-e146bba3c9b5","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"child":{"rid":-2},"children":[],"references":{"version":2,"RefIds":[{"rid":-2,"type":{"class":"","ns":"","asm":""},"data":{}}]}}'
+      executionPath: 0
+      portData: []
+      uobjectLinks: []
+    - graphPosition:
+        serializedVersion: 2
+        x: 400
+        y: 300
+        width: 115
+        height: 77
+      description: 
+      guid: 643b8ec8-10f4-4e30-ae78-e146bba3c9b5
+      nodeType:
+        _class: Root
+        _ns: NextGenDialogue.Graph
+        _asm: NextGenDialogue.Graph
+      genericParameters: []
+      serializedData: '{"nodeData":{"graphPosition":{"serializedVersion":"2","x":400.0,"y":300.0,"width":115.0,"height":77.0},"description":"","guid":"643b8ec8-10f4-4e30-ae78-e146bba3c9b5","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"child":{"rid":-2},"children":[],"references":{"version":2,"RefIds":[{"rid":-2,"type":{"class":"","ns":"","asm":""},"data":{}}]}}'
+      executionPath: 0
+      portData: []
+      uobjectLinks: []
+    - graphPosition:
+        serializedVersion: 2
+        x: 575
+        y: 237
+        width: 150
+        height: 276
+      description: 
+      guid: dcac952e-99a7-4a24-ad0f-46a26bd2d230
+      nodeType:
+        _class: Dialogue
+        _ns: NextGenDialogue.Graph
+        _asm: NextGenDialogue.Graph
+      genericParameters: []
+      serializedData: '{"nodeData":{"graphPosition":{"serializedVersion":"2","x":575.0,"y":237.0,"width":150.0,"height":276.0},"description":"","guid":"dcac952e-99a7-4a24-ad0f-46a26bd2d230","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"children":[],"referencePieces":[""],"references":{"version":2,"RefIds":[]}}'
+      executionPath: 0
+      portData: []
+      uobjectLinks: []
+    - graphPosition:
+        serializedVersion: 2
+        x: 787
+        y: 209
+        width: 380
+        height: 354
+      description: 
+      guid: 28eb8a4a-2742-44e2-a29c-3ecb4490c966
+      nodeType:
+        _class: Piece
+        _ns: NextGenDialogue.Graph
+        _asm: NextGenDialogue.Graph
+      genericParameters: []
+      serializedData: '{"nodeData":{"graphPosition":{"serializedVersion":"2","x":787.0,"y":209.0,"width":380.0,"height":354.0},"description":"","guid":"28eb8a4a-2742-44e2-a29c-3ecb4490c966","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"children":[],"pieceID":{"isShared":true,"isGlobal":false,"isExposed":false,"mName":"Dialog1","value":""},"references":{"version":2,"RefIds":[]}}'
+      executionPath: 0
+      portData: []
+      uobjectLinks: []
+    - graphPosition:
+        serializedVersion: 2
+        x: 0
+        y: 108
+        width: 356
+        height: 103
+      description: 
+      guid: 7b1afef2-040a-4b89-93c6-f0f870cce3ca
+      nodeType:
+        _class: ContentModule
+        _ns: NextGenDialogue.Graph
+        _asm: NextGenDialogue.Graph
+      genericParameters: []
+      serializedData: '{"nodeData":{"graphPosition":{"serializedVersion":"2","x":0.0,"y":108.0,"width":356.0,"height":103.0},"description":"","guid":"7b1afef2-040a-4b89-93c6-f0f870cce3ca","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"content":{"isShared":false,"isGlobal":false,"isExposed":false,"mName":"","value":"This
+        is an example using DialogueTreeSO to create a dialogue"}}'
+      executionPath: 0
+      portData: []
+      uobjectLinks: []
+    - graphPosition:
+        serializedVersion: 2
+        x: 1221
+        y: 201
+        width: 380
+        height: 368
+      description: 
+      guid: e31f3005-712f-4251-940c-d58d799398e3
+      nodeType:
+        _class: Option
+        _ns: NextGenDialogue.Graph
+        _asm: NextGenDialogue.Graph
+      genericParameters: []
+      serializedData: '{"nodeData":{"graphPosition":{"serializedVersion":"2","x":1221.0,"y":201.0,"width":380.0,"height":368.0},"description":"","guid":"e31f3005-712f-4251-940c-d58d799398e3","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"children":[],"references":{"version":2,"RefIds":[]}}'
+      executionPath: 0
+      portData: []
+      uobjectLinks: []
+    - graphPosition:
+        serializedVersion: 2
+        x: 0
+        y: 79
+        width: 356
+        height: 90
+      description: 
+      guid: 31d7622c-2de1-426c-846a-afe948ae62d1
+      nodeType:
+        _class: ContentModule
+        _ns: NextGenDialogue.Graph
+        _asm: NextGenDialogue.Graph
+      genericParameters: []
+      serializedData: '{"nodeData":{"graphPosition":{"serializedVersion":"2","x":0.0,"y":79.0,"width":356.0,"height":90.0},"description":"","guid":"31d7622c-2de1-426c-846a-afe948ae62d1","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"content":{"isShared":false,"isGlobal":false,"isExposed":false,"mName":"","value":"Continue"}}'
+      executionPath: 0
+      portData: []
+      uobjectLinks: []
+    - graphPosition:
+        serializedVersion: 2
+        x: 0
+        y: 169
+        width: 356
+        height: 133
+      description: 
+      guid: beebae1e-e9a3-460d-a522-cdbc47e1e081
+      nodeType:
+        _class: TargetIDModule
+        _ns: NextGenDialogue.Graph
+        _asm: NextGenDialogue.Graph
+      genericParameters: []
+      serializedData: '{"nodeData":{"graphPosition":{"serializedVersion":"2","x":0.0,"y":169.0,"width":356.0,"height":133.0},"description":"","guid":"beebae1e-e9a3-460d-a522-cdbc47e1e081","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"useReference":false,"targetID":{"isShared":true,"isGlobal":false,"isExposed":false,"mName":"Dialog2","value":""}}'
+      executionPath: 0
+      portData: []
+      uobjectLinks: []
+    - graphPosition:
+        serializedVersion: 2
+        x: 787
+        y: 209
+        width: 380
+        height: 354
+      description: 
+      guid: 28eb8a4a-2742-44e2-a29c-3ecb4490c966
+      nodeType:
+        _class: Piece
+        _ns: NextGenDialogue.Graph
+        _asm: NextGenDialogue.Graph
+      genericParameters: []
+      serializedData: '{"nodeData":{"graphPosition":{"serializedVersion":"2","x":787.0,"y":209.0,"width":380.0,"height":354.0},"description":"","guid":"28eb8a4a-2742-44e2-a29c-3ecb4490c966","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"children":[],"pieceID":{"isShared":true,"isGlobal":false,"isExposed":false,"mName":"Dialog1","value":""},"references":{"version":2,"RefIds":[]}}'
+      executionPath: 0
+      portData: []
+      uobjectLinks: []
+    - graphPosition:
+        serializedVersion: 2
+        x: 0
+        y: 108
+        width: 356
+        height: 103
+      description: 
+      guid: 7b1afef2-040a-4b89-93c6-f0f870cce3ca
+      nodeType:
+        _class: ContentModule
+        _ns: NextGenDialogue.Graph
+        _asm: NextGenDialogue.Graph
+      genericParameters: []
+      serializedData: '{"nodeData":{"graphPosition":{"serializedVersion":"2","x":0.0,"y":108.0,"width":356.0,"height":103.0},"description":"","guid":"7b1afef2-040a-4b89-93c6-f0f870cce3ca","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"content":{"isShared":false,"isGlobal":false,"isExposed":false,"mName":"","value":"This
+        is an example using DialogueTreeSO to create a dialogue"}}'
+      executionPath: 0
+      portData: []
+      uobjectLinks: []
+    - graphPosition:
+        serializedVersion: 2
+        x: 1221
+        y: 201
+        width: 380
+        height: 368
+      description: 
+      guid: e31f3005-712f-4251-940c-d58d799398e3
+      nodeType:
+        _class: Option
+        _ns: NextGenDialogue.Graph
+        _asm: NextGenDialogue.Graph
+      genericParameters: []
+      serializedData: '{"nodeData":{"graphPosition":{"serializedVersion":"2","x":1221.0,"y":201.0,"width":380.0,"height":368.0},"description":"","guid":"e31f3005-712f-4251-940c-d58d799398e3","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"children":[],"references":{"version":2,"RefIds":[]}}'
+      executionPath: 0
+      portData: []
+      uobjectLinks: []
+    - graphPosition:
+        serializedVersion: 2
+        x: 0
+        y: 79
+        width: 356
+        height: 90
+      description: 
+      guid: 31d7622c-2de1-426c-846a-afe948ae62d1
+      nodeType:
+        _class: ContentModule
+        _ns: NextGenDialogue.Graph
+        _asm: NextGenDialogue.Graph
+      genericParameters: []
+      serializedData: '{"nodeData":{"graphPosition":{"serializedVersion":"2","x":0.0,"y":79.0,"width":356.0,"height":90.0},"description":"","guid":"31d7622c-2de1-426c-846a-afe948ae62d1","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"content":{"isShared":false,"isGlobal":false,"isExposed":false,"mName":"","value":"Continue"}}'
+      executionPath: 0
+      portData: []
+      uobjectLinks: []
+    - graphPosition:
+        serializedVersion: 2
+        x: 0
+        y: 169
+        width: 356
+        height: 133
+      description: 
+      guid: beebae1e-e9a3-460d-a522-cdbc47e1e081
+      nodeType:
+        _class: TargetIDModule
+        _ns: NextGenDialogue.Graph
+        _asm: NextGenDialogue.Graph
+      genericParameters: []
+      serializedData: '{"nodeData":{"graphPosition":{"serializedVersion":"2","x":0.0,"y":169.0,"width":356.0,"height":133.0},"description":"","guid":"beebae1e-e9a3-460d-a522-cdbc47e1e081","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"useReference":false,"targetID":{"isShared":true,"isGlobal":false,"isExposed":false,"mName":"Dialog2","value":""}}'
+      executionPath: 0
+      portData: []
+      uobjectLinks: []
+    - graphPosition:
+        serializedVersion: 2
+        x: 1654
+        y: 180
+        width: 380
+        height: 410
+      description: 
+      guid: b9209dd5-adc0-4b92-a9e8-933dc949ca0b
+      nodeType:
+        _class: Piece
+        _ns: NextGenDialogue.Graph
+        _asm: NextGenDialogue.Graph
+      genericParameters: []
+      serializedData: '{"nodeData":{"graphPosition":{"serializedVersion":"2","x":1654.0,"y":180.0,"width":380.0,"height":410.0},"description":"","guid":"b9209dd5-adc0-4b92-a9e8-933dc949ca0b","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"children":[],"pieceID":{"isShared":true,"isGlobal":false,"isExposed":false,"mName":"Dialog2","value":""},"references":{"version":2,"RefIds":[]}}'
+      executionPath: 0
+      portData: []
+      uobjectLinks: []
+    - graphPosition:
+        serializedVersion: 2
+        x: 0
+        y: 108
+        width: 356
+        height: 103
+      description: 
+      guid: fc836edd-06ed-4ef1-b637-13ce7f8b3627
+      nodeType:
+        _class: ContentModule
+        _ns: NextGenDialogue.Graph
+        _asm: NextGenDialogue.Graph
+      genericParameters: []
+      serializedData: '{"nodeData":{"graphPosition":{"serializedVersion":"2","x":0.0,"y":108.0,"width":356.0,"height":103.0},"description":"","guid":"fc836edd-06ed-4ef1-b637-13ce7f8b3627","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"content":{"isShared":false,"isGlobal":false,"isExposed":false,"mName":"","value":"You
+        can click \"Edit DialogueTree\" of DialogueTreeSO to see how it does"}}'
+      executionPath: 0
+      portData: []
+      uobjectLinks: []
+    - graphPosition:
+        serializedVersion: 2
+        x: 0
+        y: 211
+        width: 356
+        height: 133
+      description: 
+      guid: 3782ccf6-6678-4595-b970-943c4435a1db
+      nodeType:
+        _class: NextPieceModule
+        _ns: NextGenDialogue.Graph
+        _asm: NextGenDialogue.Graph
+      genericParameters: []
+      serializedData: '{"nodeData":{"graphPosition":{"serializedVersion":"2","x":0.0,"y":211.0,"width":356.0,"height":133.0},"description":"","guid":"3782ccf6-6678-4595-b970-943c4435a1db","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"useReference":false,"nextID":{"isShared":true,"isGlobal":false,"isExposed":false,"mName":"Dialog3","value":""}}'
+      executionPath: 0
+      portData: []
+      uobjectLinks: []
+    - graphPosition:
+        serializedVersion: 2
+        x: 2087
+        y: 249
+        width: 380
+        height: 277
+      description: 
+      guid: 1667962a-07af-40ac-a296-bce04d7ac238
+      nodeType:
+        _class: Piece
+        _ns: NextGenDialogue.Graph
+        _asm: NextGenDialogue.Graph
+      genericParameters: []
+      serializedData: '{"nodeData":{"graphPosition":{"serializedVersion":"2","x":2087.0,"y":249.0,"width":380.0,"height":277.0},"description":"","guid":"1667962a-07af-40ac-a296-bce04d7ac238","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"children":[],"pieceID":{"isShared":true,"isGlobal":false,"isExposed":false,"mName":"Dialog3","value":""},"references":{"version":2,"RefIds":[]}}'
+      executionPath: 0
+      portData: []
+      uobjectLinks: []
+    - graphPosition:
+        serializedVersion: 2
+        x: 0
+        y: 108
+        width: 356
+        height: 103
+      description: 
+      guid: 1e9214c3-d5c6-4f59-8a5d-daf1541abbba
+      nodeType:
+        _class: ContentModule
+        _ns: NextGenDialogue.Graph
+        _asm: NextGenDialogue.Graph
+      genericParameters: []
+      serializedData: '{"nodeData":{"graphPosition":{"serializedVersion":"2","x":0.0,"y":108.0,"width":356.0,"height":103.0},"description":"","guid":"1e9214c3-d5c6-4f59-8a5d-daf1541abbba","nodeType":{"_class":"","_ns":"","_asm":""},"genericParameters":[],"serializedData":"","executionPath":0,"portData":[],"uobjectLinks":[]},"content":{"isShared":false,"isGlobal":false,"isExposed":false,"mName":"","value":"You
+        can also open the Editor in playmode for debuging."}}'
+      executionPath: 0
+      portData: []
+      uobjectLinks: []
+    nodeGroups: []
+    edges:
+    - children: 02000000030000000d00000010000000
+    - children: 
+    - children: 03000000
+    - children: 0400000005000000
+    - children: 
+    - children: 0600000007000000
+    - children: 
+    - children: 
+    - children: 
+    - children: 
+    - children: 
+    - children: 
+    - children: 
+    - children: 0e0000000f000000
+    - children: 
+    - children: 
+    - children: 11000000
+    - children: 
+  flowGraphData:
+    variables: []
+    nodes: []
+    variableData: []
+    nodeData: []
+    nodeGroups: []
+    nodeDependencyPath: []
+  description: 
+  flowGraphAsset: {fileID: 0}
+  root:
+    rid: -2
+  sharedVariables: []
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
+    - rid: 1770628312074289185
+      type: {class: PieceID, ns: NextGenDialogue.Graph, asm: NextGenDialogue.Graph}
+      data:
+        isShared: 1
+        isGlobal: 0
+        isExposed: 0
+        mName: Dialog1
+        value: d6fb661c-b9aa-4169-9bfe-5de7bd557691
+    - rid: 1770628312074289186
+      type: {class: PieceID, ns: NextGenDialogue.Graph, asm: NextGenDialogue.Graph}
+      data:
+        isShared: 1
+        isGlobal: 0
+        isExposed: 0
+        mName: Dialog2
+        value: adc2b035-7d0c-48eb-a81f-5deceddb13ad
+    - rid: 1770628312074289187
+      type: {class: PieceID, ns: NextGenDialogue.Graph, asm: NextGenDialogue.Graph}
+      data:
+        isShared: 1
+        isGlobal: 0
+        isExposed: 0
+        mName: Dialog3
+        value: 
+    - rid: 1770628312074289188
+      type: {class: Root, ns: NextGenDialogue.Graph, asm: NextGenDialogue.Graph}
+      data:
+        nodeData:
+          graphPosition:
+            serializedVersion: 2
+            x: 400
+            y: 300
+            width: 115
+            height: 77
+          description: 
+          guid: 643b8ec8-10f4-4e30-ae78-e146bba3c9b5
+          nodeType:
+            _class: 
+            _ns: 
+            _asm: 
+          genericParameters: []
+          serializedData: 
+          executionPath: 0
+          portData: []
+          uobjectLinks: []
+        child:
+          rid: -2
+        children: []
+    - rid: 1770628312074289189
+      type: {class: Dialogue, ns: NextGenDialogue.Graph, asm: NextGenDialogue.Graph}
+      data:
+        nodeData:
+          graphPosition:
+            serializedVersion: 2
+            x: 575
+            y: 237
+            width: 150
+            height: 276
+          description: 
+          guid: dcac952e-99a7-4a24-ad0f-46a26bd2d230
+          nodeType:
+            _class: 
+            _ns: 
+            _asm: 
+          genericParameters: []
+          serializedData: 
+          executionPath: 0
+          portData: []
+          uobjectLinks: []
+        children: []
+        referencePieces:
+        - 
+    - rid: 1770628312074289190
+      type: {class: Piece, ns: NextGenDialogue.Graph, asm: NextGenDialogue.Graph}
+      data:
+        nodeData:
+          graphPosition:
+            serializedVersion: 2
+            x: 787
+            y: 209
+            width: 380
+            height: 354
+          description: 
+          guid: 28eb8a4a-2742-44e2-a29c-3ecb4490c966
+          nodeType:
+            _class: 
+            _ns: 
+            _asm: 
+          genericParameters: []
+          serializedData: 
+          executionPath: 0
+          portData: []
+          uobjectLinks: []
+        children: []
+        pieceID:
+          isShared: 1
+          isGlobal: 0
+          isExposed: 0
+          mName: Dialog1
+          value: 
+    - rid: 1770628312074289191
+      type: {class: ContentModule, ns: NextGenDialogue.Graph, asm: NextGenDialogue.Graph}
+      data:
+        nodeData:
+          graphPosition:
+            serializedVersion: 2
+            x: 0
+            y: 108
+            width: 356
+            height: 103
+          description: 
+          guid: 7b1afef2-040a-4b89-93c6-f0f870cce3ca
+          nodeType:
+            _class: 
+            _ns: 
+            _asm: 
+          genericParameters: []
+          serializedData: 
+          executionPath: 0
+          portData: []
+          uobjectLinks: []
+        content:
+          isShared: 0
+          isGlobal: 0
+          isExposed: 0
+          mName: 
+          value: This is an example using DialogueTreeSO to create a dialogue
+    - rid: 1770628312074289192
+      type: {class: Option, ns: NextGenDialogue.Graph, asm: NextGenDialogue.Graph}
+      data:
+        nodeData:
+          graphPosition:
+            serializedVersion: 2
+            x: 1221
+            y: 201
+            width: 380
+            height: 368
+          description: 
+          guid: e31f3005-712f-4251-940c-d58d799398e3
+          nodeType:
+            _class: 
+            _ns: 
+            _asm: 
+          genericParameters: []
+          serializedData: 
+          executionPath: 0
+          portData: []
+          uobjectLinks: []
+        children: []
+    - rid: 1770628312074289193
+      type: {class: ContentModule, ns: NextGenDialogue.Graph, asm: NextGenDialogue.Graph}
+      data:
+        nodeData:
+          graphPosition:
+            serializedVersion: 2
+            x: 0
+            y: 79
+            width: 356
+            height: 90
+          description: 
+          guid: 31d7622c-2de1-426c-846a-afe948ae62d1
+          nodeType:
+            _class: 
+            _ns: 
+            _asm: 
+          genericParameters: []
+          serializedData: 
+          executionPath: 0
+          portData: []
+          uobjectLinks: []
+        content:
+          isShared: 0
+          isGlobal: 0
+          isExposed: 0
+          mName: 
+          value: Continue
+    - rid: 1770628312074289194
+      type: {class: TargetIDModule, ns: NextGenDialogue.Graph, asm: NextGenDialogue.Graph}
+      data:
+        nodeData:
+          graphPosition:
+            serializedVersion: 2
+            x: 0
+            y: 169
+            width: 356
+            height: 133
+          description: 
+          guid: beebae1e-e9a3-460d-a522-cdbc47e1e081
+          nodeType:
+            _class: 
+            _ns: 
+            _asm: 
+          genericParameters: []
+          serializedData: 
+          executionPath: 0
+          portData: []
+          uobjectLinks: []
+        useReference: 0
+        targetID:
+          isShared: 1
+          isGlobal: 0
+          isExposed: 0
+          mName: Dialog2
+          value: 
+    - rid: 1770628312074289195
+      type: {class: Piece, ns: NextGenDialogue.Graph, asm: NextGenDialogue.Graph}
+      data:
+        nodeData:
+          graphPosition:
+            serializedVersion: 2
+            x: 1654
+            y: 180
+            width: 380
+            height: 410
+          description: 
+          guid: b9209dd5-adc0-4b92-a9e8-933dc949ca0b
+          nodeType:
+            _class: 
+            _ns: 
+            _asm: 
+          genericParameters: []
+          serializedData: 
+          executionPath: 0
+          portData: []
+          uobjectLinks: []
+        children: []
+        pieceID:
+          isShared: 1
+          isGlobal: 0
+          isExposed: 0
+          mName: Dialog2
+          value: 
+    - rid: 1770628312074289196
+      type: {class: ContentModule, ns: NextGenDialogue.Graph, asm: NextGenDialogue.Graph}
+      data:
+        nodeData:
+          graphPosition:
+            serializedVersion: 2
+            x: 0
+            y: 108
+            width: 356
+            height: 103
+          description: 
+          guid: fc836edd-06ed-4ef1-b637-13ce7f8b3627
+          nodeType:
+            _class: 
+            _ns: 
+            _asm: 
+          genericParameters: []
+          serializedData: 
+          executionPath: 0
+          portData: []
+          uobjectLinks: []
+        content:
+          isShared: 0
+          isGlobal: 0
+          isExposed: 0
+          mName: 
+          value: You can click "Edit DialogueTree" of DialogueTreeSO to see how it
+            does
+    - rid: 1770628312074289197
+      type: {class: NextPieceModule, ns: NextGenDialogue.Graph, asm: NextGenDialogue.Graph}
+      data:
+        nodeData:
+          graphPosition:
+            serializedVersion: 2
+            x: 0
+            y: 211
+            width: 356
+            height: 133
+          description: 
+          guid: 3782ccf6-6678-4595-b970-943c4435a1db
+          nodeType:
+            _class: 
+            _ns: 
+            _asm: 
+          genericParameters: []
+          serializedData: 
+          executionPath: 0
+          portData: []
+          uobjectLinks: []
+        useReference: 0
+        nextID:
+          isShared: 1
+          isGlobal: 0
+          isExposed: 0
+          mName: Dialog3
+          value: 
+    - rid: 1770628312074289198
+      type: {class: Piece, ns: NextGenDialogue.Graph, asm: NextGenDialogue.Graph}
+      data:
+        nodeData:
+          graphPosition:
+            serializedVersion: 2
+            x: 2087
+            y: 249
+            width: 380
+            height: 277
+          description: 
+          guid: 1667962a-07af-40ac-a296-bce04d7ac238
+          nodeType:
+            _class: 
+            _ns: 
+            _asm: 
+          genericParameters: []
+          serializedData: 
+          executionPath: 0
+          portData: []
+          uobjectLinks: []
+        children: []
+        pieceID:
+          isShared: 1
+          isGlobal: 0
+          isExposed: 0
+          mName: Dialog3
+          value: 
+    - rid: 1770628312074289199
+      type: {class: ContentModule, ns: NextGenDialogue.Graph, asm: NextGenDialogue.Graph}
+      data:
+        nodeData:
+          graphPosition:
+            serializedVersion: 2
+            x: 0
+            y: 108
+            width: 356
+            height: 103
+          description: 
+          guid: 1e9214c3-d5c6-4f59-8a5d-daf1541abbba
+          nodeType:
+            _class: 
+            _ns: 
+            _asm: 
+          genericParameters: []
+          serializedData: 
+          executionPath: 0
+          portData: []
+          uobjectLinks: []
+        content:
+          isShared: 0
+          isGlobal: 0
+          isExposed: 0
+          mName: 
+          value: You can also open the Editor in playmode for debuging.

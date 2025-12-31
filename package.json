@@ -1,0 +1,40 @@
+{
+  "name": "com.kurisu.next-gen-dialogue",
+  "displayName": "Next Gen Dialogue",
+  "version": "2.2.0",
+  "unity": "2022.3",
+  "description": "AI powered dialogue visual designer for Unity.",
+  "keywords": [
+    "Graph",
+    "GraphView",
+    "Dialogue",
+    "AI"
+  ],
+  "category": "Visual Scripting",
+  "dependencies": {
+    "com.kurisu.chris": "1.6.0",
+    "com.kurisu.ceres": "0.6.5",
+    "com.unity.nuget.newtonsoft-json": "3.2.1"
+  },
+  "author": {
+    "name": "AkiKurisu",
+    "url": "https://github.com/AkiKurisu"
+  },
+  "samples": [
+    {
+      "displayName": "Basic Example",
+      "description": "Basic usage of dialogue graph and AIGC",
+      "path": "Samples~/Basic Example"
+    },
+    {
+      "displayName": "VITS Example",
+      "description": "Sample of using VITS to generate voice for your dialogue",
+      "path": "Samples~/VITS Example"
+    },
+    {
+      "displayName": "Localization Example",
+      "description": "Sample of supporting localization for your dialogue",
+      "path": "Samples~/Localization Example"
+    }
+  ]
+}

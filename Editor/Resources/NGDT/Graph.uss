@@ -1,0 +1,21 @@
+GridBackground {
+    --grid-background-color: #282828;
+    --line-color: rgba(193, 196, 192, 0.1);
+    --thick-line-color: rgba(193, 196, 192, 0.1);
+    --spacing: 10;
+    
+}
+
+Label
+{
+    min-width:10px;
+}
+
+.CeresPortElement.pieceId-blackboard {
+    --port-color: #72B786;
+}
+
+.pieceId-blackboard #pill #contents > #top > #title-label
+{
+    color: #ABFFDA;
+}
