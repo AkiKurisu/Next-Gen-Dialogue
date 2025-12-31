@@ -66,7 +66,7 @@ namespace NextGenDialogue.Graph.Editor
         {
             // Serialize selected nodes to DialogueGraph model
             var selectedNodes = elements.OfType<IDialogueNodeView>().ToList();
-            var tempGraph = SerializeNodes(selectedNodes);
+            var tempGraph = SerializeGraph(selectedNodes);
             return tempGraph.GetData().ToJson();
         }
 
@@ -80,7 +80,7 @@ namespace NextGenDialogue.Graph.Editor
             _cachedMousePosition = evt.mousePosition;
         }
 
-        private DialogueGraph SerializeNodes(List<IDialogueNodeView> selectedNodes)
+        private DialogueGraph SerializeGraph(List<IDialogueNodeView> selectedNodes)
         {
             if (selectedNodes.Count == 0)
             {
@@ -218,18 +218,78 @@ namespace NextGenDialogue.Graph.Editor
             EditorWindow.ShowNotification(new GUIContent("Data Dropped Succeed"));
             DeserializeGraph(container.GetDialogueGraph(), mousePosition);
         }
+        
+        public override void AddSharedVariables(List<SharedVariable> variables, bool duplicateWhenConflict)
+        {
+            if (Blackboard == null) return;
+            
+            foreach (var variable in variables.Where(variable => variable != null))
+            {
+                bool canAdd = SharedVariables.All(sharedVariable => sharedVariable.Name != variable.Name);
+                // Piece id should always be unique
+                if (variable is not PieceID)
+                {
+                    canAdd |= duplicateWhenConflict;
+                }
+                if (!canAdd) continue;
+                
+                // In play mode, use original variable to observe value change
+                Blackboard.AddVariable(Application.isPlaying ? variable : variable.Clone(), false);
+            }
+        }
+
+        private void ResolvePieceConflicts(DialogueGraph dialogueGraph)
+        {
+            var nameMapping = new Dictionary<string, string>();
+
+            foreach (var variable in dialogueGraph.variables.OfType<PieceID>().ToArray())
+            {
+                var oldName = variable.Name;
+                var newName = Blackboard.GetValidVariableName(variable);
+                if (oldName != newName)
+                {
+                    nameMapping[oldName] = newName;
+                }
+            }
+
+            foreach (var node in dialogueGraph.nodes)
+            {
+                if (node == null) continue;
+                
+                var nodeType = node.GetType();
+                var fields = nodeType.GetFields(BindingFlags.Public | 
+                                               BindingFlags.NonPublic | 
+                                               BindingFlags.Instance);
+                
+                foreach (var field in fields)
+                {
+                    if (field.FieldType == typeof(PieceID))
+                    {
+                        if (field.GetValue(node) is PieceID pieceID && !string.IsNullOrEmpty(pieceID.Name))
+                        {
+                            // If this PieceID's name was renamed, update it
+                            if (nameMapping.TryGetValue(pieceID.Name, out var newName))
+                            {
+                                pieceID.Name = newName;
+                            }
+                        }
+                    }
+                }
+            }
+        }
 
         private void DeserializeGraph(DialogueGraph graph, Vector2 mousePosition)
         {
             var graphMousePosition = contentViewContainer.WorldToLocal(mousePosition);
             Vector2 offset = CalculatePasteOffset(graph, graphMousePosition);
             graph.ApplyOffsetToGraph(offset);
+            ResolvePieceConflicts(graph);
             AddSharedVariables(graph.variables, false);
             _ = DeserializeGraph(graph, this, true);
             NodeGroupHandler.RestoreGroups(graph.nodeGroups);
         }
-        
-        public static Vector2 CalculatePasteOffset(DialogueGraph graph, Vector2 targetMousePosition)
+
+        private static Vector2 CalculatePasteOffset(DialogueGraph graph, Vector2 targetMousePosition)
         {
             var centroid = CalculateGraphCentroid(graph);
             return targetMousePosition - centroid;

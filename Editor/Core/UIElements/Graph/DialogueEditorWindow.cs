@@ -43,7 +43,7 @@ namespace NextGenDialogue.Graph.Editor
         }
 #pragma warning restore IDE0051
         
-        [MenuItem("Tools/Next Gen Dialogue/Next Gen Dialogue Editor")]
+        [MenuItem("Tools/Next-Gen Dialogue/Dialogue Editor")]
         private static void ShowEditorWindow()
         {
             string path = EditorUtility.SaveFilePanel("Select DialogueAsset save path", Application.dataPath, "DialogueTreeSO", "asset");
