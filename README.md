@@ -23,6 +23,7 @@ AI powered dialogue visual designer for Unity.
 - [Modules](#modules)
 - [Extensions](#extensions)
 - [Resolvers](#resolvers)
+- [Debug](#debug)
 - [Create Dialogue in Script](#create-dialogue-in-script)
 
 ## 📦 Install
@@ -105,12 +106,7 @@ Here's a step-by-step guide to create a dialogue tree with a single dialogue and
    <img src="Documentation~/Images/CreateDialogue.png">
   
 10. **Save** - Click the `Save` button in the upper left corner of the editor
-11. **Test** - Enter Play Mode and click `Play dialogue` on `NextGenDialogueComponent`
-12. **Debug** - Click `Open Dialogue Graph` to enter runtime debug mode
-
-   <img src="Documentation~/Images/RuntimeDebug.png">
-
-> 💡 **Tip**: The currently playing dialogue piece will be highlighted in green during runtime debugging
+11. **Test** - Enter Play Mode and click `Play Dialogue` on `NextGenDialogueComponent`
 
 ### Add Custom Actions
 
@@ -174,17 +170,13 @@ In addition to nodes, Next Gen Dialogue uses a flexible **Module** system. Modul
 
 ### General Modules
 
-Built-in general modules for common dialogue functionality:
+Modules for common dialogue functionality:
 
 | Name             | Description                                                                                                                                    |
 | -----------------| ---------------------------------------------------------------------------------------------------------------------------------------------- |
 | **Content**      | Provide text content for Option or Piece                                                                                                       |
 | **TargetID**     | Add jumping target dialogue fragments for Option                                                                                               |
-| **PreUpdate**    | Add pre-update behavior for Container, executes when jumping to the Container                                                                 |
-| **Callback**     | Add callback behavior for Option, executes after selection                                                                                    |
-| **Condition**    | Add conditional logic for Option or Piece. If returns `Status.Failure`, the Container will be discarded. For the first Piece, the system will try the next Piece based on priority |
 | **Next Piece**   | Specify the next dialogue segment after the Piece ends. If no option exists, jumps to the specified segment after playing the Piece content   |
-| **Google Translate** | Use Google Translate to translate the content of current Option or Piece                                                                  |
 
 ### AIGC Modules
 
@@ -278,6 +270,13 @@ Mount `VITSSetup` script on any GameObject to enable VITS Resolver globally in t
 
 Add `VITSResolverModule` to the Dialogue node to specify the resolver for that dialogue. You can also click the Settings button in the module and select which Resolvers to replace in `Advanced Settings`.
 
+## Debug
+
+Next-Gen Dialogue provides an in-editor dialogue simulator for quick preview.
+
+You can click the `Play` triangle button in the right toolbar to toggle simulator panel.
+
+![simulator](./Documentation~/Images/simulator.png)
 
 ## Create Dialogue in Script
 
