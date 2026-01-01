@@ -27,7 +27,7 @@ namespace NextGenDialogue.Graph.Editor
         protected override void OnSeparatorContextualMenuEvent(ContextualMenuPopulateEvent evt, int separatorIndex)
         {
             base.OnSeparatorContextualMenuEvent(evt, separatorIndex);
-            evt.menu.MenuItems().Add(new CeresDropdownMenuAction("Add Piece", a =>
+            evt.menu.MenuItems().Add(new CeresDropdownMenuAction("Add Piece", _ =>
             {
                 var bridge = new PieceBridgeView(GraphView, PortColor, string.Empty);
                 AddElement(bridge);
@@ -54,7 +54,8 @@ namespace NextGenDialogue.Graph.Editor
             if (element is ModuleNodeView moduleNode)
             {
                 var nodeType = moduleNode.NodeType;
-                var define = nodeType.GetCustomAttributes<ModuleOfAttribute>().FirstOrDefault(x => x.ContainerType == typeof(Dialogue));
+                var define = nodeType.GetCustomAttributes<ModuleOfAttribute>()
+                    .FirstOrDefault(attribute => attribute.ContainerType == typeof(Dialogue));
                 if (define == null) return false;
                 if (define.AllowMulti) return true;
                 return !TryGetModuleNode(nodeType, out _);
@@ -68,7 +69,7 @@ namespace NextGenDialogue.Graph.Editor
             {
                 var pieces = GraphView.CollectNodes<PieceContainerView>();
                 var currentPieces = this.Query<PieceBridgeView>().ToList();
-                var addPieces = pieces.Where(x => !currentPieces.Any(p => !string.IsNullOrEmpty(p.PieceID) && p.PieceID == x.GetPieceID()));
+                var addPieces = pieces.Where(containerView => !currentPieces.Any(bridgeView => !string.IsNullOrEmpty(bridgeView.PieceID) && bridgeView.PieceID == containerView.GetPieceID()));
                 foreach (var piece in addPieces)
                 {
                     AddElement(new PieceBridgeView(GraphView, PortColor, piece.GetPieceID()));

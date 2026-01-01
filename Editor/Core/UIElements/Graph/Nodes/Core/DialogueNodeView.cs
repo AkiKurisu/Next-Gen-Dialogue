@@ -66,13 +66,6 @@ namespace NextGenDialogue.Graph.Editor
         private readonly NodeSettingsView _nodeSettingsView;
         
         public NodeElement NodeElement => this;
-        
-        public IFieldResolver GetFieldResolver(string fieldName)
-        {
-            int index = _fieldInfos.FindIndex(x => x.Name == fieldName);
-            if (index != -1) return _resolvers[index];
-            return null;
-        }
 
         protected DialogueNodeView(Type type, CeresGraphView graphView)
         {
@@ -81,6 +74,23 @@ namespace NextGenDialogue.Graph.Editor
             Initialize(type, (DialogueGraphView)graphView);
         }
         
+        public IFieldResolver GetFieldResolver(string fieldName)
+        {
+            int index = _fieldInfos.FindIndex(x => x.Name == fieldName);
+            if (index != -1) return _resolvers[index];
+            return null;
+        }
+        
+        /// <summary>
+        /// Get all field resolvers and field infos for inspector
+        /// </summary>
+        public IEnumerable<(IFieldResolver resolver, FieldInfo fieldInfo)> GetAllFieldResolvers()
+        {
+            for (int i = 0; i < _resolvers.Count; i++)
+            {
+                yield return (_resolvers[i], _fieldInfos[i]);
+            }
+        }
         
         /// <summary>
         /// Initialize dialogue node view visual elements
@@ -113,12 +123,6 @@ namespace NextGenDialogue.Graph.Editor
         protected virtual void OnRestore()
         {
 
-        }
-
-        public DialogueNode CompileNode()
-        {
-            NodeInstance = (DialogueNode)Activator.CreateInstance(NodeType);
-            return NodeInstance;
         }
 
         protected virtual bool CanAddParent()

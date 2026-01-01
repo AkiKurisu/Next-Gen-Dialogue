@@ -357,7 +357,7 @@ namespace NextGenDialogue.Graph.Editor
         private void SerializeGraph(IDialogueGraphContainer container)
         {
             Undo.RecordObject(container.Object, "Commit dialogue graph change");
-            var serializeVisitor = new SerializeVisitor(this, (Root)_root.CompileNode());
+            var serializeVisitor = new SerializeVisitor(this, new Root());
             var graph = serializeVisitor.Serialize(_root);
 
             // Commit variables
@@ -367,7 +367,7 @@ namespace NextGenDialogue.Graph.Editor
             graph.nodeGroups = new List<NodeGroup>();
             graphElements.OfType<DialogueNodeGroup>()
                 .ToList()
-                .ForEach(block => block.Commit(graph.nodeGroups));
+                .ForEach(nodeGroup => nodeGroup.Commit(graph.nodeGroups));
 
             container.SetGraphData(graph.GetData());
 

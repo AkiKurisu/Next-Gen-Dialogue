@@ -1,8 +1,8 @@
 using System;
 using Ceres.Annotations;
 using Ceres.Graph;
-using NextGenDialogue;
 using UnityEngine;
+
 namespace NextGenDialogue.Graph
 {
     [Serializable]
