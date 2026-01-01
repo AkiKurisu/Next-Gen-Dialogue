@@ -20,6 +20,10 @@ namespace NextGenDialogue.Graph.Editor
         
         private IMGUIContainer _previewContainer;
         
+        private DialogueSimulatorPanel _simulatorPanel;
+        
+        private bool _showSimulator;
+        
         private static NextGenDialogueSettings Setting
         {
             get
@@ -111,7 +115,19 @@ namespace NextGenDialogue.Graph.Editor
             };
             _graphView.RestoreGraph();
             rootVisualElement.Add(CreateToolBar(_graphView));
-            rootVisualElement.Add(_graphView);
+            
+            // Create main content container with graph view and simulator panel
+            var mainContainer = new VisualElement();
+            mainContainer.style.flexGrow = 1;
+            mainContainer.style.flexDirection = FlexDirection.Column;
+            mainContainer.Add(_graphView);
+            
+            // Create simulator panel (initially hidden)
+            _simulatorPanel = new DialogueSimulatorPanel(_graphView);
+            _simulatorPanel.style.display = _showSimulator ? DisplayStyle.Flex : DisplayStyle.None;
+            mainContainer.Add(_simulatorPanel);
+            
+            rootVisualElement.Add(mainContainer);
             rootVisualElement.Add(CreateBakePreview());
         }
 
@@ -134,6 +150,9 @@ namespace NextGenDialogue.Graph.Editor
                 }
                 NextGenDialogueLogger.Log($"[{_graphView.DialogueGraphContainer.Object.name}] saved succeed, {DateTime.Now}");
             }
+            
+            // Dispose the simulator panel
+            _simulatorPanel?.Dispose();
             
             // Dispose the editor tracker when window is closed
             _graphView?.DisposeTracker();
@@ -196,7 +215,20 @@ namespace NextGenDialogue.Graph.Editor
                         EditorUtility.SetDirty(_setting);
                         AssetDatabase.SaveAssets();
                     }
+                    
                     GUILayout.FlexibleSpace();
+                    
+                    // Simulator toggle button
+                    bool newShowSimulator = GUILayout.Toggle(_showSimulator, "Simulator", EditorStyles.toolbarButton);
+                    if (newShowSimulator != _showSimulator)
+                    {
+                        _showSimulator = newShowSimulator;
+                        if (_simulatorPanel != null)
+                        {
+                            _simulatorPanel.style.display = _showSimulator ? DisplayStyle.Flex : DisplayStyle.None;
+                        }
+                    }
+                    
                     GUILayout.EndHorizontal();
                 }
             );
@@ -244,6 +276,25 @@ namespace NextGenDialogue.Graph.Editor
         private void OnNodeSelectionChange(IDialogueNodeView node)
         {
             _bakeGenerateText = TryBake(out var content) ? content : null;
+        }
+        
+        /// <summary>
+        /// Start simulator preview from a specific piece node
+        /// </summary>
+        public void StartSimulatorFromPiece(PieceContainerView piece)
+        {
+            // Show simulator panel if hidden
+            if (!_showSimulator)
+            {
+                _showSimulator = true;
+                if (_simulatorPanel != null)
+                {
+                    _simulatorPanel.style.display = DisplayStyle.Flex;
+                }
+            }
+            
+            // Start simulation from the piece
+            _simulatorPanel?.StartFromPiece(piece);
         }
     }
 }
