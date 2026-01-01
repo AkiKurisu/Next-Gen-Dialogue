@@ -110,12 +110,6 @@ namespace NextGenDialogue.Graph.Editor
             _description.value = NodeInstance.NodeData.description;
             Guid = string.IsNullOrEmpty(dialogueNode.Guid) ? System.Guid.NewGuid().ToString() : dialogueNode.Guid;
         }
-        
-        public DialogueNode CompileNode()
-        {
-            NodeInstance = (DialogueNode)Activator.CreateInstance(NodeType);
-            return NodeInstance;
-        }
 
         public void SerializeNode(IDialogueGraphSerializeVisitor visitor, DialogueNode dialogueNode)
         {
@@ -222,6 +216,14 @@ namespace NextGenDialogue.Graph.Editor
                 }
             }
             return list;
+        }
+        
+        /// <summary>
+        /// Get all module node views in this container
+        /// </summary>
+        public ModuleNodeView[] GetAllModuleViews()
+        {
+            return contentContainer.Query<ModuleNodeView>().ToList().ToArray();
         }
     }
 }

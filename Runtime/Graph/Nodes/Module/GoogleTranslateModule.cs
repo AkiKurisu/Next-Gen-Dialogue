@@ -1,6 +1,6 @@
 using System;
 using Ceres.Annotations;
-using NextGenDialogue;
+
 namespace NextGenDialogue.Graph
 {
     [Serializable]

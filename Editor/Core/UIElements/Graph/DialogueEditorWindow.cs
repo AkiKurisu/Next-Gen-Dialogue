@@ -12,6 +12,8 @@ namespace NextGenDialogue.Graph.Editor
     {
         private DialogueGraphView _graphView;
         
+        private DialogueGraphInspectorPanel _inspectorPanel;
+        
         private static NextGenDialogueSettings _setting;
         
         private string _bakeGenerateText;
@@ -19,6 +21,14 @@ namespace NextGenDialogue.Graph.Editor
         private Vector2 _scrollPosition;
         
         private IMGUIContainer _previewContainer;
+        
+        private DialogueSimulatorPanel _simulatorPanel;
+        
+        private bool _showSimulator;
+        
+        private const string SplitViewWidthPrefsKey = "NextGenDialogue_DialogueEditorWindow_SplitViewWidth";
+        
+        private const float DefaultSplitViewWidth = 400f;
         
         private static NextGenDialogueSettings Setting
         {
@@ -43,7 +53,7 @@ namespace NextGenDialogue.Graph.Editor
         }
 #pragma warning restore IDE0051
         
-        [MenuItem("Tools/Next Gen Dialogue/Next Gen Dialogue Editor")]
+        [MenuItem("Tools/Next-Gen Dialogue/Dialogue Editor")]
         private static void ShowEditorWindow()
         {
             string path = EditorUtility.SaveFilePanel("Select DialogueAsset save path", Application.dataPath, "DialogueTreeSO", "asset");
@@ -82,14 +92,7 @@ namespace NextGenDialogue.Graph.Editor
         private void OnGUI()
         {
             if (_graphView == null) return;
-            if (_graphView.IsDirty())
-            {
-                titleContent.text = $"Dialogue ({Identifier.boundObject.name})*";
-            }
-            else
-            {
-                titleContent.text = $"Dialogue ({Identifier.boundObject.name})";
-            }
+            titleContent.text = _graphView.IsDirty() ? $"Dialogue ({Identifier.boundObject.name})*" : $"Dialogue ({Identifier.boundObject.name})";
         }
         
         private static void DisplayProgressBar(string stepTitle, float progress)
@@ -111,8 +114,55 @@ namespace NextGenDialogue.Graph.Editor
             };
             _graphView.RestoreGraph();
             rootVisualElement.Add(CreateToolBar(_graphView));
-            rootVisualElement.Add(_graphView);
+            
+            rootVisualElement.styleSheets.Add(CeresGraphView.GetOrLoadStyleSheet("NGDT/DialogueInspector"));
+            var savedWidth = EditorPrefs.GetFloat(SplitViewWidthPrefsKey, DefaultSplitViewWidth);
+            var splitView = new TwoPaneSplitView(1, savedWidth, TwoPaneSplitViewOrientation.Horizontal)
+            {
+                name = "GraphSplitView"
+            };
+            
+            splitView.RegisterCallback<PointerLeaveEvent>(_ =>
+            {
+                var currentWidth = splitView.fixedPane.resolvedStyle.width;
+                if (currentWidth > 0)
+                {
+                    EditorPrefs.SetFloat(SplitViewWidthPrefsKey, currentWidth);
+                }
+            });
+
+            var leftContainer = new VisualElement
+            {
+                style =
+                {
+                    flexGrow = 1,
+                    flexDirection = FlexDirection.Column
+                }
+            };
+            leftContainer.Add(_graphView);
+            
+            // Create simulator panel (initially hidden)
+            _simulatorPanel = new DialogueSimulatorPanel(_graphView)
+            {
+                style =
+                {
+                    display = _showSimulator ? DisplayStyle.Flex : DisplayStyle.None
+                }
+            };
+            leftContainer.Add(_simulatorPanel);
+            
+            splitView.Add(leftContainer);
+            
+            // Right pane: Inspector panel
+            _inspectorPanel = new DialogueGraphInspectorPanel(this);
+            var inspectorContainer = _inspectorPanel.CreatePanel();
+            splitView.Add(inspectorContainer);
+            
+            rootVisualElement.Add(splitView);
             rootVisualElement.Add(CreateBakePreview());
+            
+            // Setup selection listener for inspector
+            _inspectorPanel.AttachSelectionListener(rootVisualElement);
         }
 
         protected override void OnDisable()
@@ -134,6 +184,9 @@ namespace NextGenDialogue.Graph.Editor
                 }
                 NextGenDialogueLogger.Log($"[{_graphView.DialogueGraphContainer.Object.name}] saved succeed, {DateTime.Now}");
             }
+            
+            // Dispose the simulator panel
+            _simulatorPanel?.Dispose();
             
             // Dispose the editor tracker when window is closed
             _graphView?.DisposeTracker();
@@ -196,7 +249,21 @@ namespace NextGenDialogue.Graph.Editor
                         EditorUtility.SetDirty(_setting);
                         AssetDatabase.SaveAssets();
                     }
+                    
                     GUILayout.FlexibleSpace();
+                    
+                    // Simulator toggle button
+                    var simulatorIcon = EditorGUIUtility.IconContent("d_Animation.Play").image;
+                    bool newShowSimulator = GUILayout.Toggle(_showSimulator, new GUIContent(simulatorIcon, "Simulator"), EditorStyles.toolbarButton);
+                    if (newShowSimulator != _showSimulator)
+                    {
+                        _showSimulator = newShowSimulator;
+                        if (_simulatorPanel != null)
+                        {
+                            _simulatorPanel.style.display = _showSimulator ? DisplayStyle.Flex : DisplayStyle.None;
+                        }
+                    }
+                    
                     GUILayout.EndHorizontal();
                 }
             );
@@ -212,7 +279,11 @@ namespace NextGenDialogue.Graph.Editor
                     _scrollPosition = GUILayout.BeginScrollView(_scrollPosition);
                     EditorGUILayout.TextArea(
                         _bakeGenerateText,
-                        new GUIStyle("TextField") { wordWrap = true, richText = true }
+                        new GUIStyle("TextField")
+                        {
+                            wordWrap = true, 
+                            richText = true
+                        }
                     );
                     GUILayout.EndScrollView();
                 }
@@ -221,7 +292,7 @@ namespace NextGenDialogue.Graph.Editor
             return _previewContainer;
         }
         
-        private bool TryBake(out string generateText)
+        private bool TryGetGenerateContent(out string generateText)
         {
             var containers = _graphView.selection.OfType<ContainerNodeView>().ToList();
             generateText = null;
@@ -243,7 +314,35 @@ namespace NextGenDialogue.Graph.Editor
         
         private void OnNodeSelectionChange(IDialogueNodeView node)
         {
-            _bakeGenerateText = TryBake(out var content) ? content : null;
+            _bakeGenerateText = TryGetGenerateContent(out var content) ? content : null;
+        }
+        
+        /// <summary>
+        /// Start simulator preview from a specific piece node
+        /// </summary>
+        public void StartSimulatorFromPiece(PieceContainerView piece)
+        {
+            // Show simulator panel if hidden
+            if (!_showSimulator)
+            {
+                _showSimulator = true;
+                if (_simulatorPanel != null)
+                {
+                    _simulatorPanel.style.display = DisplayStyle.Flex;
+                }
+            }
+            
+            // Start simulation from the piece
+            _simulatorPanel?.StartFromPiece(piece);
+        }
+        
+        /// <summary>
+        /// Get current editing graph view
+        /// </summary>
+        /// <returns>The dialogue graph view</returns>
+        public CeresGraphView GetGraphView()
+        {
+            return _graphView;
         }
     }
 }

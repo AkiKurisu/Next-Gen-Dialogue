@@ -63,6 +63,19 @@ namespace NextGenDialogue.Graph.Editor
             {
                 new DialogueTreeLayoutConvertor(GraphView, this).Layout();
             }));
+            
+            // Preview from here (editor simulator)
+            if (!Application.isPlaying)
+            {
+                evt.menu.MenuItems().Add(new CeresDropdownMenuAction("Preview from here", a =>
+                {
+                    if (GraphView.EditorWindow is DialogueEditorWindow dialogueEditorWindow)
+                    {
+                        dialogueEditorWindow.StartSimulatorFromPiece(this);
+                    }
+                }));
+            }
+            
             if (Application.isPlaying)
             {
                 evt.menu.MenuItems().Add(new CeresDropdownMenuAction("Jump to this Piece", a =>

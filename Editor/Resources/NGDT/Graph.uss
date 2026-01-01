@@ -19,3 +19,15 @@ Label
 {
     color: #ABFFDA;
 }
+
+/* Simulator active node highlighting */
+.simulator_active {
+    border-left-width: 3px;
+    border-right-width: 3px;
+    border-top-width: 3px;
+    border-bottom-width: 3px;
+    border-left-color: #4CAF50;
+    border-right-color: #4CAF50;
+    border-top-color: #4CAF50;
+    border-bottom-color: #4CAF50;
+}

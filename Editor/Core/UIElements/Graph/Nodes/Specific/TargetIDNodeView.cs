@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Ceres.Editor;
 using Ceres.Editor.Graph;
+using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -55,8 +56,7 @@ namespace NextGenDialogue.Graph.Editor
             if (_useReferenceField.value) return;
             _childPort.SetEnabled(true);
             _targetIDField.SetEnabled(false);
-            // Connect after loaded
-            schedule.Execute(FindTargetPieceAndConnect).ExecuteLater(100);
+            EditorApplication.delayCall += FindTargetPieceAndConnect;
         }
 
         private void FindTargetPieceAndConnect()
@@ -65,6 +65,7 @@ namespace NextGenDialogue.Graph.Editor
             if (node == null) return;
             var edge = PortHelper.ConnectPorts(_childPort, node.Parent);
             GraphView.Add(edge);
+            GraphView.MarkDirtyRepaint();
         }
         
         private void OnToggle(bool useReference)
@@ -86,8 +87,8 @@ namespace NextGenDialogue.Graph.Editor
             if (!_childPort.connected) return;
             
             // Use weak reference instead of serialize reference
-            var node = PortHelper.FindChildNode(_childPort) as PieceContainerView;
-            _targetIDField.value.Name = node!.GetPieceID();
+            var node = (PieceContainerView)PortHelper.FindChildNode(_childPort);
+            _targetIDField.value.Name = node.GetPieceID();
         }
 
         public IReadOnlyList<ILayoutNode> GetLayoutChildren()

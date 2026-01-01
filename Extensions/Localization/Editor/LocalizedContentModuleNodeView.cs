@@ -5,6 +5,7 @@ using UnityEditor.Localization;
 using UnityEngine.Localization.Tables;
 using UnityEngine.UIElements;
 using NextGenDialogue.Graph.Editor;
+
 namespace NextGenDialogue.Graph.Localization.Editor
 {
     [CustomNodeView(typeof(LocalizedContentModule))]
@@ -44,7 +45,7 @@ namespace NextGenDialogue.Graph.Localization.Editor
         public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
         {
             base.BuildContextualMenu(evt);
-            evt.menu.MenuItems().Add(new CeresDropdownMenuAction("Create localized entry", (a) =>
+            evt.menu.MenuItems().Add(new CeresDropdownMenuAction("Create localized entry", _ =>
             {
                 var tableEntry = this.GetSharedStringValue("tableEntry");
                 var stringEntry = this.GetSharedStringValue("stringEntry");
