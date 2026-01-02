@@ -1,7 +1,7 @@
 {
   "name": "com.kurisu.next-gen-dialogue",
   "displayName": "Next Gen Dialogue",
-  "version": "2.2.1",
+  "version": "2.2.2",
   "unity": "2022.3",
   "description": "AI powered dialogue visual designer for Unity.",
   "keywords": [
@@ -13,7 +13,7 @@
   "category": "Visual Scripting",
   "dependencies": {
     "com.kurisu.chris": "1.6.0",
-    "com.kurisu.ceres": "0.6.6",
+    "com.kurisu.ceres": "0.6.7",
     "com.unity.nuget.newtonsoft-json": "3.2.1"
   },
   "author": {
