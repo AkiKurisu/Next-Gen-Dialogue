@@ -35,9 +35,9 @@ namespace NextGenDialogue.VITS
             }
             VITSResponse response;
             if (NoTranslation)
-                response = await vitsTurbo.SendVITSRequestAsync(contents[i], CharacterID, token);
+                response = await vitsTurbo.SendRequestAsync(contents[i], CharacterID, token);
             else
-                response = await vitsTurbo.SendVITSRequestAsyncWithTranslation(contents[i], CharacterID, token);
+                response = await vitsTurbo.SendRequestWithTranslationAsync(contents[i], CharacterID, token);
             if (response.Status)
             {
                 results[i] = response.Result;
@@ -52,9 +52,9 @@ namespace NextGenDialogue.VITS
             }
             VITSResponse response;
             if (NoTranslation)
-                response = await vitsTurbo.SendVITSRequestAsync(content, CharacterID, token);
+                response = await vitsTurbo.SendRequestAsync(content, CharacterID, token);
             else
-                response = await vitsTurbo.SendVITSRequestAsyncWithTranslation(content, CharacterID, token);
+                response = await vitsTurbo.SendRequestWithTranslationAsync(content, CharacterID, token);
             if (response.Status)
             {
                 return response.Result;

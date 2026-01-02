@@ -2,11 +2,12 @@ using System;
 using Ceres.Annotations;
 using Ceres.Graph;
 using UnityEngine;
+
 namespace NextGenDialogue.Graph
 {
     [Serializable]
     [CeresLabel("Novel Prompt")]
-    [NodeInfo("Editor Module: Novel Prompt is used to set up novel prompt.")]
+    [NodeInfo("Setup novel generate ai prompt.")]
     [CeresGroup("Editor/AIGC")]
     [ModuleOf(typeof(Dialogue))]
     public class NovelPromptModule : EditorModule

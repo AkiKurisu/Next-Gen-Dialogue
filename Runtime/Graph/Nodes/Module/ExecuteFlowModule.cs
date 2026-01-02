@@ -5,7 +5,7 @@ namespace NextGenDialogue.Graph
 {
     [Serializable]
     [CeresLabel("Execute Flow")]
-    [NodeInfo("Module: Execute Flow is used to add custom actions for piece and option.")]
+    [NodeInfo("Execute custom actions for piece and option.")]
     [ModuleOf(typeof(Piece))]
     [ModuleOf(typeof(Option))]
     public class ExecuteFlowModule : Module

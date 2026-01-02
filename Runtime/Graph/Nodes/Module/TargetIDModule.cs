@@ -6,7 +6,7 @@ namespace NextGenDialogue.Graph
 {
     [Serializable]
     [CeresLabel("TargetID")]
-    [NodeInfo("Module: TargetID is used to definite option's target dialogue piece id.")]
+    [NodeInfo("Definite option's target dialogue piece id.")]
     [ModuleOf(typeof(Option))]
     public class TargetIDModule : CustomModule
     {

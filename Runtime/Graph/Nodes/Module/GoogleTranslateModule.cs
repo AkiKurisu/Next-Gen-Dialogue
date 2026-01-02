@@ -5,7 +5,7 @@ namespace NextGenDialogue.Graph
 {
     [Serializable]
     [CeresLabel("Google Translate")]
-    [NodeInfo("Module: Google Translate Module is used to translate content.")]
+    [NodeInfo("Translate content with google translator.")]
     [ModuleOf(typeof(Piece))]
     [ModuleOf(typeof(Option))]
     public class GoogleTranslateModule : CustomModule

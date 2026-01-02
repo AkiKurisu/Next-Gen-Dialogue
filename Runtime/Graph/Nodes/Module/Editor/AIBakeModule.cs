@@ -5,7 +5,7 @@ namespace NextGenDialogue.Graph
 {
     [Serializable]
     [CeresLabel("AI Baker")]
-    [NodeInfo("Editor Module: Use AI dialogue baker in Editor, should be added to last select node that needs to generate dialogue.")]
+    [NodeInfo("Use AI dialogue baker in Editor, should be added to last select node that needs to generate dialogue.")]
     [CeresGroup("Editor/AIGC")]
     [ModuleOf(typeof(Piece))]
     [ModuleOf(typeof(Option))]

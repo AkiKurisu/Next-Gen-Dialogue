@@ -24,7 +24,6 @@ namespace NextGenDialogue.VITS
         
         public float MaxWaitTime { get; set; } = 30f;
         
-        
         private readonly Dictionary<Option, AudioClip> _audioCacheMap = new();
         
         private readonly ObjectContainer _objectContainer = new();

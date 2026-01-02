@@ -7,7 +7,7 @@ namespace NextGenDialogue.Graph
 {
     [Serializable]
     [CeresLabel("Content")]
-    [NodeInfo("Module: Content is used to modify piece and option context.")]
+    [NodeInfo("Provide dialogue content for parent container.")]
     [ModuleOf(typeof(Piece), true)]
     [ModuleOf(typeof(Option))]
     public class ContentModule : CustomModule

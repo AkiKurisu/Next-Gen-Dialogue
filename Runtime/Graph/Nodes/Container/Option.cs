@@ -2,7 +2,7 @@ using Ceres.Annotations;
 
 namespace NextGenDialogue.Graph
 {
-    [NodeInfo("Option is the container of user option")]
+    [NodeInfo("Define the dialogue option.")]
     public class Option : ContainerNode
     {
         internal int OptionIndex { get; set; }

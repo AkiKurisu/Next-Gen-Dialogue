@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using Ceres.Annotations;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -181,32 +182,157 @@ namespace NextGenDialogue.Graph.Editor
             };
             _content.Add(_positionLabel);
 
+            // Description section
+            DrawDescriptionSection(containerView);
+
             // Modules section
             DrawModulesSection();
         }
 
         /// <summary>
-        /// Display modules section
+        /// Display node description section
+        /// </summary>
+        /// <param name="containerView">Container view to get description from</param>
+        private void DrawDescriptionSection(ContainerNodeView containerView)
+        {
+            var description = NodeInfo.GetInfo(containerView.NodeType);
+            
+            // Skip if description is just the type name (no custom description)
+            var typeName = containerView.NodeType.Name;
+            if (containerView.NodeType.IsGenericType)
+            {
+                typeName = containerView.NodeType.GetGenericTypeDefinition().Name;
+            }
+            if (string.IsNullOrEmpty(description) || description == typeName)
+            {
+                return;
+            }
+
+            AddSectionTitle("Description", 15);
+
+            // Create description container with background
+            var descriptionContainer = new VisualElement
+            {
+                name = "DescriptionContainer"
+            };
+            descriptionContainer.AddToClassList("description-container");
+
+            var descriptionLabel = new Label(description)
+            {
+                name = "DescriptionLabel"
+            };
+            descriptionLabel.AddToClassList("description-label");
+
+            descriptionContainer.Add(descriptionLabel);
+            _content.Add(descriptionContainer);
+        }
+
+        /// <summary>
+        /// Display module description section
+        /// </summary>
+        /// <param name="moduleInfo">Module info to get description from</param>
+        private void DrawModuleDescriptionSection(DialogueNodeInspector.ModuleInfo moduleInfo)
+        {
+            var description = NodeInfo.GetInfo(moduleInfo.ModuleType);
+            
+            // Skip if description is just the type name (no custom description)
+            var typeName = moduleInfo.ModuleType.Name;
+            if (moduleInfo.ModuleType.IsGenericType)
+            {
+                typeName = moduleInfo.ModuleType.GetGenericTypeDefinition().Name;
+            }
+            if (string.IsNullOrEmpty(description) || description == typeName)
+            {
+                return;
+            }
+
+            // Create description container with background (smaller margin for module descriptions)
+            var descriptionContainer = new VisualElement
+            {
+                name = "ModuleDescriptionContainer"
+            };
+            descriptionContainer.AddToClassList("description-container");
+            descriptionContainer.style.marginTop = 5;
+            descriptionContainer.style.marginLeft = 10;
+            descriptionContainer.style.marginRight = 10;
+
+            var descriptionLabel = new Label(description)
+            {
+                name = "ModuleDescriptionLabel"
+            };
+            descriptionLabel.AddToClassList("description-label");
+
+            descriptionContainer.Add(descriptionLabel);
+            _content.Add(descriptionContainer);
+        }
+
+        /// <summary>
+        /// Display modules section with hybrid UIElement/IMGUI rendering
+        /// PieceID fields are rendered with UIElements, other fields with IMGUI
         /// </summary>
         private void DrawModulesSection()
         {
             AddSectionTitle("Modules", 15);
 
+            var graphView = GetGraphView();
+            if (graphView == null) return;
+
             try
             {
-                // Create IMGUIContainer as bridge between UIElements and IMGUI
-                var imguiContainer = new IMGUIContainer(_currentInspector.OnGUI)
+                var moduleInfos = _currentInspector.GetModuleInfos();
+                
+                if (moduleInfos.Count == 0)
                 {
-                    style =
+                    var noModulesLabel = new Label("No modules in this container")
                     {
-                        marginLeft = 10,
-                        marginRight = 10,
-                        marginTop = 5,
-                        marginBottom = 10
-                    }
-                };
+                        style =
+                        {
+                            marginLeft = 10,
+                            marginTop = 5,
+                            color = new Color(0.7f, 0.7f, 0.7f)
+                        }
+                    };
+                    _content.Add(noModulesLabel);
+                    return;
+                }
 
-                _content.Add(imguiContainer);
+                foreach (var moduleInfo in moduleInfos)
+                {
+                    // Module header (UIElement)
+                    AddModuleHeader(moduleInfo);
+
+                    // Module description section
+                    DrawModuleDescriptionSection(moduleInfo);
+
+                    // PieceID fields (UIElement)
+                    foreach (var pieceIdInfo in moduleInfo.GetPieceIdFields())
+                    {
+                        var field = new PieceIDInspectorField(
+                            pieceIdInfo.FieldName,
+                            graphView,
+                            pieceIdInfo.CurrentValue,
+                            newValue => pieceIdInfo.SetValue(newValue)
+                        );
+                        _content.Add(field);
+                    }
+
+                    // Other fields (IMGUI)
+                    if (moduleInfo.HasNonPieceIdFields())
+                    {
+                        var imguiContainer = new IMGUIContainer(() =>
+                            _currentInspector.DrawModuleFieldsWithoutPieceId(moduleInfo))
+                        {
+                            style =
+                            {
+                                marginLeft = 10,
+                                marginRight = 10,
+                                marginTop = 5,
+                                marginBottom = 5
+                            }
+                        };
+                        _content.Add(imguiContainer);
+                    }
+                }
             }
             catch (Exception ex)
             {
@@ -220,6 +346,27 @@ namespace NextGenDialogue.Graph.Editor
                 };
                 _content.Add(errorLabel);
             }
+        }
+
+        /// <summary>
+        /// Add module header label
+        /// </summary>
+        /// <param name="moduleInfo">Module info</param>
+        private void AddModuleHeader(DialogueNodeInspector.ModuleInfo moduleInfo)
+        {
+            var moduleName = CeresLabel.GetLabel(moduleInfo.ModuleType);
+            var headerLabel = new Label(moduleName)
+            {
+                style =
+                {
+                    unityFontStyleAndWeight = FontStyle.Bold,
+                    fontSize = DefaultFontSize,
+                    marginTop = 10,
+                    marginLeft = 10,
+                    marginBottom = 3
+                }
+            };
+            _content.Add(headerLabel);
         }
 
         /// <summary>

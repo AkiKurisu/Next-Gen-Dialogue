@@ -1,11 +1,12 @@
 using System;
 using Ceres.Annotations;
 using UnityEngine;
+
 namespace NextGenDialogue.Graph
 {
     [Serializable]
     [CeresLabel("Editor Translator")]
-    [NodeInfo("Editor Module: Use Google Translator to translate all valid contents.")]
+    [NodeInfo("Translate all valid contents with google translator.")]
     [CeresGroup("Editor")]
     [ModuleOf(typeof(Dialogue))]
     public class EditorTranslateModule : EditorModule

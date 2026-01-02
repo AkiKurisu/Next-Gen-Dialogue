@@ -7,7 +7,7 @@ namespace NextGenDialogue.Graph
 {
     [Serializable]
     [CeresLabel("Prompt Preset")]
-    [NodeInfo("Module: Prompt Preset is used to set up AI dialogue always included prompt using external text file.")]
+    [NodeInfo("Setup ai chat system prompt by text file.")]
     [CeresGroup("AIGC")]
     [ModuleOf(typeof(Dialogue))]
     public class PromptPresetModule : CustomModule

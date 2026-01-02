@@ -87,11 +87,11 @@ namespace NextGenDialogue.Graph.VITS.Editor
             {
                 if (this.GetFieldValue<bool>("noTranslation"))
                 {
-                    response = await vitsTurbo.SendVITSRequestAsync(content, characterID, ct.Token);
+                    response = await vitsTurbo.SendRequestAsync(content, characterID, ct.Token);
                 }
                 else
                 {
-                    response = await vitsTurbo.SendVITSRequestAsyncWithTranslation(content, characterID, ct.Token);
+                    response = await vitsTurbo.SendRequestWithTranslationAsync(content, characterID, ct.Token);
                 }
                 return response;
             });

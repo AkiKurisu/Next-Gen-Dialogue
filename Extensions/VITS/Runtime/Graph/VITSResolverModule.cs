@@ -9,7 +9,7 @@ namespace NextGenDialogue.Graph.VITS
 {
     [Serializable]
     [CeresLabel("VITS Resolver")]
-    [NodeInfo("Module : Specify VITS dialogue resolver for this dialogue tree.")]
+    [NodeInfo("Specify VITS dialogue resolver for the dialogue graph.")]
     [CeresGroup("AIGC")]
     [ModuleOf(typeof(Dialogue))]
     public class VITSResolverModule : CustomModule

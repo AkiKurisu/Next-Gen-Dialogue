@@ -21,7 +21,10 @@ namespace NextGenDialogue.Graph.Editor
 
         private readonly List<ModuleInfo> _moduleInfos;
 
-        private class ModuleInfo
+        /// <summary>
+        /// Information about a module for inspector display
+        /// </summary>
+        public class ModuleInfo
         {
             public ModuleNodeView ModuleView;
 
@@ -34,6 +37,79 @@ namespace NextGenDialogue.Graph.Editor
             public HashSet<string> AllowedFieldNames;
 
             public Dictionary<string, FieldInfo> FieldInfoMap;
+
+            /// <summary>
+            /// Get PieceID fields from this module
+            /// </summary>
+            public IEnumerable<PieceIDFieldInfo> GetPieceIdFields()
+            {
+                foreach (var fieldName in AllowedFieldNames)
+                {
+                    if (!FieldInfoMap.TryGetValue(fieldName, out var fieldInfo)) continue;
+                    if (fieldInfo.FieldType != typeof(PieceID)) continue;
+
+                    // Get current value from module
+                    var currentValue = Wrapper.Value != null 
+                        ? fieldInfo.GetValue(Wrapper.Value) as PieceID 
+                        : new PieceID();
+
+                    yield return new PieceIDFieldInfo
+                    {
+                        FieldName = fieldName,
+                        FieldInfo = fieldInfo,
+                        CurrentValue = currentValue ?? new PieceID(),
+                        ModuleInfo = this
+                    };
+                }
+            }
+
+            /// <summary>
+            /// Check if module has non-PieceID fields
+            /// </summary>
+            public bool HasNonPieceIdFields()
+            {
+                return AllowedFieldNames.Any(fieldName =>
+                {
+                    if (!FieldInfoMap.TryGetValue(fieldName, out var fieldInfo)) return false;
+                    return fieldInfo.FieldType != typeof(PieceID);
+                });
+            }
+        }
+
+        /// <summary>
+        /// Information about a PieceID field
+        /// </summary>
+        public class PieceIDFieldInfo
+        {
+            public string FieldName;
+            public FieldInfo FieldInfo;
+            public PieceID CurrentValue;
+            public ModuleInfo ModuleInfo;
+
+            /// <summary>
+            /// Update the PieceID value in the module
+            /// </summary>
+            public void SetValue(PieceID newValue)
+            {
+                if (ModuleInfo.Wrapper.Value == null) return;
+                FieldInfo.SetValue(ModuleInfo.Wrapper.Value, newValue);
+                SyncToFieldResolver();
+            }
+
+            /// <summary>
+            /// Sync the value back to the FieldResolver
+            /// </summary>
+            private void SyncToFieldResolver()
+            {
+                var resolvers = ModuleInfo.ModuleView.GetAllFieldResolvers();
+                foreach (var (resolver, fieldInfo) in resolvers)
+                {
+                    if (fieldInfo.Name != FieldName) continue;
+                    var fieldValue = fieldInfo.GetValue(ModuleInfo.Wrapper.Value);
+                    resolver.Value = fieldValue;
+                    break;
+                }
+            }
         }
 
         /// <summary>
@@ -45,6 +121,14 @@ namespace NextGenDialogue.Graph.Editor
             _containerView = containerView ?? throw new ArgumentNullException(nameof(containerView));
             _moduleInfos = new List<ModuleInfo>();
             InitializeModuleWrappers();
+        }
+
+        /// <summary>
+        /// Get all module infos for external UIElement rendering
+        /// </summary>
+        public IReadOnlyList<ModuleInfo> GetModuleInfos()
+        {
+            return _moduleInfos;
         }
 
         /// <summary>
@@ -181,7 +265,8 @@ namespace NextGenDialogue.Graph.Editor
         /// Draw module fields filtered by allowed field names
         /// </summary>
         /// <param name="moduleInfo">Module info</param>
-        private static void DrawFilteredModuleFields(ModuleInfo moduleInfo)
+        /// <param name="skipPieceIdFields">Whether to skip PieceID fields (they are rendered with UIElements)</param>
+        private static void DrawFilteredModuleFields(ModuleInfo moduleInfo, bool skipPieceIdFields = false)
         {
             using var serializedObject = new SerializedObject(moduleInfo.Wrapper);
             SerializedProperty prop = serializedObject.FindProperty("m_Value");
@@ -192,7 +277,7 @@ namespace NextGenDialogue.Graph.Editor
             {
                 do
                 {
-                    if (!IsPropertyAllowed(prop, moduleInfo.AllowedFieldNames)) continue;
+                    if (!IsPropertyAllowed(prop, moduleInfo, skipPieceIdFields)) continue;
 
                     _ = InspectorPropertyDrawer.DrawPropertyField(prop, moduleInfo.FieldInfoMap, moduleInfo.AllowedFieldNames);
                 }
@@ -208,26 +293,62 @@ namespace NextGenDialogue.Graph.Editor
         }
 
         /// <summary>
+        /// Draw module fields for a specific module, skipping PieceID fields
+        /// Called from DialogueGraphInspectorPanel for hybrid UIElement/IMGUI rendering
+        /// </summary>
+        /// <param name="moduleInfo">Module info to draw</param>
+        public void DrawModuleFieldsWithoutPieceId(ModuleInfo moduleInfo)
+        {
+            if (!moduleInfo.Wrapper)
+            {
+                EditorGUILayout.HelpBox($"Module {moduleInfo.ModuleType.Name} wrapper is invalid", MessageType.Warning);
+                return;
+            }
+
+            DrawFilteredModuleFields(moduleInfo, skipPieceIdFields: true);
+        }
+
+        /// <summary>
         /// Check if a serialized property should be displayed
         /// </summary>
         /// <param name="prop">Serialized property</param>
-        /// <param name="allowedFieldNames">Set of allowed field names</param>
+        /// <param name="moduleInfo">Module info containing field information</param>
+        /// <param name="skipPieceIdFields">Whether to skip PieceID fields (they are rendered with UIElements)</param>
         /// <returns>True if property should be displayed</returns>
-        private static bool IsPropertyAllowed(SerializedProperty prop, HashSet<string> allowedFieldNames)
+        private static bool IsPropertyAllowed(SerializedProperty prop, ModuleInfo moduleInfo, bool skipPieceIdFields = false)
         {
             // Extract field name from property path (e.g., "m_Value.fieldName" -> "fieldName")
             var propertyPath = prop.propertyPath;
             var fieldName = propertyPath.Replace("m_Value.", "");
 
             // Check if it's a direct child of m_Value (not nested property)
+            string rootFieldName;
             if (fieldName.Contains("."))
             {
-                // This is a nested property, allow it if its root field is allowed
-                var rootField = fieldName.Split('.')[0];
-                return allowedFieldNames.Contains(rootField);
+                // This is a nested property, get root field name
+                rootFieldName = fieldName.Split('.')[0];
+            }
+            else
+            {
+                rootFieldName = fieldName;
             }
 
-            return allowedFieldNames.Contains(fieldName);
+            // Check if field is allowed
+            if (!moduleInfo.AllowedFieldNames.Contains(rootFieldName))
+            {
+                return false;
+            }
+
+            // Skip PieceID fields if requested (they are rendered with UIElements)
+            if (skipPieceIdFields && moduleInfo.FieldInfoMap.TryGetValue(rootFieldName, out var fieldInfo))
+            {
+                if (fieldInfo.FieldType == typeof(PieceID))
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
 
         /// <summary>

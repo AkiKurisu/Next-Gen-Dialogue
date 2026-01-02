@@ -8,7 +8,7 @@ namespace NextGenDialogue.Graph.Localization
 {
     [Serializable]
     [CeresLabel("Localized Content")]
-    [NodeInfo("Module: Localized Content is used to modify dialogue content such as piece and option using Unity.Localization.")]
+    [NodeInfo("Provide dialogue content for parent container with localization support.")]
     [ModuleOf(typeof(Piece))]
     [ModuleOf(typeof(Option))]
     public class LocalizedContentModule : CustomModule

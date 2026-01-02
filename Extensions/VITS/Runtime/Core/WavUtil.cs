@@ -1,43 +1,43 @@
+//	Copyright (c) 2012 Calvin Rien
+//        http://the.darktable.com
+//
+//	This software is provided 'as-is', without any express or implied warranty. In
+//	no event will the authors be held liable for any damages arising from the use
+//	of this software.
+//
+//	Permission is granted to anyone to use this software for any purpose,
+//	including commercial applications, and to alter it and redistribute it freely,
+//	subject to the following restrictions:
+//
+//	1. The origin of this software must not be misrepresented; you must not claim
+//	that you wrote the original software. If you use this software in a product,
+//	an acknowledgment in the product documentation would be appreciated but is not
+//	required.
+//
+//	2. Altered source versions must be plainly marked as such, and must not be
+//	misrepresented as being the original software.
+//
+//	3. This notice may not be removed or altered from any source distribution.
+//
+//  =============================================================================
+//
+//  derived from Gregorio Zanon's script
+//  http://forum.unity3d.com/threads/119295-Writing-AudioListener.GetOutputData-to-wav-problem?p=806734&viewfull=1#post806734
+
+// 
+// Fork by R-WebsterNoble
+// Optimized! Now 20 times quicker
+// Easy to get byte[] instead of saving file
+
+// Note: GetWav() with trimming returns the full buffer with a load of zeros on the end. 
+// Use the length out parameter to know where the data stops.
 using System;
 using System.IO;
 using System.Text;
 using UnityEngine;
+
 namespace NextGenDialogue.VITS
 {
-    //	Copyright (c) 2012 Calvin Rien
-    //        http://the.darktable.com
-    //
-    //	This software is provided 'as-is', without any express or implied warranty. In
-    //	no event will the authors be held liable for any damages arising from the use
-    //	of this software.
-    //
-    //	Permission is granted to anyone to use this software for any purpose,
-    //	including commercial applications, and to alter it and redistribute it freely,
-    //	subject to the following restrictions:
-    //
-    //	1. The origin of this software must not be misrepresented; you must not claim
-    //	that you wrote the original software. If you use this software in a product,
-    //	an acknowledgment in the product documentation would be appreciated but is not
-    //	required.
-    //
-    //	2. Altered source versions must be plainly marked as such, and must not be
-    //	misrepresented as being the original software.
-    //
-    //	3. This notice may not be removed or altered from any source distribution.
-    //
-    //  =============================================================================
-    //
-    //  derived from Gregorio Zanon's script
-    //  http://forum.unity3d.com/threads/119295-Writing-AudioListener.GetOutputData-to-wav-problem?p=806734&viewfull=1#post806734
-
-    // 
-    // Fork by R-WebsterNoble
-    // Optimized! Now 20 times quicker
-    // Easy to get byte[] instead of saving file
-
-    // Note: GetWav() with trimming returns the full buffer with a load of zeros on the end. 
-    // Use the length out parameter to know where the data stops.
-    //
     public static class WavUtil
     {
         private const uint HeaderSize = 44;

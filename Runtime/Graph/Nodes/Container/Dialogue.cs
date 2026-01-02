@@ -7,7 +7,7 @@ using UnityEngine;
 namespace NextGenDialogue.Graph
 {
     [Serializable]
-    [NodeInfo("Dialogue is the main container of dialogue pieces")]
+    [NodeInfo("Define dialogue pieces priority and dialogue-scope extra modules.")]
     public class Dialogue : ContainerNode, IDialogueContainer
     {
 #if UNITY_EDITOR

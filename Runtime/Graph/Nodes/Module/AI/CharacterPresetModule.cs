@@ -8,7 +8,7 @@ namespace NextGenDialogue.Graph
 {
     [Serializable]
     [CeresLabel("Character Preset")]
-    [NodeInfo("Module: Character Preset is used to set up AI prompt, used for chat dialogue.")]
+    [NodeInfo("Setup ai chat character prompt.")]
     [CeresGroup("AIGC")]
     [ModuleOf(typeof(Dialogue))]
     public class CharacterPresetModule : CustomModule

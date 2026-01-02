@@ -22,10 +22,6 @@ namespace NextGenDialogue.Graph.Editor
         private RootNodeView _root;
 
         internal Action<IDialogueNodeView> OnSelectNode;
-
-        private const string InfoText = "Next-Gen Dialogue Graph Editor";
-
-        private readonly CeresInfoContainer _infoContainer;
         
         /// <summary>
         /// Cached mouse position for paste operations
@@ -40,7 +36,6 @@ namespace NextGenDialogue.Graph.Editor
             _graphInstance = DialogueGraphContainer.GetDialogueGraph();
             styleSheets.Add(GetOrLoadStyleSheet(NextGenDialogueSettings.GraphStylePath));
             AddBlackboard(new DialogueBlackboard(this));
-            Add(_infoContainer = new CeresInfoContainer(InfoText));
             AddSearchWindow<DialogueNodeSearchWindow>();
             AddNodeGroupHandler(new DialogueNodeGroupHandler(this));
             RegisterCallback<MouseMoveEvent>(OnMouseMoveEvent);
@@ -155,13 +150,7 @@ namespace NextGenDialogue.Graph.Editor
         {
             var dialogueNode = (IDialogueNodeView)nodeView;
             base.AddNodeView(dialogueNode);
-            nodeView.NodeElement.RegisterCallback<MouseDownEvent>(_ => OnNodeClick(dialogueNode));
-        }
-
-        private void OnNodeClick(IDialogueNodeView nodeView)
-        {
-            _infoContainer.DisplayNodeInfo(nodeView.NodeType);
-            OnSelectNode(nodeView);
+            nodeView.NodeElement.RegisterCallback<MouseDownEvent>(_ => OnSelectNode?.Invoke(dialogueNode));
         }
 
         public sealed override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
