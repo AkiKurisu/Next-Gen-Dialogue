@@ -68,7 +68,7 @@ namespace NextGenDialogue.VITS
             return _stringBuilder.ToString();
         }
         
-        public async UniTask<VITSResponse> SendVITSRequestAsync(string message, int characterID, CancellationToken ct)
+        public async UniTask<VITSResponse> SendRequestAsync(string message, int characterID, CancellationToken ct)
         {
             using UnityWebRequest www = UnityWebRequestMultimedia.GetAudioClip(GetURL(message, characterID), AudioType.WAV);
             await www.SendWebRequest().ToUniTask(cancellationToken: ct);
@@ -100,13 +100,13 @@ namespace NextGenDialogue.VITS
             };
         }
         
-        public async UniTask<VITSResponse> SendVITSRequestAsyncWithTranslation(string message, int characterID, CancellationToken ct)
+        public async UniTask<VITSResponse> SendRequestWithTranslationAsync(string message, int characterID, CancellationToken ct)
         {
             if (Translator != null)
             {
                 message = await Translator.TranslateAsync(message, ct);
             }
-            return await SendVITSRequestAsync(message, characterID, ct);
+            return await SendRequestAsync(message, characterID, ct);
         }
     }
 }

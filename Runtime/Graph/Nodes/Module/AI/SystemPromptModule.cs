@@ -7,7 +7,7 @@ namespace NextGenDialogue.Graph
 {
     [Serializable]
     [CeresLabel("System Prompt")]
-    [NodeInfo("Module: System Prompt is used to set up AI dialogue system prompt.")]
+    [NodeInfo("Setup ai chat system prompt.")]
     [CeresGroup("AIGC")]
     [ModuleOf(typeof(Dialogue))]
     public class SystemPromptModule : CustomModule

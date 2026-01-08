@@ -6,8 +6,7 @@ namespace NextGenDialogue.Graph
 {
     [Serializable]
     [CeresLabel("Next Piece")]
-    [NodeInfo("Module: Next Piece is used to play target dialogue piece automatically" +
-    " when parent piece is completed and have no option.")]
+    [NodeInfo("Define the next dialogue piece to play when parent piece has no option.")]
     [ModuleOf(typeof(Piece))]
     public class NextPieceModule : CustomModule
     {

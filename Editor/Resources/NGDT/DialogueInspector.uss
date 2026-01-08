@@ -41,3 +41,59 @@
     flex-grow: 1;
 }
 
+/* Description Section */
+.description-container {
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    padding: 8px;
+    background-color: rgb(46, 46, 46);
+    border-radius: 4px;
+    border-width: 1px;
+    border-color: rgb(36, 36, 36);
+}
+
+.description-label {
+    white-space: normal;
+    color: rgb(180, 180, 180);
+    font-size: 11px;
+}
+
+/* PieceID Inspector Field */
+.piece-id-inspector-field {
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    min-width: 0;
+    overflow: hidden;
+}
+
+.piece-id-inspector-field > VisualElement {
+    min-width: 0;
+    flex-shrink: 1;
+}
+
+.piece-id-inspector-field > .unity-base-field__label {
+    min-width: 60px;
+}
+
+.piece-id-inspector-field .piece-id-dropdown {
+    flex-grow: 1;
+    min-width: 0;
+    flex-shrink: 1;
+}
+
+.piece-id-inspector-field .piece-id-dropdown > .unity-base-field__input {
+    min-width: 0;
+    flex-shrink: 1;
+}
+
+.piece-id-inspector-field .piece-id-search-button {
+    width: 24px;
+    height: 18px;
+    margin-left: 4px;
+    flex-shrink: 0;
+}
+

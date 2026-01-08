@@ -5,7 +5,7 @@ using UnityEngine;
 namespace NextGenDialogue.Graph
 {
     [Serializable]
-    [NodeInfo("Piece is the container of single dialogue fragment")]
+    [NodeInfo("Define a single dialogue fragment.")]
     public class Piece : ContainerNode
     {
         [SerializeField, DisableCopyValue]

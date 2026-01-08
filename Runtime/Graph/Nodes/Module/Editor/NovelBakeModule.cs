@@ -1,11 +1,12 @@
 using System;
 using Ceres.Annotations;
 using UnityEngine;
+
 namespace NextGenDialogue.Graph
 {
     [Serializable]
     [CeresLabel("Novel Baker")]
-    [NodeInfo("Editor Module: Use Novel baker in Editor, should be added to last select node that needs to generate novel" +
+    [NodeInfo("Use Novel baker in Editor, should be added to last select node that needs to generate novel" +
     ", currently can only use ChatGPT as LLM backend.")]
     [CeresGroup("Editor/AIGC")]
     [ModuleOf(typeof(Piece))]

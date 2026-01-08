@@ -7,7 +7,7 @@ namespace NextGenDialogue.Graph.VITS
 {
     [Serializable]
     [CeresLabel("VITS Voice")]
-    [NodeInfo("Module : VITS is used to generate audio for dialogue using VITS model.")]
+    [NodeInfo("Provide or generate voice for parent container using VITS model.")]
     [CeresGroup("AIGC")]
     [ModuleOf(typeof(Piece), true)]
     [ModuleOf(typeof(Option))]

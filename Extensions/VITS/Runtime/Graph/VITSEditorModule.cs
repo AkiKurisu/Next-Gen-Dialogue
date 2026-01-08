@@ -6,7 +6,7 @@ namespace NextGenDialogue.Graph.VITS
 {
     [Serializable]
     [CeresLabel("VITS Baker")]
-    [NodeInfo("Editor Module : Use VITS Editor Module to attach VITS module easily and generate audio for each module.")]
+    [NodeInfo("Configure voice generate settings for all VITS modules.")]
     [CeresGroup("Editor/AIGC")]
     [ModuleOf(typeof(Dialogue))]
     public class VITSEditorModule : EditorModule
