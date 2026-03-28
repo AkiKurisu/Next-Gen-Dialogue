@@ -1,7 +1,8 @@
 using System.Linq;
 using Ceres.Editor.Graph;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
+using UNode = UnityEditor.Experimental.GraphView.Node;
+
 namespace NextGenDialogue.Graph.Editor
 {
     public class DialogueNodeGroupHandler : NodeGroupHandler<DialogueNodeGroup>
@@ -12,11 +13,16 @@ namespace NextGenDialogue.Graph.Editor
         
         public override void DoGroup()
         {
-            var nodes = GraphView.selection.OfType<UnityEditor.Experimental.GraphView.Node>()
+            var nodes = GraphView.selection.OfType<UNode>()
                                         .Where(x=>x is IDialogueNodeView and not RootNodeView)
                                         .ToArray();
             if(!nodes.Any()) return;
-            var block = CreateGroup(new Rect(nodes[0].transform.position, new Vector2(100, 100)));
+#if UNITY_6000_0_OR_NEWER
+            var rect = new Rect(nodes[0].resolvedStyle.translate, new Vector2(100, 100));
+#else
+            var rect = new Rect(nodes[0].transform.position, new Vector2(100, 100));
+#endif
+            var block = CreateGroup(rect);
             foreach (var node in nodes)
             {
                 block.AddElement(node);
@@ -28,8 +34,8 @@ namespace NextGenDialogue.Graph.Editor
             foreach (var select in GraphView.selection)
             {
                 if (select is not IDialogueNodeView) continue;
-                var node = select as UnityEditor.Experimental.GraphView.Node;
-                var block = GraphView.graphElements.OfType<DialogueNodeGroup>().FirstOrDefault(x => x.ContainsElement(node));
+                var node = select as UNode;
+                var block = GraphView.graphElements.OfType<DialogueNodeGroup>().FirstOrDefault(nodeGroup => nodeGroup.ContainsElement(node));
                 block?.RemoveElement(node);
             }
         }
